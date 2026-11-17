@@ -14,6 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: wordfreq CLI** - stdlib-only の wordfreq CLI 全体（実行・オプション・決定論出力・部品分離・試験・CI） (completed 2026-11-17)
 - [x] **Phase 3: wordfreq HTML output** (completed 2026-11-18)
+- [ ] **Phase 4: wordfreq min-count**
 
 ## Phase Details
 
@@ -88,3 +89,21 @@ Plans:
 
 **Wave 6** *(blocked on Wave 5 completion)*
 - [x] 03-06-PLAN.md — G2 CI環境独立試験、provenance/actor、独立品質とOpenSpec記録循環
+
+### Phase 4: wordfreq min-count
+
+**Goal:** 承認済み依頼r-e476c11dのmin-countを全3形式へ追加し、正規化後の閾値除外→top・元HTML総数・既定互換・見た目/安全性を維持し、独立品質の読める証拠でAC1〜AC7を追跡できる。
+**Requirements**: REQ-15, REQ-16, REQ-17, REQ-18, REQ-19, REQ-20, REQ-21
+**Depends on:** Phase 3
+**UI hint:** yes — 既存HTMLの見た目を維持する。新UI/スタイル変更はない。
+**Success Criteria:**
+  1. AC1/AC3: 全形式で正整数の閾値、未満除外/ちょうど保持、空/全除外、不正値/欠落の入力取得前exit2を試験で固定。
+  2. AC2/AC4: 製品変更前baselineと未指定/明示1のstdout一致。casefold合算・同数初出順・独立topを維持し、除外→topをソースでも確認。
+  3. AC5: HTML総数は両絞込み前。全除外でも元総数を保持し既存formatter/CSS/文言を変えない。
+  4. AC6: 全pytestと対象headの独立CLI/ブラウザ1280×900・320×900 DPR1、画像の実閲覧と比較・原本の標準配送がAC別に追跡できる。
+  5. AC7: CI/依存/見た目の変更なし、READMEは付随最小説明のみ、既存入力・安全性・出力契約を維持。
+**Approval:** t_a438e6b2 run140 approved。要求追加のみのmerge、衝突0。Phase1/3のstale検証は今回の実装範囲へ混ぜず表示する。公式phase.addの番号4を使用。
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 4 to break down)

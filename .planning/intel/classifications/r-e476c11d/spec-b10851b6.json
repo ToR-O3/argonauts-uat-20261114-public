@@ -1,0 +1,28 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/openspec/changes/r-e476c11d-wordfreq-min-count/specs/wordfreq-cli/spec.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Spec Delta",
+  "summary": "wordfreq CLIのmin-count追加、top適用順序、出力互換性、HTML総数、エラー契約、試験と独立品質確認を定義する。",
+  "scope": [
+    "wordfreq CLI",
+    "--min-count",
+    "--top",
+    "text・json・html出力",
+    "Unicode正規化",
+    "出力順序",
+    "HTML総出現回数",
+    "引数エラー",
+    "入力エラー",
+    "pytest",
+    "ブラウザ確認",
+    "README"
+  ],
+  "cross_refs": [
+    "README"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

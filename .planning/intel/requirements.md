@@ -1,79 +1,61 @@
 # Requirements (intel)
 
-MODE: merge。承認manifestのPRD分類2文書をともに全文読取りして抽出した。以下の前半6件はproposal、後半6件はBMAD PRDのFR-1–FR-6。原文の詳細度・出典を失わないよう別IDで保持する。両者の共通要求は整合し、追加の具体化は同時に満たせるため競合variantではない。既存CONTEXTとの初出順衝突はBLOCKERとして残し、destinationへの採用は行わない。
+MODE: merge。今回のPRD分類2文書の抽出。proposalの5項目とBMAD PRDのFR-1〜FR-4を出典別の9エントリで保持する。同一scopeの要約と具体化は同時に満たせるため競合variantではない。機能契約の正は承認済みdelta SPEC（constraints.md）。A-01〜A-04 / Q-01 / Q-02は要件に昇格させずcontext.mdへ残す。以下は受入条件の抽出であり、実行結果・合格宣言ではない。
 
-DATA_cd8c01d9_START
+DATA_363c7166_START
 
-## REQ-html-static-output
-- source: openspec/changes/r-50053edc-wordfreq-html/proposal.md:6-7,13-19
-- description: 既存wordfreq CLIにhtml出力を追加する。
-- acceptance: --format htmlで、順位・単語・回数の3列表を持つ自己完結した静的HTMLをstdoutへ出す。
-- scope: wordfreq-cli出力形式、AC1
+## REQ-min-count-option-proposal
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/proposal.md:9
+- description: 最小出現回数オプションを追加する。
+- acceptance: --min-count N、既定1、1以上の整数のみ。不正値・値欠落は使い方エラーexit2。
+- scope: CLI引数、MC-1、AC3
 
-## REQ-html-input-metadata
-- source: openspec/changes/r-50053edc-wordfreq-html/proposal.md:8
-- description: 入力の文脈と全単語の総出現回数をHTMLに表示する。
-- acceptance: 表より上にbasenameのみとtop適用前の総出現回数を表示する。
-- scope: HTMLメタ情報、AC2
+## REQ-min-count-selection-proposal
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/proposal.md:10
+- description: 正規化後集計から表示対象を選択する。
+- acceptance: casefold後の集計からN未満を除外し、その後既存topを適用。両値は独立。同数初出順は不変。
+- scope: 全形式の選択、MC-1、AC1/AC4
 
-## REQ-first-occurrence-order
-- source: openspec/changes/r-50053edc-wordfreq-html/proposal.md:10,19
-- description: 同数語を正規化後単語の昇順ではなく初出順にする意図した互換性変更。
-- acceptance: 回数降順を維持し、同数は初出順でtext・json・htmlを一致させ、その後topで制限する。
-- scope: 全出力形式の順序、AC3
+## REQ-min-count-empty-proposal
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/proposal.md:11
+- description: 全形式で同じ対象と既存空形式を使う。
+- acceptance: text/json/htmlで同じ表示対象。空入力・全件除外も既存の空形式を維持する。
+- scope: 空結果、MC-2、AC1/AC2
 
-## REQ-html-responsive-readable
-- source: openspec/changes/r-50053edc-wordfreq-html/proposal.md:9
-- description: 明るいHTMLを通常幅と小画面で読めるようにする。
-- acceptance: 明るい背景のみで切替なし。順位は1始まりの表示行連番。通常幅と320 CSS pxを含む幅で長い語・名前が読める。
-- scope: HTML表示、AC4
+## REQ-min-count-total-proposal
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/proposal.md:12
+- description: HTML元総数と表示契約を維持する。
+- acceptance: HTML総数はmin-count/top前の全出現回数。CSS・構造・既存文言は変更しない。
+- scope: HTML総数、MC-2、AC5/AC7
 
-## REQ-html-safety-regression
-- source: openspec/changes/r-50053edc-wordfreq-html/proposal.md:11,21-23
-- description: HTMLの安全性と、意図した順序変更以外の既存処理を保つ。
-- acceptance: エスケープ・空入力・入力とエラー処理・既存形式を回帰検証し、入力取得とトークナイザの境界および標準ライブラリのみの実行を維持する。text/jsonへHTMLメタ情報を加えない。CI追加・変更、生成日時、テーマ切替、対話操作、サーバー、入力元拡張は対象外。
-- scope: HTML安全性、既存互換性、変更境界、AC5
+## REQ-min-count-evidence-proposal
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/proposal.md:13,25-29
+- description: 追加試験・利用説明と独立品質証拠を残す。
+- acceptance: 正常・境界・異常・互換・併用のpytest、README説明、品質による実CLI生成HTMLの独立ブラウザ証拠。引数解析・必要最小限の集計選択・pytest・READMEに限定し、formatter公開契約・入力境界・Unicode抽出/casefold・同数初出順・静的安全性は維持。CI追加変更・依存追加・見た目変更・入力元追加・外部送信・権限・課金・削除は対象外。
+- scope: 検証・説明・変更範囲、MC-3、AC6/AC7
 
-## REQ-html-independent-evidence
-- source: openspec/changes/r-50053edc-wordfreq-html/proposal.md:11,23
-- description: 品質担当の独立ブラウザ確認と証拠を要求する。
-- acceptance: 品質担当が実CLIでHTMLを再生成して独立ブラウザ確認を行い、文字範囲の実測原本・画面画像・head等の追跡可能な証拠を残す。提案自体は実装やブラウザ検証の合格を宣言しない。
-- scope: 検証証拠、AC6
+## REQ-min-count-argument-prd
+- source: _bmad-output/initiative-r-e476c11d/prd/prd-wordfreq-min-count.md:55-57,95,116,120,133
+- description: FR-1 閾値指定と検証。
+- acceptance: 既定1、1以上の整数。0/負数/1.5/abc/値欠落を各形式で入力読込より先にexit2、stderr通知、stdout空、Traceback/エラーHTMLなし。不存在パスでも引数エラーが優先。有効N>1では不存在・ディレクトリ・開けない・不正UTF-8はexit1のまま。既存topと同じargparse/int規則を継承し独自字句制約・上限・変換制限解除なし。重複指定は有効値の最後を採用、途中の整数変換エラーはexit2。権限試験不能は未検証と区別する。
+- scope: CLI引数・既存入力エラー、MC-1、AC3/AC7
 
-## REQ-html-static-output-prd
-- source: _bmad-output/initiative-r-50053edc/prd/prd-wordfreq-html.md:46-48,68-74,85-92
-- description: ローカル保存して読める静的HTML出力を提供する（PRD FR-1）。
-- acceptance: python -m wordfreq <file> --format htmlでstdoutに1枚の文書を出す。順位・単語・回数の見出しと表を持ち、UTF-8で日本語ファイル名を表示する。スタイルは内部に持ち、スクリプト・外部リソース・通信に依存しない。正常時exit 0、説明ログなし。保存の使用例を説明文書へ追記する。生成日時・暗色・テーマ切替・対話操作・Webサーバーは追加しない。
-- scope: wordfreq-cli出力形式、AC1、利用説明
+## REQ-min-count-common-selection-prd
+- source: _bmad-output/initiative-r-e476c11d/prd/prd-wordfreq-min-count.md:59-61,71-75,94,96,101,112,114-115,127
+- description: FR-2 共通の表示対象と既定互換。
+- acceptance: 全形式でN未満を除外、Nちょうど/超を保持後top。大小相互制約なし、指定順によらず回数降順・同数正規化後初出順。元集計・入力非変更、既存top_words(counts, n)利用を壊さない。未指定/明示1/変更前stdoutを同数と10種類超の同一入力・argv・環境で比較し既定text/top10と構造を維持。着手前branch headと変更前原本を保存し変更後同士だけで代用しない。出力だけでなく品質が除外→topのファイル・行またはdiffを確認。Straße STRASSEをN=2でstrasse 2として全形式に残す。Zoo apple APPLE zoo bananaはN=2/top10でzoo2,apple2、N=2/top1でzoo2。
+- scope: 共通選択・互換性・Unicode・top、MC-1/MC-2、AC1/AC2/AC4
 
-## REQ-html-input-metadata-prd
-- source: _bmad-output/initiative-r-50053edc/prd/prd-wordfreq-html.md:39-44,50-52
-- description: HTML表より前にbasenameと入力全体の総出現回数を表示する（PRD FR-2）。
-- acceptance: 実行環境のパス規則のbasenameだけを表示し、ディレクトリをtitle・属性にも埋め込まない。総数はtop前の全単語の回数の総和で、種類数や表示行の和ではない。topは既定10、正整数Nで表のみ制限。空でもbasename・総数0・見出しを持ちデータ行0件。zoo apple zoo banana apple cherryはtop 1/2/10のいずれも総数6、行はzoo 2のみ／zoo 2とapple 2／4行。beta beta beta alpha gamma alpha deltaは総数7、top 2はbeta 3とalpha 2。
-- scope: HTMLメタ情報、top、空入力、AC2
+## REQ-min-count-empty-total-prd
+- source: _bmad-output/initiative-r-e476c11d/prd/prd-wordfreq-min-count.md:63-65,93,97,101,115,118
+- description: FR-3 空結果とHTML総数。
+- acceptance: 空ファイル/空白のみ/句読点のみ/全件除外はexit0。text空文字、jsonは[]と末尾改行1つ、htmlは既存メタ情報・3列見出し・0データ行・空状態文言・basenameのみを保持。総数は両フィルタ前の回数和で、抽出0語なら0、語あり全除外でも元の正数。Zoo apple APPLE zoo bananaをN=3なら0表示/総数5。閾値は入力・元集計を変更しない。
+- scope: 空結果・HTML元総数、MC-2、AC1/AC5/AC7
 
-## REQ-first-occurrence-order-prd
-- source: _bmad-output/initiative-r-50053edc/prd/prd-wordfreq-html.md:39-41,54-55,68-70,85-89
-- description: 全形式の同数語順を初出順へ意図して変更する（PRD FR-3）。
-- acceptance: 回数降順、正規化後同一語が入力トークン列に最初に現れた位置の昇順、その後topの順で処理し、後の再出現で初出位置を更新しない。text/json/htmlで語と回数が同順。Zoo apple APPLE zoo bananaはzoo 2、apple 2、banana 1でtop 1はzoo。旧語昇順の期待値・利用説明・試験を初出順へ更新し、移行フラグは追加しない。
-- scope: 全出力形式の順序、互換性変更、AC3
+## REQ-min-count-verification-readme-prd
+- source: _bmad-output/initiative-r-e476c11d/prd/prd-wordfreq-min-count.md:67-69,77-83,98-118,124-137
+- description: FR-4 試験と説明、および品質・範囲制約。
+- acceptance: 正常/境界/異常/既定/併用の追加pytestと既存全試験を実行し、実コマンド・環境・収集件数・exit・結果・全形式CLI原本をAC対応で残す。0件収集/未実施は成功でない。品質は対象headでCLI HTMLを独立再生成し既定/部分表示/top併用/全除外/空を1280×900と320×900 CSS px・DPR1で実閲覧。変更前headのHTML/画像と入力・basename・ブラウザ版・フォント・viewport・DPRを揃え、環境差を記録。head/diff/argv/入力/exit/stdout/stderr/HTML/画像/閲覧結果を保存しcaptureやDOM/CSS一致だけで合格にしない。以前の証拠形式は参考のみで固定head/scope/AC/合格を流用しない。既存CIは対象headの必須contextとActions/statusを有限回確認、未報告/pending/不調を成功にせずCI待機処理・新CIを追加しない。CI・依存・見た目/CSS/テーマ/既存文言・新形式/入力源/形態素解析/抽出変更・全体リファクタなし。stdlibのみ、UTF-8/escape/静的性/プライバシー/入力境界/formatter公開契約と純粋性/既存試験を維持、pyproject.tomlは変更しない。READMEは指定法・既定1・先min後top・元総数・不正値exit2・全除外時は閾値を下げることのみ付随最小更新。
+- scope: pytest・独立品質・README・範囲、MC-3、AC2/AC6/AC7
 
-## REQ-html-responsive-readable-prd
-- source: _bmad-output/initiative-r-50053edc/prd/prd-wordfreq-html.md:44,57-59,82-83,94-95
-- description: 通常幅と小画面で全文を読める明るい表を提供する（PRD FR-4）。
-- acceptance: 明るい背景のみ、テーマ切替なし、3列表、順位は1始まりの表示行連番。同数でも同順位にしない。通常幅と少なくとも320 CSS pxで空・通常・長い連続語・長いbasenameの全内容が読める。折返しを許し、省略や切取りによる欠落を合格としない。viewport・要素・文字Rangeの矩形と行断片・切取り祖先の実測原本を保存し、横収まり、切取り祖先内の収まり、隣接内容との非重複、実画像の可読性で判定する。要素自身への厳格な縦包含を必須にせず、縦のはみ出し値を隠さず欠け・重なり・可読性で判断する。
-- scope: HTML表示、幾何測定、AC4
-
-## REQ-html-safety-regression-prd
-- source: _bmad-output/initiative-r-50053edc/prd/prd-wordfreq-html.md:61-63,68-74,82-89
-- description: データを安全に表示し、同数時語順以外の既存契約を維持する（PRD FR-5）。
-- acceptance: 単語とbasenameのHTML特殊文字をエスケープし、&・<・>・二重引用符・単一引用符の表示を保持してタグ・イベント・スクリプトを生成しない。整形部品へ特殊文字の語を直接与え、実CLIは特殊文字を含む有効なbasenameで検証する。パス区切りをbasenameへ含めず認識規則を緩めない。入力取得境界・UTF-8読込み・Unicodeの単語構成文字の最大連続抽出・casefoldを維持する。引数個数/top/format不正はstderrとexit 2、読込み/デコード失敗はstderrとexit 1で結果HTMLなし。textはcount先頭のタブ区切り行、jsonはword/count配列と末尾改行、空ではtext空・json空配列と改行。HTMLメタ情報はtext/jsonへ追加しない。標準ライブラリのみ、CI追加・変更なし。入力元拡張・形態素解析・認識変更・依存追加は対象外。外部参照なしと通信試行なしを別々に確認する。
-- scope: HTML安全性、入力・エラー・出力回帰、変更境界、AC5
-
-## REQ-html-independent-evidence-prd
-- source: _bmad-output/initiative-r-50053edc/prd/prd-wordfreq-html.md:65-66,76-83,98-99
-- description: 自動試験と品質の独立ブラウザ確認を条件別証拠へ対応付ける（PRD FR-6）。
-- acceptance: FR-1–FR-5の通常・空・top既定/1/境界/種類数超過・不正値・Unicode・注入・エラー回帰を自動検査する。品質担当は対象headの実CLIから独立生成し通常幅と320 CSS pxを含む画面を確認する。head、入力原本、コマンド、exit/stdout/stderrと期待値、生成HTML、ブラウザ/viewport、文字範囲の測定原本、実画面画像、外部通信検査を保存・添付しACごとの合否と対応付ける。Builder画像や自動判定だけで代用せず未実施を合格扱いしない。幾何条件と実画像の両方を用い、外部参照・通信試行を確認し、ローカル文書読込みと外部通信を区別する。FR-1–FR-6を同じ変更で提供し、UI・安全性・証拠を後回しにしない。製品試験と独立確認の現状は未実施。
-- scope: 検証証拠、独立品質確認、AC6
-
-DATA_cd8c01d9_END
+DATA_363c7166_END

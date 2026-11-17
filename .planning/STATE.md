@@ -86,6 +86,8 @@ Recent decisions affecting current work:
 
 - Phase 3 added: wordfreq HTML output (r-50053edc; official phase.add result). Existing Phase 2 directory is unrelated residual work, not reused. Approval t_13dfdc77 run83 replaces old lexical ties via new phase REQ-11; E.7 conflict route, report .planning/INGEST-CONFLICTS.md.
 
+- Phase 4 added: wordfreq min-count (r-e476c11d; official phase.add result 4). Approved t_a438e6b2 run140, merge adds REQ-15..REQ-21 only. Prior phase verification stale is historical debt, not authorization to reopen earlier scope.
+
 ### Pending Todos
 
 None yet.

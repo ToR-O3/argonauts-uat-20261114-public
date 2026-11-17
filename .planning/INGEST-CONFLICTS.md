@@ -1,20 +1,25 @@
 ## Conflict Detection Report
 
-MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。per-doc overrideなし。対象は `.planning/argonauts/r-50053edc-manifest.yaml` の承認4文書（PRD 2、SPEC 2）。4分類JSONと4原本をすべて読み、型・信頼度・参照・lockを検証した。Briefや除外分類フォルダは取込み・読取り対象外。今回のstagingは全4文書をsynthesisした結果であり、旧レポートの部分synthesisではない。
+MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。per-doc overrideなし。対象は `.planning/intel/classifications/r-e476c11d/` の今回5 JSONと対応原本5文書のみ（ADR 0 / SPEC 1 / PRD 2 / DOC 2）。前依頼のintel・報告は今回結果で置換し、過去の分類は消費していない。
 
-### BLOCKERS (1)
+### BLOCKERS (0)
 
-[BLOCKER] 既存locked CONTEXT決定との矛盾: 同数時語昇順と全形式初出順
-  Found: 新規承認入力は回数降順を維持し、同数を正規化後同一語の初出順に変更し、text/json/htmlで一致させてからtopを適用する。旧語昇順の意図した互換性変更であり、新要求を旧語順へ戻すと承認意図を失う。source: _bmad-output/initiative-r-50053edc/prd/prd-wordfreq-html.md:54-55,68-70,85-89; openspec/changes/r-50053edc-wordfreq-html/proposal.md:10; openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md:47-56; openspec/changes/r-50053edc-wordfreq-html/tasks.md:3-4
-  Expected: 既存Phase 1の保護された <decisions> D-10は同回数なら正規化後単語の昇順を要求し、REQ-04、PROJECT D-2、ROADMAP成功条件1も旧順序を保持している。入力分類にlocked ADRがなくても、merge時の既存固定決定との矛盾はBLOCKERであり、承認済み新要求という理由だけで既存を上書きしない。source: .planning/phases/01-wordfreq-cli/01-CONTEXT.md:13-16,33-34; .planning/REQUIREMENTS.md:20; .planning/PROJECT.md:32,69; .planning/ROADMAP.md:24; /home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-architect/agents/gsd-doc-synthesizer.md:145-155
-  → 通常mergeを停止する。親担当はチーム承認済みの新phase経路で、旧Phase 1の決定・完了記録を上書きせず、旧語順を意図して置換する新phaseの境界・要件・承認記録へ今回の初出順変更を明示的に対応付ける。本synthesisはその経路の実行やロック解消を代行せず、destination PROJECT/REQUIREMENTS/ROADMAP/STATE/CONTEXTを書かない。source: 今回の委任指示（team authorized new-phase path、no destination writes）; .planning/intel/SYNTHESIS.md
+該当なし。UNKNOWN/low confidenceなし、locked ADR入力なし、対象内参照循環なし。merge対象の既存固定契約との矛盾なし。
+
+今回のSPECは同数時正規化後初出順を維持する。既存Phase 3の固定D-03がPhase 1 REQ-04 / PROJECT D-2 / CONTEXT D-10の語昇順を承認済みで明示置換し、既存REQUIREMENTSもREQ-11を現在契約として指定している。よって前依頼の古いBLOCKERは今回の衝突として引き継がない。旧履歴を書き換えず、古いコードポイント順へも戻さない。
+source: openspec/changes/r-e476c11d-wordfreq-min-count/specs/wordfreq-cli/spec.md:72-81; .planning/phases/03-wordfreq-html-output/03-CONTEXT.md:5-7,15-23; .planning/REQUIREMENTS.md:32-40; .planning/ROADMAP.md:59-69; .planning/phases/01-wordfreq-cli/01-CONTEXT.md:33-34; .planning/PROJECT.md:32,69
 
 ### WARNINGS (0)
 
-競合するPRD受入variantなし。proposalは機能範囲の要約、BMAD PRDは同じ要求の具体化であり、相互に排他的な基準はない。両PRDの出典と受入条件をrequirements.mdの別IDで保存し、一方を勝者として落としていない。source: openspec/changes/r-50053edc-wordfreq-html/proposal.md:6-23; _bmad-output/initiative-r-50053edc/prd/prd-wordfreq-html.md:46-95; .planning/intel/requirements.md
+競合するPRD受入variantなし。proposalの5項目とBMAD PRDのFR-1〜FR-4は、共通の閾値・既定互換・先min後top・元総数・試験/説明を要約/具体化しており同時に充足できる。別出典の9エントリとして保持し、異なる受入意図を削って選択していない。
+source: openspec/changes/r-e476c11d-wordfreq-min-count/proposal.md:7-13,25-29; _bmad-output/initiative-r-e476c11d/prd/prd-wordfreq-min-count.md:53-120; .planning/intel/requirements.md
+
+A-01〜A-04は未承認、Q-01利用背景/Q-02理由・期限は未提示のままcontextに保持。需要・期限・利用者事実・追加義務へ昇格させない。これらは確定済みFR/AC判断を変えない背景確認であり、PM承認境界に従い機能実装・品質の未解決variantやブロッカーとはしない。
+source: _bmad-output/initiative-r-e476c11d/brief/brief-wordfreq-min-count.md:28-34,78-90; _bmad-output/initiative-r-e476c11d/prd/prd-wordfreq-min-count.md:34-42,143-159; 今回委任指示「PM承認の境界」; .planning/intel/context.md
 
 ### INFO (0)
 
-自動解決なし。参照循環はmanifest縮小により現在の対象集合から除去されており、precedenceによる自動解決ではないためINFO件数に含めない。BMAD PRDのBrief参照先は非取込み文書でグラフノードではなく、proposalからBMAD PRDへのedgeのみ対象内。元の承認文書・分類は変更していない。source: .planning/argonauts/r-50053edc-manifest.yaml:1-9; .planning/intel/classifications/prd-wordfreq-html-e2c34c8e.json:22-27; .planning/intel/classifications/proposal-bfa80b89.json:22-27; .planning/intel/classifications/spec-c2715516.json:24-26; .planning/intel/classifications/tasks-47030a69.json:21-23; .planning/intel/SYNTHESIS.md
+precedenceによる新たな自動解決なし。既存の承認済み語順置換の確認は今回の自動解決として数えない。SPECの旧シナリオ名「同回数ワードは単語の昇順」は識別子として残されているだけで、本文の期待値は初出順を明示しており契約内矛盾ではない。
+source: openspec/changes/r-e476c11d-wordfreq-min-count/specs/wordfreq-cli/spec.md:72-81; .planning/phases/03-wordfreq-html-output/03-CONTEXT.md:17; .planning/intel/SYNTHESIS.md
 
-GSD > BLOCKED: 1 blockers must be resolved before ingest can proceed.
+衝突なしはdestinationへの書込み承認ではない。今回更新はper-type intel4点・SYNTHESIS.md・本報告のみ。PROJECT/REQUIREMENTS/ROADMAP/STATE/CONTEXT、製品、tests、README、CI、依存定義は変更しない。後続のmerge差分承認とBuilder・品質の検証は別工程。

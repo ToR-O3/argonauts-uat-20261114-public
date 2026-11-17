@@ -1,5 +1,5 @@
 # Decisions (intel)
 
-対象は承認manifestの4文書（PRD 2、SPEC 2）。ADR分類は0件であり、抽出するADR決定エントリはない。入力分類のlocked決定は0件。
+今回の入力は `.planning/intel/classifications/r-e476c11d/` の5分類のみ。ADRは0件、ADR由来の決定0件、locked決定0件（source paths: 該当なし）。SPEC/PRDの契約をADR決定へ昇格させない。
 
-既存 `.planning/phases/01-wordfreq-cli/01-CONTEXT.md` の `<decisions>` D-10は同数時語昇順を固定している。今回の全形式初出順はその決定と矛盾するため、`.planning/INGEST-CONFLICTS.md` のmerge BLOCKERとして保持する。入力ADRがないことを既存決定の解除とは扱わない。
+既存の有効な同数順は `.planning/phases/03-wordfreq-html-output/03-CONTEXT.md:15-23` D-03と `.planning/REQUIREMENTS.md:34-40` REQ-11の正規化後初出順。Phase 1 / PROJECT / ROADMAP前半に残る語昇順は置換済みの履歴であり、今回それを復活させない。今回の入力は有効な固定契約と整合する。

@@ -49,6 +49,28 @@ Source: t_13dfdc77 run83 approved、`r-50053edc-wordfreq-html` proposal/spec/tas
 | REQ-13 | Phase 3 | Pending |
 | REQ-14 | Phase 3 | Pending |
 
+## r-e476c11d Requirements (Phase 4)
+
+Source: 仕様承認 t_a438e6b2 run140 approved、要求・仕様 t_e6e172d4 run139、OpenSpec `r-e476c11d-wordfreq-min-count` proposal/spec/tasks、BMAD PRD。今回mergeは以下の追加のみ。既存要件の履歴とREQ-11の初出順を維持し、Q-01/Q-02とA-01〜A-04を要件化しない。
+
+- [ ] **REQ-15**: AC1: 正規化後の出現回数がmin-count未満の語をtext/json/html共通で除外し、ちょうどと超過を残す。空入力・抽出0語・全除外も既存の空形式でexit0。
+- [ ] **REQ-16**: AC2: 未指定と明示min-count1は変更前の全形式stdout・構造・既定top10・同数初出順と一致。最初の製品変更前headで同数/10種類超を含む入力、argv、環境、stdout/HTML/画像を保存して比較する。
+- [ ] **REQ-17**: AC3: min-count既定1、1以上の整数のみ。0/負数/非整数/非数値/値欠落は入力取得前exit2、stderr通知、stdout空。有效N>1の入力取得失敗exit1は維持。
+- [ ] **REQ-18**: AC4: casefold後のcountsから閾値除外→回数降順/同数初出順→topの順。両値は独立、指定順でも不変。品質は出力に加えて該当ソース順序を確認。
+- [ ] **REQ-19**: AC5: HTML総数はmin-count/top前の元countsの回数和。全件除外でも正の元総数、抽出0語は0。既存formatter/CSS/文言・basename限定・静的安全性を維持。
+- [ ] **REQ-20**: AC6: 全3形式の正常/境界/異常/Unicode/併用/既定互換/空結果をpytestで追加し既存全件も成功。品質自身が対象headでCLI再実行と1280×900/320×900 DPR1ブラウザ閲覧・変更前同条件画像比較を行い、入力/argv/stdout/stderr/exit/HTML/画像/閲覧結果/ソース箇所をAC別に保存・標準添付しPMが原本を読めるようにする。未検証は合格としない。
+- [ ] **REQ-21**: AC7: CI追加変更・依存追加・見た目変更・新サービス・新入力元・抽出変更・全体リファクタなし。READMEの指定法/既定1/先min後top/元総数/不正値exit2/全除外の閾値調整のみ最小更新。既存出力/安全性/入力境界/formatter公開契約を維持。既存CIの未報告を成功と呼ばず待機処理を追加しない。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-15 | Phase 4 | Pending |
+| REQ-16 | Phase 4 | Pending |
+| REQ-17 | Phase 4 | Pending |
+| REQ-18 | Phase 4 | Pending |
+| REQ-19 | Phase 4 | Pending |
+| REQ-20 | Phase 4 | Pending |
+| REQ-21 | Phase 4 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.
