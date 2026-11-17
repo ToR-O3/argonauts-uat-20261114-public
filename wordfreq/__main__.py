@@ -33,7 +33,9 @@ def main(argv: list[str] | None = None) -> None:
     pairs = top_words(counts, args.top)
     if args.format == "html":
         # Sanitize display text only; the original path was used to read input.
-        display_name = os.fsencode(Path(args.filename).name).decode("utf-8", errors="replace")
+        display_name = os.fsencode(Path(args.filename).name).decode(
+            sys.getfilesystemencoding(), errors="replace"
+        )
         output = format_html(pairs, filename=display_name, total_count=full_total)
     elif args.format == "json":
         output = format_json(pairs)
