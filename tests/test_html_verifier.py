@@ -552,6 +552,26 @@ def test_plan_quality_commands_resolve_actual_actor_without_actor_option(monkeyp
             v.session_actor(args.role, args.actor, args.output_dir)
 
 
+def test_finalize_implicit_actor_matches_manifest_actor(tmp_path, monkeypatch):
+    v = verifier()
+    output = tmp_path / "quality"
+    output.mkdir()
+    actor = "argonauts-uat-quality"
+    manifest = dict(role="quality", actor=actor, session="synthetic-identity-only")
+    v.save_json(output / "manifest.json", manifest)
+    v.save_json(output / "reviews.json", {})
+    monkeypatch.setenv("HERMES_PROFILE", actor)
+    # Isolate actor agreement, not a product/live acceptance simulation.
+    monkeypatch.setattr(v, "live_session_errors", lambda manifest: [])
+    monkeypatch.setattr(v, "evidence_errors", lambda *args, **kwargs: [])
+    args = v.parser().parse_args(["--role", "quality", "--output-dir", str(output),
+        "--mode", "finalize", "--review-ledger", str(output / "reviews.json")])
+    assert v.finalize(args) == 0
+    request = json.loads((output / "finalize-request.json").read_text())
+    assert request["session"] == manifest["session"]
+    assert "verdict" not in request
+
+
 def test_session_identity_cannot_be_selected_by_role_flag(monkeypatch, tmp_path):
     v = verifier()
     monkeypatch.setenv("HERMES_PROFILE", "argonauts-uat-builder")
