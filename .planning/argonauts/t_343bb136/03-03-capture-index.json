@@ -1,0 +1,41 @@
+{
+  "head": "8e132c2b55c33482d28de5c78267bf25ae905e94",
+  "verdict": "pending-review",
+  "errors": [],
+  "started": "2026-11-17T14:18:37.597216+00:00",
+  "ended": "2026-11-17T14:18:55.749902+00:00",
+  "cli_cases": 15,
+  "html_cases": 11,
+  "views": 22,
+  "images": 32,
+  "reviewed_images": [],
+  "independent_acceptance": false,
+  "browser": {
+    "executable": "/usr/bin/chromium-browser",
+    "version": "156.0.8078.73",
+    "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "launch": {
+      "argv": [
+        "/usr/bin/chromium-browser",
+        "--headless",
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-background-networking",
+        "--disable-component-update",
+        "--disable-extensions",
+        "--disable-component-extensions-with-background-pages",
+        "--disable-default-apps",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--disable-popup-blocking",
+        "--no-startup-window",
+        "--remote-debugging-port=0",
+        "--remote-debugging-address=127.0.0.1",
+        "--user-data-dir=/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_343bb136/.browser-tmp/wf-065b04jx"
+      ],
+      "tmpdir": ".browser-tmp",
+      "transport": "loopback flattened CDP",
+      "websocket_package": "websockets"
+    }
+  }
+}
