@@ -114,5 +114,12 @@ Ready for 02-02 after same-card quality review. No next PLAN or phase.complete e
 - Planning flags remain flagged-unverified: edge unclassified3, descriptor-less prohibition2, native-CDP end-to-end/font/all-target monitoring. Do not dismiss from static passes.
 - Preserve sharing exposure (words/basename remain), shell same-path redirect pre-start truncation risk and separate UTF-8 output guidance in02-02.
 
+## Official Sequential Close-out
+- `state.advance-plan`: advanced=true, previous_plan1 → current_plan2, total_plans3.
+- `state.update-progress`: updated=true, completed6/total8; official percentage remains50. No independent percentage substituted.
+- `roadmap.update-plan-progress 2`: updated=true, summary_count1/plan_count3, In Progress, complete=false; saved ROADMAP has02-01 checked,02-02/03 unchecked.
+- Saved Current Position: Phase2 EXECUTING, Current Plan2, Total Plans3, Status Ready to execute. No last_plan branch and no phase.complete.
+- `requirements.ready-ids`: ready=[], blocked=REQ-09 throughREQ-14, so none marked complete.
+
 ## Self-Check: PASSED
 Product artifacts exist; task and plan automated verification passed; official evaluation scope resolved commits on this branch. This self-check is scoped to02-01 automated deliverables, not browser/phase acceptance or flawless TDD process.

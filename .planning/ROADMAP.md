@@ -67,11 +67,11 @@ Phases execute in numeric order: 1
 
 Phase 1の語昇順/text-json/UIなしは出荷時点の履歴。今回の現在契約はPhase 2と承認済みOpenSpecが優先。既存要求の変更を含むためingest mergeは適用せず、E.7/10.4により公式phase.addで追加。矛盾原本: .planning/INGEST-CONFLICTS.md。
 **Depends on:** Phase 1
-**Plans:** 3 plans（同じ依頼branchへ直列に積む）
+**Plans:** 1/3 plans executed（同じ依頼branchへ直列に積む）
 
 Plans:
 **Wave 1**
-- [ ] 02-01-PLAN.md — 安全なCLI→保存HTML tracerと全形式初出順（2 tasks、wave 1）
+- [x] 02-01-PLAN.md — 安全なCLI→保存HTML tracerと全形式初出順（2 tasks、wave 1）
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 02-02-PLAN.md — 全形式/文字忠実性/入力境界回帰と安全な保存説明（3 tasks、wave 2、depends 02-01）
