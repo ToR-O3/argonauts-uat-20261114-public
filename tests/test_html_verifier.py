@@ -218,6 +218,46 @@ def local_network():
                             targetId="main", frameId="main-frame", initiator=dict(type="other")))])
 
 
+@pytest.mark.parametrize("kind", ["Network.responseReceived", "Network.dataReceived", "Network.loadingFinished", "Network.loadingFailed", "Network.responseReceivedExtraInfo"])
+@pytest.mark.parametrize("channel", ["missing", "other-source", "other-session", "other-target"])
+def test_network_rejects_orphan_request_ids_per_channel(kind, channel):
+    net = local_network()
+    data = dict(requestId="orphan")
+    if channel != "missing":
+        start = dict(requestId="orphan", request=dict(url="file:///control.html"),
+                     source="browser-autoattach", sessionId="session-a", targetId="main")
+        net["events"].append(dict(kind="Network.requestWillBeSent", data=start))
+        data.update(source="browser-autoattach", sessionId="session-a", targetId="main")
+        data[{"other-source": "source", "other-session": "sessionId", "other-target": "targetId"}[channel]] = "different"
+    net["events"].append(dict(kind=kind, data=data))
+    assert any("unattributed request" in e for e in verifier().network_errors(net, "file:///control.html"))
+
+
+@pytest.mark.parametrize("field", ["response", "redirectResponse", "documentURL"])
+def test_network_checks_all_url_bearing_fields(field):
+    net = local_network()
+    data = dict(requestId="local")
+    data[field] = "https://unexpected.invalid/" if field == "documentURL" else dict(url="https://unexpected.invalid/")
+    net["events"].append(dict(kind="Network.responseReceived", data=data))
+    assert any("external/unexpected" in e for e in verifier().network_errors(net, "file:///control.html"))
+
+
+def test_network_rejects_external_orphan_response():
+    net = local_network()
+    net["events"].append(dict(kind="Network.responseReceived", data=dict(
+        requestId="orphan", response=dict(url="https://unexpected.invalid/"))))
+    errors = verifier().network_errors(net, "file:///control.html")
+    assert any("unattributed request" in e for e in errors)
+    assert any("external/unexpected" in e for e in errors)
+
+
+def test_network_accepts_same_channel_lifecycle():
+    net = local_network()
+    for kind in ("Network.responseReceived", "Network.dataReceived", "Network.loadingFinished"):
+        net["events"].append(dict(kind=kind, data=dict(requestId="local", response=dict(url="file:///control.html"))))
+    assert verifier().network_errors(net, "file:///control.html") == []
+
+
 def test_browser_ui_exclusion_requires_pre_open_target_identity():
     v = verifier()
     net = local_network()
@@ -301,7 +341,7 @@ def synthetic_canaries(v):
             net["events"] += [dict(kind="Network.requestWillBeSent", data=dict(
                 request=dict(url=v.CANARY_URL), source="browser-autoattach", requestId="req1",
                 initiator=dict(type="script"), targetId="popup", frameId="frame1")),
-                dict(kind="Network.loadingFailed", data=dict(requestId="req1")),
+                dict(kind="Network.loadingFailed", data=dict(requestId="req1", source="browser-autoattach", targetId="popup")),
                 dict(kind="Page.frameRequestedNavigation", data=dict(url=v.CANARY_URL))]
         if name == "early-popup":
             net["events"].append(dict(kind="target-attached", data=dict(waitingForDebugger=True,

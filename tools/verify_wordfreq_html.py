@@ -482,6 +482,12 @@ def network_errors(record, expected_url):
     local_seen = False
     pre_open = True
     background = {}
+    # IDs are channel-local: another CDP session/target is not proof of a start.
+    def identity(data):
+        return tuple(data.get(k) for k in ("source", "sessionId", "targetId", "requestId"))
+
+    started = {identity(e["data"]) for e in record["events"]
+               if e["kind"] == "Network.requestWillBeSent" and e["data"].get("requestId")}
     for event in record["events"]:
         data = event["data"]
         if event["kind"] == "page-cdp-ready":
@@ -500,8 +506,11 @@ def network_errors(record, expected_url):
             errors.append(f"missing URL attribution {event['kind']}")
         if event["kind"] == "request" and pre_open:
             errors.append("request before page observer ready")
+        if event["kind"].startswith("Network.") and data.get("requestId") and identity(data) not in started:
+            errors.append(f"unattributed request {event['kind']}: {identity(data)}")
         urls = [data.get("url"), data.get("request", {}).get("url"),
-                data.get("frame", {}).get("url"), data.get("targetInfo", {}).get("url")]
+                data.get("response", {}).get("url"), data.get("redirectResponse", {}).get("url"),
+                data.get("documentURL"), data.get("frame", {}).get("url"), data.get("targetInfo", {}).get("url")]
         for url in filter(None, urls):
             if url == expected_url:
                 local_seen = True
