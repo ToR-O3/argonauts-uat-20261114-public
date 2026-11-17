@@ -1,5 +1,6 @@
 """Command-line argument parsing and component composition."""
 import argparse
+import os
 import sys
 from pathlib import Path
 
@@ -31,7 +32,9 @@ def main(argv: list[str] | None = None) -> None:
     full_total = sum(counts.values())
     pairs = top_words(counts, args.top)
     if args.format == "html":
-        output = format_html(pairs, filename=Path(args.filename).name, total_count=full_total)
+        # Sanitize display text only; the original path was used to read input.
+        display_name = os.fsencode(Path(args.filename).name).decode("utf-8", errors="replace")
+        output = format_html(pairs, filename=display_name, total_count=full_total)
     elif args.format == "json":
         output = format_json(pairs)
     else:
