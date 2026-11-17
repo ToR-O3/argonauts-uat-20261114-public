@@ -188,6 +188,8 @@ def geometry_errors(raw):
                 offset = end
                 if not isinstance(item["rects"], list) or (not char.isspace() and not item["rects"]):
                     errors.append(f"{text['id']}[{i}]: missing visible Range")
+                if not char.isspace() and not any(r["width"] > 0 and r["height"] > 0 for r in item["rects"]):
+                    errors.append(f"{text['id']}[{i}]: no visible ink")
                 for r in item["rects"]:
                     if r["width"] <= 0 or r["height"] <= 0:
                         continue  # Raw retains zero-area rectangles; no visible ink.
@@ -565,11 +567,14 @@ def collect_view(browser, case, width, output):
                 reviewed_images=[], verdict="pending-review")
     try:
         url = Path(case["stdout"]).as_uri()
+        # Enable inspection domains on about:blank, before the product exists.
+        # CSS.enable on a loaded file causes a DevTools re-fetch without a
+        # requestWillBeSent event in Chromium. Never whitelist that orphan.
+        cdp.send("DOM.enable")
+        cdp.send("CSS.enable")
         page.goto(url, wait_until="load", timeout=15000)
         page.evaluate("document.fonts.ready")
         raw = page.evaluate((ROOT / "tools/wordfreq_html_geometry.js").read_text(encoding="utf-8"))
-        cdp.send("DOM.enable")
-        cdp.send("CSS.enable")
         doc = cdp.send("DOM.getDocument")
         fonts = []
         for el in raw["elements"]:

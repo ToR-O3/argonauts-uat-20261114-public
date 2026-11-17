@@ -63,6 +63,21 @@ def raw_record():
                                              codepoint=128512, char="😀", rects=[rect(31, 10.5, 48, 28.5)])])])
 
 
+@pytest.mark.parametrize("bounds", [rect(20, 10, 20, 28), rect(20, 10, 30, 10), rect(20, 10, 20, 10)])
+def test_geometry_rejects_zero_area_visible_glyph(bounds):
+    raw = raw_record()
+    raw["texts"][0]["characters"][0]["rects"] = [bounds]
+    original = copy.deepcopy(raw)
+    assert any("no visible ink" in e for e in verifier().geometry_errors(raw))
+    assert raw == original
+
+
+def test_geometry_accepts_positive_ink_with_raw_zero_rect():
+    raw = raw_record()
+    raw["texts"][0]["characters"][0]["rects"].append(rect(20, 10, 20, 10))
+    assert verifier().geometry_errors(raw) == []
+
+
 def test_geometry_accepts_raw_own_vertical_overhang_and_empty_ranges():
     v = verifier()
     raw = raw_record()
