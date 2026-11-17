@@ -158,6 +158,8 @@ def test_cli_leaves_input_and_git_worktree_unchanged(tmp_path):
     if (ROOT / ".gitignore").exists():
         shutil.copy2(ROOT / ".gitignore", repo / ".gitignore")
     subprocess.run(["git", "init", "--quiet", str(repo)], check=True)
+    # Track the baseline so content changes show up, not just new paths.
+    subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
     inputs = tmp_path / "inputs"
     inputs.mkdir()
     path = inputs / "input.txt"
