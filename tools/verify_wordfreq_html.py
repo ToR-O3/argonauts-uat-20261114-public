@@ -3,6 +3,7 @@
 Browser dependencies are imported only by explicit browser operations.
 """
 import argparse
+import base64
 from datetime import datetime, timezone
 import hashlib
 from html import escape
@@ -542,7 +543,11 @@ def collect_view(browser, case, width, output):
             errors.append("no actual platform font evidence")
         height = raw["document"]["scrollHeight"]
         full = folder / "full.png"
-        page.screenshot(path=str(full), full_page=True)
+        # CDP captures beyond the viewport without Playwright's temporary resize,
+        # which can remove the scrollbar and reflow the measured document.
+        full_clip = dict(x=0, y=0, width=raw["document"]["clientWidth"], height=height, scale=1)
+        full.write_bytes(base64.b64decode(cdp.send("Page.captureScreenshot", dict(
+            format="png", captureBeyondViewport=True, clip=full_clip))["data"], validate=True))
         image_width, image_height = png_size(full)
         view["images"].append(dict(path=str(full), type="full", x=0, y=0,
                                    width=image_width, height=image_height))
@@ -554,7 +559,8 @@ def collect_view(browser, case, width, output):
                 tile_height = min(900, height-y)
                 tile = folder / f"tile-{y}.png"
                 clip = dict(x=0, y=y, width=image_width, height=tile_height)
-                page.screenshot(path=str(tile), full_page=True, clip=clip)
+                tile.write_bytes(base64.b64decode(cdp.send("Page.captureScreenshot", dict(
+                    format="png", captureBeyondViewport=True, clip=dict(clip, scale=1)))["data"], validate=True))
                 tile_width, actual_height = png_size(tile)
                 view["images"].append(dict(path=str(tile), type="tile", x=0, y=y,
                                            width=tile_width, height=actual_height, requested_clip=clip))
