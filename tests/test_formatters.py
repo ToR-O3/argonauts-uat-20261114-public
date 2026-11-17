@@ -176,3 +176,20 @@ def test_empty_html_keeps_metadata_and_headers_without_a_fake_row():
     assert all(node["tag"] != "tbody" for node in message["ancestors"])
     assert document.nodes.index(message) > document.nodes.index(document.tagged("table")[0])
     assert pairs == []
+
+
+def test_html_preserves_cr_without_html_input_newline_normalization():
+    from wordfreq.formatters import format_html
+
+    basename = "a\rb\r\nc  \n\t.txt"
+    word = "&<\r>\r\n'\"  \t"
+    output = format_html([(word, 123)], basename, 123)
+    # HTML input preprocessing normalizes raw CR/CRLF before tokenization;
+    # Python's HTMLParser alone does not model that browser step.
+    browser_input = output.replace("\r\n", "\n").replace("\r", "\n")
+    document = HTMLDocument(browser_input)
+    assert document.classified("filename-value")[0]["text"] == basename
+    assert document.classified("word")[-1]["text"] == word
+    assert_static_document(document)
+    assert "\r" not in output
+    assert output.count("&#13;") == 4
