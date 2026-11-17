@@ -229,6 +229,73 @@ def test_browser_free_historical_baseline_reads_in_successor_worktree(browser_fr
     assert v.validate_baseline(successor / relative.parent, allow_synthetic=True)
 
 
+def synthetic_suite(output):
+    """Explicit full-suite boundary, not a real regression result."""
+    (output / "suite.xml").write_text('<testsuites><testsuite tests="1" failures="0" errors="0" skipped="0"/></testsuites>')
+    (output / "suite.stdout").write_bytes(b"synthetic suite boundary\n")
+    (output / "suite.stderr").write_bytes(b"")
+    return dict(synthetic=True, exit=0, collected=1)
+
+
+@pytest.fixture
+def browser_free_capture(browser_free_saved, tmp_path):
+    v, baseline = browser_free_saved
+    root = tmp_path / "builder" / "capture"
+    argv = ["--mode", "capture", "--role", "builder", "--output-dir", str(root),
+            "--baseline-dir", str(baseline)]
+    assert v.main(argv, collector=synthetic_collect, suite_runner=synthetic_suite) == 0
+    return v, root, baseline
+
+
+def test_browser_free_capture_entrypoint_replays_baseline_and_thresholds(browser_free_capture):
+    v, root, baseline = browser_free_capture
+    manifest = v.parts.load_json(root / "manifest.json")
+    assert manifest["verdict"] == "pending-review"
+    assert manifest["independent_acceptance"] is False
+    assert manifest["synthetic"] is True
+    assert len(manifest["cases"]) > 50
+    assert manifest["baseline"]["index_sha256"] == v.parts.digest(baseline / "index.json")
+    assert set(manifest["ac_index"]) == {f"AC{i}" for i in range(1, 8)}
+    assert all(manifest["comparisons"][c["id"]]["bytes_equal"] for c in manifest["cases"] if c.get("baseline_id"))
+    before = {str(p): v.parts.digest(p) for p in root.rglob("*") if p.is_file()}
+    assert v.validate_capture(root, baseline, allow_synthetic=True) == []
+    assert v.validate_capture(root, baseline), "synthetic boundary must not become real integration"
+    assert before == {str(p): v.parts.digest(p) for p in root.rglob("*") if p.is_file()}
+
+
+@pytest.mark.parametrize("defect", ["case", "width", "total", "ac7", "head", "root", "actor", "scope", "suite-zero", "sha", "png", "raw", "baseline", "environment"])
+def test_browser_free_saved_capture_mutations(browser_free_capture, defect):
+    import copy
+    v, root, baseline = browser_free_capture
+    assert v.validate_capture(root, baseline, allow_synthetic=True) == []
+    m = copy.deepcopy(v.parts.load_json(root / "manifest.json"))
+    html = next(c for c in m["cases"] if c["format"] == "html")
+    if defect == "case":
+        m["cases"].pop()
+    elif defect == "width":
+        html["views"].pop()
+    elif defect == "total":
+        html["total"] += 1
+    elif defect == "ac7":
+        del m["ac_index"]["AC7"]
+    elif defect in {"head", "root", "actor"}:
+        m[defect] = "different"
+    elif defect == "scope":
+        m["scope"]["tree"] = {}
+    elif defect == "suite-zero":
+        (root / "suite.xml").write_text('<testsuites><testsuite tests="0"/></testsuites>')
+    elif defect == "sha":
+        Path(html["stdout"]).write_bytes(b"changed")
+    elif defect in {"png", "raw"}:
+        path = html["views"][0]["images"][0]["path"] if defect == "png" else html["views"][0]["raw"]
+        Path(path).write_bytes(b"changed")
+    elif defect == "baseline":
+        m["baseline"]["index_sha256"] = "0" * 64
+    else:
+        m["environment"]["executable"] = "other-python"
+    assert v.capture_errors(m, root, baseline, allow_synthetic=True), defect
+
+
 # Ordinary suite does not collect saved-original tests without the opt-in root.
 # Explicit -k saved_baseline with no root therefore collects zero and exits 5.
 if os.environ.get("WORDFREQ_MIN_COUNT_BASELINE_ROOT"):
