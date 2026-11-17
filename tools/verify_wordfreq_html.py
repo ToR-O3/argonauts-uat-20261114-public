@@ -266,15 +266,17 @@ def git(*args):
 
 
 def provenance():
+    paths = ("wordfreq", "tools", "tests", "pyproject.toml",
+             "conftest.py", "pytest.ini", "tox.ini", "setup.cfg")
     status = git("status", "--porcelain=v1", "--untracked-files=all")
-    dirty = git("status", "--porcelain=v1", "--untracked-files=all", "--", "wordfreq", "tools", "tests", "pyproject.toml")
+    dirty = git("status", "--porcelain=v1", "--untracked-files=all", "--", *paths)
     untracked = []
-    for name in filter(None, git("ls-files", "--others", "--exclude-standard", "-z", "--", "wordfreq", "tools", "tests", "pyproject.toml").split("\0")):
+    for name in filter(None, git("ls-files", "--others", "--exclude-standard", "-z", "--", *paths).split("\0")):
         content = (ROOT / name).read_bytes()
         untracked.append(dict(path=name, sha256=hashlib.sha256(content).hexdigest(),
                               content_utf8=content.decode("utf-8", errors="backslashreplace")))
     return dict(head=git("rev-parse", "HEAD").strip(), status=status, untracked_product=untracked,
-                product_status=dirty, product_diff=git("diff", "HEAD", "--", "wordfreq", "tools", "tests", "pyproject.toml"))
+                product_status=dirty, product_diff=git("diff", "HEAD", "--", *paths))
 
 
 class ProtocolMonitor:
