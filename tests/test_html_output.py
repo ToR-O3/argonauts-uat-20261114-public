@@ -65,6 +65,27 @@ def run_html_cli(path, *args):
     )
 
 
+@pytest.mark.parametrize("stdio_encoding", ["cp932", "ascii"])
+def test_cli_html_is_utf8_regardless_of_stdio_encoding(tmp_path, stdio_encoding):
+    path = tmp_path / "資料.txt"
+    original = "日本語 Zoo zoo".encode("utf-8")
+    path.write_bytes(original)
+    result = subprocess.run(
+        [sys.executable, "-m", "wordfreq", str(path), "--format", "html"],
+        cwd=ROOT, capture_output=True, timeout=10,
+        env={**os.environ, "PYTHONIOENCODING": stdio_encoding},
+    )
+    assert result.returncode == 0, result.stderr
+    assert result.stderr == b""
+    destination = tmp_path / "report.html"
+    destination.write_bytes(result.stdout)
+    report = parse_report(destination.read_bytes().decode("utf-8"))
+    assert ("meta", {"charset": "utf-8"}) in report.tags
+    assert report.values["filename"] == "資料.txt"
+    assert report.rows[1:] == [["1", "zoo", "2"], ["2", "日本語", "1"]]
+    assert path.read_bytes() == original
+
+
 def test_cli_html_saved_document(tmp_path):
     inputs = tmp_path / "private-directory"
     inputs.mkdir()
