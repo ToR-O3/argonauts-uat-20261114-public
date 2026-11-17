@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-field="title">wordfreq HTML出力 — Product Brief</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #ecefec; --paper: #ffffff; --ink: #1c2321; --muted: #5f6b67; --rule: #d8dfdc;
+  --accent: #2c6e5a; --lead: #f3f7f5; --ask: #fff6e0; --ask-rule: #d9a521;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--page); }
+body { margin: 0; padding: 2rem 1rem 3rem; font: 16px/1.6 var(--sans); color: var(--ink); }
+main { max-width: 52rem; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule); box-shadow: 0 0.25rem 1.5rem rgb(0 0 0 / 6%); padding: 2.25rem 2.5rem 2.5rem; }
+header { padding-bottom: 1rem; border-bottom: 2px solid var(--ink); }
+.kicker { margin: 0 0 0.3rem; font: 700 0.72rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+h1 { margin: 0; font: 700 2.1rem/1.15 var(--serif); letter-spacing: -0.01em; }
+.meta { margin: 0.4rem 0 0; font-size: 0.85rem; color: var(--muted); }
+.meta span + span::before { content: " · "; }
+.lead { margin-top: 1.5rem; padding: 1.25rem 1.5rem; background: var(--lead); border-left: 4px solid var(--accent); font: 1.08rem/1.6 var(--serif); }
+.lead p { margin: 0 0 0.85rem; }
+.lead > div > :last-child > :last-child { margin-bottom: 0; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.75rem; margin-top: 1.75rem; }
+.grid section { min-width: 0; }
+.grid .wide { grid-column: 1 / -1; }
+section > h2 { margin: 0 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--rule); font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+section p, section ul, section ol { margin: 0 0 0.75rem; }
+section ul, section ol { padding-left: 1.2rem; }
+section h3 { margin: 0.9rem 0 0.3rem; font-size: 0.95rem; }
+.ask { margin-top: 1.75rem; padding: 1.1rem 1.4rem; background: var(--ask); border: 1px solid var(--ask-rule); border-radius: 0.35rem; }
+.ask > h2 { border: 0; padding: 0; color: #86630c; }
+.vision { margin-top: 1.75rem; font: italic 1.02rem/1.6 var(--serif); color: var(--muted); }
+.vision > h2 { font-style: normal; }
+.rest { margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); font-size: 0.95rem; }
+.rest h2 { margin: 0 0 0.5rem; font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; margin: 0 0 1rem; font-size: 0.88rem; }
+th, td { padding: 0.35rem 0.5rem; border: 1px solid var(--rule); text-align: left; vertical-align: top; }
+pre { white-space: pre-wrap; font: 0.9rem/1.5 var(--sans); margin: 0; }
+a { color: var(--accent); }
+@media (max-width: 40rem) {
+  body { padding: 1rem 0.75rem 2rem; }
+  main { padding: 1.5rem 1.25rem; }
+  h1 { font-size: 1.65rem; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media print {
+  html { background: none; }
+  body { padding: 0; }
+  main { border: 0; box-shadow: none; padding: 0; max-width: none; }
+  .grid section { break-inside: avoid; }
+}
+</style>
+<style>
+pre.fallback { white-space: pre-wrap; word-wrap: break-word; }
+
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">Product brief</p>
+    <h1 data-field="title">wordfreq HTML出力 — Product Brief</h1>
+    <p class="meta"><span data-field="updated">2026-11-17</span><span data-field="status">draft</span></p>
+  </header>
+  <section class="lead" data-section="Executive summary"><div data-body><div data-md="0"><pre class="fallback">wordfreqに`--format html`を追加し、入力ファイル名・単語総出現数と語頻度表を持つ、オフラインで読める1枚のHTMLをstdoutへ出す。既存CLIの結果を保存してブラウザで見る人を想定し、閲覧用の別アプリやWebサーバを不要にする。ユーザーからの具体的な機能依頼が今回の着手理由であり、利用実績や緊急性を示す数値は未取得である。
+
+全形式で、頻度降順を維持しつつ同数時の語昇順を「正規化後の初出順」へ変更する。これは既存契約の互換性変更であり、HTMLだけの追加ではない。背景の明暗と順位列の有無は未決のまま、仕様承認PMが人へまとめて確認する。Johnが次にPRDを作るためのBriefであり、本書は実装済み・承認済みの仕様ではない。</pre></div></div></section>
+  <div class="grid">
+    <section class="wide" data-section="Problem"><h2>Problem</h2><div data-body><div data-md="1"><pre class="fallback">現状はtext/jsonのみで、HTML出力はない。ブラウザ向け表示を得るには利用者側で変換が必要になる。転記の負担が主要課題かは未確認で、費用や作業時間は推定しない。確認できる需要の根拠は今回の依頼であり、外部市場の需要を主張するものではない。
+
+既存の同数時語昇順は、今回求められた「先に出現した順」と異なる。`CONCEPTS.md`の決定論的順位も旧契約なので、仕様・実装・試験・説明を整合させる必要がある。</pre></div></div></section>
+    <section data-section="Solution"><h2>Solution</h2><div data-body><div data-md="2"><pre class="fallback">保存したstdoutをブラウザで開くと、表の前に入力名と総出現数、その後に単語・回数の表が現れる。スタイルを内包し、外部通信・外部assetを使わない簡素なHTMLとする。明暗・順位列は選択しない。
+
+総数は異なり語数ではない。提案は「正規化後の全トークンの出現数」で、`--top N`は表の行数だけを制限する。例えば`Zoo apple zoo APPLE beta`は総数5、異なり語数3。`--top 1`でも総数5を示し、表は`zoo: 2`の1行となる。この解釈はA-2としてPM確認待ちとする。
+
+入力は現行どおりUTF-8のファイル1個に限定する。stdin・URLは拡張の構成判断があるだけで実装されておらず、今回追加しない。入力名は渡されたパスのbasenameを表示し、ディレクトリを出さない案を推奨するが、確定はしない（A-3）。名前はクリック可能なリンクにせず安全なテキスト表示とし、入力自体は書き換えない。</pre></div></div></section>
+    <section data-section="What makes it different"><h2>What makes it different</h2><div data-body><div data-md="3"><pre class="fallback">textは端末、jsonは機械処理に適し、どちらも存続する。HTMLは保存するだけでブラウザ閲覧でき、外部変換やホスティングが要らない点に価値がある。既存の汎用表計算や変換ツールを置き換える主張はせず、編集・対話分析は提供しない。</pre></div></div></section>
+    <section data-section="Who it serves"><h2>Who it serves</h2><div data-body><div data-md="4"><pre class="fallback">主利用者は、CLIで集計した結果をブラウザで見たり共有したい人という仮説（A-1）。スマートフォンでも長い語や入力名を読めることを成功とする。二次利用者は既存text/jsonを読む人・スクリプトで、構造を維持し、同数時の順序変更を説明する必要がある。実在の利用者名・利用頻度は未取得である。</pre></div></div></section>
+    <section data-section="Success criteria"><h2>Success criteria</h2><div data-body><div data-md="5"><pre class="fallback">以下は後続PRD・実装・品質確認へ渡す受入条件であり、本Brief段階で実行済みとはしない。
+
+- **AC-1 自己完結**: `--format html`のstdoutを単一HTMLとして保存し、ネットワークを切ったブラウザで語・回数表を読める。文書・スタイルは内包し、外部asset・通信・スクリプトを必要としない。
+- **AC-2 総数**: 入力名と総出現数が表より前にある。異なり語数や表示行の回数合計と混同しない。A-2採用時は上記例の`--top 1`で総数5、表示1行を確認する。
+- **AC-3 可読性**: 実ブラウザの320px・375px・desktop幅で、空白のない長い単語と長い入力名を表示する。欠落・重なり・切捨てなく全内容が読め、語と回数の対応を追えることをスクリーンショットと幅・ブラウザの記録で確認する。desktopの具体幅は後続で記録する。
+- **AC-4 共通順序**: 頻度降順、同数時は`casefold()`後の語の最初の出現順をtext/json/htmlすべてに適用し、その後`--top`で切る。上記例の全件は`zoo: 2, apple: 2, beta: 1`。語昇順なら先頭になる`apple`が先頭でないこと、同一入力の再実行で同順になることを確認する。
+- **AC-5 安全表示**: ファイル名に`&amp; &lt; &gt; &quot; &#x27;`や`&lt;script&gt;`相当を含めても文字として表示され、DOM上のタグ・scriptにならず実行しない。語も出力境界で同様に安全表示する。既定トークナイザは記号を落とすため、HTML整形部品へ特殊文字入り語を直接渡す検証も行う。実ブラウザのネットワーク記録で外部要求がないことを確かめる。
+- **AC-6 既存CLI**: 空入力ではHTMLの総数0・データ行0で正常終了し、textは空出力、jsonは`[]`を維持する。不存在・読取不能・UTF-8不正はstderr/exit 1、引数個数・不正top/formatはstderr/exit 2を維持し、失敗時に結果HTMLをstdoutへ混ぜない。textの回数TAB語改行、JSONのword/count配列、既定text・top 10、正規化・入力読取り境界は同数順以外変更しない。入力ファイルは不変である。</pre></div></div></section>
+    <section class="wide" data-section="Scope"><h2>Scope</h2><div data-body><div data-md="6"><pre class="fallback">含むのはHTML出力、総数・入力名、モバイルで読める簡素な表、全形式の同数順変更と対応する仕様・説明・検証である。`--top`の正整数制約、UTF-8読取り、Unicode単語文字連続とcasefoldによる語の定義は維持する。
+
+Webサーバ、upload、stdin/URL追加、対話sort、graph、theme切替、依存追加・変更、CI追加・変更は含めない。入力書換えもしない。既存CI要件を理由にCI作業へ拡張しない。
+
+互換性リスクは同数語の出力順と上位Nの境界で選ばれる語が変わること。既存スナップショットや順序依存の処理に影響するため、旧仕様の同数シナリオとCONCEPTSの説明を更新する。総数はHTML表示用であり、既存JSONへメタデータを追加する要求ではない。
+
+共有HTMLには入力名と集計語が残る。basenameでも機密名・個人名は露出し得て、フルパスならユーザー名やディレクトリまで漏れる。basename案は危険を減らすだけで匿名化ではなく、共有前の内容確認を説明する。
+
+スポンサーへの予算依頼と長期構想は今回の対象でないため、The ask・Visionは省略する。</pre></div></div></section>
+  </div>
+
+
+  <section class="rest" data-rest><div data-md="7"><pre class="fallback">## Assumptions
+
+- **A-1 / Who it serves・Problem**: 利用者像と変換・転記の負担は推定。利用者・why nowの実証は未取得。PMがPRDで確認し、価値の数値は作らない。
+- **A-2 / Solution・AC-2**: `--top`前の入力全体の総出現数を表示する提案。PMがPRD承認前に確認する。
+- **A-3 / Solution・Scope**: 入力名はbasename表示を推奨。採否・具体的な表示規則はPM確認待ち。
+- **A-4 / Solution**: 背景色と順位列は未決として保持する。仮の明暗・列有無を製品の既定にしない。
+
+## Open questions
+
+- **Q-1**: HTML背景は明るいものか暗いものか。仕様承認PMが人へ一括質問し、実装前に確定する。
+- **Q-2**: 順位列を付けるか。仕様承認PMがQ-1と合わせて人へ質問し、実装前に確定する。
+- **Q-3**: 総数は`--top`に関係なく全入力の総出現数とするA-2でよいか。PMがPRDに明記して承認を得る。
+- **Q-4**: 入力名はbasename案でよいか。PMが露出リスクと同名ファイルの識別上の制約を説明し、PRD承認までに確認する。
+- **Q-5**: 最初の利用者・利用場面と今必要な理由は何か。PMがPRDで仮説を確認する。Briefに未回答のまま残すことは実装承認を意味しない。
+
+## Sources and handoff
+
+根拠は依頼全文と固定決定、`_bmad-output/initiative-r-5c041156/initiative-r-5c041156.md`（題名のみ）、`openspec/specs/wordfreq-cli/spec.md`（FR-1〜8・D-2/3）、`wordfreq/__main__.py`・`aggregator.py`・`formatters.py`・`sources.py`・`tokenizer.py`、`CONCEPTS.md`。旧仕様と新要望の相違は同数順の変更として明示し、既存が初出順だとは扱わない。
+
+次工程はJohn（bmad-agent-pm）のPRD。仕様承認PMが上記未決を人へ一括確認する。本書はpartial/draftで引き渡し、PRD・PLAN・コードは作成しない。Builder・品質は実在する検証ファイルから実行し、ブラウザ証跡を残す。計画中に未作成の検証コマンドは試さない。</pre></div></section>
+</main>
+<script type="application/json" id="view-data">{"layout": "view", "slots": ["wordfreqに`--format html`を追加し、入力ファイル名・単語総出現数と語頻度表を持つ、オフラインで読める1枚のHTMLをstdoutへ出す。既存CLIの結果を保存してブラウザで見る人を想定し、閲覧用の別アプリやWebサーバを不要にする。ユーザーからの具体的な機能依頼が今回の着手理由であり、利用実績や緊急性を示す数値は未取得である。\n\n全形式で、頻度降順を維持しつつ同数時の語昇順を「正規化後の初出順」へ変更する。これは既存契約の互換性変更であり、HTMLだけの追加ではない。背景の明暗と順位列の有無は未決のまま、仕様承認PMが人へまとめて確認する。Johnが次にPRDを作るためのBriefであり、本書は実装済み・承認済みの仕様ではない。", "現状はtext/jsonのみで、HTML出力はない。ブラウザ向け表示を得るには利用者側で変換が必要になる。転記の負担が主要課題かは未確認で、費用や作業時間は推定しない。確認できる需要の根拠は今回の依頼であり、外部市場の需要を主張するものではない。\n\n既存の同数時語昇順は、今回求められた「先に出現した順」と異なる。`CONCEPTS.md`の決定論的順位も旧契約なので、仕様・実装・試験・説明を整合させる必要がある。", "保存したstdoutをブラウザで開くと、表の前に入力名と総出現数、その後に単語・回数の表が現れる。スタイルを内包し、外部通信・外部assetを使わない簡素なHTMLとする。明暗・順位列は選択しない。\n\n総数は異なり語数ではない。提案は「正規化後の全トークンの出現数」で、`--top N`は表の行数だけを制限する。例えば`Zoo apple zoo APPLE beta`は総数5、異なり語数3。`--top 1`でも総数5を示し、表は`zoo: 2`の1行となる。この解釈はA-2としてPM確認待ちとする。\n\n入力は現行どおりUTF-8のファイル1個に限定する。stdin・URLは拡張の構成判断があるだけで実装されておらず、今回追加しない。入力名は渡されたパスのbasenameを表示し、ディレクトリを出さない案を推奨するが、確定はしない（A-3）。名前はクリック可能なリンクにせず安全なテキスト表示とし、入力自体は書き換えない。", "textは端末、jsonは機械処理に適し、どちらも存続する。HTMLは保存するだけでブラウザ閲覧でき、外部変換やホスティングが要らない点に価値がある。既存の汎用表計算や変換ツールを置き換える主張はせず、編集・対話分析は提供しない。", "主利用者は、CLIで集計した結果をブラウザで見たり共有したい人という仮説（A-1）。スマートフォンでも長い語や入力名を読めることを成功とする。二次利用者は既存text/jsonを読む人・スクリプトで、構造を維持し、同数時の順序変更を説明する必要がある。実在の利用者名・利用頻度は未取得である。", "以下は後続PRD・実装・品質確認へ渡す受入条件であり、本Brief段階で実行済みとはしない。\n\n- **AC-1 自己完結**: `--format html`のstdoutを単一HTMLとして保存し、ネットワークを切ったブラウザで語・回数表を読める。文書・スタイルは内包し、外部asset・通信・スクリプトを必要としない。\n- **AC-2 総数**: 入力名と総出現数が表より前にある。異なり語数や表示行の回数合計と混同しない。A-2採用時は上記例の`--top 1`で総数5、表示1行を確認する。\n- **AC-3 可読性**: 実ブラウザの320px・375px・desktop幅で、空白のない長い単語と長い入力名を表示する。欠落・重なり・切捨てなく全内容が読め、語と回数の対応を追えることをスクリーンショットと幅・ブラウザの記録で確認する。desktopの具体幅は後続で記録する。\n- **AC-4 共通順序**: 頻度降順、同数時は`casefold()`後の語の最初の出現順をtext/json/htmlすべてに適用し、その後`--top`で切る。上記例の全件は`zoo: 2, apple: 2, beta: 1`。語昇順なら先頭になる`apple`が先頭でないこと、同一入力の再実行で同順になることを確認する。\n- **AC-5 安全表示**: ファイル名に`\u0026 \u003c \u003e \" '`や`\u003cscript\u003e`相当を含めても文字として表示され、DOM上のタグ・scriptにならず実行しない。語も出力境界で同様に安全表示する。既定トークナイザは記号を落とすため、HTML整形部品へ特殊文字入り語を直接渡す検証も行う。実ブラウザのネットワーク記録で外部要求がないことを確かめる。\n- **AC-6 既存CLI**: 空入力ではHTMLの総数0・データ行0で正常終了し、textは空出力、jsonは`[]`を維持する。不存在・読取不能・UTF-8不正はstderr/exit 1、引数個数・不正top/formatはstderr/exit 2を維持し、失敗時に結果HTMLをstdoutへ混ぜない。textの回数TAB語改行、JSONのword/count配列、既定text・top 10、正規化・入力読取り境界は同数順以外変更しない。入力ファイルは不変である。", "含むのはHTML出力、総数・入力名、モバイルで読める簡素な表、全形式の同数順変更と対応する仕様・説明・検証である。`--top`の正整数制約、UTF-8読取り、Unicode単語文字連続とcasefoldによる語の定義は維持する。\n\nWebサーバ、upload、stdin/URL追加、対話sort、graph、theme切替、依存追加・変更、CI追加・変更は含めない。入力書換えもしない。既存CI要件を理由にCI作業へ拡張しない。\n\n互換性リスクは同数語の出力順と上位Nの境界で選ばれる語が変わること。既存スナップショットや順序依存の処理に影響するため、旧仕様の同数シナリオとCONCEPTSの説明を更新する。総数はHTML表示用であり、既存JSONへメタデータを追加する要求ではない。\n\n共有HTMLには入力名と集計語が残る。basenameでも機密名・個人名は露出し得て、フルパスならユーザー名やディレクトリまで漏れる。basename案は危険を減らすだけで匿名化ではなく、共有前の内容確認を説明する。\n\nスポンサーへの予算依頼と長期構想は今回の対象でないため、The ask・Visionは省略する。", "## Assumptions\n\n- **A-1 / Who it serves・Problem**: 利用者像と変換・転記の負担は推定。利用者・why nowの実証は未取得。PMがPRDで確認し、価値の数値は作らない。\n- **A-2 / Solution・AC-2**: `--top`前の入力全体の総出現数を表示する提案。PMがPRD承認前に確認する。\n- **A-3 / Solution・Scope**: 入力名はbasename表示を推奨。採否・具体的な表示規則はPM確認待ち。\n- **A-4 / Solution**: 背景色と順位列は未決として保持する。仮の明暗・列有無を製品の既定にしない。\n\n## Open questions\n\n- **Q-1**: HTML背景は明るいものか暗いものか。仕様承認PMが人へ一括質問し、実装前に確定する。\n- **Q-2**: 順位列を付けるか。仕様承認PMがQ-1と合わせて人へ質問し、実装前に確定する。\n- **Q-3**: 総数は`--top`に関係なく全入力の総出現数とするA-2でよいか。PMがPRDに明記して承認を得る。\n- **Q-4**: 入力名はbasename案でよいか。PMが露出リスクと同名ファイルの識別上の制約を説明し、PRD承認までに確認する。\n- **Q-5**: 最初の利用者・利用場面と今必要な理由は何か。PMがPRDで仮説を確認する。Briefに未回答のまま残すことは実装承認を意味しない。\n\n## Sources and handoff\n\n根拠は依頼全文と固定決定、`_bmad-output/initiative-r-5c041156/initiative-r-5c041156.md`（題名のみ）、`openspec/specs/wordfreq-cli/spec.md`（FR-1〜8・D-2/3）、`wordfreq/__main__.py`・`aggregator.py`・`formatters.py`・`sources.py`・`tokenizer.py`、`CONCEPTS.md`。旧仕様と新要望の相違は同数順の変更として明示し、既存が初出順だとは扱わない。\n\n次工程はJohn（bmad-agent-pm）のPRD。仕様承認PMが上記未決を人へ一括確認する。本書はpartial/draftで引き渡し、PRD・PLAN・コードは作成しない。Builder・品質は実在する検証ファイルから実行し、ブラウザ証跡を残す。計画中に未作成の検証コマンドは試さない。"]}</script>
+<script>
+var MARKED_SRC = "https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js";
+var MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js";
+var PRESENTER_HTML = "\u003c!doctype html\u003e\u003chtml\u003e\u003chead\u003e\u003cmeta charset=\"utf-8\"\u003e\u003ctitle\u003eSpeaker notes\u003c/title\u003e\u003cstyle\u003e\n:root { color-scheme: light dark; --bg: #ffffff; --fg: #1f2328; --muted: #59636e; }\n@media (prefers-color-scheme: dark) { :root { --bg: #15181d; --fg: #e3e6ea; --muted: #9aa3ad; } }\nbody { margin: 0; padding: 1.2em 1.6em; background: var(--bg); color: var(--fg);\n  font: 20px/1.55 -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Arial, sans-serif; }\nheader { display: flex; justify-content: space-between; color: var(--muted); font-size: 15px; }\nh1 { font-size: 1.3em; margin: 0.4em 0 0.8em; }\n#next { color: var(--muted); font-size: 15px; border-top: 1px solid var(--muted); padding-top: 0.6em; margin-top: 1.5em; }\n.empty { color: var(--muted); }\npre { white-space: pre-wrap; font: inherit; }\n\u003c/style\u003e\u003c/head\u003e\u003cbody\u003e\u003cheader\u003e\u003cspan id=\"section\"\u003e\u003c/span\u003e\u003cspan id=\"pos\"\u003e\u003c/span\u003e\u003c/header\u003e\n\u003ch1 id=\"title\"\u003e\u003c/h1\u003e\u003cdiv id=\"notes\"\u003e\u003c/div\u003e\u003cdiv id=\"next\"\u003e\u003c/div\u003e\u003c/body\u003e\u003c/html\u003e";
+
+(function () {
+  var data = JSON.parse(document.getElementById('view-data').textContent);
+  var hasMarked = false;
+
+  function md(text) { return hasMarked ? window.marked.parse(text) : null; }
+  function inline(text) { return hasMarked ? window.marked.parseInline(text) : null; }
+
+  function load(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = src; s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  function drawDiagrams() {
+    var blocks = document.querySelectorAll('pre > code.language-mermaid');
+    if (!blocks.length) return;
+    var nodes = [];
+    blocks.forEach(function (code) {
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = code.textContent;
+      code.parentNode.replaceWith(div);
+      nodes.push(div);
+    });
+    load(MERMAID_SRC).then(function () {
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      window.mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'strict' });
+      return window.mermaid.run({ nodes: nodes, suppressErrors: true });
+    }).catch(function () {
+      nodes.forEach(function (div) {
+        if (div.querySelector('svg')) return;
+        var pre = document.createElement('pre');
+        pre.className = 'fallback';
+        pre.textContent = div.textContent;
+        div.replaceWith(pre);
+      });
+    });
+  }
+
+  function renderDocument() {
+    var html = md(data.markdown);
+    if (html === null) return;
+    var doc = document.getElementById('doc');
+    doc.innerHTML = html;
+    // marked adds no heading ids, and table-of-contents links need GitHub's anchors.
+    var seen = {};
+    doc.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (h) {
+      var base = h.textContent.trim().toLowerCase().replace(/[^\p{L}\p{N}_\- ]/gu, '').replace(/ /g, '-');
+      h.id = seen[base] ? base + '-' + seen[base] : base;
+      seen[base] = (seen[base] || 0) + 1;
+    });
+  }
+
+  function renderSlides() {
+    document.querySelectorAll('.slide').forEach(function (el, i) {
+      var s = data.slides[i];
+      var t = inline(s.title);
+      if (t !== null) el.querySelector('.slide-title').innerHTML = t;
+      var b = md(s.body);
+      if (b !== null) el.querySelector('.slide-body').innerHTML = b;
+    });
+  }
+
+  function notesHtml(i) {
+    var s = data.slides[i];
+    if (!s.notes) return '<p class="empty">No notes for this slide.</p>';
+    var h = md(s.notes);
+    if (h !== null) return h;
+    var pre = document.createElement('pre');
+    pre.className = 'fallback';
+    pre.textContent = s.notes;
+    return pre.outerHTML;
+  }
+
+  function startDeck() {
+    var slides = document.querySelectorAll('.slide');
+    var total = slides.length;
+    var current = 0;
+    var panel = document.getElementById('notes-panel');
+    var counter = document.getElementById('counter');
+    var presenter = null;
+    document.body.classList.add('slides');
+
+    function fromHash() {
+      var m = /^#(\d+)$/.exec(location.hash);
+      if (!m) return null;
+      var n = parseInt(m[1], 10);
+      return n >= 1 && n <= total ? n - 1 : null;
+    }
+
+    function updatePresenter() {
+      if (!presenter || presenter.closed) return;
+      var d = presenter.document;
+      var s = data.slides[current];
+      d.getElementById('pos').textContent = (current + 1) + ' / ' + total;
+      d.getElementById('section').textContent = s.section && s.section !== s.title ? s.section : '';
+      d.getElementById('title').innerHTML = slides[current].querySelector('.slide-title').innerHTML;
+      d.getElementById('notes').innerHTML = notesHtml(current);
+      d.getElementById('next').textContent = current + 1 < total ? 'Next: ' + data.slides[current + 1].title : 'Last slide';
+    }
+
+    function show(i) {
+      if (!total) return;
+      current = Math.max(0, Math.min(total - 1, i));
+      slides.forEach(function (el, j) { el.classList.toggle('active', j === current); });
+      counter.textContent = (current + 1) + ' / ' + total;
+      if (!panel.hidden) panel.innerHTML = notesHtml(current);
+      // Some browsers refuse replaceState on file:// pages.
+      try { if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1)); } catch (e) {}
+      updatePresenter();
+    }
+
+    function toggleNotes() {
+      panel.hidden = !panel.hidden;
+      if (!panel.hidden) panel.innerHTML = notesHtml(current);
+    }
+
+    function openPresenter() {
+      if (presenter && !presenter.closed) { presenter.focus(); return; }
+      presenter = window.open('', 'deck-presenter', 'width=760,height=600');
+      if (!presenter) { toggleNotes(); return; }
+      var d = presenter.document;
+      d.open();
+      d.write(PRESENTER_HTML);
+      d.close();
+      d.addEventListener('keydown', onKey);
+      updatePresenter();
+    }
+
+    function onKey(e) {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      var k = e.key;
+      if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) show(current + 1);
+      else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) show(current - 1);
+      else if (k === 'Home') show(0);
+      else if (k === 'End') show(total - 1);
+      else if (k === 'n' || k === 'N') toggleNotes();
+      else if (k === 'p' || k === 'P') openPresenter();
+      else if (k === 'f' || k === 'F') {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+      } else return;
+      e.preventDefault();
+    }
+
+    document.addEventListener('keydown', onKey);
+    document.getElementById('deck').addEventListener('click', function (e) {
+      if (e.target.closest('a') || String(window.getSelection())) return;
+      show(e.clientX < window.innerWidth / 3 ? current - 1 : current + 1);
+    });
+    window.addEventListener('hashchange', function () {
+      var n = fromHash();
+      if (n !== null && n !== current) show(n);
+    });
+    window.addEventListener('beforeunload', function () { if (presenter && !presenter.closed) presenter.close(); });
+    var start = fromHash();
+    show(start === null ? 0 : start);
+  }
+
+  function renderSlots() {
+    document.querySelectorAll('[data-md]').forEach(function (el) {
+      var h = md(data.slots[+el.getAttribute('data-md')]);
+      if (h !== null) el.innerHTML = h;
+    });
+  }
+
+  function renderAll() {
+    if (data.layout === 'slides') renderSlides();
+    else if (data.layout === 'view') renderSlots();
+    else renderDocument();
+    if (hasMarked) drawDiagrams();
+  }
+
+  if (data.layout === 'slides') startDeck();
+  // A document can carry text from outside sources, so raw HTML shows as text and script URLs are dropped.
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function unsafeUrl(href) {
+    var h = String(href || '').replace(/[\s\u0000-\u001f]/g, '').toLowerCase();
+    return /^(javascript|vbscript):/.test(h) || (/^data:/.test(h) && !/^data:image\/(png|gif|jpe?g|webp);/.test(h));
+  }
+  function harden() {
+    window.marked.use({ renderer: {
+      html: function (h) { return escapeHtml(h); },
+      link: function (href, title, text) { return unsafeUrl(href) ? text : false; },
+      image: function (href, title, text) { return unsafeUrl(href) ? escapeHtml(text) : false; }
+    } });
+  }
+
+  load(MARKED_SRC).then(function () { hasMarked = !!window.marked; if (hasMarked) harden(); }, function () {}).then(renderAll);
+})();
+
+</script>
+</body>
+</html>
