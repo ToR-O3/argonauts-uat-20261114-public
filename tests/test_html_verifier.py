@@ -489,6 +489,31 @@ def test_scope_accepts_exact_owned_files_and_preserves_approved_tie_replacement(
         ".planning/phases/03-wordfreq-html-output/03-04-SUMMARY.md"]) == []
 
 
+@pytest.mark.parametrize("mode", ["review-session", "finalize"])
+@pytest.mark.parametrize("profile", ["argonauts-uat-quality", "argonauts-uat-builder", None])
+def test_plan_quality_commands_resolve_actual_actor_without_actor_option(monkeypatch, mode, profile):
+    import re
+    import shlex
+
+    v = verifier()
+    plan = (ROOT / ".planning/phases/03-wordfreq-html-output/03-04-PLAN.md").read_text()
+    commands = re.findall(r"<automated>(.*?)</automated>", plan)
+    command = next(c for c in commands if f"--mode {mode}" in c)
+    argv = shlex.split(command)
+    args = v.parser().parse_args(argv[argv.index("tools/verify_wordfreq_html.py") + 1:])
+    assert args.actor is None
+    assert args.mode == mode and args.role == "quality"
+    if profile is None:
+        monkeypatch.delenv("HERMES_PROFILE", raising=False)
+    else:
+        monkeypatch.setenv("HERMES_PROFILE", profile)
+    if profile == "argonauts-uat-quality":
+        assert v.session_actor(args.role, args.actor, args.output_dir) == profile
+    else:
+        with pytest.raises(ValueError, match="actor/role"):
+            v.session_actor(args.role, args.actor, args.output_dir)
+
+
 def test_session_identity_cannot_be_selected_by_role_flag(monkeypatch, tmp_path):
     v = verifier()
     monkeypatch.setenv("HERMES_PROFILE", "argonauts-uat-builder")
