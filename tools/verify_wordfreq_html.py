@@ -543,14 +543,23 @@ def collect_view(browser, case, width, output):
         height = raw["document"]["scrollHeight"]
         full = folder / "full.png"
         page.screenshot(path=str(full), full_page=True)
-        view["images"].append(dict(path=str(full), type="full", x=0, y=0, width=width, height=height))
+        image_width, image_height = png_size(full)
+        view["images"].append(dict(path=str(full), type="full", x=0, y=0,
+                                   width=image_width, height=image_height))
+        if (image_width, image_height) != (raw["document"]["clientWidth"], height):
+            errors.append("full image dimensions differ from document capture bounds")
         if height > 900:
             y = 0
             while y < height:
                 tile_height = min(900, height-y)
                 tile = folder / f"tile-{y}.png"
-                page.screenshot(path=str(tile), clip=dict(x=0, y=y, width=width, height=tile_height))
-                view["images"].append(dict(path=str(tile), type="tile", x=0, y=y, width=width, height=tile_height))
+                clip = dict(x=0, y=y, width=image_width, height=tile_height)
+                page.screenshot(path=str(tile), full_page=True, clip=clip)
+                tile_width, actual_height = png_size(tile)
+                view["images"].append(dict(path=str(tile), type="tile", x=0, y=y,
+                                           width=tile_width, height=actual_height, requested_clip=clip))
+                if (tile_width, actual_height) != (image_width, tile_height):
+                    errors.append(f"tile {y}: image dimensions differ from requested clip")
                 y += 800
         view["browser"] = dict(version=browser.version, os=platform.platform(), viewport=raw["viewport"])
     finally:
