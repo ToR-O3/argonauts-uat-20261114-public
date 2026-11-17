@@ -1,11 +1,14 @@
 """Token extraction and case-insensitive normalization."""
 
+import re
 from collections.abc import Callable, Iterator
+
+_WORD_RE = re.compile(r"\w+", re.UNICODE)
 
 
 def default_tokenizer(text: str) -> list[str]:
-    """Extract words from text."""
-    return text.split()
+    """Extract maximal Unicode word-character sequences."""
+    return _WORD_RE.findall(text)
 
 
 def iter_tokens(
