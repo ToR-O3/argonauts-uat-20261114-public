@@ -39,3 +39,5 @@ Git原本の確認事項: name/job pytest、ubuntu-latest、checkout@v4、setup-
 ローカルの既存全試験もTask 1終了時に実行し、実測を [01-CI-GAP.md](./01-CI-GAP.md) に記録する。ローカルPythonはCI版の証拠ではない。文書・ローカル成功・task 3.3のチェックだけではgapを閉じない。
 
 次の引継ぎ: [ci-handoff.md](../../argonauts/t_0d6af354/ci-handoff.md) はTask 2で作成予定。品質は最新headを解決してローカルとremoteを別gateで確認する。不足/pending/auth拒否/ログ不可/不一致/failed/skipped/0件ならREQ-07 Pending・gaps_foundを維持し、観測を記録して人・PMへ返す。待機ループ、workflow修正/push、権限変更、依存追加、CI dispatchは行わない。元のVERIFICATIONとCLI証拠の添付はフック拒否によりGitのみだったため、品質は今回の添付可否または具体的不能理由も記録する。
+
+Task 2 follow-up: 上記handoffを作成済み。現在も **Human setup supplied / independent quality validation pending**。remote-success項目は未チェックのまま。

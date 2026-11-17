@@ -84,3 +84,5 @@ REQ-07 は **Pending**、元の `01-VERIFICATION.md` は **gaps_found** のま�
 品質は自分のレビュー境界で最新の依頼branch headを解決し、手元HEADと照合してローカル全試験を独立実行する。それとは別に、対象headに結びつく Actions workflow/job/event、CPython 3.12 setupログ、実際のpytest全43件成功・failed 0・exit 0を有限回の読取りで確認する。不足、pending、権限拒否、ログ不可、head不一致、失敗、skip、Python不一致、0件なら未達を保持して結果を返し、待たない。workflow不一致や修正の必要は人対応へ戻し、Botはworkflow・権限・依存を変更せず、dispatchやpollingもしない。
 
 Task 2 の明示出力: [ci-handoff.md](../../argonauts/t_0d6af354/ci-handoff.md)（Task 1 終了時は作成予定、Task 2 で作成）。同一カードの品質レビュー後、後続のフェーズ検証が全先行PLANも再検証する。BuilderはREQ-07 checkbox、VERIFICATION判定、phase完了を更新しない。
+
+Task 2 follow-up: 上記handoffを作成済み。最新head解決、品質所有、有限回Actions照合、不成立時の未達維持、添付可否の記録を契約として渡す。remote gateは未実行であり、REQ-07 Pendingは変わらない。
