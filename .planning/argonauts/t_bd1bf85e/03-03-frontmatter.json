@@ -1,0 +1,54 @@
+{
+  "phase": "03-wordfreq-html-output",
+  "plan": "03",
+  "type": "execute",
+  "wave": "3",
+  "depends_on": [
+    "03-02"
+  ],
+  "files_modified": [
+    "tools/verify_wordfreq_html.py",
+    "tools/wordfreq_html_geometry.js",
+    "tests/test_html_verifier.py",
+    "docs/wordfreq-html-verification.md"
+  ],
+  "autonomous": "true",
+  "requirements": [
+    "REQ-09",
+    "REQ-10",
+    "REQ-11",
+    "REQ-12",
+    "REQ-13",
+    "REQ-14"
+  ],
+  "estimate": {
+    "tokens": "36000",
+    "raw_tokens": "36000",
+    "tasks": "2",
+    "confidence": "low"
+  },
+  "must_haves": {
+    "truths": [
+      "Real-file verification regenerates actual CLI outputs and fixed fixtures rather than previews or copied HTML.",
+      "Chromium1280x900 and320x900, DPR1/100% zoom, fresh contexts measure every required case; browser/version/fonts/OS are saved.",
+      "Raw element, full-text Range, every character Range including empty rectangles, UTF-16/codepoint positions and every ancestor overflow/box are retained without coordinate correction.",
+      "Acceptance uses horizontal viewport/column fit, real clipping edges, adjacent-cell/row/meta-table nonoverlap and all-image readability; strict own-element vertical containment is not required.",
+      "The long fixture has12 ranks, counts123 through2 and total200; w*256 and basename n*176 both measurably wrap at both widths, preserving actual spaces/LF/TAB.",
+      "A failed external request or attempted document/popup navigation is recorded and fails just like successful communication; blocking traffic alone cannot establish safety.",
+      "Network observation starts before document opening, keeps initial local file load, and continues through actual image review/finalization in the later live-review mode.",
+      "No empty case loop, missing measurement, missing browser or ambiguous communication attribution can become an acceptance pass."
+    ],
+    "artifacts": [
+      "path: tools/verify_wordfreq_html.py, provides: Actual CLI generation, fixed matrix, lazy browser collection and failure predicates",
+      "path: tools/wordfreq_html_geometry.js, provides: Read-only raw DOM/Range/computed-style/ancestor measurements",
+      "path: tests/test_html_verifier.py, provides: Browser-independent predicate and evidence-schema discrimination tests",
+      "path: docs/wordfreq-html-verification.md, provides: Concrete collector/canary environment and evidence semantics"
+    ],
+    "key_links": [
+      "from: tools/verify_wordfreq_html.py, to: wordfreq/__main__.py, via: Recorded sys.executable -m wordfreq argv and raw stdout byte preservation",
+      "from: tools/verify_wordfreq_html.py, to: tools/wordfreq_html_geometry.js, via: Read real JS file and evaluate read-only via browser automation, never inject product script",
+      "from: tests/test_html_verifier.py, to: tools/verify_wordfreq_html.py, via: Synthetic valid/invalid raw records and exact manifest expectations"
+    ],
+    "prohibitions": []
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "phase": "03-wordfreq-html-output",
+  "plan": "04",
+  "type": "execute",
+  "wave": "4",
+  "depends_on": [
+    "03-03"
+  ],
+  "files_modified": [
+    "tools/verify_wordfreq_html.py",
+    "tests/test_html_verifier.py",
+    "docs/wordfreq-html-verification.md",
+    "README.md"
+  ],
+  "autonomous": "true",
+  "requirements": [
+    "REQ-09",
+    "REQ-10",
+    "REQ-11",
+    "REQ-12",
+    "REQ-13",
+    "REQ-14"
+  ],
+  "estimate": {
+    "tokens": "28000",
+    "raw_tokens": "28000",
+    "tasks": "2",
+    "confidence": "low"
+  },
+  "flagged_assumptions": [
+    "EDGE-01 REQ-09/unclassified remains unresolved: official probe has no shape classification; explicit AC1 tests do not auto-resolve that row.",
+    "EDGE-02 REQ-10/unclassified remains unresolved: official probe has no shape classification; explicit AC2 tests do not auto-resolve that row."
+  ],
+  "must_haves": {
+    "truths": [
+      "Quality independently regenerates inputs/CLI/HTML at the exact target head into a fresh quality root and actually inspects every image and rawRange record; Builder cannot certify that independent gate.",
+      "Live observation covers pre-open through actual image review and verification finish; finalization requires real reviewer records and still-valid target head.",
+      "Every AC1–AC6 has linked input originals, exact command/cwd/environment, exit/stdout/stderr/expectation, HTML/browser/viewport/fonts, raw geometry, every image review and complete communication evidence.",
+      "Missing tool, image review, case, artifact, measurement, communication interval/attribution or head match stays unverified or fails, never passes.",
+      "No CI/dependency/timestamp/theme/interaction/server/input-source/tokenizer change exists; old lexical tie replacement alone is intentional.",
+      "EDGE-03 REQ-11/empty explicit: empty ordered pairs stay empty; single normalized word has its count and rank1 in HTML; CLI null is not an input type, missing filename exits2.",
+      "EDGE-04 REQ-11/encoding explicit: equality is existing Unicode word extraction then casefold, not bytes or added NFC/grapheme normalization; first normalized occurrence fixes ties.",
+      "EDGE-05 REQ-12/adjacency explicit: touching box edges alone are not overlap; actual positive-area visible text interference, clipping or unreadable borders fails; own-height overhang alone is not failure.",
+      "EDGE-06 REQ-12/empty explicit: fixed empty heading/three columns/message/total0 fit both widths with zero body rows; one row ranks1.",
+      "EDGE-07 REQ-12/ordering explicit: equal counts remain in normalized-first-occurrence order with consecutive displayed ranks after top.",
+      "EDGE-08 REQ-13/empty explicit: empty file succeeds with empty text, JSON [] plus newline, HTML basename/headers/total0/zero data rows; missing argument exits2.",
+      "EDGE-09 REQ-13/encoding explicit: strict saved UTF-8 bytes match declared charset and exact escaped basename/word text including whitespace; malformed input UTF-8 exits1.",
+      "EDGE-10 REQ-14/adjacency explicit: geometry evidence distinguishes touching/nonoverlap from positive-area interfering text and retains raw overhang; final decision also requires all-image review.",
+      "EDGE-11 REQ-14/empty explicit: empty or incomplete evidence manifest cannot pass; empty product input still requires real HTML/browser/geometry/image/network artifacts at both widths.",
+      "EDGE-12 REQ-14/ordering explicit: canonical case/width/AC mapping preserves explicit expected row order and image identities; missing/duplicate coverage cannot be concealed by manifest reordering."
+    ],
+    "artifacts": [
+      "path: tools/verify_wordfreq_html.py, provides: Live review-session and fail-closed finalization protocol and scope/head checks",
+      "path: tests/test_html_verifier.py, provides: Review/manifest/head/role/interval completeness and scope-check discrimination",
+      "path: docs/wordfreq-html-verification.md, provides: Independent quality runbook and mandatory AC evidence contract",
+      "path: README.md, provides: Link to actual local verification workflow and pending acceptance semantics"
+    ],
+    "key_links": [
+      "from: tools/verify_wordfreq_html.py, to: docs/wordfreq-html-verification.md, via: Same supported live session/finalize commands, required ledger fields and exit semantics",
+      "from: tests/test_html_verifier.py, to: tools/verify_wordfreq_html.py, via: Empty/missing/reused/wrong-head/out-of-interval records reject final pass"
+    ],
+    "prohibitions": []
+  }
+}
