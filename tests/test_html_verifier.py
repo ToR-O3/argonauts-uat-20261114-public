@@ -684,3 +684,25 @@ def test_raw_and_image_claimed_hashes_must_match_actual_bytes(tmp_path):
     view["raw_sha256"] = v.digest(raw)
     image.write_bytes(b"stale image")
     assert v.view_identity_errors(view)
+
+
+def test_verification_finish_is_after_checks_and_before_final_flush(monkeypatch, tmp_path):
+    v = verifier()
+    assert callable(getattr(v, "validate_live_finish", None)), "final timestamp must cover completed checks"
+    trace = []
+    def snapshot(*args):
+        trace.append("flush")
+        return "boundary", []
+    def check(*args):
+        trace.append("checked")
+        return []
+    def clock():
+        trace.append("verification-finished")
+        return "finished-after-checks"
+    monkeypatch.setattr(v, "snapshot_live", snapshot)
+    monkeypatch.setattr(v, "evidence_errors", check)
+    monkeypatch.setattr(v, "now", clock)
+    errors, finished = v.validate_live_finish({}, {}, [], None, tmp_path)
+    assert errors == []
+    assert finished == "finished-after-checks"
+    assert trace == ["flush", "checked", "flush", "checked", "verification-finished", "flush"]
