@@ -134,6 +134,20 @@ The original read-only result depended on inherited `PYTHONDONTWRITEBYTECODE=1` 
 - Official `init.execute-phase 1` still lists 01-03 among three summaries and only 01-04 incomplete. `state.get` agrees with saved Phase 1 / Current Plan 4 / Total 4 / Ready to execute. This is rework of the completed PLAN, not a new execution: no duplicate advance/update-progress, no next PLAN, and no phase completion.
 - WR-01 (non-UTF-8 stdout), WR-03 (boundary-test discrimination), and IN findings remain non-blocking review observations for phase verification; no unrelated behavior was changed.
 
+## Review rework: tracked-baseline discrimination
+
+The previous WR-02 rewrite left all copied sources untracked. Git status reports only their path names, so changing their contents could remain invisible. The earlier claim of strengthening covered cache/new-path detection only, not existing-file modification.
+
+- Reproduced the reviewer's mutation in a disposable scratch copy: prepend code to `__main__.py` that opens its sibling `__init__.py` in append mode and writes `# tampered\n`, then run the actual isolated read-only test with `PYTHONDONTWRITEBYTECODE` unset. Before this fix the mutated CLI incorrectly produced **1 passed**, exit 0.
+- Minimal test-only fix: `git add -A` in the temporary repo immediately after `git init`, before the first status snapshot. No commit or Git identity is required; staged sources change from `A ` to `AM` when their working contents change.
+- Same existing-file mutation after the fix: **1 failed**, exit 1, specifically `assert after == before` (status changes to `AM`). The CLI still exits 0 and input assertions pass, so this failure discriminates the repository modification.
+- Independent scratch copy with the real application unchanged but `.gitignore` omitted: **1 failed**, exit 1, specifically the same status comparison due to new `wordfreq/__pycache__/*.pyc` paths. The optional copy guard is retained so this probe exercises status detection, not merely a missing-file setup error.
+- Real code: `env -u PYTHONDONTWRITEBYTECODE python3 -m pytest -q tests/test_cli.py::test_cli_leaves_input_and_git_worktree_unchanged`: **1 passed**, exit 0.
+- Real code: `env -u PYTHONDONTWRITEBYTECODE python3 -m pytest -q`: **43 passed**, exit 0.
+- Real code: `env -u PYTHONDONTWRITEBYTECODE PYTHONHASHSEED=42 python3 -m pytest -q`: **43 passed**, exit 0.
+- Mutation probes used disposable copies under the managed scratch directory; no mutation was applied to this worktree or product code. Optional inherited-Git-environment isolation and diagnostics observations remain deferred, not claimed resolved.
+- Official `init.execute-phase 1` and `state.get` rechecked: 01-03 already summarized, only 01-04 incomplete, saved Phase 1 / Current Plan 4 / Total 4 / Ready to execute. No duplicate state advancement, no next PLAN execution, no phase completion. OpenSpec checks 2.3/3.1/3.2 remain unchanged.
+
 ## Self-Check: PASSED
 
 All four planned artifacts exist; task commands and full suite pass. The official scope resolves this PLAN's commits. The SUMMARY was committed before state mutations. Official `state.advance-plan` returned previous_plan=3/current_plan=4/total_plans=4; saved Current Position agrees (Phase 1 EXECUTING, Plan 4, Ready to execute). `roadmap.update-plan-progress` and saved ROADMAP agree at 3/4, In Progress. `state.update-progress` returned completed=3,total=4 but percent=0, matching the pre-existing zero-percent display behavior; no manual percentage rewrite was applied. Official readiness marked REQ-01/02/03/06/08 complete and kept REQ-07 blocked by PLAN 01-04. STATE.md, ROADMAP.md, REQUIREMENTS.md and generated state.json are included in the follow-up metadata commit. PLAN 01-04 and phase.complete were not executed.
