@@ -1,0 +1,297 @@
+"""Phase 4 real-file tests; synthetic browser evidence is never acceptance."""
+import importlib.util
+import json
+import os
+from pathlib import Path
+import sys
+
+import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def driver():
+    path = ROOT / "tools/verify_wordfreq_min_count.py"
+    assert path.is_file(), "baseline driver implementation is missing"
+    spec = importlib.util.spec_from_file_location("min_count_verifier", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_browser_free_real_cli_baseline_matrix(tmp_path):
+    v = driver()
+    records = v.generate_baseline_cases(tmp_path)
+    assert len(records) == 12
+    assert [r["format"] for r in records[:4]] == ["text", "text", "json", "html"]
+    for record in records:
+        assert record["exit"] == 0
+        assert Path(record["stderr"]).read_bytes() == b""
+        assert "--min-count" not in record["argv"]
+        assert record["argv"][1:3] == ["-m", "wordfreq"]
+        assert record["cwd"] == str(ROOT)
+        assert Path(record["input"]).read_bytes() == record["body"].encode("utf-8")
+        assert v.cli_errors(record) == []
+    assert records[0]["argv"][-1] == records[0]["input"]
+    assert Path(records[0]["stdout"]).read_bytes() == Path(records[1]["stdout"]).read_bytes()
+    assert records[3]["pairs"] == [["hello", 3], ["zoo", 2], ["apple", 2], ["one", 2],
+                                   ["two", 1], ["b", 1], ["c", 1], ["d", 1], ["e", 1], ["f", 1]]
+    assert records[3]["total"] == 17
+
+
+def test_browser_free_entrypoint_requires_real_capture_pipeline(tmp_path):
+    v = driver()
+    assert callable(getattr(v, "main", None)), "baseline entrypoint is not implemented"
+    assert callable(getattr(v, "validate_baseline", None)), "read-only validator is missing"
+    assert v.main(["--mode", "capture", "--role", "builder", "--output-dir", str(tmp_path),
+                   "--baseline-dir", str(tmp_path)]) != 0
+    assert not (tmp_path / "index.json").exists()
+
+
+@pytest.fixture
+def browser_free_repo(tmp_path, monkeypatch):
+    import shutil
+    import subprocess
+    v = driver()
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    for name in ("wordfreq", "tools"):
+        shutil.copytree(ROOT / name, repo / name, ignore=shutil.ignore_patterns("__pycache__"))
+    (repo / "tests").mkdir()
+    for name in ("test_cli.py", "test_html_verifier.py"):
+        shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+    shutil.copy2(__file__, repo / "tests/test_min_count_verifier.py")
+    shutil.copy2(ROOT / "pyproject.toml", repo / "pyproject.toml")
+    def git(*args):
+        return subprocess.run(["git", *args], cwd=repo, check=True, capture_output=True).stdout.decode().strip()
+    git("init", "-q")
+    git("config", "user.name", "Synthetic baseline fixture")
+    git("config", "user.email", "fixture@example.invalid")
+    git("add", ".")
+    git("commit", "-qm", "feat(04-01): synthetic fixture formal task")
+    monkeypatch.setattr(v, "ROOT", repo)
+    monkeypatch.setattr(v, "BASE", git("rev-parse", "HEAD"))
+    monkeypatch.setenv("HERMES_PROFILE", "argonauts-uat-builder")
+    monkeypatch.setenv("HERMES_KANBAN_TASK", "synthetic-fixture-task")
+    monkeypatch.setenv("HERMES_KANBAN_RUN_ID", "synthetic-fixture-run")
+    return v, repo
+
+
+def synthetic_collect(case, width, output):
+    """Deliberately synthetic boundary; never a real browser/readability claim."""
+    import struct
+    import zlib
+    folder = output / case["id"] / str(width)
+    folder.mkdir(parents=True)
+    raw = folder / "raw.json"
+    raw.write_text(json.dumps(dict(synthetic=True, viewport=dict(width=width, height=900, dpr=1, scale=1),
+                                  document=dict(clientWidth=width, scrollHeight=900))))
+    network = folder / "network.json"
+    network.write_text(json.dumps(dict(synthetic=True, interval="synthetic-only")))
+    png = folder / "full.png"
+    def chunk(tag, data):
+        return struct.pack(">I", len(data)) + tag + data + struct.pack(">I", zlib.crc32(tag + data))
+    png.write_bytes(b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", width, 900, 8, 2, 0, 0, 0)) +
+                    chunk(b"IDAT", zlib.compress((b"\0" + b"\xff" * (width*3)) * 900)) + chunk(b"IEND", b""))
+    return dict(width=width, raw=str(raw), network=str(network), errors=[], reviewed_images=[],
+                verdict="synthetic-only", images=[dict(path=str(png), type="full", x=0, y=0, width=width, height=900)],
+                browser=dict(synthetic=True, viewport=dict(width=width, height=900, dpr=1, scale=1)))
+
+
+def test_browser_free_entrypoint_real_files_to_readonly_validator(browser_free_repo, tmp_path):
+    v, repo = browser_free_repo
+    output = tmp_path / "baseline"
+    argv = ["--mode", "baseline", "--role", "builder", "--output-dir", str(output)]
+    assert callable(getattr(v, "validate_baseline", None)), "baseline validator missing"
+    assert v.main(argv, collector=synthetic_collect) == 0
+    before = {str(p): p.read_bytes() for p in output.rglob("*") if p.is_file()}
+    assert v.validate_baseline(output, allow_synthetic=True) == []
+    assert v.validate_baseline(output), "synthetic data must not validate as real evidence"
+    index = json.loads((output / "index.json").read_text())
+    assert index["synthetic"] and not index["independent_acceptance"]
+    assert index["run"] == "synthetic-fixture-run"
+    assert index["task"] == "synthetic-fixture-task"
+    assert len(index["cases"]) == 12
+    assert len([view for c in index["cases"] for view in c["views"]]) == 18
+    assert set(index["ac_index"]) == {f"AC{i}" for i in range(1, 8)}
+    assert all(a["verdict"] == "pending" for a in index["ac_index"].values())
+    assert v.main(argv, collector=synthetic_collect) != 0
+    assert before == {str(p): p.read_bytes() for p in output.rglob("*") if p.is_file()}
+
+
+def test_browser_free_validator_rejects_forged_scope_and_argv(browser_free_repo, tmp_path):
+    import copy
+    v, repo = browser_free_repo
+    output = tmp_path / "baseline"
+    assert v.main(["--mode", "baseline", "--role", "builder", "--output-dir", str(output)],
+                  collector=synthetic_collect) == 0
+    index = json.loads((output / "index.json").read_text())
+    assert v.baseline_errors(index, output, allow_synthetic=True) == []
+    wrong = copy.deepcopy(index)
+    wrong["cases"][0]["argv"] += ["--min-count", "1"]
+    assert v.baseline_errors(wrong, output, allow_synthetic=True), "baseline argv must forbid min-count"
+    wrong = copy.deepcopy(index)
+    wrong["provenance"]["changed_paths"] = ["wordfreq/__main__.py"]
+    assert v.baseline_errors(wrong, output, allow_synthetic=True), "scope must be derived, not trusted"
+
+
+@pytest.fixture
+def browser_free_saved(browser_free_repo, tmp_path):
+    v, repo = browser_free_repo
+    root = tmp_path / "baseline"
+    assert v.main(["--mode", "baseline", "--role", "builder", "--output-dir", str(root)],
+                  collector=synthetic_collect) == 0
+    return v, root
+
+
+@pytest.mark.parametrize("defect", ["format", "width", "input", "stdout", "html", "raw", "image",
+                                   "sha", "request", "head", "root", "scope", "empty", "ac7",
+                                   "timeline", "marker", "index-sha", "extra-file"])
+def test_browser_free_mutations(browser_free_saved, defect):
+    import copy
+    v, root = browser_free_saved
+    index = json.loads((root / "index.json").read_text())
+    assert v.validate_baseline(root, allow_synthetic=True) == []
+    wrong = copy.deepcopy(index)
+    html = wrong["cases"][3]
+    if defect == "format":
+        wrong["cases"].pop(2)
+    elif defect == "width":
+        html["views"].pop()
+    elif defect in {"input", "stdout", "html", "raw", "image"}:
+        path = html[defect] if defect in {"input", "stdout", "html"} else (
+            html["views"][0]["raw"] if defect == "raw" else html["views"][0]["images"][0]["path"])
+        Path(path).unlink()
+    elif defect == "sha":
+        Path(html["stdout"]).write_bytes(b"changed bytes")
+    elif defect in {"request", "head", "root"}:
+        wrong[defect] = "different"
+    elif defect == "scope":
+        wrong["provenance"]["tree"] = {}
+    elif defect == "empty":
+        wrong["cases"] = []
+    elif defect == "ac7":
+        del wrong["ac_index"]["AC7"]
+    elif defect == "timeline":
+        wrong["started"] = "2000-01-01T00:00:00+00:00"
+    elif defect == "marker":
+        (root / "index.json").unlink()
+        assert v.validate_baseline(root, allow_synthetic=True)
+        return
+    elif defect == "index-sha":
+        (root / "index.sha256").write_text("wrong\n")
+        assert v.validate_baseline(root, allow_synthetic=True)
+        return
+    else:
+        (root / "unindexed.bin").write_bytes(b"unindexed")
+    assert v.baseline_errors(wrong, root, allow_synthetic=True), defect
+
+
+@pytest.mark.parametrize("defect", ["dirty-product", "dirty-tests", "dirty-config", "untracked-shadow",
+                                   "scope-unavailable", "partial-browser", "existing-empty-root", "wrong-profile"])
+def test_browser_free_capture_refuses_unattributable_or_partial(browser_free_repo, tmp_path, monkeypatch, defect):
+    v, repo = browser_free_repo
+    output = tmp_path / "baseline"
+    collector = synthetic_collect
+    if defect.startswith("dirty-"):
+        file = {"dirty-product": "wordfreq/__main__.py", "dirty-tests": "tests/test_cli.py",
+                "dirty-config": "pyproject.toml"}[defect]
+        with (repo / file).open("a") as stream:
+            stream.write("\n# dirty control\n")
+    elif defect == "untracked-shadow":
+        (repo / "pytest.py").write_text("# shadow control\n")
+    elif defect == "scope-unavailable":
+        monkeypatch.setattr(v, "BASE", "1" * 40)
+    elif defect == "partial-browser":
+        def collector(*args):
+            raise ValueError("synthetic boundary intentionally unavailable")
+    elif defect == "existing-empty-root":
+        output.mkdir()
+    else:
+        monkeypatch.setenv("HERMES_PROFILE", "argonauts-uat-quality")
+    assert v.main(["--mode", "baseline", "--role", "builder", "--output-dir", str(output)], collector=collector) != 0
+    assert not (output / "index.json").exists()
+
+
+def test_browser_free_historical_baseline_reads_in_successor_worktree(browser_free_repo, tmp_path, monkeypatch):
+    import shutil
+    v, repo = browser_free_repo
+    relative = Path(".planning/argonauts/r-e476c11d/baseline")
+    output = repo / relative
+    assert v.main(["--mode", "baseline", "--role", "builder", "--output-dir", str(output)],
+                  collector=synthetic_collect) == 0
+    successor = tmp_path / "successor"
+    shutil.copytree(repo, successor)
+    before = (successor / relative / "index.json").read_bytes()
+    monkeypatch.setattr(v, "ROOT", successor)
+    assert v.validate_baseline(successor / relative, allow_synthetic=True) == []
+    assert (successor / relative / "index.json").read_bytes() == before
+    assert v.validate_baseline(successor / relative.parent, allow_synthetic=True)
+
+
+# Ordinary suite does not collect saved-original tests without the opt-in root.
+# Explicit -k saved_baseline with no root therefore collects zero and exits 5.
+if os.environ.get("WORDFREQ_MIN_COUNT_BASELINE_ROOT"):
+    def test_saved_baseline_originals_readonly():
+        v = driver()
+        root = Path(os.environ["WORDFREQ_MIN_COUNT_BASELINE_ROOT"]).resolve()
+        before = {str(p): v.parts.digest(p) for p in root.rglob("*") if p.is_file()}
+        assert before, "saved baseline root is absent or empty"
+        assert v.validate_baseline(root) == []
+        after = {str(p): v.parts.digest(p) for p in root.rglob("*") if p.is_file()}
+        assert before == after
+
+    @pytest.mark.parametrize("field", ["input", "stdout", "html", "raw", "network", "image", "sha"])
+    def test_saved_baseline_file_copy_controls(tmp_path, monkeypatch, field):
+        import shutil
+        v = driver()
+        original = Path(os.environ["WORDFREQ_MIN_COUNT_BASELINE_ROOT"]).resolve()
+        assert v.validate_baseline(original) == []
+        original_hashes = {str(p): v.parts.digest(p) for p in original.rglob("*") if p.is_file()}
+        # Read the same historical object store, but damage only managed-scratch
+        # copies of evidence. No checkout/commit/CLI/browser or index re-save.
+        repo = tmp_path / "readonly-copy-repo"
+        repo.mkdir()
+        (repo / ".git").symlink_to(ROOT / ".git")
+        relative = Path(v.parts.load_json(original / "index.json")["root_relative"])
+        root = repo / relative
+        shutil.copytree(original, root)
+        monkeypatch.setattr(v, "ROOT", repo)
+        assert v.validate_baseline(root) == []
+        case = v.parts.load_json(root / "index.json")["cases"][3]
+        if field in {"input", "stdout", "html"}:
+            path = case[field]
+        elif field in {"raw", "network"}:
+            path = case["views"][0][field]
+        elif field == "image":
+            path = case["views"][0]["images"][0]["path"]
+        else:
+            path = case["stdout"]
+        path = root / Path(path).relative_to(original)
+        if field == "sha":
+            path.write_bytes(b"modified-copy-only")
+        else:
+            path.unlink()
+        assert v.validate_baseline(root), field
+        assert original_hashes == {str(p): v.parts.digest(p) for p in original.rglob("*") if p.is_file()}
+
+    @pytest.mark.parametrize("defect", ["format", "width", "empty", "request", "head", "root", "timeline", "artifact"])
+    def test_saved_baseline_manifest_controls(defect):
+        import copy
+        v = driver()
+        root = Path(os.environ["WORDFREQ_MIN_COUNT_BASELINE_ROOT"]).resolve()
+        assert v.validate_baseline(root) == []
+        index = copy.deepcopy(v.parts.load_json(root / "index.json"))
+        if defect == "format":
+            index["cases"].pop(2)
+        elif defect == "width":
+            index["cases"][3]["views"].pop()
+        elif defect == "empty":
+            index["cases"] = []
+        elif defect in {"request", "head", "root"}:
+            index[defect] = "different"
+        elif defect == "timeline":
+            index["started"] = "2000-01-01T00:00:00+00:00"
+        else:
+            del index["artifacts"][index["cases"][0]["input"]]
+        assert v.baseline_errors(index, root)
