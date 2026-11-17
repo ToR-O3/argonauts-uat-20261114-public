@@ -37,4 +37,8 @@ UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返�
   - [x] 4.1 toolingのみ: profile/role/root分離、fresh入力・CLI再生成、canary再実行と全試験、AC1〜AC6索引、pre-openからfinal flushまでの有限観測を用意。4.1本体の独立品質は未完了。
   - [x] 4.2 tooling: planning-start base5a7659bと実行HEADのscope確認、承認済03-02製品snapshot固定、dirty/untracked/head変更・終了済capture・証拠欠落の拒否を実装。phase受入はpending。
   - [x] 03-04 task2: 実CLI option/schema/全fixture/AC索引に照合した独立品質runbookとREADMEリンクを作成。空台帳finalize拒否と未閲覧timeout非0を実Chromiumで確認。終了時provenance・全browserContext帰属・画像/raw hashも再照合する。独立品質・全画像実閲覧・最終accepted経路は未実行のまま明示。
+- 03-06 初回Builder delivery（H1独立品質前、3.1/3.2/4.1/4.2は未チェック）:
+  - locale不在を制御した回帰が必須locale assertionでREDとなることを確認後、raw byte E9実ファイルと実CLI/FileSourceを使うcontrolled encoding seamを追加。filesystem表示codecとstdout encodingを分離、sidecarへraw argv往復・選択codecを記録し、strict UTF-8/日本語/全行/総数/入力不変を確認。実hostのnative ISO-8859-15とC/latin-1も別実測。CLI100件成功。native不在分岐はnative実行と呼ばない。
+  - missing base/approved参照の未捕捉例外と新owned helper拒否、root pytest.pyのprovenance漏れをREDで確認後修正。fixture所有実git/depth1によるscope、外部tests/両収集pattern/nested conftest/root shadowのdirty/staged/deleted/untrackedとhash、別actor finalize拒否/省略actor保存を回帰。verifier200件・全358件成功（skipなし）。fixture成功と実exact-ref scope、Builder自己試験とCI/独立品質は別の結果。
+  - runbookの同カードH1品質request_changes→Builder根拠確認・tasks記録/push H2→re-request_review→品質fresh-root全gate再実行を追加。guide契約試験のREDを確認してから文書化。独立品質の全画像/raw/通信/AC/最終headCIとOpenSpec critical0は未実施のため、完了したと記録しない。
 - 実装・品質検証・受入が済んでから、別工程でsync・archiveと最終確認を行う。本カードでは実装・製品ブラウザ合格・archiveを行わない。

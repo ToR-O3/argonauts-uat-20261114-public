@@ -863,7 +863,11 @@ def test_guide_commands_schema_cases_and_ac_match_real_parser():
     assert example["reviews"][0]["judgment"] == "unverified"
     assert v.ledger_errors({}, example, v.now())
     for term in ("tracked background", "rawRange", "browser-network.json", "finalize-requested",
-                 "observation_end", "verification_finished", "REQ-09", "REQ-10"):
+                 "observation_end", "verification_finished", "REQ-09", "REQ-10",
+                 "controlled-seam-not-native-locale", "native ISO-8859-15",
+                 "ref_diagnostics", "approved_product", "test_*.py", "*_test.py", "pytest.py",
+                 "H1", "H2", "H3", "request_changes", "re-request_review",
+                 "head/path/hash", "critical0", "3.1/3.2/4.1/4.2"):
         assert term in guide
     assert "[ブラウザ検証手順](docs/wordfreq-html-verification.md)" in (ROOT / "README.md").read_text()
 

@@ -134,6 +134,25 @@ finalizeは台帳・artifact/hash・AC・head/status/scope・canary・suite・�
 - timeout、例外、無効ledger、遅い通信、head/dirty変更、保存・照合失敗は全view/derivedをunverified、reviewed_images=[]、AC判定unverifiedへ戻しexit1。raw/画像/ledger原本は変更しない。storage自体が利用不能なら完全なrollbackを保証できないため、stdoutのpersistence診断と非0終了を保持し、保存完了を主張しない。
 - synthetic lifecycle regressionは画像を見た証明ではない。no-op/zero-test（0件収集）の結果を成功としない。G2のfull suite/既存CIとfresh final-head独立品質は03-06へpendingで引き継ぐ。OpenSpec3.1/3.2/4.1/4.2は先にチェックしない。
 
+## G2: encoding・shallow・実行帰属の分離
+
+- `tests/fixtures/encoding_cli_probe.py` は **controlled-seam-not-native-locale** とsidecarへ記録するテスト専用launcher。raw byte E9を含む実ファイルを実FileSource/mainで開き、表示用filesystem encodingとstdout TextIOWrapper encodingだけを制御する。raw argvのos.fsencode往復、元入力bytes不変、café、全行/総数/日本語見出し、保存HTMLのstrict UTF-8 bytes一致を無条件に確認する。これはOS localeを変えた証拠ではない。
+- `native ISO-8859-15` は `locale -a` で実在したhostだけで追加実行する。PYTHONUTF8=0/PYTHONCOERCECLOCALE=0、`locale charmap` のISO-8859-15とstderr空を必須とし、不一致は失敗。native不在はその旨を記録するがcontrolled byte義務をskipしない。通常の `-m wordfreq` とC locale/PYTHONIOENCODING=latin-1も実行する。availabilityの両分岐は決定論的回帰、native実行は実host測定と区別する。
+- scope単体試験はfixture所有の実git repositoryとfile:// depth1 cloneを使用する。実scopeのbase **5a7659b949dc118b59cea5ef3eb40bcd94337d8d** と `approved_product` **ed7e6cc9d608bc40a82da76e85ca6e57a0808b54** は変えない。両方をcommit objectとして先に解決し、欠落時はJSONの `ref_diagnostics` / exact requested IDs / target / errorsとexit1 / verdict unverifiedを読む。未取得diffはnullであり空のclean一覧ではない。fetchやHEADへの代替をしない。fixture成功は実exact-ref scope成功を意味せず、実参照不足は品質の実行blocker。
+- provenanceは既存code/configに加え、pytest既定収集の全 `test_*.py` / `*_test.py`、全階層conftest.py、root `pytest.py` のimport shadowを同じpath selectionでstatus/diff/untracked content+SHAへ記録する。tests/外でもmodified/staged/deleted/untrackedは拒否。独立fixture subprocessのcollect-only/root shadow制御で実影響を示すが、この作業repoでは制御コードを実行しない。ignored cacheと生成.planning証拠はcode扱いしない。
+- `--actor`省略でもreview-sessionが保存したmanifest.actorは実HERMES_PROFILE。roleや出力rootとの一致は必須。finalizeは別actorのmanifestを非0で拒否し、finalize-request.jsonを生成しない。profileの単体解決だけでなく保存manifestの回帰を実施する。
+
+## 同カードの品質→Builder記録→最終head再品質
+
+この節は**最後の実装03-06カードそのもののレビュー**の義務であり、後続PMへの曖昧な依頼ではない。品質は製品/OpenSpecを編集しない。
+
+1. **H1**: Builderは修正コード・試験・実施事実のみpushし、OpenSpec原本 **3.1/3.2/4.1/4.2** は未チェックでrequest_reviewする。Builder自身のgreenやsyntheticテストは独立合格を表さない。
+2. 品質はpush先/PRのH1を照合し、03-06-PLANのindependent_quality_gate全文をfresh quality rootで実施する。全suiteと実exact-ref scope、fresh入力・全CLI・全canary・全22 views、両幅の全full/全tileの可読倍率実閲覧と全rawRange監査、open前から閲覧/live finalize/flush終了までの通信帰属、AC1〜AC6を確認する。ownerの実exit0後、manifest/全derived/ledgerのexact image path/hash/viewed_at集合が全て一致し、全view/全AC accepted、independent_acceptance=true、pending無し/errors無し、final provenance/head一致を読む。
+3. 同じheadの既存CI run/jobs/logを有限回だけ読み、結論と実試験結果を記録する。未報告/queued/in_progressは成功ではない。待機ループ、CI編集、local成功による代用は禁止。技術条件が未達ならrequest_changesで具体的に返す。
+4. 技術合格でも原本記録が未完なら品質は **request_changes**。独立報告と標準添付へ **head/path/hash** とtask別根拠（3.1:両幅表示、3.2:全raw/画像、4.1:独立全AC/通信、4.2:全suite/実scope/同head CI）を書く。Builderは今回添付と未達無しを照合し、満たした事実だけtasks.mdへ証拠付きで記録しチェックする。CI/browser/原本等が不足なら該当taskは未チェックで修正/blockし、架空の完了を書かない。
+5. **H2**: Builderは記録更新をpushし **re-request_review**。文書だけのheadでも品質は新rootで手順2/3の**全gateを全面再実行**する。H1の合格をH2へ持ち越さない。追加 **H3** も同じ。品質証拠は添付として保持し、検証headを黙って変更しない。
+6. 最終headの独立品質・CI・OpenSpec公式verify workflowの **critical0**（未チェックtask無し）がそろうまで承認しない。導入済み公式status/apply instructions/strict validationとverify workflowを使い、不存在の `openspec verify` CLIは作らない。次のphase検証はこの結果の後に正式実行する。archive/sync/mergeはこのPLANでは行わない。
+
 ## AC証拠の索引とpending gate
 
 manifest.ac_indexはACごとに全CLI原本/全幅raw・全画像・network・suite・canary・scope/provenanceを結ぶ保守的な完全索引。各ACの独立判定で見る点は下記。
