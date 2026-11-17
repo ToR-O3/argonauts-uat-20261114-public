@@ -334,3 +334,27 @@ def test_cli_parallel_distinct_outputs(tmp_path, output_format):
     assert all(destination.read_bytes() == serial.stdout for destination in destinations)
     assert path.read_bytes() == original
     assert list(inputs.iterdir()) == [path]
+
+
+def test_readme_html_save_example(tmp_path):
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    command = "PYTHONIOENCODING=utf-8 python -m wordfreq input.txt --format html > report.html"
+    assert f"```sh\n{command}\n```" in readme
+    for warning in ("匿名化ではありません", "起動前に", "同じパス", "共有前", "UTF-8", "互換性変更", "初出順"):
+        assert warning in readme
+    repo = tmp_path / "example"
+    repo.mkdir()
+    shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    path = repo / "input.txt"
+    original = "Zoo apple zoo APPLE beta 日本語".encode("utf-8")
+    path.write_bytes(original)
+    # Run the exact trusted, fixed README shell example. No user interpolation.
+    result = subprocess.run(
+        ["bash", "-c", command], cwd=repo, capture_output=True, timeout=10,
+        env={**os.environ, "PATH": f"{Path(sys.executable).parent}{os.pathsep}{os.defpath}"},
+    )
+    assert (result.returncode, result.stdout, result.stderr) == (0, b"", b"")
+    assert path.read_bytes() == original
+    document = (repo / "report.html").read_bytes().decode("utf-8")
+    assert_format_output(document, "html", [("zoo", 2), ("apple", 2), ("beta", 1), ("日本語", 1)], "input.txt", 6)
