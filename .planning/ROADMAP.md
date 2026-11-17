@@ -13,6 +13,7 @@
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: wordfreq CLI** - stdlib-only の wordfreq CLI 全体（実行・オプション・決定論出力・部品分離・試験・CI） (completed 2026-11-17)
+- [ ] **Phase 2: wordfreq HTML output**
 
 ## Phase Details
 
@@ -52,3 +53,28 @@ Phases execute in numeric order: 1
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. wordfreq CLI | 5/5 | Complete    | 2026-11-17 |
+
+### Phase 2: wordfreq HTML output
+
+**Goal:** 利用者がwordfreqの結果を安全な自己完結HTMLへ保存し、スマートフォンでも明るい3列表で読める。全形式の同数順を承認済み初出順へ変更し、既存CLI回帰と独立ブラウザ証跡を確保する（r-5c041156）。
+**Requirements**: REQ-09, REQ-10, REQ-11, REQ-12, REQ-13, REQ-14
+**Success Criteria**:
+1. --format html は単一文書をstdoutへ出し、表前にbasenameとtop前総数を表示する。top1のZoo例は総数5・1/zoo/2、空入力は総数0と3見出しのみ。
+2. 明るい背景、順位/単語/回数、scope=col、1始まり表示行連番を320/375/1280pxで200文字語・長い日本語名・空表でも欠落/重なり/横overflowなく表示する。
+3. 全形式で頻度降順・正規化初出順・sort後topを守り、Unicode/casefold/複数hashseedを含む試験が通る。text/jsonの構造は不変。
+4. 純粋formatterの1回escapeと空白/CR/CRLF保持、悪意ある名前の不実行、外部request0を、実HTML/画像/DOM-layout/network/ブラウザ名版/viewportで実証する。
+5. 全pytest・既存CLI/入力境界/エラー/入力不変を維持し、別ファイル保存・共有露出・同一パスリダイレクト禁止を説明する。CI/依存変更なし、手段不足を未検証として返す。
+
+Phase 1の語昇順/text-json/UIなしは出荷時点の履歴。今回の現在契約はPhase 2と承認済みOpenSpecが優先。既存要求の変更を含むためingest mergeは適用せず、E.7/10.4により公式phase.addで追加。矛盾原本: .planning/INGEST-CONFLICTS.md。
+**Depends on:** Phase 1
+**Plans:** 3 plans（同じ依頼branchへ直列に積む）
+
+Plans:
+**Wave 1**
+- [ ] 02-01-PLAN.md — 安全なCLI→保存HTML tracerと全形式初出順（2 tasks、wave 1）
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 02-02-PLAN.md — 全形式/文字忠実性/入力境界回帰と安全な保存説明（3 tasks、wave 2、depends 02-01）
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 02-03-PLAN.md — 既存Node/Chromium実browser証跡と独立品質handoff（3 tasks、wave 3、depends 02-02）

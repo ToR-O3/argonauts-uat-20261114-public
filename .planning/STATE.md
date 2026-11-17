@@ -1,19 +1,20 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 1
-current_plan: Not started
-status: completed
-stopped_at: Phase 1 complete — all phases complete
-last_updated: "2026-11-17T05:20:01.404Z"
+current_phase: 2
+current_phase_name: wordfreq HTML output
+current_plan: 1
+status: executing
+stopped_at: "Phase 2 planned: independent checker passed; no product execution"
+last_updated: "2026-11-17T09:41:49.536Z"
 last_activity: 2026-11-17
-last_activity_desc: Phase 1 complete
-state_head: 78777308cc00b093aeede310ac602704d61090eb
+last_activity_desc: Phase 2 planned; 3 PLANs verified; product execution not started
+state_head: 2a791f4d3f603c9213c55d9b46cb2212061f01d5
 progress:
-  total_phases: 1
+  total_phases: 2
   completed_phases: 1
-  total_plans: 5
+  total_plans: 8
   completed_plans: 5
-  percent: 100
+  percent: 50
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -25,17 +26,17 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-17)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 1
+**Current focus:** Phase 2 — wordfreq HTML output
 
 ## Current Position
 
-Phase: 1
-Current Plan: Not started
-Total Plans in Phase: 5
-Status: All phases complete
-Last activity: 2026-11-17 — Phase 1 complete
+Phase: 2 (wordfreq HTML output) — READY TO EXECUTE
+Current Plan: 1
+Total Plans in Phase: 3
+Status: Ready to execute
+Last activity: 2026-11-17 — Phase 2 planned; 3 PLANs verified; product execution not started
 
-Progress: [██████████] 100%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -76,6 +77,10 @@ Recent decisions affecting current work:
 - [r-5a3b8a3f]: 部品は tokenizer/aggregator/sources/formatters + `__main__` の 4+1 分割、依存方向一方向（D-A）。実装順は内側から外側（tasks.md 1.1→3.3）
 - [r-5a3b8a3f]: PM 決定 — 承認済みスコープ全体を Phase 1 単一として計画（分割しない）
 
+### Roadmap Evolution
+
+- Phase 2 added: wordfreq HTML output（r-5c041156、t_fd2bd806承認）。公式phase.addで追加。旧同数語昇順/UIなしを承認済み初出順/静的HTMLへ置換する。Phase 1完了履歴は保持し、現在の契約はPhase 2 CONTEXTとREQ-09〜14を優先する。
+
 ### Pending Todos
 
 None yet.
@@ -95,6 +100,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-17T05:02:00.207Z
-Stopped at: Phase 1 complete — all phases complete
-Resume file: None
+Last session: 2026-11-17T09:40:46.869Z
+Stopped at: Phase 2 planned: independent checker passed; no product execution
+Resume file: .planning/phases/02-wordfreq-html-output/02-01-PLAN.md
