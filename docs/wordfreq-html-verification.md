@@ -13,7 +13,7 @@ ln -s "$TMPDIR" .browser-tmp
 export TMPDIR=.browser-tmp
 ```
 
-すべてrepo rootから実ファイルを実行する。開始時のhead/status/product diff、未追跡製品コードの内容/SHAをprovenance.jsonへ保存する。製品/tools/tests/pyprojectのdirtyは拒否する。scope.jsonはplanning-start baseline **5a7659b949dc118b59cea5ef3eb40bcd94337d8d** と毎回解決したHEADを比較する。承認済03-02の製品snapshotからの変更、CI/依存/tokenizer/source/履歴Phase1/別依頼Phase2の変更は拒否する。旧語昇順から正規化後初出順への置換は承認済の意図した差分であり、取り消さない。
+すべてrepo rootから実ファイルを実行する。開始時のhead/status/product diff、未追跡製品コードの内容/SHAをprovenance.jsonへ保存する。製品/tools/tests/pyprojectと、ルートのconftest.py・pytest.ini・tox.ini・setup.cfgのdirtyは、未追跡・変更・staged・削除を含め拒否する。scope.jsonはplanning-start baseline **5a7659b949dc118b59cea5ef3eb40bcd94337d8d** と毎回解決したHEADを比較する。承認済03-02の製品snapshotからの変更、CI/依存/tokenizer/source/履歴Phase1/別依頼Phase2の変更は拒否する。旧語昇順から正規化後初出順への置換は承認済の意図した差分であり、取り消さない。
 
 ```sh
 env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest
@@ -25,7 +25,7 @@ contractの結果はsynthetic predicate only。製品の画像閲覧・受入を
 
 ## 独立検証証跡と起動
 
-Builderはqualityとして実行しない。品質は自分のKanban run・実際の `HERMES_PROFILE=argonauts-uat-quality` で対象headを取り、自分のfresh root・入力原本から再生成する。`--role quality` だけで独立性は成立しない。actorは実Profileと一致しなければならず、rootのpath componentはquality（builderのrootと混在不可）。Profile環境はローカル単一利用者の帰属補助であり、悪意あるOS利用者に対する認証ではない。品質のカード・実行者・再生成原本と合わせて独立性を確かめる。
+Builderはqualityとして実行しない。品質は自分のKanban run・実際の `HERMES_PROFILE=argonauts-uat-quality` で対象headを取り、自分のfresh root・入力原本から再生成する。`--role quality` だけで独立性は成立しない。actorは実Profileと一致しなければならず、rootのpath componentはquality（builderのrootと混在不可）。Profile環境はローカル単一利用者の帰属補助であり、悪意あるOS利用者に対する認証ではない。品質のカード・実行者・再生成原本と合わせて独立性を確かめる。`--actor`省略時は実際の`HERMES_PROFILE`を使い、指定した場合も実Profileとroleの一致を要求する。台帳の全フィールドをmanifest.jsonからスクリプトで埋めること自体は防げず、形式検査は実閲覧の証明ではない。これは信頼するローカル実行者の自己申告という限界であり、品質は画像を実際に開いて記録する義務を負う。
 
 同じrootを再利用しない。既にある場合は新しいquality配下のrootを選び、以下のrootとledger両pathを同時に変える。終了済captureは後からlive観測済みへ昇格できない。
 

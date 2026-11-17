@@ -457,7 +457,7 @@ def test_dirty_product_blocks_capture_after_diagnostics(tmp_path, monkeypatch):
     assert not (tmp_path / "manifest.json").exists()
 
 
-def test_review_without_actor_cannot_succeed(tmp_path):
+def test_review_without_valid_role_root_cannot_succeed(tmp_path):
     result = subprocess.run([sys.executable, str(ROOT / "tools/verify_wordfreq_html.py"),
                              "--role", "builder", "--output-dir", str(tmp_path),
                              "--mode", "review-session"], capture_output=True)
