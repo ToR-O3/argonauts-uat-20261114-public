@@ -205,6 +205,19 @@ def geometry_errors(raw):
     return list(dict.fromkeys(errors))
 
 
+def png_size(path):
+    """Read actual PNG IHDR pixel dimensions without browser/image dependencies."""
+    with Path(path).open("rb") as stream:
+        header = stream.read(24)
+    if len(header) != 24 or header[:16] != b"\x89PNG\r\n\x1a\n\0\0\0\rIHDR":
+        raise ValueError("missing PNG IHDR")
+    width = int.from_bytes(header[16:20], "big")
+    height = int.from_bytes(header[20:24], "big")
+    if not width or not height:
+        raise ValueError("empty PNG dimensions")
+    return width, height
+
+
 def capture_errors(manifest, output):
     errors = []
     cases = manifest.get("cases", [])
@@ -223,6 +236,13 @@ def capture_errors(manifest, output):
                         errors.append(f"{case['id']}: missing {field}")
                 if not view.get("images") or any(not Path(i["path"]).is_file() for i in view.get("images", [])):
                     errors.append(f"{case['id']}: missing image artifacts")
+                for image in view.get("images", []):
+                    try:
+                        actual = png_size(image["path"])
+                        if actual != (image["width"], image["height"]):
+                            errors.append(f"{case['id']}: image dimensions {actual} differ from record {image}")
+                    except (OSError, ValueError, KeyError, TypeError) as exc:
+                        errors.append(f"{case['id']}: image dimensions unverified: {exc}")
     return errors
 
 

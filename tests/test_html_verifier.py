@@ -122,6 +122,36 @@ def test_capture_completeness_rejects_empty_or_missing_artifacts(tmp_path):
     assert v.capture_errors(manifest, tmp_path)
 
 
+@pytest.mark.parametrize("kind", ["tile", "full"])
+def test_capture_rejects_png_dimensions_different_from_record(tmp_path, kind):
+    import struct
+    import zlib
+
+    def chunk(tag, data):
+        return struct.pack(">I", len(data)) + tag + data + struct.pack(">I", zlib.crc32(tag + data))
+
+    png = tmp_path / "actual.png"
+    png.write_bytes(b"\x89PNG\r\n\x1a\n" +
+                    chunk(b"IHDR", struct.pack(">IIBBBBB", 320, 100, 8, 2, 0, 0, 0)) +
+                    chunk(b"IDAT", zlib.compress((b"\0" + b"\xff" * 960) * 100)) +
+                    chunk(b"IEND", b""))
+    artifact = tmp_path / "artifact"
+    artifact.touch()
+    v = verifier()
+    cases = []
+    for case in v.fixed_cases():
+        record = dict(case, input=str(artifact), stdout=str(artifact), stderr=str(artifact), views=[])
+        if case["format"] == "html":
+            record["views"] = [dict(width=width, raw=str(artifact), network=str(artifact),
+                images=[dict(path=str(png), type=kind, x=0, y=800, width=320, height=100)])
+                for width in v.WIDTHS]
+        cases.append(record)
+    manifest = dict(cases=cases)
+    assert v.capture_errors(manifest, tmp_path) == []
+    cases[0]["views"][0]["images"][0]["height"] = 759
+    assert any("image dimensions" in e for e in v.capture_errors(manifest, tmp_path))
+
+
 def test_browser_files_and_capture_entrypoint_exist():
     v = verifier()
     assert (ROOT / "tools/wordfreq_html_geometry.js").is_file()
