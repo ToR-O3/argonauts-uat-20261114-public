@@ -46,7 +46,7 @@ longの語はw×256。basenameは `集計`+space2個+n×176+実LF+`続き`+実TA
 
 `derived.json` はrawと別の判定。横viewport/列収まり、ownerを含む実切取り祖先のpadding clip、異なるテキストノード間の重なり、長いn/w連続部の複数行化、break-spaces/tab-size4、数値の全文/各桁を検査する。隣接列・行・メタ情報・captionを同じ文字矩形比較に含める。要素自身の縦矩形を越えただけでは失敗にしない。浮動値や空Rangeを丸め・clamp・削除して合格へ寄せない。clip領域の導出値はraw border/client原本とは別フィールド。
 
-全ページ画像を保存し、高さ900pxを超える場合は800px刻み・最大900px高の重なり付きtileも保存する。索引に全画像pathと座標範囲を残す。**存在・寸法・幾何だけでは画像を読んだことにならない。** `reviewed_images` は空、可読性/画像閲覧は常にpending。
+全ページ画像を保存し、高さ900pxを超える場合は800px刻み・最大900px高の重なり付きtileも保存する。CDP `Page.captureScreenshot(captureBeyondViewport=true, clip.scale=1)` で、測定時のviewportをresizeせずdocument座標のまま撮る。Playwrightのfull-page撮影は一時resizeでscrollbarが消え、狭幅の折返しと高さが変わる場合があるため使わない。幅はscrollbarを除いたdocument.clientWidth、横収まりもinnerWidthとclientWidthの両方を満たす必要がある。索引にはPNG IHDRから読んだ実pixel寸法と座標、tileの要求clipを保存し、要求寸法との不一致と再読込み時の記録寸法不一致を失敗にする。**存在・寸法・幾何だけでは画像を読んだことにならない。** `reviewed_images` は空、可読性/画像閲覧は常にpending。
 
 ## 通信観測
 

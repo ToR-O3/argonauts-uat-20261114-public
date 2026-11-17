@@ -158,7 +158,8 @@ def geometry_errors(raw):
         viewport = raw["viewport"]
         if viewport["dpr"] != 1 or viewport["scale"] != 1:
             errors.append("DPR/zoom differs")
-        if raw["document"]["scrollWidth"] > viewport["width"]:
+        layout_width = min(viewport["width"], raw["document"]["clientWidth"])
+        if raw["document"]["scrollWidth"] > layout_width:
             errors.append("document horizontal overflow")
         elements = {e["id"]: e for e in raw["elements"]}
         if not elements or not raw["texts"]:
@@ -181,7 +182,7 @@ def geometry_errors(raw):
                 for r in item["rects"]:
                     if r["width"] <= 0 or r["height"] <= 0:
                         continue  # Raw retains zero-area rectangles; no visible ink.
-                    if r["left"] < 0 or r["right"] > viewport["width"]:
+                    if r["left"] < 0 or r["right"] > layout_width:
                         errors.append(f"{text['id']}[{i}]: outside viewport")
                     if r["left"] < owner["rect"]["left"] or r["right"] > owner["rect"]["right"]:
                         errors.append(f"{text['id']}[{i}]: outside column")
@@ -648,8 +649,8 @@ def canary_errors(report):
                              and e["data"].get("requestId") and e["data"].get("initiator")
                              and e["data"].get("targetId") and e["data"].get("frameId")]
         request_ids = {e["data"]["requestId"] for e in external_requests}
-        failed = [e for e in events if (e["kind"] == "Network.loadingFailed" and e["data"].get("requestId") in request_ids)
-                  or (e["kind"] == "requestfailed" and e["data"].get("url", "").startswith(CANARY_URL))]
+        failed = [e for e in events if e["kind"] == "Network.loadingFailed"
+                  and e["data"].get("requestId") in request_ids]
         if not failures or not external_requests or not failed:
             errors.append(f"{case['id']}: real attributed request/failure not observed and rejected")
         if case["id"] == "early-popup":

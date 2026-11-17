@@ -100,6 +100,21 @@ def test_geometry_rejects_each_invalid_record(defect):
     assert v.geometry_errors(raw), defect
 
 
+@pytest.mark.parametrize("defect", ["scroll-width", "glyph"])
+def test_geometry_rejects_content_under_scrollbar(defect):
+    raw = raw_record()
+    raw["document"]["clientWidth"] = 305
+    raw["document"]["scrollWidth"] = 305
+    if defect == "scroll-width":
+        raw["document"]["scrollWidth"] = 310
+    else:
+        raw["elements"][0]["rect"]["right"] = 320
+        raw["texts"][0]["characters"][0]["rects"] = [rect(304, 10, 310, 28)]
+    original = copy.deepcopy(raw)
+    assert verifier().geometry_errors(raw)
+    assert raw == original
+
+
 def test_real_generation_bytes_oracles_privacy_and_lazy_browser(tmp_path):
     v = verifier()
     cases = v.generate_cases(tmp_path)
@@ -247,6 +262,15 @@ def test_canary_validator_requires_correlated_real_path_evidence(defect):
     elif defect == "missing-local":
         report["cases"][2]["observation"]["events"].pop(1)
     assert bool(v.canary_errors(report)) == (defect != "none")
+
+
+def test_canary_url_only_failure_cannot_replace_correlated_request_id():
+    v = verifier()
+    report = synthetic_canaries(v)
+    events = report["cases"][1]["observation"]["events"]
+    events[3]["data"]["requestId"] = "unrelated"
+    events.append(dict(kind="requestfailed", data=dict(url=v.CANARY_URL, failure="failed")))
+    assert v.canary_errors(report)
 
 
 def test_untracked_product_content_is_recorded(monkeypatch, tmp_path):
