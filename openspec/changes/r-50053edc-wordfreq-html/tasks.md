@@ -32,4 +32,8 @@ UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返�
   - [x] 03-03 review round2 tooling修正: coverageをready順序と同文書context/main/flatten要求・paused target対応から導出し、検証側も再計算。各td/メタ値等は文字record・character Range・全文一致を必須とし、欠落/空/部分測定は失敗。回帰のRED後、58 verifier/全184試験成功。全画像閲覧・live・独立品質gateのチェックは進めない。
   - [x] 03-03 review round3 tooling修正: Network requestIdをsource/session/target単位の開始へ結び、response/redirectResponse/documentURLも検査。未帰属再取得を実22画面で失敗再現後、DOM/CSS有効化をopen前へ移動。非空白文字は正面積のRangeを必須化。回帰RED後全213試験・実capture/canary成功。全画像閲覧・live・独立品質gateは未完了。
 - GSD対応表は03-COVERAGE.md。チェックは実際に完了したtaskだけを更新する。
+- 03-04 task1 tooling（独立品質・全画像受入はpending）:
+  - [x] 3.2 tooling: live review-session/finalize、全full/tile画像のactor・時点・SHA・全域・実寸scale・rawRange原本対応台帳と欠落拒否を実装。collectorは閲覧済みを生成しない。
+  - [x] 4.1 toolingのみ: profile/role/root分離、fresh入力・CLI再生成、canary再実行と全試験、AC1〜AC6索引、pre-openからfinal flushまでの有限観測を用意。4.1本体の独立品質は未完了。
+  - [x] 4.2 tooling: planning-start base5a7659bと実行HEADのscope確認、承認済03-02製品snapshot固定、dirty/untracked/head変更・終了済capture・証拠欠落の拒否を実装。phase受入はpending。
 - 実装・品質検証・受入が済んでから、別工程でsync・archiveと最終確認を行う。本カードでは実装・製品ブラウザ合格・archiveを行わない。

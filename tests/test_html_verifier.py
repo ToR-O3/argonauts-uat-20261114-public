@@ -419,8 +419,186 @@ def test_dirty_product_blocks_capture_after_diagnostics(tmp_path, monkeypatch):
     assert not (tmp_path / "manifest.json").exists()
 
 
-def test_unimplemented_review_mode_cannot_succeed(tmp_path):
+def test_review_without_actor_cannot_succeed(tmp_path):
     result = subprocess.run([sys.executable, str(ROOT / "tools/verify_wordfreq_html.py"),
                              "--role", "builder", "--output-dir", str(tmp_path),
                              "--mode", "review-session"], capture_output=True)
     assert result.returncode != 0
+
+
+def test_review_ledger_requires_real_identity_time_hash_and_raw_reference():
+    v = verifier()
+    image = dict(path="/quality/full.png", sha256="a" * 64, width=320, height=900)
+    entry = dict(actor="argonauts-uat-quality", image=image["path"], sha256=image["sha256"],
+                 viewed_at="2026-01-01T00:00:02+00:00", scale=1,
+                 extent=[0, 0, 320, 900], raw="/quality/raw.json", raw_sha256="b" * 64,
+                 judgment="readable", notes="All words, whitespace and numeric cells inspected")
+    original = copy.deepcopy(entry)
+    assert v.review_errors(entry, image, "/quality/raw.json", "b" * 64,
+                           "argonauts-uat-quality", "2026-01-01T00:00:01+00:00",
+                           "2026-01-01T00:00:03+00:00") == []
+    assert entry == original
+    for field in entry:
+        bad = dict(entry)
+        del bad[field]
+        assert v.review_errors(bad, image, "/quality/raw.json", "b" * 64,
+                               "argonauts-uat-quality", "2026-01-01T00:00:01+00:00",
+                               "2026-01-01T00:00:03+00:00"), field
+
+
+@pytest.mark.parametrize("field,value", [
+    ("actor", "argonauts-uat-builder"), ("viewed_at", "2025-01-01T00:00:00+00:00"),
+    ("viewed_at", "2027-01-01T00:00:00+00:00"), ("scale", 0.2),
+    ("extent", [0, 0, 320, 800]), ("sha256", "wrong"), ("raw_sha256", "wrong"),
+    ("raw", "/builder/raw.json"), ("judgment", True), ("notes", ""),
+])
+def test_review_invalid_attestation_rejected(field, value):
+    v = verifier()
+    image = dict(path="/quality/full.png", sha256="a" * 64, width=320, height=900)
+    entry = dict(actor="argonauts-uat-quality", image=image["path"], sha256=image["sha256"],
+                 viewed_at="2026-01-01T00:00:02+00:00", scale=1, extent=[0, 0, 320, 900],
+                 raw="/quality/raw.json", raw_sha256="b" * 64, judgment="readable", notes="inspected")
+    entry[field] = value
+    assert v.review_errors(entry, image, "/quality/raw.json", "b" * 64,
+                           "argonauts-uat-quality", "2026-01-01T00:00:01+00:00",
+                           "2026-01-01T00:00:03+00:00")
+
+
+def test_scope_has_exact_baseline_target_and_approved_product_snapshot():
+    v = verifier()
+    report = v.scope_report()
+    assert report["base"] == "5a7659b949dc118b59cea5ef3eb40bcd94337d8d"
+    assert report["target"] == v.git("rev-parse", "HEAD").strip()
+    assert report["product_diff"]
+    assert report["errors"] == []
+
+
+@pytest.mark.parametrize("path", [".github/workflows/new.yml", "pyproject.toml",
+    "wordfreq/tokenizer.py", "wordfreq/sources.py", "new_server.py",
+    ".planning/phases/01-wordfreq-cli/01-01-SUMMARY.md",
+    ".planning/phases/02-other/02-01-PLAN.md"])
+def test_scope_rejects_out_of_plan_paths(path):
+    assert verifier().scope_path_errors([path])
+
+
+def test_scope_accepts_exact_owned_files_and_preserves_approved_tie_replacement():
+    v = verifier()
+    assert v.scope_path_errors(["wordfreq/aggregator.py", "tools/verify_wordfreq_html.py",
+        "tests/test_html_verifier.py", "README.md", "docs/wordfreq-html-verification.md",
+        "openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+        ".planning/phases/03-wordfreq-html-output/03-04-SUMMARY.md"]) == []
+
+
+def test_session_identity_cannot_be_selected_by_role_flag(monkeypatch, tmp_path):
+    v = verifier()
+    monkeypatch.setenv("HERMES_PROFILE", "argonauts-uat-builder")
+    with pytest.raises(ValueError, match="actor/role"):
+        v.session_actor("quality", "argonauts-uat-quality", tmp_path / "quality")
+    assert v.session_actor("builder", "argonauts-uat-builder", tmp_path / "builder") == "argonauts-uat-builder"
+    with pytest.raises(ValueError, match="root"):
+        v.session_actor("builder", "argonauts-uat-builder", tmp_path / "quality")
+
+
+def ledger_control():
+    image = dict(path="/quality/full.png", sha256="a" * 64, width=320, height=900)
+    manifest = dict(session="synthetic-only", actor="argonauts-uat-quality", role="quality",
+        head="h", root="/quality", ready_at="2026-01-01T00:00:01+00:00",
+        cases=[dict(views=[dict(raw="/quality/raw.json", raw_sha256="b" * 64, images=[image])])])
+    review = dict(actor=manifest["actor"], image=image["path"], sha256=image["sha256"],
+        viewed_at="2026-01-01T00:00:02+00:00", scale=1, extent=[0, 0, 320, 900],
+        raw="/quality/raw.json", raw_sha256="b" * 64, judgment="readable", notes="synthetic predicate only")
+    ledger = dict(session=manifest["session"], head="h", actor=manifest["actor"], root="/quality",
+        reviews=[review], ac_reviews=[dict(ac=f"AC{i}", judgment="accepted", notes="synthetic only",
+            evidence=["/quality/full.png", "/quality/raw.json"]) for i in range(1, 7)])
+    manifest["ac_index"] = {f"AC{i}": ["/quality/full.png", "/quality/raw.json"] for i in range(1, 7)}
+    return manifest, ledger
+
+
+@pytest.mark.parametrize("defect", ["none", "empty", "duplicate", "unviewed", "session",
+    "head", "actor", "root", "ac-missing", "ac-duplicate", "ac-evidence", "ac-boolean"])
+def test_ledger_exact_image_and_ac_coverage_roundtrip(defect):
+    v = verifier()
+    manifest, ledger = ledger_control()
+    if defect == "empty":
+        ledger = {}
+    elif defect == "duplicate":
+        ledger["reviews"] *= 2
+    elif defect == "unviewed":
+        ledger["reviews"] = []
+    elif defect in {"session", "head", "actor", "root"}:
+        ledger[defect] = "wrong"
+    elif defect == "ac-missing":
+        ledger["ac_reviews"].pop()
+    elif defect == "ac-duplicate":
+        ledger["ac_reviews"][-1] = ledger["ac_reviews"][0]
+    elif defect == "ac-evidence":
+        ledger["ac_reviews"][0]["evidence"] = []
+    elif defect == "ac-boolean":
+        ledger["ac_reviews"][0]["judgment"] = True
+    assert bool(v.ledger_errors(manifest, ledger, "2026-01-01T00:00:03+00:00")) == (defect != "none")
+    assert json.loads(json.dumps(ledger)) == ledger
+
+
+def test_ended_or_empty_evidence_cannot_be_finalized(tmp_path):
+    v = verifier()
+    assert v.evidence_errors({}, {}, tmp_path, "2026-01-01T00:00:03+00:00")
+    manifest, ledger = ledger_control()
+    manifest.update(mode="capture", ended="2026-01-01T00:00:03+00:00")
+    assert v.evidence_errors(manifest, ledger, tmp_path, "2026-01-01T00:00:03+00:00")
+
+
+def test_live_options_and_finalize_require_actual_process(tmp_path):
+    v = verifier()
+    args = v.parser().parse_args(["--role", "builder", "--output-dir", str(tmp_path / "builder"),
+        "--actor", "argonauts-uat-builder", "--mode", "review-session", "--session-timeout", "1"])
+    assert args.session_timeout == 1
+    assert args.actor == "argonauts-uat-builder"
+    assert v.live_session_errors({})
+    import os
+    manifest = dict(pid=os.getpid(), process_start=v.process_start(os.getpid()),
+                    mode="review-session", verdict="pending-review", session="s")
+    assert v.live_session_errors(manifest) == []
+    manifest["process_start"] = "wrong"
+    assert v.live_session_errors(manifest)
+    manifest["ended"] = "done"
+    assert v.live_session_errors(manifest)
+
+
+def test_multicontext_observation_never_drops_unknown_targets():
+    v = verifier()
+    targets = {"one": dict(targetId="one", browserContextId="a"),
+               "two": dict(targetId="two", browserContextId="b")}
+    events = [dict(kind="Network.requestWillBeSent", data=dict(targetId=t)) for t in ("one", "two", "unknown")]
+    kept, excluded = v.context_events(events, "a", targets)
+    assert [e["data"]["targetId"] for e in kept] == ["one", "unknown"]
+    assert excluded == [dict(event=events[1], target=targets["two"], reason="different browserContextId")]
+
+
+@pytest.mark.parametrize("defect", ["none", "full", "hole", "end", "width"])
+def test_tile_extent_coverage_is_not_image_existence(defect):
+    v = verifier()
+    view = dict(images=[dict(type="full", x=0, y=0, width=305, height=1559),
+                        dict(type="tile", x=0, y=0, width=305, height=900),
+                        dict(type="tile", x=0, y=800, width=305, height=759)])
+    if defect == "full":
+        view["images"].pop(0)
+    elif defect == "hole":
+        view["images"][-1]["y"] = 901
+    elif defect == "end":
+        view["images"][-1]["height"] = 700
+    elif defect == "width":
+        view["images"][-1]["width"] = 300
+    assert bool(v.image_coverage_errors(view, dict(document=dict(clientWidth=305, scrollHeight=1559)))) == (defect != "none")
+
+
+def test_builtin_contract_and_scope_commands_need_no_browser_or_role():
+    for flag in ("--check-evidence-contract", "--check-scope"):
+        result = subprocess.run([sys.executable, "-S", str(ROOT / "tools/verify_wordfreq_html.py"), flag], capture_output=True)
+        assert result.returncode == 0, result.stderr + result.stdout
+        report = json.loads(result.stdout)
+        assert report["errors"] == []
+        if flag == "--check-evidence-contract":
+            assert report["synthetic"] is True
+            assert report["product_acceptance"] is False
+            assert report["clean"] == "accepted-predicate-only"
+            assert len(report["rejected"]) >= 15

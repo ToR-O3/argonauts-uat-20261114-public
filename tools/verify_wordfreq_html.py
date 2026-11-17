@@ -58,7 +58,9 @@ def now():
 
 def save_json(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    pending = path.with_suffix(path.suffix + ".part")
+    pending.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    pending.replace(path)
 
 
 class Document(HTMLParser):
@@ -391,6 +393,21 @@ def instrumented_browser(pw, executable):
                     process.wait(timeout=5)
 
 
+def context_events(events, context_id, targets):
+    """Exclude only proved other contexts; retain unknowns and explicit grounds."""
+    kept, excluded = [], []
+    by_id = {t.get("targetId"): t for t in targets.values()}
+    for event in events:
+        data = event["data"]
+        target = data.get("targetInfo") or by_id.get(data.get("targetId"), {})
+        other = target.get("browserContextId")
+        if other and other != context_id:
+            excluded.append(dict(event=event, target=target, reason="different browserContextId"))
+        else:
+            kept.append(event)
+    return kept, excluded
+
+
 class Observer:
     """Native context events plus pre-page browser target and pre-open page CDP.
 
@@ -448,8 +465,11 @@ class Observer:
         with self.monitor.lock:
             events = sorted(self.events + self.monitor.events[self.monitor_start:], key=lambda e: e["at"])
             errors = self.errors + list(self.monitor.errors)
+            excluded = []
+            if getattr(self, "context_id", None):
+                events, excluded = context_events(events, self.context_id, self.monitor.targets)
         return dict(start=self.start, end=self.end, interval="capture-only", events=events,
-                    coverage=observer_coverage(events), errors=errors)
+                    coverage=observer_coverage(events), errors=errors, excluded_other_contexts=excluded)
 
 
 def observer_coverage(events, expected_url=None):
@@ -555,13 +575,15 @@ def dom_errors(raw, case):
     return errors
 
 
-def collect_view(browser, case, width, output):
+def collect_view(browser, case, width, output, live=None):
     folder = output / case["id"] / str(width)
     folder.mkdir(parents=True)
     context = browser.new_context(viewport=dict(width=width, height=900), device_scale_factor=1)
     observer = Observer(browser, context)
     page = context.new_page()
     cdp = observer.attach(page)
+    if live is not None:
+        observer.context_id = cdp.send("Target.getTargetInfo")["targetInfo"]["browserContextId"]
     errors = []
     view = dict(width=width, images=[], raw=str(folder / "raw.json"), network=str(folder / "network.json"),
                 reviewed_images=[], verdict="pending-review")
@@ -620,8 +642,13 @@ def collect_view(browser, case, width, output):
         page.wait_for_timeout(100)
         net = observer.finish()
         save_json(folder / "network.json", net)
-        observer.browser_cdp.detach()
-        context.close()
+        if live is None:
+            observer.browser_cdp.detach()
+            context.close()
+        else:
+            net["interval"] = "live-review"
+            save_json(folder / "network.json", net)
+            live.append(dict(page=page, context=context, observer=observer, view=view, url=url))
     errors += network_errors(net, url)
     view["errors"] = errors
     save_json(folder / "derived.json", view)
@@ -758,23 +785,428 @@ def self_test_network(args):
     return 1 if report["errors"] else 0
 
 
+REVIEW_FIELDS = ("actor", "image", "sha256", "viewed_at", "scale", "extent",
+                 "raw", "raw_sha256", "judgment", "notes")
+SCOPE_BASE = "5a7659b949dc118b59cea5ef3eb40bcd94337d8d"
+APPROVED_PRODUCT = "ed7e6cc9d608bc40a82da76e85ca6e57a0808b54"
+ACTORS = {"builder": "argonauts-uat-builder", "quality": "argonauts-uat-quality"}
+SCOPE_FILES = {"README.md", "CONCEPTS.md", "docs/wordfreq-html-verification.md",
+    "wordfreq/__main__.py", "wordfreq/aggregator.py", "wordfreq/formatters.py",
+    "tests/test_aggregator.py", "tests/test_cli.py", "tests/test_formatters.py",
+    "tests/test_sources.py", "tests/test_html_verifier.py",
+    "tools/verify_wordfreq_html.py", "tools/wordfreq_html_geometry.js",
+    "openspec/changes/r-50053edc-wordfreq-html/tasks.md"}
+
+
+def scope_path_errors(paths):
+    allowed_planning = (".planning/argonauts/", ".planning/intel/", ".planning/research/",
+                        ".planning/phases/03-wordfreq-html-output/")
+    allowed_state = {".planning/STATE.md", ".planning/ROADMAP.md", ".planning/REQUIREMENTS.md",
+                     ".planning/INGEST-CONFLICTS.md", ".planning/state.json"}
+    return [f"unauthorized scope: {p}" for p in paths
+            if p not in SCOPE_FILES | allowed_state and not p.startswith(allowed_planning)]
+
+
+def scope_report():
+    target = git("rev-parse", "HEAD").strip()
+    paths = list(filter(None, git("diff", "--name-only", "-z", SCOPE_BASE, target).split("\0")))
+    # Freeze the reviewed product snapshot:03-04 may only change verification/docs.
+    unexpected_product = git("diff", "--name-only", APPROVED_PRODUCT, target, "--", "wordfreq")
+    return dict(base=SCOPE_BASE, target=target, paths=paths,
+                product_diff=git("diff", SCOPE_BASE, target, "--", "wordfreq"),
+                intentional_change="approved lexical ties -> normalized first occurrence; HTML output",
+                errors=scope_path_errors(paths) + (["product differs from approved03-02 snapshot"] if unexpected_product else []))
+
+
+def session_actor(role, actor, output):
+    if actor != ACTORS.get(role) or os.environ.get("HERMES_PROFILE") != actor:
+        raise ValueError("actor/role must match the actual Hermes profile; role flag is not independence")
+    if role not in output.parts or ({"builder", "quality"} - {role}).intersection(output.parts):
+        raise ValueError("output root must be separate and contain the actual role")
+    return actor
+
+
+def review_errors(entry, image, raw, raw_hash, actor, start, end):
+    """Validate an external attestation, never invent one from image existence."""
+    errors = []
+    if any(field not in entry for field in REVIEW_FIELDS):
+        return ["missing review fields"]
+    if (entry["actor"] != actor or entry["image"] != image["path"]
+            or entry["sha256"] != image["sha256"] or entry["raw"] != raw
+            or entry["raw_sha256"] != raw_hash):
+        errors.append("review identity/hash/raw mismatch")
+    try:
+        at, lower, upper = map(datetime.fromisoformat, (entry["viewed_at"], start, end))
+        if not lower <= at <= upper:
+            errors.append("review outside live interval")
+        if type(entry["scale"]) not in (int, float) or entry["scale"] < 1:
+            errors.append("review not at readable scale")
+    except (TypeError, ValueError):
+        errors.append("invalid review time/scale")
+    if entry["extent"] != [0, 0, image["width"], image["height"]]:
+        errors.append("review incomplete extent")
+    if entry["judgment"] != "readable" or not isinstance(entry["notes"], str) or not entry["notes"].strip():
+        errors.append("missing concrete readable judgment")
+    return errors
+
+
+def load_json(path):
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def digest(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def ledger_errors(manifest, ledger, end):
+    errors = []
+    try:
+        for key in ("session", "head", "actor", "root"):
+            if not manifest.get(key) or ledger.get(key) != manifest[key]:
+                errors.append(f"ledger {key} mismatch")
+        images = [(v, i) for c in manifest["cases"] for v in c["views"] for i in v["images"]]
+        reviews = ledger["reviews"]
+        expected = [i["path"] for _, i in images]
+        actual = [r["image"] for r in reviews]
+        if not expected or len(set(expected)) != len(expected) or sorted(actual) != sorted(expected):
+            errors.append("missing/duplicate/unviewed image identity")
+        for view, image in images:
+            matching = [r for r in reviews if r["image"] == image["path"]]
+            if len(matching) == 1:
+                errors += review_errors(matching[0], image, view["raw"], view["raw_sha256"],
+                                        manifest["actor"], manifest["ready_at"], end)
+        acs = ledger["ac_reviews"]
+        names = [f"AC{i}" for i in range(1, 7)]
+        if sorted(a["ac"] for a in acs) != names or sorted(manifest["ac_index"]) != names:
+            errors.append("missing/duplicate AC coverage")
+        for ac in acs:
+            if (ac["judgment"] != "accepted" or not isinstance(ac["notes"], str) or not ac["notes"].strip()
+                    or not ac["evidence"] or ac["evidence"] != manifest["ac_index"][ac["ac"]]):
+                errors.append(f"incomplete AC evidence/judgment: {ac['ac']}")
+    except (KeyError, TypeError, ValueError) as exc:
+        errors.append(f"missing/malformed ledger: {exc}")
+    return errors
+
+
+def image_coverage_errors(view, raw):
+    images = view["images"]
+    full = [i for i in images if i["type"] == "full"]
+    width, height = raw["document"]["clientWidth"], raw["document"]["scrollHeight"]
+    if len(full) != 1 or (full[0]["x"], full[0]["y"], full[0]["width"], full[0]["height"]) != (0, 0, width, height):
+        return ["missing/invalid full image coverage"]
+    if height > 900:
+        tiles = sorted((i for i in images if i["type"] == "tile"), key=lambda i: i["y"])
+        end = 0
+        for tile in tiles:
+            if tile["x"] != 0 or tile["width"] != width or tile["y"] > end or tile["height"] > 900:
+                return ["tile coverage hole/width/scale"]
+            end = max(end, tile["y"] + tile["height"])
+        if end != height:
+            return ["tile coverage incomplete"]
+    return []
+
+
+def evidence_errors(manifest, ledger, output, end, require_end=True):
+    """Re-read immutable originals plus current live network snapshots fail closed."""
+    errors = []
+    try:
+        if (manifest["mode"] != "review-session" or manifest.get("ended") or manifest.get("synthetic")
+                or manifest["verdict"] != "pending-review" or manifest["errors"]):
+            errors.append("not an active real review session")
+        if manifest["root"] != str(output.resolve()):
+            errors.append("wrong evidence root")
+        session_actor(manifest["role"], manifest["actor"], output.resolve())
+        current = provenance()
+        if current["head"] != manifest["head"] or current["product_status"] or current["untracked_product"]:
+            errors.append("head/product dirty or changed")
+        scope = scope_report()
+        errors += scope["errors"]
+        if scope != manifest["scope"]:
+            errors.append("scope/head changed")
+        required = []
+        for case in manifest["cases"]:
+            required += [case[k] for k in ("input", "stdout", "stderr")]
+            required.append(str(output / case["id"] / "cli.json"))
+            for view in case["views"]:
+                required.append(view["raw"])
+                required += [i["path"] for i in view["images"]]
+        required += [str(output / name) for name in ("provenance.json", "scope.json", "suite.json",
+                     "suite.xml", "suite.stdout", "suite.stderr", "canaries/canaries.json")]
+        if not required or not all(p in manifest["artifacts"] for p in required):
+            errors.append("missing artifact identities")
+        for path, hash_value in manifest["artifacts"].items():
+            if not Path(path).resolve().is_relative_to(output.resolve()) or digest(path) != hash_value:
+                errors.append(f"missing/stale/outside-root artifact: {path}")
+        if manifest["ac_index"] != ac_index(manifest, output):
+            errors.append("AC artifact mapping changed")
+        suite = load_json(output / "suite.json")
+        import xml.etree.ElementTree as ET
+        suites = list(ET.parse(output / "suite.xml").getroot().iter("testsuite"))
+        if (suite["exit"] != 0 or not suites or not any(int(s.get("tests", 0)) for s in suites)
+                or any(int(s.get(k, 0)) for s in suites for k in ("errors", "failures", "skipped"))):
+            errors.append("full suite missing/failed/skipped")
+        canaries = load_json(output / "canaries/canaries.json")
+        if canaries["provenance"]["head"] != manifest["head"] or canaries["role"] != manifest["role"]:
+            errors.append("canaries wrong head/role")
+        errors += canary_errors(canaries)
+        errors += capture_errors(manifest, output)
+        for case, expected in zip(manifest["cases"], fixed_cases()):
+            if any(json.dumps(case[k], ensure_ascii=False) != json.dumps(value, ensure_ascii=False)
+                   for k, value in expected.items()):
+                errors.append(f"{case['id']}: stale case oracle")
+            if Path(case["input"]).read_bytes() != expected["body"].encode("utf-8") or case["exit"] != 0 or Path(case["stderr"]).read_bytes():
+                errors.append(f"{case['id']}: stale input/CLI failure")
+            for view in case["views"]:
+                raw = load_json(view["raw"])
+                errors += geometry_errors(raw) + dom_errors(raw, case) + image_coverage_errors(view, raw)
+                if raw["viewport"] != view["browser"]["viewport"] or raw["viewport"]["width"] != view["width"] or not raw["platformFonts"]:
+                    errors.append("missing/wrong browser environment")
+                net = load_json(view["network"])
+                errors += network_errors(net, Path(case["stdout"]).as_uri())
+                if net["interval"] != "live-review" or (require_end and net["end"] < end) or net["start"] > manifest["ready_at"]:
+                    errors.append("incomplete live observation interval")
+                if view["errors"]:
+                    errors += view["errors"]
+        errors += ledger_errors(manifest, ledger, end)
+    except (KeyError, TypeError, ValueError, OSError) as exc:
+        errors.append(f"evidence unverified: {type(exc).__name__}: {exc}")
+    return list(dict.fromkeys(errors))
+
+
+def ac_index(manifest, output):
+    # Conservative full chain for every AC: all cases, not sampled evidence.
+    refs = sorted(manifest["artifacts"]) + sorted(v["network"] for c in manifest["cases"] for v in c["views"])
+    return {f"AC{i}": refs for i in range(1, 7)}
+
+
+def process_start(pid):
+    # Linux process incarnation, not PID alone (PID reuse must not revive capture).
+    return Path(f"/proc/{pid}/stat").read_text().rsplit(")", 1)[1].split()[19]
+
+
+def live_session_errors(manifest):
+    try:
+        if (manifest["mode"] != "review-session" or manifest["verdict"] != "pending-review"
+                or manifest.get("ended") or not manifest["session"]
+                or process_start(manifest["pid"]) != manifest["process_start"]):
+            return ["live session absent/ended/stale"]
+        os.kill(manifest["pid"], 0)
+    except (KeyError, TypeError, ValueError, OSError):
+        return ["live session unavailable"]
+    return []
+
+
+def snapshot_live(live, browser, output):
+    # Pump all native listeners, then take complete CDP snapshots. No page closes.
+    for item in live:
+        item["page"].wait_for_timeout(10)
+    boundary = now()
+    errors = []
+    for item in live:
+        net = item["observer"].finish()
+        net["interval"] = "live-review"
+        save_json(Path(item["view"]["network"]), net)
+        errors += network_errors(net, item["url"])
+    monitor = browser.protocol_monitor
+    with monitor.lock:
+        save_json(output / "browser-network.json", dict(events=list(monitor.events),
+            targets=dict(monitor.targets), errors=list(monitor.errors), snapshot_at=now()))
+        errors += list(map(str, monitor.errors))
+    return boundary, errors
+
+
+def run_suite(output):
+    argv = [sys.executable, "-m", "pytest", "--junitxml", str(output / "suite.xml")]
+    start = now()
+    result = subprocess.run(argv, cwd=ROOT, capture_output=True, timeout=180,
+                            env=dict(os.environ, PYTHONDONTWRITEBYTECODE="1"))
+    (output / "suite.stdout").write_bytes(result.stdout)
+    (output / "suite.stderr").write_bytes(result.stderr)
+    save_json(output / "suite.json", dict(argv=argv, cwd=str(ROOT), started=start,
+        ended=now(), exit=result.returncode, environment=dict(PYTHONPATH=os.environ.get("PYTHONPATH"),
+        PYTHONHASHSEED=os.environ.get("PYTHONHASHSEED")), head=git("rev-parse", "HEAD").strip()))
+    if result.returncode:
+        raise ValueError("full suite failed; see suite.stdout/stderr")
+
+
+def review_session(args):
+    import uuid
+    from types import SimpleNamespace
+
+    output = args.output_dir.resolve()
+    actor = session_actor(args.role, args.actor, output)
+    if not 0 < args.session_timeout <= 7200:
+        raise ValueError("session timeout must be >0 and <=7200 seconds")
+    if output.exists():
+        raise ValueError("review output root must be new, never reused")
+    output.mkdir(parents=True)
+    before, scope = provenance(), scope_report()
+    save_json(output / "provenance.json", before)
+    save_json(output / "scope.json", scope)
+    manifest = dict(mode="review-session", root=str(output), role=args.role, actor=actor,
+        session=uuid.uuid4().hex, pid=os.getpid(), process_start=process_start(os.getpid()),
+        head=before["head"], started=now(), scope=scope, verdict="unverified", cases=[], errors=[],
+        independent_acceptance=False)
+    save_json(output / "manifest.json", manifest)
+    live = []
+    try:
+        if before["product_status"] or before["untracked_product"] or scope["errors"]:
+            raise ValueError("dirty/untracked or unauthorized scope; commit code first")
+        run_suite(output)
+        if self_test_network(SimpleNamespace(output_dir=output / "canaries", role=args.role, browser=args.browser)):
+            raise ValueError("real canary discrimination failed")
+        manifest["cases"] = generate_cases(output)
+        from playwright.sync_api import sync_playwright
+
+        with sync_playwright() as pw, instrumented_browser(pw, args.browser) as browser:
+            try:
+                manifest["browser"] = dict(executable=args.browser, version=browser.version,
+                    os=platform.platform(), launch=browser.launch_record)
+                for case in manifest["cases"]:
+                    if case["format"] == "html":
+                        for width in WIDTHS:
+                            view = collect_view(browser, case, width, output, live=live)
+                            case["views"].append(view)
+                            manifest["errors"] += view["errors"]
+                            view["raw_sha256"] = digest(view["raw"])
+                            for image in view["images"]:
+                                image["sha256"] = digest(image["path"])
+                manifest["errors"] += capture_errors(manifest, output)
+                _, net_errors = snapshot_live(live, browser, output)
+                manifest["errors"] += net_errors
+                if manifest["errors"]:
+                    raise ValueError("initial live evidence failed")
+                # Immutable inputs/CLI/raw/images/canaries/suite; network is live.
+                manifest["artifacts"] = {str(p): digest(p) for p in output.rglob("*")
+                    if p.is_file() and p.name not in {"manifest.json", "network.json", "browser-network.json", "derived.json"}}
+                manifest["ac_index"] = ac_index(manifest, output)
+                manifest["ready_at"] = now()
+                manifest["verdict"] = "pending-review"
+                save_json(output / "reviews.json", dict(session=manifest["session"], head=manifest["head"],
+                    root=str(output), actor=actor, reviews=[], ac_reviews=[]))
+                save_json(output / "manifest.json", manifest)
+                print(json.dumps(dict(ready=True, manifest=str(output / "manifest.json"),
+                    session=manifest["session"], verdict="pending-review")), flush=True)
+                deadline = time.monotonic() + args.session_timeout
+                request_path = output / "finalize-request.json"
+                while not request_path.exists() and time.monotonic() < deadline:
+                    live[0]["page"].wait_for_timeout(100)  # finite local review protocol, not repo surveillance
+                if not request_path.exists():
+                    raise ValueError("review timeout: images/rawRange unverified; no completion request")
+                request = load_json(request_path)
+                ledger_path = output / "reviews.json"
+                if request["session"] != manifest["session"] or request["ledger_sha256"] != digest(ledger_path):
+                    raise ValueError("finalize request/ledger identity changed")
+                manifest["finalize_requested_at"] = request["at"]
+                ledger = load_json(ledger_path)
+                boundary, errors = snapshot_live(live, browser, output)
+                errors += evidence_errors(manifest, ledger, output, boundary)
+                # Re-pump after potentially expensive checks: late failed attempts fail.
+                finished, late = snapshot_live(live, browser, output)
+                errors += late + evidence_errors(manifest, ledger, output, finished)
+                manifest["verification_finished"] = finished
+                manifest["errors"] += errors
+                manifest["ledger_sha256"] = digest(ledger_path)
+                manifest["end_provenance"] = provenance()
+                manifest["verdict"] = "failed" if errors else ("accepted" if args.role == "quality" else "builder-reviewed")
+                manifest["independent_acceptance"] = not errors and args.role == "quality"
+                manifest["ac_verdicts"] = {f"AC{i}": "accepted" if not errors else "unverified" for i in range(1, 7)}
+            finally:
+                if live:
+                    end, errors = snapshot_live(live, browser, output)
+                    manifest["observation_end"] = end
+                    manifest["errors"] += errors
+                for item in live:
+                    item["observer"].browser_cdp.detach()
+                    item["context"].close()
+    except Exception as exc:
+        manifest["errors"].append(f"unverified: {type(exc).__name__}: {exc}")
+    manifest["ended"] = now()
+    if manifest["errors"]:
+        manifest["verdict"] = "unverified"
+        manifest["independent_acceptance"] = False
+        manifest["ac_verdicts"] = {f"AC{i}": "unverified" for i in range(1, 7)}
+    save_json(output / "manifest.json", manifest)
+    print(json.dumps(dict(manifest=str(output / "manifest.json"), verdict=manifest["verdict"], errors=manifest["errors"])), flush=True)
+    return 0 if manifest["verdict"] in {"accepted", "builder-reviewed"} else 1
+
+
+def finalize(args):
+    output = args.output_dir.resolve()
+    session_actor(args.role, args.actor, output)
+    manifest = load_json(output / "manifest.json")
+    if args.review_ledger is None or args.review_ledger.resolve() != output / "reviews.json":
+        raise ValueError("review ledger must be the live root reviews.json")
+    ledger = load_json(args.review_ledger)
+    errors = live_session_errors(manifest)
+    if manifest.get("role") != args.role or manifest.get("actor") != args.actor:
+        errors.append("finalize role/actor mismatch")
+    errors += evidence_errors(manifest, ledger, output, now(), require_end=False)
+    if errors:
+        print(json.dumps(dict(verdict="unverified", errors=errors)))
+        return 1
+    # The live owner repeats ALL checks with freshly flushed events before verdict.
+    save_json(output / "finalize-request.json", dict(session=manifest["session"],
+        ledger_sha256=digest(args.review_ledger), at=now()))
+    print(json.dumps(dict(verdict="finalize-requested", final_acceptance=False)))
+    return 0
+
+
+def check_evidence_contract():
+    """Synthetic review predicates only. Never emit a product acceptance."""
+    image = dict(path="/synthetic/full.png", sha256="a" * 64, width=320, height=900)
+    entry = dict(actor="synthetic-reviewer", image=image["path"], sha256=image["sha256"],
+        viewed_at="2026-01-01T00:00:02+00:00", scale=1, extent=[0, 0, 320, 900],
+        raw="/synthetic/raw.json", raw_sha256="b" * 64, judgment="readable", notes="synthetic control only")
+    def check(value):
+        return review_errors(value, image, entry["raw"], entry["raw_sha256"], entry["actor"],
+            "2026-01-01T00:00:01+00:00", "2026-01-01T00:00:03+00:00")
+    errors, rejected = check(entry), []
+    invalid = {f"missing-{k}": {key: value for key, value in entry.items() if key != k} for k in entry}
+    for key, value in (("actor", "other"), ("sha256", "other"), ("raw", "/other/raw"),
+                       ("judgment", True), ("scale", 0.5), ("extent", [0, 0, 320, 1]),
+                       ("viewed_at", "2025-01-01T00:00:00+00:00")):
+        invalid[f"wrong-{key}"] = dict(entry, **{key: value})
+    for name, record in invalid.items():
+        if check(record):
+            rejected.append(name)
+        else:
+            errors.append(f"invalid accepted: {name}")
+    return dict(synthetic=True, product_acceptance=False, clean="accepted-predicate-only",
+                rejected=rejected, errors=errors)
+
+
 def parser():
     result = argparse.ArgumentParser(description=__doc__)
-    result.add_argument("--role", choices=("builder", "quality"), required=True)
-    result.add_argument("--output-dir", type=Path, required=True)
+    result.add_argument("--role", choices=("builder", "quality"))
+    result.add_argument("--output-dir", type=Path)
     result.add_argument("--mode", choices=("capture", "review-session", "finalize"), default="capture")
     result.add_argument("--browser", default="/usr/bin/chromium-browser")
     result.add_argument("--self-test-network", action="store_true")
+    result.add_argument("--actor")
+    result.add_argument("--session-timeout", type=float, default=3600)
+    result.add_argument("--review-ledger", type=Path)
+    result.add_argument("--check-evidence-contract", action="store_true")
+    result.add_argument("--check-scope", action="store_true")
     return result
 
 
 def main():
     args = parser().parse_args()
+    if args.check_evidence_contract or args.check_scope:
+        report = check_evidence_contract() if args.check_evidence_contract else scope_report()
+        print(json.dumps(report, ensure_ascii=False))
+        raise SystemExit(1 if report["errors"] else 0)
+    if args.role is None or args.output_dir is None:
+        parser().error("--role and --output-dir are required for browser operations")
     if args.self_test_network:
         raise SystemExit(self_test_network(args))
-    if args.mode != "capture":
-        raise SystemExit("review-session/finalize are not implemented in 03-03; no acceptance emitted")
-    raise SystemExit(capture(args))
+    try:
+        operation = {"capture": capture, "review-session": review_session, "finalize": finalize}[args.mode]
+        raise SystemExit(operation(args))
+    except (ValueError, OSError, KeyError, TypeError) as exc:
+        print(json.dumps(dict(verdict="unverified", errors=[str(exc)])))
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
