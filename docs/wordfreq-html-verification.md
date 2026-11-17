@@ -44,7 +44,7 @@ longの語はw×256。basenameは `集計`+space2個+n×176+実LF+`続き`+実TA
 
 各case/widthの `raw.json` は元の浮動矩形、全文Range、全codepointのRange（空配列を含む）、UTF-16開始/終了offset、codepoint位置、全文テキスト、全祖先のoverflow/box/border/padding/client/scroll情報を保持する。JSはディスクからautomation APIへ読み込み、製品HTMLへscriptタグを追加しない。座標系はviewport CSS px、採取時scrollを併記する。
 
-各td・th・見出し・caption・label・メタ値・空補足文について、所有者ごとのtext recordとcharacter Rangeの存在、連結した全文と要素textContentの完全一致を必須とする。現collectorのleaf構造外（子要素に包んだ値など）は未測定として失敗させ、黙って検査対象から外さない。
+各td・th・見出し・caption・label・メタ値・空補足文について、所有者ごとのtext recordとcharacter Rangeの存在、連結した全文と要素textContentの完全一致を必須とする。非空白文字は少なくとも1つの正の幅・高さの矩形を必須とする。ゼロ面積矩形と空白の空Rangeはrawに保持するが、可視文字の測定証拠には代用しない。現collectorのleaf構造外（子要素に包んだ値など）は未測定として失敗させ、黙って検査対象から外さない。
 
 `derived.json` はrawと別の判定。横viewport/列収まり、ownerを含む実切取り祖先のpadding clip、異なるテキストノード間の重なり、長いn/w連続部の複数行化、break-spaces/tab-size4、数値の全文/各桁を検査する。隣接列・行・メタ情報・captionを同じ文字矩形比較に含める。要素自身の縦矩形を越えただけでは失敗にしない。浮動値や空Rangeを丸め・clamp・削除して合格へ寄せない。clip領域の導出値はraw border/client原本とは別フィールド。
 
@@ -56,7 +56,7 @@ longの語はw×256。basenameは `集計`+space2個+n×176+実LF+`続き`+実TA
 
 CDP transportはChromiumのloopback debuggerであり、製品Webサーバーは起動しない。既存 `websockets` を明示ブラウザ操作時だけimportする。起動argvは背景機能/拡張を減らすが、**通信を遮断したことや成功response0を安全の根拠にはしない**。
 
-raw `network.json` に初回file読込みを含む全観測イベントと開始/終了時刻を残す。coverageは定数でなく、browser-autoattach-ready → page-cdp-ready → 初回要求の順序と、同じ初回文書URLのcontext/main CDP/flatten CDPの実要求、paused page targetIdとの対応から導出する。検証側でもイベントから再計算し、自己申告のtrueだけでは通さない。失敗・遷移未commit・popupでも外部/予期しないURLの試行は不合格。未知event、帰属できないrequest、初回local request欠損、observer coverage不足は未検証/失敗。
+raw `network.json` に初回file読込みを含む全観測イベントと開始/終了時刻を残す。Network.*のrequestIdはsource/sessionId/targetId/requestIdの組で同じチャネルのrequestWillBeSentへ必ず対応させ、開始が無い応答・data・完了・失敗・ExtraInfoはlocal URLでも未帰属として失敗にする。URLはurl/request.url/response.url/redirectResponse.url/documentURL/frame.url/targetInfo.urlを検査する。DOM/CSS domainはabout:blankで有効にしてから製品を開く。読み込み後のCSS.enableが起こす開始イベント無しのDevTools再取得を、背景扱いで除外しない。coverageは定数でなく、browser-autoattach-ready → page-cdp-ready → 初回要求の順序と、同じ初回文書URLのcontext/main CDP/flatten CDPの実要求、paused page targetIdとの対応から導出する。検証側でもイベントから再計算し、自己申告のtrueだけでは通さない。失敗・遷移未commit・popupでも外部/予期しないURLの試行は不合格。未知event、帰属できないrequest、初回local request欠損、observer coverage不足は未検証/失敗。
 
 例外は、文書open前に生成/attachされたChromium `browser_ui`、opener無し、canAccessOpener=false、既知のomnibox chrome:// URLという原本がある**同一targetId・同一URL**だけ。page型や文書open後の新targetへこの除外を広げない。根拠イベントも削除せず保持する。一般的な「背景通信だから除外」はしない。
 
