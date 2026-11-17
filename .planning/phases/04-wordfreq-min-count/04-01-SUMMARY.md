@@ -10,7 +10,7 @@ provides:
   - One-shot pre-product baseline driver and read-only historical validator
   - Sealed original bytes, raw observations and both-width screenshots
   - Baseline prerequisite gate for 04-02, subject to same-card quality review
- affects: []
+affects: [04-wordfreq-min-count]
 tech-stack:
   added: []
   patterns: [formal-commit-before-capture, exclusive-completion-marker, historical-object-validation]
