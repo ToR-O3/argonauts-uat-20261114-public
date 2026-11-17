@@ -31,12 +31,18 @@ def main(argv: list[str] | None = None) -> None:
     total = sum(counts.values())
     pairs = top_words(counts, args.top)
     if args.format == "html":
-        output = format_html(pairs, os.path.basename(args.filename), total)
+        # argv uses filesystem surrogateescape; HTML needs displayable Unicode.
+        basename = os.fsencode(os.path.basename(args.filename)).decode("utf-8", errors="replace")
+        output = format_html(pairs, basename, total)
     elif args.format == "json":
         output = format_json(pairs)
     else:
         output = format_text(pairs)
-    sys.stdout.write(output)
+    if args.format == "html":
+        # The document declares UTF-8, independently of the terminal locale.
+        sys.stdout.buffer.write(output.encode("utf-8"))
+    else:
+        sys.stdout.write(output)
     sys.exit(0)
 
 

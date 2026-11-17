@@ -13,7 +13,7 @@ python -m wordfreq input.txt --format html
 python -m wordfreq input.txt --format html > result.html
 ```
 
-HTML を保存するときは Python の標準出力とシェルの保存先を UTF-8 として扱う環境を使ってください。必要なら `PYTHONIOENCODING=utf-8` を実行環境に設定します。保存した `result.html` はローカルのブラウザで開けます。HTML は内包 CSS のみの静的文書で、スクリプト・外部フォント・画像・リンク・対話操作はありません。
+HTML はロケールや `PYTHONIOENCODING` に依存せず UTF-8 バイト列を標準出力へ書きます。保存時はバイト列をそのままリダイレクトしてください（シェル側で文字コードを変換しないでください）。ファイル名の表示は basename のファイルシステム上のバイト列を UTF-8 として読み、不正なバイトは置換文字 `�` にします。入力ファイルの読み込みに使うパス自体は変更しません。保存した `result.html` はローカルのブラウザで開けます。HTML は内包 CSS のみの静的文書で、スクリプト・外部フォント・画像・リンク・対話操作はありません。
 
 - `--top N` は1以上の整数、既定は10。種類数が N 未満なら全件を表示します。
 - `--format text|json|html` の既定は text。text は `<count>\t<word>\n`、JSON は `word` と整数 `count` の配列に末尾改行1つです。空入力は text が空、JSON が `[]` と改行、HTML が見出し3列・データ0行・総数0です。

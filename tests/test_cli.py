@@ -260,3 +260,51 @@ def test_normalized_tie_top_is_shared_by_all_formats(tmp_path, top, output_forma
         assert result.stdout.index('class="filename-value"') < result.stdout.index("<table")
         assert result.stdout.index('class="total-value"') < result.stdout.index("<table")
         assert str(tmp_path) not in result.stdout
+
+
+@pytest.mark.skipif(os.name != "posix", reason="POSIX byte filenames")
+@pytest.mark.parametrize("locale_name", ["en_US.utf8", "C.UTF-8"])
+def test_html_replaces_non_utf8_basename_bytes(tmp_path, locale_name):
+    path = os.fsencode(tmp_path) + b"/bad\xff.txt"
+    with open(path, "wb") as source:
+        source.write(b"hello hello world")
+    env = os.environ.copy()
+    env.pop("PYTHONIOENCODING", None)
+    env.update(LC_ALL=locale_name, PYTHONUTF8="0", PYTHONCOERCECLOCALE="0")
+    result = subprocess.run(
+        [sys.executable, "-m", "wordfreq", path, "--format", "html"],
+        cwd=ROOT, env=env, capture_output=True, timeout=10,
+    )
+    assert result.returncode == 0, result.stderr
+    assert result.stderr == b""
+    document = result.stdout.decode("utf-8", errors="strict")
+    parsed = CLIHTML(document)
+    assert parsed.values == {"filename-value": "bad\ufffd.txt", "total-value": "3"}
+    assert parsed.rows == [["1", "hello", "2"], ["2", "world", "1"]]
+    assert str(tmp_path) not in document
+
+
+@pytest.mark.parametrize("locale_name,io_encoding", [
+    ("en_GB.iso885915", None),
+    ("C", "latin-1"),
+])
+def test_html_bytes_are_utf8_independent_of_stdout_encoding(tmp_path, locale_name, io_encoding):
+    path = tmp_path / "input.txt"
+    path.write_text("hello hello 日本語", encoding="utf-8")
+    env = os.environ.copy()
+    env.pop("PYTHONIOENCODING", None)
+    env.update(LC_ALL=locale_name, PYTHONUTF8="0", PYTHONCOERCECLOCALE="0")
+    if io_encoding is not None:
+        env["PYTHONIOENCODING"] = io_encoding
+    result = subprocess.run(
+        [sys.executable, "-m", "wordfreq", str(path), "--format", "html"],
+        cwd=ROOT, env=env, capture_output=True, timeout=10,
+    )
+    assert result.returncode == 0, result.stderr
+    assert result.stderr == b""
+    document = result.stdout.decode("utf-8", errors="strict")
+    assert '<meta charset="utf-8">' in document
+    parsed = CLIHTML(document)
+    assert parsed.headers == ["順位", "単語", "回数"]
+    assert parsed.values == {"filename-value": "input.txt", "total-value": "3"}
+    assert parsed.rows == [["1", "hello", "2"], ["2", "日本語", "1"]]

@@ -115,6 +115,17 @@ After committing this SUMMARY, official `state.advance-plan` returned advanced=t
 
 `requirements.ready-ids` returned ready=[] and all five IDs blocked by unfinished sibling PLANs; no requirement was marked complete. `state.record-metric` recorded406s,2tasks,9files. Final full-suite rerun after official updates:52 passed in1.62s,exit0. Session continuity points to completion of03-01 and pending same-card quality review.
 
+## Review rework: CR-01 / WR-01
+
+Root cause: filesystem surrogateescape left an unencodable basename in HTML, and the final text stdout write used the locale encoding despite the UTF-8 declaration. The source read and pure formatter were not the failing boundaries.
+
+- CR-01 RED: `tests/test_cli.py -k replaces_non_utf8 -q` returned exit1, 2 failed (0.31s): en_US.utf8 raised UnicodeEncodeError for U+DCFF; C.UTF-8 returned invalid 0xFF bytes rejected by strict UTF-8 decode. After basename bytes decode with replacement at the CLI seam: exit0, 2 passed (0.23s).
+- WR-01 RED: `tests/test_cli.py -k bytes_are_utf8 -q` returned exit1, 2 failed (0.31s): en_GB.iso885915 charmap and C with PYTHONIOENCODING=latin-1 both raised UnicodeEncodeError for Japanese copy. After HTML-only strict UTF-8 binary stdout write: both regressions and CR-01 returned exit0, 4 passed (0.44s).
+- Full suite: exact environment prefix above, no install, exit0, 56 passed (1.95s). Tests use actual subprocess byte stdout/stderr, strict UTF-8 decoding, parsed basename/total/rows and Japanese headers/word.
+- README now documents unconditional UTF-8 bytes and replacement of invalid basename bytes; PYTHONIOENCODING is not a prerequisite. Original file path/read, pure formatter and text/json writes are unchanged.
+- No OpenSpec checkbox was advanced. Complete metadata/error matrix, browser/raw Range/network/all-image acceptance and independent target-head quality remain pending.
+- SUMMARY already exists and STATE remains Phase3 Current Plan2/4, Ready to execute after the prior official advance. This rework does not re-run or duplicate state.advance-plan/update-progress/roadmap updates and does not execute 03-02.
+
 ## Self-Check: PASSED
 
 Official `check evaluation-scope --plan 03-01 --commits-only --raw` resolved both task commits on this branch; every deliverable file existed and the complete suite passed. This is the PLAN's implementation self-check only, not phase/browser acceptance.
