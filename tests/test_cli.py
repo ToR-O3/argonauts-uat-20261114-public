@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import tomllib
 
 import pytest
 
@@ -158,4 +159,20 @@ def test_cli_leaves_input_and_git_worktree_unchanged(tmp_path):
     assert path.read_bytes() == content
     assert list(tmp_path.iterdir()) == [path]
     assert after == before
+
+
+def test_package_declares_only_development_dependencies():
+    config = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    assert config["project"]["name"] == "wordfreq"
+    assert config["project"]["dependencies"] == []
+    assert config["project"]["optional-dependencies"] == {"dev": ["pytest"]}
+    assert config["build-system"]["build-backend"] == "setuptools.build_meta"
+    assert config["tool"]["setuptools"]["packages"] == ["wordfreq"]
+
+
+def test_readme_runs_as_json_from_repository_without_installation():
+    result = run_cli(ROOT / "README.md", "--format", "json")
+    assert result.returncode == 0, result.stderr
+    assert result.stderr == ""
+    assert isinstance(json.loads(result.stdout), list)
 
