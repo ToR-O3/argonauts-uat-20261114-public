@@ -416,6 +416,7 @@ class Observer:
     """
     def __init__(self, browser, context):
         self.events = []
+        self.context_id = None
         self.start = now()
         self.context = context
         self.pages, self.errors = [], []
@@ -585,10 +586,10 @@ def collect_view(browser, case, width, output, live=None):
     if live is not None:
         observer.context_id = cdp.send("Target.getTargetInfo")["targetInfo"]["browserContextId"]
     errors = []
-    view = dict(width=width, images=[], raw=str(folder / "raw.json"), network=str(folder / "network.json"),
+    view: dict = dict(width=width, images=[], raw=str(folder / "raw.json"), network=str(folder / "network.json"),
                 reviewed_images=[], verdict="pending-review")
+    url = Path(case["stdout"]).as_uri()
     try:
-        url = Path(case["stdout"]).as_uri()
         # Enable inspection domains on about:blank, before the product exists.
         # CSS.enable on a loaded file causes a DevTools re-fetch without a
         # requestWillBeSent event in Chromium. Never whitelist that orphan.
@@ -809,13 +810,16 @@ def scope_path_errors(paths):
 
 def scope_report():
     target = git("rev-parse", "HEAD").strip()
+    working = provenance()
     paths = list(filter(None, git("diff", "--name-only", "-z", SCOPE_BASE, target).split("\0")))
     # Freeze the reviewed product snapshot:03-04 may only change verification/docs.
     unexpected_product = git("diff", "--name-only", APPROVED_PRODUCT, target, "--", "wordfreq")
     return dict(base=SCOPE_BASE, target=target, paths=paths,
                 product_diff=git("diff", SCOPE_BASE, target, "--", "wordfreq"),
+                product_status=working["product_status"], untracked_product=working["untracked_product"],
                 intentional_change="approved lexical ties -> normalized first occurrence; HTML output",
-                errors=scope_path_errors(paths) + (["product differs from approved03-02 snapshot"] if unexpected_product else []))
+                errors=scope_path_errors(paths) + (["product differs from approved03-02 snapshot"] if unexpected_product else [])
+                + (["dirty/untracked product/test/tool code"] if working["product_status"] or working["untracked_product"] else []))
 
 
 def session_actor(role, actor, output):
@@ -906,6 +910,16 @@ def image_coverage_errors(view, raw):
     return []
 
 
+def view_identity_errors(view):
+    errors = []
+    if digest(view["raw"]) != view["raw_sha256"]:
+        errors.append("raw identity differs from bytes")
+    for image in view["images"]:
+        if digest(image["path"]) != image["sha256"]:
+            errors.append("image identity differs from bytes")
+    return errors
+
+
 def evidence_errors(manifest, ledger, output, end, require_end=True):
     """Re-read immutable originals plus current live network snapshots fail closed."""
     errors = []
@@ -958,7 +972,7 @@ def evidence_errors(manifest, ledger, output, end, require_end=True):
                 errors.append(f"{case['id']}: stale input/CLI failure")
             for view in case["views"]:
                 raw = load_json(view["raw"])
-                errors += geometry_errors(raw) + dom_errors(raw, case) + image_coverage_errors(view, raw)
+                errors += view_identity_errors(view) + geometry_errors(raw) + dom_errors(raw, case) + image_coverage_errors(view, raw)
                 if raw["viewport"] != view["browser"]["viewport"] or raw["viewport"]["width"] != view["width"] or not raw["platformFonts"]:
                     errors.append("missing/wrong browser environment")
                 net = load_json(view["network"])
@@ -996,6 +1010,19 @@ def live_session_errors(manifest):
     return []
 
 
+def global_context_errors(events, targets, context_ids):
+    errors = []
+    by_id = {t.get("targetId"): t for t in targets.values()}
+    for event in events:
+        data = event["data"]
+        target = data.get("targetInfo") or by_id.get(data.get("targetId"), {})
+        if target.get("browserContextId") and target["browserContextId"] not in context_ids:
+            errors.append(f"unobserved browser context: {target}")
+        if event["kind"].startswith(("Network.", "Page.")) and not target.get("browserContextId"):
+            errors.append(f"unknown global target attribution: {event}")
+    return list(dict.fromkeys(errors))
+
+
 def snapshot_live(live, browser, output):
     # Pump all native listeners, then take complete CDP snapshots. No page closes.
     for item in live:
@@ -1012,6 +1039,8 @@ def snapshot_live(live, browser, output):
         save_json(output / "browser-network.json", dict(events=list(monitor.events),
             targets=dict(monitor.targets), errors=list(monitor.errors), snapshot_at=now()))
         errors += list(map(str, monitor.errors))
+        errors += global_context_errors(monitor.events, monitor.targets,
+            {item["observer"].context_id for item in live})
     return boundary, errors
 
 
@@ -1043,7 +1072,7 @@ def review_session(args):
     before, scope = provenance(), scope_report()
     save_json(output / "provenance.json", before)
     save_json(output / "scope.json", scope)
-    manifest = dict(mode="review-session", root=str(output), role=args.role, actor=actor,
+    manifest: dict = dict(mode="review-session", root=str(output), role=args.role, actor=actor,
         session=uuid.uuid4().hex, pid=os.getpid(), process_start=process_start(os.getpid()),
         head=before["head"], started=now(), scope=scope, verdict="unverified", cases=[], errors=[],
         independent_acceptance=False)
@@ -1121,6 +1150,9 @@ def review_session(args):
                     item["context"].close()
     except Exception as exc:
         manifest["errors"].append(f"unverified: {type(exc).__name__}: {exc}")
+    manifest["end_provenance"] = provenance()
+    if manifest["end_provenance"]["head"] != manifest["head"] or manifest["end_provenance"]["product_status"]:
+        manifest["errors"].append("head/product changed before final verdict")
     manifest["ended"] = now()
     if manifest["errors"]:
         manifest["verdict"] = "unverified"
@@ -1162,7 +1194,7 @@ def check_evidence_contract():
         return review_errors(value, image, entry["raw"], entry["raw_sha256"], entry["actor"],
             "2026-01-01T00:00:01+00:00", "2026-01-01T00:00:03+00:00")
     errors, rejected = check(entry), []
-    invalid = {f"missing-{k}": {key: value for key, value in entry.items() if key != k} for k in entry}
+    invalid: dict = {f"missing-{k}": {key: value for key, value in entry.items() if key != k} for k in entry}
     for key, value in (("actor", "other"), ("sha256", "other"), ("raw", "/other/raw"),
                        ("judgment", True), ("scale", 0.5), ("extent", [0, 0, 320, 1]),
                        ("viewed_at", "2025-01-01T00:00:00+00:00")):

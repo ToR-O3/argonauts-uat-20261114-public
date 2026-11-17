@@ -36,4 +36,5 @@ UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返�
   - [x] 3.2 tooling: live review-session/finalize、全full/tile画像のactor・時点・SHA・全域・実寸scale・rawRange原本対応台帳と欠落拒否を実装。collectorは閲覧済みを生成しない。
   - [x] 4.1 toolingのみ: profile/role/root分離、fresh入力・CLI再生成、canary再実行と全試験、AC1〜AC6索引、pre-openからfinal flushまでの有限観測を用意。4.1本体の独立品質は未完了。
   - [x] 4.2 tooling: planning-start base5a7659bと実行HEADのscope確認、承認済03-02製品snapshot固定、dirty/untracked/head変更・終了済capture・証拠欠落の拒否を実装。phase受入はpending。
+  - [x] 03-04 task2: 実CLI option/schema/全fixture/AC索引に照合した独立品質runbookとREADMEリンクを作成。空台帳finalize拒否と未閲覧timeout非0を実Chromiumで確認。終了時provenance・全browserContext帰属・画像/raw hashも再照合する。独立品質・全画像実閲覧・最終accepted経路は未実行のまま明示。
 - 実装・品質検証・受入が済んでから、別工程でsync・archiveと最終確認を行う。本カードでは実装・製品ブラウザ合格・archiveを行わない。
