@@ -35,7 +35,7 @@
 - **THEN** 空ファイルと同じ0件の結果で exit code は0である
 
 ### Requirement: 出力形式オプション（FR-3）
-`--format text|json|html` は出力形式を指定し、既定は text とすることを MUST とする。text は `回数<TAB>語<改行>` の1語1行、json は `{"word": <str>, "count": <int>}` の配列とし、「出力の順序決定論性」の順序に従う。html は単語・回数の表を持つ単一の完結HTML文書を stdout に出す。不正な形式は使い方エラー（exit 2）。入力名・総数を既存text/jsonの構造へ追加しない。
+`--format text|json|html` は出力形式を指定し、既定は text とすることを MUST とする。text は `回数<TAB>語<改行>` の1語1行、json は `{"word": <str>, "count": <int>}` の配列とし、「出力の順序決定論性」の順序に従う。html は順位・単語・回数の3列表を持つ単一の完結HTML文書を stdout に出す。不正な形式は使い方エラー（exit 2）。順位・入力名・総数などのメタデータを既存text/jsonの構造へ追加しない。
 
 #### Scenario: JSON 出力が機械可読
 - **WHEN** `--format json` を指定して実行する
@@ -83,13 +83,13 @@
 ## ADDED Requirements
 
 ### Requirement: HTMLの入力名と総数（HTML-1）
-HTMLは表より前に入力ファイル名と数えた単語の総出現数を表示することを MUST とする。総数は異なり語数ではない。承認案はtop前の全正規化トークン出現数とし、topは表示行だけを制限する。入力名の承認案はディレクトリを含めないbasenameの文字表示（リンクではない）とする。これらの案はQ-3/Q-4の回答で確定する。
+HTMLは表より前に入力ファイル名と数えた単語の総出現数を表示することを MUST とする。総数はtop前の全正規化トークン出現回数の総和であり、異なり語数や表示行の回数合計ではない。topは表示行だけを制限する。入力名はディレクトリを含めないbasenameの文字表示（リンクではない）とする。Q-3/Q-4はt_0c7d0df4の人default回答1794903097で解決済み。
 
-#### Scenario: 総数と表示行数の区別（Q-3推奨案の承認後）
+#### Scenario: 総数と表示行数の区別
 - **WHEN** `Zoo apple zoo APPLE beta` を `--format html --top 1` で集計する
-- **THEN** 表前の総数は5、データ行はzooの1行で回数2であり、総数を異なり語数3や表示回数2としない
+- **THEN** 表前の総数は5、データ行は順位1・zoo・回数2の1行であり、総数を異なり語数3や表示回数2としない
 
-#### Scenario: 入力名のパス露出抑止（Q-4推奨案の承認後）
+#### Scenario: 入力名のパス露出抑止
 - **WHEN** ディレクトリ配下の `資料.txt` をhtmlで集計する
 - **THEN** 表前に `資料.txt` が文字として現れ、ディレクトリの部分は現れない
 
@@ -113,15 +113,31 @@ HTMLは表より前に入力ファイル名と数えた単語の総出現数を�
 - **THEN** 文字化けせず、名前の空白文字も保持して表示され、表示対象のDOM文字列は元と一致する
 
 ### Requirement: モバイルの表の可読性（HTML-3）
-HTMLはviewport設定と語/回数の列見出しを持つ意味的tableを備えることを MUST とする。mobile CSS viewport320px/375pxとdesktop1280pxで長い語・入力名を折り返し、省略・欠落・重複・列の重なりなく全内容を読めるものとする。ページ/表の横スクロールは不要、縦スクロールは許す。配色と順位列の有無はQ-1/Q-2の回答まで確定しない。
+HTMLは明るい背景、viewport設定と順位・単語・回数の3列の列見出しを持つ意味的tableを備えることを MUST とする。順位はtop適用後の表示順に1から連番で、同数でも同順位にせず番号を飛ばさない。mobile CSS viewport320px/375pxとdesktop1280pxで長い語・入力名を折り返し、省略・欠落・重複・列の重なりなく3列の対応と全内容を読めるものとする。ページ/表の横スクロールは不要、縦スクロールは許す。Q-1/Q-2はt_0c7d0df4の人default回答1794903097で解決済み。テーマ切替は追加しない。
 
 #### Scenario: 長い語と名前を狭い画面で読む
 - **WHEN** 200文字連続の語・長い日本語入力名を持つHTMLをmobile emulationまたは実端末320px/375pxとdesktop1280pxで開く
-- **THEN** 語・回数の対応と表前の情報を全文読め、横方向のoverflowや列重なりがないことを画像とDOM/layout測定で確認できる
+- **THEN** 明るい背景で順位・単語・回数の3列の対応と表前の情報を全文読め、横方向のoverflowや列重なりがないことを画像とDOM/layout測定で確認できる
 
 #### Scenario: 見出しとセルの関連
 - **WHEN** 出力HTMLの表をDOMで確認する
-- **THEN** thead/tbodyと列見出しがあり、語・回数の見出しがscope=colでデータ列と関連する
+- **THEN** thead/tbodyと順位・単語・回数の列見出しがあり、3列すべての見出しがscope=colで各データ列と関連する
+
+#### Scenario: 通常の表示行連番
+- **WHEN** `one one one two two three` を `--format html --top 3` で集計する
+- **THEN** 順位/単語/回数は `1/one/3, 2/two/2, 3/three/1` となり、見出し行を採番しない
+
+#### Scenario: 同数でも表示行連番
+- **WHEN** `Zoo apple zoo APPLE beta` を `--format html --top 3` で集計する
+- **THEN** `1/zoo/2, 2/apple/2, 3/beta/1` となり、同数のzooとappleを同順位にしない
+
+#### Scenario: top後の順位
+- **WHEN** `Zoo apple zoo APPLE beta` を `--format html --top 1` で集計する
+- **THEN** 総数5のまま `1/zoo/2` の1行だけとなる
+
+#### Scenario: 空入力の順位
+- **WHEN** 空ファイルまたは語のない入力をhtmlで集計する
+- **THEN** 総数0、列見出し3列、データ行0であり、順位セルも存在しない
 
 ### Requirement: HTML追加時の互換性と検証範囲（HTML-4）
 HTML追加と同数順置換以外のCLI契約・入力取得境界・語の定義を維持することを MUST とする。試験には全形式の通常/空/記号のみ/top/エラー/Unicode/初出順と入力不変を含める。HTMLは整形部品への直接入力とCLI経由の両方、および実ブラウザで検証する。CIと依存の追加・変更は行わず、既存CI試験は維持する。

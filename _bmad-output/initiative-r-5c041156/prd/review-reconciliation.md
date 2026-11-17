@@ -1,15 +1,14 @@
-# 入力照合（順次fallback）
+# UPDATE 入力照合（順次fallback）
 
-独立subagentではなく同じ担当の照合。親の最終独立レビューが別途必要。
+判定: 重要な脱落なし。subagent起動ツールがなく同じ担当の照合であり、親の独立bmad-reviewとは別である。
 
-| 入力 | PRDへの反映 | 省略・保留 |
-| --- | --- | --- |
-| 依頼全文・固定制約 | FR-1〜4、RULE-1〜6、SM-1〜4 | 背景・順位列はOQ-1/2。未承認の総数/basenameはOQ-3/4 |
-| Brief | HTML・表前の文脈・簡素UI・全形式順序・安全性・範囲外 | A-1は仮説継承、人物像の追加質問は実装境界を変えないため初回feedbackへ |
-| Brief memlog | 未承認仮定、partial、CI/依存制約、実在検証ファイル、独立性の制限 | Brief資料ビューは製品HTMLの証跡にしない。PRDビューはoffer未承諾のため作らない |
-| 既存spec | FR-4、RULE-1〜3、SM-4に互換性契約 | 同数語昇順のみ意図的変更。旧IDとPRD IDは別名前空間 |
-| wordfreq/全6ファイル | text/count TAB word、JSON配列、UTF-8/FileSource、tokenizer/casefold、部品境界 | 新formatter署名やCSS詳細はdesignへ |
-| CONCEPTS | 正規化責務、旧順位からの移行、異なるhashseedの再実行 | CONCEPTS自体はPRD作業で編集しない |
-| initiative | 題名・配置 | Requirements未記載を承認扱いにしない |
+| 入力 | 反映先・確認結果 |
+|---|---|
+| 今回の確定入力（r-5c041156、t_0c7d0df4、コメント1794903097、正常完了run60） | Decisionsに回答元、OQ-1〜4とBrief Q-1〜4の対応、解決済み判断を記録。元システムから独立取得したとは主張しない。 |
+| 更新済みBriefとmemlog | FR-1/2、SM-1/3、RULE-6へ明るい背景、3列、1始まり連番、top前総数、basenameを反映。AC-1〜6維持を明記。 |
+| 通常・同数・top・空入力 | SM-1に期待値。top1総数5/1-zoo-2、空入力総数0/0行/順位セルなし。text/jsonへの順位・メタデータはFR-4で禁止。 |
+| 既存PRD・同memlog・レビュー補足 | 特殊文字安全表示、CR/CRLF・空白保持、外部通信なし、入力不変/別出力保存/共有注意、既存CLI回帰、3幅の画像/DOM/layout/network証跡を維持。 |
+| 旧spec/実装/CONCEPTSを根拠とした既存契約 | 旧同数語昇順から初出順への明示互換変更を維持し、正規化・終了値・入力境界等は変更しない。今回は元ファイルを変更しない。 |
+| 作業境界 | OpenSpec/open-questionsは親担当。製品コード・依存・CI・生成日時表示・テーマ切替へ拡張しない。 |
 
-重要な入力の欠落は見つからない。browser画像・layout/networkは将来受入条件で、実行済み証拠ではない。
+利用者仮説A-1は既存の非ゲートのまま初回フィードバックへ維持。新規仮定・未解決質問なし。小さなCLI拡張という意図を維持し、資料ビューや文書finalを製品の実装/検証証跡として扱わない。

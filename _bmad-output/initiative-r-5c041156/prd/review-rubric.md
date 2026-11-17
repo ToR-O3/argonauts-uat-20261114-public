@@ -1,15 +1,17 @@
-# Rubric review（順次fallback）
+# UPDATE Rubric review（順次fallback）
 
-小変更の機能PRDとして条件付きで下流が利用できる。人の未承認事項を確定しないため最終承認用としてはpartialであり、独立レビュー済みではない。
+判定: 回答済み4点を実装・品質へ渡す文書としてadequate。製品実装・ブラウザ検証完了を主張せず、親の独立レビューは別途必要。
 
-重要な対応は、(1) OQ-1〜4を仕様承認PMから人へ一括確認、(2) ID定義の区切り修正、(3) 本文の重複削減。前者は保留、後二者はFinalizeで対応する。
+| Dimension | Rating | 所見・対応 |
+|---|---|---|
+| Decision-ready | strong | OQ-1〜4の回答元と各回答をDecisionsに保存。未決扱いは解消。 |
+| Earned | strong | 需要は依頼を根拠とし、人物・利用実績・期限・効果数値を創作しない。 |
+| Testable | strong | FR-1〜4にSM-1〜4が対応。通常/同数/top/空入力の連番例、basename、top前総数、3列/見出し関連付け/狭幅可読性が判定可能。 |
+| Honest scope | strong | text/jsonの順位・メタデータ追加禁止。既存回帰、安全性、外部通信なし、範囲外を維持。A-1は非ゲート、Open questionsはnone。 |
+| Usable downstream | adequate | ID/TOCは公式CLIで検査。分量は従前からの残余制約で、指定された詳細条件を削らない。 |
 
-| Dimension | Rating | Severity / location / disposition |
-| --- | --- | --- |
-| Decision-ready | adequate | high / Open questions / 明暗・順位列・A-2/A-3は承認待ちのままdefer。無人で承認を作らない |
-| Earned | strong | 利用者像はA-1、ROI/人物/期限の創作なし |
-| Testable | strong | 全FRにSMがあり、空入力/top境界/casefold/再実行/注入/browser幅・証跡を具体化 |
-| Honest scope | strong | CI既存実行を残し変更だけ除外。stdin/URL等の拡張禁止も明示 |
-| Usable downstream | adequate | medium / ID・分量 / ID定義を区切り修正。本文重複はpolishで縮める |
+重要な対応は旧未決状態の除去、AC-2/3の具体化とSMへの反映、通常/同数/top/空入力の連番明示。すべて反映済みで、残るcritical/highの仕様欠落はない。
 
-Done when: 単一CLI操作を能力中心に記述し、FRは依頼された必要性へ対応。実在人物journeyは不在なので作らない。非目標・counter-metric・未承認仮定を記載。PRD完成は機能実装の充足ではない。
+Template done when: 単一CLI操作を能力中心に記述。各FRは閲覧・文脈・順序・既存利用維持という必要性に対応する。実在の人物journeyは創作せず、非目標・counter-metric・利用者仮説を明記。詳細設計は後続へ委ねる。全必須章を保持し、任意章の統合/省略理由はDecisionsにある。
+
+別担当subagentによる独立判定ではない。
