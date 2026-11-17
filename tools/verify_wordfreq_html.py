@@ -1176,13 +1176,13 @@ def review_session(args):
 
 def finalize(args):
     output = args.output_dir.resolve()
-    session_actor(args.role, args.actor, output)
+    actor = session_actor(args.role, args.actor, output)
     manifest = load_json(output / "manifest.json")
     if args.review_ledger is None or args.review_ledger.resolve() != output / "reviews.json":
         raise ValueError("review ledger must be the live root reviews.json")
     ledger = load_json(args.review_ledger)
     errors = live_session_errors(manifest)
-    if manifest.get("role") != args.role or manifest.get("actor") != args.actor:
+    if manifest.get("role") != args.role or manifest.get("actor") != actor:
         errors.append("finalize role/actor mismatch")
     errors += evidence_errors(manifest, ledger, output, now(), require_end=False)
     if errors:
