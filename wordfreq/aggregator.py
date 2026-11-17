@@ -6,3 +6,8 @@ from collections.abc import Iterable
 def count_words(tokens: Iterable[str]) -> Counter[str]:
     """Count a token iterable without acquiring text."""
     return Counter(tokens)
+
+
+def top_words(counts: Counter[str], n: int) -> list[tuple[str, int]]:
+    """Return up to n pairs by descending count, then ascending word."""
+    return sorted(counts.items(), key=lambda wc: (-wc[1], wc[0]))[:n]
