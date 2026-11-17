@@ -1,0 +1,29 @@
+{
+  "completed_phase": "3",
+  "phase_name": "wordfreq-html-output",
+  "plans_executed": "6/6",
+  "next_phase": null,
+  "next_phase_name": null,
+  "is_last_phase": true,
+  "date": "2026-11-18",
+  "roadmap_updated": true,
+  "state_updated": true,
+  "requirements_updated": true,
+  "auto_pruned": false,
+  "warnings": [
+    "03-03-SUMMARY.md: references 1 file(s) not on disk: .planning/argonauts/t_343bb136/03-03-browser-evidence.zip",
+    "03-04-SUMMARY.md: references 1 file(s) not on disk: .planning/argonauts/t_e549477c/03-04-live-evidence.zip",
+    "03-06-SUMMARY.md: references 2 file(s) not on disk: evidence/t_13f258db/quality-report-H1.md, t_13f258db-layout-red/pixel-comparison.json",
+    "REQUIREMENTS.md: 6 REQ-ID(s) found in body but missing from Traceability table: REQ-09, REQ-10, REQ-11, REQ-12, REQ-13, REQ-14 — add them manually to keep traceability in sync",
+    "REQUIREMENTS.md: Traceability row write skipped for REQ-ID(s) cited by ROADMAP (no matching row found): REQ-09, REQ-10, REQ-11, REQ-12, REQ-13, REQ-14"
+  ],
+  "has_warnings": true,
+  "verification_stale_check_indeterminate": false,
+  "milestone_conflict": null,
+  "preservation_warnings": [
+    {
+      "field": "current_phase_name",
+      "reason": "preserved-over-disagreeing-derived"
+    }
+  ]
+}

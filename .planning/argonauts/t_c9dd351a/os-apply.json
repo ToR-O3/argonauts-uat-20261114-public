@@ -1,0 +1,153 @@
+{
+  "changeName": "r-50053edc-wordfreq-html",
+  "changeDir": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html",
+  "schemaName": "spec-driven",
+  "contextFiles": {
+    "proposal": [
+      "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/proposal.md"
+    ],
+    "specs": [
+      "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md"
+    ],
+    "design": [
+      "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/design.md"
+    ],
+    "tasks": [
+      "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md"
+    ]
+  },
+  "progress": {
+    "total": 17,
+    "complete": 17,
+    "remaining": 0
+  },
+  "tasks": [
+    {
+      "id": "1",
+      "description": "1.1 集計時の正規化後初出順を保持し、回数降順の安定ソート後にtopで切る。集計単体とtext/jsonの実CLI試験で `Zoo apple APPLE zoo banana`、top 1/2、後の再出現、回数が異なる入力を確認し、旧仕様の語の昇順なら失敗することを示す。部品の順序契約と意図した互換性変更を同時に文書へ記録する。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 4
+    },
+    {
+      "id": "2",
+      "description": "2.1 単語・basenameを安全な表示テキストとして埋め込むHTML整形を作り、順位・単語・回数の見出し、UTF-8宣言、内包CSSだけの1枚文書を返す。整形単体試験で空pairs、特殊文字 `& < > \" '`、タグ・イベント候補が表示文字となり、余分なタグ・スクリプト・外部リソースが生成されないことを確認し、部品契約を文書化する。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 7
+    },
+    {
+      "id": "3",
+      "description": "2.2 CLIへhtml形式を接続し、top前countsからの総数と実行環境のbasenameを整形へ渡す。入力パスはtitle/属性等にも出さない。実CLI試験で `zoo apple zoo banana apple cherry` のtop 1/2/10でも総数6、別の頻度入力 `beta beta beta alpha gamma alpha delta` のtop 2でも総数7、表の上の表示位置、既定10・種類数超過・空入力0行を確認する。利用説明へ実行と保存の使用例を追記する。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 8
+    },
+    {
+      "id": "4",
+      "description": "2.3 同じ入力のtext/json/htmlの語・回数・順序を照合し、html指定でも不正top（0・負・非整数）、不正format、引数個数、読込み/デコード失敗のexit・stderr・空stdout、Unicode抽出・casefold・入力境界を回帰試験する。特殊文字を含む有効なbasenameをCLIで検査し、単語認識を緩めない。text/jsonの構造・空出力は同数時順序以外に変更せず、試験結果で確認する。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 9
+    },
+    {
+      "id": "5",
+      "description": "3.1 明るい背景のみ・切替なし・1始まり表示行連番を適用し、長い語とbasenameを折返して読める表にする。通常幅と320 CSS pxの実CLI生成HTMLで、空・通常・長文・同数topの表示を試験し、順位1/2、横はみ出しなし、省略なしを確認する。採用したUIと確認条件を説明文書に残す。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 13
+    },
+    {
+      "id": "6",
+      "description": "3.2 ブラウザ検証手順と必要なローカル補助を用意し、viewport・要素・文字Range行断片・切取り祖先・隣接内容の実測原本および画面画像を保存する。横方向の収まり、切取り祖先内の収まり、隣接内容との非重複、画像の可読性で判定し、要素自身への厳格な縦包含を必須にしないことを試験/手順で確認する。値を補正して合格に見せず、全文を確認できる画像と実測を対応付ける。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 14
+    },
+    {
+      "id": "7",
+      "description": "4.1 品質担当が対象headで入力原本からCLIを独立再実行し、text/json/htmlの一致と、空・通常・top・長文・注入候補のHTMLを通常幅および320 CSS pxで確認する。外部参照の静的検査と外部通信の試行記録を残し、通信遮断だけで無通信と判定しない。全画像を実際に読み、幾何原本と合わせACごとに判定する。head・入力・コマンド・exit/stdout/stderr・期待値・生成HTML・ブラウザ/viewport・矩形・画像・通信記録を保存して添付する。Builderの画像だけで代用しない。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 18
+    },
+    {
+      "id": "8",
+      "description": "4.2 全自動試験と変更差分を確認し、AC1–AC6と既存回帰の結果を追跡可能にまとめる。未実施条件は未検証として残し、証拠不足のまま合格にしない。CI追加・変更、依存追加、生成日時、テーマ切替、対話操作、サーバー、単語認識変更がないことを差分で確認する。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 19
+    },
+    {
+      "id": "9",
+      "description": "3.1 tooling部分: 固定15 CLIケース・HTML11ケース×両幅の実再生成、DOM/順序/総数/長文折返しと数値の自動幾何判別を用意。全画像の可読性はpendingのため3.1全体は未チェックのまま。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 29
+    },
+    {
+      "id": "10",
+      "description": "3.2 tooling部分: raw element/全文/文字Range・空矩形・UTF-16/codepoint・全祖先・実フォント・full/tile画像の対応採取と、own-height越え許容/clip/隣接非重複の判別試験を実装。実閲覧は未実施で3.2全体は未チェック。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 30
+    },
+    {
+      "id": "11",
+      "description": "4.1 tooling部分のみ: pre-open context/main-CDP/browser-flatten-autoattach観測と、clean/failed-resource/document-navigation/early-popup/client-redirectの実canaryを用意。採取はcapture-only/pending-review、品質の独立再生成・全画像閲覧・live観測・AC別判定は未完了。4.1の独立品質gateは未チェック。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 31
+    },
+    {
+      "id": "12",
+      "description": "03-03 review round2 tooling修正: coverageをready順序と同文書context/main/flatten要求・paused target対応から導出し、検証側も再計算。各td/メタ値等は文字record・character Range・全文一致を必須とし、欠落/空/部分測定は失敗。回帰のRED後、58 verifier/全184試験成功。全画像閲覧・live・独立品質gateのチェックは進めない。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 32
+    },
+    {
+      "id": "13",
+      "description": "03-03 review round3 tooling修正: Network requestIdをsource/session/target単位の開始へ結び、response/redirectResponse/documentURLも検査。未帰属再取得を実22画面で失敗再現後、DOM/CSS有効化をopen前へ移動。非空白文字は正面積のRangeを必須化。回帰RED後全213試験・実capture/canary成功。全画像閲覧・live・独立品質gateは未完了。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 33
+    },
+    {
+      "id": "14",
+      "description": "3.2 tooling: live review-session/finalize、全full/tile画像のactor・時点・SHA・全域・実寸scale・rawRange原本対応台帳と欠落拒否を実装。collectorは閲覧済みを生成しない。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 36
+    },
+    {
+      "id": "15",
+      "description": "4.1 toolingのみ: profile/role/root分離、fresh入力・CLI再生成、canary再実行と全試験、AC1〜AC6索引、pre-openからfinal flushまでの有限観測を用意。4.1本体の独立品質は未完了。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 37
+    },
+    {
+      "id": "16",
+      "description": "4.2 tooling: planning-start base5a7659bと実行HEADのscope確認、承認済03-02製品snapshot固定、dirty/untracked/head変更・終了済capture・証拠欠落の拒否を実装。phase受入はpending。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 38
+    },
+    {
+      "id": "17",
+      "description": "03-04 task2: 実CLI option/schema/全fixture/AC索引に照合した独立品質runbookとREADMEリンクを作成。空台帳finalize拒否と未閲覧timeout非0を実Chromiumで確認。終了時provenance・全browserContext帰属・画像/raw hashも再照合する。独立品質・全画像実閲覧・最終accepted経路は未実行のまま明示。",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "line": 39
+    }
+  ],
+  "taskTrackingConfigured": true,
+  "state": "all_done",
+  "instruction": "All tracked tasks are complete.\nReview or verify the change as appropriate before archiving.",
+  "context": "Language: Japanese\nAll artifacts must be written in Japanese.\nKeep OpenSpec structural headings and SHALL/MUST keywords in English.\n",
+  "root": {
+    "path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a",
+    "source": "nearest"
+  }
+}

@@ -1,125 +1,117 @@
 ---
 phase: 03-wordfreq-html-output
-reviewed: 2026-11-17T16:15:42Z
+reviewed: 2026-11-17T19:49:18Z
 depth: standard
-files_reviewed: 10
+files_reviewed: 6
 files_reviewed_list:
-  - wordfreq/__main__.py
-  - wordfreq/aggregator.py
-  - wordfreq/formatters.py
   - tools/verify_wordfreq_html.py
-  - tools/wordfreq_html_geometry.js
+  - tests/test_html_finalization.py
+  - tests/fixtures/encoding_cli_probe.py
   - tests/test_cli.py
-  - tests/test_formatters.py
-  - tests/test_aggregator.py
-  - tests/test_sources.py
   - tests/test_html_verifier.py
+  - docs/wordfreq-html-verification.md
 findings:
   critical: 0
   warning: 3
-  info: 5
-  total: 8
+  info: 3
+  total: 6
   necessity: 0
 status: issues_found
 ---
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-17T16:15:42Z
+**Reviewed:** 2026-11-17T19:49:18Z
 **Depth:** standard
-**Files Reviewed:** 10
+**Files Reviewed:** 6
 **Status:** issues_found
 
 ## Summary
 
-Scope: `git diff 5a7659b949dc118b59cea5ef3eb40bcd94337d8d` at HEAD `995011cd3b77d4d87a6be3bdf5780bf5cbe3b95c` for the 10 listed files.
+Reviewed HEAD `7c704f337df10a4bfd4bb18936266a16b606dd3c` against diff base `c26d9d963b5983e539b675b767fbd3d1c0572e7a`. The diff covers plans 03-05 (G1: final all-view/derived/ledger reconciliation and fail-closed publication) and 03-06 (G2: encoding seam, shallow/exact-ref scope, provenance outside `tests/`, actor recording). This report replaces the earlier review of HEAD `995011c`. That review's WR-01 (per-view pending after acceptance) and IN-02 (scope git failures escaping) are fixed in this diff. Its WR-02 (collection outside `tests/`) and WR-03 (missing locale) are partly addressed.
 
-The product changes are small and correct for the cases checked:
-- `format_html` escapes every value it interpolates (`html.escape(quote=True)`, and CR becomes `&#13;`). It contains no script, URL or external resource.
-- `__main__` writes HTML as UTF-8 bytes whatever the locale. It decodes the basename with `errors="replace"`, so a filename that is not valid UTF-8 cannot raise.
-- `top_words` uses a stable sort and does not mutate its input.
+The G1 publication path holds up. `publish_final_reviews` runs in this order:
+1. It writes an unverified checkpoint manifest.
+2. It writes every `derived.json`.
+3. It reconciles, and only then is the final manifest marker written.
 
-No security or data-loss defect was found in `wordfreq/`.
+Every exception, timeout, late network error and head/dirty change goes through `revoke_final_reviews`. That includes derived records found on disk that the manifest never listed. `final_review_errors` checks each view against the exact ledger path/sha256/viewed_at in canonical order and rejects `pending-review` at any depth. The exact-ref `scope_report` resolves both commits before diffing and returns `paths: null` plus `ref_diagnostics` rather than a clean list. Finalize rejects a manifest whose actor does not match, before it writes `finalize-request.json`.
 
-All three warnings are in the verification tool and its tests, not in the product code:
-1. An accepted manifest still marks each view as pending.
-2. The provenance check misses untracked test files that the suite will run.
-3. Some tests fail on hosts that lack a specific locale, which includes the repository's own CI.
+The remaining defects are in the anti-tamper gates (scope and provenance), which can still miss real changes:
+- the scope diff hides deletions of unauthorized files when git detects the change as a rename;
+- the provenance selection follows git's ignore rules rather than pytest's discovery rules;
+- import shadowing is detected only for a root-level `pytest.py`.
 
-The necessity rubric (`gsd-core/references/necessity-review.md`) was applied. No finding qualified: the guards around the CLI and filenames sit at trust boundaries (argv, the filesystem, the locale).
+I reproduced the rename behaviour in a throwaway git repo under the scratch dir. With git's default `diff.renames=true`, `git diff --name-only` listed only `.planning/research/ci.yml` for `git mv .github/workflows/ci.yml .planning/research/ci.yml`. `--no-renames` listed both paths.
+
+No necessity findings. I read the rubric. Every guard I reviewed sits on a trust boundary (files, git, environment, the external ledger) or is deliberate defense in depth.
 
 ## Warnings
 
-### WR-01: Accepted final manifest keeps per-view `verdict: "pending-review"` and `reviewed_images: []`
+### WR-01: Scope diff hides unauthorized deletions/moves via rename detection
 
-**File:** `tools/verify_wordfreq_html.py:591-592` (set), `tools/verify_wordfreq_html.py:1151-1153` (final verdict)
-**Issue:** `collect_view` creates each view with `reviewed_images=[]` and `verdict="pending-review"`. After a finalize that succeeds, `review_session` updates only the top-level fields `verdict`, `independent_acceptance` and `ac_verdicts` (lines 1151-1153). Nothing writes back to `cases[].views[]`. The saved `manifest.json` therefore says `verdict: "accepted"` at the top level, while every one of the 22 HTML views still says `verdict: "pending-review"` and `reviewed_images: []`. Each `derived.json` (line 657) is also frozen at the pending state. Quality's live run confirmed this. A downstream reader that checks per-view state will see the evidence as never reviewed. Worse, a reader that trusts the top level cannot tell which ledger entries approved which images. The evidence contradicts itself.
-**Fix:** After a verdict without errors, project the ledger onto each view before the final `save_json`. For example, after line 1153:
+**File:** `tools/verify_wordfreq_html.py:848-851`
+**Issue:** `scope_report()` builds `paths` from `git diff --name-only -z SCOPE_BASE target`. With git's default rename detection, a rename lists **only the destination**. A file outside the allowed scope (for example `.github/workflows/ci.yml` or `pyproject.toml`) can be moved into an allowed prefix (`.planning/research/`, `.planning/argonauts/`, `.planning/intel/`). Its deletion then never appears, and `scope_path_errors()` passes it. Reproduced: the default output was `.planning/research/ci.yml` only, while `--no-renames` also listed `.github/workflows/ci.yml`. `test_scope_committed_diffs_are_discriminated` covers add/modify only, not renames.
+**Fix:**
 ```python
-by_image = {r["image"]: r for r in ledger["reviews"]}
-for case in manifest["cases"]:
-    for view in case["views"]:
-        view["reviewed_images"] = [dict(image=i["path"], sha256=i["sha256"],
-            viewed_at=by_image[i["path"]]["viewed_at"]) for i in view["images"]]
-        view["verdict"] = manifest["verdict"]
+paths = list(filter(None, git("diff", "--no-renames", "--name-only", "-z",
+                              SCOPE_BASE, report["target"]).split("\0")))
+unexpected_product = git("diff", "--no-renames", "--name-only",
+                         APPROVED_PRODUCT, report["target"], "--", "wordfreq")
 ```
-Then reset these fields to `unverified` in the `if manifest["errors"]` branch at lines 1168-1171. Alternatively, remove the per-view `verdict`/`reviewed_images` fields so the top level is the only authority. Add a test that asserts per-view state agrees with the final verdict.
+Add a `renamed-out-of-scope` case: `git mv .github/workflows/ci.yml .planning/research/ci.yml` must produce `unauthorized scope: .github/workflows/ci.yml`.
 
-### WR-02: Provenance and dirty checks do not cover test files that pytest collects outside `tests/`
+### WR-02: Provenance uses git ignore rules, not pytest discovery, so ignored-but-collected test code is invisible
 
-**File:** `tools/verify_wordfreq_html.py:269-274`, `tools/verify_wordfreq_html.py:1063`
-**Issue:** `provenance()` checks git status, and lists untracked files, only for `wordfreq`, `tools`, `tests` and the root `pyproject.toml`, `conftest.py`, `pytest.ini`, `tox.ini` and `setup.cfg`. `run_suite` runs plain `python -m pytest` from `ROOT`, and `pyproject.toml` sets no `testpaths`. Pytest therefore collects `test_*.py`, `*_test.py` and nested `conftest.py` files from every directory it does not skip, including `docs/`, `openspec/`, `_bmad/` and `_bmad-output/`. An untracked or modified `docs/test_x.py` or `_bmad/conftest.py` would change the suite. It could add tests, or monkeypatch and auto-pass tests through a conftest. Neither `product_status` nor `untracked_product` would report it, so the evidence in `suite.json`/`suite.xml` would be credited to a clean HEAD. The same gap means `scope_report()` (line 824) and the gates at lines 669, 938, 1097 and 1165 all pass.
-**Fix:** Do one of the following:
-- Pin collection by running `[sys.executable, "-m", "pytest", "tests", "-p", "no:cacheprovider", "--rootdir", str(ROOT)]`, and add `testpaths = ["tests"]` to `[tool.pytest.ini_options]` in `pyproject.toml`.
-- Or make `provenance()` dirty-check the whole worktree except the allowed `.planning/` evidence paths. Record any untracked `test_*.py`, `*_test.py` or `conftest.py` anywhere as dirty.
-
-Add a regression test with an untracked `docs/test_extra.py`.
-
-### WR-03: Locale-dependent CLI tests fail instead of skipping on hosts without ISO-8859-15 locales (including the repo CI)
-
-**File:** `tests/test_cli.py:296`, `tests/test_cli.py:320-332`
-**Issue:** `test_html_preserves_basename_in_filesystem_encoding` asserts that `en_GB.iso885915` is in `locale -a`. `test_html_bytes_are_utf8_independent_of_stdout_encoding[en_GB.iso885915-None]` asserts that `locale charmap` is `ISO-8859-15`. The repository's own workflow, `.github/workflows/pytest.yml`, runs `python -m pytest` on `ubuntu-latest` and installs no locales. Stock runners and containers usually ship only `C.UTF-8` and `en_US.UTF-8`, so both tests fail there with assertion errors rather than being reported as skipped. They pass only on this WSL host, where the locale happens to be installed. A failure caused by the environment makes the suite unreliable, and `run_suite` will refuse any review session on such a host.
-**Fix:** Skip when the locale is missing instead of failing, for example:
+**File:** `tools/verify_wordfreq_html.py:276-279`
+**Issue:** `git status --porcelain=v1` and `git ls-files --others --exclude-standard` skip every path matched by `.gitignore`, `.git/info/exclude` or the user's `core.excludesFile`. pytest ignores those rules. It still collects any `test_*.py` / `*_test.py` and loads any `conftest.py` outside `norecursedirs` (`.*`, `build`, `dist`, `venv`, …) and `__pycache__`. An ignored `conftest.py` can deselect, skip or force-pass the whole suite, yet it would not show up in `product_status` or `untracked_product`. `run_suite()`/`suite.json` would then record a green suite that hidden code influenced. 03-06-PLAN requires the selection to be derived "from the repository's actual discovery contract" (T-03-16). `test_planning_evidence_and_ignored_cache_do_not_become_execution_code` tests only `__pycache__` and `.planning`, which pytest skips anyway. It never tests an ignored path that pytest would collect.
+**Fix:** Also list ignored files under the same pathspecs. Record them as dirty unless they sit in directories pytest never recurses into:
 ```python
-if locale_name not in available:
-    pytest.skip(f"{locale_name} not installed")
+ignored = git("ls-files", "--others", "--ignored", "--exclude-standard", "-z", "--", *paths)
+for name in filter(None, ignored.split("\0")):
+    parts = Path(name).parts
+    if "__pycache__" in parts or any(p.startswith(".") for p in parts[:-1]):
+        continue
+    # record path/sha256/content like untracked, and mark dirty
 ```
-Apply the same skip to the parametrized case, after a `locale -a` probe. Or install the locale in CI (`sudo locale-gen en_GB.ISO-8859-15`) and document the requirement.
+Add a fixture that puts `nested/conftest.py` in `.git/info/exclude` and asserts that `provenance()`/`scope_report()` block on it.
+
+### WR-03: Import-shadow coverage is limited to root `pytest.py`; other root modules still alter the suite
+
+**File:** `tools/verify_wordfreq_html.py:272-275`
+**Issue:** `run_suite()` runs `python -m pytest` with `cwd=ROOT`, and `-m` puts the cwd first on `sys.path`. Any untracked or modified root-level module or package named like a pytest dependency or stdlib module therefore replaces the real one for the entire run. Examples: `_pytest/`, `pluggy/`, `iniconfig.py`, `packaging/`, `json.py`, `xml/`. The selection includes only `pytest.py`, `conftest.py` and the test-name globs, so an untracked root `pluggy.py` leaves `product_status` empty. `test_isolated_collection_and_module_shadow_are_execution_influence` covers only `pytest.py`.
+**Fix:** Track every importable top-level entry rather than a single name, e.g. add `":(glob)*.py"`, `":(glob)*/__init__.py"` and `":(glob)*.pth"` to `paths`. Alternatively, dirty-check the whole worktree minus an explicit list of non-code paths (`.planning/**`, `docs/**`, `*.md`). Add a fixture with an untracked root `pluggy.py` (or `_pytest/__init__.py`) that must block.
 
 ## Info
 
-### IN-01: Duplicated `args.format == "html"` dispatch in `main`
+### IN-01: `roundtrip_path_hex` duplicates `raw_path_hex` by construction
 
-**File:** `wordfreq/__main__.py:33-47`
-**Issue:** The format is tested twice: once to build `output`, and again to choose between writing bytes and writing text. This is harmless, but the two branches can drift apart.
-**Fix:** Write the HTML bytes inside the first `html` branch, or keep the dispatch in a single `if/elif/else` that produces `(output, writer)`.
+**File:** `tests/fixtures/encoding_cli_probe.py:18,26-27` (asserted at `tests/test_cli.py:301-302`)
+**Issue:** Both fields evaluate `os.fsencode(argv[0])`. `os.fsencode` binds the startup codec when `os` is imported, so the patched `sys.getfilesystemencoding` cannot change it, and the two values are always equal. The real argv-byte check is the parent comparing `raw_path_hex` with its own `os.fsencode(path)`. The doc presents the round-trip as a separate verified obligation (G2 bullet 1).
+**Fix:** Drop the redundant field. Or make it independent, e.g. compare `Path(os.fsdecode(raw_path)).read_bytes()` against the input bytes, or `os.stat` identity against the parent's file.
 
-### IN-02: `scope_report()` git failures escape the CLI error handling and the manifest
+### IN-02: `test_native_encoding_availability_and_charmap_mismatch[False]` asserts only its own mock
 
-**File:** `tools/verify_wordfreq_html.py:265`, `tools/verify_wordfreq_html.py:818`, `tools/verify_wordfreq_html.py:1087`, `tools/verify_wordfreq_html.py:1250`
-**Issue:** `git()` uses `check=True`, which raises `subprocess.CalledProcessError`. That happens, for example, when the hard-coded `APPROVED_PRODUCT`/`SCOPE_BASE` commits are missing from a shallow clone. `review_session` calls `scope_report()` at line 1087, before its `try`, and `main` catches only `ValueError, OSError, KeyError, TypeError`. The run ends in a raw traceback, and `manifest.json` is never written. The tool still fails closed (exit is non-zero), but it leaves no failure provenance.
-**Fix:** Add `subprocess.SubprocessError` to the `except` tuple at line 1250. Move the `provenance()`/`scope_report()` calls into the guarded block, or wrap the git errors into `ValueError`.
+**File:** `tests/test_cli.py:318-335`
+**Issue:** In the unavailable case, the test calls the patched `subprocess.run(["locale","-a"])` and asserts `names == [b"C"]`, which is exactly the mocked return value. No test or product branch logic runs, so the case can never fail. The real unavailable path is exercised by `test_encoding_obligations_run_without_native_locale`, so no coverage is lost, but this case overstates the doc's claim that "availabilityの両分岐は決定論的回帰" ("both availability branches are deterministic regression tests").
+**Fix:** Remove the `False` parameter, or have it call `test_html_preserves_basename_in_filesystem_encoding(tmp_path)` and assert the controlled-only message via `capsys`.
 
-### IN-03: Hard-coded commit and profile constants make the verifier single-use
+### IN-03: Final ledger identity is not bound to the finalize request's hash
 
-**File:** `tools/verify_wordfreq_html.py:793-801`
-**Issue:** `SCOPE_BASE`, `APPROVED_PRODUCT`, `ACTORS` (specific `argonauts-uat-*` profile names) and `SCOPE_FILES` (including an `openspec/changes/r-50053edc-...` path) are literals. The tool can only verify this one phase in this one environment.
-**Fix:** Accept the base, the approved snapshot and the actor mapping as CLI options or a config file. Keep the current values as defaults.
-
-### IN-04: Scope-gate tests are tautological against the live worktree state
-
-**File:** `tests/test_html_verifier.py:511`, `tests/test_html_verifier.py:680-683`
-**Issue:** The test asserts `bool(report["errors"]) == bool(v.provenance()["product_status"])`. That passes whether the worktree is clean or dirty, so it never proves the scope gate rejects anything on the real repo. Separately, `test_plan_quality_commands_resolve_actual_actor_without_actor_option` (line 537) reads `.planning/.../03-04-PLAN.md`, which couples the product suite to planning artifacts.
-**Fix:** Run the real-repo assertion against a temporary git repo whose state is known, as `test_root_test_configuration_is_dirty_evidence` already does. Move the PLAN-command parsing check out of the product test suite.
-
-### IN-05: Permission-failure matrix fails when run as root
-
-**File:** `tests/test_cli.py:446-449`
-**Issue:** `pytest.raises(PermissionError)` on `path.read_bytes()` after `chmod(0)` fails under UID 0, where read access is not denied, as in many Docker CI images. The test checks its precondition correctly but should skip rather than fail.
-**Fix:** `if os.geteuid() == 0: pytest.skip("root bypasses file permissions")` for `failure == "permission"`.
+**File:** `tools/verify_wordfreq_html.py:1281-1290`
+**Issue:** The request hash is compared with `digest(ledger_path)` at line 1283. The ledger is then parsed in a separate read at line 1286, and `manifest["ledger_sha256"]` is recomputed after validation at line 1290. If `reviews.json` is replaced between those reads, the session validates and records a ledger the reviewer never attested. `ledger_errors` still validates every field, and `final_review_errors` compares the content, so this is a provenance-binding gap, not an acceptance bypass.
+**Fix:** Read the bytes once, check them against the request hash, and parse those same bytes:
+```python
+data = ledger_path.read_bytes()
+if request["ledger_sha256"] != hashlib.sha256(data).hexdigest():
+    raise ValueError("finalize request/ledger identity changed")
+ledger = json.loads(data.decode("utf-8"))
+...
+manifest["ledger_sha256"] = request["ledger_sha256"]
+```
 
 ---
 
-_Reviewed: 2026-11-17T16:15:42Z_
+_Reviewed: 2026-11-17T19:49:18Z_
 _Reviewer: Claude (gsd-code-reviewer)_
 _Depth: standard_
