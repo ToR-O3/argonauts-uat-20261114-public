@@ -86,6 +86,29 @@ def test_cli_html_is_utf8_regardless_of_stdio_encoding(tmp_path, stdio_encoding)
     assert path.read_bytes() == original
 
 
+@pytest.mark.skipif(os.name != "posix", reason="requires POSIX byte filenames")
+def test_cli_html_replaces_undecodable_basename_only_for_display(tmp_path):
+    raw_path = os.fsencode(tmp_path) + b"/x\xff<&.txt"
+    original = "日本語 Zoo zoo".encode("utf-8")
+    try:
+        with open(raw_path, "wb") as source:
+            source.write(original)
+    except (OSError, UnicodeError) as error:
+        pytest.skip(f"filesystem rejects byte filename: {error}")
+    path = os.fsdecode(raw_path)
+    result = run_html_cli(path)
+    assert result.returncode == 0, result.stderr
+    assert result.stderr == b""
+    document = result.stdout.decode("utf-8")
+    report = parse_report(document)
+    assert report.values["filename"] == "x\ufffd<&.txt"
+    assert "x\ufffd&lt;&amp;.txt" in document
+    assert str(tmp_path) not in document
+    assert report.rows[1:] == [["1", "zoo", "2"], ["2", "日本語", "1"]]
+    with open(raw_path, "rb") as source:
+        assert source.read() == original
+
+
 def test_cli_html_saved_document(tmp_path):
     inputs = tmp_path / "private-directory"
     inputs.mkdir()

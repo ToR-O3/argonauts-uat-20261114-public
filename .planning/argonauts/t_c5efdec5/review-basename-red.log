@@ -1,0 +1,30 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_cli_html_replaces_undecodable_basename_only_for_display _________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-69/test_cli_html_replaces_undecod0')
+
+    @pytest.mark.skipif(os.name != "posix", reason="requires POSIX byte filenames")
+    def test_cli_html_replaces_undecodable_basename_only_for_display(tmp_path):
+        raw_path = os.fsencode(tmp_path) + b"/x\xff<&.txt"
+        original = "日本語 Zoo zoo".encode("utf-8")
+        try:
+            with open(raw_path, "wb") as source:
+                source.write(original)
+        except (OSError, UnicodeError) as error:
+            pytest.skip(f"filesystem rejects byte filename: {error}")
+        path = os.fsdecode(raw_path)
+        result = run_html_cli(path)
+>       assert result.returncode == 0, result.stderr
+E       AssertionError: b'Traceback (most recent call last):
+E           File "<frozen runpy>", line 198, in _run_module_as_main
+E           File "<frozen runpy...^^
+E         UnicodeEncodeError: \'utf-8\' codec can\'t encode character \'\\udcff\' in position 1423: surrogates not allowed
+E         '
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/pyt...^\nUnicodeEncodeError: \'utf-8\' codec can\'t encode character \'\\udcff\' in position 1423: surrogates not allowed\n').returncode
+
+tests/test_html_output.py:100: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_html_output.py::test_cli_html_replaces_undecodable_basename_only_for_display
+1 failed in 0.09s
