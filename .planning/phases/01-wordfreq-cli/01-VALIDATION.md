@@ -3,10 +3,13 @@ phase: "1"
 slug: "wordfreq-cli"
 # status lifecycle: draft (seeded by plan-phase) → validated (set by validate-phase §6)
 # audit-milestone §5.5 distinguishes NOT-VALIDATED (draft) from PARTIAL (validated + nyquist_compliant: false) (#2117)
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: validated
+nyquist_compliant: true
+wave_0_complete: true
 created: "2026-11-17"
+audited: "2026-11-17"
+audited_by: "quality t_6545be27 (gsd-validate-phase 1, State A)"
+audited_target_sha: "30d9c175fd87a0d492ef6c1532271f55482c45b8"
 ---
 
 # Phase 1 — Validation Strategy
@@ -41,10 +44,20 @@ created: "2026-11-17"
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 01-05-01 | 05 | 5 | REQ-07 | T-01-09 / T-01-10 / T-01-SC | Preserve report provenance and human workflow ownership | existing whole-suite regression, local only | `python -m pytest` | Existing six `tests/test_*.py` files from 01-01..03 | ⬜ pending |
-| 01-05-02 | 05 | 5 | REQ-07 | T-01-09 / T-01-10 / T-01-11 | Handoff requires independent latest-target evidence and safe attachments | existing whole-suite regression, local only | `python -m pytest` | Same existing suite; Task 1 documents precede Task 2 handoff | ⬜ pending |
+| 01-01-01 | 01 | 1 | REQ-07 | — | pytest legitimacy approval (human/doc gate) | manual (approval record) | — | 01-01-SUMMARY | ✅ green (manual, recorded) |
+| 01-01-02 | 01 | 1 | REQ-07 | — | pytest available, no runtime dep | smoke | `python -m pytest --version` | yes | ✅ green (pytest 9.2.0) |
+| 01-01-03 | 01 | 1 | REQ-05 | — | tokenizer unit | unit | `python -m pytest tests/test_tokenizer.py -x` | yes | ✅ green (6 passed) |
+| 01-02-01 | 02 | 2 | REQ-04, REQ-05 | — | aggregator sort/ties | unit | `python -m pytest tests/test_aggregator.py -x` | yes | ✅ green (4 passed) |
+| 01-02-02 | 02 | 2 | REQ-01, REQ-06 | — | FileSource read-only / InputError | unit | `python -m pytest tests/test_sources.py -x` | yes | ✅ green (5 passed) |
+| 01-02-03 | 02 | 2 | REQ-03 | — | text/json formatters | unit | `python -m pytest tests/test_formatters.py -x` | yes | ✅ green (4 passed) |
+| 01-03-01 | 03 | 3 | REQ-06 | — | boundary-crossing tests | integration | `python -m pytest tests/test_sources_boundary.py -x` | yes | ✅ green (3 passed) |
+| 01-03-02 | 03 | 3 | REQ-01, REQ-02, REQ-03, REQ-07 | — | CLI exit codes / stdout-only results | e2e (subprocess) | `python -m pytest tests/test_cli.py -x` | yes | ✅ green (21 passed) |
+| 01-03-03 | 03 | 3 | REQ-08 | — | minimal pyproject, stdlib-only | smoke | `python -m wordfreq README.md --format json` | yes | ✅ green (exit 0) |
+| 01-04-01 | 04 | 4 | REQ-07 | — | CI absence inspection (historical) | whole-suite regression | `python -m pytest` | yes | ✅ green (43 passed) |
+| 01-05-01 | 05 | 5 | REQ-07 | T-01-09 / T-01-10 / T-01-SC | Preserve report provenance and human workflow ownership | existing whole-suite regression, local only | `python -m pytest` | Existing six `tests/test_*.py` files from 01-01..03 | ✅ green (43 passed) |
+| 01-05-02 | 05 | 5 | REQ-07 | T-01-09 / T-01-10 / T-01-11 | Handoff requires independent latest-target evidence and safe attachments | existing whole-suite regression, local only | `python -m pytest` | Same existing suite; Task 1 documents precede Task 2 handoff | ✅ green (43 passed) |
 
-This map adds the REQ-07 gap sampling contract only. Earlier 01-01..04 PLAN verify fields and original phase evidence remain the authoritative historical task map; no claim of a full Nyquist audit is made. Local pytest does not validate these prose records or remote CI; separate read/review gates below are mandatory.
+Audit 2026-11-17 (quality t_6545be27, target `30d9c175fd87a0d492ef6c1532271f55482c45b8`): every command above was run locally by quality (Python 3.14.9, pytest 9.2.0) and is green; whole suite 43 collected / 43 passed / exit 0. REQ-01..REQ-08 each map to at least one automated command. Local runs are local evidence only; the remote CI part of REQ-07 is the manual-only row below and was independently read (see `.planning/argonauts/t_6545be27/ci-evidence.md`).
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -68,12 +81,20 @@ No new Wave 0 work is assigned for 01-05: prior summaries record an approved, in
 
 ## Validation Sign-Off
 
-- [ ] Phase-wide task/automated verification mapping audited (01-05 mapping authored; not yet executed)
-- [ ] Sampling continuity audited over all phase plans
-- [ ] Wave 0 availability independently audited
-- [ ] No watch-mode flags independently audited
-- [ ] Actual local feedback latency recorded
-- [ ] Remote latest-target CI and manual-only gates independently validated by quality
-- [ ] Nyquist compliance decision made from actual audit, not template completion
+- [x] Phase-wide task/automated verification mapping audited (01-01..05, 12 tasks; all commands run)
+- [x] Sampling continuity audited over all phase plans (every task has an automated command or a recorded manual gate; no 3 consecutive tasks without automated verify)
+- [x] Wave 0 availability independently audited (pytest 9.2.0 present; six test files exist)
+- [x] No watch-mode flags independently audited (commands contain no watch/poll flags)
+- [x] Actual local feedback latency recorded (whole suite ~1.05s; per-file ≤1s)
+- [x] Remote latest-target CI and manual-only gates independently validated by quality (push run 44021335880 / job 133831272938 at 30d9c17: CPython 3.12.16, 43 collected/passed, step success; PR run 44021344458 / job 133831300907 on merge 150576c = main 792e9c4 + 30d9c17)
+- [x] Nyquist compliance decision made from actual audit, not template completion
 
-**Approval:** Pending. `status: draft`, `nyquist_compliant: false`, and `wave_0_complete: false` deliberately remain unchanged. Updating this planning contract is not a test run, remote CI verification, or REQ-07 acceptance.
+**Approval:** approved 2026-11-17 by quality t_6545be27 — nyquist_compliant: true. Gaps found 0, resolved 0, escalated 0; no new tests generated.
+
+## Validation Audit 2026-11-17
+
+| Metric | Count |
+|---|---|
+| Gaps found | 0 |
+| Resolved | 0 |
+| Escalated | 0 |
