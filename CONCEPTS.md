@@ -44,7 +44,7 @@ Shared domain vocabulary for this project — entities, named processes, and sta
 
 ## 決定論的順位
 
-出力の並び順の契約。頻度の降順、同一頻度では語のコードポイントの昇順で全順序を確定させる。dictやsetの反復順や入力順に依存してはならない。
+出力の並び順の契約。頻度の降順、同一頻度ではcasefold後の正規化語が最初に出現した順に並べ、その後topで切る。Counterの挿入順を保持した安定sortを全形式で共用し、set化で初出情報を失わない。旧語昇順からの明示的な互換性変更であり、top境界で選ばれる語も変わり得る。
 
 ## 決定論的再実行
 
