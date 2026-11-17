@@ -602,3 +602,36 @@ def test_builtin_contract_and_scope_commands_need_no_browser_or_role():
             assert report["product_acceptance"] is False
             assert report["clean"] == "accepted-predicate-only"
             assert len(report["rejected"]) >= 15
+
+
+def test_guide_commands_schema_cases_and_ac_match_real_parser():
+    import re
+    import shlex
+    v = verifier()
+    guide = (ROOT / "docs/wordfreq-html-verification.md").read_text()
+    commands = [line for line in guide.splitlines() if line.startswith("env PYTHONPATH=")
+                and "tools/verify_wordfreq_html.py" in line]
+    parsed = [v.parser().parse_args(shlex.split(line)[4:]) for line in commands]
+    assert {p.mode for p in parsed} >= {"capture", "review-session", "finalize"}
+    assert any(p.check_evidence_contract for p in parsed)
+    assert any(p.check_scope for p in parsed)
+    for p in parsed:
+        if p.mode in {"review-session", "finalize"}:
+            assert p.role == "quality"
+            assert p.actor == "argonauts-uat-quality"
+            assert "quality" in p.output_dir.parts
+        if p.mode == "finalize":
+            assert p.review_ledger == p.output_dir / "reviews.json"
+    assert all(f"`{field}`" in guide for field in v.REVIEW_FIELDS)
+    assert all(f"`{case['id']}`" in guide for case in v.fixed_cases())
+    assert all(f"AC{i}" in guide for i in range(1, 7))
+    examples = re.findall(r"```json\n(.*?)\n```", guide, re.S)
+    assert len(examples) == 1
+    example = json.loads(examples[0])
+    assert set(example["reviews"][0]) == set(v.REVIEW_FIELDS)
+    assert example["reviews"][0]["judgment"] == "unverified"
+    assert v.ledger_errors({}, example, v.now())
+    for term in ("tracked background", "rawRange", "browser-network.json", "finalize-requested",
+                 "observation_end", "verification_finished", "REQ-09", "REQ-10"):
+        assert term in guide
+    assert "[ブラウザ検証手順](docs/wordfreq-html-verification.md)" in (ROOT / "README.md").read_text()
