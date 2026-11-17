@@ -157,6 +157,10 @@ Quality must independently read these lines at review head. Counter seam test ch
 
 Added byte replay initially passed JSON null LC_ALL into subprocess env, causing12 setup failures. Corrected the test to remove unset variables; retained cli-env-setup-failure/full-env-setup-failure reports and reran entire CLI/full suite successfully. These setup failures did not authorize product implementation. No permissions/install/auth issues.
 
+## Official sequential closeout
+
+After the committed SUMMARY887c46d, official state.advance-plan returned advanced=true, previous_plan2/current_plan3/total4; state.update-progress returned completed13/total15; roadmap.update-plan-progress4 returned plan_count4/summary_count2/In Progress/complete=false. Saved STATE Current Position was read back as phase4/Current Plan3/total4/Ready to execute, frontmatter executing. This is NOT last_plan and does not execute04-03 or complete phase4.
+
 ## Remaining gates / Next Plan Readiness
 
 Ready for same-card quality review, then04-03 only after approval. Independent final-head CLI/browser regeneration,1280×900/320×900 DPR1 actual full/tile image viewing/comparison, quality source-order check, delivery and receiving-PM original reading remain later gates. No quality mark, CI success, phase.complete, archive, ready transition or merge claimed/performed. P6 remains insufficient-spec backstop; no new atomic stdout/concurrency guarantee or Q-01/Q-02/A-01–04 requirements. Prior phase stale debt untouched.
