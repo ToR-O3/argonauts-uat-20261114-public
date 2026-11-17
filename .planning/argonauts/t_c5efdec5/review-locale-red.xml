@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.115" timestamp="2026-11-17T19:12:09.824581+09:00" hostname="Ys-Minify"><testcase classname="tests.test_html_output" name="test_cli_html_preserves_valid_basename_in_non_utf8_locale" time="0.057"><failure message="AssertionError: assert 'caf�&lt;&amp;.txt' == 'café&lt;&amp;.txt'&#10;  &#10;  - café&lt;&amp;.txt&#10;  ?    ^&#10;  + caf�&lt;&amp;.txt&#10;  ?    ^">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-74/test_cli_html_preserves_valid_0')
+
+    @pytest.mark.skipif(os.name != "posix", reason="requires POSIX byte filenames and locale")
+    def test_cli_html_preserves_valid_basename_in_non_utf8_locale(tmp_path):
+        env = {**os.environ, "LC_ALL": "en_US.iso885915", "PYTHONUTF8": "0",
+               "PYTHONCOERCECLOCALE": "0"}
+        try:
+            available = subprocess.run(["locale", "-a"], capture_output=True, check=True, timeout=10)
+        except (OSError, subprocess.SubprocessError) as error:
+            pytest.skip(f"cannot enumerate locales: {error}")
+        if b"en_US.iso885915" not in available.stdout.splitlines():
+            pytest.skip("en_US.iso885915 locale unavailable")
+        charmap = subprocess.run(["locale", "charmap"], env=env, capture_output=True, check=True, timeout=10)
+        assert charmap.stdout.strip() == b"ISO-8859-15"
+        raw_path = os.fsencode(tmp_path) + b"/caf\xe9&lt;&amp;.txt"
+        original = "日本語 Zoo zoo".encode("utf-8")
+        with open(raw_path, "wb") as source:
+            source.write(original)
+        result = subprocess.run(
+            [os.fsencode(sys.executable), b"-m", b"wordfreq", raw_path, b"--format", b"html"],
+            cwd=ROOT, env=env, capture_output=True, timeout=10,
+        )
+        assert result.returncode == 0, result.stderr
+        assert result.stderr == b""
+        document = result.stdout.decode("utf-8")
+        report = parse_report(document)
+&gt;       assert report.values["filename"] == "café&lt;&amp;.txt"
+E       AssertionError: assert 'caf�&lt;&amp;.txt' == 'café&lt;&amp;.txt'
+E         
+E         - café&lt;&amp;.txt
+E         ?    ^
+E         + caf�&lt;&amp;.txt
+E         ?    ^
+
+tests/test_html_output.py:137: AssertionError</failure></testcase></testsuite></testsuites>

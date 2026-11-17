@@ -87,6 +87,7 @@ def test_cli_html_is_utf8_regardless_of_stdio_encoding(tmp_path, stdio_encoding)
 
 
 @pytest.mark.skipif(os.name != "posix", reason="requires POSIX byte filenames")
+@pytest.mark.skipif(sys.getfilesystemencoding() != "utf-8", reason="0xff must be undecodable in the filesystem encoding")
 def test_cli_html_replaces_undecodable_basename_only_for_display(tmp_path):
     raw_path = os.fsencode(tmp_path) + b"/x\xff<&.txt"
     original = "日本語 Zoo zoo".encode("utf-8")
@@ -103,6 +104,39 @@ def test_cli_html_replaces_undecodable_basename_only_for_display(tmp_path):
     report = parse_report(document)
     assert report.values["filename"] == "x\ufffd<&.txt"
     assert "x\ufffd&lt;&amp;.txt" in document
+    assert str(tmp_path) not in document
+    assert report.rows[1:] == [["1", "zoo", "2"], ["2", "日本語", "1"]]
+    with open(raw_path, "rb") as source:
+        assert source.read() == original
+
+
+@pytest.mark.skipif(os.name != "posix", reason="requires POSIX byte filenames and locale")
+def test_cli_html_preserves_valid_basename_in_non_utf8_locale(tmp_path):
+    env = {**os.environ, "LC_ALL": "en_US.iso885915", "PYTHONUTF8": "0",
+           "PYTHONCOERCECLOCALE": "0"}
+    try:
+        available = subprocess.run(["locale", "-a"], capture_output=True, check=True, timeout=10)
+    except (OSError, subprocess.SubprocessError) as error:
+        pytest.skip(f"cannot enumerate locales: {error}")
+    if b"en_US.iso885915" not in available.stdout.splitlines():
+        pytest.skip("en_US.iso885915 locale unavailable")
+    charmap = subprocess.run(["locale", "charmap"], env=env, capture_output=True, check=True, timeout=10)
+    assert charmap.stdout.strip() == b"ISO-8859-15"
+    raw_path = os.fsencode(tmp_path) + b"/caf\xe9<&.txt"
+    original = "日本語 Zoo zoo".encode("utf-8")
+    with open(raw_path, "wb") as source:
+        source.write(original)
+    result = subprocess.run(
+        [os.fsencode(sys.executable), b"-m", b"wordfreq", raw_path, b"--format", b"html"],
+        cwd=ROOT, env=env, capture_output=True, timeout=10,
+    )
+    assert result.returncode == 0, result.stderr
+    assert result.stderr == b""
+    document = result.stdout.decode("utf-8")
+    report = parse_report(document)
+    assert report.values["filename"] == "café<&.txt"
+    assert "café&lt;&amp;.txt" in document
+    assert ("meta", {"charset": "utf-8"}) in report.tags
     assert str(tmp_path) not in document
     assert report.rows[1:] == [["1", "zoo", "2"], ["2", "日本語", "1"]]
     with open(raw_path, "rb") as source:
