@@ -56,3 +56,12 @@ def test_json_is_machine_readable_in_frequency_then_word_order(tmp_path):
     assert result.stdout.endswith("\n")
     assert len(result.stdout.splitlines()) == 1
 
+
+def test_missing_file_is_single_line_error_without_traceback(tmp_path):
+    result = run_cli(tmp_path / "missing")
+    assert result.returncode == 1
+    assert result.stdout == ""
+    assert len(result.stderr.splitlines()) == 1
+    assert "missing" in result.stderr
+    assert "Traceback" not in result.stderr
+
