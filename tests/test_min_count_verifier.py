@@ -267,7 +267,10 @@ if os.environ.get("WORDFREQ_MIN_COUNT_BASELINE_ROOT"):
             path = case["views"][0]["images"][0]["path"]
         else:
             path = case["stdout"]
-        path = root / Path(path).relative_to(original)
+        # Paths in the immutable index belong to the capture worktree, not
+        # necessarily this successor worktree's opt-in root.
+        capture_root = Path(v.parts.load_json(root / "index.json")["root"])
+        path = root / Path(path).relative_to(capture_root)
         if field == "sha":
             path.write_bytes(b"modified-copy-only")
         else:
