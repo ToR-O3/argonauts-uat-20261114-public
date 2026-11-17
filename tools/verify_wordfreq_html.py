@@ -4,6 +4,7 @@ Browser dependencies are imported only by explicit browser operations.
 """
 import argparse
 import base64
+import copy
 from datetime import datetime, timezone
 import hashlib
 from html import escape
@@ -1116,6 +1117,50 @@ def final_review_errors(manifest, ledger, output):
     return list(dict.fromkeys(errors))
 
 
+def revoke_final_reviews(manifest, output, persist=True):
+    """Revoke all projections; best-effort writes never hide persistence failures."""
+    manifest["verdict"] = "unverified"
+    manifest["independent_acceptance"] = False
+    manifest["ac_verdicts"] = {f"AC{i}": "unverified" for i in range(1, 7)}
+    records = {}
+    for case in manifest.get("cases", []):
+        for view in case.get("views", []):
+            view.update(verdict="unverified", reviewed_images=[])
+            records[output / case["id"] / str(view["width"]) / "derived.json"] = view
+    if not persist:
+        return
+    # Include a derived record left behind by an interrupted capture, even if its
+    # view was not yet appended to the manifest. Immutable raw/images stay intact.
+    for path in output.glob("*/*/derived.json"):
+        if path not in records:
+            try:
+                record = load_json(path)
+                record.update(verdict="unverified", reviewed_images=[])
+                records[path] = record
+            except Exception as exc:
+                manifest["errors"].append(f"persistence rollback read {path}: {exc}")
+    for path, record in records.items():
+        try:
+            save_json(path, record)
+        except Exception as exc:
+            manifest["errors"].append(f"persistence rollback {path}: {exc}")
+
+
+def publish_final_reviews(manifest, ledger, output):
+    """Write the completion marker last; partial readers must reject the marker."""
+    verdict = manifest["verdict"]
+    project_final_reviews(manifest, ledger, verdict)
+    checkpoint = copy.deepcopy(manifest)
+    revoke_final_reviews(checkpoint, output, persist=False)
+    save_json(output / "manifest.json", checkpoint)
+    for case in manifest["cases"]:
+        for view in case["views"]:
+            save_json(output / case["id"] / str(view["width"]) / "derived.json", view)
+    errors = final_review_errors(manifest, ledger, output)
+    if errors:
+        raise ValueError(f"final reconciliation: {errors}")
+
+
 def run_suite(output):
     argv = [sys.executable, "-m", "pytest", "--junitxml", str(output / "suite.xml")]
     start = now()
@@ -1150,6 +1195,7 @@ def review_session(args):
         independent_acceptance=False)
     save_json(output / "manifest.json", manifest)
     live = []
+    ledger = {}
     try:
         if before["product_status"] or before["untracked_product"] or scope["errors"]:
             raise ValueError("dirty/untracked or unauthorized scope; commit code first")
@@ -1218,21 +1264,26 @@ def review_session(args):
                     item["context"].close()
     except Exception as exc:
         manifest["errors"].append(f"unverified: {type(exc).__name__}: {exc}")
-    manifest["end_provenance"] = provenance()
-    if manifest["end_provenance"]["head"] != manifest["head"] or manifest["end_provenance"]["product_status"]:
-        manifest["errors"].append("head/product changed before final verdict")
-    if not manifest["errors"]:
-        project_final_reviews(manifest, ledger, manifest["verdict"])
-        for case in manifest["cases"]:
-            for view in case["views"]:
-                save_json(output / case["id"] / str(view["width"]) / "derived.json", view)
-        manifest["errors"] += final_review_errors(manifest, ledger, output)
-    manifest["ended"] = now()
-    if manifest["errors"]:
-        manifest["verdict"] = "unverified"
-        manifest["independent_acceptance"] = False
-        manifest["ac_verdicts"] = {f"AC{i}": "unverified" for i in range(1, 7)}
-    save_json(output / "manifest.json", manifest)
+    try:
+        manifest["end_provenance"] = provenance()
+        if (manifest["end_provenance"]["head"] != manifest["head"]
+                or manifest["end_provenance"]["product_status"]
+                or manifest["end_provenance"]["untracked_product"]):
+            manifest["errors"].append("head/product changed before final verdict")
+        if not manifest["errors"]:
+            publish_final_reviews(manifest, ledger, output)
+        manifest["ended"] = now()
+        if manifest["errors"]:
+            revoke_final_reviews(manifest, output)
+        save_json(output / "manifest.json", manifest)
+    except Exception as exc:
+        manifest["errors"].append(f"final publication/persistence unverified: {type(exc).__name__}: {exc}")
+        manifest["ended"] = now()
+        revoke_final_reviews(manifest, output)
+        try:
+            save_json(output / "manifest.json", manifest)
+        except Exception as save_exc:
+            manifest["errors"].append(f"persistence manifest unavailable: {save_exc}")
     print(json.dumps(dict(manifest=str(output / "manifest.json"), verdict=manifest["verdict"], errors=manifest["errors"])), flush=True)
     return 0 if manifest["verdict"] in {"accepted", "builder-reviewed"} else 1
 

@@ -124,6 +124,16 @@ finalizeは台帳・artifact/hash・AC・head/status/scope・canary・suite・�
 
 品質は全suiteと全画像/rawと各ACを自分で確認し、原本を保全してAC索引・台帳・head/diff・通信記録を添付する。任意のPYTHONHASHSEEDで全試験を再実行し、実argv/環境を保持する。未実施条件を合格に変換しない。
 
+## 最終全view照合（G1）
+
+`finalize-requested` は受付だけなので、tracked background のlive ownerの実際の終了を待ち、exit0を確認する。最終 `manifest.json` が **completion marker** であり、derived.json単独や途中のpartial saveを成功として読まない。公開中はmanifestをunverified/independent_acceptance=falseで保存し、全derived保存と整合gateの後にだけ最終markerを最後に置く。中断・再起動時にmarkerがunverifiedなら、途中のderivedに判定があっても全体は未検証。既存rootを再開・手修正せずfresh rootで再生成する。
+
+- `cases[].views[]` の全ケース・全幅を正規順で走査し、各 `derived.json` とviewの内容全体を一致させる。最上位だけacceptedでは不足。
+- 各viewの `images` 全full/tileと `reviewed_images`、`reviews.json` の画像集合を一対一で突き合わせる。path/sha256/viewed_atを台帳から正確に保持し、欠落・余計・重複・空mappingを拒否する。台帳の列挙順が違っても画像identityと正規view順は変えない。
+- qualityは全view/derivedがaccepted、Builderは全てbuilder-reviewedかつindependent_acceptance=false。最終manifest/derivedのどこにもpending-reviewが残らず、AC1〜AC6判定・ledger_sha256・原本raw/画像bytesも一致すること。capture中のpending-reviewは正常だが、finalのpendingは不合格。
+- timeout、例外、無効ledger、遅い通信、head/dirty変更、保存・照合失敗は全view/derivedをunverified、reviewed_images=[]、AC判定unverifiedへ戻しexit1。raw/画像/ledger原本は変更しない。storage自体が利用不能なら完全なrollbackを保証できないため、stdoutのpersistence診断と非0終了を保持し、保存完了を主張しない。
+- synthetic lifecycle regressionは画像を見た証明ではない。no-op/zero-test（0件収集）の結果を成功としない。G2のfull suite/既存CIとfresh final-head独立品質は03-06へpendingで引き継ぐ。OpenSpec3.1/3.2/4.1/4.2は先にチェックしない。
+
 ## AC証拠の索引とpending gate
 
 manifest.ac_indexはACごとに全CLI原本/全幅raw・全画像・network・suite・canary・scope/provenanceを結ぶ保守的な完全索引。各ACの独立判定で見る点は下記。
