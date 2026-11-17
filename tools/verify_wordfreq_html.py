@@ -797,7 +797,7 @@ ACTORS = {"builder": "argonauts-uat-builder", "quality": "argonauts-uat-quality"
 SCOPE_FILES = {"README.md", "CONCEPTS.md", "docs/wordfreq-html-verification.md",
     "wordfreq/__main__.py", "wordfreq/aggregator.py", "wordfreq/formatters.py",
     "tests/test_aggregator.py", "tests/test_cli.py", "tests/test_formatters.py",
-    "tests/test_sources.py", "tests/test_html_verifier.py",
+    "tests/test_sources.py", "tests/test_html_verifier.py", "tests/test_html_finalization.py",
     "tools/verify_wordfreq_html.py", "tools/wordfreq_html_geometry.js",
     "openspec/changes/r-50053edc-wordfreq-html/tasks.md"}
 
@@ -1091,6 +1091,7 @@ def final_review_errors(manifest, ledger, output):
             errors.append("inconsistent final verdict")
         if not manifest["cases"] or pending(manifest):
             errors.append("empty/pending final manifest")
+        errors += capture_errors(manifest, output)
         errors += ledger_errors(manifest, ledger, manifest["verification_finished"])
         if (load_json(output / "reviews.json") != ledger
                 or digest(output / "reviews.json") != manifest["ledger_sha256"]):
