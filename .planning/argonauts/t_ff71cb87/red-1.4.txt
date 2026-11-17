@@ -1,0 +1,515 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: /home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_ff71cb87
+configfile: pyproject.toml
+plugins: hypothesis-6.152.9, anyio-4.13.0, mock-3.15.1, asyncio-1.3.0, cov-7.1.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 358 items / 337 deselected / 21 selected
+
+tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-4-None-expected0-7-text] FAILED [  4%]
+tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-4-None-expected0-7-json] FAILED [  9%]
+tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-4-None-expected0-7-html] FAILED [ 14%]
+tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-2-1-expected1-7-text] PASSED [ 19%]
+tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-2-1-expected1-7-json] PASSED [ 23%]
+tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-2-1-expected1-7-html] PASSED [ 28%]
+tests/test_cli.py::test_min_count_empty_total[Zoo apple APPLE zoo banana-3-10-expected2-5-text] FAILED [ 33%]
+tests/test_cli.py::test_min_count_empty_total[Zoo apple APPLE zoo banana-3-10-expected2-5-json] FAILED [ 38%]
+tests/test_cli.py::test_min_count_empty_total[Zoo apple APPLE zoo banana-3-10-expected2-5-html] FAILED [ 42%]
+tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-99-expected3-7-text] FAILED [ 47%]
+tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-99-expected3-7-json] FAILED [ 52%]
+tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-99-expected3-7-html] FAILED [ 57%]
+tests/test_cli.py::test_min_count_empty_total[-2-None-expected4-0-text] PASSED [ 61%]
+tests/test_cli.py::test_min_count_empty_total[-2-None-expected4-0-json] PASSED [ 66%]
+tests/test_cli.py::test_min_count_empty_total[-2-None-expected4-0-html] PASSED [ 71%]
+tests/test_cli.py::test_min_count_empty_total[ \t\r\n  -2-None-expected5-0-text] PASSED [ 76%]
+tests/test_cli.py::test_min_count_empty_total[ \t\r\n  -2-None-expected5-0-json] PASSED [ 80%]
+tests/test_cli.py::test_min_count_empty_total[ \t\r\n  -2-None-expected5-0-html] PASSED [ 85%]
+tests/test_cli.py::test_min_count_empty_total[!?,.;: ---2-None-expected6-0-text] PASSED [ 90%]
+tests/test_cli.py::test_min_count_empty_total[!?,.;: ---2-None-expected6-0-json] PASSED [ 95%]
+tests/test_cli.py::test_min_count_empty_total[!?,.;: ---2-None-expected6-0-html] PASSED [100%]
+
+=================================== FAILURES ===================================
+_ test_min_count_empty_total[beta beta beta alpha gamma alpha delta-4-None-expected0-7-text] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-226/test_min_count_empty_total_bet0')
+output_format = 'text', content = 'beta beta beta alpha gamma alpha delta'
+minimum = 4, top = None, expected = [], total = 7
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,top,expected,total", [
+        ("beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+        ("beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+        ("Zoo apple APPLE zoo banana", 3, 10, [], 5),
+        ("beta beta beta alpha gamma alpha delta", 10**100, 99, [], 7),
+        ("", 2, None, [], 0), (" \t\r\n  ", 2, None, [], 0),
+        ("!?,.;: --", 2, None, [], 0),
+    ])
+    def test_min_count_empty_total(tmp_path, output_format, content, minimum, top, expected, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        options = ["--min-count", str(minimum), "--format", output_format]
+        if top is not None:
+            options += ["--top", str(top)]
+        result = run_cli_bytes(path, *options)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+
+tests/test_cli.py:729: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'3\tbeta\n2\talpha\n1\tgamma\n1\tdelta\n', output_format = 'text'
+expected = [], basename = 'empty-or-filtered.txt', total = 7
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+>           assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+E           AssertionError: assert '3\tbeta\n2\t...a\n1\tdelta\n' == ''
+E             
+E             + 3	beta
+E             + 2	alpha
+E             + 1	gamma
+E             + 1	delta
+
+tests/test_cli.py:428: AssertionError
+_ test_min_count_empty_total[beta beta beta alpha gamma alpha delta-4-None-expected0-7-json] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-226/test_min_count_empty_total_bet1')
+output_format = 'json', content = 'beta beta beta alpha gamma alpha delta'
+minimum = 4, top = None, expected = [], total = 7
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,top,expected,total", [
+        ("beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+        ("beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+        ("Zoo apple APPLE zoo banana", 3, 10, [], 5),
+        ("beta beta beta alpha gamma alpha delta", 10**100, 99, [], 7),
+        ("", 2, None, [], 0), (" \t\r\n  ", 2, None, [], 0),
+        ("!?,.;: --", 2, None, [], 0),
+    ])
+    def test_min_count_empty_total(tmp_path, output_format, content, minimum, top, expected, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        options = ["--min-count", str(minimum), "--format", output_format]
+        if top is not None:
+            options += ["--top", str(top)]
+        result = run_cli_bytes(path, *options)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+
+tests/test_cli.py:729: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'[{"word": "beta", "count": 3}, {"word": "alpha", "count": 2}, {"word": "gamma", "count": 1}, {"word": "delta", "count": 1}]\n'
+output_format = 'json', expected = [], basename = 'empty-or-filtered.txt'
+total = 7
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+>           assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+E           AssertionError: assert [{'count': 3,...rd': 'delta'}] == []
+E             
+E             Left contains 4 more items, first extra item: {'count': 3, 'word': 'beta'}
+E             
+E             Full diff:
+E             - []
+E             + [
+E             +     {...
+E             
+E             ...Full output truncated (16 lines hidden), use '-vv' to show
+
+tests/test_cli.py:432: AssertionError
+_ test_min_count_empty_total[beta beta beta alpha gamma alpha delta-4-None-expected0-7-html] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-226/test_min_count_empty_total_bet2')
+output_format = 'html', content = 'beta beta beta alpha gamma alpha delta'
+minimum = 4, top = None, expected = [], total = 7
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,top,expected,total", [
+        ("beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+        ("beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+        ("Zoo apple APPLE zoo banana", 3, 10, [], 5),
+        ("beta beta beta alpha gamma alpha delta", 10**100, 99, [], 7),
+        ("", 2, None, [], 0), (" \t\r\n  ", 2, None, [], 0),
+        ("!?,.;: --", 2, None, [], 0),
+    ])
+    def test_min_count_empty_total(tmp_path, output_format, content, minimum, top, expected, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        options = ["--min-count", str(minimum), "--format", output_format]
+        if top is not None:
+            options += ["--top", str(top)]
+        result = run_cli_bytes(path, *options)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+
+tests/test_cli.py:729: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width..."rank">4</td><td class="word">delta</td><td class="count">1</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n'
+output_format = 'html', expected = [], basename = 'empty-or-filtered.txt'
+total = 7
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+            assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+        else:
+            parsed = CLIHTML(document)
+            assert document.startswith('<!doctype html>\n')
+            assert '<meta charset="utf-8">' in document
+            assert parsed.headers == ["順位", "単語", "回数"]
+>           assert parsed.rows == [[str(i), w, str(c)] for i, (w, c) in enumerate(expected, 1)]
+E           AssertionError: assert [['1', 'beta'...'delta', '1']] == []
+E             
+E             Left contains 4 more items, first extra item: ['1', 'beta', '3']
+E             
+E             Full diff:
+E             - []
+E             + [
+E             +     [...
+E             
+E             ...Full output truncated (20 lines hidden), use '-vv' to show
+
+tests/test_cli.py:438: AssertionError
+_ test_min_count_empty_total[Zoo apple APPLE zoo banana-3-10-expected2-5-text] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-226/test_min_count_empty_total_Zoo0')
+output_format = 'text', content = 'Zoo apple APPLE zoo banana', minimum = 3
+top = 10, expected = [], total = 5
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,top,expected,total", [
+        ("beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+        ("beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+        ("Zoo apple APPLE zoo banana", 3, 10, [], 5),
+        ("beta beta beta alpha gamma alpha delta", 10**100, 99, [], 7),
+        ("", 2, None, [], 0), (" \t\r\n  ", 2, None, [], 0),
+        ("!?,.;: --", 2, None, [], 0),
+    ])
+    def test_min_count_empty_total(tmp_path, output_format, content, minimum, top, expected, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        options = ["--min-count", str(minimum), "--format", output_format]
+        if top is not None:
+            options += ["--top", str(top)]
+        result = run_cli_bytes(path, *options)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+
+tests/test_cli.py:729: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'2\tzoo\n2\tapple\n1\tbanana\n', output_format = 'text', expected = []
+basename = 'empty-or-filtered.txt', total = 5
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+>           assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+E           AssertionError: assert '2\tzoo\n2\ta...\n1\tbanana\n' == ''
+E             
+E             + 2	zoo
+E             + 2	apple
+E             + 1	banana
+
+tests/test_cli.py:428: AssertionError
+_ test_min_count_empty_total[Zoo apple APPLE zoo banana-3-10-expected2-5-json] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-226/test_min_count_empty_total_Zoo1')
+output_format = 'json', content = 'Zoo apple APPLE zoo banana', minimum = 3
+top = 10, expected = [], total = 5
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,top,expected,total", [
+        ("beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+        ("beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+        ("Zoo apple APPLE zoo banana", 3, 10, [], 5),
+        ("beta beta beta alpha gamma alpha delta", 10**100, 99, [], 7),
+        ("", 2, None, [], 0), (" \t\r\n  ", 2, None, [], 0),
+        ("!?,.;: --", 2, None, [], 0),
+    ])
+    def test_min_count_empty_total(tmp_path, output_format, content, minimum, top, expected, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        options = ["--min-count", str(minimum), "--format", output_format]
+        if top is not None:
+            options += ["--top", str(top)]
+        result = run_cli_bytes(path, *options)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+
+tests/test_cli.py:729: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'[{"word": "zoo", "count": 2}, {"word": "apple", "count": 2}, {"word": "banana", "count": 1}]\n'
+output_format = 'json', expected = [], basename = 'empty-or-filtered.txt'
+total = 5
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+>           assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+E           AssertionError: assert [{'count': 2,...d': 'banana'}] == []
+E             
+E             Left contains 3 more items, first extra item: {'count': 2, 'word': 'zoo'}
+E             
+E             Full diff:
+E             - []
+E             + [
+E             +     {...
+E             
+E             ...Full output truncated (12 lines hidden), use '-vv' to show
+
+tests/test_cli.py:432: AssertionError
+_ test_min_count_empty_total[Zoo apple APPLE zoo banana-3-10-expected2-5-html] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-226/test_min_count_empty_total_Zoo2')
+output_format = 'html', content = 'Zoo apple APPLE zoo banana', minimum = 3
+top = 10, expected = [], total = 5
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,top,expected,total", [
+        ("beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+        ("beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+        ("Zoo apple APPLE zoo banana", 3, 10, [], 5),
+        ("beta beta beta alpha gamma alpha delta", 10**100, 99, [], 7),
+        ("", 2, None, [], 0), (" \t\r\n  ", 2, None, [], 0),
+        ("!?,.;: --", 2, None, [], 0),
+    ])
+    def test_min_count_empty_total(tmp_path, output_format, content, minimum, top, expected, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        options = ["--min-count", str(minimum), "--format", output_format]
+        if top is not None:
+            options += ["--top", str(top)]
+        result = run_cli_bytes(path, *options)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+
+tests/test_cli.py:729: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width...rank">3</td><td class="word">banana</td><td class="count">1</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n'
+output_format = 'html', expected = [], basename = 'empty-or-filtered.txt'
+total = 5
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+            assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+        else:
+            parsed = CLIHTML(document)
+            assert document.startswith('<!doctype html>\n')
+            assert '<meta charset="utf-8">' in document
+            assert parsed.headers == ["順位", "単語", "回数"]
+>           assert parsed.rows == [[str(i), w, str(c)] for i, (w, c) in enumerate(expected, 1)]
+E           AssertionError: assert [['1', 'zoo',...banana', '1']] == []
+E             
+E             Left contains 3 more items, first extra item: ['1', 'zoo', '2']
+E             
+E             Full diff:
+E             - []
+E             + [
+E             +     [...
+E             
+E             ...Full output truncated (15 lines hidden), use '-vv' to show
+
+tests/test_cli.py:438: AssertionError
+_ test_min_count_empty_total[beta beta beta alpha gamma alpha delta-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-99-expected3-7-text] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-226/test_min_count_empty_total_bet6')
+output_format = 'text', content = 'beta beta beta alpha gamma alpha delta'
+minimum = 100000000000000000...0000000000000000000, top = 99, expected = []
+total = 7
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,top,expected,total", [
+        ("beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+        ("beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+        ("Zoo apple APPLE zoo banana", 3, 10, [], 5),
+        ("beta beta beta alpha gamma alpha delta", 10**100, 99, [], 7),
+        ("", 2, None, [], 0), (" \t\r\n  ", 2, None, [], 0),
+        ("!?,.;: --", 2, None, [], 0),
+    ])
+    def test_min_count_empty_total(tmp_path, output_format, content, minimum, top, expected, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        options = ["--min-count", str(minimum), "--format", output_format]
+        if top is not None:
+            options += ["--top", str(top)]
+        result = run_cli_bytes(path, *options)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+
+tests/test_cli.py:729: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'3\tbeta\n2\talpha\n1\tgamma\n1\tdelta\n', output_format = 'text'
+expected = [], basename = 'empty-or-filtered.txt', total = 7
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+>           assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+E           AssertionError: assert '3\tbeta\n2\t...a\n1\tdelta\n' == ''
+E             
+E             + 3	beta
+E             + 2	alpha
+E             + 1	gamma
+E             + 1	delta
+
+tests/test_cli.py:428: AssertionError
+_ test_min_count_empty_total[beta beta beta alpha gamma alpha delta-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-99-expected3-7-json] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-226/test_min_count_empty_total_bet7')
+output_format = 'json', content = 'beta beta beta alpha gamma alpha delta'
+minimum = 100000000000000000...0000000000000000000, top = 99, expected = []
+total = 7
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,top,expected,total", [
+        ("beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+        ("beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+        ("Zoo apple APPLE zoo banana", 3, 10, [], 5),
+        ("beta beta beta alpha gamma alpha delta", 10**100, 99, [], 7),
+        ("", 2, None, [], 0), (" \t\r\n  ", 2, None, [], 0),
+        ("!?,.;: --", 2, None, [], 0),
+    ])
+    def test_min_count_empty_total(tmp_path, output_format, content, minimum, top, expected, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        options = ["--min-count", str(minimum), "--format", output_format]
+        if top is not None:
+            options += ["--top", str(top)]
+        result = run_cli_bytes(path, *options)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+
+tests/test_cli.py:729: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'[{"word": "beta", "count": 3}, {"word": "alpha", "count": 2}, {"word": "gamma", "count": 1}, {"word": "delta", "count": 1}]\n'
+output_format = 'json', expected = [], basename = 'empty-or-filtered.txt'
+total = 7
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+>           assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+E           AssertionError: assert [{'count': 3,...rd': 'delta'}] == []
+E             
+E             Left contains 4 more items, first extra item: {'count': 3, 'word': 'beta'}
+E             
+E             Full diff:
+E             - []
+E             + [
+E             +     {...
+E             
+E             ...Full output truncated (16 lines hidden), use '-vv' to show
+
+tests/test_cli.py:432: AssertionError
+_ test_min_count_empty_total[beta beta beta alpha gamma alpha delta-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-99-expected3-7-html] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-226/test_min_count_empty_total_bet8')
+output_format = 'html', content = 'beta beta beta alpha gamma alpha delta'
+minimum = 100000000000000000...0000000000000000000, top = 99, expected = []
+total = 7
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,top,expected,total", [
+        ("beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+        ("beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+        ("Zoo apple APPLE zoo banana", 3, 10, [], 5),
+        ("beta beta beta alpha gamma alpha delta", 10**100, 99, [], 7),
+        ("", 2, None, [], 0), (" \t\r\n  ", 2, None, [], 0),
+        ("!?,.;: --", 2, None, [], 0),
+    ])
+    def test_min_count_empty_total(tmp_path, output_format, content, minimum, top, expected, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        options = ["--min-count", str(minimum), "--format", output_format]
+        if top is not None:
+            options += ["--top", str(top)]
+        result = run_cli_bytes(path, *options)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+
+tests/test_cli.py:729: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width..."rank">4</td><td class="word">delta</td><td class="count">1</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n'
+output_format = 'html', expected = [], basename = 'empty-or-filtered.txt'
+total = 7
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+            assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+        else:
+            parsed = CLIHTML(document)
+            assert document.startswith('<!doctype html>\n')
+            assert '<meta charset="utf-8">' in document
+            assert parsed.headers == ["順位", "単語", "回数"]
+>           assert parsed.rows == [[str(i), w, str(c)] for i, (w, c) in enumerate(expected, 1)]
+E           AssertionError: assert [['1', 'beta'...'delta', '1']] == []
+E             
+E             Left contains 4 more items, first extra item: ['1', 'beta', '3']
+E             
+E             Full diff:
+E             - []
+E             + [
+E             +     [...
+E             
+E             ...Full output truncated (20 lines hidden), use '-vv' to show
+
+tests/test_cli.py:438: AssertionError
+- generated xml file: /home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_ff71cb87/.planning/argonauts/t_ff71cb87/red-1.4.xml -
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-4-None-expected0-7-text]
+FAILED tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-4-None-expected0-7-json]
+FAILED tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-4-None-expected0-7-html]
+FAILED tests/test_cli.py::test_min_count_empty_total[Zoo apple APPLE zoo banana-3-10-expected2-5-text]
+FAILED tests/test_cli.py::test_min_count_empty_total[Zoo apple APPLE zoo banana-3-10-expected2-5-json]
+FAILED tests/test_cli.py::test_min_count_empty_total[Zoo apple APPLE zoo banana-3-10-expected2-5-html]
+FAILED tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-99-expected3-7-text]
+FAILED tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-99-expected3-7-json]
+FAILED tests/test_cli.py::test_min_count_empty_total[beta beta beta alpha gamma alpha delta-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-99-expected3-7-html]
+================= 9 failed, 12 passed, 337 deselected in 1.08s =================
