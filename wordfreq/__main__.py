@@ -13,6 +13,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="wordfreq")
     parser.add_argument("filename")
     parser.add_argument("--top", type=int, default=10)
+    parser.add_argument("--min-count", type=int, default=1)
     parser.add_argument("--format", choices=["text", "json", "html"], default="text")
     return parser
 
@@ -22,6 +23,8 @@ def main(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
     if args.top < 1:
         parser.error("--top must be >= 1")
+    if args.min_count < 1:
+        parser.error("--min-count must be >= 1")
     try:
         text = FileSource(args.filename).read_text()
     except InputError as error:

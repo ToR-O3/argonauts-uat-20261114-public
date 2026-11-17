@@ -8,6 +8,7 @@ Argonauts v1.10 acceptance test repository.
 
 ```sh
 python -m wordfreq input.txt
+python -m wordfreq input.txt --min-count 2 --top 1 --format json
 python -m wordfreq input.txt --top 2 --format json
 python -m wordfreq input.txt --format html
 python -m wordfreq input.txt --format html > result.html
@@ -15,6 +16,7 @@ python -m wordfreq input.txt --format html > result.html
 
 HTML はロケールや `PYTHONIOENCODING` に依存せず UTF-8 バイト列を標準出力へ書きます。保存時はバイト列をそのままリダイレクトしてください（シェル側で文字コードを変換しないでください）。ファイル名の表示は basename のバイト列を実行環境のファイルシステム文字コードで読み、その文字コードで復号できないバイトだけを置換文字 `�` にします。入力ファイルの読み込みに使うパス自体は変更しません。保存した `result.html` はローカルのブラウザで開けます。HTML は内包 CSS のみの静的文書で、スクリプト・外部フォント・画像・リンク・対話操作はありません。
 
+- `--min-count N` は1以上の整数、既定は1。不正値・値欠落は入力読込み前に stderr と exit2 で知らせます。
 - `--top N` は1以上の整数、既定は10。種類数が N 未満なら全件を表示します。
 - `--format text|json|html` の既定は text。text は `<count>\t<word>\n`、JSON は `word` と整数 `count` の配列に末尾改行1つです。空入力は text が空、JSON が `[]` と改行、HTML が見出し3列・データ0行・総数0です。
 - Unicode の単語文字の連続を抽出し、casefold した語を数えます。日本語の形態素解析は行いません。
