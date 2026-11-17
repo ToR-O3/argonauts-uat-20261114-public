@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.029" timestamp="2026-11-17T12:19:24.622928+09:00" hostname="Ys-Minify"><testcase classname="tests.test_sources" name="test_file_source_reads_utf8_without_modification" time="0.005"><failure message="AssertionError: input boundary module is required&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7d363709c3b0&gt;('wordfreq.sources')&#10; +    where &lt;function find_spec at 0x7d363709c3b0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-0/test_file_source_reads_utf8_wi0')
+
+    def test_file_source_reads_utf8_without_modification(tmp_path):
+&gt;       assert importlib.util.find_spec("wordfreq.sources") is not None, "input boundary module is required"
+E       AssertionError: input boundary module is required
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x7d363709c3b0&gt;('wordfreq.sources')
+E        +    where &lt;function find_spec at 0x7d363709c3b0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+tests/test_sources.py:8: AssertionError</failure></testcase></testsuite></testsuites>
