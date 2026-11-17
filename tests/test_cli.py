@@ -175,4 +175,3 @@ def test_readme_runs_as_json_from_repository_without_installation():
     assert result.returncode == 0, result.stderr
     assert result.stderr == ""
     assert isinstance(json.loads(result.stdout), list)
-
