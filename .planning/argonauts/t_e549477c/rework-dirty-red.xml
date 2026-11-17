@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="16" skipped="0" tests="16" time="1.174" timestamp="2026-11-18T00:49:31.293500+09:00" hostname="Ys-Minify"><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[untracked-conftest.py]" time="0.063"><failure message="AssertionError: assert 'conftest.py' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7eb0b0&gt;
+name = 'conftest.py', state = 'untracked'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'conftest.py' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[untracked-pytest.ini]" time="0.056"><failure message="AssertionError: assert 'pytest.ini' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d533da0&gt;
+name = 'pytest.ini', state = 'untracked'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'pytest.ini' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[untracked-tox.ini]" time="0.058"><failure message="AssertionError: assert 'tox.ini' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7d6ae0&gt;
+name = 'tox.ini', state = 'untracked'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'tox.ini' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[untracked-setup.cfg]" time="0.045"><failure message="AssertionError: assert 'setup.cfg' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7d7980&gt;
+name = 'setup.cfg', state = 'untracked'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'setup.cfg' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[modified-conftest.py]" time="0.045"><failure message="AssertionError: assert 'conftest.py' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i4')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7d4e90&gt;
+name = 'conftest.py', state = 'modified'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'conftest.py' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[modified-pytest.ini]" time="0.048"><failure message="AssertionError: assert 'pytest.ini' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i5')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7d7aa0&gt;
+name = 'pytest.ini', state = 'modified'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'pytest.ini' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[modified-tox.ini]" time="0.052"><failure message="AssertionError: assert 'tox.ini' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i6')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7d71d0&gt;
+name = 'tox.ini', state = 'modified'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'tox.ini' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[modified-setup.cfg]" time="0.049"><failure message="AssertionError: assert 'setup.cfg' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i7')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d533c80&gt;
+name = 'setup.cfg', state = 'modified'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'setup.cfg' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[staged-conftest.py]" time="0.055"><failure message="AssertionError: assert 'conftest.py' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i8')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7d5a00&gt;
+name = 'conftest.py', state = 'staged'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'conftest.py' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[staged-pytest.ini]" time="0.064"><failure message="AssertionError: assert 'pytest.ini' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i9')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7d6090&gt;
+name = 'pytest.ini', state = 'staged'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'pytest.ini' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[staged-tox.ini]" time="0.062"><failure message="AssertionError: assert 'tox.ini' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i10')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7d77a0&gt;
+name = 'tox.ini', state = 'staged'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'tox.ini' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[staged-setup.cfg]" time="0.056"><failure message="AssertionError: assert 'setup.cfg' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i11')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7d73e0&gt;
+name = 'setup.cfg', state = 'staged'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'setup.cfg' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[deleted-conftest.py]" time="0.053"><failure message="AssertionError: assert 'conftest.py' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i12')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7c8230&gt;
+name = 'conftest.py', state = 'deleted'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'conftest.py' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[deleted-pytest.ini]" time="0.046"><failure message="AssertionError: assert 'pytest.ini' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i13')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7ca510&gt;
+name = 'pytest.ini', state = 'deleted'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'pytest.ini' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[deleted-tox.ini]" time="0.044"><failure message="AssertionError: assert 'tox.ini' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i14')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7c8680&gt;
+name = 'tox.ini', state = 'deleted'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'tox.ini' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase><testcase classname="tests.test_html_verifier" name="test_root_test_configuration_is_dirty_evidence[deleted-setup.cfg]" time="0.055"><failure message="AssertionError: assert 'setup.cfg' in ''">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-159/test_root_test_configuration_i15')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7d5e6d7cba40&gt;
+name = 'setup.cfg', state = 'deleted'
+
+    @pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+    @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+    def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+        v = verifier()
+        root = tmp_path / "repo"
+        root.mkdir()
+        def git(*args):
+            return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+        git("init", "-q")
+        (root / "baseline.txt").write_text("baseline\n")
+        path = root / name
+        if state != "untracked":
+            path.write_text("# original test config\n")
+        git("add", ".")
+        git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+            "commit", "-qm", "baseline")
+        head = git("rev-parse", "HEAD").strip()
+        if state == "deleted":
+            path.unlink()
+        else:
+            path.write_text("# changed test config\n")
+        if state == "staged":
+            git("add", name)
+        monkeypatch.setattr(v, "ROOT", root)
+        monkeypatch.setattr(v, "SCOPE_BASE", head)
+        monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+        evidence = v.provenance()
+&gt;       assert name in evidence["product_status"]
+E       AssertionError: assert 'setup.cfg' in ''
+
+tests/test_html_verifier.py:439: AssertionError</failure></testcase></testsuite></testsuites>

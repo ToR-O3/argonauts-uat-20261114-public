@@ -409,6 +409,44 @@ def test_untracked_product_content_is_recorded(monkeypatch, tmp_path):
     assert result["product_status"]
 
 
+@pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+@pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
+    v = verifier()
+    root = tmp_path / "repo"
+    root.mkdir()
+    def git(*args):
+        return subprocess.run(["git", *args], cwd=root, check=True, capture_output=True).stdout.decode()
+    git("init", "-q")
+    (root / "baseline.txt").write_text("baseline\n")
+    path = root / name
+    if state != "untracked":
+        path.write_text("# original test config\n")
+    git("add", ".")
+    git("-c", "user.name=Verifier Test", "-c", "user.email=verifier@example.invalid",
+        "commit", "-qm", "baseline")
+    head = git("rev-parse", "HEAD").strip()
+    if state == "deleted":
+        path.unlink()
+    else:
+        path.write_text("# changed test config\n")
+    if state == "staged":
+        git("add", name)
+    monkeypatch.setattr(v, "ROOT", root)
+    monkeypatch.setattr(v, "SCOPE_BASE", head)
+    monkeypatch.setattr(v, "APPROVED_PRODUCT", head)
+    evidence = v.provenance()
+    assert name in evidence["product_status"]
+    if state == "untracked":
+        record, = evidence["untracked_product"]
+        assert record["path"] == name
+        assert record["content_utf8"] == path.read_text()
+        assert record["sha256"] == v.hashlib.sha256(path.read_bytes()).hexdigest()
+    else:
+        assert name in evidence["product_diff"]
+    assert "dirty/untracked product/test/tool code" in v.scope_report()["errors"]
+
+
 def test_dirty_product_blocks_capture_after_diagnostics(tmp_path, monkeypatch):
     v = verifier()
     from types import SimpleNamespace
