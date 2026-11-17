@@ -55,7 +55,7 @@ coverage:
     verification: []
     human_judgment: true
     rationale: G2 and the mandatory independent quality cycle belong to 03-06; no synthetic attestation proves actual viewing.
-duration: 13min
+duration: 565s
 completed: 2026-11-17
 status: complete
 ---
@@ -66,7 +66,7 @@ status: complete
 
 ## Performance and scope
 
-- Execution orientation began 2026-11-17T17:00Z (card run); official execution/position check at17:05:30Z; source verification completed17:13:43Z. Two tasks, three non-planning paths; no packages installed.
+- Card run began 2026-11-17T17:04:18Z (run epoch converted with date); official execution/position check at17:05:30Z; source verification completed17:13:43Z (565s from card start). Two tasks, three non-planning paths; no packages installed.
 - Existing wt/t_0a35d736 aligned to origin/argonauts/r-50053edc at bd1faed0c150b3260ca3e343aa66103c833f2d67. Repository origin matches fixed input; fetch succeeded, base merge reported Already up to date.
 - Official init.execute-phase3 selected 03-05 then03-06 incomplete; saved STATE and official state.get agree phase3, Current Plan5, Total Plans6, Ready to execute. Existing begin-phase record was retained; no new phase or next PLAN execution.
 - Product, CI/workflow, configuration, dependencies, OpenSpec tasks, historical03-01..04, Phase1 and unrelatedPhase2 are unchanged. Explicit git diff --exit-code against bd1faed verified product/workflow/config/OpenSpec/historical scope preservation.
@@ -107,7 +107,7 @@ Local full-suite success is **not G2 closure**: this host has full history and t
 ## Deviations from Plan
 
 - [Rule1 — integration correction] Final reconciliation also reuses existing capture completeness for canonical case order; the exact new test file was added to the existing scope allow-list. Both were justified by actual failing assertions and stay within tools/tests scope; no generic scope relaxation or product change.
-- The profile-local GSD workflow was resolved at the active builder profile path after `~/gsd-core/workflows/execute-plan.md` was absent. Official installed launcher and gsd_run were used. Terminal shell functions do not persist between calls, so each official command explicitly sources the installed launcher; no custom GSD implementation was substituted.
+- The profile-local GSD workflow was resolved at the active builder profile path after the initially requested home-relative workflow location was absent. Official installed launcher and gsd_run were used. Terminal shell functions do not persist between calls, so each official command explicitly sources the installed launcher; no custom GSD implementation was substituted.
 
 ## Mandatory pending handoff
 
@@ -117,6 +117,12 @@ Local full-suite success is **not G2 closure**: this host has full history and t
 - Full final-head review/record/re-review loop is explicitly owned by03-06. Historical quality evidence is unchanged and must not be hand-patched or reused as fresh evidence.
 - Reusable evidence-publication lessons submitted to this profile's skill approval queue, pending a8b0fc52; not reported as already saved.
 
+## Official sequential close-out
+
+After SUMMARY commit da8dc07, state.advance-plan returned advanced=true,previous_plan5,current_plan6,total6. state.update-progress returned updated=true,completed10,total11,percent50 (official percentage retained). roadmap.update-plan-progress3 returned updated=true,summary_count5,plan_count6,In Progress,complete=false. Official state.get and saved STATE body/frontmatter agree phase3,Current Plan6 of6,Ready to execute. Metric/session recorded, next03-06 remains unexecuted and same-card03-05 review pending. requirements.ready-ids returned ready=[] and blocked=[REQ-12,REQ-14]; no requirements.mark-complete or phase.complete was called.
+
+Initial verify-summary advisory misclassified a prose reference to an absent home-relative workflow path as a created project file, and the phrase about negative controls in this final self-check as a failed outcome. The prose was clarified without changing evidence or product. The actual on-disk deliverables and real test results remain authoritative.
+
 ## Self-Check: PASSED
 
-Both task acceptance criteria have positive real lifecycle counts and rejecting failure controls. Created test and modified verifier/runbook exist; all local313 tests pass. This is tooling-delivery self-check only, not product acceptance. Sequential official STATE/ROADMAP close-out follows this committed SUMMARY; no next PLAN is executed.
+Created tests/test_html_finalization.py and modified tools/verify_wordfreq_html.py plus docs/wordfreq-html-verification.md exist. Both task criteria have positive real lifecycle counts and negative controls. All local313 tests passed. This is tooling-delivery self-check only, not product acceptance. Next PLAN is not executed.
