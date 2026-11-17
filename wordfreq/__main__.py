@@ -16,7 +16,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> None:
-    args = build_parser().parse_args(argv)
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if args.top < 1:
+        parser.error("--top must be >= 1")
     text = FileSource(args.filename).read_text()
     pairs = top_words(count_words(iter_tokens(text)), args.top)
     sys.stdout.write(format_text(pairs))
