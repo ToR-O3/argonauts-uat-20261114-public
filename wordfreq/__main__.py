@@ -32,7 +32,9 @@ def main(argv: list[str] | None = None) -> None:
     pairs = top_words(counts, args.top)
     if args.format == "html":
         # argv uses filesystem surrogateescape; HTML needs displayable Unicode.
-        basename = os.fsencode(os.path.basename(args.filename)).decode("utf-8", errors="replace")
+        basename = os.fsencode(os.path.basename(args.filename)).decode(
+            sys.getfilesystemencoding(), errors="replace"
+        )
         output = format_html(pairs, basename, total)
     elif args.format == "json":
         output = format_json(pairs)

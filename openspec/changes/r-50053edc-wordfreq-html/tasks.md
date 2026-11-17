@@ -22,5 +22,6 @@ UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返�
 - 03-01 task 1: 共通初出順・HTML CLI接続・最終UI構造/CSSを実装し、集計5件・CLI27件・全50件が成功。1.1の文書と2.1の部品安全性試験はtask 2へ続く。2.2の全メタ情報行列と3.1のブラウザ確認は後続PLANまで未完了。独立品質4.1は未実施。
 - 03-01 task 2: HTMLParserで元値の一度escape/空tbody/意味構造/固定タグ属性/CSS外部経路不在/非破壊を確認。READMEとCONCEPTSに現行契約を記録。整形6件・全52件成功。1.1/2.1だけを完了とし、2.2/3.1は接続・CSS・使用例までの部分完了（後続の全行列/ブラウザ/品質は未実施）。
 - 03-01 review rework CR-01/WR-01: 不正UTF-8 basenameの置換表示とHTML専用UTF-8バイト出力をCLI境界で修正。各2件の実CLI REDを確認後、回帰4件と全56件成功。READMEの環境前提を修正。2.2/2.3の全行列・3.1のブラウザ・4.1の独立品質は未完了のまま。
+- 03-01 review rework round2 CR-01: basenameを実行環境のfilesystem encodingで復号し、復号不能バイトだけ置換するよう修正。ISO-8859-15の有効なcafé.txtを実CLIでRED確認後、既存UTF-8/出力encoding回帰を含む5件と全57件成功。新規試験はlocale実在/charmapを確認。READMEも訂正。後続taskのチェック・公式計画位置は進め直さない。
 - GSD対応表は03-COVERAGE.md。チェックは実際に完了したtaskだけを更新する。
 - 実装・品質検証・受入が済んでから、別工程でsync・archiveと最終確認を行う。本カードでは実装・製品ブラウザ合格・archiveを行わない。

@@ -284,6 +284,37 @@ def test_html_replaces_non_utf8_basename_bytes(tmp_path, locale_name):
     assert str(tmp_path) not in document
 
 
+@pytest.mark.skipif(os.name != "posix", reason="POSIX byte filenames")
+def test_html_preserves_basename_in_filesystem_encoding(tmp_path):
+    locale_name = "en_GB.iso885915"
+    available = subprocess.run(
+        ["locale", "-a"], capture_output=True, check=True, timeout=10,
+    ).stdout.decode("ascii").splitlines()
+    if locale_name not in available:
+        pytest.skip(f"locale {locale_name} is not installed")
+    env = os.environ.copy()
+    env.pop("PYTHONIOENCODING", None)
+    env.update(LC_ALL=locale_name, PYTHONUTF8="0", PYTHONCOERCECLOCALE="0")
+    charmap = subprocess.run(
+        ["locale", "charmap"], env=env, capture_output=True, check=True, timeout=10,
+    )
+    assert charmap.stdout.strip() == b"ISO-8859-15"
+    path = os.fsencode(tmp_path) + b"/caf\xe9.txt"
+    with open(path, "wb") as source:
+        source.write(b"hello hello world")
+    result = subprocess.run(
+        [sys.executable, "-m", "wordfreq", path, "--format", "html"],
+        cwd=ROOT, env=env, capture_output=True, timeout=10,
+    )
+    assert result.returncode == 0, result.stderr
+    assert result.stderr == b""
+    document = result.stdout.decode("utf-8", errors="strict")
+    parsed = CLIHTML(document)
+    assert parsed.values == {"filename-value": "café.txt", "total-value": "3"}
+    assert parsed.rows == [["1", "hello", "2"], ["2", "world", "1"]]
+    assert str(tmp_path) not in document
+
+
 @pytest.mark.parametrize("locale_name,io_encoding", [
     ("en_GB.iso885915", None),
     ("C", "latin-1"),

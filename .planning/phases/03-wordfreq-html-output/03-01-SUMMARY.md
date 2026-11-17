@@ -126,6 +126,15 @@ Root cause: filesystem surrogateescape left an unencodable basename in HTML, and
 - No OpenSpec checkbox was advanced. Complete metadata/error matrix, browser/raw Range/network/all-image acceptance and independent target-head quality remain pending.
 - SUMMARY already exists and STATE remains Phase3 Current Plan2/4, Ready to execute after the prior official advance. This rework does not re-run or duplicate state.advance-plan/update-progress/roadmap updates and does not execute 03-02.
 
+## Review rework round 2: filesystem basename decoding (CR-01)
+
+- Root cause confirmed: fixed UTF-8 decoding changed valid ISO-8859-15 basename bytes `caf\xe9.txt` into `caf�.txt`, despite successful input reads. The HTML UTF-8 output boundary was already correct.
+- Added actual subprocess regression `test_html_preserves_basename_in_filesystem_encoding`, checking locale availability and `locale charmap == ISO-8859-15` before running with PYTHONUTF8=0/PYTHONCOERCECLOCALE=0. Missing locale skips explicitly; this host executed the test without skipping.
+- RED with the exact pytest prefix above and `tests/test_cli.py -k preserves_basename_in_filesystem_encoding -q`: exit1, 1 failed/31 deselected (0.20s), parsed filename `caf�.txt` instead of `café.txt`.
+- Minimal fix: decode basename bytes using `sys.getfilesystemencoding()` with errors=replace. Keep source path, source read, pure formatter and strict UTF-8 HTML bytes unchanged. README now documents the filesystem rule rather than fixed UTF-8.
+- GREEN with `tests/test_cli.py -k 'preserves_basename_in_filesystem_encoding or replaces_non_utf8 or bytes_are_utf8' -q`: exit0, 5 passed/27 deselected (0.39s). Full suite `-q`: exit0, 57 passed (1.35s); git diff --check exit0.
+- No OpenSpec checkbox or official plan position advanced again: existing SUMMARY/STATE show completed03-01 and Current Plan2/4. Full matrix, browser acceptance and independent quality remain pending.
+
 ## Self-Check: PASSED
 
 Official `check evaluation-scope --plan 03-01 --commits-only --raw` resolved both task commits on this branch; every deliverable file existed and the complete suite passed. This is the PLAN's implementation self-check only, not phase/browser acceptance.
