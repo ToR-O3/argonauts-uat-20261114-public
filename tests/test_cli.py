@@ -32,3 +32,11 @@ def test_top_three_selects_three_sorted_words(tmp_path):
     assert result.stdout == "2\tapple\n1\tbee\n1\tcat\n"
     assert result.stderr == ""
 
+
+def test_top_zero_is_usage_error_before_input_read(tmp_path):
+    result = run_cli(tmp_path / "missing", "--top", "0")
+    assert result.returncode == 2
+    assert result.stdout == ""
+    assert "--top must be >= 1" in result.stderr
+    assert "Traceback" not in result.stderr
+
