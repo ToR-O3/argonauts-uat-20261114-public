@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-field="title">wordfreq HTML出力 Brief</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #ecefec; --paper: #ffffff; --ink: #1c2321; --muted: #5f6b67; --rule: #d8dfdc;
+  --accent: #2c6e5a; --lead: #f3f7f5; --ask: #fff6e0; --ask-rule: #d9a521;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--page); }
+body { margin: 0; padding: 2rem 1rem 3rem; font: 16px/1.6 var(--sans); color: var(--ink); overflow-wrap: anywhere; }
+main { max-width: 52rem; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule); box-shadow: 0 0.25rem 1.5rem rgb(0 0 0 / 6%); padding: 2.25rem 2.5rem 2.5rem; }
+header { padding-bottom: 1rem; border-bottom: 2px solid var(--ink); }
+.kicker { margin: 0 0 0.3rem; font: 700 0.72rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+h1 { margin: 0; font: 700 2.1rem/1.15 var(--serif); letter-spacing: -0.01em; }
+.meta { margin: 0.4rem 0 0; font-size: 0.85rem; color: var(--muted); }
+.meta span + span::before { content: " · "; }
+.notice { margin: 1rem 0; padding: 0.75rem 1rem; background: var(--ask); border-left: 4px solid var(--ask-rule); }
+nav { margin-top: 1.5rem; }
+nav h2 { font-size: 0.95rem; }
+nav ul { padding-left: 1.2rem; }
+.lead { margin-top: 1.5rem; padding: 1.25rem 1.5rem; background: var(--lead); border-left: 4px solid var(--accent); font: 1.08rem/1.6 var(--serif); }
+.lead p { margin: 0 0 0.85rem; }
+.lead > div > :last-child { margin-bottom: 0; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.75rem; margin-top: 1.75rem; }
+.grid section { min-width: 0; }
+.grid .wide { grid-column: 1 / -1; }
+section > h2 { margin: 0 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--rule); font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+section p, section ul, section ol { margin: 0 0 0.75rem; }
+section ul, section ol { padding-left: 1.2rem; }
+.rest { margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); font-size: 0.95rem; }
+.rest h2 { margin: 0 0 0.5rem; font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+code { font-family: ui-monospace, Consolas, monospace; font-size: 0.9em; }
+a { color: var(--accent); }
+@media (max-width: 40rem) {
+  body { padding: 1rem 0.75rem 2rem; }
+  main { padding: 1.5rem 1.25rem; }
+  h1 { font-size: 1.65rem; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media print {
+  html { background: none; }
+  body { padding: 0; }
+  main { border: 0; box-shadow: none; padding: 0; max-width: none; }
+  .grid section { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">Product brief · 文書閲覧ビュー</p>
+    <h1 data-field="title">wordfreq HTML出力 Brief</h1>
+    <p class="meta"><span data-field="updated">更新: 2026-11-17</span><span data-field="status">final</span><span>作成: 2026-11-17</span><span>brief 1.1.0</span></p>
+  </header>
+  <p class="notice" role="note">これはBrief文書の閲覧ビューであり、製品wordfreq HTMLの実装や受入証拠ではありません。現時点は要求整理であり、実装・ブラウザ合格を示すものではありません。</p>
+  <nav aria-labelledby="contents-heading">
+    <h2 id="contents-heading">Table of Contents</h2>
+    <ul>
+      <li><a href="#executive-summary">Executive summary</a></li>
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#solution">Solution</a></li>
+      <li><a href="#what-makes-it-different">What makes it different</a></li>
+      <li><a href="#who-it-serves">Who it serves</a></li>
+      <li><a href="#success-criteria">Success criteria</a></li>
+      <li><a href="#scope">Scope</a></li>
+      <li><a href="#assumptions">Assumptions</a></li>
+    </ul>
+  </nav>
+  <section class="lead" id="executive-summary" data-section="Executive summary" aria-labelledby="summary-heading">
+    <h2 id="summary-heading">Executive summary</h2>
+    <div data-body>
+      <p>依頼 r-50053edc は、既存CLI利用者からの今回の要望に応え、wordfreqの集計結果をブラウザで閲覧できる自己完結した静的HTMLを追加する。利用者はCLIの標準出力をファイルへ保存して開き、入力ファイル名と入力全体の総出現回数、順位・単語・回数の表を確認できる。外部通信もWebサーバーも不要とする。</p>
+      <p>既存の回数降順は保ち、同数時の語の昇順だけを初出順へ意図的に変更する。text・json・htmlの順序を揃える。明るい背景、切替なし、1からの表示行連番、画面の判定方法は依頼で決定済みであり、再質問しない。現時点は要求整理であり、実装・ブラウザ合格を示すものではない。</p>
+    </div>
+  </section>
+  <div class="grid">
+    <section class="wide" id="problem" data-section="Problem">
+      <h2>Problem</h2>
+      <div data-body><p>現在の製品はtextとjsonだけを出力する。ブラウザでファイル名・総数と表をまとめて見るには利用者側の整形が必要になる。依頼者が求めた改善を根拠とし、利用人数、費用、需要の大きさは不明であり創作しない。</p></div>
+    </section>
+    <section id="solution" data-section="Solution">
+      <h2>Solution</h2>
+      <div data-body><p><code>python -m wordfreq &lt;file&gt; --format html</code> が1枚のHTMLをstdoutに出す。表より上にbasenameのみと、top制限前の総出現回数を示す。簡素な明るい画面で、320 CSS pxを含むスマートフォン幅でも長い語・ファイル名を読めることを目指す。HTML特殊文字を安全に表示し、既存の単語認識・入力境界を保つ。</p></div>
+    </section>
+    <section id="what-makes-it-different" data-section="What makes it different">
+      <h2>What makes it different</h2>
+      <div data-body><p>textの直接閲覧やJSONの別ツール整形に対し、保存したHTMLだけで結果の文脈と表を確認できる。競合優位や市場の新規性は主張しない。初出順への変更は従来の語順と異なるため、互換性変更として仕様・試験に残す。</p></div>
+    </section>
+    <section id="who-it-serves" data-section="Who it serves">
+      <h2>Who it serves</h2>
+      <div data-body><p>対象は既存wordfreqのファイル集計結果をブラウザで見たいCLI利用者。固有の人物像や利用規模の証拠はない。品質担当は実CLIからHTMLを独立して生成し、画面と証拠を照合する。</p></div>
+    </section>
+    <section id="success-criteria" data-section="Success criteria">
+      <h2>Success criteria</h2>
+      <div data-body>
+        <p>AC1–AC6の原文はuat-publicボードのカードt_db216d64、展開した要求は<a href="../prd/prd-wordfreq-html.md">同依頼PRD</a>のFR-1–FR-6を参照する。</p>
+        <ul>
+          <li>AC1–AC2: 自己完結HTMLの3列表、basename、top前総数が実CLI出力と一致する。</li>
+          <li>AC3: 同数語が語の昇順と異なる入力およびtop境界で、全形式が初出順になる。</li>
+          <li>AC4: 通常幅・320 CSS pxで長文の横方向の収まり、切取り祖先内の収まり、隣接内容との非重複、実画像の可読性を満たす。文字範囲の実測原本を残す。要素自身への厳格な縦包含は必須にしない。</li>
+          <li>AC5–AC6: 注入・外部通信を起こさず、空入力と既存エラーの回帰を試験する。品質担当の独立ブラウザ確認でhead・入力・コマンド・結果・文字範囲・画像を条件へ対応付ける。</li>
+        </ul>
+        <p>対になる保護指標は、同数時順序以外の既存text/json構造・入力処理に不要な変更がないこと、CIの追加・変更がないこと。</p>
+      </div>
+    </section>
+    <section class="wide" id="scope" data-section="Scope">
+      <h2>Scope</h2>
+      <div data-body><p>含むのはHTML出力、basenameとtop前総数、レスポンシブ表示、全形式の同数時初出順、安全性と検証証拠。生成日時、暗色・テーマ切替、対話操作、サーバー、標準入力・URL入力、単語認識の変更、CIの追加・変更は含めない。資金調達の提案ではないためThe askは省略し、長期Visionは今回の範囲外とする。新規アーキテクチャ文書は不要と判断する。既存の入力・トークナイズ・集計・整形境界を維持した局所変更としてOpenSpec designで決定を記録する。</p></div>
+    </section>
+  </div>
+  <section class="rest" id="assumptions" data-section="Assumptions" data-rest>
+    <h2>Assumptions</h2>
+    <div data-body>
+      <ul><li>[ASSUMPTION: Who it servesと閲覧場面では、詳細属性が未提供のため、既存CLI利用者がファイルへ保存して閲覧する場面を説明用に想定する。製品の追加要件ではない。]</li></ul>
+      <p>未解決の製品判断はない。実装後の可否は後続の試験で判断する。</p>
+    </div>
+  </section>
+</main>
+</body>
+</html>
