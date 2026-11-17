@@ -1044,6 +1044,17 @@ def snapshot_live(live, browser, output):
     return boundary, errors
 
 
+def validate_live_finish(manifest, ledger, live, browser, output):
+    boundary, errors = snapshot_live(live, browser, output)
+    errors += evidence_errors(manifest, ledger, output, boundary)
+    # Native events queued during validation are delivered before a second check.
+    boundary, late = snapshot_live(live, browser, output)
+    errors += late + evidence_errors(manifest, ledger, output, boundary)
+    finished = now()  # actual completion, not the start of the last check
+    _, late = snapshot_live(live, browser, output)
+    return errors + late, finished
+
+
 def run_suite(output):
     argv = [sys.executable, "-m", "pytest", "--junitxml", str(output / "suite.xml")]
     start = now()
@@ -1128,11 +1139,7 @@ def review_session(args):
                     raise ValueError("finalize request/ledger identity changed")
                 manifest["finalize_requested_at"] = request["at"]
                 ledger = load_json(ledger_path)
-                boundary, errors = snapshot_live(live, browser, output)
-                errors += evidence_errors(manifest, ledger, output, boundary)
-                # Re-pump after potentially expensive checks: late failed attempts fail.
-                finished, late = snapshot_live(live, browser, output)
-                errors += late + evidence_errors(manifest, ledger, output, finished)
+                errors, finished = validate_live_finish(manifest, ledger, live, browser, output)
                 manifest["verification_finished"] = finished
                 manifest["errors"] += errors
                 manifest["ledger_sha256"] = digest(ledger_path)
