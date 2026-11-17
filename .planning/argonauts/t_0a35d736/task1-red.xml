@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.064" timestamp="2026-11-18T02:06:34.557976+09:00" hostname="Ys-Minify"><testcase classname="tests.test_html_finalization" name="test_real_owner_projects_exact_ledger_into_every_persisted_view[quality-accepted]" time="0.033"><failure message="AssertionError: assert 'pending-review' == 'accepted'&#10;  &#10;  - accepted&#10;  + pending-review">lifecycle = namespace(v=&lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t...1-01T00:00:02+00:00', 'ended': '2026-01-01T00:00:02+00:00'})], run=&lt;function lifecycle.&lt;locals&gt;.run at 0x7551506ac900&gt;)
+role = 'quality', verdict = 'accepted'
+
+    @pytest.mark.parametrize("role,verdict", [("quality", "accepted"), ("builder", "builder-reviewed")])
+    def test_real_owner_projects_exact_ledger_into_every_persisted_view(lifecycle, role, verdict):
+        s = lifecycle
+        code, manifest = s.run(role)
+        assert code == 0
+        assert manifest["verdict"] == verdict
+        assert manifest["independent_acceptance"] is (role == "quality")
+        assert [c["id"] for c in manifest["cases"]] == ["empty", "long"]
+        for case in manifest["cases"]:
+            assert [view["width"] for view in case["views"]] == [1280, 320]
+            for view in case["views"]:
+&gt;               assert view["verdict"] == verdict
+E               AssertionError: assert 'pending-review' == 'accepted'
+E                 
+E                 - accepted
+E                 + pending-review
+
+tests/test_html_finalization.py:103: AssertionError</failure></testcase></testsuite></testsuites>

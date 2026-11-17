@@ -9,5 +9,9 @@ def count_words(tokens: Iterable[str]) -> Counter[str]:
 
 
 def top_words(counts: Counter[str], n: int) -> list[tuple[str, int]]:
-    """Return up to n pairs by descending count, then ascending word."""
-    return sorted(counts.items(), key=lambda wc: (-wc[1], wc[0]))[:n]
+    """Rank by descending count, preserving insertion order for ties.
+
+    Callers must supply counts in normalized first-occurrence order.
+    Stable sorting happens before limiting; counts are not mutated.
+    """
+    return sorted(counts.items(), key=lambda wc: -wc[1])[:n]

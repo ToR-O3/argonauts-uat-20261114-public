@@ -1,0 +1,203 @@
+---
+phase: 03-wordfreq-html-output
+plan: "03"
+subsystem: testing
+tags: [python, chromium, cdp, html, raw-geometry, network-evidence]
+requires:
+  - phase: 03-wordfreq-html-output
+    provides: Reviewed 03-02 product at ed7e6cc with CLI/static regression
+provides:
+  - Independent fixed CLI oracles and raw browser geometry capture at both widths
+  - Pre-open context/main-CDP/browser flattened autoattach observation
+  - Real clean and violating network canaries plus deterministic failure discrimination
+  - Capture-only pending-review guide and attributable evidence archive
+  - Explicit independent image/live quality gate left pending
+affects: [03-04, independent-quality]
+tech-stack:
+  added: []
+  patterns: [lazy external browser imports, paused-target observation, raw evidence separated from predicates]
+key-files:
+  created: [tools/verify_wordfreq_html.py, tools/wordfreq_html_geometry.js, tests/test_html_verifier.py, docs/wordfreq-html-verification.md]
+  modified: [openspec/changes/r-50053edc-wordfreq-html/tasks.md]
+key-decisions:
+  - Capture success is pending-review, never all-image review or independent acceptance
+  - Browser root observation uses public flattened CDP before first page, enabling Network before resuming popup targets
+  - Background exclusions require exact pre-open browser_ui target identity and known internal URL, not generic filtering
+  - Scratch symlink is environment-only and must not be committed
+requirements-completed: [REQ-09, REQ-10, REQ-11, REQ-12, REQ-13, REQ-14]
+coverage:
+  - id: D1
+    description: Exact fixture regeneration and unmodified CLI byte/DOM oracles
+    verification:
+      - kind: integration
+        ref: tests/test_html_verifier.py#test_real_generation_bytes_oracles_privacy_and_lazy_browser
+        status: pass
+      - kind: e2e
+        ref: .planning/argonauts/t_343bb136/03-03-capture-index.json
+        status: pass
+    human_judgment: false
+  - id: D2
+    description: Raw geometry retention and separate horizontal/clip/nonoverlap discrimination
+    verification:
+      - kind: unit
+        ref: tests/test_html_verifier.py#test_geometry_rejects_each_invalid_record
+        status: pass
+      - kind: unit
+        ref: tests/test_html_verifier.py#test_geometry_accepts_raw_own_vertical_overhang_and_empty_ranges
+        status: pass
+    human_judgment: false
+  - id: D3
+    description: Attributed failed external request/navigation/early-popup/client-redirect observation
+    verification:
+      - kind: unit
+        ref: tests/test_html_verifier.py#test_canary_validator_requires_correlated_real_path_evidence
+        status: pass
+      - kind: e2e
+        ref: .planning/argonauts/t_343bb136/03-03-canary-index.json
+        status: pass
+    human_judgment: false
+  - id: D4
+    description: Capture-only guide and unsupported-mode rejection
+    verification:
+      - kind: unit
+        ref: tests/test_html_verifier.py#test_unimplemented_review_mode_cannot_succeed
+        status: pass
+    human_judgment: false
+  - id: D5
+    description: All-image readability and independent target-head live quality/AC acceptance
+    verification: []
+    human_judgment: true
+    rationale: No image viewing is claimed; observation ends with capture. 03-04 and independent quality must implement and exercise live review/finalization, regenerate at their target head, inspect all images/raw data and decide AC1 through AC6.
+duration: 1550s
+completed: 2026-11-17
+status: complete
+---
+
+# Phase 3 Plan 03: Real browser geometry and network attempt evidence
+
+**Actual CLI regeneration and raw Chromium capture now run with fail-closed geometry/network discrimination; clean control and four real unsuccessful communication canaries are proven. Every captured image remains pending visual review.**
+
+## Performance and scope
+
+- Execution start: 2026-11-17T13:54:18Z. Final source verification/archive check: 2026-11-17T14:20:08Z (1550 seconds).
+- Two tasks only, four new source/test/guide files and one existing OpenSpec task accounting file. Concise execution indices are saved alongside this summary; raw outputs are attached as an archive rather than committed en masse.
+- Existing `/usr/bin/python3` 3.12.15, pytest9.0.3, external Playwright1.60.0, Chromium156.0.8078.73, existing external websockets16.0. OS in actual capture: Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39.
+- Aligned existing local wt/t_343bb136 to origin/argonauts/r-50053edc at reviewed ed7e6cc9d608bc40a82da76e85ca6e57a0808b54. Base merge returned Already up to date. No branch creation/rename/worktree move.
+- Official init.execute-phase3 identified03-03 as first incomplete, with03-01/02 summaries and four plans total. Saved/official Current Position was phase3 / Current Plan3 / Total4 / Ready to execute. No position repair or repeated begin-phase was needed.
+- No product-package, workflow, CI, dependency declaration, tokenizer/source boundary, historical Phase1 or unrelated Phase2 changes.
+
+## Task commits
+
+1. aefe60aaf6a855dbe3e287c835a4a2714477e314 — task1 fixture regeneration, raw JS/geometry/predicate collector.
+2. a77de3741aa30efc5569aca844be8414e226c4d0 — task1 observed pre-document internal browser-ui discrimination.
+3. 8e132c2b55c33482d28de5c78267bf25ae905e94 — task2 flattened browser transport, real negative canaries, coverage/attribution discrimination, own-clip correction, guide and partial OpenSpec accounting.
+
+Official evaluation-scope --plan03-03 --commits-only returned resolved and these three commits on this branch. A first invocation found no shell function because terminal functions do not survive calls; reloading the installed official resolver function succeeded. No alternate CLI was substituted.
+
+## Actual execution results
+
+All Python commands used `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3` from repo root. Browser commands additionally inherited `TMPDIR=.browser-tmp`, a local untracked symlink into managed scratch, not a dependency/install or system-temp workaround.
+
+| Command suffix | Real result |
+|---|---|
+| -m pytest tests/test_html_verifier.py -x, final source | 33 passed in0.89s, exit0 |
+| -m pytest, final source | 159 passed in4.26s, no skips, exit0 |
+| tools/verify_wordfreq_html.py --role builder --output-dir .planning/argonauts/r-50053edc/builder/03-03-final-capture --mode capture | exit0, pending-review, errors=[] |
+| tools/verify_wordfreq_html.py --role builder --output-dir .planning/argonauts/r-50053edc/builder/03-03-final-canaries --self-test-network | exit0, passed observer discrimination, errors=[] |
+| -m zipfile -t .planning/argonauts/t_343bb136/03-03-browser-evidence.zip | Done testing, exit0 |
+| git diff --check and all four source deliverable file checks | exit0 |
+
+### TDD observations
+
+- First fixture test failed because the collector file did not exist; after implementation the explicit matrix test exposed a mistaken test cardinality16 versus the enumerated15. Corrected the test count to the actual required matrix, not by inventing another case. Explicit long/whitespace/multiplicity/top/tie/injection expectations then passed.
+- The next run had13 failures for missing geometry/generation/completeness APIs and an unsupported review mode that incorrectly exited0. After implementation and correction of the collector's wrong dl/dd assumption to the actual div metadata, all14 tests passed. Added file/actual-capture entrypoint test failed before JS/capture implementation, then15 passed.
+- Actual browser run exposed browser-ui targets; the dedicated test failed before exact pre-document target/type/opener/URL handling.16 tests and real task1 capture then succeeded with pending-review.
+- Network tests exposed unknown event/URL attribution and missing pre-open observer accepted as clean, plus missing canary validation (4 failed/20 passed). New predicates and real self-test implementation resolved these failures.
+- Own-clip regression failed while unclipped own-height overhang stayed valid; added actual owner clip to the comparison and retained raw values.
+- Untracked-product-content test failed on missing diagnostic field, then passed with content/hash retention.
+- Correlated-canary tests failed for unrelated failure ID, missing flattened protocol, unknown attribution, unpaused popup and missing initial file request (5 failed/1 valid passed). Tightened evidence checks; native initial local-request omission was separately shown RED. Final33 verifier tests pass.
+- RED outputs above are actual terminal results, not a fabricated JUnit artifact or a claim that every regression-only test failed on the old product. No production wordfreq code changed in this PLAN.
+
+## Accomplishments and evidence
+
+- 15 actual CLI cases with independent explicit expected words/counts/metadata: empty; normal top1/2/10; frequency top2; normalized tie top1/2 in all formats; exact long top12/default/99; exact injection basename/Unicode. Input originals, escaped-name repr, argv/cwd/executable/environment, exit/stdout/stderr and unchanged HTML bytes are retained. HTML strict UTF-8/static/DOM/privacy checks passed.
+- HTML11 cases ×1280x900/320x900 =22 fresh context views. DPR1/zoom1 were measured. Raw element/full text/character Range, empty arrays, original floats, codepoint+UTF16 positions, all ancestors/overflow/client/border/padding, document metrics and computed/actual platform fonts are retained. Long n*176 and w*256 runs wrap in both widths; ranks/counts remain complete and numeric fixtures do not split.
+- Independent predicates report zero horizontal/column overflow, actual ancestor/own clipping or different text-owner overlap in final captures. Strict own-element vertical containment is not used. Geometry success does not establish screenshot readability.
+- Initial32 screenshots were intended as full-page/overlapping tiles, but quality review demonstrated clamped below-fold tiles and incorrect recorded full widths. **Initial capture/image claims are superseded and not valid complete-image evidence.** See the rework section below for fresh CDP captures and verified dimensions. reviewed_images=[], independent_acceptance=false.
+- Observer starts before document opening and ends after geometry/screenshots. Native context events plus main CDP and browser flattened paused-target observation retain failed attempts and navigation/redirect/popup metadata. There is no HTTP product server. Debugger transport is loopback only.
+- Clean canary: external native request0, successful external response0, requestfailed0. Each of failed-resource/document-navigation/early-popup/meta-refresh redirect: external native request1, successful external response0, requestfailed1, attributed browser-root Network request1. All four are rejected; clean control passes. Early popup includes paused target/opener, requestId, targetId, frameId, initiator and loading failure. Client meta-refresh is the exercised redirect, not an unperformed HTTP30x test.
+
+Final capture head and canary provenance head are **8e132c2b55c33482d28de5c78267bf25ae905e94**. Later SUMMARY/STATE/ROADMAP/index-only commits transport this evidence and are not falsely substituted for its execution head. Quality must regenerate at the review target head independently.
+
+Tracked concise indices:
+- `.planning/argonauts/t_343bb136/03-03-capture-index.json`
+- `.planning/argonauts/t_343bb136/03-03-canary-index.json`
+
+Full final raw/CLI/image/network archive (provided as review artifact):
+- `.planning/argonauts/t_343bb136/03-03-browser-evidence.zip`
+- SHA-256: 55af375e9fd9abbb40c70345c6370362e8d269b720150923fc267d84d9da75e6
+
+Archive contains final-capture and final-canaries directories. Absolute paths in original JSON intentionally preserve execution provenance; they refer to files included under those directory names and must not be rewritten to pretend a different run.
+
+## Deviations from Plan
+
+1. [Rule3 - Blocking environment] First launch failed explicitly with Chromium Unix socket path too long in managed scratch. A short relative symlink into the same scratch fixed launch without install or changes outside this workspace. Initial failed manifest remains locally under03-03-01; not relabeled as a pass.
+2. [Rule3 - Blocking protocol] Browser root Target.setAutoAttach with flatten=false is rejected by actual Chromium. Used existing external websockets and the public flattened CDP transport with paused new targets. Before final acceptance, genuine canaries prove early request capture rather than relying on page-event timing. Initial nonflatten failure remains locally under03-03-02-canaries.
+3. [Rule1 - Verifier correction] Raw browser-ui targets were initially false failures; exclusion now requires actual pre-open type/opener/knownURL/identity grounds and retains original events. Background extension was disabled with normal browser flags, not silently filtered. Owner clipping and correlated-canary guards were corrected by failing tests during task2.
+
+Impact: No product/CI/dependency scope expansion; only verifier/environment mechanics needed to fulfill this PLAN. The planned JS received a small owner-clip correction in task2. No next PLAN was executed.
+
+## OpenSpec and pending gates
+
+3.1/3.2 tooling portions and4.1 tooling-only subchecks are recorded with the code commit. Original3.1/3.2 full-display/readability checks and4.1 independent-quality check remain unchecked. Shared REQ09..14 in the required frontmatter are PLAN IDs, not a statement of full AC satisfaction; official shared-ID readiness must be checked before marking requirements complete.
+
+## Issues Encountered
+
+Resolved environment/protocol issues above are retained as evidence and reproducible guide instructions. Remaining work is intentionally outside03-03: live review-session/finalize, review-ledger completeness/head/scope contract, independent target-head generation, every image actually viewed and AC1–AC6 decisions. Capture interval is capture-only and must not be extended retroactively to later review.
+
+## Next Phase Readiness
+
+Same-card quality review is required before03-04. The child03-04 card is not this card's review. After approval, the child may implement its own specified live contract. Phase complete/acceptance/quality status/PR readiness/auto-merge/merge were not performed.
+
+## Official sequential close-out
+
+After SUMMARY commit ad24401, official state.advance-plan returned advanced=true, previous_plan3/current_plan4/total4. state.update-progress returned updated=true, completed8/total9/percent50 (official percentage preserved). roadmap.update-plan-progress3 returned updated=true, summary_count3/plan_count4/In Progress/complete=false. record-session and record-metric succeeded. Saved STATE and official state get both show phase3 / Current Plan4 / Total4 / Ready to execute; saved ROADMAP checks03-03 and leaves03-04 unchecked. This was not the last PLAN; last_plan/phase verification transition is for03-04. requirements.ready-ids returned ready=[], blocked all6 because03-04 remains unfinished, so no requirement was marked complete. Official verify-summary returned passed=true, files_created2/2, commits_exist=true, self_check=passed, errors=[]. The four source paths were separately checked, since its files_created heuristic is not a complete deliverable inventory. phase.complete and next-PLAN execution were not called.
+
+## Quality rework round 1 — supersedes original screenshot evidence
+
+- Review at81cb19a found real tile truncation and false full-image width records. Added two PNG-vs-record regression cases; both failed before validation. At b1b1222, real Chromium capture failed with10 dimension mismatches, including long-12/320 tile800 actual320×100 versus recorded320×759. This confirms the original defect rather than assuming the reviewer diagnosis.
+- c1e73dd tried Playwright full_page=True with clipping and real PNG sizes. It remained non0: three narrow tiles were short (long-12 tile800 actual305×663 vs requested305×759). Full-page Playwright capture can temporarily resize layout/remove scrollbar, reflowing narrow content. This intermediate attempt is not accepted evidence.
+- 20c6075 uses existing main CDP Page.captureScreenshot with captureBeyondViewport=true and explicit scale1 document clip, for full and tile images without viewport resize. PNG IHDR dimensions are the recorded sizes; both full document bounds and requested tile bounds must match. capture_errors independently rereads PNGs and rejects record mismatches/malformed IHDR. No image dependency was introduced.
+- Added scrollbar-width and glyph-under-scrollbar regressions; both were RED, then GREEN using min(innerWidth,document.clientWidth) without changing raw records.
+- Added URL-only canary failure regression; RED before removing URL-prefix fallback, GREEN when a Network.loadingFailed requestId must match the attributed external request. Native requestfailed remains in raw observation but cannot substitute for correlated CDP evidence.
+- Final source capture head: **36c56744b3ad9e17427733b6cf70a271832cad16**. 38 verifier tests passed, full suite **164 passed in4.80s**, no skips. Actual capture exit0/pending-review/errors=[]:15 CLI cases,11 HTML cases,22 views,32 images. Fresh canaries exit0/passed/errors=[] for clean plus four rejected violations, now requiring failure request IDs.
+- All five long views needing tiles have actual dimensions equal to requested bounds and end at full-image bottom. Long-12/99 narrow: full305×1559; tiles305×900 at y0 and305×759 at y800. Long-default narrow: full305×1477; second tile305×677. Wide long-12/99: full1265×967; second tile1265×167. jq assertions verified coverage and all requested/actual tile dimensions. No visual review is inferred from these checks.
+- Fresh indices: `.planning/argonauts/t_343bb136/03-03-rework-capture-index.json` and `03-03-rework-canary-index.json`. Fresh original ZIP: `03-03-rework-evidence.zip`, SHA-256 **8d5104bb218dfc276a2128a33ef480ea23f5c710b6b4293272798c7f94ce0d2e**, zipfile integrity test exit0. JUnit: `03-03-rework-pytest.xml`. Archive contains only rework-final-capture and rework-final-canaries; original absolute paths are preserved inside records.
+- Official state get still confirms phase3 / plan4 of4 / Ready to execute;03-03 SUMMARY exists and verify-summary passed=true/errors=[]. This is rework of completed03-03, so no repeat advance-plan/progress update and no03-04 execution.
+- Product/runtime, dependencies and workflows unchanged. OpenSpec3.1/3.2 and4.1 full gates remain unchecked. All-image readability, GSD independent review, independent target-head regeneration and later live review remain pending quality/03-04; reviewed_images=[] and independent_acceptance=false.
+
+## Quality rework round 2 — missing observation and owner text coverage
+
+- Review CR-01/WR-01 at4edd062 confirmed two vacuous-pass paths. Ready-event deletion test first produced1 failed/1 passed: removing browser-autoattach-ready still passed. Added all-channel discrimination; wrong document URL and unrelated targetId first produced2 failed/4 passed. Geometry owner deletion/empty/partial text produced9 failed/3 passed; absent character arrays were already rejected.
+- Source commit **e135b031150db7fc04dc44e4991a8d14df49f131** changes only verifier/tests/guide/OpenSpec accounting. Observer.finish now derives coverage from ordered ready events and exercised channels. network_errors independently recomputes it for the expected document URL: context initial request, main CDP request, attributed flattened CDP request with requestId/frame/target/initiator, and matching paused page target. Declared true flags alone no longer establish coverage.
+- Every td/th/h1/caption/label/filename-value/total-value/empty-message requires owner text records, character measurements and exact concatenated textContent. The current JS leaf-only collector is intentionally retained: nested value markup is unsupported and explicitly rejected as unmeasured, not silently skipped. No product HTML rewrite, coordinate normalization or broad tree traversal/duplicate glyphs was introduced.
+- Verifier58 passed in1.16s; full suite184 passed in4.49s. Final JUnit run **184 passed in4.67s**, no skips. Actual fresh capture at e135b03: exit0/pending-review/errors=[],15 CLI cases/22 views/32 images. Fresh clean plus four violating canaries: exit0/passed/errors=[].
+- `.planning/argonauts/t_343bb136/round2_audit.py` rechecks original capture data: all22 records have genuine channel coverage; deleting either ready event rejects44 cases even with original true flags; removing a required owner text rejects338 cases. Three real Chromium nested-markup probes (td/filename-value/total-value) pass the static allow-list but are correctly rejected by geometry as text not fully measured. Raw probe results remain in the archive, not product-capture evidence.
+- Concise indices:03-03-round2-capture-index.json,03-03-round2-canary-index.json,03-03-round2-audit-index.json. ZIP03-03-round2-evidence.zip integrity exit0, SHA-256 **071315c603516caba0972550af1eeac629fdde73149cd9d7626b85d35c2578e0**. Original paths and capture head are preserved. Later commits only transport planning evidence; quality must regenerate at its target head.
+- Non-blocking GSD findings WR-02..04 and IN-01..05 are **deferred**, not described as resolved: import-path/provenance hardening, CSS image-set audit, fixed-copy oracle, unset TMPDIR, single-user loopback/no-sandbox trust assumption, error scoping, duplicate close and remaining report notes. They remain visible in attached03-REVIEW.md for quality/PM decisions; this rework addresses the two requested blockers only.
+- Official query state get confirms phase3/current plan4/total4/Ready to execute. Existing03-03 SUMMARY means no second advance/progress mutation;03-04 is not executed. An initial mistaken `check verify-summary` returned unknown subcommand; official `query verify-summary` exposed the old Self-Check heading preceding rework history, whose words like "failed" are included by its suffix regex. Moved Self-Check to the document end, preserving all genuine RED/defect history, and rerun the official query before handoff.
+- All-image viewing/readability,03-04 live session and independent AC1–AC6 gate remain pending;3.1/3.2/4.1 full checkboxes unchanged.
+
+## Quality rework round 3 — channel-local request attribution and positive ink
+
+- Confirmed CR-01 from the round3 review: response.url/redirectResponse.url/documentURL were ignored and orphan Network IDs passed. New regressions first returned **24 failed/1 valid passed**: five event types crossed with missing start/other source/other session/other target, three URL fields, and an external orphan response. The implementation now matches source/sessionId/targetId/requestId against an observed requestWillBeSent on that same channel and inspects all seven URL fields. No local-URL orphan whitelist is used. Corrected the older synthetic canary fixture to put its failure on the same source/target as its start; the stricter predicate exposed that fixture defect.
+- At source **49075ec**, strict real capture returned exit1: every one of22 views exposed the previously ignored DevTools local-file refetch with no observed start (raw retained in round3-strict; failure output round3-strict.log is archived). Moved DOM.enable/CSS.enable before navigation on about:blank instead of suppressing the events. This eliminates the refetch at the source without rewriting HTML or weakening unknown-attribution rejection. Fresh actual capture then returned exit0; a jq cross-check independently verified every requestId on all22 network.json files has a same-channel start.
+- WR-01 reproduced with **3 failed/1 valid passed**: visible glyph width0, height0 and both0 were accepted. Non-whitespace characters now require at least one rect with positive width and height. Empty whitespace Ranges and raw zero-area rectangles remain unchanged, including zero rects alongside valid visible ink. No own-height containment rule was added.
+- Capture/canary source head **aa6104e8e2f51ae5578cdec687b8cecfbd0b0d71**: actual15 CLI cases/22 browser views/32 images, pending-review/errors=[], reviewed_images=[], independent_acceptance=false. Actual clean plus all4 violating canaries return passed/errors=[]; each violating request is observed/rejected. Full suite **213 passed in4.91s**, no skips, JUnit03-03-round3-pytest.xml. Later edits are guide/OpenSpec/SUMMARY/index only, not collector/product changes.
+- Fresh concise indices:03-03-round3-capture-index.json and03-03-round3-canary-index.json. Original evidence archive03-03-round3-evidence.zip passed unzip integrity; SHA-256 **983579fcd38dca51c6726b447dec55060d39779fb11b9e8ddbb529e2220d7a17**. It contains fresh capture/canary originals with unchanged execution paths and strict diagnostic log, not relabelled independent-quality results.
+- Nonblocking round3 **WR-02..05 and IN-01..05 remain deferred**, not resolved: fixed-copy/class coverage, import-path provenance, CSS image-set, monitor error scoping, ready marker provenance, stray text, unset TMPDIR, loopback/no-sandbox/duplicate close, and artifact-coverage strengthening. These are in attachment54 for quality/PM decisions. No product, CI, dependency, phase1 or phase2 source change was made.
+- Official state get and saved Current Position agree: phase3/plan4 of4/Ready to execute. Existing03-03 SUMMARY/progress is retained; no repeated advance or next-PLAN execution. Independent all-image/readability/live/AC1–AC6 gates and OpenSpec3.1/3.2/4.1 full checkboxes remain pending. The child03-04 is not this card's review.
+
+## Self-Check: PASSED
+
+Four source/test/guide paths exist. Fresh total213 tests pass without skips; real22-view capture is pending-review and clean plus four violating canaries pass discrimination. All observed Network IDs match same-channel starts in the fresh capture; archive integrity is checked. This is implementation self-check only: all-image readability and independent acceptance remain pending.

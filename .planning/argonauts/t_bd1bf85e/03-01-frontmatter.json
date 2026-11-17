@@ -1,0 +1,63 @@
+{
+  "phase": "03-wordfreq-html-output",
+  "plan": "01",
+  "type": "execute",
+  "wave": "1",
+  "depends_on": [],
+  "files_modified": [
+    "wordfreq/aggregator.py",
+    "wordfreq/formatters.py",
+    "wordfreq/__main__.py",
+    "tests/test_aggregator.py",
+    "tests/test_cli.py",
+    "tests/test_formatters.py",
+    "README.md",
+    "CONCEPTS.md"
+  ],
+  "autonomous": "true",
+  "requirements": [
+    "REQ-09",
+    "REQ-10",
+    "REQ-11",
+    "REQ-12",
+    "REQ-13"
+  ],
+  "estimate": {
+    "tokens": "30000",
+    "raw_tokens": "30000",
+    "tasks": "2",
+    "confidence": "low"
+  },
+  "must_haves": {
+    "truths": [
+      "One real CLI path reads FileSource once, normalizes, counts, orders, limits and returns a complete static UTF-8 HTML document; text/json use the same ranking.",
+      "Counter insertion order represents normalized first occurrence; repeated occurrences do not move it; stable descending-count sort precedes top.",
+      "Zoo apple APPLE zoo banana at top1 yields zoo2; top2 yields zoo2/apple2 in every format.",
+      "Basename only and pre-top total occur above the table; no parent path occurs anywhere in HTML.",
+      "Empty HTML retains basename, total0, three headers and zero data rows; empty text is empty and JSON is [] plus one newline.",
+      "Dynamic words and basename round-trip as escaped text, never data-derived markup, attributes, CSS or URLs.",
+      "UI-01 E1 overflow: fixed h1 naturally wraps within both 1280 and 320 CSS px viewports without truncation.",
+      "UI-02 E1 long-text: the complete fixed heading is readable at both widths without clipping.",
+      "UI-05 E3 empty: approved empty copy is outside tbody; three headers, total0 and zero data rows remain.",
+      "UI-06 E3 loading: only a completed static document is emitted, without loading HTML, spinner or skeleton.",
+      "UI-08 E3 populated: normal/top fixtures show the fixed word/count/order/rank/total expectations.",
+      "UI-09 E3 partial: top intentionally limits complete rows, while total covers the full input; no partial-result state is emitted."
+    ],
+    "artifacts": [
+      "path: wordfreq/aggregator.py, provides: Shared stable first-occurrence ranking, contains: def top_words",
+      "path: wordfreq/formatters.py, provides: Pure escaped semantic HTML document and approved CSS, contains: def format_html",
+      "path: wordfreq/__main__.py, provides: HTML choice and metadata composition, contains: format_html",
+      "path: tests/test_cli.py, provides: Actual subprocess tracer and cross-format order tests",
+      "path: tests/test_aggregator.py, provides: Ordered-pair and input-order nonmutation assertions",
+      "path: tests/test_formatters.py, provides: HTML parser roundtrip, document and empty assertions",
+      "path: README.md, provides: HTML invocation and save examples and intentional compatibility change",
+      "path: CONCEPTS.md, provides: Current ranking and pure formatter contracts"
+    ],
+    "key_links": [
+      "from: wordfreq/__main__.py, to: wordfreq/aggregator.py, via: count_words(iter_tokens(text)) then top_words(counts, args.top)",
+      "from: wordfreq/__main__.py, to: wordfreq/formatters.py, via: format_html(pairs, basename, total), with total from unsliced counts",
+      "from: tests/test_cli.py, to: wordfreq/__main__.py, via: sys.executable -m wordfreq subprocess, not direct formatter substitution"
+    ],
+    "prohibitions": []
+  }
+}

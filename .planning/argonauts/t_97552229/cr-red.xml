@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.056" timestamp="2026-11-17T22:39:34.488811+09:00" hostname="Ys-Minify"><testcase classname="tests.test_formatters" name="test_html_preserves_cr_without_html_input_newline_normalization" time="0.003"><failure message="AssertionError: assert 'a\nb\nc  \n\t.txt' == 'a\rb\r\nc  \n\t.txt'&#10;  &#10;  - a&#10;  + a&#10;  - b&#10;  ?  -&#10;  + b&#10;    c  &#10;    &#09;.txt">def test_html_preserves_cr_without_html_input_newline_normalization():
+        from wordfreq.formatters import format_html
+    
+        basename = "a\rb\r\nc  \n\t.txt"
+        word = "&amp;&lt;\r&gt;\r\n'\"  \t"
+        output = format_html([(word, 123)], basename, 123)
+        # HTML input preprocessing normalizes raw CR/CRLF before tokenization;
+        # Python's HTMLParser alone does not model that browser step.
+        browser_input = output.replace("\r\n", "\n").replace("\r", "\n")
+        document = HTMLDocument(browser_input)
+&gt;       assert document.classified("filename-value")[0]["text"] == basename
+E       AssertionError: assert 'a\nb\nc  \n\t.txt' == 'a\rb\r\nc  \n\t.txt'
+E         
+E         - a
+E         + a
+E         - b
+E         ?  -
+E         + b
+E           c  
+E           	.txt
+
+tests/test_formatters.py:191: AssertionError</failure></testcase></testsuite></testsuites>

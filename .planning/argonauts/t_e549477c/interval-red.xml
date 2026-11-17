@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.166" timestamp="2026-11-18T00:34:12.978352+09:00" hostname="Ys-Minify"><testcase classname="tests.test_html_verifier" name="test_verification_finish_is_after_checks_and_before_final_flush" time="0.023"><failure message="AssertionError: final timestamp must cover completed checks&#10;assert False&#10; +  where False = callable(None)&#10; +    where None = getattr(&lt;module 'html_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e549477c/tools/verify_wordfreq_html.py'&gt;, 'validate_live_finish', None)">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x70c16d4ed730&gt;
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-153/test_verification_finish_is_af0')
+
+    def test_verification_finish_is_after_checks_and_before_final_flush(monkeypatch, tmp_path):
+        v = verifier()
+&gt;       assert callable(getattr(v, "validate_live_finish", None)), "final timestamp must cover completed checks"
+E       AssertionError: final timestamp must cover completed checks
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(&lt;module 'html_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e549477c/tools/verify_wordfreq_html.py'&gt;, 'validate_live_finish', None)
+
+tests/test_html_verifier.py:691: AssertionError</failure></testcase></testsuite></testsuites>

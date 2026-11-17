@@ -1,9 +1,10 @@
 """Command-line argument parsing and component composition."""
 import argparse
+import os
 import sys
 
 from .aggregator import count_words, top_words
-from .formatters import format_json, format_text
+from .formatters import format_html, format_json, format_text
 from .sources import FileSource, InputError
 from .tokenizer import iter_tokens
 
@@ -12,7 +13,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="wordfreq")
     parser.add_argument("filename")
     parser.add_argument("--top", type=int, default=10)
-    parser.add_argument("--format", choices=["text", "json"], default="text")
+    parser.add_argument("--format", choices=["text", "json", "html"], default="text")
     return parser
 
 
@@ -26,9 +27,24 @@ def main(argv: list[str] | None = None) -> None:
     except InputError as error:
         print(error, file=sys.stderr)
         sys.exit(1)
-    pairs = top_words(count_words(iter_tokens(text)), args.top)
-    output = format_json(pairs) if args.format == "json" else format_text(pairs)
-    sys.stdout.write(output)
+    counts = count_words(iter_tokens(text))
+    total = sum(counts.values())
+    pairs = top_words(counts, args.top)
+    if args.format == "html":
+        # argv uses filesystem surrogateescape; HTML needs displayable Unicode.
+        basename = os.fsencode(os.path.basename(args.filename)).decode(
+            sys.getfilesystemencoding(), errors="replace"
+        )
+        output = format_html(pairs, basename, total)
+    elif args.format == "json":
+        output = format_json(pairs)
+    else:
+        output = format_text(pairs)
+    if args.format == "html":
+        # The document declares UTF-8, independently of the terminal locale.
+        sys.stdout.buffer.write(output.encode("utf-8"))
+    else:
+        sys.stdout.write(output)
     sys.exit(0)
 
 

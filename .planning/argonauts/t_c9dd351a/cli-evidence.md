@@ -1,0 +1,21 @@
+# CLI / independent quality evidence — phase 3 verification (quality t_c9dd351a)
+
+Checked head: `7c704f337df10a4bfd4bb18936266a16b606dd3c` (start_sha of this verification = origin/argonauts/r-50053edc after `git fetch`). Actor: argonauts-uat-quality (HERMES_PROFILE). cwd: card worktree root. Interpreter: `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3`. TMPDIR: `.browser-tmp` symlink to the quality scratch dir (untracked, not committed). Fresh roots never used before: `quality/gap1-final-05`, `quality/gap1-network-07`.
+
+| # | command (suffix after the interpreter prefix) | exit | result |
+|---|---|---|---|
+| 1 | `-m pytest -p no:cacheprovider --junitxml=…/suite.xml -q` | 0 | 361 passed; junit tests 361, failures 0, errors 0, skipped 0 |
+| 2 | `tools/verify_wordfreq_html.py --check-scope` | 0 | verdict passed, errors []; base 5a7659b949dc118b59cea5ef3eb40bcd94337d8d, approved_product ed7e6cc9d608bc40a82da76e85ca6e57a0808b54, target 7c704f3; product_status "", untracked_product [] (scope.json) |
+| 3 | `tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality/gap1-network-07 --self-test-network` | 0 | passed, errors []; clean has no detections; failed-resource / document-navigation / early-popup / redirect each detected a real attempt to `wordfreq-canary.invalid:9` and rejected it |
+| 4 | `tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality/gap1-final-05 --mode review-session --session-timeout 7200` (tracked background, `--actor` omitted) | 0 (owner) | ready 19:33:14Z, session e173655e0f0d46008eb37e738a141abc, actor argonauts-uat-quality; in-session canaries passed; in-session suite 361/0/0/0 |
+| 5 | Image viewing in the quality browser, 1:1 (viewport = image size, DPR 1) | — | all 32 images (22 full + 10 tiles) opened 19:35:08Z–19:37:20Z; every sha256 matched the manifest; all readable (viewed.jsonl, notes.json) |
+| 6 | rawRange audit with quality's own jq (rawaudit.jq) over all 22 raw.json | — | text mismatch / index / codepoint / UTF-16 / non-blank-without-area / right overflow / negative left / clip-ancestor / positive-area overlap = 0 in every view (rawaudit.txt) |
+| 7 | `tools/verify_wordfreq_html.py --role quality --output-dir …/gap1-final-05 --mode finalize --review-ledger …/gap1-final-05/reviews.json` | 0 | `finalize-requested` only (not counted as acceptance) |
+| 8 | wait for owner of #4 | 0 | final `{"verdict": "accepted", "errors": []}` |
+| 9 | final read of manifest / 22 derived.json / ledger | — | verdict accepted, independent_acceptance true, AC1–AC6 accepted, errors []; 22/22 views and 22/22 derived accepted and identical (canonical JSON); 0 `pending-review` in any JSON; [image, sha256, viewed_at] sets identical across ledger / manifest / derived (set-*.json, 32 entries, sha256 880c618d…); ledger_sha256 = sha256(reviews.json) = cb83d72df0d38551b24a8e70a57ad7645c5ed827a8e0429fe35c4bbf263d0cbb; verification_finished 19:38:33Z, observation_end 19:38:34Z, ended 19:38:35Z; end_provenance head 7c704f3, product_status "", untracked [] |
+| 10 | 15 fresh CLI cases (cli.json) | 0 ×15 | stderr 0 bytes ×15; 11 HTML stdouts strict UTF-8, one `<style>`, no `<script>`, 0 external refs, no worktree path; totals empty 0 / normal 6 ×3 / frequency 7 / tie 5 ×2 / long 200 ×3 / injection 5; tie text/json/html all zoo→apple |
+| 11 | 22 view network.json | — | errors 0, 0 http(s)/ws URLs; schemes only file / about / chrome (browser UI) |
+| 12 | per-file pytest + `PYTHONHASHSEED=12345 -m pytest` + `--check-evidence-contract` | 0 | aggregator 5, cli 100, formatters 9, sources 6, tokenizer 6, sources_boundary 3, html_verifier 203, html_finalization 29; hash-seed rerun 361 passed; contract exit 0 (synthetic only) |
+| 13 | G2 spot run: `-m pytest tests/test_cli.py tests/test_html_verifier.py -k 'encoding or charmap or isolated_collection or actor or depth_one or shallow or dirty or untracked'` | 0 | 71 passed; host has en_US.iso885915 / en_GB.iso885915 so the native branch ran |
+
+The quality roots' bulky originals (PNGs, raw.json, per-case files) are kept in the quality profile's evidence directory `evidence/t_c9dd351a/quality-roots/` (outside the repo). Only the covered-by-verification `manifest.json`, `reviews.json` and `canaries.json` are committed.

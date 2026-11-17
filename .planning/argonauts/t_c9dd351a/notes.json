@@ -1,0 +1,13 @@
+{
+  "empty": "Phase-verification quality (t_c9dd351a) view at 1:1, DPR1, viewport = image size. h1 単語の出現頻度, ファイル名 empty.txt, 総出現回数 0, headers 順位/単語/回数, no body rows, fixed empty-state note fully readable (wraps to 3 lines at 320). Light background only, nothing clipped or overlapping rules. rawaudit 0 problems, clientWidth = viewport.",
+  "normal-1": "Quality 1:1 view. 通常.txt, total 6, row 1 zoo 2. All three columns readable, no overlap with rules; rawaudit 0 problems.",
+  "normal-2": "Quality 1:1 view. 通常.txt, total 6, rows 1 zoo 2 / 2 apple 2 (1-based ranks, tie in normalized first-occurrence order). Readable; rawaudit 0 problems.",
+  "normal-10": "Quality 1:1 view. 通常.txt, total 6, rows 1-4 zoo 2, apple 2, banana 1, cherry 1 (all 4 words under top 10). Readable; rawaudit 0 problems.",
+  "frequency": "Quality 1:1 view. frequency.txt, total 7, beta 3 then alpha 2 (count descending). Readable; rawaudit 0 problems.",
+  "tie-html-1": "Quality 1:1 view. tie.txt, total 5, row 1 zoo 2 (normalized first occurrence of Zoo). Readable; rawaudit 0 problems.",
+  "tie-html-2": "Quality 1:1 view. tie.txt, total 5, zoo 2 then apple 2 in first-occurrence order (not alphabetical). Readable; rawaudit 0 problems.",
+  "long-12": "Quality 1:1 view of this image (full and each tile separately). Basename 集計 + two spaces, then n x176 wrapped onto multiple lines (320: 6 full lines + 'nn'; 1280: 2 lines), then 続き TAB 終わり  &<>\"'.txt as literal text. Total 200. Long w x256 word wraps inside the 単語 column (320: 21 full lines + 'wwww'; 1280: 4 lines + remainder) with count 123 on the same row; ranks 1-12, row01..row11 counts 12..2, rank 10-12 digits complete. Tiles overlap the full image consistently, bottom row 12 present. No clipping or text over rules; rawaudit 0 problems.",
+  "long-default": "Quality 1:1 view of full and tiles. Same basename/long word rendering as long-12; default top 10 shows ranks 1-10 (row09 count 4 last). Total 200 still shown. Readable, no clipping/overlap; rawaudit 0 problems.",
+  "long-99": "Quality 1:1 view of full and tiles. top 99 shows all 12 rows (ranks 1-12, count 123 then 12..2), identical layout to long-12. Basename wraps with spaces/TAB visible, total 200. Readable, no clipping/overlap; rawaudit 0 problems.",
+  "injection": "Quality 1:1 view. Basename shown as text 検査  &<>\"' / 次 TAB 終.txt (real LF breaks line, no markup interpretation). Total 5, rows café 2, strasse 2, 日本語 1 (casefold/ß->ss kept). Readable at both widths; rawaudit 0 problems."
+}

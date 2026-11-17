@@ -1,0 +1,1 @@
+No external API integration: Phase03 extends the existing local stdlib-only wordfreq CLI with static HTML and shared ranking; Chromium/DOM/CDP are local verification tooling, not an integrated external product service/API.

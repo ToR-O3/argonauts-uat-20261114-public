@@ -44,7 +44,11 @@ Shared domain vocabulary for this project — entities, named processes, and sta
 
 ## 決定論的順位
 
-出力の並び順の契約。頻度の降順、同一頻度では語のコードポイントの昇順で全順序を確定させる。dictやsetの反復順や入力順に依存してはならない。
+出力の並び順の現行契約（r-50053edc）。頻度の降順、同一頻度では正規化後の初出順を保ってからtopで制限する。count_wordsのCounter挿入順が初出順を表すことを前提に、top_wordsは回数だけの安定ソートを使い、後の再出現で初出位置を変えない。任意に並べ替えたcountsから初出履歴は復元できない。text/json/html共通であり、旧Phase1の語コードポイント昇順を意図して置換する。過去の検証記録は当時の契約として保持する。
+
+## 純粋なHTML整形
+
+format_html(pairs, basename, total)が、既に順位付け・制限されたpairsと呼出し側のbasename/top前総数から完成文書を返す契約。順序を変更せず、再読込み・集計・I/Oを行わない。動的値はquote=Trueの標準HTML escapeを一度だけ行い、独立したテキストノードへ置く。属性・CSS・URLは固定であり、CLIが元パスをbasenameへ限定する。空pairsでもメタ情報と表見出しを保ち、空メッセージはtbody外に置く。構造試験はブラウザ可読性・通信観測・独立品質合格を意味しない。
 
 ## 決定論的再実行
 

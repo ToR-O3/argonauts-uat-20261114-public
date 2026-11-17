@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.112" timestamp="2026-11-18T02:09:00.038486+09:00" hostname="Ys-Minify"><testcase classname="tests.test_html_finalization" name="test_owner_failures_revoke_every_saved_view[partial]" time="0.033"><failure message="AssertionError: assert 'pending-review' == 'unverified'&#10;  &#10;  - unverified&#10;  + pending-review">lifecycle = namespace(v=&lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t...'ready_at': '2026-01-01T00:00:02+00:00'})], interrupted=False, run=&lt;function lifecycle.&lt;locals&gt;.run at 0x706528ad58a0&gt;)
+fault = 'partial'
+
+    @pytest.mark.parametrize("fault", ["partial", "late", "head", "dirty", "timeout", "derived-pending", "manifest-save"])
+    def test_owner_failures_revoke_every_saved_view(lifecycle, fault):
+        s = lifecycle
+        s.fault = fault
+&gt;       code, manifest = s.run()
+                         ^^^^^^^
+
+tests/test_html_finalization.py:143: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_html_finalization.py:112: in run
+    code = v.review_session(SimpleNamespace(role=role, actor=None, output_dir=state.output,
+tools/verify_wordfreq_html.py:1228: in review_session
+    save_json(output / case["id"] / str(view["width"]) / "derived.json", view)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-168/test_owner_failures_revoke_eve0/quality/synthetic/empty/1280/derived.json')
+value = {'errors': [], 'images': [{'height': 900, 'path': '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/a...er/cache/scratch/pytest-of-Yuki/pytest-168/test_owner_failures_revoke_eve0/quality/synthetic/empty/1280/raw.json', ...}
+
+    def save(path, value):
+        if path.name == "derived.json" and value.get("verdict") in {"accepted", "builder-reviewed"}:
+            # A reader/restart must never treat the partial publication as accepted.
+            current = v.load_json(state.output / "manifest.json")
+&gt;           assert current["verdict"] == "unverified"
+E           AssertionError: assert 'pending-review' == 'unverified'
+E             
+E             - unverified
+E             + pending-review
+
+tests/test_html_finalization.py:77: AssertionError</failure></testcase></testsuite></testsuites>

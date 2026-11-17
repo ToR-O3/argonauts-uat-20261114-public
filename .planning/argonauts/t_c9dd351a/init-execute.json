@@ -1,0 +1,75 @@
+{
+  "executor_model": "anthropic/claude-sonnet-5",
+  "verifier_model": "anthropic/claude-sonnet-5",
+  "tdd_mode": false,
+  "commit_docs": true,
+  "sub_repos": [],
+  "parallelization": true,
+  "context_window": 200000,
+  "branching_strategy": "none",
+  "phase_branch_template": "gsd/phase-{phase}-{slug}",
+  "milestone_branch_template": "gsd/{milestone}-{slug}",
+  "verifier_enabled": true,
+  "phase_found": true,
+  "phase_dir": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/.planning/phases/03-wordfreq-html-output",
+  "phase_number": "03",
+  "padded_phase": "03",
+  "phase_name": "wordfreq HTML output",
+  "phase_slug": "wordfreq-html-output",
+  "phase_req_ids": "REQ-09, REQ-10, REQ-11, REQ-12, REQ-13, REQ-14",
+  "plans": [
+    "03-01-PLAN.md",
+    "03-02-PLAN.md",
+    "03-03-PLAN.md",
+    "03-04-PLAN.md",
+    "03-05-PLAN.md",
+    "03-06-PLAN.md"
+  ],
+  "summaries": [
+    "03-01-SUMMARY.md",
+    "03-02-SUMMARY.md",
+    "03-03-SUMMARY.md",
+    "03-04-SUMMARY.md",
+    "03-05-SUMMARY.md",
+    "03-06-SUMMARY.md"
+  ],
+  "incomplete_plans": [],
+  "plan_count": 6,
+  "incomplete_count": 0,
+  "threat_id_duplicates": [],
+  "threat_id_duplicate_count": 0,
+  "halted_plans": [],
+  "blocked_by": {},
+  "runnable_plans": [],
+  "runnable_count": 0,
+  "branch_name": null,
+  "milestone_version": null,
+  "milestone_name": null,
+  "milestone_slug": null,
+  "state_exists": true,
+  "roadmap_exists": true,
+  "config_exists": true,
+  "state_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/.planning/STATE.md",
+  "roadmap_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/.planning/ROADMAP.md",
+  "config_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/.planning/config.json",
+  "requirements_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/.planning/REQUIREMENTS.md",
+  "section_manifest": {
+    "workflow": "execute-phase",
+    "included": [
+      "regression-gate"
+    ],
+    "excluded": [
+      "partial-wave",
+      "gap-closure-artifacts"
+    ],
+    "read": [
+      "gsd-core/workflows/execute-phase/steps/regression-gate.md"
+    ]
+  },
+  "project_root": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a",
+  "agents_installed": true,
+  "missing_agents": [],
+  "agents_dir": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-quality/agents",
+  "agent_runtime": "hermes",
+  "project_title": "wordfreq CLI"
+}

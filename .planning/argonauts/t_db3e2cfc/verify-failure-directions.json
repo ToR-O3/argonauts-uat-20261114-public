@@ -1,0 +1,299 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_aggregator.py -x",
+      "statement": "Any expected ordered pair/key differs, lexical ordering survives, later repeats move a key, unequal frequencies are inverted or counts/items mutate.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-01-PLAN.md",
+      "task": "Task 1: End-to-end normalized first-occurrence HTML CLI tracer"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -x",
+      "statement": "Real html command exits2, HTML rows/metadata differ, cross-format tie order differs, revised legacy expectations fail, stdout/stderr or exit contracts regress; missing pytest is a failure, not a skip.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-01-PLAN.md",
+      "task": "Task 1: End-to-end normalized first-occurrence HTML CLI tracer"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_formatters.py -x",
+      "statement": "Missing/double escape changes parsed text, injected markup/events/URLs appear, headers/document/empty shape differ, inputs mutate, or text/json byte contracts regress.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-01-PLAN.md",
+      "task": "Task 2: Safe pure formatter contract and current user documentation"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "Any collected existing or new test fails/errors; an assertion removed to obtain green or a browser dependency imported at collection invalidates completion.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-01-PLAN.md",
+      "task": "Task 2: Safe pure formatter contract and current user documentation"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -x",
+      "statement": "Any format differs from explicit order/count, total equals visible-row sum/kinds, metadata/path/encoding differs, error stdout is nonempty, wrong exit/stderr, non-deterministic bytes or HTML input/worktree writes occur; ineffective permission denial cannot pass.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-02-PLAN.md",
+      "task": "Task 1: Complete real CLI metadata, byte and failure contracts"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_sources.py -x",
+      "statement": "PermissionError is not chained as InputError, source data changes, or directory/decode/missing regression fails.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-02-PLAN.md",
+      "task": "Task 1: Complete real CLI metadata, byte and failure contracts"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_tokenizer.py -x",
+      "statement": "Unicode extraction, punctuation/underscore/digit, casefold or token order differs from preserved contract.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-02-PLAN.md",
+      "task": "Task 1: Complete real CLI metadata, byte and failure contracts"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_sources_boundary.py -x",
+      "statement": "Aggregation acquires text or source composition reads other than once; existing boundary spy/fake source assertions fail.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-02-PLAN.md",
+      "task": "Task 1: Complete real CLI metadata, byte and failure contracts"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_formatters.py -x",
+      "statement": "Whitespace/codepoints change, numeric digits/ranks disappear, approved structure/copy/tokens differ, static escape/resource audit fails, or prohibited layout declarations replace full display.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-02-PLAN.md",
+      "task": "Task 2: Finish fixed responsive whitespace, numeric and empty-state presentation"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "Any current or prior test fails/errors; test removal, skip-to-pass or collection requiring browser invalidates completion.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-02-PLAN.md",
+      "task": "Task 2: Finish fixed responsive whitespace, numeric and empty-state presentation"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_verifier.py -x",
+      "statement": "Any overflow/clip/overlap/missing-record defect passes, valid own-height overhang is rejected, fixture construction differs, empty-case loop succeeds or browser is required at collection.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-03-PLAN.md",
+      "task": "Task 1: Regenerate fixed CLI cases and collect unchanged raw browser geometry"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role builder --output-dir .planning/argonauts/r-50053edc/builder/03-03-01 --mode capture",
+      "statement": "Actual Chromium/CLI fails, product code is dirty yet attributed to HEAD, case/width/byte/order/total/static/geometry evidence is absent or wrong, document communication/unknown attribution occurs, or capture labels unread images accepted. Pending-review is mandatory and is not final acceptance.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-03-PLAN.md",
+      "task": "Task 1: Regenerate fixed CLI cases and collect unchanged raw browser geometry"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_verifier.py -x",
+      "statement": "Failed attempts, early popup/navigation or unknown attribution become clean; generic filtering discards events, observer interval is incomplete, or missing canary is ignored.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-03-PLAN.md",
+      "task": "Task 2: Prove pre-navigation failed-attempt and navigation observation"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role builder --output-dir .planning/argonauts/r-50053edc/builder/03-03-02-canaries --self-test-network",
+      "statement": "Any required violating canary is not genuinely observed/rejected, clean local document falsely fails, protocol/browser is unavailable, or successful-response0 is used as proof of absence.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-03-PLAN.md",
+      "task": "Task 2: Prove pre-navigation failed-attempt and navigation observation"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "Any prior product or collector test fails/errors or default collection needs browser tooling.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-03-PLAN.md",
+      "task": "Task 2: Prove pre-navigation failed-attempt and navigation observation"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_verifier.py -x",
+      "statement": "Any missing/false review, incomplete observation, wrong-head/role/root, stale/empty/duplicate evidence or unauthorized diff can pass; touching edges or own-height-only overhang falsely fails.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-04-PLAN.md",
+      "task": "Task 1: Live observation, actual image-review ledger and fail-closed acceptance"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --check-evidence-contract",
+      "statement": "Any built-in invalid record is accepted, clean control rejected, expected controls absent/empty or missing browser silently reported as product pass. Synthetic contract results must be labeled synthetic only.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-04-PLAN.md",
+      "task": "Task 1: Live observation, actual image-review ledger and fail-closed acceptance"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_verifier.py -x",
+      "statement": "Guide command/options/schema/fixture/AC contract mismatch, missing required image/rawRange/network instruction, or falsified automatic review semantics survives assertion.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-04-PLAN.md",
+      "task": "Task 2: Publish exact independent quality runbook and integrated scope handoff"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "Any previous/current product or collector test fails/errors, collection requires browser or tests are skipped to hide obligations.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-04-PLAN.md",
+      "task": "Task 2: Publish exact independent quality runbook and integrated scope handoff"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --check-scope",
+      "statement": "Request base/target cannot be established, unauthorized CI/dependency/tokenizer/input-source/product scope change exists, product dirty state is concealed or old lexical replacement is treated as accidental.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-04-PLAN.md",
+      "task": "Task 2: Publish exact independent quality runbook and integrated scope handoff"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "Any full-suite failure/error or suppressed execution; no Builder-only output substitution.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-04-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality-network --self-test-network",
+      "statement": "Clean/violating canaries do not discriminate on actual installed Chromium; missing/failed observation cannot count as pass.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-04-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality --mode review-session",
+      "statement": "Quality root is reused, source/head attribution is wrong, CLI/static/geometry/network defect occurs, session terminates before actual all-image/rawRange review or environment/image tool is unavailable. Run as tracked background; ready is not pass.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-04-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality --mode finalize --review-ledger .planning/argonauts/r-50053edc/quality/reviews.json",
+      "statement": "Ledger, head/status/diff, AC1–AC6 artifacts, independent regeneration, all-image/rawRange review, complete observation interval or final session verdict is absent/invalid. Finalize success alone before live session flush/end verdict is insufficient.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-04-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_finalization.py -x",
+      "statement": "Exit is nonzero, pytest reports no tests collected/0 passed, or a lifecycle assertion finds pending-review, empty/wrong image mapping, changed ledger/raw/image bytes or inconsistent persisted derived records under a success verdict.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-05-PLAN.md",
+      "task": "Task 1: Validated ledger to final manifest and derived view tracer"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_finalization.py -x",
+      "statement": "Exit is nonzero, summary has 0 passed/no tests collected, or any negative mutation returns a success verdict, leaves a persisted accepted view under failure, hides write errors or lets a final pending field pass; runbook contract assertions fail if required reconciliation is missing.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-05-PLAN.md",
+      "task": "Task 2: Fail-closed all-view rollback and final reconciliation runbook"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -x",
+      "statement": "Nonzero exit, no tests collected/0 passed, skipped encoding obligations, wrong café/replacement text, incorrect strict UTF8/stdout/source bytes/exit/stderr, missing unconditional controlled checks, or actual native charmap mismatch; locale absence must not produce a skipped test or fake native success.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-06-PLAN.md",
+      "task": "Task 1: Locale-independent real byte/CLI seam tracer with native-host coverage retained"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_verifier.py -x",
+      "statement": "Exit nonzero, no tests collected/0 passed, uncontrolled real-history dependency, missing refs accepted or traceback instead of scope JSON, weakened exact constants/diff/dirty checks, outside-tests shadow goes unnoticed, wrong actor creates a request, or omitted actor is not recorded in the session manifest.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-06-PLAN.md",
+      "task": "Task 2: Shallow-safe scope fixtures, exact-ref fail-closed report and execution provenance"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "Exit nonzero, no tests collected/0 passed, any failures/errors/skips hiding obligations, including G1 tests/test_html_finalization.py and all earlier product/source/tokenizer/format suites; a clean local result does not establish CI success.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-06-PLAN.md",
+      "task": "Task 2: Shallow-safe scope fixtures, exact-ref fail-closed report and execution provenance"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_verifier.py -x",
+      "statement": "Exit nonzero, no tests collected/0 passed, guide/parser/schema mismatch, or assertions find absent all-view reconciliation/native-versus-controlled/missing-ref/quality-to-Builder re-review instructions; documentation tests do not count as executed acceptance.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-06-PLAN.md",
+      "task": "Task 3: Independent final-card review and evidence-backed OpenSpec record/re-review cycle"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "Exit nonzero, no tests collected/0 passed, failures/errors or skipped obligations in any prior/new suite; until independent gate and CI at final head pass, successful Builder output cannot authorize acceptance checkboxes.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-06-PLAN.md",
+      "task": "Task 3: Independent final-card review and evidence-backed OpenSpec record/re-review cycle"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "Nonzero exit, 0 passed/no tests collected, failures/errors or skipped obligations; raw command/environment/output must belong to quality's exact current head.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-06-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --check-scope",
+      "statement": "Nonzero exit or nonempty errors, absent exact references, changed approved product snapshot, unauthorized diff or concealed dirty/untracked execution-affecting code; a synthetic fixture report cannot substitute.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-06-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality/gap1-network-01 --self-test-network",
+      "statement": "Nonzero exit, errors nonempty, verdict not passed, clean control absent or any failed-resource/navigation/early-popup/redirect violating canary lacks a real attributed attempted request and rejection.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-06-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality/gap1-final-01 --mode review-session --session-timeout 7200",
+      "statement": "Nonzero eventual exit, reused root, wrong actor/head, no ready manifest, missing fixed cases/views/artifacts or environment/image-view capability; ready/pending-review is not pass. Start as tracked background, not a blocking terminal call that prevents actual review.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-06-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality/gap1-final-01 --mode finalize --review-ledger .planning/argonauts/r-50053edc/quality/gap1-final-01/reviews.json",
+      "statement": "Nonzero exit, incomplete ledger/AC/raw/image/network/scope/head/actor evidence or no live session. finalize-requested/exit0 alone is not acceptance; wait for the tracked owner to flush and exit0 and read the exact final targets.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "03-06-PLAN.md",
+      "task": ""
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 36
+  },
+  "readError": null
+}

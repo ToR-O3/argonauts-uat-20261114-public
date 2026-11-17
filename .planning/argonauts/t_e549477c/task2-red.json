@@ -1,0 +1,10 @@
+{
+  "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_verifier.py::test_guide_commands_schema_cases_and_ac_match_real_parser --junitxml=.planning/argonauts/t_e549477c/task2-red.xml",
+  "exitCode": 1,
+  "output": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"1\" skipped=\"0\" tests=\"1\" time=\"0.137\" timestamp=\"2026-11-18T00:26:59.927762+09:00\" hostname=\"Ys-Minify\"><testcase classname=\"tests.test_html_verifier\" name=\"test_guide_commands_schema_cases_and_ac_match_real_parser\" time=\"0.024\"><failure message=\"AssertionError: assert {'capture'} &gt;= {'capture', '...view-session'}&#10;  &#10;  Extra items in the right set:&#10;  'review-session'&#10;  'finalize'\">def test_guide_commands_schema_cases_and_ac_match_real_parser():\n        import re\n        import shlex\n        v = verifier()\n        guide = (ROOT / \"docs/wordfreq-html-verification.md\").read_text()\n        commands = [line for line in guide.splitlines() if line.startswith(\"env PYTHONPATH=\")\n                    and \"tools/verify_wordfreq_html.py\" in line]\n        parsed = [v.parser().parse_args(shlex.split(line)[4:]) for line in commands]\n&gt;       assert {p.mode for p in parsed} &gt;= {\"capture\", \"review-session\", \"finalize\"}\nE       AssertionError: assert {'capture'} &gt;= {'capture', '...view-session'}\nE         \nE         Extra items in the right set:\nE         'review-session'\nE         'finalize'\n\ntests/test_html_verifier.py:615: AssertionError</failure></testcase></testsuite></testsuites>",
+  "targetTest": "test_guide_commands_schema_cases_and_ac_match_real_parser",
+  "targetFile": "tests/test_html_verifier.py",
+  "expected": "guide supports capture/review-session/finalize",
+  "actual": "only capture documented",
+  "semanticAssessment": "Target assertion executed; missing live/finalize documentation is the intended defect; no setup/collection failure"
+}

@@ -1,0 +1,104 @@
+{
+  "changeName": "r-50053edc-wordfreq-html",
+  "schemaName": "spec-driven",
+  "planningHome": {
+    "kind": "repo",
+    "root": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a",
+    "changesDir": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes",
+    "defaultSchema": "spec-driven"
+  },
+  "changeRoot": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html",
+  "artifactPaths": {
+    "proposal": {
+      "outputPath": "proposal.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/proposal.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/proposal.md"
+      ]
+    },
+    "specs": {
+      "outputPath": "specs/**/*.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/specs/**/*.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md"
+      ]
+    },
+    "design": {
+      "outputPath": "design.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/design.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/design.md"
+      ]
+    },
+    "tasks": {
+      "outputPath": "tasks.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a/openspec/changes/r-50053edc-wordfreq-html/tasks.md"
+      ]
+    }
+  },
+  "isPlanningComplete": true,
+  "isComplete": true,
+  "applyRequires": [
+    "tasks"
+  ],
+  "nextSteps": [
+    "All planning artifacts are complete. Run openspec instructions apply --change \"r-50053edc-wordfreq-html\" --json to inspect implementation progress."
+  ],
+  "actionContext": {
+    "mode": "repo-local",
+    "sourceOfTruth": "repo",
+    "planningArtifacts": [
+      "proposal",
+      "specs",
+      "design",
+      "tasks"
+    ],
+    "linkedContext": [],
+    "allowedEditRoots": [
+      "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a"
+    ],
+    "requiresAffectedAreaSelection": false,
+    "constraints": [
+      "Repo-local change artifacts and implementation edits are scoped to this project."
+    ]
+  },
+  "artifacts": [
+    {
+      "id": "proposal",
+      "outputPath": "proposal.md",
+      "status": "done",
+      "requires": []
+    },
+    {
+      "id": "specs",
+      "outputPath": "specs/**/*.md",
+      "status": "done",
+      "requires": [
+        "proposal"
+      ]
+    },
+    {
+      "id": "design",
+      "outputPath": "design.md",
+      "status": "done",
+      "requires": [
+        "proposal"
+      ]
+    },
+    {
+      "id": "tasks",
+      "outputPath": "tasks.md",
+      "status": "done",
+      "requires": [
+        "specs",
+        "design"
+      ]
+    }
+  ],
+  "root": {
+    "path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_c9dd351a",
+    "source": "nearest"
+  }
+}

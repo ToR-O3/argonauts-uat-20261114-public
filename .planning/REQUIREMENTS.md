@@ -29,6 +29,26 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **REQ-07**: pytest による単体試験を用意し、リポジトリの CI の pytest 実行ジョブで通る。試験は REQ-01〜REQ-06 のシナリオ（不存在ファイル、空ファイル、ファイル引数個数、不正な `--top`・`--format`、同数語の順序、大文字小文字の同一視、UTF-8 デコード失敗、JSON 構造、部品単体・境界越し検証）を含む。対象 Python は当該 CI ジョブの CPython 3 の版とし、バージョン横断互換コードは書かない（FR-7・WF-07）
 - [x] **REQ-08**: ランタイム依存は標準ライブラリのみ。依存追加が必要になる場合は人の承認を要する範囲変更として扱う。パッケージ化に最低限必要な設定ファイル（`pyproject.toml` 等）の変更は許容するが、smart マージ方針で人の承認対象になり得ることを前提に必要最小限に留める（FR-8、Brief A-5、D-F）
 
+## r-50053edc Requirements (Phase 3)
+
+Source: t_13dfdc77 run83 approved、`r-50053edc-wordfreq-html` proposal/spec/tasksとBMAD PRD。E.7新phase分岐。上のv1は当時の完了履歴として保持し、現在の同数時契約はREQ-11がREQ-04/D-2/D-10を置換する。静的HTMLは旧「GUI・画面なし」のスコープを今回だけ拡張する。旧入力元拡張は今回も対象外。
+
+- [x] **REQ-09**: AC1: --format htmlがstdoutにUTF-8の自己完結静的HTML1枚を出す。順位・単語・回数の表、内包CSSのみ、script・外部参照・外部通信試行なし。
+- [x] **REQ-10**: AC2: 表より上にbasenameのみ、top適用前総出現回数。title/属性を含む全HTMLにディレクトリ情報なし。入力例のtop 1/2/10でも総数6、別頻度入力top 2でも総数7、空は0行/総数0。
+- [x] **REQ-11**: AC3: 回数降順・同数時正規化後初出順をtext/json/html共通にしてからtop制限。旧語昇順の意図した互換性変更を文書・試験に反映する。
+- [x] **REQ-12**: AC4: 明るい背景のみ、切替なし、1始まり表示行連番。通常幅と320 CSS pxで長い語・basenameを省略せず読める。文字Range原本を補正せず残し、横収まり・切取り祖先・非重複・全画像可読性で判断。自身の厳格な縦包含は必須にしない。
+- [x] **REQ-13**: AC5: 単語と有効なbasenameの特殊文字をescapeして安全に表示。Unicode抽出/casefold/入力境界/エラー/既定top10/既存text-json構造を同数順以外に不要に変えない。空・不正値・読込・decode失敗を回帰試験する。
+- [x] **REQ-14**: AC6: 自動試験と品質による対象headでの実CLI独立再生成・ブラウザ確認。空/通常/top/長文/注入候補、入力原本・コマンド・exit/stdout/stderr・期待値・HTML・browser/viewport・raw Range・全画像の閲覧・失敗試行を含む通信観測をAC別保存/添付。未実施を合格としない。CI・依存追加・生成日時・テーマ切替・対話操作・サーバーなし。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-09 | Phase 3 | Pending |
+| REQ-10 | Phase 3 | Pending |
+| REQ-11 | Phase 3 | Pending |
+| REQ-12 | Phase 3 | Pending |
+| REQ-13 | Phase 3 | Pending |
+| REQ-14 | Phase 3 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

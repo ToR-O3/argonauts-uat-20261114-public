@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.137" timestamp="2026-11-18T00:26:59.927762+09:00" hostname="Ys-Minify"><testcase classname="tests.test_html_verifier" name="test_guide_commands_schema_cases_and_ac_match_real_parser" time="0.024"><failure message="AssertionError: assert {'capture'} &gt;= {'capture', '...view-session'}&#10;  &#10;  Extra items in the right set:&#10;  'review-session'&#10;  'finalize'">def test_guide_commands_schema_cases_and_ac_match_real_parser():
+        import re
+        import shlex
+        v = verifier()
+        guide = (ROOT / "docs/wordfreq-html-verification.md").read_text()
+        commands = [line for line in guide.splitlines() if line.startswith("env PYTHONPATH=")
+                    and "tools/verify_wordfreq_html.py" in line]
+        parsed = [v.parser().parse_args(shlex.split(line)[4:]) for line in commands]
+&gt;       assert {p.mode for p in parsed} &gt;= {"capture", "review-session", "finalize"}
+E       AssertionError: assert {'capture'} &gt;= {'capture', '...view-session'}
+E         
+E         Extra items in the right set:
+E         'review-session'
+E         'finalize'
+
+tests/test_html_verifier.py:615: AssertionError</failure></testcase></testsuite></testsuites>
