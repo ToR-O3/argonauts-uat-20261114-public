@@ -25,7 +25,7 @@ def test_default_text_normalizes_sorts_and_limits_to_ten(tmp_path):
     result = run_cli(path)
     assert result.returncode == 0, result.stderr
     assert result.stderr == ""
-    assert result.stdout == "3\thello\n2\tapple\n2\tone\n2\tzoo\n1\tb\n1\tc\n1\td\n1\te\n1\tf\n1\tg\n"
+    assert result.stdout == "3\thello\n2\tzoo\n2\tapple\n2\tone\n1\ttwo\n1\tb\n1\tc\n1\td\n1\te\n1\tf\n"
 
 
 def test_top_three_selects_three_sorted_words(tmp_path):
@@ -33,7 +33,7 @@ def test_top_three_selects_three_sorted_words(tmp_path):
     path.write_text("zoo apple apple bee cat", encoding="utf-8")
     result = run_cli(path, "--top", "3")
     assert result.returncode == 0, result.stderr
-    assert result.stdout == "2\tapple\n1\tbee\n1\tcat\n"
+    assert result.stdout == "2\tapple\n1\tzoo\n1\tbee\n"
     assert result.stderr == ""
 
 
@@ -45,16 +45,16 @@ def test_top_zero_is_usage_error_before_input_read(tmp_path):
     assert "Traceback" not in result.stderr
 
 
-def test_json_is_machine_readable_in_frequency_then_word_order(tmp_path):
+def test_json_is_machine_readable_in_frequency_then_first_seen_order(tmp_path):
     path = tmp_path / "input.txt"
     path.write_text("Zoo zoo Apple apple Straße STRASSE 日本語", encoding="utf-8")
     result = run_cli(path, "--format", "json", "--top", "3")
     assert result.returncode == 0, result.stderr
     assert result.stderr == ""
     assert json.loads(result.stdout) == [
+        {"word": "zoo", "count": 2},
         {"word": "apple", "count": 2},
         {"word": "strasse", "count": 2},
-        {"word": "zoo", "count": 2},
     ]
     assert result.stdout.endswith("\n")
     assert len(result.stdout.splitlines()) == 1

@@ -1,5 +1,7 @@
 """Static HTML contracts; real-browser acceptance is a separate phase gate."""
 from html.parser import HTMLParser
+import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -126,3 +128,61 @@ def test_html_safe_text(value):
     assert not any(key.startswith("on") or key in {"href", "src"} for _, attrs in report.tags for key in attrs)
     assert "\r" not in document
     assert "&#13;" in document if "\r" in value else True
+
+
+def test_html_metadata_top1(tmp_path):
+    path = tmp_path / "nested"
+    path.mkdir()
+    path = path / "資料.txt"
+    path.write_text("Zoo apple zoo APPLE beta", encoding="utf-8")
+    result = run_html_cli(path, "--top", "1")
+    assert result.returncode == 0
+    assert result.stderr == b""
+    report = parse_report(result.stdout.decode("utf-8"))
+    assert report.values["total-count"] == "5"
+    assert report.values["filename"] == "資料.txt"
+    assert report.rows[1:] == [["1", "zoo", "2"]]
+
+
+@pytest.mark.parametrize("content,pairs", [
+    ("Zoo apple zoo APPLE beta", [("zoo", 2), ("apple", 2), ("beta", 1)]),
+    ("ZOO Straße zoo STRASSE beta", [("zoo", 2), ("strasse", 2), ("beta", 1)]),
+    ("early late late", [("late", 2), ("early", 1)]),
+])
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("top", [1, 10])
+def test_html_first_seen_cases(tmp_path, content, pairs, output_format, top):
+    path = tmp_path / "input.txt"
+    path.write_text(content, encoding="utf-8")
+    result = subprocess.run(
+        [sys.executable, "-m", "wordfreq", str(path), "--format", output_format, "--top", str(top)],
+        cwd=ROOT, capture_output=True, timeout=10,
+    )
+    assert result.returncode == 0
+    assert result.stderr == b""
+    selected = pairs[:top]
+    if output_format == "html":
+        report = parse_report(result.stdout.decode("utf-8"))
+        assert report.rows[1:] == [[str(i), word, str(count)] for i, (word, count) in enumerate(selected, 1)]
+        assert report.values["total-count"] == str(sum(count for _, count in pairs))
+    elif output_format == "json":
+        assert json.loads(result.stdout) == [{"word": word, "count": count} for word, count in selected]
+    else:
+        assert result.stdout == "".join(f"{count}\t{word}\n" for word, count in selected).encode("utf-8")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_all_format_seed_bytes(tmp_path, output_format):
+    path = tmp_path / "input.txt"
+    path.write_text("Zoo Straße APPLE zoo STRASSE apple 日本語", encoding="utf-8")
+    outputs = []
+    for seed in ("1", "777"):
+        result = subprocess.run(
+            [sys.executable, "-m", "wordfreq", str(path), "--format", output_format],
+            cwd=ROOT, capture_output=True, timeout=10,
+            env={**os.environ, "PYTHONHASHSEED": seed, "PYTHONIOENCODING": "utf-8"},
+        )
+        assert result.returncode == 0
+        assert result.stderr == b""
+        outputs.append(result.stdout)
+    assert outputs[0] == outputs[1]

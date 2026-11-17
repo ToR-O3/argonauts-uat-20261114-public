@@ -1,0 +1,10 @@
+{
+  "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest tests/test_aggregator.py::test_first_seen_after_casefold --junitxml=.planning/argonauts/t_c5efdec5/task2-red.xml -q",
+  "exitCode": 1,
+  "output": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"1\" skipped=\"0\" tests=\"1\" time=\"0.027\" timestamp=\"2026-11-17T18:52:54.628160+09:00\" hostname=\"Ys-Minify\"><testcase classname=\"tests.test_aggregator\" name=\"test_first_seen_after_casefold\" time=\"0.001\"><failure message=\"AssertionError: assert [('apple', 2)..., ('beta', 1)] == [('zoo', 2), ..., ('beta', 1)]&#10;  &#10;  At index 0 diff: ('apple', 2) != ('zoo', 2)&#10;  Use -v to get more diff\">def test_first_seen_after_casefold():\n        from wordfreq.aggregator import count_words, top_words\n        from wordfreq.tokenizer import iter_tokens\n    \n        for text, expected in [\n            (\"Zoo apple zoo APPLE beta\", [(\"zoo\", 2), (\"apple\", 2), (\"beta\", 1)]),\n            (\"ZOO Straße zoo STRASSE beta\", [(\"zoo\", 2), (\"strasse\", 2), (\"beta\", 1)]),\n            (\"early late late\", [(\"late\", 2), (\"early\", 1)]),\n        ]:\n            counts = count_words(iter_tokens(text))\n            before = list(counts.items())\n&gt;           assert top_words(counts, 10) == expected\nE           AssertionError: assert [('apple', 2)..., ('beta', 1)] == [('zoo', 2), ..., ('beta', 1)]\nE             \nE             At index 0 diff: ('apple', 2) != ('zoo', 2)\nE             Use -v to get more diff\n\ntests/test_aggregator.py:56: AssertionError</failure></testcase></testsuite></testsuites>",
+  "targetTest": "test_first_seen_after_casefold",
+  "targetFile": "tests/test_aggregator.py",
+  "expected": "zoo before apple after casefold, descending frequency and top1",
+  "actual": "apple before zoo under old lexical tie sort",
+  "semanticAssessment": "Target executed and failed on ordered-pairs assertion: lexical apple wins zoo-first tie. Not a setup or collection failure."
+}

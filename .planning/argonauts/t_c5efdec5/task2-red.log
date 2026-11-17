@@ -1,0 +1,25 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________________________ test_first_seen_after_casefold ________________________
+
+    def test_first_seen_after_casefold():
+        from wordfreq.aggregator import count_words, top_words
+        from wordfreq.tokenizer import iter_tokens
+    
+        for text, expected in [
+            ("Zoo apple zoo APPLE beta", [("zoo", 2), ("apple", 2), ("beta", 1)]),
+            ("ZOO Straße zoo STRASSE beta", [("zoo", 2), ("strasse", 2), ("beta", 1)]),
+            ("early late late", [("late", 2), ("early", 1)]),
+        ]:
+            counts = count_words(iter_tokens(text))
+            before = list(counts.items())
+>           assert top_words(counts, 10) == expected
+E           AssertionError: assert [('apple', 2)..., ('beta', 1)] == [('zoo', 2), ..., ('beta', 1)]
+E             
+E             At index 0 diff: ('apple', 2) != ('zoo', 2)
+E             Use -v to get more diff
+
+tests/test_aggregator.py:56: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_aggregator.py::test_first_seen_after_casefold - AssertionEr...
+1 failed in 0.02s
