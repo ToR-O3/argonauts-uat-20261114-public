@@ -1,0 +1,91 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest tests/test_html_output.py tests/test_cli.py tests/test_formatters.py -q",
+      "statement": "pytest非0、0 tests/collection error、htmlがexit2、文書複数/ログ混入、欠けた見出し/値、escape往復不一致、CR消失、入力変化なら失敗。静的parser成功はbrowser受入の証明ではない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "02-01-PLAN.md",
+      "task": "Task 1: CLIから安全な保存HTMLへのproduction tracer — OpenSpec 2.1/2.2"
+    },
+    {
+      "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest -q",
+      "statement": "pytest非0/0 tests、zoo初出のtieでappleが先頭、casefold初出消失、top前でなく後の総数、seed差異、旧形式へのmetadata追加、既存回帰削除なら失敗。未作成のbrowser試験へ依存しない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "02-01-PLAN.md",
+      "task": "Task 2: 全形式を正規化初出順へ置換 — OpenSpec 1.1"
+    },
+    {
+      "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest tests/test_cli.py tests/test_sources_boundary.py tests/test_aggregator.py tests/test_sources.py tests/test_tokenizer.py -q",
+      "statement": "非0/0 tests、許可エラーが未観測、誤exit、error stdout、text/json形変更、入力/全untracked状態変化、複数read/count/select、異なる出力先の並行完成出力の差異なら失敗。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "02-02-PLAN.md",
+      "task": "Task 1: 各形式の実CLIエラー/境界/入力不変を縦に拡張 — OpenSpec 1.1/2.2"
+    },
+    {
+      "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest tests/test_html_output.py tests/test_formatters.py -q",
+      "statement": "非0/0 tests、double escape/CR消失、空白strip、並べ直し、total再計算、追加要素/属性、署名の既存形式への波及なら失敗。browser実測をこの成功から推定しない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "02-02-PLAN.md",
+      "task": "Task 2: 直接formatterの文字忠実性と純粋性を拡張 — OpenSpec 2.1"
+    },
+    {
+      "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest -q",
+      "statement": "非0/0 tests、例が動かない/READMEとの不一致、文字化け、入力変化、共有露出や起動前切詰め注意欠落、CI/依存変更なら失敗。browser default skipは合格証拠でない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "02-02-PLAN.md",
+      "task": "Task 3: 安全な保存例と互換性変更を実行付きで説明 — OpenSpec 2.2/3.2"
+    },
+    {
+      "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest tests/test_html_browser.py --real-browser --browser-evidence-dir=.planning/phases/02-wordfreq-html-output/evidence/builder -q",
+      "statement": "非0/0 tests/skip、起動/font/CDP不足、監視前navigation、session漏れ、main file完了なし、外部/追加local1件以上、誤viewport、欠けたPNG/DOM/network/indexなら失敗しhuman_needed。default skip成功に置換しない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "02-03-PLAN.md",
+      "task": "Task 1: 実CLI通常HTMLから全幅の実CDP証跡へ — OpenSpec 3.1"
+    },
+    {
+      "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest tests/test_browser_harness.py -m 'not real_browser' -q",
+      "statement": "非0/0 tests/collection error/選択試験skip、oracle/request分類/indexのいずれか未実行、正常対照が失敗、既知変異を見逃す/期待診断以外の例外で成功、browser/Node/font/CDPや全matrix fixtureへの依存なら高速gate失敗。目標30秒未満の実測超過は未解消findingとし全量受入gate削減で隠さない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "02-03-PLAN.md",
+      "task": "Task 2: 全case・文字忠実性・不実行・layoutと検証器の負例 — OpenSpec 2.1/3.1"
+    },
+    {
+      "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest tests/test_browser_harness.py tests/test_html_browser.py --real-browser --browser-evidence-dir=.planning/phases/02-wordfreq-html-output/evidence/builder -q",
+      "statement": "非0/0 tests/opt-in skip、case/幅不足、CR/name/語の不一致、悪意selector誤照合、追加要素/handler/marker変化/dialog、外部又は追加local発生、列重複/横overflow/隠された内容、known-badが通過したら失敗。画像自体の可読性を未読でpassにしない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "02-03-PLAN.md",
+      "task": "Task 2: 全case・文字忠実性・不実行・layoutと検証器の負例 — OpenSpec 2.1/3.1"
+    },
+    {
+      "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest tests/test_browser_harness.py -m 'not real_browser' -q",
+      "statement": "非0/0 tests/collection error/選択試験skip、oracle/request分類/indexのいずれか未実行、正常対照が失敗、既知変異を見逃す/期待診断以外の例外で成功、browser/Node/font/CDPや全matrix fixtureへの依存なら高速gate失敗。目標30秒未満の実測超過は未解消findingとして記録する。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "02-03-PLAN.md",
+      "task": "Task 3: 統合gateと品質の独立再生成handoff — OpenSpec 3.2"
+    },
+    {
+      "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest -q && /home/Yuki/workspace/argonauts-uat-20261116/home/.cache/uv/archive-v0/OrlfUBJ6ZvJ3-CXj/bin/python -m pytest tests/test_html_browser.py --real-browser --browser-evidence-dir=.planning/phases/02-wordfreq-html-output/evidence/builder -q",
+      "statement": "いずれか非0/0 tests、browser opt-in skip、古いhead/帰属不明、case×幅の証跡欠損、画像未読を合格化、CI/依存変更、quality未実施を完了扱いなら失敗またはhuman_neededとして止める。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "02-03-PLAN.md",
+      "task": "Task 3: 統合gateと品質の独立再生成handoff — OpenSpec 3.2"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 10
+  },
+  "readError": null
+}

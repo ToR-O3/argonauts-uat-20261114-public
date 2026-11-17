@@ -1,0 +1,47 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "task_count": 3,
+  "tasks": [
+    {
+      "name": "Task 1: 各形式の実CLIエラー/境界/入力不変を縦に拡張 — OpenSpec 1.1/2.2",
+      "type": "tracer",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "Task 2: 直接formatterの文字忠実性と純粋性を拡張 — OpenSpec 2.1",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "Task 3: 安全な保存例と互換性変更を実行付きで説明 — OpenSpec 2.2/3.2",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}

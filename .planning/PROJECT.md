@@ -4,6 +4,12 @@
 
 テキストファイルを読んで単語の出現回数を多い順に表示する小さなコマンドラインツール。`python -m wordfreq <file>` で実行し、表示件数は `--top N`（既定 10）、出力形式は `--format text|json`（既定 text）。依頼 r-5a3b8a3f の成果物として repository `ToR-O3/argonauts-uat-20261114-public`（基準 branch: main）に stdlib-only の Python パッケージ `wordfreq` を追加する。主利用者はこの repository を使うエンジニア（依頼者自身）。画面（UI）は作らない。
 
+## Current approved follow-up — r-5c041156
+
+t_fd2bd806が要求・仕様run61の `r-5c041156-wordfreq-html` を承認。以下の旧r-5a3b8a3f記述は出荷履歴として保持し、現在の受入ではPhase 2/REQ-09〜REQ-14と承認済み仕様を優先する。旧REQ-04/D-2の同数語昇順は全形式の正規化初出順へ明示置換。旧REQ-03はhtmlを追加（text/json構造不変）。旧UI除外は静的自己完結HTMLのみ解除し、サーバ/アップロード/配信/対話GUIは除外を維持。
+
+確定UIは明るい背景、順位/単語/回数の3列、top後1始まり連番（同数でも連番、空表データ0行）、表前basename文字表示とtop前全出現数。320/375/1280pxの実ブラウザ証跡、escape/CR保持/外部request0/入力不変を必須とする。CI/依存変更・生成日時・テーマ切替は範囲外。矛盾原本は `.planning/INGEST-CONFLICTS.md`。既存要求の変更を含むためingest mergeでは上書きせず公式phase.addで新phaseを追加した。
+
 ## Core Value
 
 正規化・並び順・出力形式・エラー出口の決定論（テストで固定できる標準化）と、入力元（標準入力・URL）を後から追加できる構成の明確さ。価値は性能ではない。

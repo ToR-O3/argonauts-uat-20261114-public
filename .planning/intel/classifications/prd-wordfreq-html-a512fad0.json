@@ -1,0 +1,29 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/_bmad-output/initiative-r-5c041156/prd/prd-wordfreq-html.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "wordfreq HTML出力 — PRD",
+  "summary": "wordfreqの単一HTML出力、順位・入力名・総数表示、全形式の同数時初出順、既存CLI互換性、安全性とモバイル可読性の受入要件を定める。",
+  "scope": [
+    "wordfreq",
+    "HTML出力",
+    "順位・単語・回数の3列表",
+    "入力ファイルのbasename",
+    "全正規化トークン出現回数総和",
+    "同数時初出順",
+    "text/json形式",
+    "HTMLエスケープ",
+    "オフライン閲覧",
+    "モバイル可読性"
+  ],
+  "cross_refs": [
+    "../brief/brief-wordfreq-html.md",
+    ".memlog.md",
+    "openspec/specs/wordfreq-cli/spec.md",
+    "CONCEPTS.md"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

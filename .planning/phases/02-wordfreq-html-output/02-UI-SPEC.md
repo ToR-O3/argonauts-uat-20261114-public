@@ -114,21 +114,6 @@ Accent reserved for: 固定h1のみ。順位・回数に意味的な色やヒー
 - 連続スペース・tab・LF・CR/CRLFは値のDOM文字列を変更せず保持し、pre-wrapで表示する。文字列一致はformatter直接入力でも試験する（通常tokenizerが語に含めない文字も境界試験では渡す）。CSSだけの確認や正規化後比較で代用しない。
 - 悪意ある実basenameのCLI出力でも、入力由来の追加要素・script・イベント実行がなく、外部requestが0であることをブラウザで確認する。
 
-## UI Considerations
-
-Applicable state considerations resolved: 4 covered, 2 backstop, 0 unresolved。coveredは仕様で解決済みの意味であり、実装合格を意味しない。backstopは実ブラウザ証跡がない限り未検証。
-
-| Category | Element(s) | Status | Resolution / Reason |
-|----------|------------|--------|---------------------|
-| empty | frequency-table (list-collection) | ✅ covered | Copywriting ContractのEmpty state行を適用。空入力/記号のみは総数0、3見出し、tbodyデータ0行 |
-| populated | frequency-table (list-collection) | ✅ covered | 通常例one one one two two threeは1/one/3、2/two/2、3/three/1。同数例は1/zoo/2、2/apple/2、3/beta/1 |
-| partial | frequency-table (list-collection) | ✅ covered | topは表示行のみを制限する意図的な部分表示。top1でもZoo例の総数は5、1/zoo/2。語種数より大きいtopは全件。欠落セルや途中までのエラー文書は出さない |
-| zero-one-many | frequency-table (list-collection) | ✅ covered | 0行は空tbody、1行は順位1、複数行は欠番なし。総数や列見出しの単複で文言/配置を変えない |
-| overflow | frequency-table (list-collection), input-metadata (static-content) | 🧪 backstop | 320/375/1280pxでpage/tableの横overflowなし、列重なりなし、縦スクロールで全内容を読めることを画像とDOM/layoutで実測 |
-| long-text | input-metadata, word-values (static-content) | 🧪 backstop | 200文字連続語と長い日本語名の全文・空白保持をtextContentで照合し、各viewportの画像で折返しと欠落/重複/切捨てなしを確認 |
-
-適用除外（理由付き）: loadingはローカル生成済み文書のため非同期取得・pending stateなし。errorはCopywriting ContractのCLI境界へ帰属しHTMLのエラーUIなし。form/nav/media/interactive-control自体が存在しない。ライブ更新、オフライン切替、animation/focus管理は追加しない。
-
 ## Real-Browser Evidence Contract
 
 この節はBuilder/品質への検証要求であり、実行結果ではない。計画段階では未作成の検証コマンドを試さない。
@@ -157,4 +142,4 @@ Applicable state considerations resolved: 4 covered, 2 backstop, 0 unresolved。
 - [ ] Dimension 6 Registry Safety: PASS
 - [ ] Dimension 7 Inventory Provenance: PASS
 
-**Approval:** pending — 公式gsd-ui-checkerが検証する。Tool:noneのためComponent Inventoryは公式指示に従い省略。ブラウザ受入は実装後の別工程であり本draftの作成では承認しない。
+**Approval:** approved — 独立公式gsd-ui-checkerが全7次元で合格（deleg_ee41e23c、2026-11-17）。上記チェック欄はchecker判定PASSを示す。Tool:noneのためComponent Inventoryは公式指示に従い省略。製品ブラウザ受入は未実施で、実装後の独立品質証跡が必要。

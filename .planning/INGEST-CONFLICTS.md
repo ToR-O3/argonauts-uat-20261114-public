@@ -1,24 +1,33 @@
 ## Conflict Detection Report
 
-Mode: new (fresh ingest, no existing PROJECT.md/CONTEXT.md to check against). Precedence: ADR > SPEC > PRD > DOC (no per-doc manifest precedence overrides).
-
-Re-run after cycle remediation: the ingest manifest was shrunk via --manifest to 5 documents; openspec/changes/r-5a3b8a3f-wordfreq/design.md (former ADR) was removed from the ingest set and its classification JSON deleted.
+MODE: merge. Precedence: ADR > SPEC > PRD > DOC; all 5 manifest classifications consumed, no numeric precedence overrides. Source references are relative to /home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1. Only staging intel and this report are written. Explicit approval of the new product behavior is preserved; it does not silently rewrite existing planning or bypass the merge-diff gate.
 
 ### BLOCKERS (0)
 
-Cross-reference graph rebuilt on the reduced set (DFS three-color marking, depth ≤ 2). In-set edges: prd-wordfreq-cli.md -> brief-wordfreq-cli.md (the only cross-ref resolving inside the ingest set). The cross_refs "design.md" (brief, proposal, spec) and "pyproject.toml" (proposal) resolve to paths outside the ingest set and produce no graph edges. No cycles — all 5 documents synthesized. No LOCKED-vs-LOCKED ADR contradiction applies (no ADR-classified source remains in the set; no classification carries locked: true). No UNKNOWN/low-confidence classifications (all 5 are high confidence with manifest overrides). No merge-mode checks apply (no existing CONTEXT.md locked decisions).
+No UNKNOWN/low-confidence source, cyclic in-set reference, depth-cap breach or locked ADR contradiction. The existing CONTEXT contains binding implementation decisions, including D-10, but neither that block nor D-10 is explicitly marked locked. PROJECT decisions are Pending. The ingest has no ADR and no locked:true source. Do not invent a LOCKED-vs-LOCKED classification. The detected old/new planning inconsistencies are surfaced below, not hidden.
 
-### WARNINGS (0)
+### WARNINGS (2)
 
-No competing acceptance variants: the two PRD-classified sources (prd-wordfreq-cli.md, proposal.md) are consistent on options and defaults (`--top` default 10, `--format text|json` default text), exit behavior, component separation, pytest-in-CI, stdlib-only runtime, and packaging-config tolerance for the shared "wordfreq CLI" scope. SPEC content agrees with both PRDs on every overlapping FR (FR-1..FR-8); no SPEC-contradicts-higher-precedence cases exist (no ADR in the set).
+[WARNING] Existing ordering requirement and phase decision disagree with the approved replacement
+  Found: Incoming SPEC mandates count descending, normalized first occurrence for ties, then top, in text/json/html; the two incoming PRDs agree. This is the explicitly approved replacement, not an unresolved product question or a choice between incoming PRDs.
+  Expected: Existing REQUIREMENTS REQ-04, PROJECT REQ-04/D-2, ROADMAP Phase1 success criterion1, and CONTEXT D-10 still require normalized-word ascending ties. Those old requirements cannot remain the acceptance contract for the new behavior; top-boundary selection can change.
+  source: openspec/changes/r-5c041156-wordfreq-html/specs/wordfreq-cli/spec.md:56-81; openspec/changes/r-5c041156-wordfreq-html/proposal.md:10; _bmad-output/initiative-r-5c041156/prd/prd-wordfreq-html.md:65,104-106; .planning/PROJECT.md:32,69; .planning/REQUIREMENTS.md:20; .planning/ROADMAP.md:24; .planning/phases/01-wordfreq-cli/01-CONTEXT.md:34
+  → Orchestrator must preview and obtain explicit approval for a merge diff replacing the old acceptance in all affected planning records, preserving Phase1 historical completion. Do not ask Q-1..4 again or invent a legacy-order option. No destination write is authorized by this synthesis.
 
-### INFO (3)
+[WARNING] Existing no-UI/two-format completed scope omits the new HTML work
+  Found: Incoming requirements add html with light-background rank/word/count table, basename and pre-top total, responsive browser acceptance, and safety evidence.
+  Impact: PROJECT and REQUIREMENTS exclude GUI/screens; CONTEXT declares no UI and text/json only; ROADMAP criterion2 lists text/json and STATE declares all phases complete. Reusing that completed scope without an approved merge could omit the HTML requirements and independent browser evidence or falsely imply completion. This is a requested scope expansion, not an instruction to invalidate shipped Phase1 or add CI/dependencies.
+  source: openspec/changes/r-5c041156-wordfreq-html/specs/wordfreq-cli/spec.md:37-54,85-155; _bmad-output/initiative-r-5c041156/prd/prd-wordfreq-html.md:60-69,91-100; .planning/PROJECT.md:5,31,40; .planning/REQUIREMENTS.md:16,51; .planning/ROADMAP.md:15,25,54; .planning/STATE.md:3-6,35; .planning/phases/01-wordfreq-cli/01-CONTEXT.md:10,26
+  → Stage an explicit new-scope merge diff for approval: distinguish static HTML reporting from server/interactive GUI exclusions; map new HTML/ordering requirements and browser evidence to approved follow-up planning without marking implementation complete. Preserve CI/dependency bans and do not manufacture a phase number in this synthesis.
 
-[INFO] Cycle remediation verified effective
-  Note: the previous run reported 3 cycles all through design.md; with design.md removed from the manifest, those references became dangling (no edge) and the graph is acyclic. Downstream consequence: decisions delegated to design.md (text column format per spec FR-3, input-source extension 構成判断 per FR-6, task references D-A/D-C/D-E) are recorded in intel files as "outside the current ingest set" rather than resolved here.
+### INFO (2)
 
-[INFO] Manifest override on the brief (DOC despite PRD signals)
-  Note: _bmad-output/initiative-r-5a3b8a3f/brief/brief-wordfreq-cli.md is manifest-overridden to DOC; content signals (WF-01..WF-08 success criteria, D-1..D-3 decisions, scope boundaries) would otherwise classify as PRD. Manifest override treated as authoritative; brief content routed to intel/context.md, its WF items cross-mapped to FR IDs in the PRD mapping note.
+[INFO] Four previously open product answers are settled and consistent
+  Found: Incoming SPEC/PRDs/DOC agree on light background, three columns with display-row ranks from1 and no ties, total occurrences before top, and basename without directories.
+  Note: These answers remain accepted; no competing acceptance variant exists between the two incoming PRDs. No renewed product question is needed. Shared HTML still exposes words and basename; theme switching and generation timestamps remain excluded.
+  source: openspec/changes/r-5c041156-wordfreq-html/specs/wordfreq-cli/spec.md:85-116; openspec/changes/r-5c041156-wordfreq-html/proposal.md:9-13,28-29; _bmad-output/initiative-r-5c041156/prd/prd-wordfreq-html.md:110-119; _bmad-output/initiative-r-5c041156/brief/brief-wordfreq-html.md:77-81,93-96
 
-[INFO] design.md delegation targets flagged, not fabricated
-  Note: spec.md FR-3 defers the exact text column format to design.md and FR-6 defers the input-source extension 構成判断 record to design.md; tasks.md cites design decisions D-A/D-C/D-E. Since design.md is outside the ingest set, these fields are marked as delegated/absent in intel rather than filled from memory.
+[INFO] Classification graph is acyclic; no synthesis precedence override is required
+  Found: Resolved in-set edges are proposal→brief, proposal→prd, prd→brief, tasks→spec. All remaining cross_refs target documents outside the five-source ingest set; spec and brief have no in-set outgoing edges.
+  Note: Three-color DFS: proposal gray→brief gray→black; proposal→prd gray→brief black→prd black→proposal black; tasks gray→spec gray→black→tasks black. Other starts are already black. No gray back edge; longest path2, below cap50. All classifications high confidence, manifest overrides true, precedence null, locked false. No inferred ADR, unresolved source type or fabricated outside-document content. Auto-resolved conflicts0; warning entries above concern existing planning, not competing PRD variants.
+  source: .planning/intel/classifications/proposal-7c4686d4.json; .planning/intel/classifications/prd-wordfreq-html-a512fad0.json; .planning/intel/classifications/brief-wordfreq-html-6f3c1983.json; .planning/intel/classifications/tasks-4053909d.json; .planning/intel/classifications/spec-235ec06d.json

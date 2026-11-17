@@ -1,0 +1,41 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "Task rated <reversibility rating=\"one-way\"> has no preceding checkpoint:decision — a one-way door must be confirmed before the agent walks through it (unless the decision is already settled in CONTEXT.md, an ingested ADR, or an answered checkpoint)"
+  ],
+  "task_count": 2,
+  "tasks": [
+    {
+      "name": "Task 1: CLIから安全な保存HTMLへのproduction tracer — OpenSpec 2.1/2.2",
+      "type": "tracer",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "Task 2: 全形式を正規化初出順へ置換 — OpenSpec 1.1",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}

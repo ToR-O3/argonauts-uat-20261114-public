@@ -1,0 +1,50 @@
+{
+  "milestones": [],
+  "phases": [
+    {
+      "number": "1",
+      "name": "wordfreq CLI",
+      "goal": "ユーザーは `python -m wordfreq <file>` で、決定論的な並び順と出力形式、exit code 規約を持つ単語頻度集計を stdlib-only の CLI として実行できる",
+      "mode": null,
+      "depends_on": "Nothing (first phase)",
+      "plan_count": 5,
+      "summary_count": 5,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "complete",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "2",
+      "name": "wordfreq HTML output",
+      "goal": "利用者がwordfreqの結果を安全な自己完結HTMLへ保存し、スマートフォンでも明るい3列表で読める。全形式の同数順を承認済み初出順へ変更し、既存CLI回帰と独立ブラウザ証跡を確保する（r-5c041156）。",
+      "mode": null,
+      "depends_on": "Phase 1",
+      "plan_count": 3,
+      "summary_count": 0,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "planned",
+      "roadmap_complete": false,
+      "context_read_error": null,
+      "context_scope": "complete"
+    }
+  ],
+  "phase_count": 2,
+  "completed_phases": 1,
+  "total_plans": 8,
+  "total_summaries": 5,
+  "progress_percent": 63,
+  "progress_scope": "complete",
+  "current_phase": "2",
+  "next_phase": null,
+  "checkbox_conflict": [],
+  "roadmap_record": {
+    "1": true,
+    "2": false
+  },
+  "missing_phase_details": null,
+  "scope": "complete"
+}

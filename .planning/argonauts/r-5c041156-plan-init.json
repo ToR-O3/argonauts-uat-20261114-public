@@ -1,0 +1,118 @@
+{
+  "researcher_model": "anthropic/claude-sonnet-5",
+  "planner_model": "anthropic/claude-opus-4-8",
+  "checker_model": "anthropic/claude-sonnet-5",
+  "tdd_mode": false,
+  "granularity": "standard",
+  "research_enabled": true,
+  "plan_checker_enabled": true,
+  "nyquist_validation_enabled": true,
+  "commit_docs": true,
+  "text_mode": false,
+  "auto_advance": false,
+  "auto_chain_active": false,
+  "mode": "interactive",
+  "phase_found": true,
+  "phase_dir": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/02-wordfreq-html-output",
+  "expected_phase_dir": null,
+  "phase_number": "02",
+  "phase_name": "wordfreq HTML output",
+  "phase_slug": "wordfreq-html-output",
+  "padded_phase": "02",
+  "phase_req_ids": "REQ-09, REQ-10, REQ-11, REQ-12, REQ-13, REQ-14",
+  "phase_status": "Pending",
+  "has_research": false,
+  "has_context": true,
+  "context_scope": "complete",
+  "has_reviews": false,
+  "has_plans": false,
+  "plan_count": 0,
+  "threat_id_duplicates": [],
+  "threat_id_duplicate_count": 0,
+  "planning_exists": true,
+  "roadmap_exists": true,
+  "state_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/STATE.md",
+  "roadmap_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/ROADMAP.md",
+  "requirements_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/REQUIREMENTS.md",
+  "has_spec": false,
+  "patterns_path": null,
+  "context_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/02-wordfreq-html-output/02-CONTEXT.md",
+  "section_manifest": {
+    "workflow": "plan-phase",
+    "included": [
+      "prd-express-gate"
+    ],
+    "excluded": [
+      "reviews-prerequisite",
+      "adr-ingest-express-path",
+      "research-only-modifiers",
+      "research-only-early-exit",
+      "chunked-planning-mode"
+    ],
+    "read": [
+      "gsd-core/workflows/plan-phase/steps/prd-express-gate.md"
+    ]
+  },
+  "prior_verify_commands": [
+    {
+      "phase": "01",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/01-wordfreq-cli/01-01-PLAN.md",
+      "task": "Task 2: pytest の導入（Wave 0 足場。OpenSpec 1.1 の前提）",
+      "command": "python -m pytest --version"
+    },
+    {
+      "phase": "01",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/01-wordfreq-cli/01-01-PLAN.md",
+      "task": "Task 3: トークナイザ部品 — OpenSpec task 1.1",
+      "command": "python -m pytest tests/test_tokenizer.py -x"
+    },
+    {
+      "phase": "01",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/01-wordfreq-cli/01-02-PLAN.md",
+      "task": "Task 1: 集計部品 — OpenSpec task 1.2",
+      "command": "python -m pytest tests/test_aggregator.py -x"
+    },
+    {
+      "phase": "01",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/01-wordfreq-cli/01-02-PLAN.md",
+      "task": "Task 2: 入力取得境界部品 — OpenSpec task 2.1",
+      "command": "python -m pytest tests/test_sources.py -x"
+    },
+    {
+      "phase": "01",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/01-wordfreq-cli/01-02-PLAN.md",
+      "task": "Task 3: 出力整形部品 — OpenSpec task 2.2",
+      "command": "python -m pytest tests/test_formatters.py -x"
+    },
+    {
+      "phase": "01",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/01-wordfreq-cli/01-03-PLAN.md",
+      "task": "Task 1: 入力取得境界越し試験 — OpenSpec task 2.3",
+      "command": "python -m pytest tests/test_sources_boundary.py -x"
+    },
+    {
+      "phase": "01",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/01-wordfreq-cli/01-03-PLAN.md",
+      "task": "Task 2: CLI 合成 __main__ — OpenSpec task 3.1",
+      "command": "python -m pytest tests/test_cli.py -x"
+    },
+    {
+      "phase": "01",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/01-wordfreq-cli/01-03-PLAN.md",
+      "task": "Task 3: 最小 pyproject.toml — OpenSpec task 3.2",
+      "command": "python -m wordfreq README.md --format json"
+    },
+    {
+      "phase": "01",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/.planning/phases/01-wordfreq-cli/01-04-PLAN.md",
+      "task": "Task 1: CI pytest ジョブの有無確認と block 判定準備 — OpenSpec task 3.3",
+      "command": "python -m pytest"
+    }
+  ],
+  "project_root": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1",
+  "agents_installed": true,
+  "missing_agents": [],
+  "agents_dir": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-architect/agents",
+  "agent_runtime": "hermes",
+  "project_title": "wordfreq CLI"
+}

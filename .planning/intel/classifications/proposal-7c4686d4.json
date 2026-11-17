@@ -1,0 +1,25 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_380a67a1/openspec/changes/r-5c041156-wordfreq-html/proposal.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Proposal",
+  "summary": "wordfreqに自己完結HTML出力を追加し、全出力形式の同数時順位を初出順へ変更する要求と範囲。",
+  "scope": [
+    "wordfreq-cli",
+    "HTML出力",
+    "同数時の初出順",
+    "順位・単語・回数の表",
+    "basename",
+    "全正規化トークン出現回数の総和",
+    "レスポンシブ可読性",
+    "HTML escape"
+  ],
+  "cross_refs": [
+    "CONCEPTS.md",
+    "_bmad-output/initiative-r-5c041156/brief/brief-wordfreq-html.md",
+    "_bmad-output/initiative-r-5c041156/prd/prd-wordfreq-html.md"
+  ],
+  "locked": false,
+  "precedence": null
+}
