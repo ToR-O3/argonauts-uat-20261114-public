@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.031" timestamp="2026-11-17T12:21:11.317459+09:00" hostname="Ys-Minify"><testcase classname="tests.test_formatters" name="test_format_json_preserves_order_and_integer_counts" time="0.001"><failure message="AssertionError: format_json is required&#10;assert False&#10; +  where False = callable(None)&#10; +    where None = getattr(&lt;module 'wordfreq.formatters' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/wordfreq/formatters.py'&gt;, 'format_json', None)">def test_format_json_preserves_order_and_integer_counts():
+        formatters = importlib.import_module("wordfreq.formatters")
+&gt;       assert callable(getattr(formatters, "format_json", None)), "format_json is required"
+E       AssertionError: format_json is required
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(&lt;module 'wordfreq.formatters' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/wordfreq/formatters.py'&gt;, 'format_json', None)
+
+tests/test_formatters.py:20: AssertionError</failure></testcase></testsuite></testsuites>

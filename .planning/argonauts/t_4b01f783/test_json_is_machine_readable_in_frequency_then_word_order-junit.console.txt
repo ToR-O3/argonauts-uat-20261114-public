@@ -1,0 +1,21 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_json_is_machine_readable_in_frequency_then_word_order __________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-22/test_json_is_machine_readable_0')
+
+    def test_json_is_machine_readable_in_frequency_then_word_order(tmp_path):
+        path = tmp_path / "input.txt"
+        path.write_text("Zoo zoo Apple apple Straße STRASSE 日本語", encoding="utf-8")
+        result = run_cli(path, "--format", "json", "--top", "3")
+>       assert result.returncode == 0, result.stderr
+E       AssertionError: usage: wordfreq [-h] [--top TOP] filename
+E         wordfreq: error: unrecognized arguments: --format json
+E         
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/installs/a3f0e19b82632a3b/environment...tdout='', stderr='usage: wordfreq [-h] [--top TOP] filename\nwordfreq: error: unrecognized arguments: --format json\n').returncode
+
+tests/test_cli.py:49: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_json_is_machine_readable_in_frequency_then_word_order
+1 failed in 0.07s

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.024" timestamp="2026-11-17T11:55:25.870921+09:00" hostname="Ys-Minify"><testcase classname="tests.test_tokenizer" name="test_excludes_punctuation_symbols_and_whitespace" time="0.001"><failure message="AssertionError: assert ['one,', 'two...ee—four🙂five'] == ['one', 'two'...four', 'five']&#10;  &#10;  At index 0 diff: 'one,' != 'one'&#10;  Right contains 2 more items, first extra item: 'four'&#10;  Use -v to get more diff">def test_excludes_punctuation_symbols_and_whitespace():
+        from wordfreq.tokenizer import default_tokenizer, iter_tokens
+    
+&gt;       assert default_tokenizer("one, two. one!\tthree—four🙂five") == [
+            "one", "two", "one", "three", "four", "five"
+        ]
+E       AssertionError: assert ['one,', 'two...ee—four🙂five'] == ['one', 'two'...four', 'five']
+E         
+E         At index 0 diff: 'one,' != 'one'
+E         Right contains 2 more items, first extra item: 'four'
+E         Use -v to get more diff
+
+tests/test_tokenizer.py:18: AssertionError</failure></testcase></testsuite></testsuites>

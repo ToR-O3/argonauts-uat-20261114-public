@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.079" timestamp="2026-11-17T12:31:25.005986+09:00" hostname="Ys-Minify"><testcase classname="tests.test_cli" name="test_top_three_selects_three_sorted_words" time="0.053"><failure message="AssertionError: usage: wordfreq [-h] filename&#10;  wordfreq: error: unrecognized arguments: --top 3&#10;  &#10;assert 2 == 0&#10; +  where 2 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/installs/a3f0e19b82632a3b/environment...], returncode=2, stdout='', stderr='usage: wordfreq [-h] filename\nwordfreq: error: unrecognized arguments: --top 3\n').returncode">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-18/test_top_three_selects_three_s0')
+
+    def test_top_three_selects_three_sorted_words(tmp_path):
+        path = tmp_path / "input.txt"
+        path.write_text("zoo apple apple bee cat", encoding="utf-8")
+        result = run_cli(path, "--top", "3")
+&gt;       assert result.returncode == 0, result.stderr
+E       AssertionError: usage: wordfreq [-h] filename
+E         wordfreq: error: unrecognized arguments: --top 3
+E         
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/installs/a3f0e19b82632a3b/environment...], returncode=2, stdout='', stderr='usage: wordfreq [-h] filename\nwordfreq: error: unrecognized arguments: --top 3\n').returncode
+
+tests/test_cli.py:31: AssertionError</failure></testcase></testsuite></testsuites>

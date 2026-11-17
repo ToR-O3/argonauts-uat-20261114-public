@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.031" timestamp="2026-11-17T12:19:59.762720+09:00" hostname="Ys-Minify"><testcase classname="tests.test_sources" name="test_file_source_normalizes_missing_file" time="0.004"><failure message="AssertionError: assert 'FileNotFoundError' == 'InputError'&#10;  &#10;  - InputError&#10;  + FileNotFoundError">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-3/test_file_source_normalizes_mi0')
+
+    def test_file_source_normalizes_missing_file(tmp_path):
+        from wordfreq.sources import FileSource
+    
+        path = tmp_path / "missing.txt"
+        with pytest.raises(Exception) as caught:
+            FileSource(str(path)).read_text()
+&gt;       assert type(caught.value).__name__ == "InputError"
+E       AssertionError: assert 'FileNotFoundError' == 'InputError'
+E         
+E         - InputError
+E         + FileNotFoundError
+
+tests/test_sources.py:27: AssertionError</failure></testcase></testsuite></testsuites>

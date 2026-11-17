@@ -1,0 +1,20 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______________ test_excludes_punctuation_symbols_and_whitespace _______________
+
+    def test_excludes_punctuation_symbols_and_whitespace():
+        from wordfreq.tokenizer import default_tokenizer, iter_tokens
+    
+>       assert default_tokenizer("one, two. one!\tthree—four🙂five") == [
+            "one", "two", "one", "three", "four", "five"
+        ]
+E       AssertionError: assert ['one,', 'two...ee—four🙂five'] == ['one', 'two'...four', 'five']
+E         
+E         At index 0 diff: 'one,' != 'one'
+E         Right contains 2 more items, first extra item: 'four'
+E         Use -v to get more diff
+
+tests/test_tokenizer.py:18: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_tokenizer.py::test_excludes_punctuation_symbols_and_whitespace
+1 failed in 0.02s

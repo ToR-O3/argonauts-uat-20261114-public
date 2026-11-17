@@ -1,0 +1,13 @@
+{
+  "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/installs/a3f0e19b82632a3b/environments/8428923a6e1f4c1eb2feeb7ef7983c73/venv/bin/python -m pytest tests/test_sources.py::test_file_source_normalizes_missing_file -q --color=no --junitxml=/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/.planning/argonauts/t_61fb0c48/test_file_source_normalizes_missing_file-junit.xml",
+  "exitCode": 1,
+  "reportPath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/.planning/argonauts/t_61fb0c48/test_file_source_normalizes_missing_file-junit.xml",
+  "runStartedAt": "2026-11-17T03:19:59.391544+00:00",
+  "reportModifiedAt": "2026-11-17T03:19:59.793368+00:00",
+  "output": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"1\" skipped=\"0\" tests=\"1\" time=\"0.031\" timestamp=\"2026-11-17T12:19:59.762720+09:00\" hostname=\"Ys-Minify\"><testcase classname=\"tests.test_sources\" name=\"test_file_source_normalizes_missing_file\" time=\"0.004\"><failure message=\"AssertionError: assert 'FileNotFoundError' == 'InputError'&#10;  &#10;  - InputError&#10;  + FileNotFoundError\">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-3/test_file_source_normalizes_mi0')\n\n    def test_file_source_normalizes_missing_file(tmp_path):\n        from wordfreq.sources import FileSource\n    \n        path = tmp_path / \"missing.txt\"\n        with pytest.raises(Exception) as caught:\n            FileSource(str(path)).read_text()\n&gt;       assert type(caught.value).__name__ == \"InputError\"\nE       AssertionError: assert 'FileNotFoundError' == 'InputError'\nE         \nE         - InputError\nE         + FileNotFoundError\n\ntests/test_sources.py:27: AssertionError</failure></testcase></testsuite></testsuites>",
+  "targetTest": "test_file_source_normalizes_missing_file",
+  "targetFile": "tests/test_sources.py",
+  "expected": "The named public API meets the contract asserted in the test",
+  "actual": "Named assertion failed; unchanged JUnit report contains actual values",
+  "semanticAssessment": "Target executed; assertion shows missing planned capability, not fixture, collection, or syntax failure. Initial module-presence assertions only prove availability; subsequent assertions verify behavior in GREEN."
+}

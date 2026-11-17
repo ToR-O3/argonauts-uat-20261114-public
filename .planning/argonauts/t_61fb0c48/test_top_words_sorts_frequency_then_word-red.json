@@ -1,0 +1,13 @@
+{
+  "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/installs/a3f0e19b82632a3b/environments/8428923a6e1f4c1eb2feeb7ef7983c73/venv/bin/python -m pytest tests/test_aggregator.py::test_top_words_sorts_frequency_then_word -q --color=no --junitxml=/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/.planning/argonauts/t_61fb0c48/test_top_words_sorts_frequency_then_word-junit.xml",
+  "exitCode": 1,
+  "reportPath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/.planning/argonauts/t_61fb0c48/test_top_words_sorts_frequency_then_word-junit.xml",
+  "runStartedAt": "2026-11-17T03:18:51.669043+00:00",
+  "reportModifiedAt": "2026-11-17T03:18:52.069041+00:00",
+  "output": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"1\" skipped=\"0\" tests=\"1\" time=\"0.028\" timestamp=\"2026-11-17T12:18:52.040478+09:00\" hostname=\"Ys-Minify\"><testcase classname=\"tests.test_aggregator\" name=\"test_top_words_sorts_frequency_then_word\" time=\"0.001\"><failure message=\"AssertionError: top_words is required&#10;assert False&#10; +  where False = callable(None)&#10; +    where None = getattr(&lt;module 'wordfreq.aggregator' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/wordfreq/aggregator.py'&gt;, 'top_words', None)\">def test_top_words_sorts_frequency_then_word():\n        aggregator = importlib.import_module(\"wordfreq.aggregator\")\n&gt;       assert callable(getattr(aggregator, \"top_words\", None)), \"top_words is required\"\nE       AssertionError: top_words is required\nE       assert False\nE        +  where False = callable(None)\nE        +    where None = getattr(&lt;module 'wordfreq.aggregator' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/wordfreq/aggregator.py'&gt;, 'top_words', None)\n\ntests/test_aggregator.py:19: AssertionError</failure></testcase></testsuite></testsuites>",
+  "targetTest": "test_top_words_sorts_frequency_then_word",
+  "targetFile": "tests/test_aggregator.py",
+  "expected": "The named public API meets the contract asserted in the test",
+  "actual": "Named assertion failed; unchanged JUnit report contains actual values",
+  "semanticAssessment": "Target executed; assertion shows missing planned capability, not fixture, collection, or syntax failure. Initial module-presence assertions only prove availability; subsequent assertions verify behavior in GREEN."
+}

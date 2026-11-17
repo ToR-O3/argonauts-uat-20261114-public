@@ -1,0 +1,16 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________________ test_count_words_counts_an_iterator ______________________
+
+    def test_count_words_counts_an_iterator():
+>       assert importlib.util.find_spec("wordfreq.aggregator") is not None, "aggregation module is required"
+E       AssertionError: aggregation module is required
+E       assert None is not None
+E        +  where None = <function find_spec at 0x73159b6983b0>('wordfreq.aggregator')
+E        +    where <function find_spec at 0x73159b6983b0> = <module 'importlib.util' (frozen)>.find_spec
+E        +      where <module 'importlib.util' (frozen)> = importlib.util
+
+tests/test_aggregator.py:8: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_aggregator.py::test_count_words_counts_an_iterator - Assert...
+1 failed in 0.02s

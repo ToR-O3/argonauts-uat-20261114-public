@@ -1,0 +1,20 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________ test_default_text_normalizes_sorts_and_limits_to_ten _____________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-15/test_default_text_normalizes_s0')
+
+    def test_default_text_normalizes_sorts_and_limits_to_ten(tmp_path):
+        path = tmp_path / "input.txt"
+        path.write_text("Zoo APPLE apple zoo Hello hello HELLO one, two. one b c d e f g h", encoding="utf-8")
+        result = run_cli(path)
+>       assert result.returncode == 0, result.stderr
+E       AssertionError: /home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/installs/a3f0e19b82632a3b/environments/8428923a6e1f4c1eb2feeb7ef7983c73/venv/bin/python: No module named wordfreq.__main__; 'wordfreq' is a package and cannot be directly executed
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/installs/a3f0e19b82632a3b/environment...7983c73/venv/bin/python: No module named wordfreq.__main__; 'wordfreq' is a package and cannot be directly executed\n").returncode
+
+tests/test_cli.py:20: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_default_text_normalizes_sorts_and_limits_to_ten
+1 failed in 0.04s

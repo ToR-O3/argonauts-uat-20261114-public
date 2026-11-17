@@ -1,0 +1,16 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________ test_format_json_preserves_order_and_integer_counts ______________
+
+    def test_format_json_preserves_order_and_integer_counts():
+        formatters = importlib.import_module("wordfreq.formatters")
+>       assert callable(getattr(formatters, "format_json", None)), "format_json is required"
+E       AssertionError: format_json is required
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'wordfreq.formatters' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/wordfreq/formatters.py'>, 'format_json', None)
+
+tests/test_formatters.py:20: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_formatters.py::test_format_json_preserves_order_and_integer_counts
+1 failed in 0.03s

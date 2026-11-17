@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.086" timestamp="2026-11-17T12:31:52.589079+09:00" hostname="Ys-Minify"><testcase classname="tests.test_cli" name="test_top_zero_is_usage_error_before_input_read" time="0.056"><failure message="AssertionError: assert 1 == 2&#10; +  where 1 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/installs/a3f0e19b82632a3b/environment...mes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-20/test_top_zero_is_usage_error_b0/missing\'\n').returncode">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-20/test_top_zero_is_usage_error_b0')
+
+    def test_top_zero_is_usage_error_before_input_read(tmp_path):
+        result = run_cli(tmp_path / "missing", "--top", "0")
+&gt;       assert result.returncode == 2
+E       AssertionError: assert 1 == 2
+E        +  where 1 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/installs/a3f0e19b82632a3b/environment...mes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-20/test_top_zero_is_usage_error_b0/missing\'\n').returncode
+
+tests/test_cli.py:38: AssertionError</failure></testcase></testsuite></testsuites>

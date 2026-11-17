@@ -1,0 +1,99 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "python -m pytest --version",
+      "statement": "コマンドの終了コードが 0 以外（No module named pytest など、pytest が import できない状態）",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-01-PLAN.md",
+      "task": "Task 2: pytest の導入（Wave 0 足場。OpenSpec 1.1 の前提）"
+    },
+    {
+      "command": "python -m pytest tests/test_tokenizer.py -x",
+      "statement": "終了コードが 0 以外（pytest 出力に failed Collection error を含むいずれかの失敗）",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-01-PLAN.md",
+      "task": "Task 3: トークナイザ部品 — OpenSpec task 1.1"
+    },
+    {
+      "command": "python -m pytest tests/test_aggregator.py -x",
+      "statement": "終了コードが 0 以外（pytest 出力に failed。同数語の昇順が壊れて apple が zoo より後になった場合も含む）",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-02-PLAN.md",
+      "task": "Task 1: 集計部品 — OpenSpec task 1.2"
+    },
+    {
+      "command": "python -m pytest tests/test_sources.py -x",
+      "statement": "終了コードが 0 以外（pytest 出力に failed。InputError へ正規化されず OSError/UnicodeDecodeError が素で出た場合も含む）",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-02-PLAN.md",
+      "task": "Task 2: 入力取得境界部品 — OpenSpec task 2.1"
+    },
+    {
+      "command": "python -m pytest tests/test_formatters.py -x",
+      "statement": "終了コードが 0 以外（pytest 出力に failed。json 出力が json.loads で解析できない、0 件で [] にならない、行書式が `<count>\\\\t<word>` と違う場合を含む）",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-02-PLAN.md",
+      "task": "Task 3: 出力整形部品 — OpenSpec task 2.2"
+    },
+    {
+      "command": "python -m pytest tests/test_sources_boundary.py -x",
+      "statement": "終了コードが 0 以外（pytest 出力に failed。FileSource 非経由の集計経路で calls が空でなく FileSource が呼ばれている場合を含む）",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-03-PLAN.md",
+      "task": "Task 1: 入力取得境界越し試験 — OpenSpec task 2.3"
+    },
+    {
+      "command": "python -m pytest tests/test_cli.py -x",
+      "statement": "終了コードが 0 以外（pytest 出力に failed。exit code が 0/1/2 規約と違う、stdout にエラーが混ざる、json が loads できない、いずれも含む）",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-03-PLAN.md",
+      "task": "Task 2: CLI 合成 __main__ — OpenSpec task 3.1"
+    },
+    {
+      "command": "python -m wordfreq README.md --format json",
+      "statement": "終了コードが 0 以外、または stdout が [ で始まらない（json 配列として出力されない）",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-03-PLAN.md",
+      "task": "Task 3: 最小 pyproject.toml — OpenSpec task 3.2"
+    },
+    {
+      "command": "python -m pytest",
+      "statement": "終了コードが 0 以外（pytest 出力に failed。全スイート緑が確認できない状態）",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-04-PLAN.md",
+      "task": "Task 1: CI pytest ジョブの有無確認と block 判定準備 — OpenSpec task 3.3"
+    },
+    {
+      "command": "python -m pytest",
+      "statement": "終了コード非 0、collection/import error、0 tests collected、failed/error が 1 件以上、または既存 43 ケースの欠落・skip により全件成功を示せない。これはローカル回帰検査で CI 成功判定ではない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-05-PLAN.md",
+      "task": "Task 1: 人の workflow 追加から残余品質 gate までを一経路で接続する"
+    },
+    {
+      "command": "python -m pytest",
+      "statement": "終了コード非 0、0 tests collected、collection/import error、failed/error/欠落/skip が存在し既存全 43 ケースの成功を確認できない。CI 未確認はこのローカル exit 0 によって解消しない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "01-05-PLAN.md",
+      "task": "Task 2: 最新 head に結びつく品質 CI 再検証 handoff を完成する"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 11
+  },
+  "readError": null
+}
