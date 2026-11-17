@@ -1,0 +1,6 @@
+[
+ {"id":"E1","text":"h1「単語の出現頻度」","text_en":"Static heading for word frequencies","elements":["static-content"]},
+ {"id":"E2","text":"入力情報は「ファイル名」と basename 値、「総出現回数」と整数値。両方とも表より上に置く。","text_en":"Static input metadata: filename and total occurrences above table","elements":["static-content"]},
+ {"id":"E3","text":"表は table / caption「集計結果」/ thead / tbody、3 個の th scope=col「順位」「単語」「回数」。空でも見出しは維持し、データ行0。","text_en":"Results table collection with rank word count, empty or many rows","elements":["list-collection","static-content"]},
+ {"id":"E4","text":"集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。","text_en":"Static empty result message after table","elements":["static-content"]}
+]
