@@ -658,3 +658,29 @@ def test_scope_rejects_dirty_and_untracked_code(monkeypatch):
     monkeypatch.setattr(v, "provenance", lambda: dict(product_status="?? tools/new.py",
         untracked_product=[dict(path="tools/new.py", sha256="hash", content_utf8="actual")]))
     assert any("dirty" in e for e in v.scope_report()["errors"])
+
+
+def test_unknown_browser_context_cannot_hide_in_cross_context_exclusions():
+    v = verifier()
+    assert callable(getattr(v, "global_context_errors", None)), "all browser contexts need a global attribution gate"
+    target = dict(targetId="foreign", type="page", browserContextId="not-observed")
+    events = [dict(kind="target-attached", data=dict(targetInfo=target))]
+    assert v.global_context_errors(events, {"foreign": target}, {"observed"})
+    assert v.global_context_errors(events, {"foreign": target}, {"not-observed"}) == []
+
+
+def test_raw_and_image_claimed_hashes_must_match_actual_bytes(tmp_path):
+    v = verifier()
+    assert callable(getattr(v, "view_identity_errors", None)), "raw/image identities must be verified against bytes"
+    raw = tmp_path / "raw.json"
+    image = tmp_path / "full.png"
+    raw.write_bytes(b"raw original")
+    image.write_bytes(b"image original")
+    view = dict(raw=str(raw), raw_sha256=v.digest(raw),
+                images=[dict(path=str(image), sha256=v.digest(image))])
+    assert v.view_identity_errors(view) == []
+    view["raw_sha256"] = "false"
+    assert v.view_identity_errors(view)
+    view["raw_sha256"] = v.digest(raw)
+    image.write_bytes(b"stale image")
+    assert v.view_identity_errors(view)
