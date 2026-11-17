@@ -17,11 +17,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### 出力の決定論
 
-- [ ] **REQ-04**: 出力は常に出現回数の降順、回数が同じ単語は正規化後単語の昇順に並び、同じ入力ファイルと同じオプションでの実行出力は決定論的である（FR-4・D-2、WF-05）
+- [x] **REQ-04**: 出力は常に出現回数の降順、回数が同じ単語は正規化後単語の昇順に並び、同じ入力ファイルと同じオプションでの実行出力は決定論的である（FR-4・D-2、WF-05）
 
 ### 部品分離と拡張境界
 
-- [ ] **REQ-05**: 切り出し・正規化（Unicode `\w` 連続最大長抽出 + `str.casefold()`、句読点・記号・空白は語に含めない、大文字小文字のみが異なる単語は同一視）を行う部品と、集計・出力整形を行う部品を分離する。各部品はそれ単体で呼んで検証でき、対応する単体試験を持つ（FR-5・D-3、WF-04）
+- [x] **REQ-05**: 切り出し・正規化（Unicode `\w` 連続最大長抽出 + `str.casefold()`、句読点・記号・空白は語に含めない、大文字小文字のみが異なる単語は同一視）を行う部品と、集計・出力整形を行う部品を分離する。各部品はそれ単体で呼んで検証でき、対応する単体試験を持つ（FR-5・D-3、WF-04）
 - [ ] **REQ-06**: テキストを得る入力取得は解析・集計から境界として分離し、v1 のファイル入力もその境界の背後で動く。解析・集計が入力取得境界を介してのみテキストを受け取る境界越し試験を持つ。入力元（標準入力・URL）の追加は入力取得境界の実装追加で足りるという構成判断を design.md に記録する（FR-6・D-B、WF-06）
 
 ### 試験・実行環境・依存
@@ -62,8 +62,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | REQ-01 | Phase 1 | Pending |
 | REQ-02 | Phase 1 | Pending |
 | REQ-03 | Phase 1 | Pending |
-| REQ-04 | Phase 1 | Pending |
-| REQ-05 | Phase 1 | Pending |
+| REQ-04 | Phase 1 | Complete |
+| REQ-05 | Phase 1 | Complete |
 | REQ-06 | Phase 1 | Pending |
 | REQ-07 | Phase 1 | Pending |
 | REQ-08 | Phase 1 | Pending |
