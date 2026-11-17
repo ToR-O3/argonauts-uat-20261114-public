@@ -72,7 +72,7 @@ def test_geometry_accepts_raw_own_vertical_overhang_and_empty_ranges():
     assert json.loads(json.dumps(raw)) == raw
 
 
-@pytest.mark.parametrize("defect", ["overflow", "column", "clip", "overlap", "missing-char", "missing-empty", "offset", "missing-elements", "missing-texts"])
+@pytest.mark.parametrize("defect", ["overflow", "column", "clip", "overlap", "missing-char", "missing-empty", "offset", "missing-elements", "missing-texts", "own-clip"])
 def test_geometry_rejects_each_invalid_record(defect):
     v = verifier()
     raw = raw_record()
@@ -92,6 +92,9 @@ def test_geometry_rejects_each_invalid_record(defect):
         raw["texts"][0]["characters"][2]["utf16End"] = 3
     elif defect == "missing-elements":
         raw["elements"] = []
+    elif defect == "own-clip":
+        raw["elements"][0]["style"]["overflowY"] = "hidden"
+        raw["elements"][0]["clip"] = rect(top=14, bottom=25, right=60)
     else:
         raw["texts"] = []
     assert v.geometry_errors(raw), defect
@@ -127,7 +130,7 @@ def test_browser_files_and_capture_entrypoint_exist():
 
 def local_network():
     return dict(start="2026-01-01T00:00:00+00:00", end="2026-01-01T00:00:01+00:00",
-                coverage=dict(context=True, browserTargets=True, mainCDP=True), errors=[],
+                coverage=dict(context=True, browserTargets=True, mainCDP=True, flattenedAutoAttach=True), errors=[],
                 events=[dict(kind="page-cdp-ready", data={}),
                         dict(kind="request", data=dict(url="file:///control.html"))])
 
@@ -138,6 +141,7 @@ def test_browser_ui_exclusion_requires_pre_open_target_identity():
     event = dict(kind="target-created", data=dict(targetInfo=dict(targetId="ui1", type="browser_ui",
                 url="chrome://omnibox-popup.top-chrome/", canAccessOpener=False)))
     net["events"].insert(0, event)
+    net["events"].insert(0, dict(kind="target-attached", data=copy.deepcopy(event["data"])))
     assert v.network_errors(net, "file:///control.html") == []
     bad = copy.deepcopy(net)
     bad["events"][0]["data"]["targetInfo"]["type"] = "page"
@@ -145,6 +149,102 @@ def test_browser_ui_exclusion_requires_pre_open_target_identity():
     late = local_network()
     late["events"].append(event)
     assert v.network_errors(late, "file:///control.html")
+
+
+@pytest.mark.parametrize("kind,data", [
+    ("requestfailed", dict(url="http://failed.invalid/resource", failure="net::ERR_NAME_NOT_RESOLVED")),
+    ("Page.frameRequestedNavigation", dict(url="https://navigate.invalid/")),
+    ("Page.windowOpen", dict(url="https://popup.invalid/", userGesture=False)),
+    ("Network.requestWillBeSent", dict(requestId="early", request=dict(url="https://popup.invalid/"), initiator=dict(type="script"), targetId="popup")),
+    ("unknown-event", {}),
+    ("request", dict(frame=dict(unavailable="unknown origin"))),
+])
+def test_failed_navigation_popup_unknown_never_clean(kind, data):
+    v = verifier()
+    net = local_network()
+    net["events"].append(dict(kind=kind, data=data))
+    assert v.network_errors(net, "file:///control.html")
+
+
+def test_missing_pre_open_or_empty_observation_cannot_pass():
+    v = verifier()
+    net = local_network()
+    net["events"].pop(0)
+    assert v.network_errors(net, "file:///control.html")
+    net = local_network()
+    net["events"] = [e for e in net["events"] if e["kind"] != "request"]
+    net["events"].append(dict(kind="target-changed", data=dict(targetInfo=dict(url="file:///control.html"))))
+    assert v.network_errors(net, "file:///control.html")
+    net["events"] = []
+    assert v.network_errors(net, "file:///control.html")
+
+
+def test_canary_results_require_actual_all_path_rejection():
+    v = verifier()
+    assert callable(getattr(v, "canary_errors", None)), "genuine observer canary validation required"
+    assert v.canary_errors({"cases": []})
+
+
+def synthetic_canaries(v):
+    cases = []
+    for name in v.CANARIES:
+        net = local_network()
+        if name != "clean":
+            net["events"] += [dict(kind="Network.requestWillBeSent", data=dict(
+                request=dict(url=v.CANARY_URL), source="browser-autoattach", requestId="req1",
+                initiator=dict(type="script"), targetId="popup", frameId="frame1")),
+                dict(kind="Network.loadingFailed", data=dict(requestId="req1")),
+                dict(kind="Page.frameRequestedNavigation", data=dict(url=v.CANARY_URL))]
+        if name == "early-popup":
+            net["events"].append(dict(kind="target-attached", data=dict(waitingForDebugger=True,
+                targetInfo=dict(targetId="popup", openerId="main"))))
+        cases.append(dict(id=name, url="file:///control.html", observation=net))
+    return dict(cases=cases)
+
+
+@pytest.mark.parametrize("defect", ["none", "wrong-failure", "missing-protocol", "unknown", "unpaused-popup", "missing-local"])
+def test_canary_validator_requires_correlated_real_path_evidence(defect):
+    v = verifier()
+    report = synthetic_canaries(v)
+    if defect == "wrong-failure":
+        report["cases"][1]["observation"]["events"][3]["data"]["requestId"] = "unrelated"
+    elif defect == "missing-protocol":
+        report["cases"][0]["observation"]["coverage"]["flattenedAutoAttach"] = False
+    elif defect == "unknown":
+        report["cases"][1]["observation"]["events"].append(dict(kind="unknown-event", data={}))
+    elif defect == "unpaused-popup":
+        report["cases"][3]["observation"]["events"][-1]["data"]["waitingForDebugger"] = False
+    elif defect == "missing-local":
+        report["cases"][2]["observation"]["events"].pop(1)
+    assert bool(v.canary_errors(report)) == (defect != "none")
+
+
+def test_untracked_product_content_is_recorded(monkeypatch, tmp_path):
+    v = verifier()
+    (tmp_path / "tools").mkdir()
+    (tmp_path / "tools/untracked.py").write_bytes(b"# actual untracked content\n")
+    monkeypatch.setattr(v, "ROOT", tmp_path)
+    def git(*args):
+        if args[0] == "ls-files":
+            return "tools/untracked.py\0"
+        if args[0] == "rev-parse":
+            return "target-head\n"
+        return "?? tools/untracked.py\n" if args[0] == "status" else ""
+    monkeypatch.setattr(v, "git", git)
+    result = v.provenance()
+    assert result["untracked_product"][0]["path"] == "tools/untracked.py"
+    assert result["untracked_product"][0]["content_utf8"] == "# actual untracked content\n"
+    assert result["product_status"]
+
+
+def test_dirty_product_blocks_capture_after_diagnostics(tmp_path, monkeypatch):
+    v = verifier()
+    from types import SimpleNamespace
+    monkeypatch.setattr(v, "provenance", lambda: dict(head="h", product_status=" M wordfreq/formatters.py", product_diff="actual diff", status="dirty"))
+    with pytest.raises(ValueError, match="dirty/untracked"):
+        v.capture(SimpleNamespace(output_dir=tmp_path, role="builder", browser="unused"))
+    assert json.loads((tmp_path / "provenance.json").read_text())["product_diff"] == "actual diff"
+    assert not (tmp_path / "manifest.json").exists()
 
 
 def test_unimplemented_review_mode_cannot_succeed(tmp_path):

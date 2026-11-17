@@ -14,6 +14,10 @@ import platform
 import re
 import subprocess
 import sys
+import tempfile
+import threading
+import time
+from contextlib import contextmanager
 
 ROOT = Path(__file__).resolve().parents[1]
 WIDTHS = (1280, 320)
@@ -180,7 +184,10 @@ def geometry_errors(raw):
                         errors.append(f"{text['id']}[{i}]: outside viewport")
                     if r["left"] < owner["rect"]["left"] or r["right"] > owner["rect"]["right"]:
                         errors.append(f"{text['id']}[{i}]: outside column")
-                    for ancestor in owner["ancestors"]:
+                    own = dict(id=owner["id"], overflowX=owner["style"].get("overflowX", "visible"),
+                               overflowY=owner["style"].get("overflowY", "visible"),
+                               clip=owner.get("clip", owner["rect"]))
+                    for ancestor in [own, *owner["ancestors"]]:
                         clip = ancestor["clip"]
                         if ancestor["overflowX"] in {"hidden", "clip", "auto", "scroll"} and (r["left"] < clip["left"] or r["right"] > clip["right"]):
                             errors.append(f"{text['id']}[{i}]: clipped X by {ancestor['id']}")
@@ -226,8 +233,129 @@ def git(*args):
 def provenance():
     status = git("status", "--porcelain=v1", "--untracked-files=all")
     dirty = git("status", "--porcelain=v1", "--untracked-files=all", "--", "wordfreq", "tools", "tests", "pyproject.toml")
-    return dict(head=git("rev-parse", "HEAD").strip(), status=status,
+    untracked = []
+    for name in filter(None, git("ls-files", "--others", "--exclude-standard", "-z", "--", "wordfreq", "tools", "tests", "pyproject.toml").split("\0")):
+        content = (ROOT / name).read_bytes()
+        untracked.append(dict(path=name, sha256=hashlib.sha256(content).hexdigest(),
+                              content_utf8=content.decode("utf-8", errors="backslashreplace")))
+    return dict(head=git("rev-parse", "HEAD").strip(), status=status, untracked_product=untracked,
                 product_status=dirty, product_diff=git("diff", "HEAD", "--", "wordfreq", "tools", "tests", "pyproject.toml"))
+
+
+class ProtocolMonitor:
+    """Public flattened CDP transport, independent of Playwright's pipe session.
+
+    Subscribe before pages exist. Pause new targets, enable Network/Page, then
+    resume; the first popup request has requestId/initiator/frame/target metadata.
+    """
+    def __init__(self, endpoint):
+        from websockets.sync.client import connect
+
+        self.socket = connect(endpoint, proxy=None, max_size=None)
+        self.events, self.errors, self.targets = [], [], {}
+        self.ids, self.pending = 0, {}
+        self.lock = threading.RLock()
+        self.running = True
+        self.thread = threading.Thread(target=self.receive, daemon=True)
+        self.thread.start()
+        for method, params in (("Target.setDiscoverTargets", dict(discover=True)),
+                               ("Target.setAutoAttach", dict(autoAttach=True, waitForDebuggerOnStart=True, flatten=True))):
+            ack = threading.Event()
+            mid = self.send(method, params, ack=ack)
+            if not ack.wait(5) or self.errors:
+                raise RuntimeError(f"CDP setup unverified {method}/{mid}: {self.errors}")
+
+    def send(self, method, params=None, session=None, ack=None):
+        with self.lock:
+            self.ids += 1
+            mid = self.ids
+            message = dict(id=mid, method=method, params=params or {})
+            if session:
+                message["sessionId"] = session
+            if ack:
+                self.pending[mid] = ack
+            self.socket.send(json.dumps(message))
+            return mid
+
+    def receive(self):
+        try:
+            while self.running:
+                message = json.loads(self.socket.recv())
+                with self.lock:
+                    if message.get("error"):
+                        self.errors.append(message)
+                    if message.get("id") in self.pending:
+                        self.pending.pop(message["id"]).set()
+                    method = message.get("method", "")
+                    data = message.get("params", {})
+                    sid = message.get("sessionId")
+                    if method in {"Target.targetCreated", "Target.targetInfoChanged"}:
+                        target = data["targetInfo"]
+                        self.targets[target["targetId"]] = target
+                    if method == "Target.attachedToTarget":
+                        self.targets[data["sessionId"]] = data["targetInfo"]
+                        self.events.append(dict(at=now(), kind="target-attached", data=data))
+                        child = data["sessionId"]
+                        if data["targetInfo"]["type"] in {"page", "iframe"}:
+                            self.send("Network.enable", session=child)
+                            self.send("Page.enable", session=child)
+                        self.send("Runtime.runIfWaitingForDebugger", session=child)
+                    elif method.startswith(("Network.", "Page.")):
+                        target = self.targets.get(sid, {})
+                        self.events.append(dict(at=now(), kind=method, data=dict(data, sessionId=sid,
+                            targetId=target.get("targetId"), source="browser-autoattach")))
+        except Exception as exc:
+            if self.running:
+                self.errors.append(f"CDP receive stopped: {exc}")
+
+    def close(self):
+        self.running = False
+        self.socket.close()
+        self.thread.join(timeout=5)
+
+
+@contextmanager
+def instrumented_browser(pw, executable):
+    # Chromium's Unix socket path limit needs a short TMPDIR spelling. An operator
+    # may provide a relative symlink into managed scratch; never substitute /tmp.
+    with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR"), prefix="wf-") as profile:
+        logs = Path(profile) / "chromium.log"
+        with logs.open("wb") as log:
+            command = [executable, "--headless", "--no-sandbox", "--disable-dev-shm-usage",
+                       "--disable-background-networking", "--disable-component-update", "--disable-extensions",
+                       "--disable-component-extensions-with-background-pages", "--disable-default-apps", "--no-first-run",
+                       "--no-default-browser-check", "--disable-popup-blocking", "--no-startup-window",
+                       "--remote-debugging-port=0", "--remote-debugging-address=127.0.0.1",
+                       f"--user-data-dir={profile}"]
+            process = subprocess.Popen(command, stdout=log, stderr=log)
+            monitor = None
+            try:
+                port_file = Path(profile) / "DevToolsActivePort"
+                deadline = time.monotonic() + 10
+                while not port_file.is_file() and process.poll() is None and time.monotonic() < deadline:
+                    time.sleep(0.05)  # Bounded browser startup, not an external workflow poll.
+                if not port_file.is_file():
+                    raise RuntimeError(f"Chromium debugger unavailable: {logs.read_text(errors='replace')}")
+                port, path = port_file.read_text().splitlines()[:2]
+                endpoint = f"ws://127.0.0.1:{port}{path}"
+                monitor = ProtocolMonitor(endpoint)
+                browser = pw.chromium.connect_over_cdp(endpoint)
+                browser.protocol_monitor = monitor
+                browser.launch_record = dict(argv=command, tmpdir=os.environ.get("TMPDIR"),
+                                             transport="loopback flattened CDP", websocket_package="websockets")
+                try:
+                    yield browser
+                finally:
+                    browser.close()
+            finally:
+                if monitor:
+                    monitor.close()
+                process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=5)
 
 
 class Observer:
@@ -240,6 +368,10 @@ class Observer:
         self.events = []
         self.start = now()
         self.context = context
+        self.pages, self.errors = [], []
+        self.monitor = browser.protocol_monitor
+        with self.monitor.lock:
+            self.monitor_start = len(self.monitor.events)
         self.browser_cdp = browser.new_browser_cdp_session()
         self.browser_cdp.on("Target.targetCreated", lambda e: self.add("target-created", e))
         self.browser_cdp.on("Target.targetInfoChanged", lambda e: self.add("target-changed", e))
@@ -248,8 +380,7 @@ class Observer:
             context.on(event, lambda req, kind=event: self.request(kind, req))
         context.on("response", lambda response: self.add("response", dict(url=response.url, status=response.status)))
         context.on("page", self.page)
-        self.pages = []
-        self.errors = []
+        self.add("browser-autoattach-ready", {})
 
     def add(self, kind, data):
         self.events.append(dict(at=now(), kind=kind, data=data))
@@ -281,15 +412,18 @@ class Observer:
 
     def finish(self):
         self.end = now()
-        return dict(start=self.start, end=self.end, interval="capture-only", events=self.events,
-                    coverage=dict(context=True, browserTargets=True, mainCDP=True), errors=self.errors)
+        with self.monitor.lock:
+            events = sorted(self.events + self.monitor.events[self.monitor_start:], key=lambda e: e["at"])
+            errors = self.errors + list(self.monitor.errors)
+        return dict(start=self.start, end=self.end, interval="capture-only", events=events,
+                    coverage=dict(context=True, browserTargets=True, mainCDP=True, flattenedAutoAttach=True), errors=errors)
 
 
 def network_errors(record, expected_url):
     errors = []
     if not record.get("start") or not record.get("end") or not record.get("events"):
         return ["missing observation interval/events"]
-    if not all(record.get("coverage", {}).get(k) for k in ("context", "browserTargets", "mainCDP")):
+    if not all(record.get("coverage", {}).get(k) for k in ("context", "browserTargets", "mainCDP", "flattenedAutoAttach")):
         errors.append("missing observer coverage")
     local_seen = False
     pre_open = True
@@ -299,13 +433,19 @@ def network_errors(record, expected_url):
         if event["kind"] == "page-cdp-ready":
             pre_open = False
         target = data.get("targetInfo", {})
-        if (pre_open and event["kind"] == "target-created" and target.get("type") == "browser_ui"
+        if (pre_open and event["kind"] in {"target-created", "target-attached"} and target.get("type") == "browser_ui"
                 and not target.get("openerId") and target.get("canAccessOpener") is False
                 and target.get("url") in {"chrome://omnibox-popup.top-chrome/", "chrome://omnibox-popup.top-chrome/omnibox_popup_aim.html"}):
             background[target["targetId"]] = target["url"]
         if (target.get("targetId") in background and target.get("type") == "browser_ui"
                 and target.get("url") == background[target["targetId"]] and not target.get("openerId")):
             continue  # Exact pre-document browser-ui identity, not generic filtering.
+        if not (event["kind"].startswith(("Network.", "Page.")) or event["kind"] in {"browser-autoattach-ready", "page-cdp-ready", "target-created", "target-changed", "target-attached", "request", "requestfailed", "requestfinished", "response", "page", "frame-navigated", "popup"}):
+            errors.append(f"unknown attribution/event {event['kind']}")
+        if event["kind"] in {"request", "requestfailed", "requestfinished", "response", "frame-navigated"} and not data.get("url"):
+            errors.append(f"missing URL attribution {event['kind']}")
+        if event["kind"] == "request" and pre_open:
+            errors.append("request before page observer ready")
         urls = [data.get("url"), data.get("request", {}).get("url"),
                 data.get("frame", {}).get("url"), data.get("targetInfo", {}).get("url")]
         for url in filter(None, urls):
@@ -313,7 +453,7 @@ def network_errors(record, expected_url):
                 local_seen = True
             elif url != "about:blank":
                 errors.append(f"external/unexpected attempt {event['kind']}: {url}")
-    if not local_seen:
+    if not local_seen or not any(e["kind"] == "request" and e["data"].get("url") == expected_url for e in record["events"]):
         errors.append("initial local document load missing")
     if record.get("errors"):
         errors.append("observer callback errors")
@@ -407,8 +547,6 @@ def collect_view(browser, case, width, output):
 
 
 def capture(args):
-    from playwright.sync_api import sync_playwright
-
     output = args.output_dir.resolve()
     if output.exists() and any(output.iterdir()):
         raise ValueError("output directory must be fresh")
@@ -421,10 +559,11 @@ def capture(args):
                     started=now(), mode="capture", reviewed_images=[], independent_acceptance=False)
     save_json(output / "manifest.json", manifest)
     try:
+        from playwright.sync_api import sync_playwright
+
         manifest["cases"] = generate_cases(output)
-        with sync_playwright() as pw:
-            browser = pw.chromium.launch(executable_path=args.browser, headless=True)
-            manifest["browser"] = dict(executable=args.browser, version=browser.version, os=platform.platform())
+        with sync_playwright() as pw, instrumented_browser(pw, args.browser) as browser:
+            manifest["browser"] = dict(executable=args.browser, version=browser.version, os=platform.platform(), launch=browser.launch_record)
             try:
                 for case in manifest["cases"]:
                     if case["format"] == "html":
@@ -449,17 +588,108 @@ def capture(args):
     return 1 if manifest["errors"] else 0
 
 
+CANARIES = ("clean", "failed-resource", "document-navigation", "early-popup", "redirect")
+CANARY_URL = "http://wordfreq-canary.invalid:9/attempt"
+
+
+def canary_errors(report):
+    errors = []
+    if [c.get("id") for c in report.get("cases", [])] != list(CANARIES):
+        return ["missing canary coverage"]
+    for case in report["cases"]:
+        net = case.get("observation", {})
+        failures = network_errors(net, case["url"])
+        if case["id"] == "clean":
+            if failures:
+                errors.append(f"clean control failed: {failures}")
+            continue
+        structural = [error for error in failures if not error.startswith("external/unexpected attempt ")]
+        if structural:
+            errors.append(f"{case['id']}: coverage/attribution unverified: {structural}")
+        events = net.get("events", [])
+        external_requests = [e for e in events if e["kind"] == "Network.requestWillBeSent"
+                             and e["data"].get("request", {}).get("url", "").startswith(CANARY_URL)
+                             and e["data"].get("source") == "browser-autoattach"
+                             and e["data"].get("requestId") and e["data"].get("initiator")
+                             and e["data"].get("targetId") and e["data"].get("frameId")]
+        request_ids = {e["data"]["requestId"] for e in external_requests}
+        failed = [e for e in events if (e["kind"] == "Network.loadingFailed" and e["data"].get("requestId") in request_ids)
+                  or (e["kind"] == "requestfailed" and e["data"].get("url", "").startswith(CANARY_URL))]
+        if not failures or not external_requests or not failed:
+            errors.append(f"{case['id']}: real attributed request/failure not observed and rejected")
+        if case["id"] == "early-popup":
+            targets = [e["data"]["targetInfo"]["targetId"] for e in events if e["kind"] == "target-attached" and e["data"]["targetInfo"].get("openerId") and e["data"].get("waitingForDebugger") is True]
+            if not any(e["data"]["targetId"] in targets for e in external_requests):
+                errors.append("early-popup: paused new-target request evidence missing")
+        if case["id"] in {"redirect", "document-navigation"} and not any(e["kind"] == "Page.frameRequestedNavigation" and e["data"].get("url", "").startswith(CANARY_URL) for e in events):
+            errors.append(f"{case['id']}: attempted navigation absent")
+    return errors
+
+
+def self_test_network(args):
+    from playwright.sync_api import sync_playwright
+
+    output = args.output_dir.resolve()
+    if output.exists() and any(output.iterdir()):
+        raise ValueError("canary output directory must be fresh")
+    output.mkdir(parents=True, exist_ok=True)
+    pages = {
+        "clean": "<!doctype html><title>clean control</title><p>local only</p>",
+        "failed-resource": f'<!doctype html><img src="{CANARY_URL}?resource">',
+        "document-navigation": f'<!doctype html><script>location.href="{CANARY_URL}?navigation"</script>',
+        "early-popup": f'<!doctype html><script>window.open("{CANARY_URL}?popup")</script>',
+        "redirect": f'<!doctype html><meta http-equiv="refresh" content="0;url={CANARY_URL}?redirect">',
+    }
+    report = dict(role=args.role, started=now(), provenance=provenance(), cases=[], errors=[], verdict="unverified")
+    try:
+        with sync_playwright() as pw, instrumented_browser(pw, args.browser) as browser:
+            report["browser"] = dict(executable=args.browser, version=browser.version, os=platform.platform(), tmpdir=os.environ.get("TMPDIR"), launch=browser.launch_record)
+            try:
+                for name in CANARIES:
+                    source = output / f"{name}.html"
+                    source.write_text(pages[name], encoding="utf-8")
+                    context = browser.new_context()
+                    observer = Observer(browser, context)
+                    page = context.new_page()
+                    observer.attach(page)
+                    case = dict(id=name, url=source.as_uri(), command_error=None)
+                    try:
+                        page.goto(case["url"], wait_until="load", timeout=5000)
+                    except Exception as exc:
+                        case["command_error"] = str(exc)  # NOT evidence that the canary worked.
+                    page.wait_for_timeout(700)
+                    case["observation"] = observer.finish()
+                    case["detected"] = network_errors(case["observation"], case["url"])
+                    save_json(output / f"{name}.json", case)
+                    report["cases"].append(case)
+                    observer.browser_cdp.detach()
+                    context.close()
+            finally:
+                browser.close()
+        report["errors"] = canary_errors(report)
+        report["verdict"] = "passed" if not report["errors"] else "unverified"
+    except Exception as exc:
+        report["errors"].append(f"observer environment/coverage: {exc}")
+    report["ended"] = now()
+    save_json(output / "canaries.json", report)
+    print(json.dumps(dict(report=str(output / "canaries.json"), verdict=report["verdict"], errors=report["errors"]), ensure_ascii=False))
+    return 1 if report["errors"] else 0
+
+
 def parser():
     result = argparse.ArgumentParser(description=__doc__)
     result.add_argument("--role", choices=("builder", "quality"), required=True)
     result.add_argument("--output-dir", type=Path, required=True)
     result.add_argument("--mode", choices=("capture", "review-session", "finalize"), default="capture")
     result.add_argument("--browser", default="/usr/bin/chromium-browser")
+    result.add_argument("--self-test-network", action="store_true")
     return result
 
 
 def main():
     args = parser().parse_args()
+    if args.self_test_network:
+        raise SystemExit(self_test_network(args))
     if args.mode != "capture":
         raise SystemExit("review-session/finalize are not implemented in 03-03; no acceptance emitted")
     raise SystemExit(capture(args))

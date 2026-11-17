@@ -31,7 +31,7 @@
     for (let a=el.parentElement; a; a=a.parentElement) all.push(ancestor(a));
     full.selectNodeContents(el);
     return {id:selector(el),tag:el.localName,className:el.className,text:el.textContent,
-      rect:box(el.getBoundingClientRect()),rects:boxes(el.getClientRects()),
+      rect:box(el.getBoundingClientRect()),rects:boxes(el.getClientRects()),clip:ancestor(el).clip,
       fullRects:boxes(full.getClientRects()),style:styles(el),ancestors:all};
   });
   const texts = [];

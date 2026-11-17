@@ -25,5 +25,9 @@ UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返�
 - 03-01 review rework round2 CR-01: basenameを実行環境のfilesystem encodingで復号し、復号不能バイトだけ置換するよう修正。ISO-8859-15の有効なcafé.txtを実CLIでRED確認後、既存UTF-8/出力encoding回帰を含む5件と全57件成功。新規試験はlocale実在/charmapを確認。READMEも訂正。後続taskのチェック・公式計画位置は進め直さない。
 - 03-02 task 1: 実CLIの全形式・明示期待値で総数6/7/0/200、top1/2/10/12/既定/超過、保存UTF-8 bytes、有効な注入候補basenameと全HTMLの生/escape済み親path不在を確認。全形式の読込み/引数失敗・実PermissionError（chmod後に同一実効ユーザーの読込み拒否とCLI stderrを確認、finallyでmode復元）・例外cause・hash seed0/1/42・cold-copy非破壊を検証。CLI95件とsource/tokenizer/boundary15件が成功し、2.2/2.3を完了。
 - 03-02 task 2: HTML前処理のCR→LFを再現する試験を先に失敗させ、公式RED_EVIDENCE_OK後、全動的値をhtml.escapeしてからCRだけ&#13;へ符号化。固定長basename/語・12連番・123/巨大整数・完全な固定CSS宣言・構造/安全性の静的契約を追加。実CLIでも長いbasenameとCRを保持、locale charmapを確認して黙ったfallback/locale不足skipを防ぐ。整形9件・全126件成功（skipなし）。3.1は静的実装・試験までの部分完了、ブラウザ実測・全画像/通信観測・独立品質4.1は未実施のため未チェック。
+- 03-03 tooling（独立品質gateの完了ではない）:
+  - [x] 3.1 tooling部分: 固定15 CLIケース・HTML11ケース×両幅の実再生成、DOM/順序/総数/長文折返しと数値の自動幾何判別を用意。全画像の可読性はpendingのため3.1全体は未チェックのまま。
+  - [x] 3.2 tooling部分: raw element/全文/文字Range・空矩形・UTF-16/codepoint・全祖先・実フォント・full/tile画像の対応採取と、own-height越え許容/clip/隣接非重複の判別試験を実装。実閲覧は未実施で3.2全体は未チェック。
+  - [x] 4.1 tooling部分のみ: pre-open context/main-CDP/browser-flatten-autoattach観測と、clean/failed-resource/document-navigation/early-popup/client-redirectの実canaryを用意。採取はcapture-only/pending-review、品質の独立再生成・全画像閲覧・live観測・AC別判定は未完了。4.1の独立品質gateは未チェック。
 - GSD対応表は03-COVERAGE.md。チェックは実際に完了したtaskだけを更新する。
 - 実装・品質検証・受入が済んでから、別工程でsync・archiveと最終確認を行う。本カードでは実装・製品ブラウザ合格・archiveを行わない。
