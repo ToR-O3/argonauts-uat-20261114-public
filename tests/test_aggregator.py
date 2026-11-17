@@ -12,3 +12,31 @@ def test_count_words_counts_an_iterator():
     assert isinstance(result, Counter)
     assert result == Counter({"hello": 2, "world": 1})
     assert count_words(iter([])) == Counter()
+
+
+def test_top_words_sorts_frequency_then_word():
+    aggregator = importlib.import_module("wordfreq.aggregator")
+    assert callable(getattr(aggregator, "top_words", None)), "top_words is required"
+    counts = Counter({"zoo": 5, "rare": 1, "middle": 3, "apple": 5})
+    original = counts.copy()
+    assert aggregator.top_words(counts, 3) == [("apple", 5), ("zoo", 5), ("middle", 3)]
+    assert counts == original
+
+
+def test_top_words_handles_result_limits_and_empty_input():
+    from wordfreq.aggregator import top_words
+
+    counts = Counter({"zoo": 5, "apple": 5})
+    assert top_words(counts, 10) == [("apple", 5), ("zoo", 5)]
+    assert top_words(counts, 2) == [("apple", 5), ("zoo", 5)]
+    assert top_words(counts, 1) == [("apple", 5)]
+    assert top_words(Counter(), 10) == []
+
+
+def test_top_words_preserves_large_integer_counts():
+    from wordfreq.aggregator import top_words
+
+    huge = 10**100
+    assert top_words(Counter({"zoo": huge, "apple": huge + 1}), 2) == [
+        ("apple", huge + 1), ("zoo", huge)
+    ]

@@ -1,0 +1,16 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________________ test_top_words_sorts_frequency_then_word ___________________
+
+    def test_top_words_sorts_frequency_then_word():
+        aggregator = importlib.import_module("wordfreq.aggregator")
+>       assert callable(getattr(aggregator, "top_words", None)), "top_words is required"
+E       AssertionError: top_words is required
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'wordfreq.aggregator' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/wordfreq/aggregator.py'>, 'top_words', None)
+
+tests/test_aggregator.py:19: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_aggregator.py::test_top_words_sorts_frequency_then_word - A...
+1 failed in 0.03s
