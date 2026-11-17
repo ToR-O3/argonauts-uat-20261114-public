@@ -602,6 +602,11 @@ def collect_view(browser, case, width, output, live=None):
         # requestWillBeSent event in Chromium. Never whitelist that orphan.
         cdp.send("DOM.enable")
         cdp.send("CSS.enable")
+        # Beyond-viewport capture suppresses Chromium's scrollbar gutter even
+        # without a viewport resize. Use that SAME browser layout from before
+        # navigation through Range measurement, full/tile capture and live review.
+        # No product DOM/CSS or raw coordinates are rewritten.
+        cdp.send("Emulation.setScrollbarsHidden", dict(hidden=True))
         page.goto(url, wait_until="load", timeout=15000)
         page.evaluate("document.fonts.ready")
         raw = page.evaluate((ROOT / "tools/wordfreq_html_geometry.js").read_text(encoding="utf-8"))
@@ -620,8 +625,8 @@ def collect_view(browser, case, width, output, live=None):
             errors.append("no actual platform font evidence")
         height = raw["document"]["scrollHeight"]
         full = folder / "full.png"
-        # CDP captures beyond the viewport without Playwright's temporary resize,
-        # which can remove the scrollbar and reflow the measured document.
+        # Gutter suppression above is essential: captureBeyondViewport alone
+        # can reflow a tall page, despite leaving innerWidth/innerHeight unchanged.
         full_clip = dict(x=0, y=0, width=raw["document"]["clientWidth"], height=height, scale=1)
         full.write_bytes(base64.b64decode(cdp.send("Page.captureScreenshot", dict(
             format="png", captureBeyondViewport=True, clip=full_clip))["data"], validate=True))
@@ -644,7 +649,10 @@ def collect_view(browser, case, width, output, live=None):
                 if (tile_width, actual_height) != (image_width, tile_height):
                     errors.append(f"tile {y}: image dimensions differ from requested clip")
                 y += 800
-        view["browser"] = dict(version=browser.version, os=platform.platform(), viewport=raw["viewport"])
+        view["browser"] = dict(version=browser.version, os=platform.platform(), viewport=raw["viewport"],
+                               capture_layout=dict(scrollbars_hidden=True,
+                                                   command="Emulation.setScrollbarsHidden",
+                                                   effective_client_width=raw["document"]["clientWidth"]))
     finally:
         # Pump native event delivery through the end of capture, then persist.
         page.wait_for_timeout(100)

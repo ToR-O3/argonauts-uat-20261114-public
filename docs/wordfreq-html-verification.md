@@ -57,7 +57,7 @@ review-sessionは **tracked background** として開始する（Hermes terminal
 
 横方向viewport/列内収まり、ownerを含む実clip祖先内収まり、異なるテキスト間の正面積重複を検査する。隣接edgeが接するだけは重複ではない。**自身のelement縦矩形を越えるだけでは失敗にしない**。clamp/丸め/矩形補正で通さない。basenameの連続space/LF/TAB位置、break-spaces/tab-size4、長いn/wの折返し、全数値をrawと画像で突き合わせる。
 
-全full.pngと全tileを画像閲覧ツールで実際に開く。full画像が縮小されるなら実寸表示または全領域を読めるpan/zoomで確認し、さらに全tileも読む。CDP captureBeyondViewportはviewportをresizeしない。全画像のPNG実寸/SHAと座標をmanifestに記録する。高さ900超は800刻み・最大900高の重なりtile、全域の穴・下端欠落を拒否。存在/寸法/DOMだけで閲覧済みにしない。罫線/隣接行に重なった文字、切取り、判読不能は不合格。
+全full.pngと全tileを画像閲覧ツールで実際に開く。full画像が縮小されるなら実寸表示または全領域を読めるpan/zoomで確認し、さらに全tileも読む。**captureBeyondViewportだけでは、innerWidth/innerHeightが不変でも縦スクロールバーのgutterが撮影中だけ消え、折返し・文字位置が変わり得る。PNG寸法一致だけでは同じlayoutの証拠にならない。** collectorはopen前にCDP `Emulation.setScrollbarsHidden {hidden:true}` を適用し、rawRange採取・full/tile撮影・live閲覧終了まで同じ「gutter無し」のブラウザ描画条件を維持する（viewportは1280×900/320×900 CSS px、DPR1/zoom100%のまま。DOM/CSSとraw値は変更しない。自然な縦scrollは可能）。各viewの `browser.capture_layout` に適用command/条件と実clientWidthを記録する。これはscrollbar付きlayoutの実測ではないので旧305/1265幅のrawや旧画像を流用しない。撮影直前のviewport-only（captureBeyondViewport=false）画像とfull先頭領域の**画素一致**、全tileと対応full領域の画素一致を実ブラウザで比較する回帰は `.planning/argonauts/t_13f258db-capture-layout-probe.py <新しい出力root>`。この補助は既存PlaywrightとPython標準のPNG復号だけを使い、install/Pillow不要。通常pytestのbrowser-free幅条件回帰とは別に実行し、品質の全画像実閲覧の代用にはしない。全画像のPNG実寸/SHAと座標をmanifestに記録する。高さ900超は800刻み・最大900高の重なりtile、全域の穴・下端欠落を拒否。存在/寸法/DOMだけで閲覧済みにしない。罫線/隣接行に重なった文字、切取り、判読不能は不合格。
 
 ## reviews.json の外部台帳
 

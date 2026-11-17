@@ -212,6 +212,83 @@ def test_capture_rejects_png_dimensions_different_from_record(tmp_path, kind):
     assert any("image dimensions" in e for e in v.capture_errors(manifest, tmp_path))
 
 
+@pytest.mark.parametrize("width,height", [(320, 1559), (1280, 967), (320, 900)])
+def test_collect_view_measures_the_same_scrollbar_width_used_by_capture(tmp_path, monkeypatch, width, height):
+    """Model Chromium's capture-only gutter removal, not just PNG dimensions.
+
+    The real-browser pixel differential in t_13f258db-capture-layout-probe.py
+    reproduces this with actual long-12/99/default and normal-2 screenshots.
+    """
+    import base64
+    import struct
+    from types import SimpleNamespace
+
+    v = verifier()
+    measurements, captures = [], []
+
+    class CDP:
+        hidden = False
+
+        def send(self, method, params=None):
+            if method == "Emulation.setScrollbarsHidden":
+                self.hidden = params["hidden"]
+            elif method == "DOM.getDocument":
+                return {"root": {"nodeId": 1}}
+            elif method == "DOM.querySelector":
+                return {"nodeId": 2}
+            elif method == "CSS.getPlatformFontsForNode":
+                return {"fonts": [{"familyName": "actual-test-font"}]}
+            elif method == "Page.captureScreenshot":
+                # Chromium temporarily removes the gutter for beyond-viewport
+                # capture. Its PNG dimensions alone do NOT reveal the reflow.
+                capture_layout_width = width
+                captures.append(capture_layout_width)
+                assert capture_layout_width == measurements[-1], "image/raw layout width mismatch"
+                clip = params["clip"]
+                png = b"\x89PNG\r\n\x1a\n\0\0\0\rIHDR" + struct.pack(">II", clip["width"], clip["height"])
+                return {"data": base64.b64encode(png).decode()}
+            return {}
+
+    cdp = CDP()
+
+    class Page:
+        def goto(self, *args, **kwargs):
+            pass
+
+        def evaluate(self, script):
+            if script == "document.fonts.ready":
+                return None
+            measured_width = width if cdp.hidden or height <= 900 else width-15
+            measurements.append(measured_width)
+            return dict(document=dict(clientWidth=measured_width, scrollHeight=height),
+                        viewport=dict(width=width, height=900, dpr=1, scale=1),
+                        elements=[dict(id="h1", text="heading")])
+
+        def wait_for_timeout(self, timeout):
+            pass
+
+    class Observer:
+        def __init__(self, *args):
+            self.browser_cdp = SimpleNamespace(detach=lambda: None)
+
+        def attach(self, page):
+            return cdp
+
+        def finish(self):
+            return {}
+
+    context = SimpleNamespace(new_page=Page, close=lambda: None)
+    browser = SimpleNamespace(new_context=lambda **kwargs: context, version="controlled")
+    monkeypatch.setattr(v, "Observer", Observer)
+    monkeypatch.setattr(v, "geometry_errors", lambda raw: [])
+    monkeypatch.setattr(v, "dom_errors", lambda raw, case: [])
+    monkeypatch.setattr(v, "network_errors", lambda net, url: [])
+    case = dict(id="long-12", stdout=str(tmp_path / "stdout.html"))
+    view = v.collect_view(browser, case, width, tmp_path)
+    assert not view["errors"]
+    assert captures and set(captures) == set(measurements) == {width}
+
+
 def test_browser_files_and_capture_entrypoint_exist():
     v = verifier()
     assert (ROOT / "tools/wordfreq_html_geometry.js").is_file()
