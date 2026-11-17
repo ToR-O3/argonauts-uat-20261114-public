@@ -247,8 +247,12 @@ def browser_free_capture(browser_free_saved, tmp_path):
     return v, root, baseline
 
 
-def test_browser_free_capture_entrypoint_replays_baseline_and_thresholds(browser_free_capture):
-    v, root, baseline = browser_free_capture
+def test_browser_free_capture_entrypoint_replays_baseline_and_thresholds(browser_free_saved, tmp_path):
+    v, baseline = browser_free_saved
+    root = tmp_path / "builder" / "capture"
+    assert callable(getattr(v, "capture", None)), "capture pipeline is missing"
+    assert v.main(["--mode", "capture", "--role", "builder", "--output-dir", str(root),
+                   "--baseline-dir", str(baseline)], collector=synthetic_collect, suite_runner=synthetic_suite) == 0
     manifest = v.parts.load_json(root / "manifest.json")
     assert manifest["verdict"] == "pending-review"
     assert manifest["independent_acceptance"] is False

@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="1.099" timestamp="2026-11-18T08:18:09.292154+09:00" hostname="Ys-Minify"><testcase classname="tests.test_min_count_verifier" name="test_browser_free_capture_entrypoint_replays_baseline_and_thresholds" time="0.833"><error message="failed on setup with &quot;TypeError: main() got an unexpected keyword argument 'suite_runner'&quot;">browser_free_saved = (&lt;module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-235/test_browser_free_capture_entr0/baseline'))
-tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-235/test_browser_free_capture_entr0')
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="1.023" timestamp="2026-11-18T08:18:34.658458+09:00" hostname="Ys-Minify"><testcase classname="tests.test_min_count_verifier" name="test_browser_free_capture_entrypoint_replays_baseline_and_thresholds" time="0.853"><failure message="AssertionError: capture pipeline is missing&#10;assert False&#10; +  where False = callable(None)&#10; +    where None = getattr(&lt;module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'&gt;, 'capture', None)">browser_free_saved = (&lt;module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-236/test_browser_free_capture_entr0/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-236/test_browser_free_capture_entr0')
 
-    @pytest.fixture
-    def browser_free_capture(browser_free_saved, tmp_path):
+    def test_browser_free_capture_entrypoint_replays_baseline_and_thresholds(browser_free_saved, tmp_path):
         v, baseline = browser_free_saved
         root = tmp_path / "builder" / "capture"
-        argv = ["--mode", "capture", "--role", "builder", "--output-dir", str(root),
-                "--baseline-dir", str(baseline)]
-&gt;       assert v.main(argv, collector=synthetic_collect, suite_runner=synthetic_suite) == 0
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E       TypeError: main() got an unexpected keyword argument 'suite_runner'
+&gt;       assert callable(getattr(v, "capture", None)), "capture pipeline is missing"
+E       AssertionError: capture pipeline is missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(&lt;module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'&gt;, 'capture', None)
 
-tests/test_min_count_verifier.py:246: TypeError</error></testcase></testsuite></testsuites>
+tests/test_min_count_verifier.py:253: AssertionError</failure></testcase></testsuite></testsuites>
