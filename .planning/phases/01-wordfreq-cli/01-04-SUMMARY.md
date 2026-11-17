@@ -2,7 +2,7 @@
 phase: 01-wordfreq-cli
 plan: "04"
 subsystem: testing
- tags: []
+tags: [python, pytest, ci-gap]
 requires:
   - phase: 01-03
     provides: CLI and full pytest suite
@@ -79,4 +79,4 @@ REQ-07 の CI 部分は未達。workflow 作成は Bot 権限外。CI を成功�
 
 ## Self-Check: PASSED
 
-Task 成果物 2 文書が存在し、OpenSpec task チェックと同じ commit に保存済み。全試験 43 件成功。SUMMARY を commit した後にのみ公式の直列 state/roadmap 更新を行う。
+Task 成果物 2 文書が存在し、OpenSpec task チェックと同じ commit に保存済み。全試験 43 件成功。SUMMARY を commit してから公式の直列 state/roadmap 更新を実施した。`state.advance-plan` は `reason=last_plan`、4/4、`status=ready_for_verification`。読み戻した STATE は Phase 1、Current Plan 4、Total 4、`Phase complete — ready for verification`、frontmatter は `status: verifying`。`state.update-progress` は completed=4/total=4/percent=0（既存表示挙動）。ROADMAP 更新は 4/4・In Progress・complete=false で保存内容と一致し、phase は未完了。公式 evaluation-scope はこの branch の task/SUMMARY commit を解決した。`requirements.ready-ids` は REQ-07 を ready としたが、これは sibling SUMMARY の存在判定であり CI 成功判定ではない。実際の CI 未達を保持するため `requirements.mark-complete` は実行せず、REQUIREMENTS の REQ-07 は Pending のまま残した。
