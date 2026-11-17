@@ -1,0 +1,13 @@
+{
+  "command": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/installs/a3f0e19b82632a3b/environments/8428923a6e1f4c1eb2feeb7ef7983c73/venv/bin/python -m pytest tests/test_formatters.py::test_format_text_count_tab_word_lines -q --color=no --junitxml=/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/.planning/argonauts/t_61fb0c48/test_format_text_count_tab_word_lines-junit.xml",
+  "exitCode": 1,
+  "reportPath": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_61fb0c48/.planning/argonauts/t_61fb0c48/test_format_text_count_tab_word_lines-junit.xml",
+  "runStartedAt": "2026-11-17T03:20:33.739955+00:00",
+  "reportModifiedAt": "2026-11-17T03:20:34.134394+00:00",
+  "output": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"1\" skipped=\"0\" tests=\"1\" time=\"0.021\" timestamp=\"2026-11-17T12:20:34.112928+09:00\" hostname=\"Ys-Minify\"><testcase classname=\"tests.test_formatters\" name=\"test_format_text_count_tab_word_lines\" time=\"0.001\"><failure message=\"AssertionError: formatting module is required&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x7c73eb90c3b0&gt;('wordfreq.formatters')&#10; +    where &lt;function find_spec at 0x7c73eb90c3b0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util\">def test_format_text_count_tab_word_lines():\n&gt;       assert importlib.util.find_spec(\"wordfreq.formatters\") is not None, \"formatting module is required\"\nE       AssertionError: formatting module is required\nE       assert None is not None\nE        +  where None = &lt;function find_spec at 0x7c73eb90c3b0&gt;('wordfreq.formatters')\nE        +    where &lt;function find_spec at 0x7c73eb90c3b0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec\nE        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util\n\ntests/test_formatters.py:8: AssertionError</failure></testcase></testsuite></testsuites>",
+  "targetTest": "test_format_text_count_tab_word_lines",
+  "targetFile": "tests/test_formatters.py",
+  "expected": "The named public API meets the contract asserted in the test",
+  "actual": "Named assertion failed; unchanged JUnit report contains actual values",
+  "semanticAssessment": "Target executed; assertion shows missing planned capability, not fixture, collection, or syntax failure. Initial module-presence assertions only prove availability; subsequent assertions verify behavior in GREEN."
+}
