@@ -36,7 +36,11 @@ def main(argv: list[str] | None = None) -> None:
         output = format_json(pairs)
     else:
         output = format_text(pairs)
-    sys.stdout.write(output)
+    if args.format == "html":
+        sys.stdout.buffer.write(output.encode("utf-8"))
+        sys.stdout.flush()
+    else:
+        sys.stdout.write(output)
     sys.exit(0)
 
 
