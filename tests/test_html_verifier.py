@@ -470,7 +470,7 @@ def test_scope_has_exact_baseline_target_and_approved_product_snapshot():
     assert report["base"] == "5a7659b949dc118b59cea5ef3eb40bcd94337d8d"
     assert report["target"] == v.git("rev-parse", "HEAD").strip()
     assert report["product_diff"]
-    assert report["errors"] == []
+    assert bool(report["errors"]) == bool(v.provenance()["product_status"])
 
 
 @pytest.mark.parametrize("path", [".github/workflows/new.yml", "pyproject.toml",
@@ -594,9 +594,10 @@ def test_tile_extent_coverage_is_not_image_existence(defect):
 def test_builtin_contract_and_scope_commands_need_no_browser_or_role():
     for flag in ("--check-evidence-contract", "--check-scope"):
         result = subprocess.run([sys.executable, "-S", str(ROOT / "tools/verify_wordfreq_html.py"), flag], capture_output=True)
-        assert result.returncode == 0, result.stderr + result.stdout
+        expected_dirty = flag == "--check-scope" and bool(verifier().provenance()["product_status"])
+        assert result.returncode == int(expected_dirty), result.stderr + result.stdout
         report = json.loads(result.stdout)
-        assert report["errors"] == []
+        assert bool(report["errors"]) == expected_dirty
         if flag == "--check-evidence-contract":
             assert report["synthetic"] is True
             assert report["product_acceptance"] is False
@@ -635,3 +636,25 @@ def test_guide_commands_schema_cases_and_ac_match_real_parser():
                  "observation_end", "verification_finished", "REQ-09", "REQ-10"):
         assert term in guide
     assert "[ブラウザ検証手順](docs/wordfreq-html-verification.md)" in (ROOT / "README.md").read_text()
+
+
+def test_dirty_review_session_always_saves_end_provenance(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    v = verifier()
+    monkeypatch.setenv("HERMES_PROFILE", "argonauts-uat-builder")
+    state = dict(head="h", status="dirty", product_status=" M tools/new.py", untracked_product=[], product_diff="diff")
+    monkeypatch.setattr(v, "provenance", lambda: state)
+    monkeypatch.setattr(v, "scope_report", lambda: dict(base=v.SCOPE_BASE, target="h", errors=[]))
+    output = tmp_path / "builder" / "fresh"
+    assert v.review_session(SimpleNamespace(role="builder", actor="argonauts-uat-builder",
+        output_dir=output, session_timeout=1)) == 1
+    manifest = json.loads((output / "manifest.json").read_text())
+    assert manifest["end_provenance"] == state
+    assert manifest["independent_acceptance"] is False
+
+
+def test_scope_rejects_dirty_and_untracked_code(monkeypatch):
+    v = verifier()
+    monkeypatch.setattr(v, "provenance", lambda: dict(product_status="?? tools/new.py",
+        untracked_product=[dict(path="tools/new.py", sha256="hash", content_utf8="actual")]))
+    assert any("dirty" in e for e in v.scope_report()["errors"])
