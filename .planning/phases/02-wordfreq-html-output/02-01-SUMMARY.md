@@ -91,7 +91,7 @@ Interpreter (existing, no install): `/home/Yuki/workspace/argonauts-uat-20261116
 - Task1 initial GREEN: HTML/CLI/formatter suite: 26 passed; after empty/safety assertions: 31 passed, exit0.
 - Task2 RED: `-m pytest tests/test_aggregator.py::test_first_seen_after_casefold --junitxml=.planning/argonauts/t_c5efdec5/task2-red.xml -q`: 1 failed, exit1, apple appeared before zoo. Original XML/log and JSON record retained. Official `check tdd-red-evidence ... --raw`: RED_EVIDENCE_OK. Semantic inspection confirms the target's ordered-pairs assertion failed for old lexical tie behavior.
 - Task2 GREEN full suite: 72 passed, exit0.
-- Final acceptance reruns at product head621a640: `-m pytest tests/test_html_output.py tests/test_cli.py tests/test_formatters.py -q`: **53 passed**; `-m pytest -q`: **72 passed**, exit0. `git diff --check`: exit0.
+- Final acceptance reruns at product head621a640: `-m pytest tests/test_html_output.py tests/test_cli.py tests/test_formatters.py -q`: **53 passed**; `-m pytest -q`: **72 passed**, exit0. `git diff --check` (uncommitted diff only): exit0. Correction after review: this was not a whole-PLAN check; `git diff --check 50fd484..afb6e70` exits2 on trailing spaces in preserved raw `task2-red.log`/`.xml`. Raw evidence is retained unmodified; do not claim the whole PLAN diff is whitespace-clean.
 - Binary subprocess seed1/777 checks cover each format separately; top1 Zoo case has total5 and only 1/zoo/2. Real CLI stdout bytes are saved to a different tmp_path report and UTF-8 decoded; input bytes are compared unchanged.
 - Official `check evaluation-scope --plan 02-01 --commits-only --raw`: resolved three reachable plan-subject commits.
 
@@ -120,6 +120,19 @@ Ready for 02-02 after same-card quality review. No next PLAN or phase.complete e
 - `roadmap.update-plan-progress 2`: updated=true, summary_count1/plan_count3, In Progress, complete=false; saved ROADMAP has02-01 checked,02-02/03 unchecked.
 - Saved Current Position: Phase2 EXECUTING, Current Plan2, Total Plans3, Status Ready to execute. No last_plan branch and no phase.complete.
 - `requirements.ready-ids`: ready=[], blocked=REQ-09 throughREQ-14, so none marked complete.
+
+## Same-card Review Rework (WR-02 / WR-01 / IN-01)
+
+- Root causes verified independently: text stdout obeyed `PYTHONIOENCODING` despite the HTML UTF-8 declaration; POSIX surrogateescape filenames passed lone surrogates into strict UTF-8 encoding. No tokenizer/input-source defect.
+- WR-02 RED: both cp932/ascii cases failed (UTF-8 decode failure / exit1). The ascii rerun produced a one-target JUnit failure, officially classified `RED_EVIDENCE_OK`; semantic assessment confirms the CLI exit0 contract assertion executed. Raw record/report/log: `.planning/argonauts/t_c5efdec5/review-stdio-red.*`. RED commit `4559c68`; GREEN commit `3e78cf2`, targeted **2 passed**.
+- WR-02 fix writes only HTML through `sys.stdout.buffer` as strict UTF-8 and flushes. text/json continue through their original text writer.
+- WR-01 RED after WR-02 fix: real readable `x\\xff<&.txt` produced exit1 with a surrogate UnicodeEncodeError. One target executed, officially classified `RED_EVIDENCE_OK`, semantically checked against the intended success assertion. Raw record/report/log: `.planning/argonauts/t_c5efdec5/review-basename-red.*`. RED commit `d783b39`; GREEN commit `2d7131b`, targeted **1 passed**, no skip on this POSIX filesystem.
+- WR-01 fix converts only basename display bytes with UTF-8 replacement before the existing escape boundary. FileSource still receives the untouched path. Test checks U+FFFD, literal `<&` text, no directory disclosure, expected Unicode rows, and original input bytes unchanged.
+- IN-01: binary subprocess regressions now explicitly exercise cp932 and ascii stdout settings rather than inheriting only the UTF-8 host default. Saved HTML is decoded as UTF-8 and parsed for charset, Japanese basename and words.
+- Verification at product head `2d7131b`: full suite **75 passed in 2.06s**, exit0; PLAN HTML/CLI/formatter command **56 passed in 1.88s**, exit0. Existing cached interpreter above; no install/CI/dependency change.
+- `git diff --check afb6e70..HEAD -- wordfreq tests`: exit0. Whole-PLAN `git diff --check 50fd484..HEAD`: exit2, only the original raw task2 RED log/XML whitespace. Earlier clean-check wording corrected above; reports were not edited to hide it.
+- GSD position remains Phase2 / Current Plan2 of3 / Ready to execute, matching this SUMMARY's prior successful advance. No repeat advance/progress update and no next PLAN/phase.complete.
+- Browser layout, actual DOM fidelity and external request0 remain **NOT PERFORMED**, deferred to02-03 and independent quality; earlier unverified flags and original Task1 process deviation remain in force.
 
 ## Self-Check: PASSED
 Product artifacts exist; task and plan automated verification passed; official evaluation scope resolved commits on this branch. This self-check is scoped to02-01 automated deliverables, not browser/phase acceptance or flawless TDD process.
