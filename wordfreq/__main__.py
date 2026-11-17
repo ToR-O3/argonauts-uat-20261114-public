@@ -1,5 +1,6 @@
 """Command-line argument parsing and component composition."""
 import argparse
+from collections import Counter
 import os
 import sys
 
@@ -32,7 +33,9 @@ def main(argv: list[str] | None = None) -> None:
         sys.exit(1)
     counts = count_words(iter_tokens(text))
     total = sum(counts.values())
-    pairs = top_words(counts, args.top)
+    selected_counts = Counter({word: count for word, count in counts.items()
+                               if count >= args.min_count})
+    pairs = top_words(selected_counts, args.top)
     if args.format == "html":
         # argv uses filesystem surrogateescape; HTML needs displayable Unicode.
         basename = os.fsencode(os.path.basename(args.filename)).decode(

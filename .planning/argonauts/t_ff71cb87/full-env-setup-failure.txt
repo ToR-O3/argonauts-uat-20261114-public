@@ -1,0 +1,533 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_ff71cb87
+configfile: pyproject.toml
+plugins: hypothesis-6.152.9, anyio-4.13.0, mock-3.15.1, asyncio-1.3.0, cov-7.1.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 650 items
+
+tests/test_aggregator.py .....                                           [  0%]
+tests/test_cli.py ...................................................... [  9%]
+........................................................................ [ 20%]
+........................................................................ [ 31%]
+........................................................................ [ 42%]
+........................................................................ [ 53%]
+....FFFFFFFFFFFF                                                         [ 55%]
+tests/test_formatters.py .........                                       [ 57%]
+tests/test_html_finalization.py .............................            [ 61%]
+tests/test_html_verifier.py ............................................ [ 68%]
+........................................................................ [ 79%]
+........................................................................ [ 90%]
+...............                                                          [ 92%]
+tests/test_min_count_verifier.py ...............................         [ 97%]
+tests/test_sources.py ......                                             [ 98%]
+tests/test_sources_boundary.py ...                                       [ 99%]
+tests/test_tokenizer.py ......                                           [100%]
+
+=================================== FAILURES ===================================
+____________________ test_min_count_saved_default_bytes[0] _____________________
+
+case_index = 0
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[1] _____________________
+
+case_index = 1
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[2] _____________________
+
+case_index = 2
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[3] _____________________
+
+case_index = 3
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[4] _____________________
+
+case_index = 4
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[5] _____________________
+
+case_index = 5
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[6] _____________________
+
+case_index = 6
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[7] _____________________
+
+case_index = 7
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[8] _____________________
+
+case_index = 8
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[9] _____________________
+
+case_index = 9
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[10] ____________________
+
+case_index = 10
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+____________________ test_min_count_saved_default_bytes[11] ____________________
+
+case_index = 11
+
+    @pytest.mark.parametrize("case_index", range(12))
+    def test_min_count_saved_default_bytes(case_index):
+        root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+        index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+        case = index["cases"][case_index]
+        capture_root = Path(index["root"])
+        path = root / Path(case["input"]).relative_to(capture_root)
+        expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+        assert path.read_bytes() == case["body"].encode("utf-8")
+        options = ["--format", case["format"]] if case["explicit_format"] else []
+        if case["top"] is not None:
+            options += ["--top", str(case["top"])]
+        env = dict(os.environ, **case["environment"])
+        for minimum in [[], ["--min-count", "1"]]:
+>           result = run_cli_bytes(path, *options, *minimum, env=env)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:810: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_cli.py:419: in run_cli_bytes
+    return subprocess.run(
+/usr/lib64/python3.12/subprocess.py:548: in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.12/subprocess.py:1026: in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+/usr/lib64/python3.12/subprocess.py:1872: in _execute_child
+    env_list.append(k + b'=' + os.fsencode(v))
+                               ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+filename = None
+
+>   ???
+E   TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+<frozen os>:847: TypeError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[0] - TypeError: ...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[1] - TypeError: ...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[2] - TypeError: ...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[3] - TypeError: ...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[4] - TypeError: ...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[5] - TypeError: ...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[6] - TypeError: ...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[7] - TypeError: ...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[8] - TypeError: ...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[9] - TypeError: ...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[10] - TypeError:...
+FAILED tests/test_cli.py::test_min_count_saved_default_bytes[11] - TypeError:...
+======================= 12 failed, 638 passed in 41.53s ========================

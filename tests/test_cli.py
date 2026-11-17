@@ -805,7 +805,12 @@ def test_min_count_saved_default_bytes(case_index):
     options = ["--format", case["format"]] if case["explicit_format"] else []
     if case["top"] is not None:
         options += ["--top", str(case["top"])]
-    env = dict(os.environ, **case["environment"])
+    env = os.environ.copy()
+    for key, value in case["environment"].items():
+        if value is None:
+            env.pop(key, None)
+        else:
+            env[key] = value
     for minimum in [[], ["--min-count", "1"]]:
         result = run_cli_bytes(path, *options, *minimum, env=env)
         assert (result.returncode, result.stderr) == (0, b"")
