@@ -1,0 +1,24 @@
+{
+  "found": true,
+  "directory": ".planning/phases/03-wordfreq-html-output",
+  "phase_number": "03",
+  "phase_name": "wordfreq-html-output",
+  "plans": [
+    "03-01-PLAN.md",
+    "03-02-PLAN.md",
+    "03-03-PLAN.md",
+    "03-04-PLAN.md",
+    "03-05-PLAN.md",
+    "03-06-PLAN.md"
+  ],
+  "summaries": [
+    "03-01-SUMMARY.md",
+    "03-02-SUMMARY.md",
+    "03-03-SUMMARY.md",
+    "03-04-SUMMARY.md"
+  ],
+  "plan_count": 6,
+  "summary_count": 4,
+  "plan_count_all": 6,
+  "warning": "Found 1 plan-shaped file(s) in this phase that don't match the canonical naming convention \"{padded_phase}-{NN}-PLAN.md\" (or bare \"PLAN.md\") and were skipped: \"03-PLAN-INSPECTION.md\". Rename to the canonical form (e.g. \"01-01-PLAN.md\") so the executor can detect them. See agents/gsd-planner.md write_phase_prompt step for the full contract."
+}
