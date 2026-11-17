@@ -23,5 +23,7 @@ UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返�
 - 03-01 task 2: HTMLParserで元値の一度escape/空tbody/意味構造/固定タグ属性/CSS外部経路不在/非破壊を確認。READMEとCONCEPTSに現行契約を記録。整形6件・全52件成功。1.1/2.1だけを完了とし、2.2/3.1は接続・CSS・使用例までの部分完了（後続の全行列/ブラウザ/品質は未実施）。
 - 03-01 review rework CR-01/WR-01: 不正UTF-8 basenameの置換表示とHTML専用UTF-8バイト出力をCLI境界で修正。各2件の実CLI REDを確認後、回帰4件と全56件成功。READMEの環境前提を修正。2.2/2.3の全行列・3.1のブラウザ・4.1の独立品質は未完了のまま。
 - 03-01 review rework round2 CR-01: basenameを実行環境のfilesystem encodingで復号し、復号不能バイトだけ置換するよう修正。ISO-8859-15の有効なcafé.txtを実CLIでRED確認後、既存UTF-8/出力encoding回帰を含む5件と全57件成功。新規試験はlocale実在/charmapを確認。READMEも訂正。後続taskのチェック・公式計画位置は進め直さない。
+- 03-02 task 1: 実CLIの全形式・明示期待値で総数6/7/0/200、top1/2/10/12/既定/超過、保存UTF-8 bytes、有効な注入候補basenameと全HTMLの生/escape済み親path不在を確認。全形式の読込み/引数失敗・実PermissionError（chmod後に同一実効ユーザーの読込み拒否とCLI stderrを確認、finallyでmode復元）・例外cause・hash seed0/1/42・cold-copy非破壊を検証。CLI95件とsource/tokenizer/boundary15件が成功し、2.2/2.3を完了。
+- 03-02 task 2: HTML前処理のCR→LFを再現する試験を先に失敗させ、公式RED_EVIDENCE_OK後、全動的値をhtml.escapeしてからCRだけ&#13;へ符号化。固定長basename/語・12連番・123/巨大整数・完全な固定CSS宣言・構造/安全性の静的契約を追加。実CLIでも長いbasenameとCRを保持、locale charmapを確認して黙ったfallback/locale不足skipを防ぐ。整形9件・全126件成功（skipなし）。3.1は静的実装・試験までの部分完了、ブラウザ実測・全画像/通信観測・独立品質4.1は未実施のため未チェック。
 - GSD対応表は03-COVERAGE.md。チェックは実際に完了したtaskだけを更新する。
 - 実装・品質検証・受入が済んでから、別工程でsync・archiveと最終確認を行う。本カードでは実装・製品ブラウザ合格・archiveを行わない。

@@ -14,6 +14,11 @@ def format_json(pairs: list[tuple[str, int]]) -> str:
     return json.dumps(items, ensure_ascii=True) + "\n"
 
 
+def _html_text(value: str) -> str:
+    """Escape once, protecting CR from HTML's input newline normalization."""
+    return escape(value, quote=True).replace("\r", "&#13;")
+
+
 def format_html(pairs: list[tuple[str, int]], basename: str, total: int) -> str:
     """Render ordered pairs and caller-supplied metadata as escaped text only.
 
@@ -21,9 +26,9 @@ def format_html(pairs: list[tuple[str, int]], basename: str, total: int) -> str:
     (never a full path) and the total before limiting the displayed pairs.
     """
     rows = "".join(
-        f'<tr><td class="rank">{escape(str(rank), quote=True)}</td>'
-        f'<td class="word">{escape(word, quote=True)}</td>'
-        f'<td class="count">{escape(str(count), quote=True)}</td></tr>\n'
+        f'<tr><td class="rank">{_html_text(str(rank))}</td>'
+        f'<td class="word">{_html_text(word)}</td>'
+        f'<td class="count">{_html_text(str(count))}</td></tr>\n'
         for rank, (word, count) in enumerate(pairs, 1)
     )
     empty = (
@@ -103,11 +108,11 @@ td { background: #FFFFFF; }
 <div class="metadata">
 <div class="metadata-item">
 <div class="label">ファイル名</div>
-<div class="filename-value">''' + escape(basename, quote=True) + '''</div>
+<div class="filename-value">''' + _html_text(basename) + '''</div>
 </div>
 <div class="metadata-item">
 <div class="label">総出現回数</div>
-<div class="total-value">''' + escape(str(total), quote=True) + '''</div>
+<div class="total-value">''' + _html_text(str(total)) + '''</div>
 </div>
 </div>
 <table>

@@ -193,3 +193,70 @@ def test_html_preserves_cr_without_html_input_newline_normalization():
     assert_static_document(document)
     assert "\r" not in output
     assert output.count("&#13;") == 4
+
+
+def test_long_whitespace_and_multidigit_values_survive_without_truncation():
+    from wordfreq.formatters import format_html
+
+    basename = '集計  ' + 'n' * 176 + '\n続き\t終わり  &<>"\'.txt'
+    pairs = [("w" * 256, 123)] + [(f"row{i:02d}", 13 - i) for i in range(1, 12)]
+    document = HTMLDocument(format_html(pairs, basename, 200))
+    assert_static_document(document)
+    assert document.classified("filename-value")[0]["text"] == basename
+    assert document.classified("total-value")[0]["text"] == "200"
+    assert [node["text"] for node in document.classified("rank")[1:]] == list(map(str, range(1, 13)))
+    assert [node["text"] for node in document.classified("word")[1:]] == [word for word, _ in pairs]
+    assert [node["text"] for node in document.classified("count")[1:]] == list(map(str, [123, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2]))
+    assert document.classified("empty-message") == []
+    huge = 10**100
+    document = HTMLDocument(format_html([("huge", huge)], basename, huge))
+    assert document.classified("total-value")[0]["text"] == str(huge)
+    assert document.classified("count")[-1]["text"] == str(huge)
+    assert document.classified("rank")[-1]["text"] == "1"
+
+
+def test_complete_fixed_css_contract_is_static_not_browser_acceptance():
+    from wordfreq.formatters import format_html
+
+    document = HTMLDocument(format_html([], "empty.txt", 0))
+    assert_static_document(document)
+    assert [node["text"] for node in document.classified("label")] == ["ファイル名", "総出現回数"]
+    css = document.tagged("style")[0]["text"]
+    # Exact fixed declarations reject additional theme branches, clipping,
+    # scrolling, shrink-to-fit, animation and encoded communication paths.
+    # This checks source declarations only; real geometry/images remain pending.
+    narrow = '@media (max-width: 480px) { main { padding: 16px; } }'
+    assert css.count(narrow) == 1
+    rules = re.findall(r'([^{}]+)\{([^{}]*)\}', css.replace(narrow, ""))
+    parsed = {}
+    for selector, block in rules:
+        selector = selector.strip()
+        assert selector not in parsed
+        parsed[selector] = dict(part.strip().split(":", 1) for part in block.split(";") if part.strip())
+        parsed[selector] = {key.strip(): value.strip() for key, value in parsed[selector].items()}
+    assert parsed == {
+        ":root": {"color-scheme": "light"},
+        "body": {"margin": "0", "background": "#FFFFFF", "color": "#0F172A",
+                 "font-family": 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                 "font-size": "16px", "font-weight": "400", "line-height": "1.5"},
+        "main": {"width": "100%", "max-width": "960px", "box-sizing": "border-box",
+                 "margin": "0 auto", "padding": "32px"},
+        "h1": {"margin": "0 0 16px", "color": "#1D4ED8", "font-size": "24px",
+               "font-weight": "600", "line-height": "1.25", "overflow-wrap": "anywhere"},
+        ".metadata": {"margin": "0 0 24px"},
+        ".metadata-item + .metadata-item": {"margin-top": "8px"},
+        ".label, caption, th": {"font-size": "14px", "font-weight": "600", "line-height": "1.5"},
+        ".label": {"margin-bottom": "4px", "color": "#475569"},
+        ".filename-value, .word": {"white-space": "break-spaces", "overflow-wrap": "anywhere",
+                                    "word-break": "normal", "tab-size": "4"},
+        ".total-value": {"color": "#1D4ED8"},
+        "table": {"width": "100%", "table-layout": "fixed", "border-collapse": "collapse"},
+        "caption": {"text-align": "left", "color": "#475569", "margin-bottom": "8px"},
+        "th, td": {"box-sizing": "border-box", "padding": "8px", "vertical-align": "top",
+                   "text-align": "left", "overflow-wrap": "anywhere", "border-bottom": "1px solid #CBD5E1"},
+        "th": {"background": "#F1F5F9"}, "td": {"background": "#FFFFFF"},
+        ".rank, .count": {"text-align": "right", "font-variant-numeric": "tabular-nums"},
+        ".rank": {"width": "56px"}, ".count": {"width": "64px"},
+        ".empty-message": {"margin": "24px 0 0", "color": "#475569", "overflow-wrap": "anywhere"},
+    }
+    assert not re.search(r'overflow\s*:|hidden|clip|ellipsis|nowrap|min-width|(?<![-\w])height\s*:|clamp\(|scale\(|zoom\s*:|@font|@keyframes', css, re.I)

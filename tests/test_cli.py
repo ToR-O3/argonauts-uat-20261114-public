@@ -272,6 +272,8 @@ def test_html_replaces_non_utf8_basename_bytes(tmp_path, locale_name):
     env = os.environ.copy()
     env.pop("PYTHONIOENCODING", None)
     env.update(LC_ALL=locale_name, PYTHONUTF8="0", PYTHONCOERCECLOCALE="0")
+    charmap = subprocess.run(["locale", "charmap"], env=env, capture_output=True, check=True, timeout=10)
+    assert (charmap.stdout.strip(), charmap.stderr) == (b"UTF-8", b"")
     result = subprocess.run(
         [sys.executable, "-m", "wordfreq", path, "--format", "html"],
         cwd=ROOT, env=env, capture_output=True, timeout=10,
@@ -291,8 +293,7 @@ def test_html_preserves_basename_in_filesystem_encoding(tmp_path):
     available = subprocess.run(
         ["locale", "-a"], capture_output=True, check=True, timeout=10,
     ).stdout.decode("ascii").splitlines()
-    if locale_name not in available:
-        pytest.skip(f"locale {locale_name} is not installed")
+    assert locale_name in available, f"Required locale {locale_name} is not installed"
     env = os.environ.copy()
     env.pop("PYTHONIOENCODING", None)
     env.update(LC_ALL=locale_name, PYTHONUTF8="0", PYTHONCOERCECLOCALE="0")
@@ -326,6 +327,9 @@ def test_html_bytes_are_utf8_independent_of_stdout_encoding(tmp_path, locale_nam
     env = os.environ.copy()
     env.pop("PYTHONIOENCODING", None)
     env.update(LC_ALL=locale_name, PYTHONUTF8="0", PYTHONCOERCECLOCALE="0")
+    charmap = subprocess.run(["locale", "charmap"], env=env, capture_output=True, check=True, timeout=10)
+    expected_charmap = b"ANSI_X3.4-1968" if locale_name == "C" else b"ISO-8859-15"
+    assert (charmap.stdout.strip(), charmap.stderr) == (expected_charmap, b"")
     if io_encoding is not None:
         env["PYTHONIOENCODING"] = io_encoding
     result = subprocess.run(
@@ -503,3 +507,20 @@ def test_hash_seed_does_not_change_output_bytes(tmp_path, output_format):
                             path.name, 8)
         outputs.append(result.stdout)
     assert outputs[0] == outputs[1] == outputs[2]
+
+
+@pytest.mark.parametrize("basename", [
+    '集計  ' + 'n' * 176 + '\n続き\t終わり  &<>"\'.txt',
+    'a\rb\r\nc  \n\t.txt',
+])
+def test_real_html_preserves_full_long_and_cr_basename(tmp_path, basename):
+    path = tmp_path / basename
+    path.write_bytes(LONG_CONTENT.encode("utf-8"))
+    result = run_cli_bytes(path, "--format", "html", "--top", "12")
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, "html", LONG_PAIRS, basename, 200)
+    document = result.stdout.decode("utf-8", errors="strict")
+    assert "\r" not in document
+    browser_input = document.replace("\r\n", "\n").replace("\r", "\n")
+    assert CLIHTML(browser_input).values["filename-value"] == basename
+    assert path.read_bytes() == LONG_CONTENT.encode("utf-8")
