@@ -1,5 +1,6 @@
 """Run the CLI in a real subprocess with separate output streams."""
 import json
+from html.parser import HTMLParser
 import os
 from pathlib import Path
 import shutil
@@ -25,7 +26,7 @@ def test_default_text_normalizes_sorts_and_limits_to_ten(tmp_path):
     result = run_cli(path)
     assert result.returncode == 0, result.stderr
     assert result.stderr == ""
-    assert result.stdout == "3\thello\n2\tapple\n2\tone\n2\tzoo\n1\tb\n1\tc\n1\td\n1\te\n1\tf\n1\tg\n"
+    assert result.stdout == "3\thello\n2\tzoo\n2\tapple\n2\tone\n1\ttwo\n1\tb\n1\tc\n1\td\n1\te\n1\tf\n"
 
 
 def test_top_three_selects_three_sorted_words(tmp_path):
@@ -33,7 +34,7 @@ def test_top_three_selects_three_sorted_words(tmp_path):
     path.write_text("zoo apple apple bee cat", encoding="utf-8")
     result = run_cli(path, "--top", "3")
     assert result.returncode == 0, result.stderr
-    assert result.stdout == "2\tapple\n1\tbee\n1\tcat\n"
+    assert result.stdout == "2\tapple\n1\tzoo\n1\tbee\n"
     assert result.stderr == ""
 
 
@@ -45,16 +46,16 @@ def test_top_zero_is_usage_error_before_input_read(tmp_path):
     assert "Traceback" not in result.stderr
 
 
-def test_json_is_machine_readable_in_frequency_then_word_order(tmp_path):
+def test_json_is_machine_readable_in_frequency_then_initial_order(tmp_path):
     path = tmp_path / "input.txt"
     path.write_text("Zoo zoo Apple apple Straße STRASSE 日本語", encoding="utf-8")
     result = run_cli(path, "--format", "json", "--top", "3")
     assert result.returncode == 0, result.stderr
     assert result.stderr == ""
     assert json.loads(result.stdout) == [
+        {"word": "zoo", "count": 2},
         {"word": "apple", "count": 2},
         {"word": "strasse", "count": 2},
-        {"word": "zoo", "count": 2},
     ]
     assert result.stdout.endswith("\n")
     assert len(result.stdout.splitlines()) == 1
@@ -194,3 +195,68 @@ def test_readme_runs_as_json_from_repository_without_installation():
     assert result.returncode == 0, result.stderr
     assert result.stderr == ""
     assert isinstance(json.loads(result.stdout), list)
+
+
+class CLIHTML(HTMLParser):
+    """Collect text-only table cells and separately identified metadata."""
+
+    def __init__(self, document):
+        super().__init__(convert_charrefs=True)
+        self.rows = []
+        self.values = {}
+        self.headers = []
+        self.target = None
+        self.feed(document)
+        self.close()
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == "tr":
+            self.row = []
+        if tag in {"td", "th"}:
+            self.target = (tag, "")
+        elif attrs.get("class") in {"filename-value", "total-value"}:
+            self.target = (attrs["class"], "")
+
+    def handle_data(self, data):
+        if self.target is not None:
+            kind, text = self.target
+            self.target = (kind, text + data)
+
+    def handle_endtag(self, tag):
+        if self.target is not None:
+            kind, text = self.target
+            if kind == tag or kind in {"filename-value", "total-value"}:
+                if kind == "td":
+                    self.row.append(text)
+                elif kind == "th":
+                    self.headers.append(text)
+                else:
+                    self.values[kind] = text
+                self.target = None
+        if tag == "tr" and self.row:
+            self.rows.append(self.row)
+
+
+@pytest.mark.parametrize("top", [1, 2])
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_normalized_tie_top_is_shared_by_all_formats(tmp_path, top, output_format):
+    path = tmp_path / "tie.txt"
+    path.write_text("Zoo apple APPLE zoo banana", encoding="utf-8")
+    result = run_cli(path, "--top", top, "--format", output_format)
+    assert result.returncode == 0, result.stderr
+    assert result.stderr == ""
+    expected = [("zoo", 2), ("apple", 2)][:top]
+    if output_format == "text":
+        assert result.stdout == "".join(f"{count}\t{word}\n" for word, count in expected)
+    elif output_format == "json":
+        assert json.loads(result.stdout) == [{"word": w, "count": c} for w, c in expected]
+        assert result.stdout.endswith("\n")
+    else:
+        parsed = CLIHTML(result.stdout)
+        assert parsed.headers == ["順位", "単語", "回数"]
+        assert parsed.rows == [[str(i), w, str(c)] for i, (w, c) in enumerate(expected, 1)]
+        assert parsed.values == {"filename-value": "tie.txt", "total-value": "5"}
+        assert result.stdout.index('class="filename-value"') < result.stdout.index("<table")
+        assert result.stdout.index('class="total-value"') < result.stdout.index("<table")
+        assert str(tmp_path) not in result.stdout
