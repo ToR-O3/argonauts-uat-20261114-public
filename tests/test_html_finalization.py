@@ -27,7 +27,8 @@ def lifecycle(tmp_path, monkeypatch):
     monkeypatch.setattr(v, "self_test_network", lambda args: 0)
     # External capture/browser/environment boundaries only; finalization is real.
     monkeypatch.setattr(v, "generate_cases", lambda output: [dict(id=name, format="html", views=[]) for name in ("empty", "long")])
-    monkeypatch.setattr(v, "capture_errors", lambda *args: [])
+    monkeypatch.setattr(v, "capture_errors", lambda manifest, output:
+        [] if [c["id"] for c in manifest["cases"]] == ["empty", "long"] else ["missing/reordered fixed cases"])
     browser = SimpleNamespace(version="controlled", launch_record={})
     monkeypatch.setattr(v, "instrumented_browser", lambda *args: nullcontext(browser))
     api = ModuleType("playwright.sync_api")
@@ -195,7 +196,7 @@ def test_ledger_order_does_not_change_canonical_projection(lifecycle):
             assert [r["path"] for r in view["reviewed_images"]] == [i["path"] for i in view["images"]]
 
 
-@pytest.mark.parametrize("mutation", ["absent-view", "manifest-only", "derived-pending", "empty-cases", "review-time", "empty-mapping", "nested-pending"])
+@pytest.mark.parametrize("mutation", ["absent-view", "manifest-only", "derived-pending", "empty-cases", "review-time", "empty-mapping", "nested-pending", "case-order"])
 def test_final_consistency_rejects_contradictory_persisted_records(lifecycle, mutation):
     s = lifecycle
     assert s.run()[0] == 0
@@ -214,9 +215,15 @@ def test_final_consistency_rejects_contradictory_persisted_records(lifecycle, mu
         view["reviewed_images"][0]["viewed_at"] = "changed"
     elif mutation == "empty-mapping":
         view["reviewed_images"] = []
+    elif mutation == "case-order":
+        manifest["cases"].reverse()
     else:
         manifest["extra"] = {"nested": ["pending-review"]}
     assert s.v.final_review_errors(manifest, s.ledger, s.output)
+
+
+def test_scope_accepts_new_owned_finalization_regression(lifecycle):
+    assert lifecycle.v.scope_path_errors(["tests/test_html_finalization.py"]) == []
 
 
 def test_persistent_storage_failure_is_explicit_and_nonzero(lifecycle, capsys):

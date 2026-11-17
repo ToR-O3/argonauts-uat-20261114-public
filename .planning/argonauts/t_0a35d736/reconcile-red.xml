@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.093" timestamp="2026-11-18T02:11:57.259465+09:00" hostname="Ys-Minify"><testcase classname="tests.test_html_finalization" name="test_final_consistency_rejects_contradictory_persisted_records[case-order]" time="0.036"><failure message="AssertionError: assert []&#10; +  where [] = &lt;function final_review_errors at 0x7588578ed260&gt;({'ac_index': {'AC1': ['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/s...0/quality/synthetic/empty/320/full.png': '55d406cedd9421fcdbc559098b23a26df2b2715c25cf543afc8e29ee5096c251', ...}, ...}, {'ac_reviews': [{'ac': 'AC1', 'evidence': ['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonaut...est-170/test_final_consistency_rejects0/quality/synthetic/long/1280/tile.png', 'judgment': 'readable', ...}, ...], ...}, PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-170/test_final_consistency_rejects0/quality/synthetic'))&#10; +    where &lt;function final_review_errors at 0x7588578ed260&gt; = &lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_0a35d736/tools/verify_wordfreq_html.py'&gt;.final_review_errors&#10; +      where &lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_0a35d736/tools/verify_wordfreq_html.py'&gt; = namespace(v=&lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t...', 'ended': '2026-01-01T00:00:02+00:00'})], interrupted=False, run=&lt;function lifecycle.&lt;locals&gt;.run at 0x7588578ee020&gt;).v&#10; +    and   {'ac_reviews': [{'ac': 'AC1', 'evidence': ['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonaut...est-170/test_final_consistency_rejects0/quality/synthetic/long/1280/tile.png', 'judgment': 'readable', ...}, ...], ...} = namespace(v=&lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t...', 'ended': '2026-01-01T00:00:02+00:00'})], interrupted=False, run=&lt;function lifecycle.&lt;locals&gt;.run at 0x7588578ee020&gt;).ledger&#10; +    and   PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-170/test_final_consistency_rejects0/quality/synthetic') = namespace(v=&lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t...', 'ended': '2026-01-01T00:00:02+00:00'})], interrupted=False, run=&lt;function lifecycle.&lt;locals&gt;.run at 0x7588578ee020&gt;).output">lifecycle = namespace(v=&lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t...', 'ended': '2026-01-01T00:00:02+00:00'})], interrupted=False, run=&lt;function lifecycle.&lt;locals&gt;.run at 0x7588578ee020&gt;)
+mutation = 'case-order'
+
+    @pytest.mark.parametrize("mutation", ["absent-view", "manifest-only", "derived-pending", "empty-cases", "review-time", "empty-mapping", "nested-pending", "case-order"])
+    def test_final_consistency_rejects_contradictory_persisted_records(lifecycle, mutation):
+        s = lifecycle
+        assert s.run()[0] == 0
+        manifest = s.v.load_json(s.output / "manifest.json")
+        view = manifest["cases"][0]["views"][0]
+        path = s.output / "empty" / "1280" / "derived.json"
+        if mutation == "absent-view":
+            manifest["cases"][0]["views"].pop()
+        elif mutation == "manifest-only":
+            path.unlink()
+        elif mutation == "derived-pending":
+            s.v.save_json(path, dict(view, verdict="pending-review"))
+        elif mutation == "empty-cases":
+            manifest["cases"] = []
+        elif mutation == "review-time":
+            view["reviewed_images"][0]["viewed_at"] = "changed"
+        elif mutation == "empty-mapping":
+            view["reviewed_images"] = []
+        elif mutation == "case-order":
+            manifest["cases"].reverse()
+        else:
+            manifest["extra"] = {"nested": ["pending-review"]}
+&gt;       assert s.v.final_review_errors(manifest, s.ledger, s.output)
+E       AssertionError: assert []
+E        +  where [] = &lt;function final_review_errors at 0x7588578ed260&gt;({'ac_index': {'AC1': ['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/s...0/quality/synthetic/empty/320/full.png': '55d406cedd9421fcdbc559098b23a26df2b2715c25cf543afc8e29ee5096c251', ...}, ...}, {'ac_reviews': [{'ac': 'AC1', 'evidence': ['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonaut...est-170/test_final_consistency_rejects0/quality/synthetic/long/1280/tile.png', 'judgment': 'readable', ...}, ...], ...}, PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-170/test_final_consistency_rejects0/quality/synthetic'))
+E        +    where &lt;function final_review_errors at 0x7588578ed260&gt; = &lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_0a35d736/tools/verify_wordfreq_html.py'&gt;.final_review_errors
+E        +      where &lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_0a35d736/tools/verify_wordfreq_html.py'&gt; = namespace(v=&lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t...', 'ended': '2026-01-01T00:00:02+00:00'})], interrupted=False, run=&lt;function lifecycle.&lt;locals&gt;.run at 0x7588578ee020&gt;).v
+E        +    and   {'ac_reviews': [{'ac': 'AC1', 'evidence': ['/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonaut...est-170/test_final_consistency_rejects0/quality/synthetic/long/1280/tile.png', 'judgment': 'readable', ...}, ...], ...} = namespace(v=&lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t...', 'ended': '2026-01-01T00:00:02+00:00'})], interrupted=False, run=&lt;function lifecycle.&lt;locals&gt;.run at 0x7588578ee020&gt;).ledger
+E        +    and   PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-170/test_final_consistency_rejects0/quality/synthetic') = namespace(v=&lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t...', 'ended': '2026-01-01T00:00:02+00:00'})], interrupted=False, run=&lt;function lifecycle.&lt;locals&gt;.run at 0x7588578ee020&gt;).output
+
+tests/test_html_finalization.py:222: AssertionError</failure></testcase><testcase classname="tests.test_html_finalization" name="test_scope_accepts_new_owned_finalization_regression" time="0.012"><failure message="AssertionError: assert ['unauthorize...alization.py'] == []&#10;  &#10;  Left contains one more item: 'unauthorized scope: tests/test_html_finalization.py'&#10;  Use -v to get more diff">lifecycle = namespace(v=&lt;module 'finalization_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t...None, immutable={}, ledger=None, writes=[], interrupted=False, run=&lt;function lifecycle.&lt;locals&gt;.run at 0x75885793a0c0&gt;)
+
+    def test_scope_accepts_new_owned_finalization_regression(lifecycle):
+&gt;       assert lifecycle.v.scope_path_errors(["tests/test_html_finalization.py"]) == []
+E       AssertionError: assert ['unauthorize...alization.py'] == []
+E         
+E         Left contains one more item: 'unauthorized scope: tests/test_html_finalization.py'
+E         Use -v to get more diff
+
+tests/test_html_finalization.py:226: AssertionError</failure></testcase></testsuite></testsuites>
