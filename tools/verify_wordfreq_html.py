@@ -823,6 +823,8 @@ def scope_report():
 
 
 def session_actor(role, actor, output):
+    if actor is None:
+        actor = os.environ.get("HERMES_PROFILE")
     if actor != ACTORS.get(role) or os.environ.get("HERMES_PROFILE") != actor:
         raise ValueError("actor/role must match the actual Hermes profile; role flag is not independence")
     if role not in output.parts or ({"builder", "quality"} - {role}).intersection(output.parts):
