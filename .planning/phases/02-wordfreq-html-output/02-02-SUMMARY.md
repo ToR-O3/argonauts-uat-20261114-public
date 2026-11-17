@@ -128,6 +128,14 @@ Existing interpreter (no install): `/home/Yuki/workspace/argonauts-uat-20261116/
 ## User Setup Required
 None for this PLAN. Existing cached pytest used; no CI, dependency or configuration edits.
 
+## Official Sequential Close-out
+- `state.advance-plan`: advanced=true, previous_plan2 → current_plan3, total_plans3. This was not the last-plan branch;02-03 remains unexecuted.
+- `state.update-progress`: updated=true, completed7/total8, official percent50 retained without substituting an independent calculation.
+- `state.record-metric`: recorded=true (02/02,8min,3tasks,7files); `state.record-session`: recorded=true, stopped at02-02 completed / same-card review pending / browser unverified.
+- `roadmap.update-plan-progress 2`: updated=true, summary_count2/plan_count3, In Progress, complete=false. Saved ROADMAP2/3,02-02 checked,02-03 unchecked.
+- Official state.get and saved Current Position match: Phase2 EXECUTING, Current Plan3, Total Plans3, Status Ready to execute. No phase.complete.
+- `requirements.ready-ids`: ready=[], shared REQ-09〜14 blocked by unfinished sibling, so no mark-complete mutation.
+
 ## Next Phase Readiness / flagged-unverified handoff
 After same-card quality review, ready for02-03. No next PLAN execution, browser harness/evidence generation or phase.complete here.
 - **A-E10, A-E13, A-E14**: official edge unclassified3 remain unresolved/flagged-unverified. Known behavior tests do not dismiss official classification signals.
