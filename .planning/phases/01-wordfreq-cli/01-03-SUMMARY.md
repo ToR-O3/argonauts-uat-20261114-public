@@ -120,6 +120,20 @@ None for this PLAN.
 
 Ready for PLAN 01-04 after this card's quality review. Requirement IDs above copy the PLAN verbatim; they do not claim REQ-07 CI completion or whole-phase acceptance. Shared requirement completion remains subject to the official readiness gate.
 
+## Review rework: WR-02
+
+The original read-only result depended on inherited `PYTHONDONTWRITEBYTECODE=1` and/or caches warmed by earlier tests. It did not establish default-environment git cleanliness. This section supersedes that evidence, not the runtime's normal cache behavior.
+
+- Strengthened the existing regression before the fix: copy only cold Python sources into a fresh temporary Git repository, copy the real `.gitignore` if present, and explicitly remove `PYTHONDONTWRITEBYTECODE` from the CLI subprocess environment. Snapshot all untracked paths with `git status --porcelain --untracked-files=all`; retain input-byte and input-directory assertions. Each invocation starts cold regardless of test order.
+- RED: `env -u PYTHONDONTWRITEBYTECODE python3 -m pytest -q tests/test_cli.py::test_cli_leaves_input_and_git_worktree_unchanged` returned exit 1, **1 failed**, specifically at `assert after == before` due to generated package bytecode paths.
+- Minimal fix: `.gitignore` ignores only `__pycache__/`, `*.pyc`, and `.pytest_cache/`. No runtime bytecode suppression was added (the PLAN explicitly excludes importing that pattern). Application output and input handling are unchanged. Python may still write ignored interpreter caches: this is git cleanliness, not literal zero filesystem writes.
+- GREEN, same command: exit 0, **1 passed**.
+- `env -u PYTHONDONTWRITEBYTECODE python3 -m pytest -q`: exit 0, **43 passed**.
+- `env -u PYTHONDONTWRITEBYTECODE PYTHONHASHSEED=42 python3 -m pytest -q`: exit 0, **43 passed**.
+- Fix/test commit: `4fa6d98`. The regression was observed failing without the ignore file before that file was added; removing the fix remains detectable even in a warmed main worktree because the subprocess copy starts cold. Non-cache untracked additions remain visible to the snapshot comparison.
+- Official `init.execute-phase 1` still lists 01-03 among three summaries and only 01-04 incomplete. `state.get` agrees with saved Phase 1 / Current Plan 4 / Total 4 / Ready to execute. This is rework of the completed PLAN, not a new execution: no duplicate advance/update-progress, no next PLAN, and no phase completion.
+- WR-01 (non-UTF-8 stdout), WR-03 (boundary-test discrimination), and IN findings remain non-blocking review observations for phase verification; no unrelated behavior was changed.
+
 ## Self-Check: PASSED
 
 All four planned artifacts exist; task commands and full suite pass. The official scope resolves this PLAN's commits. The SUMMARY was committed before state mutations. Official `state.advance-plan` returned previous_plan=3/current_plan=4/total_plans=4; saved Current Position agrees (Phase 1 EXECUTING, Plan 4, Ready to execute). `roadmap.update-plan-progress` and saved ROADMAP agree at 3/4, In Progress. `state.update-progress` returned completed=3,total=4 but percent=0, matching the pre-existing zero-percent display behavior; no manual percentage rewrite was applied. Official readiness marked REQ-01/02/03/06/08 complete and kept REQ-07 blocked by PLAN 01-04. STATE.md, ROADMAP.md, REQUIREMENTS.md and generated state.json are included in the follow-up metadata commit. PLAN 01-04 and phase.complete were not executed.
