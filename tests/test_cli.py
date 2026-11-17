@@ -287,34 +287,97 @@ def test_html_replaces_non_utf8_basename_bytes(tmp_path, locale_name):
     assert str(tmp_path) not in document
 
 
+def encoding_probe(tmp_path, path, filesystem_encoding, stdout_encoding):
+    diagnostic = tmp_path / "encoding-diagnostic.json"
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "tests/fixtures/encoding_cli_probe.py"),
+         str(diagnostic), filesystem_encoding, stdout_encoding, path, "--format", "html"],
+        cwd=ROOT, capture_output=True, timeout=10)
+    recorded = json.loads(diagnostic.read_text(encoding="utf-8"))
+    assert recorded == {
+        "kind": "controlled-seam-not-native-locale",
+        "filesystem_display_encoding": filesystem_encoding,
+        "stdout_encoding": stdout_encoding,
+        "raw_path_hex": os.fsencode(path).hex(),
+        "roundtrip_path_hex": os.fsencode(path).hex(),
+    }
+    return result
+
+
+def native_encoding_env(locale_name):
+    env = os.environ.copy()
+    env.pop("PYTHONIOENCODING", None)
+    env.update(LC_ALL=locale_name, PYTHONUTF8="0", PYTHONCOERCECLOCALE="0")
+    charmap = subprocess.run(["locale", "charmap"], env=env, capture_output=True, check=True, timeout=10)
+    expected = b"ANSI_X3.4-1968" if locale_name == "C" else b"ISO-8859-15"
+    assert (charmap.stdout.strip(), charmap.stderr) == (expected, b"")
+    return env
+
+
+@pytest.mark.parametrize("available", [False, True])
+def test_native_encoding_availability_and_charmap_mismatch(monkeypatch, available):
+    # Deterministic native-present mismatch must fail, never silently fall back.
+    real_run = subprocess.run
+
+    def mismatch(argv, **kwargs):
+        if argv == ["locale", "-a"]:
+            return subprocess.CompletedProcess(argv, 0, b"en_GB.iso885915\n" if available else b"C\n", b"")
+        if argv == ["locale", "charmap"]:
+            return subprocess.CompletedProcess(argv, 0, b"UTF-8\n", b"")
+        return real_run(argv, **kwargs)
+
+    monkeypatch.setattr(subprocess, "run", mismatch)
+    names = subprocess.run(["locale", "-a"], capture_output=True).stdout.splitlines()
+    if b"en_GB.iso885915" in names:
+        with pytest.raises(AssertionError):
+            native_encoding_env("en_GB.iso885915")
+    else:
+        assert names == [b"C"]
+
+
+def test_encoding_obligations_run_without_native_locale(tmp_path, monkeypatch):
+    real_run = subprocess.run
+
+    def without_iso(argv, **kwargs):
+        if argv == ["locale", "-a"]:
+            return subprocess.CompletedProcess(argv, 0, b"C\nC.utf8\n", b"")
+        return real_run(argv, **kwargs)
+
+    monkeypatch.setattr(subprocess, "run", without_iso)
+    test_html_preserves_basename_in_filesystem_encoding(tmp_path)
+    test_html_bytes_are_utf8_independent_of_stdout_encoding(tmp_path, "en_GB.iso885915", None)
+
+
 @pytest.mark.skipif(os.name != "posix", reason="POSIX byte filenames")
 def test_html_preserves_basename_in_filesystem_encoding(tmp_path):
     locale_name = "en_GB.iso885915"
     available = subprocess.run(
         ["locale", "-a"], capture_output=True, check=True, timeout=10,
     ).stdout.decode("ascii").splitlines()
-    assert locale_name in available, f"Required locale {locale_name} is not installed"
-    env = os.environ.copy()
-    env.pop("PYTHONIOENCODING", None)
-    env.update(LC_ALL=locale_name, PYTHONUTF8="0", PYTHONCOERCECLOCALE="0")
-    charmap = subprocess.run(
-        ["locale", "charmap"], env=env, capture_output=True, check=True, timeout=10,
-    )
-    assert charmap.stdout.strip() == b"ISO-8859-15"
     path = os.fsencode(tmp_path) + b"/caf\xe9.txt"
     with open(path, "wb") as source:
         source.write(b"hello hello world")
-    result = subprocess.run(
-        [sys.executable, "-m", "wordfreq", path, "--format", "html"],
-        cwd=ROOT, env=env, capture_output=True, timeout=10,
-    )
-    assert result.returncode == 0, result.stderr
-    assert result.stderr == b""
-    document = result.stdout.decode("utf-8", errors="strict")
-    parsed = CLIHTML(document)
-    assert parsed.values == {"filename-value": "café.txt", "total-value": "3"}
-    assert parsed.rows == [["1", "hello", "2"], ["2", "world", "1"]]
-    assert str(tmp_path) not in document
+    controlled = encoding_probe(tmp_path, path, "iso8859-15", "latin-1")
+    results = [controlled]
+    if locale_name in available:
+        env = native_encoding_env(locale_name)
+        results.append(subprocess.run(
+            [sys.executable, "-m", "wordfreq", path, "--format", "html"],
+            cwd=ROOT, env=env, capture_output=True, timeout=10))
+        print("native ISO-8859-15 filesystem check executed")
+    else:
+        print("native ISO-8859-15 unavailable; controlled byte check executed")
+    for result in results:
+        assert (result.returncode, result.stderr) == (0, b"")
+        document = result.stdout.decode("utf-8", errors="strict")
+        parsed = CLIHTML(document)
+        assert parsed.values == {"filename-value": "café.txt", "total-value": "3"}
+        assert parsed.rows == [["1", "hello", "2"], ["2", "world", "1"]]
+        assert parsed.headers == ["順位", "単語", "回数"]
+        assert str(tmp_path) not in document
+        assert result.stdout == controlled.stdout
+    with open(path, "rb") as source:
+        assert source.read() == b"hello hello world"
 
 
 @pytest.mark.parametrize("locale_name,io_encoding", [
@@ -324,18 +387,24 @@ def test_html_preserves_basename_in_filesystem_encoding(tmp_path):
 def test_html_bytes_are_utf8_independent_of_stdout_encoding(tmp_path, locale_name, io_encoding):
     path = tmp_path / "input.txt"
     path.write_text("hello hello 日本語", encoding="utf-8")
-    env = os.environ.copy()
-    env.pop("PYTHONIOENCODING", None)
-    env.update(LC_ALL=locale_name, PYTHONUTF8="0", PYTHONCOERCECLOCALE="0")
-    charmap = subprocess.run(["locale", "charmap"], env=env, capture_output=True, check=True, timeout=10)
-    expected_charmap = b"ANSI_X3.4-1968" if locale_name == "C" else b"ISO-8859-15"
-    assert (charmap.stdout.strip(), charmap.stderr) == (expected_charmap, b"")
-    if io_encoding is not None:
-        env["PYTHONIOENCODING"] = io_encoding
-    result = subprocess.run(
-        [sys.executable, "-m", "wordfreq", str(path), "--format", "html"],
-        cwd=ROOT, env=env, capture_output=True, timeout=10,
-    )
+    controlled = encoding_probe(tmp_path, str(path), "utf-8", io_encoding or "iso8859-15")
+    assert (controlled.returncode, controlled.stderr) == (0, b"")
+    available = subprocess.run(["locale", "-a"], capture_output=True, check=True, timeout=10).stdout.decode("ascii").splitlines()
+    result = controlled
+    if locale_name == "C" or locale_name in available:
+        env = native_encoding_env(locale_name)
+        if io_encoding is not None:
+            env["PYTHONIOENCODING"] = io_encoding
+        result = subprocess.run(
+            [sys.executable, "-m", "wordfreq", str(path), "--format", "html"],
+            cwd=ROOT, env=env, capture_output=True, timeout=10)
+        print(f"native {locale_name} stdout check executed")
+    else:
+        print("native ISO-8859-15 unavailable; controlled stdout check executed")
+    assert path.read_bytes() == "hello hello 日本語".encode("utf-8")
+    saved = tmp_path / "encoding-output.html"
+    saved.write_bytes(result.stdout)
+    assert saved.read_bytes() == controlled.stdout
     assert result.returncode == 0, result.stderr
     assert result.stderr == b""
     document = result.stdout.decode("utf-8", errors="strict")
