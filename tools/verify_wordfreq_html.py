@@ -1059,6 +1059,63 @@ def validate_live_finish(manifest, ledger, live, browser, output):
     return errors + late, finished
 
 
+def project_final_reviews(manifest, ledger, verdict):
+    """Project validated attestations in canonical image order, never invent viewing."""
+    errors = ledger_errors(manifest, ledger, manifest["verification_finished"])
+    if errors:
+        raise ValueError(f"invalid final ledger: {errors}")
+    reviews = {r["image"]: r for r in ledger["reviews"]}
+    for case in manifest["cases"]:
+        for view in case["views"]:
+            view["verdict"] = verdict
+            view["reviewed_images"] = [dict(path=i["path"], sha256=reviews[i["path"]]["sha256"],
+                viewed_at=reviews[i["path"]]["viewed_at"]) for i in view["images"]]
+
+
+def final_review_errors(manifest, ledger, output):
+    """Reconcile final on-disk views against exact ledger identities and bytes."""
+    def pending(value):
+        if isinstance(value, dict):
+            return any(pending(v) for v in value.values())
+        if isinstance(value, list):
+            return any(pending(v) for v in value)
+        return value == "pending-review"
+
+    errors = []
+    try:
+        verdict = "accepted" if manifest["role"] == "quality" else "builder-reviewed"
+        if (manifest["verdict"] != verdict or manifest["errors"]
+                or manifest["independent_acceptance"] != (manifest["role"] == "quality")
+                or manifest["ac_verdicts"] != {f"AC{i}": "accepted" for i in range(1, 7)}):
+            errors.append("inconsistent final verdict")
+        if not manifest["cases"] or pending(manifest):
+            errors.append("empty/pending final manifest")
+        errors += ledger_errors(manifest, ledger, manifest["verification_finished"])
+        if (load_json(output / "reviews.json") != ledger
+                or digest(output / "reviews.json") != manifest["ledger_sha256"]):
+            errors.append("final ledger changed")
+        for case in manifest["cases"]:
+            if case["format"] == "html" and [v["width"] for v in case["views"]] != list(WIDTHS):
+                errors.append("missing/reordered final views")
+            for view in case["views"]:
+                errors += view_identity_errors(view)
+                expected = []
+                for image in view["images"]:
+                    matches = [r for r in ledger["reviews"] if r["image"] == image["path"]]
+                    if len(matches) != 1:
+                        errors.append("final review cardinality mismatch")
+                        continue
+                    expected.append(dict(path=image["path"], sha256=matches[0]["sha256"],
+                                         viewed_at=matches[0]["viewed_at"]))
+                derived = load_json(output / case["id"] / str(view["width"]) / "derived.json")
+                if (view["verdict"] != verdict or not expected or view["reviewed_images"] != expected
+                        or derived != view or pending(derived)):
+                    errors.append("final manifest/derived/ledger mismatch")
+    except (KeyError, TypeError, ValueError, OSError) as exc:
+        errors.append(f"final review unverified: {type(exc).__name__}: {exc}")
+    return list(dict.fromkeys(errors))
+
+
 def run_suite(output):
     argv = [sys.executable, "-m", "pytest", "--junitxml", str(output / "suite.xml")]
     start = now()
@@ -1164,6 +1221,12 @@ def review_session(args):
     manifest["end_provenance"] = provenance()
     if manifest["end_provenance"]["head"] != manifest["head"] or manifest["end_provenance"]["product_status"]:
         manifest["errors"].append("head/product changed before final verdict")
+    if not manifest["errors"]:
+        project_final_reviews(manifest, ledger, manifest["verdict"])
+        for case in manifest["cases"]:
+            for view in case["views"]:
+                save_json(output / case["id"] / str(view["width"]) / "derived.json", view)
+        manifest["errors"] += final_review_errors(manifest, ledger, output)
     manifest["ended"] = now()
     if manifest["errors"]:
         manifest["verdict"] = "unverified"
