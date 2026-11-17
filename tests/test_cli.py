@@ -593,3 +593,91 @@ def test_real_html_preserves_full_long_and_cr_basename(tmp_path, basename):
     browser_input = document.replace("\r\n", "\n").replace("\r", "\n")
     assert CLIHTML(browser_input).values["filename-value"] == basename
     assert path.read_bytes() == LONG_CONTENT.encode("utf-8")
+
+
+# 04-02 tracer: argument acceptance and pre-I/O rejection (OpenSpec 1.2).
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_count_argument_tracer(tmp_path, output_format):
+    path = tmp_path / "input.txt"
+    path.write_text("Zoo apple APPLE zoo banana", encoding="utf-8")
+    default = run_cli_bytes(path, "--format", output_format)
+    explicit = run_cli_bytes(path, "--format", output_format, "--min-count", "1")
+    assert (explicit.returncode, explicit.stderr) == (0, b"")
+    assert explicit.stdout == default.stdout
+    assert_output_bytes(explicit.stdout, output_format,
+                        [("zoo", 2), ("apple", 2), ("banana", 1)], path.name, 5)
+
+
+@pytest.mark.parametrize("value", ["1", "2", "999999999999999999999999999999999999", "+2", "02"])
+def test_min_count_parser_positive_integer(value):
+    from wordfreq.__main__ import build_parser
+    parser = build_parser()
+    assert parser.parse_args(["input.txt"]).min_count == 1
+    assert parser.parse_args(["input.txt", "--min-count", value]).min_count == int(value)
+
+
+MIN_COUNT_INVALID = [("--min-count", "0"), ("--min-count", "-1"),
+                     ("--min-count=-1",), ("--min-count", "1.5"),
+                     ("--min-count", "abc"), ("--min-count",)]
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("options", MIN_COUNT_INVALID)
+def test_min_count_invalid_before_read(tmp_path, monkeypatch, capsys, output_format, options):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    calls = []
+
+    def spy(source):
+        calls.append(source)
+        raise AssertionError("invalid threshold must not read input")
+
+    monkeypatch.setattr(FileSource, "read_text", spy)
+    with pytest.raises(SystemExit) as caught:
+        main([str(tmp_path / "missing"), "--format", output_format, *options])
+    assert caught.value.code == 2
+    assert calls == []
+    output = capsys.readouterr()
+    assert output.out == "" and "--min-count" in output.err
+    real = run_cli_bytes(tmp_path / "missing", "--format", output_format, *options)
+    assert real.returncode == 2 and real.stdout == b""
+    assert b"--min-count" in real.stderr and b"Traceback" not in real.stderr
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+    path = tmp_path / "input.txt"
+    if failure == "directory":
+        path.mkdir()
+    elif failure == "decode":
+        path.write_bytes(b"hello\xff")
+    elif failure == "permission":
+        path.write_bytes(b"hello")
+        path.chmod(0)
+    try:
+        if failure == "permission":
+            with pytest.raises(PermissionError, match="Permission denied"):
+                path.read_bytes()
+        result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+        assert result.returncode == 1 and result.stdout == b""
+        assert result.stderr and b"Traceback" not in result.stderr
+        if failure == "permission":
+            assert b"Permission denied" in result.stderr
+    finally:
+        if failure == "permission":
+            path.chmod(0o600)
+
+
+def test_min_count_help_and_readme_example(tmp_path):
+    help_result = run_cli_bytes("--help")
+    assert help_result.returncode == 0 and help_result.stderr == b""
+    assert b"--min-count MIN_COUNT" in help_result.stdout
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "python -m wordfreq input.txt --min-count 2 --top 1 --format json" in readme
+    path = tmp_path / "input.txt"
+    path.write_text("beta beta beta alpha gamma alpha delta", encoding="utf-8")
+    result = run_cli_bytes(path, "--min-count", "2", "--top", "1", "--format", "json")
+    assert (result.returncode, result.stdout, result.stderr) == (
+        0, b'[{"word": "beta", "count": 3}]\n', b"")
+
