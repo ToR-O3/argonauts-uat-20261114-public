@@ -133,6 +133,12 @@ OpenSpec3.2/4.1/4.2 tooling-only subchecks accompany code; original3.1/3.2/4.1/4
 
 Same-card quality review is required first. Child t_9de84d5f is phase-wide verification, not this implementation's review. Builder requests review and does not complete the card, mark phase.complete, ready/merge the PR or execute another PLAN. After same-card approval, the phase verifier performs the mandatory independent gate.
 
+## Official sequential close-out
+
+After SUMMARY commit d470fb5, official state.advance-plan returned advanced=false/reason=last_plan/current_plan4/total4/status=ready_for_verification. state.update-progress returned updated=true/completed9/total9/percent50 (official percentage retained, not hand-corrected). roadmap.update-plan-progress3 returned updated=true/summary_count4/plan_count4/In Progress/complete=false. Metric/session updates succeeded. Official state get and saved STATE agree on phase3/plan4 of4/status verifying and body `Phase complete — ready for verification`; that wording means execution complete, not accepted phase. Saved ROADMAP leaves Phase3 unchecked and records4/4 plans executed. verify-summary returned passed=true/errors=[]; all five source paths were also verified by actual tests/file checks.
+
+requirements.ready-ids returned all6 ready solely because all PLAN summaries exist. No requirements.mark-complete was called: independent quality evidence remains pending, so summary existence cannot discharge REQ-14/AC6. No phase.complete or next PLAN was executed. The nontrivial live-evidence lessons were submitted to this profile's skill approval queue (pending817f299b), not reported as already saved.
+
 ## Self-Check: PASSED
 
 Specified source/test/docs deliverables exist,261 tests pass with no skips, contract/scope pass, real live observation and expected missing-review rejection/timeout are recorded with matching execution/end head. This is tooling-delivery self-check only; independent acceptance remains pending.
