@@ -13,33 +13,35 @@
 <decisions>
 ## Implementation Decisions
 
+以下の D-01〜D-16 はこの CONTEXT 内だけの追跡用ラベルであり、既存の決定文は変更していない。見出し・本文の D-2 / D-3 等は元の OpenSpec 参照であり、このローカル識別子とは別である。
+
 ### 実行方法と入力（FR-1）
-- `python -m wordfreq <file>` はファイル引数ちょうど 1 個を受け取る。UTF-8 として読んで集計結果を出力する。
-- 存在しない・開けない・UTF-8 デコード不可 → stderr にエラーメッセージ、exit 1、stdout には結果を出さない。
-- ファイル引数 0 個または 2 個以上 → 使い方エラー、stderr、exit 2。
-- 空ファイルは結果 0 件（text は出力なし、json は `[]`）で exit 0。
+- **D-01:** `python -m wordfreq <file>` はファイル引数ちょうど 1 個を受け取る。UTF-8 として読んで集計結果を出力する。
+- **D-02:** 存在しない・開けない・UTF-8 デコード不可 → stderr にエラーメッセージ、exit 1、stdout には結果を出さない。
+- **D-03:** ファイル引数 0 個または 2 個以上 → 使い方エラー、stderr、exit 2。
+- **D-04:** 空ファイルは結果 0 件（text は出力なし、json は `[]`）で exit 0。
 
 ### 件数・形式オプション（FR-2・FR-3）
-- `--top N` は 1 以上の整数、既定 10。整数でない・0 以下は exit 2。結果が N 満たなければ全件。
-- `--format text|json`、既定 text。text は 1 語 1 行で列書式は design.md D-A の `<count>\t<word>`。json は `{"word": <str>, "count": <int>}` の配列で `json.loads` 可読、順序は text と同一。不正形式は exit 2。
+- **D-05:** `--top N` は 1 以上の整数、既定 10。整数でない・0 以下は exit 2。結果が N 満たなければ全件。
+- **D-06:** `--format text|json`、既定 text。text は 1 語 1 行で列書式は design.md D-A の `<count>\t<word>`。json は `{"word": <str>, "count": <int>}` の配列で `json.loads` 可読、順序は text と同一。不正形式は exit 2。
 
 ### 切り出し・正規化（D-3）
-- 単語は Unicode の単語構成文字（Python `\w`、`re.UNICODE`）の連続する最大長。各トークンに `str.casefold()` を適用。
-- 句読点・記号・空白は語に含めない。大文字小文字のみ異なる語は同一視（"Hello hello HELLO" → hello 3）。
-- トークナイザは差し替え可能な部品として実装する。日本語は形態素解析せず `\w` ルールの結果が決定論的ならよい。
+- **D-07:** 単語は Unicode の単語構成文字（Python `\w`、`re.UNICODE`）の連続する最大長。各トークンに `str.casefold()` を適用。
+- **D-08:** 句読点・記号・空白は語に含めない。大文字小文字のみ異なる語は同一視（"Hello hello HELLO" → hello 3）。
+- **D-09:** トークナイザは差し替え可能な部品として実装する。日本語は形態素解析せず `\w` ルールの結果が決定論的ならよい。
 
 ### 順序の決定論性（FR-4・D-2）
-- 出現回数の降順、同回数なら正規化後単語の昇順。同じ入力・同じオプションの出力は決定論的。
+- **D-10:** 出現回数の降順、同回数なら正規化後単語の昇順。同じ入力・同じオプションの出力は決定論的。
 
 ### 部品分離と入力元拡張（FR-5・FR-6）
-- トークナイザ・集計・入力取得・出力整形を分離した部品構成にする（tasks.md のファイル配置: `wordfreq/tokenizer.py`、`aggregator.py`、`sources.py`（`TextSource` プロトコル + `FileSource` + `InputError`）、`formatters.py`）。
-- 解析・集計はテキストを入力取得境界を介してのみ受け取る。各部品は単体で呼んで検証できること。
-- 入力元（標準入力・URL）の追加は入力取得境界の実装追加で足りるという構成判断を design.md に記録済み。
+- **D-11:** トークナイザ・集計・入力取得・出力整形を分離した部品構成にする（tasks.md のファイル配置: `wordfreq/tokenizer.py`、`aggregator.py`、`sources.py`（`TextSource` プロトコル + `FileSource` + `InputError`）、`formatters.py`）。
+- **D-12:** 解析・集計はテキストを入力取得境界を介してのみ受け取る。各部品は単体で呼んで検証できること。
+- **D-13:** 入力元（標準入力・URL）の追加は入力取得境界の実装追加で足りるという構成判断を design.md に記録済み。
 
 ### 試験と実行環境（FR-7・FR-8）
-- pytest 単体試験をリポジトリ CI の pytest ジョブで通す。試験は spec の全シナリオ（不存在ファイル、空ファイル、引数個数、不正 `--top`/`--format`、同数語の順序、大文字小文字同一視、UTF-8 デコード失敗、JSON 構造、部品単体・境界越し検証）を含む。
-- 対象 Python は CI ジョブの CPython 3 の版。バージョン横断互換コードを書かない。ランタイム依存は標準ライブラリのみ（`pyproject.toml` の dev 依存に pytest は可）。
-- CI に pytest ジョブが無ければ workflow 変更は人の対応扱い（Bot の権限外）。task 3.3 で有無を確認し、無ければ block 判定の準備をする。
+- **D-14:** pytest 単体試験をリポジトリ CI の pytest ジョブで通す。試験は spec の全シナリオ（不存在ファイル、空ファイル、引数個数、不正 `--top`/`--format`、同数語の順序、大文字小文字同一視、UTF-8 デコード失敗、JSON 構造、部品単体・境界越し検証）を含む。
+- **D-15:** 対象 Python は CI ジョブの CPython 3 の版。バージョン横断互換コードを書かない。ランタイム依存は標準ライブラリのみ（`pyproject.toml` の dev 依存に pytest は可）。
+- **D-16:** CI に pytest ジョブが無ければ workflow 変更は人の対応扱い（Bot の権限外）。task 3.3 で有無を確認し、無ければ block 判定の準備をする。
 
 ### Claude's Discretion
 - 関数・モジュール内部の細部（ argparse の使い方、例外処理の内部構造、テストファイルの分割方法）は承認済み仕様の範囲で実装が決定してよい。
