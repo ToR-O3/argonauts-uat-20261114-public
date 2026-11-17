@@ -88,7 +88,7 @@ Every pytest command below uses the exact prefix:
 | `--version` | pytest9.0.3 |
 | `tests/test_cli.py -x` after task1 | exit0,95 passed in5.11s |
 | `tests/test_sources.py tests/test_tokenizer.py tests/test_sources_boundary.py -x` | exit0,15 passed in0.27s (6+6+3) |
-| `tests/test_formatters.py::test_html_preserves_cr_without_html_input_newline_normalization -q --junitxml=.planning/argonauts/t_97552229/cr-red.xml` before fix | exit1,1 failed in0.16s; basename changed from CR/CRLF to LF |
+| tests/test_formatters.py::test_html_preserves_cr_without_html_input_newline_normalization -q --junitxml=.planning/argonauts/t_97552229/cr-red.xml before fix | exit1,1 failed in0.16s; basename changed from CR/CRLF to LF |
 | official `gsd_run check tdd-red-evidence .planning/argonauts/t_97552229/cr-red.json --raw` | exit0,RED_EVIDENCE_OK,target_test_failed,tests1/fail1/pass0,JUnit parsed without errors |
 | `tests/test_formatters.py -x` after minimal CR fix | exit0,7 passed in0.26s |
 | `tests/test_formatters.py -x` after complete static contracts | exit0,9 passed in0.28s |
@@ -128,6 +128,12 @@ None outstanding within this PLAN. Broken-pipe traceback and explicit ASCII file
 ## Next Phase Readiness
 
 Same-card quality review is required. After it passes,03-03 may create the real browser collector. Only03-02 was executed; no later missing verifier command was invoked. Browser1280x900/320x900, raw Range/clip/nonoverlap, every image read, live network observation including failures and independent target-head quality regeneration remain mandatory and unverified. No quality status, PR readiness, auto-merge or merge was performed.
+
+## Official sequential close-out
+
+After the committed SUMMARY, official state.advance-plan returned advanced=true,previous_plan2,current_plan3,total_plans4. state.update-progress returned updated=true,completed7,total9,percent50 (retain official percentage, not a manual substitute). roadmap.update-plan-progress3 returned updated=true,summary_count2,plan_count4,In Progress,complete=false. Saved STATE readback confirmed Phase3 / Current Plan3 / Total4 / Ready to execute, and ROADMAP03-02 checked with03-03/04 unchecked. This is not the last PLAN; phase.complete was not called. requirements.ready-ids returned ready=[] with all five IDs blocked by unfinished sibling PLANs, so requirements were not marked complete. record-session and record-metric succeeded.
+
+Official verify-summary initially misread the backtick-delimited pytest node/arguments as a file path; retaining the exact command as plain table text removed that heuristic ambiguity. Rerun returned passed=true,commits_exist=true,self_check=passed,errors=[] (files_created checked0, so deliverable existence is separately checked explicitly).
 
 ## Self-Check: PASSED
 
