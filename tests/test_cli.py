@@ -1,4 +1,5 @@
 """Run the CLI in a real subprocess with separate output streams."""
+import json
 from pathlib import Path
 import subprocess
 import sys
@@ -39,4 +40,19 @@ def test_top_zero_is_usage_error_before_input_read(tmp_path):
     assert result.stdout == ""
     assert "--top must be >= 1" in result.stderr
     assert "Traceback" not in result.stderr
+
+
+def test_json_is_machine_readable_in_frequency_then_word_order(tmp_path):
+    path = tmp_path / "input.txt"
+    path.write_text("Zoo zoo Apple apple Straße STRASSE 日本語", encoding="utf-8")
+    result = run_cli(path, "--format", "json", "--top", "3")
+    assert result.returncode == 0, result.stderr
+    assert result.stderr == ""
+    assert json.loads(result.stdout) == [
+        {"word": "apple", "count": 2},
+        {"word": "strasse", "count": 2},
+        {"word": "zoo", "count": 2},
+    ]
+    assert result.stdout.endswith("\n")
+    assert len(result.stdout.splitlines()) == 1
 
