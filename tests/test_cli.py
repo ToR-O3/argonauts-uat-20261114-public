@@ -150,7 +150,8 @@ def test_explicit_text_format_matches_default(tmp_path):
     assert (result.returncode, result.stdout, result.stderr) == (0, "2\thello\n1\tworld\n", "")
 
 
-def test_cli_leaves_input_and_git_worktree_unchanged(tmp_path):
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_cli_leaves_input_and_git_worktree_unchanged(tmp_path, output_format):
     # A cold package in its own repo prevents earlier tests from hiding writes.
     repo = tmp_path / "repo"
     repo.mkdir()
@@ -170,7 +171,7 @@ def test_cli_leaves_input_and_git_worktree_unchanged(tmp_path):
     env.pop("PYTHONDONTWRITEBYTECODE", None)
     before = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"], cwd=repo, capture_output=True, check=True).stdout
     result = subprocess.run(
-        [sys.executable, "-m", "wordfreq", str(path)], cwd=repo,
+        [sys.executable, "-m", "wordfreq", str(path), "--format", output_format], cwd=repo,
         env=env, capture_output=True, text=True, timeout=10,
     )
     after = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"], cwd=repo, capture_output=True, check=True).stdout
@@ -339,3 +340,166 @@ def test_html_bytes_are_utf8_independent_of_stdout_encoding(tmp_path, locale_nam
     assert parsed.headers == ["順位", "単語", "回数"]
     assert parsed.values == {"filename-value": "input.txt", "total-value": "3"}
     assert parsed.rows == [["1", "hello", "2"], ["2", "日本語", "1"]]
+
+
+def run_cli_bytes(*args, env=None):
+    return subprocess.run(
+        [sys.executable, "-m", "wordfreq", *map(str, args)],
+        cwd=ROOT, env=env, capture_output=True, timeout=10,
+    )
+
+
+def assert_output_bytes(raw, output_format, expected, basename, total):
+    document = raw.decode("utf-8", errors="strict")
+    if output_format == "text":
+        assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+    elif output_format == "json":
+        assert raw.isascii()
+        assert document.count("\n") == 1 and document.endswith("\n")
+        assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+    else:
+        parsed = CLIHTML(document)
+        assert document.startswith('<!doctype html>\n')
+        assert '<meta charset="utf-8">' in document
+        assert parsed.headers == ["順位", "単語", "回数"]
+        assert parsed.rows == [[str(i), w, str(c)] for i, (w, c) in enumerate(expected, 1)]
+        assert parsed.values == {"filename-value": basename, "total-value": str(total)}
+        for name in ["filename-value", "total-value"]:
+            assert document.index(f'class="{name}"') < document.index("<table")
+
+
+LONG_PAIRS = [("w" * 256, 123)] + [(f"row{i:02d}", 13 - i) for i in range(1, 12)]
+LONG_CONTENT = " ".join(w for w, c in LONG_PAIRS for _ in range(c)) + "\n"
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("content,top,expected,total", [
+    ("zoo apple zoo banana apple cherry", 1, [("zoo", 2)], 6),
+    ("zoo apple zoo banana apple cherry", 2, [("zoo", 2), ("apple", 2)], 6),
+    ("zoo apple zoo banana apple cherry", 10,
+     [("zoo", 2), ("apple", 2), ("banana", 1), ("cherry", 1)], 6),
+    ("beta beta beta alpha gamma alpha delta", 2, [("beta", 3), ("alpha", 2)], 7),
+    ("", 10, [], 0),
+    (LONG_CONTENT, None, LONG_PAIRS[:10], 200),
+    (LONG_CONTENT, 99, LONG_PAIRS, 200),
+    (LONG_CONTENT, 12, LONG_PAIRS, 200),
+])
+def test_all_format_explicit_metadata_matrix(tmp_path, output_format, content, top, expected, total):
+    from html import escape
+
+    parent = tmp_path / 'private-parent-&-marker' / 'nested-secret'
+    parent.mkdir(parents=True)
+    path = parent / "通常.txt"
+    path.write_bytes(content.encode("utf-8"))
+    args = [path, "--format", output_format]
+    if top is not None:
+        args += ["--top", top]
+    result = run_cli_bytes(*args)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+    if output_format == "html":
+        document = result.stdout.decode("utf-8", errors="strict")
+        for secret in [str(parent), str(path), parent.name, parent.parent.name]:
+            assert secret not in document
+            assert escape(secret, quote=True) not in document
+    assert path.read_bytes() == content.encode("utf-8")
+
+
+def test_saved_html_hostile_basename_utf8_privacy_and_static_safety(tmp_path):
+    from html import escape
+    from test_formatters import HTMLDocument, assert_static_document
+
+    parent = tmp_path / 'unique-private-&-parent' / 'nested-sensitive'
+    parent.mkdir(parents=True)
+    basename = '検査  &<>"\'\n次\t終.txt'
+    path = parent / basename
+    path.write_bytes("Café CAFÉ Straße STRASSE 日本語".encode("utf-8"))
+    result = run_cli_bytes(path, "--format", "html")
+    assert (result.returncode, result.stderr) == (0, b"")
+    saved = tmp_path / "saved.html"
+    saved.write_bytes(result.stdout)
+    assert saved.read_bytes() == result.stdout
+    document = saved.read_bytes().decode("utf-8", errors="strict")
+    assert_output_bytes(result.stdout, "html", [("café", 2), ("strasse", 2), ("日本語", 1)], basename, 5)
+    assert_static_document(HTMLDocument(document))
+    for secret in [str(parent), str(path), parent.name, parent.parent.name]:
+        assert secret not in document
+        assert escape(secret, quote=True) not in document
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+def test_real_input_failure_matrix(tmp_path, output_format, failure):
+    path = tmp_path / "input.txt"
+    if failure == "directory":
+        path.mkdir()
+    elif failure == "decode":
+        path.write_bytes(b"hello\xff")
+    elif failure == "permission":
+        path.write_bytes(b"hello")
+        path.chmod(0)
+    try:
+        if failure == "permission":
+            # Prove EACCES under the same effective user, not just chmod intent.
+            with pytest.raises(PermissionError, match="Permission denied"):
+                path.read_bytes()
+        result = run_cli_bytes(path, "--format", output_format)
+        assert result.returncode == 1
+        assert result.stdout == b""
+        assert result.stderr and b"Traceback" not in result.stderr
+        if failure == "permission":
+            assert b"Permission denied" in result.stderr
+    finally:
+        if failure == "permission":
+            path.chmod(0o600)
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("options", [("--top", "0"), ("--top", "-1"), ("--top", "abc"),
+                                     ("--format", "xml"), ("extra.txt",)])
+def test_real_usage_failure_matrix(tmp_path, output_format, options):
+    result = run_cli_bytes(tmp_path / "missing", "--format", output_format, *options)
+    assert result.returncode == 2
+    assert result.stdout == b""
+    assert result.stderr and b"Traceback" not in result.stderr
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_missing_argument_for_each_format(output_format):
+    result = run_cli_bytes("--format", output_format)
+    assert result.returncode == 2
+    assert result.stdout == b""
+    assert result.stderr and b"Traceback" not in result.stderr
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_permission_exception_maps_to_cli_exit_one(monkeypatch, capsys, output_format):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource, InputError
+
+    def denied(source):
+        raise InputError("explicit permission denial") from PermissionError("denied")
+
+    monkeypatch.setattr(FileSource, "read_text", denied)
+    with pytest.raises(SystemExit) as caught:
+        main(["input.txt", "--format", output_format])
+    assert caught.value.code == 1
+    output = capsys.readouterr()
+    assert output.out == "" and output.err == "explicit permission denial\n"
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_hash_seed_does_not_change_output_bytes(tmp_path, output_format):
+    path = tmp_path / "deterministic.txt"
+    path.write_bytes("Zoo apple APPLE zoo banana Café CAFÉ 日本語".encode("utf-8"))
+    outputs = []
+    for seed in ["0", "1", "42"]:
+        env = os.environ.copy()
+        env["PYTHONHASHSEED"] = seed
+        result = run_cli_bytes(path, "--format", output_format, env=env)
+        assert (result.returncode, result.stderr) == (0, b"")
+        assert_output_bytes(result.stdout, output_format,
+                            [("zoo", 2), ("apple", 2), ("café", 2), ("banana", 1), ("日本語", 1)],
+                            path.name, 8)
+        outputs.append(result.stdout)
+    assert outputs[0] == outputs[1] == outputs[2]

@@ -59,3 +59,22 @@ def test_file_source_reads_empty_file(tmp_path):
     path.write_bytes(b"")
     assert FileSource(str(path)).read_text() == ""
     assert path.read_bytes() == b""
+
+
+def test_file_source_chains_permission_error(monkeypatch):
+    from wordfreq.sources import FileSource, InputError
+
+    original = PermissionError(13, "Permission denied", "private.txt")
+    calls = []
+
+    def denied(*args, **kwargs):
+        calls.append((args, kwargs))
+        raise original
+
+    monkeypatch.setattr("builtins.open", denied)
+    with pytest.raises(InputError) as caught:
+        FileSource("private.txt").read_text()
+    assert caught.value.__cause__ is original
+    assert "private.txt" in str(caught.value)
+    assert "Permission denied" in str(caught.value)
+    assert calls == [(("private.txt", "r"), {"encoding": "utf-8"})]

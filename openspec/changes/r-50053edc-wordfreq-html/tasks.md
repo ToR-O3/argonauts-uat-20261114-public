@@ -5,8 +5,8 @@
 
 ## 2. 安全な静的HTMLとメタ情報（AC1・AC2・AC5）
 - [x] 2.1 単語・basenameを安全な表示テキストとして埋め込むHTML整形を作り、順位・単語・回数の見出し、UTF-8宣言、内包CSSだけの1枚文書を返す。整形単体試験で空pairs、特殊文字 `& < > " '`、タグ・イベント候補が表示文字となり、余分なタグ・スクリプト・外部リソースが生成されないことを確認し、部品契約を文書化する。
-- [ ] 2.2 CLIへhtml形式を接続し、top前countsからの総数と実行環境のbasenameを整形へ渡す。入力パスはtitle/属性等にも出さない。実CLI試験で `zoo apple zoo banana apple cherry` のtop 1/2/10でも総数6、別の頻度入力 `beta beta beta alpha gamma alpha delta` のtop 2でも総数7、表の上の表示位置、既定10・種類数超過・空入力0行を確認する。利用説明へ実行と保存の使用例を追記する。
-- [ ] 2.3 同じ入力のtext/json/htmlの語・回数・順序を照合し、html指定でも不正top（0・負・非整数）、不正format、引数個数、読込み/デコード失敗のexit・stderr・空stdout、Unicode抽出・casefold・入力境界を回帰試験する。特殊文字を含む有効なbasenameをCLIで検査し、単語認識を緩めない。text/jsonの構造・空出力は同数時順序以外に変更せず、試験結果で確認する。
+- [x] 2.2 CLIへhtml形式を接続し、top前countsからの総数と実行環境のbasenameを整形へ渡す。入力パスはtitle/属性等にも出さない。実CLI試験で `zoo apple zoo banana apple cherry` のtop 1/2/10でも総数6、別の頻度入力 `beta beta beta alpha gamma alpha delta` のtop 2でも総数7、表の上の表示位置、既定10・種類数超過・空入力0行を確認する。利用説明へ実行と保存の使用例を追記する。
+- [x] 2.3 同じ入力のtext/json/htmlの語・回数・順序を照合し、html指定でも不正top（0・負・非整数）、不正format、引数個数、読込み/デコード失敗のexit・stderr・空stdout、Unicode抽出・casefold・入力境界を回帰試験する。特殊文字を含む有効なbasenameをCLIで検査し、単語認識を緩めない。text/jsonの構造・空出力は同数時順序以外に変更せず、試験結果で確認する。
 
 ## 3. 明るいレスポンシブ表示（AC4）
 UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返す長い語・有効なbasenameの固定入力を確定する。名前の連続空白・改行・タブの保持、保存HTMLの実UTF-8と宣言の一致、複数桁の数値列も検証対象へ含める。
