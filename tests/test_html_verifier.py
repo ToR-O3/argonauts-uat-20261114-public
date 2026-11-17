@@ -125,6 +125,28 @@ def test_browser_files_and_capture_entrypoint_exist():
     assert callable(getattr(v, "capture", None)), "actual browser capture entrypoint required"
 
 
+def local_network():
+    return dict(start="2026-01-01T00:00:00+00:00", end="2026-01-01T00:00:01+00:00",
+                coverage=dict(context=True, browserTargets=True, mainCDP=True), errors=[],
+                events=[dict(kind="page-cdp-ready", data={}),
+                        dict(kind="request", data=dict(url="file:///control.html"))])
+
+
+def test_browser_ui_exclusion_requires_pre_open_target_identity():
+    v = verifier()
+    net = local_network()
+    event = dict(kind="target-created", data=dict(targetInfo=dict(targetId="ui1", type="browser_ui",
+                url="chrome://omnibox-popup.top-chrome/", canAccessOpener=False)))
+    net["events"].insert(0, event)
+    assert v.network_errors(net, "file:///control.html") == []
+    bad = copy.deepcopy(net)
+    bad["events"][0]["data"]["targetInfo"]["type"] = "page"
+    assert v.network_errors(bad, "file:///control.html")
+    late = local_network()
+    late["events"].append(event)
+    assert v.network_errors(late, "file:///control.html")
+
+
 def test_unimplemented_review_mode_cannot_succeed(tmp_path):
     result = subprocess.run([sys.executable, str(ROOT / "tools/verify_wordfreq_html.py"),
                              "--role", "builder", "--output-dir", str(tmp_path),

@@ -292,8 +292,20 @@ def network_errors(record, expected_url):
     if not all(record.get("coverage", {}).get(k) for k in ("context", "browserTargets", "mainCDP")):
         errors.append("missing observer coverage")
     local_seen = False
+    pre_open = True
+    background = {}
     for event in record["events"]:
         data = event["data"]
+        if event["kind"] == "page-cdp-ready":
+            pre_open = False
+        target = data.get("targetInfo", {})
+        if (pre_open and event["kind"] == "target-created" and target.get("type") == "browser_ui"
+                and not target.get("openerId") and target.get("canAccessOpener") is False
+                and target.get("url") in {"chrome://omnibox-popup.top-chrome/", "chrome://omnibox-popup.top-chrome/omnibox_popup_aim.html"}):
+            background[target["targetId"]] = target["url"]
+        if (target.get("targetId") in background and target.get("type") == "browser_ui"
+                and target.get("url") == background[target["targetId"]] and not target.get("openerId")):
+            continue  # Exact pre-document browser-ui identity, not generic filtering.
         urls = [data.get("url"), data.get("request", {}).get("url"),
                 data.get("frame", {}).get("url"), data.get("targetInfo", {}).get("url")]
         for url in filter(None, urls):
