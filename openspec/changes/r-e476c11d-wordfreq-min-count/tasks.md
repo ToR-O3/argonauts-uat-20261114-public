@@ -4,7 +4,8 @@
 
 ## 1. 引数と共通選択、対応する試験と説明
 
-- [ ] 1.1 実装着手前head・環境・入力・argvを固定し、既定text/json/htmlの変更前stdoutとHTML比較原本・画像を保存する。後の同条件比較で辿れることを確認する（AC2、見た目不変）。
+- [x] 1.1 実装着手前head・環境・入力・argvを固定し、既定text/json/htmlの変更前stdoutとHTML比較原本・画像を保存する。後の同条件比較で辿れることを確認する（AC2、見た目不変）。
+  - 04-01: 製品未変更の正式task commit `789cc17267fb4cfeea24111797c3d934c542ce6a` から一度採取。`.planning/argonauts/r-e476c11d/baseline/index.json`（SHA-256 `d317798933ee5cd20e10363e336ec164bc4272599e14cfd6c89ba84d8816f089`）、12 CLI/18実browser view/32画像、saved原本16試験と全392試験がexit0。事前採取gateと正確なコマンドは `.planning/argonauts/t_337d3562/BASELINE-GATE.md`。実画像閲覧・変更後比較・独立品質合格を意味しない（2.1/2.2は未完）。
 - [ ] 1.2 min-countの正数・既定・異常値/欠落・入力読込み前のexit2を各形式で検査するpytestを先に追加しREDを確認してから、既存argparse方式で引数を実装する。有効N>1の入力取得失敗exit1も確認する。READMEに指定法・既定1・不正値とexit2を説明し、対象pytestの成功とヘルプ/記載例の実CLI結果で検証する（AC3、AC7）。
 - [ ] 1.3 全形式の閾値未満/ちょうど/超、casefold合算、同数初出順、topとの独立値・指定順・共通選択経路を検査するpytestを先に追加しREDを確認してから、元countsを保持し閾値除外→既存top選択の順に実装する。READMEに順序と例を追記し、対象pytestと全形式実CLIの期待pairs、ソース順序の確認で検証する（AC1、AC2、AC4）。
 - [ ] 1.4 空ファイル/空白のみ/句読点のみ/全件除外とHTML総数の新規pytestを先に追加しREDを確認し、必要な修正後に成功を確認する。HTMLには元totalを渡し、formatter/CSS/文言を維持する。READMEに全件除外時は閾値を下げる案内を追加し、総数0と語あり全除外の正の総数、各形式の空出力を実CLIと試験で検証する（AC1、AC5）。
