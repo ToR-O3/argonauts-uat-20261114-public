@@ -416,17 +416,20 @@ class FakeSource:                    # TextSource 互換のテスト用二重化
 
 **If this table is empty:** All claims in this research were verified or cited — no user confirmation needed.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **CI の pytest ジョブが存在しない。REQ-07 の「CI で通る」をどう充足するか？**
+   - RESOLVED: CONTEXT.md「試験と実行環境（FR-7・FR-8）」の確定判断「CI に pytest ジョブが無ければ workflow 変更は人の対応扱い（Bot の権限外）。task 3.3 で有無を確認し、無ければ block 判定の準備をする」により、CI ジョブ新設は人対応と確定。PLAN 01-04 の `user_setup` として pytest ジョブ追加を人に依頼する経路で充足する（design.md Risks「CI に pytest ジョブが無い場合…block して人に委ねる（proposal Impact 済み）」と整合）。
    - What we know: リポジトリ直下に CI workflow 設定は無し [VERIFIED: ルート一覧 read]。workflow ファイル変更は Bot 権限外（承認済み制約）。tasks.md 3.3 は「無ければ block 判定の準備」を要求。
    - What's unclear: workflow を人に新設させるのか（依頼の一環として人対応で OK）、それとも「CI 追加は範囲外」なのかの確定。
    - Recommendation: 計画では task 3.3 を「CI 不在の確認済み → block 判定（人対応: pytest ジョブ 1 本の追加依頼）の準備」として必ず含め、Bot 実装部分は `python -m pytest` のローカル緑で検証完了扱いにする。
 2. **対象 Python の正確な版数（「CI ジョブの CPython 3 の版」が未定義）**
+   - RESOLVED: CONTEXT.md「試験と実行環境（FR-7・FR-8）」の「対象 Python は CI ジョブの CPython 3 の版。バージョン横断互換コードを書かない」により確定。design.md D-F「Python バージョンは CI ジョブの現行 CPython 3 に合わせ、互換分岐を書かない」と同じく、版数の未定義は横断互換コードを書かない方針で解消され、実装判断への影響は無い（ローカル検証の正は `python3` = 3.14.9）。
    - What we know: ローカルは CPython 3.14.9（`python3`）と 3.12.15（`/usr/bin/python3`）の併存。CI 不在のため CI 版は未確定。
    - What's unclear: 人が workflow を追加する際のランナー版。
    - Recommendation: 実装は両者で成立する stdlib 最小表記に留め（型注釈は `list[tuple[...]]` 等の 3.9+ 記法、3.14 専用機能は使わない）、バージョン横断互換コード（try/except import 等）は書かない。ローカル検証の正は `python3`（3.14.9）。
 3. **pyproject.toml の最小形（ビルドバックエンド選択は Discretion）**
+   - RESOLVED: CONTEXT.md「Claude's Discretion」の「`pyproject.toml` の最小限の設定内容（ビルドバックエンド選択等）は仕様『最低限のパッケージ設定は許容』の範囲で決定してよい」により決定権は実装側に委譲済み。design.md D-F「`pyproject.toml`（setuptools or hatchling の minimum）…ランタイム依存ゼロ。pytest は開発依存」を受け、PLAN 01-03 Task 3 が setuptools バックエンド最小形（[project] name/version・dependencies = []・pytest は dev 依存のみ・pythonpath 設定不要・1 ファイル集約）として確定済み。
    - What we know: 実行には不要（Pitfall 1）。必要になるのはメタデータ + dev 依存宣言 + 任意の `[tool.pytest.ini_options]`。危険なパスで人の承認対象になり得る。
    - What's unclear: 人が受け入れる最小差分の具体形。
    - Recommendation: setuptools バックエンド + `[project] name/version + dependencies = []` + pytest を dev 依存、の設定 1 ファイルに集約。`pythonpath` 設定も不要（repo 直下実行のため）。差分最小を明示して承認に出す。
