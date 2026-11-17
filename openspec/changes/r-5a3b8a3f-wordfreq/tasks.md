@@ -11,7 +11,7 @@
 
 - [x] 2.1 `wordfreq/sources.py` を作成する（`TextSource` プロトコル + `FileSource`、UTF-8 デコード、`InputError`）。単体試験: 正常読み込み、不存在ファイル、デコード失敗、空ファイル
 - [x] 2.2 `wordfreq/formatters.py` を作成する（design D-A の `<count>\t<word>` 1行 と D-E の JSON 配列、0件は `[]`）。単体試験: text/json 双方の出力構造、順序の保持、`json.loads` 可読性
-- [ ] 2.3 入力取得境界越しの試験を追加する（集計経路が `TextSource` を介してのみテキストを受け取ること、aggregator 系試験が FileSource 非経由であること。spec「部品分離と入力元拡張の構成」）
+- [x] 2.3 入力取得境界越しの試験を追加する（集計経路が `TextSource` を介してのみテキストを受け取ること、aggregator 系試験が FileSource 非経由であること。spec「部品分離と入力元拡張の構成」）
 
 ## 3. CLI 合成と実行形態
 
