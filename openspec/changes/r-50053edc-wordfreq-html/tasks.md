@@ -29,5 +29,6 @@ UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返�
   - [x] 3.1 tooling部分: 固定15 CLIケース・HTML11ケース×両幅の実再生成、DOM/順序/総数/長文折返しと数値の自動幾何判別を用意。全画像の可読性はpendingのため3.1全体は未チェックのまま。
   - [x] 3.2 tooling部分: raw element/全文/文字Range・空矩形・UTF-16/codepoint・全祖先・実フォント・full/tile画像の対応採取と、own-height越え許容/clip/隣接非重複の判別試験を実装。実閲覧は未実施で3.2全体は未チェック。
   - [x] 4.1 tooling部分のみ: pre-open context/main-CDP/browser-flatten-autoattach観測と、clean/failed-resource/document-navigation/early-popup/client-redirectの実canaryを用意。採取はcapture-only/pending-review、品質の独立再生成・全画像閲覧・live観測・AC別判定は未完了。4.1の独立品質gateは未チェック。
+  - [x] 03-03 review round2 tooling修正: coverageをready順序と同文書context/main/flatten要求・paused target対応から導出し、検証側も再計算。各td/メタ値等は文字record・character Range・全文一致を必須とし、欠落/空/部分測定は失敗。回帰のRED後、58 verifier/全184試験成功。全画像閲覧・live・独立品質gateのチェックは進めない。
 - GSD対応表は03-COVERAGE.md。チェックは実際に完了したtaskだけを更新する。
 - 実装・品質検証・受入が済んでから、別工程でsync・archiveと最終確認を行う。本カードでは実装・製品ブラウザ合格・archiveを行わない。

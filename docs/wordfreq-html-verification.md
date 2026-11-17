@@ -44,6 +44,8 @@ longの語はw×256。basenameは `集計`+space2個+n×176+実LF+`続き`+実TA
 
 各case/widthの `raw.json` は元の浮動矩形、全文Range、全codepointのRange（空配列を含む）、UTF-16開始/終了offset、codepoint位置、全文テキスト、全祖先のoverflow/box/border/padding/client/scroll情報を保持する。JSはディスクからautomation APIへ読み込み、製品HTMLへscriptタグを追加しない。座標系はviewport CSS px、採取時scrollを併記する。
 
+各td・th・見出し・caption・label・メタ値・空補足文について、所有者ごとのtext recordとcharacter Rangeの存在、連結した全文と要素textContentの完全一致を必須とする。現collectorのleaf構造外（子要素に包んだ値など）は未測定として失敗させ、黙って検査対象から外さない。
+
 `derived.json` はrawと別の判定。横viewport/列収まり、ownerを含む実切取り祖先のpadding clip、異なるテキストノード間の重なり、長いn/w連続部の複数行化、break-spaces/tab-size4、数値の全文/各桁を検査する。隣接列・行・メタ情報・captionを同じ文字矩形比較に含める。要素自身の縦矩形を越えただけでは失敗にしない。浮動値や空Rangeを丸め・clamp・削除して合格へ寄せない。clip領域の導出値はraw border/client原本とは別フィールド。
 
 全ページ画像を保存し、高さ900pxを超える場合は800px刻み・最大900px高の重なり付きtileも保存する。CDP `Page.captureScreenshot(captureBeyondViewport=true, clip.scale=1)` で、測定時のviewportをresizeせずdocument座標のまま撮る。Playwrightのfull-page撮影は一時resizeでscrollbarが消え、狭幅の折返しと高さが変わる場合があるため使わない。幅はscrollbarを除いたdocument.clientWidth、横収まりもinnerWidthとclientWidthの両方を満たす必要がある。索引にはPNG IHDRから読んだ実pixel寸法と座標、tileの要求clipを保存し、要求寸法との不一致と再読込み時の記録寸法不一致を失敗にする。**存在・寸法・幾何だけでは画像を読んだことにならない。** `reviewed_images` は空、可読性/画像閲覧は常にpending。
@@ -54,7 +56,7 @@ longの語はw×256。basenameは `集計`+space2個+n×176+実LF+`続き`+実TA
 
 CDP transportはChromiumのloopback debuggerであり、製品Webサーバーは起動しない。既存 `websockets` を明示ブラウザ操作時だけimportする。起動argvは背景機能/拡張を減らすが、**通信を遮断したことや成功response0を安全の根拠にはしない**。
 
-raw `network.json` に初回file読込みを含む全観測イベントと開始/終了時刻を残す。失敗・遷移未commit・popupでも外部/予期しないURLの試行は不合格。未知event、帰属できないrequest、初回local request欠損、observer coverage不足は未検証/失敗。
+raw `network.json` に初回file読込みを含む全観測イベントと開始/終了時刻を残す。coverageは定数でなく、browser-autoattach-ready → page-cdp-ready → 初回要求の順序と、同じ初回文書URLのcontext/main CDP/flatten CDPの実要求、paused page targetIdとの対応から導出する。検証側でもイベントから再計算し、自己申告のtrueだけでは通さない。失敗・遷移未commit・popupでも外部/予期しないURLの試行は不合格。未知event、帰属できないrequest、初回local request欠損、observer coverage不足は未検証/失敗。
 
 例外は、文書open前に生成/attachされたChromium `browser_ui`、opener無し、canAccessOpener=false、既知のomnibox chrome:// URLという原本がある**同一targetId・同一URL**だけ。page型や文書open後の新targetへこの除外を広げない。根拠イベントも削除せず保持する。一般的な「背景通信だから除外」はしない。
 

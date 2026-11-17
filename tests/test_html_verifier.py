@@ -115,6 +115,36 @@ def test_geometry_rejects_content_under_scrollbar(defect):
     assert raw == original
 
 
+@pytest.mark.parametrize("kind", ["td", "filename-value", "total-value"])
+@pytest.mark.parametrize("defect", ["missing", "empty", "partial", "no-characters"])
+def test_geometry_requires_complete_text_for_each_cell_and_metadata(kind, defect):
+    raw = raw_record()
+    owner = copy.deepcopy(raw["elements"][0])
+    owner.update(id="unmeasured", tag="td" if kind == "td" else "div",
+                 className="word" if kind == "td" else kind, text="A\n😀")
+    raw["elements"].append(owner)
+    text = copy.deepcopy(raw["texts"][0])
+    text.update(id="required-text", owner=owner["id"])
+    # Move new owner/glyphs out of the first owner's ink to isolate coverage.
+    for item in text["characters"]:
+        for r in item["rects"]:
+            r.update(top=r["top"]+100, bottom=r["bottom"]+100, y=r["y"]+100)
+    raw["texts"].append(text)
+    assert verifier().geometry_errors(raw) == []
+    if defect == "missing":
+        raw["texts"].pop()
+    elif defect == "empty":
+        text.update(text="", characters=[], fullRects=[])
+    elif defect == "partial":
+        text["text"] = "A"
+        text["characters"] = text["characters"][:1]
+    else:
+        text["characters"] = []
+    original = copy.deepcopy(raw)
+    assert verifier().geometry_errors(raw)
+    assert raw == original
+
+
 def test_real_generation_bytes_oracles_privacy_and_lazy_browser(tmp_path):
     v = verifier()
     cases = v.generate_cases(tmp_path)
@@ -176,8 +206,16 @@ def test_browser_files_and_capture_entrypoint_exist():
 def local_network():
     return dict(start="2026-01-01T00:00:00+00:00", end="2026-01-01T00:00:01+00:00",
                 coverage=dict(context=True, browserTargets=True, mainCDP=True, flattenedAutoAttach=True), errors=[],
-                events=[dict(kind="page-cdp-ready", data={}),
-                        dict(kind="request", data=dict(url="file:///control.html"))])
+                events=[dict(kind="browser-autoattach-ready", data={}),
+                        dict(kind="target-attached", data=dict(waitingForDebugger=True,
+                            targetInfo=dict(type="page", targetId="main"))),
+                        dict(kind="page-cdp-ready", data={}),
+                        dict(kind="request", data=dict(url="file:///control.html")),
+                        dict(kind="Network.requestWillBeSent", data=dict(requestId="local",
+                            request=dict(url="file:///control.html"))),
+                        dict(kind="Network.requestWillBeSent", data=dict(requestId="local-root",
+                            request=dict(url="file:///control.html"), source="browser-autoattach",
+                            targetId="main", frameId="main-frame", initiator=dict(type="other")))])
 
 
 def test_browser_ui_exclusion_requires_pre_open_target_identity():
@@ -224,6 +262,31 @@ def test_missing_pre_open_or_empty_observation_cannot_pass():
     assert v.network_errors(net, "file:///control.html")
 
 
+@pytest.mark.parametrize("missing", ["browser-autoattach-ready", "page-cdp-ready"])
+def test_network_requires_ready_evidence_even_with_true_flags(missing):
+    net = local_network()
+    assert verifier().network_errors(net, "file:///control.html") == []
+    net["events"] = [e for e in net["events"] if e["kind"] != missing]
+    assert verifier().network_errors(net, "file:///control.html")
+
+
+@pytest.mark.parametrize("defect", ["target-missing", "main-missing", "auto-missing", "wrong-url", "wrong-target", "ready-late"])
+def test_coverage_requires_same_document_all_channels(defect):
+    net = local_network()
+    assert all(verifier().observer_coverage(net["events"]).values())
+    if defect.endswith("missing"):
+        index = {"target-missing": 1, "main-missing": 4, "auto-missing": 5}[defect]
+        net["events"].pop(index)
+    elif defect == "wrong-url":
+        net["events"][5]["data"]["request"]["url"] = "about:blank"
+    elif defect == "wrong-target":
+        net["events"][5]["data"]["targetId"] = "unrelated"
+    else:
+        net["events"].append(net["events"].pop(0))
+    assert not all(verifier().observer_coverage(net["events"]).values())
+    assert verifier().network_errors(net, "file:///control.html")
+
+
 def test_canary_results_require_actual_all_path_rejection():
     v = verifier()
     assert callable(getattr(v, "canary_errors", None)), "genuine observer canary validation required"
@@ -252,7 +315,7 @@ def test_canary_validator_requires_correlated_real_path_evidence(defect):
     v = verifier()
     report = synthetic_canaries(v)
     if defect == "wrong-failure":
-        report["cases"][1]["observation"]["events"][3]["data"]["requestId"] = "unrelated"
+        report["cases"][1]["observation"]["events"][7]["data"]["requestId"] = "unrelated"
     elif defect == "missing-protocol":
         report["cases"][0]["observation"]["coverage"]["flattenedAutoAttach"] = False
     elif defect == "unknown":
@@ -260,7 +323,7 @@ def test_canary_validator_requires_correlated_real_path_evidence(defect):
     elif defect == "unpaused-popup":
         report["cases"][3]["observation"]["events"][-1]["data"]["waitingForDebugger"] = False
     elif defect == "missing-local":
-        report["cases"][2]["observation"]["events"].pop(1)
+        report["cases"][2]["observation"]["events"].pop(3)
     assert bool(v.canary_errors(report)) == (defect != "none")
 
 
@@ -268,7 +331,7 @@ def test_canary_url_only_failure_cannot_replace_correlated_request_id():
     v = verifier()
     report = synthetic_canaries(v)
     events = report["cases"][1]["observation"]["events"]
-    events[3]["data"]["requestId"] = "unrelated"
+    events[7]["data"]["requestId"] = "unrelated"
     events.append(dict(kind="requestfailed", data=dict(url=v.CANARY_URL, failure="failed")))
     assert v.canary_errors(report)
 

@@ -164,6 +164,15 @@ def geometry_errors(raw):
         elements = {e["id"]: e for e in raw["elements"]}
         if not elements or not raw["texts"]:
             return errors + ["missing element/text measurements"]
+        by_owner = {}
+        for text in raw["texts"]:
+            by_owner.setdefault(text["owner"], []).append(text)
+        for element in elements.values():
+            if element.get("tag") in {"td", "th", "h1", "caption"} or element.get("className") in {"filename-value", "total-value", "label", "empty-message"}:
+                measured = by_owner.get(element["id"], [])
+                if (not measured or not any(t["characters"] for t in measured)
+                        or "".join(t["text"] for t in measured) != element["text"]):
+                    errors.append(f"{element['id']}: text not fully measured")
         glyphs = []
         for text in raw["texts"]:
             owner = elements[text["owner"]]
@@ -438,14 +447,37 @@ class Observer:
             events = sorted(self.events + self.monitor.events[self.monitor_start:], key=lambda e: e["at"])
             errors = self.errors + list(self.monitor.errors)
         return dict(start=self.start, end=self.end, interval="capture-only", events=events,
-                    coverage=dict(context=True, browserTargets=True, mainCDP=True, flattenedAutoAttach=True), errors=errors)
+                    coverage=observer_coverage(events), errors=errors)
+
+
+def observer_coverage(events, expected_url=None):
+    """Infer readiness and same-document channel evidence, not declared flags."""
+    kinds = [e["kind"] for e in events]
+    browser_ready = kinds.index("browser-autoattach-ready") if "browser-autoattach-ready" in kinds else -1
+    page_ready = kinds.index("page-cdp-ready") if "page-cdp-ready" in kinds else -1
+    requests = [i for i, e in enumerate(events) if e["kind"] in {"request", "Network.requestWillBeSent"}]
+    ordered = 0 <= browser_ready < page_ready and bool(requests) and page_ready < min(requests)
+    if expected_url is None:
+        expected_url = next((e["data"].get("url") for e in events if e["kind"] == "request"), None)
+    attached = {e["data"]["targetInfo"].get("targetId") for e in events
+                if e["kind"] == "target-attached" and e["data"].get("targetInfo", {}).get("type") == "page"
+                and e["data"].get("waitingForDebugger") is True}
+    root_requests = [e["data"] for e in events if e["kind"] == "Network.requestWillBeSent"
+                     and e["data"].get("source") == "browser-autoattach"
+                     and e["data"].get("request", {}).get("url") == expected_url
+                     and all(e["data"].get(k) for k in ("requestId", "targetId", "frameId", "initiator"))]
+    return dict(context=ordered and any(e["kind"] == "request" and e["data"].get("url") == expected_url for e in events),
+                browserTargets=ordered and any(r["targetId"] in attached for r in root_requests),
+                mainCDP=ordered and any(e["kind"] == "Network.requestWillBeSent" and
+                    not e["data"].get("source") and e["data"].get("request", {}).get("url") == expected_url for e in events),
+                flattenedAutoAttach=ordered and bool(root_requests))
 
 
 def network_errors(record, expected_url):
     errors = []
     if not record.get("start") or not record.get("end") or not record.get("events"):
         return ["missing observation interval/events"]
-    if not all(record.get("coverage", {}).get(k) for k in ("context", "browserTargets", "mainCDP", "flattenedAutoAttach")):
+    if not all(observer_coverage(record["events"], expected_url).values()) or not all(record.get("coverage", {}).get(k) for k in ("context", "browserTargets", "mainCDP", "flattenedAutoAttach")):
         errors.append("missing observer coverage")
     local_seen = False
     pre_open = True
