@@ -18,7 +18,7 @@ def lifecycle(tmp_path, monkeypatch):
     v = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(v)
     state = SimpleNamespace(v=v, output=tmp_path / "quality" / "synthetic", role="quality",
-                            fault=None, immutable={}, ledger=None, writes=[])
+                            fault=None, mutate=None, immutable={}, ledger=None, writes=[], interrupted=False)
     clean = dict(head="controlled-head", product_status="", untracked_product=[], status="")
     monkeypatch.setattr(v, "provenance", lambda: copy.deepcopy(clean))
     monkeypatch.setattr(v, "scope_report", lambda: dict(errors=[]))
@@ -61,9 +61,32 @@ def lifecycle(tmp_path, monkeypatch):
         return v.ledger_errors(manifest, ledger, end) + [e for c in manifest["cases"] for view in c["views"] for e in v.view_identity_errors(view)]
     monkeypatch.setattr(v, "evidence_errors", evidence)
     original_save = v.save_json
+    def final_provenance():
+        result = copy.deepcopy(clean)
+        if state.ledger is not None and len(flushes) >= 5:
+            if state.fault == "head":
+                result["head"] = "changed-head"
+            if state.fault == "dirty":
+                result["product_status"] = " M tools/verify_wordfreq_html.py"
+        return result
+    monkeypatch.setattr(v, "provenance", final_provenance)
     def save(path, value):
+        if path.name == "derived.json" and value.get("verdict") in {"accepted", "builder-reviewed"}:
+            # A reader/restart must never treat the partial publication as accepted.
+            current = v.load_json(state.output / "manifest.json")
+            assert current["verdict"] == "unverified"
+            assert current["independent_acceptance"] is False
+            if state.fault in {"partial", "storage"} and (state.interrupted or path.parent.name == "320"):
+                state.interrupted = True
+                raise OSError("injected partial derived save")
+        if state.fault == "storage" and state.interrupted:
+            raise OSError("injected persistent storage unavailable")
+        if state.fault == "manifest-save" and path.name == "manifest.json" and value["verdict"] == "accepted":
+            raise OSError("injected completion marker failure")
         state.writes.append((path, copy.deepcopy(value)))
         original_save(path, value)
+        if state.fault == "derived-pending" and path.name == "derived.json" and value["verdict"] == "accepted":
+            original_save(path, dict(value, verdict="pending-review"))
         if path.name == "manifest.json" and value["verdict"] == "pending-review" and state.ledger is None:
             ledger = {k: value[k] for k in ("session", "head", "actor", "root")}
             ledger["reviews"] = [dict(actor=value["actor"], image=i["path"], sha256=i["sha256"],
@@ -72,8 +95,12 @@ def lifecycle(tmp_path, monkeypatch):
                 for c in value["cases"] for view in c["views"] for i in view["images"]]
             ledger["ac_reviews"] = [dict(ac=ac, judgment="accepted", notes="synthetic", evidence=refs)
                                      for ac, refs in value["ac_index"].items()]
+            if state.mutate:
+                state.mutate(value, ledger)
             state.ledger = copy.deepcopy(ledger)
             original_save(state.output / "reviews.json", ledger)
+            if state.fault == "timeout":
+                return
             original_save(state.output / "finalize-request.json", dict(session=value["session"],
                           ledger_sha256=v.digest(state.output / "reviews.json"), at=STAMP))
             state.immutable = {str(p): p.read_bytes() for p in state.output.rglob("*") if p.name in {"raw.json", "full.png", "tile.png", "reviews.json"}}
@@ -107,3 +134,103 @@ def test_real_owner_projects_exact_ledger_into_every_persisted_view(lifecycle, r
     assert all(Path(p).read_bytes() == data for p, data in s.immutable.items())
     assert s.writes[-1][0] == s.output / "manifest.json"
     assert s.v.final_review_errors(manifest, s.ledger, s.output) == []
+
+
+@pytest.mark.parametrize("fault", ["partial", "late", "head", "dirty", "timeout", "derived-pending", "manifest-save"])
+def test_owner_failures_revoke_every_saved_view(lifecycle, fault):
+    s = lifecycle
+    s.fault = fault
+    code, manifest = s.run()
+    assert code == 1
+    assert manifest["verdict"] == "unverified"
+    assert manifest["independent_acceptance"] is False
+    assert manifest["errors"]
+    assert set(manifest["ac_verdicts"].values()) == {"unverified"}
+    for case in manifest["cases"]:
+        for view in case["views"]:
+            assert view["verdict"] == "unverified"
+            assert view["reviewed_images"] == []
+            assert s.v.load_json(s.output / case["id"] / str(view["width"]) / "derived.json") == view
+
+
+@pytest.mark.parametrize("mutation", ["missing", "extra", "duplicate", "empty", "path", "hash", "time", "image"])
+def test_invalid_ledger_or_bytes_fail_closed_in_real_owner(lifecycle, mutation):
+    s = lifecycle
+    def mutate(manifest, ledger):
+        if mutation == "missing":
+            ledger["reviews"].pop()
+        elif mutation == "extra":
+            ledger["reviews"].append(dict(ledger["reviews"][0], image="/extra.png"))
+        elif mutation == "duplicate":
+            ledger["reviews"].append(copy.deepcopy(ledger["reviews"][0]))
+        elif mutation == "empty":
+            ledger["reviews"] = []
+        elif mutation in {"path", "hash", "time"}:
+            key = {"path": "image", "hash": "sha256", "time": "viewed_at"}[mutation]
+            ledger["reviews"][0][key] = "invalid"
+        else:
+            Path(ledger["reviews"][0]["image"]).write_bytes(b"changed bytes")
+    s.mutate = mutate
+    code, manifest = s.run()
+    assert code == 1
+    assert manifest["verdict"] == "unverified"
+    assert manifest["errors"]
+    assert not manifest["independent_acceptance"]
+    for case in manifest["cases"]:
+        for view in case["views"]:
+            assert view["verdict"] == "unverified"
+            assert not view["reviewed_images"]
+            assert s.v.load_json(s.output / case["id"] / str(view["width"]) / "derived.json") == view
+
+
+def test_ledger_order_does_not_change_canonical_projection(lifecycle):
+    s = lifecycle
+    s.mutate = lambda manifest, ledger: ledger["reviews"].reverse()
+    code, manifest = s.run()
+    assert code == 0
+    assert s.v.final_review_errors(manifest, s.ledger, s.output) == []
+    for case in manifest["cases"]:
+        assert [view["width"] for view in case["views"]] == [1280, 320]
+        for view in case["views"]:
+            assert [r["path"] for r in view["reviewed_images"]] == [i["path"] for i in view["images"]]
+
+
+@pytest.mark.parametrize("mutation", ["absent-view", "manifest-only", "derived-pending", "empty-cases", "review-time", "empty-mapping", "nested-pending"])
+def test_final_consistency_rejects_contradictory_persisted_records(lifecycle, mutation):
+    s = lifecycle
+    assert s.run()[0] == 0
+    manifest = s.v.load_json(s.output / "manifest.json")
+    view = manifest["cases"][0]["views"][0]
+    path = s.output / "empty" / "1280" / "derived.json"
+    if mutation == "absent-view":
+        manifest["cases"][0]["views"].pop()
+    elif mutation == "manifest-only":
+        path.unlink()
+    elif mutation == "derived-pending":
+        s.v.save_json(path, dict(view, verdict="pending-review"))
+    elif mutation == "empty-cases":
+        manifest["cases"] = []
+    elif mutation == "review-time":
+        view["reviewed_images"][0]["viewed_at"] = "changed"
+    elif mutation == "empty-mapping":
+        view["reviewed_images"] = []
+    else:
+        manifest["extra"] = {"nested": ["pending-review"]}
+    assert s.v.final_review_errors(manifest, s.ledger, s.output)
+
+
+def test_persistent_storage_failure_is_explicit_and_nonzero(lifecycle, capsys):
+    s = lifecycle
+    s.fault = "storage"
+    code, manifest = s.run()
+    assert code == 1
+    assert manifest["verdict"] == "unverified"
+    assert not manifest["independent_acceptance"]
+    assert "persistence" in capsys.readouterr().out
+
+
+def test_runbook_requires_final_all_view_reconciliation():
+    guide = (ROOT / "docs/wordfreq-html-verification.md").read_text()
+    for term in ("derived.json", "reviewed_images", "viewed_at", "completion marker", "G2", "zero-test", "partial"):
+        assert term in guide
+
