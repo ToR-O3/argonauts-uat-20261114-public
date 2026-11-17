@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.025" timestamp="2026-11-17T11:54:44.228707+09:00" hostname="Ys-Minify"><testcase classname="tests.test_tokenizer" name="test_casefolds_tokens_in_input_order" time="0.001"><failure message="AssertionError: wordfreq package must exist&#10;assert None is not None&#10; +  where None = find_spec('wordfreq')">def test_casefolds_tokens_in_input_order():
+&gt;       assert find_spec("wordfreq") is not None, "wordfreq package must exist"
+E       AssertionError: wordfreq package must exist
+E       assert None is not None
+E        +  where None = find_spec('wordfreq')
+
+tests/test_tokenizer.py:7: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,14 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________________ test_casefolds_tokens_in_input_order _____________________
+
+    def test_casefolds_tokens_in_input_order():
+>       assert find_spec("wordfreq") is not None, "wordfreq package must exist"
+E       AssertionError: wordfreq package must exist
+E       assert None is not None
+E        +  where None = find_spec('wordfreq')
+
+tests/test_tokenizer.py:7: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_tokenizer.py::test_casefolds_tokens_in_input_order - Assert...
+1 failed in 0.02s
