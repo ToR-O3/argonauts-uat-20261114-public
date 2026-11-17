@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.024" timestamp="2026-11-17T12:18:20.556179+09:00" hostname="Ys-Minify"><testcase classname="tests.test_aggregator" name="test_count_words_counts_an_iterator" time="0.001"><failure message="AssertionError: aggregation module is required&#10;assert None is not None&#10; +  where None = &lt;function find_spec at 0x73159b6983b0&gt;('wordfreq.aggregator')&#10; +    where &lt;function find_spec at 0x73159b6983b0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec&#10; +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util">def test_count_words_counts_an_iterator():
+&gt;       assert importlib.util.find_spec("wordfreq.aggregator") is not None, "aggregation module is required"
+E       AssertionError: aggregation module is required
+E       assert None is not None
+E        +  where None = &lt;function find_spec at 0x73159b6983b0&gt;('wordfreq.aggregator')
+E        +    where &lt;function find_spec at 0x73159b6983b0&gt; = &lt;module 'importlib.util' (frozen)&gt;.find_spec
+E        +      where &lt;module 'importlib.util' (frozen)&gt; = importlib.util
+
+tests/test_aggregator.py:8: AssertionError</failure></testcase></testsuite></testsuites>
