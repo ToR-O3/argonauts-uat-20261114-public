@@ -328,11 +328,11 @@ security設定はASVS level1、highでblock。今回はローカルCLIと自己�
 
 ## Open Questions / 後工程の未検証事項
 
-1. **今回検証driverの最終path/CLI。** 既存verifierの汎用部品は再利用可能だがPhase4専用entrypointは未作成。plannerが作成task・担当・実行順・pathを確定し、Builderが実ファイルから検証する。研究中に架空コマンドを試走しない。
-2. **baseline環境の固定と品質閲覧能力。** browser CLI存在のみ確認。実起動、websockets、フォント、全画像閲覧、PM配送は後工程で確認する。差がある環境の画像を見た目互換の合格へ使わない。
-3. **pytest全件の実件数・所要時間・結果。** 本研究では未収集/未実行。0件収集や未実施を成功にせず、Builder/品質がそれぞれ記録する。
-4. **既存CIの対象head結果。** workflow定義の現物は読了したが、実runは取得していない。後工程の有限回確認で判定し、pending/未報告を成功としない。
-5. **背景Q-01/Q-02。** 仕様上のblockerではなく新要件にしない。[VERIFIED: openspec/changes/r-e476c11d-wordfreq-min-count/design.md:33–35]
+1. **RESOLVED — 今回検証driverの最終path/CLI（計画確定、実装未実施）。** 処置先は04-01-01で `tools/verify_wordfreq_min_count.py` と `tests/test_min_count_verifier.py` を作成、browser-free実ファイルself-test→公式task commit、04-01-02で製品変更前baselineを一度採取/封印。固定公開APIは `--mode baseline|capture|review-session|finalize --role builder|quality --output-dir`、capture/review-sessionは `--baseline-dir` も必須、finalizeはさらに `--review-ledger` 必須、baselineは両者不要。新mode/flagなし。04-03-01にcapture/保存原本validator、04-03-02にreview-session/finalize/実owner publication、両公式task commit後04-03-03にclean head実captureを配置。採取はactionのみ、反復automatedは同test moduleのsaved_baseline/saved_captureへpytest専用root環境変数を束縛してread-only照合（PLANのexact command参照）。旧verifierの汎用部品だけ再利用し、固定scope/head/合格は使わない。未作成コードの試走・製品実行はしていない。
+2. **RESOLVED — baseline環境の固定と品質閲覧能力（後工程hard gate、未実証）。** 04-01-02でBuilderが実browser/websockets/font/OS/版/両幅DPR1/通信原本を確認し封印、04-03-03/04-04-01は同環境比較が必須。04-04-02 runbook/independent_quality_gateで品質本人のfresh root/全画像実閲覧とPMの原本読取り能力を開始前確認、保存→標準添付→PM読取りを別gateにする。環境差/能力不足は停止/gaps、版確認を起動/閲覧成功へ昇格しない。
+3. **RESOLVED — pytest全件の実件数・所要時間・結果（実測担当とgate確定、未収集/未実行）。** 04-01-01/04-03-01/02/04-04-02のbrowser-free pytestを先行高速feedbackとし、04-01-02 baseline・04-03-03 capture・04-04-01統合・最終品質review-session/finalizeを必須の高遅延full E2E統合gateとして分離する。各実行担当Builder/品質が全suite/browser/閲覧/最終化の実argv/env/正件数/exit/開始終了/所要時間を区別して保存。0件・必須skip・未実施・synthetic-onlyは実原本成功にしない。30秒超を実測したとの主張もしていない。
+4. **RESOLVED — 既存CIの対象head結果（後工程担当へ引継ぎ、実run未取得）。** D-12と04-04-01/02の引継ぎに従いPR/CI担当カードが対象最終headの既存CIを有限回確認する。pending/未報告/不調は未達であって成功でない。待機loop・CI追加変更・依存追加を行わず、この計画修正ではCIを確認済みにしない。
+5. **RESOLVED — 背景Q-01/Q-02（承認済み非blocker処置）。** D-12と04-04 F5/04-04-02へ対応。Q-01利用背景/Q-02期限とA-01〜04は未提示/未承認のまま非要件として保持し、問いへの架空回答・新仕様・実装追加をしない。この処置は承認済みCONTEXT/OpenSpecの非blocker境界であり、背景が回答済みという意味ではない。[VERIFIED: 04-CONTEXT.md D-12; openspec/changes/r-e476c11d-wordfreq-min-count/design.md:33–35]
 
 ## Sources
 

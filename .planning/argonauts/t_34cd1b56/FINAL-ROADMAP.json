@@ -1,0 +1,81 @@
+{
+  "milestones": [],
+  "phases": [
+    {
+      "number": "1",
+      "name": "wordfreq CLI",
+      "goal": "ユーザーは `python -m wordfreq <file>` で、決定論的な並び順と出力形式、exit code 規約を持つ単語頻度集計を stdlib-only の CLI として実行できる",
+      "mode": null,
+      "depends_on": "Nothing (first phase)",
+      "plan_count": 5,
+      "summary_count": 5,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "3",
+      "name": "wordfreq HTML output",
+      "goal": "承認済み依頼 r-50053edc の自己完結HTMLを安全にstdoutへ出し、全形式の同数順を初出順へ変更し、通常幅/320 CSS pxの独立ブラウザ証拠で受入条件を追跡できる。",
+      "mode": null,
+      "depends_on": "Phase 1",
+      "plan_count": 6,
+      "summary_count": 6,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "4",
+      "name": "wordfreq min-count",
+      "goal": "承認済み依頼r-e476c11dのmin-countを全3形式へ追加し、正規化後の閾値除外→top・元HTML総数・既定互換・見た目/安全性を維持し、独立品質の読める証拠でAC1〜AC7を追跡できる。",
+      "mode": null,
+      "depends_on": "Phase 3",
+      "plan_count": 4,
+      "summary_count": 0,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "planned",
+      "roadmap_complete": false,
+      "context_read_error": null,
+      "context_scope": "complete"
+    }
+  ],
+  "phase_count": 3,
+  "completed_phases": 0,
+  "total_plans": 15,
+  "total_summaries": 11,
+  "progress_percent": 73,
+  "progress_scope": "complete",
+  "current_phase": "1",
+  "next_phase": null,
+  "checkbox_conflict": [
+    {
+      "number": "1",
+      "roadmap_complete": true,
+      "disk_status": "executed",
+      "plan_count": 5,
+      "summary_count": 5
+    },
+    {
+      "number": "3",
+      "roadmap_complete": true,
+      "disk_status": "executed",
+      "plan_count": 6,
+      "summary_count": 6
+    }
+  ],
+  "roadmap_record": {
+    "1": true,
+    "3": true,
+    "4": false
+  },
+  "missing_phase_details": null,
+  "scope": "complete"
+}

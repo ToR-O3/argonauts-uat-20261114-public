@@ -1,19 +1,20 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 3
-current_plan: Not started
-status: completed
-stopped_at: Phase 3 complete — all phases complete
-last_updated: "2026-11-17T19:56:10.831Z"
+current_phase: 4
+current_phase_name: wordfreq min-count
+current_plan: 1
+status: executing
+stopped_at: Phase 4 planned — 4 plans verified
+last_updated: "2026-11-17T22:16:12.816Z"
 last_activity: 2026-11-18
-last_activity_desc: Phase 3 complete
-state_head: 7c704f337df10a4bfd4bb18936266a16b606dd3c
+last_activity_desc: Phase 4 planned; 4 plans verified
+state_head: b147b1c189fc0aea6957f0ece9052119f99b3c5a
 progress:
-  total_phases: 2
+  total_phases: 3
   completed_phases: 1
-  total_plans: 11
+  total_plans: 15
   completed_plans: 11
-  percent: 50
+  percent: 33
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -25,17 +26,17 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-17)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 3 — wordfreq HTML output
+**Current focus:** Phase 4 — wordfreq min-count (planned; implementation not started)
 
 ## Current Position
 
-Phase: 3
-Current Plan: Not started
-Total Plans in Phase: 6
-Status: All phases complete
-Last activity: 2026-11-18 — Phase 3 complete
+Phase: 4 (wordfreq min-count) — READY TO EXECUTE
+Current Plan: 1
+Total Plans in Phase: 4
+Status: Ready to execute
+Last activity: 2026-11-18 — Phase 4 planned; 4 plans verified
 
-Progress: [█████░░░░░] 50%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
@@ -107,6 +108,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-17T17:36:40.317Z
-Stopped at: Phase 3 complete — all phases complete
-Resume file: .planning/phases/03-wordfreq-html-output/03-06-PLAN.md
+Last session: 2026-11-17T22:15:54.634Z
+Stopped at: Phase 4 planned — 4 plans verified
+Resume file: .planning/phases/04-wordfreq-min-count/04-01-PLAN.md

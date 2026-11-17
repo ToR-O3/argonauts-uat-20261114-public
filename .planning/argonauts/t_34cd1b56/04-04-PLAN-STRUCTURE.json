@@ -1,0 +1,39 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "task_count": 2,
+  "tasks": [
+    {
+      "name": "04-04-01: 全製品成果からBuilder統合・変更前比較・AC索引まで通す（OpenSpec2.1）",
+      "type": "tracer",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "04-04-02: 品質専用runbook・AC原本配送を実在化（OpenSpec2.2の実行は品質担当）",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}

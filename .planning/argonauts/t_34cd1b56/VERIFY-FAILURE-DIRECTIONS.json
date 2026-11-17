@@ -1,0 +1,139 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k browser_free -x",
+      "statement": "非0終了、0 collected、実ファイルimportなし、REDがsyntax/import事故だけ、baseline未実装を成功にする場合。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-01-PLAN.md",
+      "task": "04-01-01: baseline経路とread-only validatorを実ファイルself-testで準備・正式確定（OpenSpec1.1準備）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages WORDFREQ_MIN_COUNT_BASELINE_ROOT=.planning/argonauts/r-e476c11d/baseline /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k saved_baseline -x",
+      "statement": "非0/0 collected、実baseline検証未実施、fixture-onlyの結果を実原本合格へ昇格、原本hash変更や拒否control見逃し。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-01-PLAN.md",
+      "task": "04-01-02: clean正式headから変更前baselineを一度採取・封印しread-only確認"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "非0/0 collected、既存回帰失敗、skipによる必須条件の欠落。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-01-PLAN.md",
+      "task": "04-01-02: clean正式headから変更前baselineを一度採取・封印しread-only確認"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -x",
+      "statement": "GREEN時非0/0 collected、1.2新試験未収集、入力spy呼出し、stdoutエラーHTML、permission未実証、先行REDがimport/syntaxエラーだけ。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-02-PLAN.md",
+      "task": "04-02-01: 引数→実ファイル→全形式の明示1、usage/input境界（OpenSpec1.2）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -x",
+      "statement": "GREEN時非0/0 collected、どちらかの先行RED欠落、全除外REDの後付け、literal oracle不一致、Counter値/順変化、HTML total5/7の誤り。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-02-PLAN.md",
+      "task": "04-02-02: 選択と空結果/元総数を両群先行RED→共通実装→両群GREEN（OpenSpec1.3+1.4）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_aggregator.py -x",
+      "statement": "非0/0 collected、初出順/二引数/非破壊の既存回帰失敗。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-02-PLAN.md",
+      "task": "04-02-02: 選択と空結果/元総数を両群先行RED→共通実装→両群GREEN（OpenSpec1.3+1.4）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_formatters.py -x",
+      "statement": "非0/0 collected、固定CSS/copy/escape/空表示契約の回帰失敗。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-02-PLAN.md",
+      "task": "04-02-02: 選択と空結果/元総数を両群先行RED→共通実装→両群GREEN（OpenSpec1.3+1.4）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "非0/0 collected、skipで必須試験穴、既存suite失敗、未実施を成功と呼ぶ場合。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-02-PLAN.md",
+      "task": "04-02-02: 選択と空結果/元総数を両群先行RED→共通実装→両群GREEN（OpenSpec1.3+1.4）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k browser_free -x",
+      "statement": "非0/0 collected、REDなし、欠落mutationを受入、fixture-onlyを実browser成功と表示。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-03-PLAN.md",
+      "task": "04-03-01: capture/比較と保存原本validatorをbrowser-free縦sliceで実装"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k browser_free -x",
+      "statement": "非0/0 collected、predicateだけでowner publication未試験、違反controlが受入、mode別必須引数不一致、Builderがquality合格を生成。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-03-PLAN.md",
+      "task": "04-03-02: live review-session/finalizeのfail-closed判別力を実在化"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "非0/0 collected、既存verifier試験の弱体化、未閲覧や観測漏れを成功扱い。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-03-PLAN.md",
+      "task": "04-03-02: live review-session/finalizeのfail-closed判別力を実在化"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages WORDFREQ_MIN_COUNT_BASELINE_ROOT=.planning/argonauts/r-e476c11d/baseline WORDFREQ_MIN_COUNT_CAPTURE_ROOT=.planning/argonauts/r-e476c11d/builder/04-03-capture /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k saved_capture -x",
+      "statement": "非0/0 collected、実原本未検査、hash/環境/bytes/total/全view/通信/全suite/scope不一致、保存headの付替え、acceptedまたはindependent_acceptance=true、検証が原本を書換え/再採取。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-03-PLAN.md",
+      "task": "04-03-03: 全4modeの正式確定後clean headでBuilder captureを一度採取"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "非0/0 collected、未収集新規試験、必須skipの穴、環境/件数/exit未保存。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-04-PLAN.md",
+      "task": "04-04-01: 全製品成果からBuilder統合・変更前比較・AC索引まで通す（OpenSpec2.1）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages WORDFREQ_MIN_COUNT_BASELINE_ROOT=.planning/argonauts/r-e476c11d/baseline WORDFREQ_MIN_COUNT_CAPTURE_ROOT=.planning/argonauts/r-e476c11d/builder/04-04-integration /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k saved_capture -x",
+      "statement": "非0/0 collected、実原本未検査、baseline比較/取得不能scope/原本欠落/環境差、宣言head/hash不一致、保存headの付替え、再採取/原本書換え、Builder captureでindependent_acceptance=true。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-04-PLAN.md",
+      "task": "04-04-01: 全製品成果からBuilder統合・変更前比較・AC索引まで通す（OpenSpec2.1）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k browser_free -x",
+      "statement": "非0/0 collected、実runbookを読まないno-op、誤mode/flag/AC7欠落controlが成功、Builderによる独立品質自己承認。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-04-PLAN.md",
+      "task": "04-04-02: 品質専用runbook・AC原本配送を実在化（OpenSpec2.2の実行は品質担当）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
+      "statement": "非0/0 collected、既存全件失敗、原本/実行環境欠落を成功へ変換。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-04-PLAN.md",
+      "task": "04-04-02: 品質専用runbook・AC原本配送を実在化（OpenSpec2.2の実行は品質担当）"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 16
+  },
+  "readError": null
+}
