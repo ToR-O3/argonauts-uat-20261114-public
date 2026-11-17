@@ -264,3 +264,87 @@ def test_all_format_seed_bytes(tmp_path, output_format):
         assert result.stderr == b""
         outputs.append(result.stdout)
     assert outputs[0] == outputs[1]
+
+
+@pytest.mark.parametrize("value", [
+    "&", "< >", "\" '", "&amp; &#13; &#x0D; &lt; &quot;",
+    '<script>alert("x")</script><img src=x onerror=alert(1)>',
+    '</td><svg onload=alert(2)><a href="https://example.invalid">x</a>',
+    "  leading  middle trailing  ", "\t日本語\t", "\nfirst\nlast\n",
+    "\rfirst\rlast\r", "\r\nfirst\r\nlast\r\n", " \t\n\r\r\n終端 ",
+])
+def test_html_exact_text_matrix(value):
+    from wordfreq.formatters import format_html
+
+    pairs = [(value, 7)]
+    document = format_html(pairs, filename=value, total_count=99)
+    # Simulate only HTML input-stream CR processing, not decoded text normalization.
+    report = parse_report(document.replace("\r\n", "\n").replace("\r", "\n"))
+    assert report.values == {"filename": value, "total-count": "99"}
+    assert report.rows[1:] == [["1", value, "7"]]
+    assert pairs == [(value, 7)]
+    baseline = parse_report(format_html([("safe", 7)], filename="safe", total_count=99))
+    assert report.tags == baseline.tags  # Payload cannot create any element/attribute.
+    assert "\r" not in document
+    assert document.count("&#13;") == 2 * value.count("\r")
+    if "&#13;" in value:
+        assert "&amp;#13;" in document  # Literal entity is text, not a CR.
+    assert not any(tag in {"script", "a", "img", "link", "iframe", "svg", "object"}
+                   for tag, _ in report.tags)
+    assert not any(key.startswith("on") or key in {"href", "src", "srcset", "style"}
+                   for _, attrs in report.tags for key in attrs)
+
+
+def test_html_pure_selected_pairs(tmp_path, monkeypatch):
+    from wordfreq import aggregator, sources
+    from wordfreq.formatters import format_html
+
+    def forbidden(*args, **kwargs):
+        pytest.fail("formatter must not read, sort or aggregate")
+
+    monkeypatch.setattr(sources.FileSource, "read_text", forbidden)
+    monkeypatch.setattr(aggregator, "count_words", forbidden)
+    monkeypatch.setattr(aggregator, "top_words", forbidden)
+    monkeypatch.setattr("builtins.open", forbidden)
+    # Deliberately non-frequency order and duplicate words: no reselection/recounting.
+    pairs = [("last", 1), ("first", 9), ("last", 3), ("large", 10**100)]
+    original = pairs.copy()
+    filename = "  日本語\r\n&.txt  "  # Display text, not a file that can be opened.
+    document = format_html(pairs, filename=filename, total_count=123)
+    report = parse_report(document)
+    assert report.rows[1:] == [[str(i), word, str(count)] for i, (word, count) in enumerate(original, 1)]
+    assert report.values == {"filename": filename, "total-count": "123"}
+    assert pairs == original
+
+
+@pytest.mark.parametrize("pairs,total", [
+    ([], 0),
+    ([("one", 3), ("two", 2), ("three", 1)], 6),
+    ([("zoo", 2), ("apple", 2), ("beta", 1)], 5),
+    ([("zoo", 2)], 5),
+])
+def test_html_document_contract(pairs, total):
+    from wordfreq.formatters import format_html
+
+    document = format_html(pairs, filename="資料.txt", total_count=total)
+    report = parse_report(document)
+    assert report.declarations == ["DOCTYPE html"]
+    assert document.startswith("<!DOCTYPE html>\n")
+    assert document.endswith("</html>\n")
+    for tag in ("html", "head", "body", "main", "table", "thead", "tbody", "title", "h1", "style"):
+        assert sum(t == tag for t, _ in report.tags) == 1
+    assert ("html", {"lang": "ja"}) in report.tags
+    assert ("meta", {"charset": "utf-8"}) in report.tags
+    assert ("meta", {"name": "viewport", "content": "width=device-width, initial-scale=1"}) in report.tags
+    assert report.headers == [{"scope": "col"}] * 3
+    assert report.rows == [["順位", "単語", "回数"], *[
+        [str(i), word, str(count)] for i, (word, count) in enumerate(pairs, 1)
+    ]]
+    assert sum(tag == "td" for tag, _ in report.tags) == 3 * len(pairs)
+    assert report.values == {"filename": "資料.txt", "total-count": str(total)}
+    assert document.index('id="filename"') < document.index("<table")
+    assert document.index('id="total-count"') < document.index("<table")
+    assert "<title>wordfreq 集計結果</title>" in document
+    assert "<h1>wordfreq 集計結果</h1>" in document
+    assert "url(" not in document.lower()
+    assert "@import" not in document.lower()
