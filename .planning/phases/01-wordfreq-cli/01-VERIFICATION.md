@@ -2,7 +2,7 @@
 phase: 01-wordfreq-cli
 verified: 2026-11-17T05:12:40Z
 verified_target_sha: "30d9c175fd87a0d492ef6c1532271f55482c45b8"
-status: human_needed
+status: passed
 score: 9/9 must-haves verified
 covered_files:
   - ".github/workflows/pytest.yml"

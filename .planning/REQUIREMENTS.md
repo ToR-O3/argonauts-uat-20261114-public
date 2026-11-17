@@ -26,7 +26,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### 試験・実行環境・依存
 
-- [ ] **REQ-07**: pytest による単体試験を用意し、リポジトリの CI の pytest 実行ジョブで通る。試験は REQ-01〜REQ-06 のシナリオ（不存在ファイル、空ファイル、ファイル引数個数、不正な `--top`・`--format`、同数語の順序、大文字小文字の同一視、UTF-8 デコード失敗、JSON 構造、部品単体・境界越し検証）を含む。対象 Python は当該 CI ジョブの CPython 3 の版とし、バージョン横断互換コードは書かない（FR-7・WF-07）
+- [x] **REQ-07**: pytest による単体試験を用意し、リポジトリの CI の pytest 実行ジョブで通る。試験は REQ-01〜REQ-06 のシナリオ（不存在ファイル、空ファイル、ファイル引数個数、不正な `--top`・`--format`、同数語の順序、大文字小文字の同一視、UTF-8 デコード失敗、JSON 構造、部品単体・境界越し検証）を含む。対象 Python は当該 CI ジョブの CPython 3 の版とし、バージョン横断互換コードは書かない（FR-7・WF-07）
 - [x] **REQ-08**: ランタイム依存は標準ライブラリのみ。依存追加が必要になる場合は人の承認を要する範囲変更として扱う。パッケージ化に最低限必要な設定ファイル（`pyproject.toml` 等）の変更は許容するが、smart マージ方針で人の承認対象になり得ることを前提に必要最小限に留める（FR-8、Brief A-5、D-F）
 
 ## v2 Requirements
@@ -65,7 +65,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | REQ-04 | Phase 1 | Complete |
 | REQ-05 | Phase 1 | Complete |
 | REQ-06 | Phase 1 | Complete |
-| REQ-07 | Phase 1 | Pending |
+| REQ-07 | Phase 1 | Complete |
 | REQ-08 | Phase 1 | Complete |
 
 **Coverage:**
