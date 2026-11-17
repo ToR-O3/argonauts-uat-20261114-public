@@ -10,13 +10,13 @@
 
 ## 3. 明るいレスポンシブ表示（AC4）
 UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返す長い語・有効なbasenameの固定入力を確定する。名前の連続空白・改行・タブの保持、保存HTMLの実UTF-8と宣言の一致、複数桁の数値列も検証対象へ含める。
-- [ ] 3.1 明るい背景のみ・切替なし・1始まり表示行連番を適用し、長い語とbasenameを折返して読める表にする。通常幅と320 CSS pxの実CLI生成HTMLで、空・通常・長文・同数topの表示を試験し、順位1/2、横はみ出しなし、省略なしを確認する。採用したUIと確認条件を説明文書に残す。
-- [ ] 3.2 ブラウザ検証手順と必要なローカル補助を用意し、viewport・要素・文字Range行断片・切取り祖先・隣接内容の実測原本および画面画像を保存する。横方向の収まり、切取り祖先内の収まり、隣接内容との非重複、画像の可読性で判定し、要素自身への厳格な縦包含を必須にしないことを試験/手順で確認する。値を補正して合格に見せず、全文を確認できる画像と実測を対応付ける。
+- [x] 3.1 明るい背景のみ・切替なし・1始まり表示行連番を適用し、長い語とbasenameを折返して読める表にする。通常幅と320 CSS pxの実CLI生成HTMLで、空・通常・長文・同数topの表示を試験し、順位1/2、横はみ出しなし、省略なしを確認する。採用したUIと確認条件を説明文書に残す。
+- [x] 3.2 ブラウザ検証手順と必要なローカル補助を用意し、viewport・要素・文字Range行断片・切取り祖先・隣接内容の実測原本および画面画像を保存する。横方向の収まり、切取り祖先内の収まり、隣接内容との非重複、画像の可読性で判定し、要素自身への厳格な縦包含を必須にしないことを試験/手順で確認する。値を補正して合格に見せず、全文を確認できる画像と実測を対応付ける。
 
 ## 4. 独立した統合検証と証拠（AC1–AC6）
 検証開始時の作業状態と製品コードの差分を保存し、headと実行コードの対応を確認する。通信観測は文書を開く前から表示確認終了までとし、失敗試行と文書由来の遷移を含め、ブラウザ背景通信を区別する根拠も残す。
-- [ ] 4.1 品質担当が対象headで入力原本からCLIを独立再実行し、text/json/htmlの一致と、空・通常・top・長文・注入候補のHTMLを通常幅および320 CSS pxで確認する。外部参照の静的検査と外部通信の試行記録を残し、通信遮断だけで無通信と判定しない。全画像を実際に読み、幾何原本と合わせACごとに判定する。head・入力・コマンド・exit/stdout/stderr・期待値・生成HTML・ブラウザ/viewport・矩形・画像・通信記録を保存して添付する。Builderの画像だけで代用しない。
-- [ ] 4.2 全自動試験と変更差分を確認し、AC1–AC6と既存回帰の結果を追跡可能にまとめる。未実施条件は未検証として残し、証拠不足のまま合格にしない。CI追加・変更、依存追加、生成日時、テーマ切替、対話操作、サーバー、単語認識変更がないことを差分で確認する。
+- [x] 4.1 品質担当が対象headで入力原本からCLIを独立再実行し、text/json/htmlの一致と、空・通常・top・長文・注入候補のHTMLを通常幅および320 CSS pxで確認する。外部参照の静的検査と外部通信の試行記録を残し、通信遮断だけで無通信と判定しない。全画像を実際に読み、幾何原本と合わせACごとに判定する。head・入力・コマンド・exit/stdout/stderr・期待値・生成HTML・ブラウザ/viewport・矩形・画像・通信記録を保存して添付する。Builderの画像だけで代用しない。
+- [x] 4.2 全自動試験と変更差分を確認し、AC1–AC6と既存回帰の結果を追跡可能にまとめる。未実施条件は未検証として残し、証拠不足のまま合格にしない。CI追加・変更、依存追加、生成日時、テーマ切替、対話操作、サーバー、単語認識変更がないことを差分で確認する。
 
 ## Workflow follow-up
 - 03-01 task 1: 共通初出順・HTML CLI接続・最終UI構造/CSSを実装し、集計5件・CLI27件・全50件が成功。1.1の文書と2.1の部品安全性試験はtask 2へ続く。2.2の全メタ情報行列と3.1のブラウザ確認は後続PLANまで未完了。独立品質4.1は未実施。
@@ -43,7 +43,38 @@ UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返�
   - runbookの同カードH1品質request_changes→Builder根拠確認・tasks記録/push H2→re-request_review→品質fresh-root全gate再実行を追加。guide契約試験のREDを確認してから文書化。独立品質の全画像/raw/通信/AC/最終headCIとOpenSpec critical0は未実施のため、完了したと記録しない。
 - 実装・品質検証・受入が済んでから、別工程でsync・archiveと最終確認を行う。本カードではarchiveを行わない。
 
-## 03-06 H1独立品質後のBuilder事実記録（H2記録更新）
+## 現在：03-06 H3独立品質に基づくBuilder事実記録（H4）
+
+カード `t_13f258db` 品質run118・コメント56は、修正head H3 `48b02aaed5fa51120044c1b1fa8898c0a0191b77` のfresh-root全技術gateを合格とし、未チェックの原本4項目の記録だけを差し戻した。Builderは報告全文と品質原本を読み、manifestの131原本hash、全22 view/derived、全32画像のpath/hash/viewed_at集合、ledger hash、AC1〜6 accepted、independent_acceptance true、errors空、終了provenanceのH3一致・製品dirty/untracked空を再照合した（不一致0）。品質が実owner exit0を確認した報告も照合し、未達の技術条件がないため、3.1/3.2/4.1/4.2をH3での実施事実としてチェックする。これはH1根拠の復活でもH4受入でもない。
+
+保存先 `Q` = `/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-quality/evidence/t_13f258db`、`F` = `Q/quality-roots/gap1-final-03`。実行時root `.planning/argonauts/r-50053edc/quality/gap1-final-03` から保存先へ移動した原本であり、内部の実行時絶対pathは変更していない。GSD原本は標準添付106、主要画像は107〜112。報告全文はコメント56にも保存。JSON/通信/全画像等の残りの原本はQに保存されているが、品質の添付ガードで拒否されたものを「標準添付済み」とは記録しない。最終再品質で標準原本添付の確認がなお必要。
+
+| H3原本path | SHA-256 |
+|---|---|
+| `Q/h3/quality-report-H3.md` | `40f821efe5fc00310461508ab439199e4e04b7c622535fb19c55309a5e4adde8` |
+| `F/manifest.json` | `228f7103f256494bdb5694755b61753cbd8f9cf645b82f9fda92e46a72e4069f` |
+| `F/reviews.json` | `2ac3f23a13d6d9c4a9653cfe9c6912ad550d2e681b8308bca59b6b919edc434a` |
+| `F/canaries/canaries.json` | `06d078da506f5565d13550605592762a9d6bbb0c6ba12964ce2cdbfc48b3578e` |
+| `Q/quality-roots/gap1-network-04/canaries.json` | `4bde1f1b1c73dfc1908496b12cc4d9571a34d4531a90a72e952d06a77bbb6c7f` |
+| `F/scope.json` | `43e33d6cbef9d9951a533373fb5dc2aaedf4f9fe30cc64d943d83f63276d5c97` |
+| `F/suite.xml` | `bee8f3b6a2c5cae85e96309354afd77ff9c0781a9e1d3dcf8d1ef12f0c3d30b5` |
+| `Q/h3/suite.xml` | `9d022e251081442d711f1ee66f14097816639a6e8ebae3fb93707fb68c8ced4c` |
+| `Q/h3/scope.json` | `d3340e7c550dbddaf641d5cf1000046ce2f9a9d82628c2014cc2c2c55b697676` |
+| `Q/h3/ci-job-134274566962.log` | `6a4452400e2ef91e06e9d5677237a3626d868a3b2f6ee5835295eede4976dd47` |
+| `Q/h3/ci-job-134274502310.log` | `7892a7251f29026e0d1b2b3292734f969dc9ac32c8db93fe33072680586d82ce` |
+| `Q/quality-roots/gap1-layout-01/pixel-comparison.json` | `04a5d87092f85c77c8be55ebbe4392a5a7f05247a7113b85e682829c964f83cc` |
+| `Q/h3/rawaudit.txt` | `b9cdd277d93d88f4be987228b5d944c9eb259f1508e092db43957423ec46127f` |
+
+### task別の完了事実（すべて品質H3、H4ではない）
+
+- **3.1**: 品質が入力から独立再生成した空・通常top1/2/10・frequency・同数top1/2・長文top12/既定/99・注入の11 HTMLをChromium 1280×900/320×900 CSS px・DPR1・zoom100%で確認。`F/<case>/{1280,320}/full.png` と全tiles計32枚を品質が1:1で実閲覧し、上表ledgerの32件がreadable/full extent、全22 view accepted。明背景のみ・切替なし・1始まり連番・長い語/basenameの空白/LF/TAB保持・折返し・横収まり・非省略を確認。採用UI/条件は `03-UI-SPEC.md` と `docs/wordfreq-html-verification.md` に記録。
+- **3.2**: `F/<case>/{1280,320}/raw.json` 全22件のhashがmanifestと一致。品質の無補正監査でtext/index/codepoint/UTF16/非空白面積/横収まり/clip祖先/正面積隣接重複は問題0。各clientWidthは320/1280。画像とrawの行数・位置が一致（320ではn=29×6+2、w=12×21+4、123右端296；1280ではn=90+86、w=60×4+16、h1左192、123右端1080）。品質独立pixel probeは8 viewのviewport/full差分0、全tile/full差分0。own-heightの厳格縦包含は要求せず、横/切取り祖先/隣接非重複/実画像可読性で判定。全32画像集合がledger/manifest/全derivedで一致。
+- **4.1**: `F/*/cli.json` 全15件を品質が独立実行。全exit0/stderr空、11 HTML strict UTF-8、外部参照/親path無し、全形式の期待pairs/総数一致。全22 `network.json` はerrors0、http(s)/ws無し、file/about/chromeのみ（chromeはomnibox）。除外はdifferent browserContextIdの根拠付き。pre-open〜閲覧/live finalize/flushまで観測し、session内とgap1-network-04のcleanおよびfailed-resource/navigation/early-popup/redirect実試行の検出・拒否を確認。finalize-requestedだけで成功とせず、owner実exit0後にAC1〜6 accepted・独立受入true・errors空・終了provenance H3を品質が読戻し、Builderも保存原本の最終状態を照合。
+- **4.2**: 品質full suite361 passed、failures/errors/skipped0、session内も361成功。実scopeは固定baseline `5a7659b949dc118b59cea5ef3eb40bcd94337d8d` / approved `ed7e6cc9d608bc40a82da76e85ca6e57a0808b54` / target H3でpassed/errors空。CI run44149774801/job134274566962とrun44149757304/job134274502310は同H3・両success、各ログ361 passed。禁止CI/依存/製品/生成日時/テーマ/対話/サーバー/抽出変更なし。GSD添付106はcritical0/warning2/info3。WR-01/02と旧非block指摘は品質判断どおりPM/フェーズ検証へ引継ぎ、承認範囲外の変更を加えない。
+
+**残る工程**: H4はこの事実記録を追加した新headで、独立受入未実施。fresh `gap1-final-04` / `gap1-network-05` 以降でPLAN全文（画像/raw対応を含む）を全面再実行し、同H4 CIと公式OpenSpec implementation verify critical0、標準原本添付を確認する。H3合格/CIの持越し禁止。文書のみの変更でも省略しない。未達時は承認不可。phase検証・phase.complete・sync/archive・マージは別工程で未実行。
+
+## 履歴：03-06 H1独立品質後のBuilder事実記録（H2記録更新）
 
 **訂正：このH2記録の完了判定は撤回し、原本3.1/3.2/4.1/4.2を未チェックへ戻した。** カード `t_13f258db` の品質run116・コメント54で、H2 `203e3cb9eb1be18cc2fcd0c4375391463f441423` の5つの長文viewに画像/raw layout不一致が判明し、H1にも同じ欠陥があった。対象H1 `fe5d67863ad7d8927b17eb33cbdfdd560a82951f` で実施者 `argonauts-uat-quality` が当時合格と報告し、Builderが原本131件hashと保存されたaccepted値を照合した事実は残すが、hash/台帳整合は実画像とrawのlayout一致を証明しない。「H1に未達の技術条件はない」という判断を取り消す。下記の所在/hashとtask別記述は当時の報告履歴であり、現在の合格根拠ではない。原本を書き換えない。
 
@@ -71,4 +102,4 @@ UI設計・PLANで通常幅と対象ブラウザ、320 CSS pxで実際に折返�
 - **4.1**: `F/*/cli.json` 全15実CLI、stdout HTML11件とtext/json同数入力を独立再生成。全exit0・stderr空・strict UTF-8、親path/外部参照なし。全22 `network.json` はerrors空・file://のみ、背景通信はdifferent browserContextIdで帰属分離。pre-openから閲覧/live finalize/flushまで観測し、session内/別rootのcleanとfailed-resource/navigation/early-popup/redirect canary実試行を確認。最初のnetwork-01はSocket path too longでexit1/unverifiedとして保存し、短いTMPDIRで新network-02を実行してexit0/passed（失敗を消していない）。finalize-requestedを合格とせずowner実exit0後のmanifestでAC1〜6 accepted・independent_acceptance true・errors空・終了provenance H1/製品dirty空を確認。
 - **4.2**: 品質の全358試験成功、skipなし（hash seed12345でも358成功）。実scopeは上記baseline `5a7659b949dc118b59cea5ef3eb40bcd94337d8d` / approved `ed7e6cc9d608bc40a82da76e85ca6e57a0808b54` を解決してpassed/errors空、製品snapshot・禁止差分なし。H1 CI run44139189750/job134236962775とrun44139172431/job134236900168は両success、各ログ358 passed。未報告を成功に読み替えていない。GSD添付71はcritical0/warning3/info3、非block指摘はPM/フェーズ検証へ引継ぎ。native ISO実在hostの実測と、native不在制御下の実byte seamは別々に実行済み。
 
-**現在の残るgate（H3修正後）**: H1/H2の完了根拠は上記の理由で撤回。3.1は同じlayoutに対応する新画像とrawで再判定、3.2は全full/tileと実測の対応を再確認、4.1は新headで独立全AC/通信/owner完了を再実行、4.2は新head全suite/実scope/同head CIと未実施項目なしを再確認するため、4件とも未チェック。H2は欠陥発見後finalizeせずunverifiedで終了しており、合格を持ち越さない。H3の修正はopen前からscrollbar gutter条件を統一し、通常幅/狭幅の実pixel差分回帰をRED→GREENで確認したが、これはBuilder自己試験のみ。品質は新head/H3・新root（gap1-final-03 / gap1-network-04以降）でPLANの全gate・全画像実閲覧・画像/raw対応・実scope・全試験・同head CIを全面再実行する。技術合格後にtask別head/path/hash根拠を返し、Builderが記録を更新する。その記録headも新rootで全面再品質し、最後に公式OpenSpec verify critical0が要る。原本添付の確認も含め未達があれば承認不可。phase.complete、sync/archive、マージは未実行。
+**H3初回提出時の残るgate（履歴、現在の状態は次節）**: H1/H2の完了根拠は上記の理由で撤回。3.1は同じlayoutに対応する新画像とrawで再判定、3.2は全full/tileと実測の対応を再確認、4.1は新headで独立全AC/通信/owner完了を再実行、4.2は新head全suite/実scope/同head CIと未実施項目なしを再確認するため、4件とも未チェック。H2は欠陥発見後finalizeせずunverifiedで終了しており、合格を持ち越さない。H3の修正はopen前からscrollbar gutter条件を統一し、通常幅/狭幅の実pixel差分回帰をRED→GREENで確認したが、これはBuilder自己試験のみ。品質は新head/H3・新root（gap1-final-03 / gap1-network-04以降）でPLANの全gate・全画像実閲覧・画像/raw対応・実scope・全試験・同head CIを全面再実行する。技術合格後にtask別head/path/hash根拠を返し、Builderが記録を更新する。その記録headも新rootで全面再品質し、最後に公式OpenSpec verify critical0が要る。原本添付の確認も含め未達があれば承認不可。phase.complete、sync/archive、マージは未実行。

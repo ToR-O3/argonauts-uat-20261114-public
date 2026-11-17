@@ -96,7 +96,17 @@ All commands use existing `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-
 
 New helper exists; three task commits are on current branch; targeted/full suites and real scope executed above. Initial delivery records all unresolved gates rather than falsely completing acceptance. Next action is same-card independent quality review, not next phase execution.
 
-## Review rework: H1 evidence-backed OpenSpec record (H2)
+## Current rework: H3 quality facts recorded for H4
+
+- Quality run118/comment56 independently executed the complete gate at H3 `48b02aaed5fa51120044c1b1fa8898c0a0191b77` in fresh gap1-final-03/gap1-network-04 roots. All technical gates passed; only the original four task records were requested. Standard attachments106–112 hold the GSD review and six key images. Full report remains in quality's evidence and comment56; unattachable originals are not claimed as attached.
+- Builder read the full report and saved originals, checked all131 manifest artifact hashes (0 mismatches), head/actor/end provenance, all22 accepted views/derived, the32 identical image/path/hash/viewed_at records across ledger/manifest/derived, readable scale1 ledger, allACs accepted, independent_acceptance true/errors[]. Report SHA-256 `40f821efe5fc00310461508ab439199e4e04b7c622535fb19c55309a5e4adde8`; manifest `228f7103f256494bdb5694755b61753cbd8f9cf645b82f9fda92e46a72e4069f`; ledger `2ac3f23a13d6d9c4a9653cfe9c6912ad550d2e681b8308bca59b6b919edc434a`. This readback is not Builder independent visual acceptance.
+- Recorded H3-specific facts, paths and full hashes for original OpenSpec3.1/3.2/4.1/4.2 and checked those four records. H1/H2 withdrawal stays intact. H3 image/raw correspondence is now verified by quality, including line counts/positions and its independently executed8-view pixel probe (all viewport/tile differences0). H3 quality suite361/no skips, real scope passed and both exact-head CI jobs361 passed. No code/CI/dependency/config edits in this H4 record update; no new runtime behavior needing RED/GREEN.
+- Fresh Builder precommit verification: CPython3.12 full pytest361 passed/no skips (15.44s); real exact-ref scope passed/errors[]; strict OpenSpec validation valid true/issues[]; git diff --check exit0. Strict validation is not the final implementation verify and does not claim critical0.
+- Official GSD init.execute-phase3: six plans/six summaries/incomplete0; state.get and saved Current Position: phase3, plan6/6, verifying. Already advanced at initial implementation; no repeated advance/progress or phase.complete.
+- **H4 final independent acceptance is pending.** Re-request same-card quality: fresh gap1-final-04/gap1-network-05 onward; repeat the entire PLAN independent_quality_gate including every image/raw/network/canary/owner/manifest/derived/ledger and final provenance, full suite/real scope, exact H4 CI and official OpenSpec implementation verify critical0. Verify standard original evidence attachments; no H3 acceptance carried forward. Phase-wide child t_c9dd351a is separate (currently unassigned, observed via kanban_show); PM must route it after same-card quality, not use it instead of review.
+- Non-blocking WR-01/02 (classic-scrollbar coverage, capture_layout invariant) and earlier non-blocking findings stay for PM/phase verification; no unrelated implementation added. No archive/sync/merge or quality status mark.
+
+## Review rework history: H1 evidence-backed OpenSpec record (H2)
 
 This section records the H2-era decision only. **Its completion judgment is withdrawn by the H3 correction below:** H2 review found image/raw reflow, also present in H1. Hash equality and stored accepted flags did not prove layout correspondence.
 
