@@ -109,6 +109,12 @@ The frontmatter requirements-completed array copies PLAN IDs as required by the 
 
 03-02 can extend the real-file metadata/error/bytes/privacy and static UI contracts after same-card quality review. Do not run future collector commands before those files exist. Browser1280x900/320x900, full raw Range/clip/nonoverlap/all-image review, failed-attempt-inclusive live observation and independent target-head regeneration remain mandatory and unverified. No next PLAN was executed, no quality status was set, and no merge was attempted.
 
+## Official sequential close-out
+
+After committing this SUMMARY, official `state.advance-plan` returned advanced=true, previous_plan1/current_plan2/total_plans4. `state.update-progress` returned completed6/total9/percent50 (the official returned value is retained, not manually recalculated). `roadmap.update-plan-progress 3` returned updated=true, summary_count1/plan_count4, In Progress, complete=false. Readback of STATE Current Position confirms Phase3, Current Plan2, Total4, Ready to execute; ROADMAP shows03-01 checked and03-02..04 unchecked. This is not the last PLAN and `phase.complete` was not called.
+
+`requirements.ready-ids` returned ready=[] and all five IDs blocked by unfinished sibling PLANs; no requirement was marked complete. `state.record-metric` recorded406s,2tasks,9files. Final full-suite rerun after official updates:52 passed in1.62s,exit0. Session continuity points to completion of03-01 and pending same-card quality review.
+
 ## Self-Check: PASSED
 
 Official `check evaluation-scope --plan 03-01 --commits-only --raw` resolved both task commits on this branch; every deliverable file existed and the complete suite passed. This is the PLAN's implementation self-check only, not phase/browser acceptance.
