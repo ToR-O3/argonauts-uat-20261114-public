@@ -11,9 +11,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### CLI 実行とオプション
 
-- [ ] **REQ-01**: `python -m wordfreq <file>` はファイル引数ちょうど 1 個を受け取り、そのファイルを UTF-8 として読んで頻度集計の結果を出力する。ファイルが存在しない・開けない・UTF-8 としてデコードできない場合はエラーメッセージを stderr に出して exit 1。ファイル引数が 0 個または 2 個以上は使い方エラー（stderr + exit 2）。空ファイルは結果 0 件として exit 0（FR-1、WF-01/WF-08）
-- [ ] **REQ-02**: `--top N` は表示する件数を指定する。既定値は 10。N は 1 以上の整数でなければならず、それ以外の値（整数でない、0 以下）は使い方エラー（exit 2）。結果の種類数が N より少ない場合は全件を出力する（FR-2、WF-02）
-- [ ] **REQ-03**: `--format text|json` は出力形式を指定する。既定は text。text は 1 語 1 行で単語と回数を読むことのできる形式（正確な列書式は design.md D-A の `<count>\t<word>`）。json は `{"word": <str>, "count": <int>}` のオブジェクト配列で REQ-04 の並び順と一致し、`json.loads` で機械可読。結果 0 件のとき json は `[]`、text は出力なし。不正な形式指定は使い方エラー（exit 2）（FR-3、WF-03）
+- [x] **REQ-01**: `python -m wordfreq <file>` はファイル引数ちょうど 1 個を受け取り、そのファイルを UTF-8 として読んで頻度集計の結果を出力する。ファイルが存在しない・開けない・UTF-8 としてデコードできない場合はエラーメッセージを stderr に出して exit 1。ファイル引数が 0 個または 2 個以上は使い方エラー（stderr + exit 2）。空ファイルは結果 0 件として exit 0（FR-1、WF-01/WF-08）
+- [x] **REQ-02**: `--top N` は表示する件数を指定する。既定値は 10。N は 1 以上の整数でなければならず、それ以外の値（整数でない、0 以下）は使い方エラー（exit 2）。結果の種類数が N より少ない場合は全件を出力する（FR-2、WF-02）
+- [x] **REQ-03**: `--format text|json` は出力形式を指定する。既定は text。text は 1 語 1 行で単語と回数を読むことのできる形式（正確な列書式は design.md D-A の `<count>\t<word>`）。json は `{"word": <str>, "count": <int>}` のオブジェクト配列で REQ-04 の並び順と一致し、`json.loads` で機械可読。結果 0 件のとき json は `[]`、text は出力なし。不正な形式指定は使い方エラー（exit 2）（FR-3、WF-03）
 
 ### 出力の決定論
 
@@ -22,12 +22,12 @@ Requirements for initial release. Each maps to roadmap phases.
 ### 部品分離と拡張境界
 
 - [x] **REQ-05**: 切り出し・正規化（Unicode `\w` 連続最大長抽出 + `str.casefold()`、句読点・記号・空白は語に含めない、大文字小文字のみが異なる単語は同一視）を行う部品と、集計・出力整形を行う部品を分離する。各部品はそれ単体で呼んで検証でき、対応する単体試験を持つ（FR-5・D-3、WF-04）
-- [ ] **REQ-06**: テキストを得る入力取得は解析・集計から境界として分離し、v1 のファイル入力もその境界の背後で動く。解析・集計が入力取得境界を介してのみテキストを受け取る境界越し試験を持つ。入力元（標準入力・URL）の追加は入力取得境界の実装追加で足りるという構成判断を design.md に記録する（FR-6・D-B、WF-06）
+- [x] **REQ-06**: テキストを得る入力取得は解析・集計から境界として分離し、v1 のファイル入力もその境界の背後で動く。解析・集計が入力取得境界を介してのみテキストを受け取る境界越し試験を持つ。入力元（標準入力・URL）の追加は入力取得境界の実装追加で足りるという構成判断を design.md に記録する（FR-6・D-B、WF-06）
 
 ### 試験・実行環境・依存
 
 - [ ] **REQ-07**: pytest による単体試験を用意し、リポジトリの CI の pytest 実行ジョブで通る。試験は REQ-01〜REQ-06 のシナリオ（不存在ファイル、空ファイル、ファイル引数個数、不正な `--top`・`--format`、同数語の順序、大文字小文字の同一視、UTF-8 デコード失敗、JSON 構造、部品単体・境界越し検証）を含む。対象 Python は当該 CI ジョブの CPython 3 の版とし、バージョン横断互換コードは書かない（FR-7・WF-07）
-- [ ] **REQ-08**: ランタイム依存は標準ライブラリのみ。依存追加が必要になる場合は人の承認を要する範囲変更として扱う。パッケージ化に最低限必要な設定ファイル（`pyproject.toml` 等）の変更は許容するが、smart マージ方針で人の承認対象になり得ることを前提に必要最小限に留める（FR-8、Brief A-5、D-F）
+- [x] **REQ-08**: ランタイム依存は標準ライブラリのみ。依存追加が必要になる場合は人の承認を要する範囲変更として扱う。パッケージ化に最低限必要な設定ファイル（`pyproject.toml` 等）の変更は許容するが、smart マージ方針で人の承認対象になり得ることを前提に必要最小限に留める（FR-8、Brief A-5、D-F）
 
 ## v2 Requirements
 
@@ -59,14 +59,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REQ-01 | Phase 1 | Pending |
-| REQ-02 | Phase 1 | Pending |
-| REQ-03 | Phase 1 | Pending |
+| REQ-01 | Phase 1 | Complete |
+| REQ-02 | Phase 1 | Complete |
+| REQ-03 | Phase 1 | Complete |
 | REQ-04 | Phase 1 | Complete |
 | REQ-05 | Phase 1 | Complete |
-| REQ-06 | Phase 1 | Pending |
+| REQ-06 | Phase 1 | Complete |
 | REQ-07 | Phase 1 | Pending |
-| REQ-08 | Phase 1 | Pending |
+| REQ-08 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 8 total

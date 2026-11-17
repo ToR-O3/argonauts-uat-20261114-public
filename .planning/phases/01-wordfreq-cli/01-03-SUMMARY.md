@@ -122,4 +122,4 @@ Ready for PLAN 01-04 after this card's quality review. Requirement IDs above cop
 
 ## Self-Check: PASSED
 
-All four planned artifacts exist; task commands and full suite pass. The official scope resolves this PLAN's commits. STATE/ROADMAP updates follow this committed SUMMARY in the required sequential close-out order.
+All four planned artifacts exist; task commands and full suite pass. The official scope resolves this PLAN's commits. The SUMMARY was committed before state mutations. Official `state.advance-plan` returned previous_plan=3/current_plan=4/total_plans=4; saved Current Position agrees (Phase 1 EXECUTING, Plan 4, Ready to execute). `roadmap.update-plan-progress` and saved ROADMAP agree at 3/4, In Progress. `state.update-progress` returned completed=3,total=4 but percent=0, matching the pre-existing zero-percent display behavior; no manual percentage rewrite was applied. Official readiness marked REQ-01/02/03/06/08 complete and kept REQ-07 blocked by PLAN 01-04. STATE.md, ROADMAP.md, REQUIREMENTS.md and generated state.json are included in the follow-up metadata commit. PLAN 01-04 and phase.complete were not executed.
