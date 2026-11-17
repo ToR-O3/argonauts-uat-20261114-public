@@ -1,3 +1,32 @@
 # argonauts-uat public
 
 Argonauts v1.10 acceptance test repository.
+
+## wordfreq の実行
+
+リポジトリ直下で、UTF-8 の実ファイルを指定します。Python の標準ライブラリだけで動き、インストールや Web サーバーは不要です。
+
+```sh
+python -m wordfreq input.txt
+python -m wordfreq input.txt --top 2 --format json
+python -m wordfreq input.txt --format html
+python -m wordfreq input.txt --format html > result.html
+```
+
+HTML を保存するときは Python の標準出力とシェルの保存先を UTF-8 として扱う環境を使ってください。必要なら `PYTHONIOENCODING=utf-8` を実行環境に設定します。保存した `result.html` はローカルのブラウザで開けます。HTML は内包 CSS のみの静的文書で、スクリプト・外部フォント・画像・リンク・対話操作はありません。
+
+- `--top N` は1以上の整数、既定は10。種類数が N 未満なら全件を表示します。
+- `--format text|json|html` の既定は text。text は `<count>\t<word>\n`、JSON は `word` と整数 `count` の配列に末尾改行1つです。空入力は text が空、JSON が `[]` と改行、HTML が見出し3列・データ0行・総数0です。
+- Unicode の単語文字の連続を抽出し、casefold した語を数えます。日本語の形態素解析は行いません。
+- 全形式で回数降順に並べ、同数時は**正規化後の初出順**を保ってから top を適用します。これは以前の「同数は語の昇順」からの意図した互換性変更です。`Zoo apple APPLE zoo banana` は top1 が zoo2、top2 が zoo2 / apple2 になります。
+- HTML の表は順位・単語・回数で、順位は表示行の1始まり連番です。表の上にファイルの basename のみと **top 前の総出現回数**を表示します。総数は表示行の和や種類数ではありません。ディレクトリ情報は HTML に埋め込みません。ただし入力本文中の語と basename 自体は表示されるため、共有前に内容を確認してください。
+- ファイル名と語はテキストとして一度だけ HTML escape し、属性・CSS・URL には使いません。明るい背景固定で、長い語・名前は連続空白・改行・タブを保持して折り返す設計です。
+- 読込み・UTF-8 decode 失敗は stderr と exit1、不正 top・format・引数個数は stderr と exit2。エラー時は stdout を空にし、エラー用 HTML は出しません。
+
+## 部品の契約と検証状況
+
+`count_words` が正規化済みトークン列から作る Counter の挿入順は初出順です。`top_words(counts, n)` に直接渡す場合も、この挿入順を保つことが前提です。回数だけの安定ソート後に制限し、入力は変更しません。
+
+`format_html(pairs, basename, total)` は渡された順序を保つ純粋な文字列整形部品です。呼出し側が basename と top 前の総数を渡します。整形部品は再読込み・集計・ソート・標準出力への書込みをしません。既存 text/json の部品の引数と形式は変更しません。
+
+現在の自動試験は集計・実CLI・HTMLParser による構造と escape の検査を行います。通常幅1280×900と狭幅320×900 CSS pxでの実画像・文字Range・切取り祖先・非重複・通信試行のブラウザ受入、および品質担当による対象headからの独立再生成は後続工程であり、ここでは未検証です。CSS の構造試験だけで可読性や無通信の合格とはしません。
