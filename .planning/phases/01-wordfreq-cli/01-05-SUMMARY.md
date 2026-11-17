@@ -86,3 +86,5 @@ PLANどおり、人対応済みのworkflow新設を再依頼せず、最新head�
 ## Self-Check: PASSED (Builder deliverables only)
 
 3成果物は実在し、各taskに文書commitとローカル全件成功の実測がある。SUMMARYをcommitしてから公式STATE/ROADMAP更新を行う。REQ-07のCI合格やphase完了の印ではない。
+
+Closeout実測: SUMMARY commit `997e1a3` 後、公式 `state.advance-plan` は `reason=last_plan` / current_plan=5 / total_plans=5 / status=ready_for_verification。`state.update-progress` は completed=5 / total=5 / percent=0（既存表示挙動）。保存後STATEはphase 1、Current Plan 5、Total Plans 5、Status `Phase complete — ready for verification`、frontmatter `status: verifying`。公式 `roadmap.update-plan-progress 1` は5/5、In Progress、complete=false、保存後の表と一致。既存の古い説明suffixだけ検証待ちへ補足修正した。`phase.complete` と `requirements.mark-complete` は未実行。最後の全件回帰実行は **43 passed in 1.04s**, exit 0（Python3.14.9）。公式evaluation-scopeもこのbranchの3つのtask/SUMMARY commitを解決済み。REQ-07、OpenSpec task 3.3、元VERIFICATIONは未変更。
