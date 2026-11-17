@@ -1,6 +1,8 @@
 """Run the CLI in a real subprocess with separate output streams."""
 import json
+import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tomllib
@@ -148,16 +150,31 @@ def test_explicit_text_format_matches_default(tmp_path):
 
 
 def test_cli_leaves_input_and_git_worktree_unchanged(tmp_path):
-    path = tmp_path / "input.txt"
+    # A cold package in its own repo prevents earlier tests from hiding writes.
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    if (ROOT / ".gitignore").exists():
+        shutil.copy2(ROOT / ".gitignore", repo / ".gitignore")
+    subprocess.run(["git", "init", "--quiet", str(repo)], check=True)
+    inputs = tmp_path / "inputs"
+    inputs.mkdir()
+    path = inputs / "input.txt"
     content = b"hello HELLO world"
     path.write_bytes(content)
-    before = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"], cwd=ROOT, capture_output=True, check=True).stdout
-    result = run_cli(path)
-    after = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"], cwd=ROOT, capture_output=True, check=True).stdout
+    env = os.environ.copy()
+    env.pop("PYTHONDONTWRITEBYTECODE", None)
+    before = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"], cwd=repo, capture_output=True, check=True).stdout
+    result = subprocess.run(
+        [sys.executable, "-m", "wordfreq", str(path)], cwd=repo,
+        env=env, capture_output=True, text=True, timeout=10,
+    )
+    after = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"], cwd=repo, capture_output=True, check=True).stdout
     assert result.returncode == 0
     assert result.stderr == ""
     assert path.read_bytes() == content
-    assert list(tmp_path.iterdir()) == [path]
+    assert list(inputs.iterdir()) == [path]
     assert after == before
 
 
