@@ -15,6 +15,6 @@
 
 ## 3. CLI 合成と実行形態
 
-- [ ] 3.1 `wordfreq/__main__.py` を作成する（argparse: ファイル引数ちょうど1個、`--top` 既定10・1以上整数、`--format text|json` 既定 text。exit code 0/1/2 の分岐を design D-C どおりに）。CLI 試験: 正常系、`--top` 既定と指定、`--format json` 構造、不正値の exit 2、不存在ファイルの exit 1、引数個数エラー
+- [x] 3.1 `wordfreq/__main__.py` を作成する（argparse: ファイル引数ちょうど1個、`--top` 既定10・1以上整数、`--format text|json` 既定 text。exit code 0/1/2 の分岐を design D-C どおりに）。CLI 試験: 正常系、`--top` 既定と指定、`--format json` 構造、不正値の exit 2、不存在ファイルの exit 1、引数個数エラー
 - [ ] 3.2 `pyproject.toml` を追加する（`wordfreq` パッケージ、ランタイム依存ゼロ、pytest 開発依存）。`python -m wordfreq <file>` が repo 直下で動くことを確認
 - [ ] 3.3 CI の pytest ジョブの有無を確認し、無ければ workflow 変更（人の対応）として block 判定の準備をする（proposal Impact 参照）

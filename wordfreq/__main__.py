@@ -4,7 +4,7 @@ import sys
 
 from .aggregator import count_words, top_words
 from .formatters import format_json, format_text
-from .sources import FileSource
+from .sources import FileSource, InputError
 from .tokenizer import iter_tokens
 
 
@@ -21,7 +21,11 @@ def main(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
     if args.top < 1:
         parser.error("--top must be >= 1")
-    text = FileSource(args.filename).read_text()
+    try:
+        text = FileSource(args.filename).read_text()
+    except InputError as error:
+        print(error, file=sys.stderr)
+        sys.exit(1)
     pairs = top_words(count_words(iter_tokens(text)), args.top)
     output = format_json(pairs) if args.format == "json" else format_text(pairs)
     sys.stdout.write(output)
