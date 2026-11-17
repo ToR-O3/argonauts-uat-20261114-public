@@ -267,8 +267,12 @@ def git(*args):
 
 
 def provenance():
-    paths = ("wordfreq", "tools", "tests", "pyproject.toml",
-             "conftest.py", "pytest.ini", "tox.ini", "setup.cfg")
+    # pyproject.toml does not override pytest's default python_files patterns.
+    # Use one shared selection for status, HEAD diff and untracked byte records.
+    paths = ("wordfreq", "tools", "tests", "pyproject.toml", "pytest.py",
+             "conftest.py", "pytest.ini", "tox.ini", "setup.cfg",
+             ":(glob)**/test_*.py", ":(glob)**/*_test.py", ":(glob)**/conftest.py",
+             ":(exclude).planning/**")
     status = git("status", "--porcelain=v1", "--untracked-files=all")
     dirty = git("status", "--porcelain=v1", "--untracked-files=all", "--", *paths)
     untracked = []
@@ -798,6 +802,7 @@ SCOPE_FILES = {"README.md", "CONCEPTS.md", "docs/wordfreq-html-verification.md",
     "wordfreq/__main__.py", "wordfreq/aggregator.py", "wordfreq/formatters.py",
     "tests/test_aggregator.py", "tests/test_cli.py", "tests/test_formatters.py",
     "tests/test_sources.py", "tests/test_html_verifier.py", "tests/test_html_finalization.py",
+    "tests/fixtures/encoding_cli_probe.py",
     "tools/verify_wordfreq_html.py", "tools/wordfreq_html_geometry.js",
     "openspec/changes/r-50053edc-wordfreq-html/tasks.md"}
 
@@ -812,17 +817,41 @@ def scope_path_errors(paths):
 
 
 def scope_report():
-    target = git("rev-parse", "HEAD").strip()
-    working = provenance()
-    paths = list(filter(None, git("diff", "--name-only", "-z", SCOPE_BASE, target).split("\0")))
-    # Freeze the reviewed product snapshot:03-04 may only change verification/docs.
-    unexpected_product = git("diff", "--name-only", APPROVED_PRODUCT, target, "--", "wordfreq")
-    return dict(base=SCOPE_BASE, target=target, paths=paths,
-                product_diff=git("diff", SCOPE_BASE, target, "--", "wordfreq"),
-                product_status=working["product_status"], untracked_product=working["untracked_product"],
-                intentional_change="approved lexical ties -> normalized first occurrence; HTML output",
-                errors=scope_path_errors(paths) + (["product differs from approved03-02 snapshot"] if unexpected_product else [])
-                + (["dirty/untracked product/test/tool code"] if working["product_status"] or working["untracked_product"] else []))
+    report: dict = dict(base=SCOPE_BASE, approved_product=APPROVED_PRODUCT, target=None,
+                  paths=None, product_diff=None, product_status=None, untracked_product=[],
+                  verdict="unverified", ref_diagnostics=[], errors=[],
+                  intentional_change="approved lexical ties -> normalized first occurrence; HTML output")
+    try:
+        report["target"] = git("rev-parse", "HEAD").strip()
+        working = provenance()
+        report.update(product_status=working["product_status"], untracked_product=working["untracked_product"])
+        if working["product_status"] or working["untracked_product"]:
+            report["errors"].append("dirty/untracked product/test/tool code")
+        for name, ref in (("base", SCOPE_BASE), ("approved_product", APPROVED_PRODUCT)):
+            try:
+                resolved = git("rev-parse", "--verify", ref + "^{commit}").strip()
+                report["ref_diagnostics"].append(dict(name=name, requested=ref, resolved=resolved))
+            except subprocess.CalledProcessError as exc:
+                report["ref_diagnostics"].append(dict(name=name, requested=ref, exit=exc.returncode,
+                    stderr=exc.stderr.decode("utf-8", errors="backslashreplace")))
+                report["errors"].append(f"unavailable commit reference: {name} {ref}")
+        if any("unavailable commit reference" in e for e in report["errors"]):
+            return report
+        paths = list(filter(None, git("diff", "--name-only", "-z", SCOPE_BASE, report["target"]).split("\0")))
+        unexpected_product = git("diff", "--name-only", APPROVED_PRODUCT, report["target"], "--", "wordfreq")
+        report.update(paths=paths, product_diff=git("diff", SCOPE_BASE, report["target"], "--", "wordfreq"))
+        report["errors"] += scope_path_errors(paths)
+        if unexpected_product:
+            report["errors"].append("product differs from approved03-02 snapshot")
+        if not report["errors"]:
+            report["verdict"] = "passed"
+    except (subprocess.CalledProcessError, OSError, UnicodeError) as exc:
+        # Never convert a failed diff/read into a clean path list.
+        report["errors"].append(f"scope inspection failed: {exc}")
+        if isinstance(exc, subprocess.CalledProcessError):
+            report["ref_diagnostics"].append(dict(argv=exc.cmd, exit=exc.returncode,
+                stderr=exc.stderr.decode("utf-8", errors="backslashreplace")))
+    return report
 
 
 def session_actor(role, actor, output):

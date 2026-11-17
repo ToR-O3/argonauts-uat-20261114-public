@@ -409,7 +409,9 @@ def test_untracked_product_content_is_recorded(monkeypatch, tmp_path):
     assert result["product_status"]
 
 
-@pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg"])
+@pytest.mark.parametrize("name", ["conftest.py", "pytest.ini", "tox.ini", "setup.cfg",
+    "pytest.py", "test_external.py", "external_test.py", "nested/test_external.py",
+    "nested/external_test.py", "nested/conftest.py"])
 @pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
 def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, state):
     v = verifier()
@@ -420,6 +422,7 @@ def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, 
     git("init", "-q")
     (root / "baseline.txt").write_text("baseline\n")
     path = root / name
+    path.parent.mkdir(parents=True, exist_ok=True)
     if state != "untracked":
         path.write_text("# original test config\n")
     git("add", ".")
@@ -445,6 +448,46 @@ def test_root_test_configuration_is_dirty_evidence(tmp_path, monkeypatch, name, 
     else:
         assert name in evidence["product_diff"]
     assert "dirty/untracked product/test/tool code" in v.scope_report()["errors"]
+
+
+@pytest.mark.parametrize("name", ["test_external.py", "nested/external_test.py", "pytest.py"])
+def test_isolated_collection_and_module_shadow_are_execution_influence(scope_repo, name):
+    v = scope_repo
+    path = v.ROOT / name
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if name == "pytest.py":
+        content = "print('isolated-root-shadow-control')\nraise SystemExit(23)\n"
+        argv = [sys.executable, "-m", "pytest", "--version"]
+    else:
+        content = "def test_isolated_collection_control():\n    pass\n"
+        argv = [sys.executable, "-m", "pytest", "--collect-only", "-q"]
+    path.write_text(content)
+    result = subprocess.run(argv, cwd=v.ROOT, capture_output=True, timeout=20)
+    assert result.returncode == (23 if name == "pytest.py" else 0), result.stderr + result.stdout
+    if name == "pytest.py":
+        assert b"isolated-root-shadow-control" in result.stdout
+    else:
+        assert b"test_isolated_collection_control" in result.stdout
+        assert b"1 test collected" in result.stdout
+    evidence = v.provenance()
+    assert name in evidence["product_status"]
+    record = next(item for item in evidence["untracked_product"] if item["path"] == name)
+    assert record["content_utf8"] == content
+    assert record["sha256"] == v.hashlib.sha256(path.read_bytes()).hexdigest()
+    assert "dirty/untracked product/test/tool code" in v.scope_report()["errors"]
+
+
+def test_planning_evidence_and_ignored_cache_do_not_become_execution_code(scope_repo):
+    v = scope_repo
+    (v.ROOT / ".git/info/exclude").write_text("__pycache__/\n")
+    for name in (".planning/argonauts/run/test_evidence.py", "__pycache__/test_cache.py"):
+        path = v.ROOT / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("# inert evidence\n")
+    evidence = v.provenance()
+    assert evidence["product_status"] == ""
+    assert evidence["untracked_product"] == []
+    assert v.scope_report()["errors"] == []
 
 
 def test_dirty_product_blocks_capture_after_diagnostics(tmp_path, monkeypatch):
@@ -502,13 +545,72 @@ def test_review_invalid_attestation_rejected(field, value):
                            "2026-01-01T00:00:03+00:00")
 
 
-def test_scope_has_exact_baseline_target_and_approved_product_snapshot():
+@pytest.fixture
+def scope_repo(tmp_path, monkeypatch):
+    """Real isolated history; never borrow the checkout's historical objects."""
     v = verifier()
+    assert v.SCOPE_BASE == "5a7659b949dc118b59cea5ef3eb40bcd94337d8d"
+    assert v.APPROVED_PRODUCT == "ed7e6cc9d608bc40a82da76e85ca6e57a0808b54"
+    root = tmp_path / "scope-repo"
+    root.mkdir()
+    monkeypatch.setattr(v, "ROOT", root)
+    v.git("init", "-q")
+    v.git("config", "user.name", "Scope Fixture")
+    v.git("config", "user.email", "scope@example.invalid")
+    (root / "wordfreq").mkdir()
+    (root / "wordfreq/formatters.py").write_text("# baseline\n")
+    v.git("add", ".")
+    v.git("commit", "-qm", "baseline")
+    base = v.git("rev-parse", "HEAD").strip()
+    (root / "wordfreq/formatters.py").write_text("# approved HTML\n")
+    v.git("add", ".")
+    v.git("commit", "-qm", "approved product")
+    approved = v.git("rev-parse", "HEAD").strip()
+    monkeypatch.setattr(v, "SCOPE_BASE", base)
+    monkeypatch.setattr(v, "APPROVED_PRODUCT", approved)
+    return v
+
+
+def test_scope_has_exact_baseline_target_and_approved_product_snapshot(scope_repo):
+    v = scope_repo
     report = v.scope_report()
-    assert report["base"] == "5a7659b949dc118b59cea5ef3eb40bcd94337d8d"
+    assert report["base"] == v.SCOPE_BASE
     assert report["target"] == v.git("rev-parse", "HEAD").strip()
     assert report["product_diff"]
-    assert bool(report["errors"]) == bool(v.provenance()["product_status"])
+    assert report["errors"] == []
+
+
+@pytest.mark.parametrize("missing", ["SCOPE_BASE", "APPROVED_PRODUCT"])
+def test_scope_missing_commit_is_structured_unverified(scope_repo, monkeypatch, missing):
+    v = scope_repo
+    requested = "1" * 40
+    monkeypatch.setattr(v, missing, requested)
+    report = v.scope_report()
+    assert report["base"] == v.SCOPE_BASE
+    assert report["approved_product"] == v.APPROVED_PRODUCT
+    assert report["target"] == v.git("rev-parse", "HEAD").strip()
+    assert report["verdict"] == "unverified"
+    assert report["errors"]
+    assert requested in json.dumps(report["ref_diagnostics"])
+    assert report["paths"] is None  # Not a fabricated clean diff.
+
+
+@pytest.mark.parametrize("state", ["allowed", "forbidden", "snapshot"])
+def test_scope_committed_diffs_are_discriminated(scope_repo, state):
+    v = scope_repo
+    path = {"allowed": "tests/fixtures/encoding_cli_probe.py",
+            "forbidden": ".github/workflows/ci.yml", "snapshot": "wordfreq/formatters.py"}[state]
+    target = v.ROOT / path
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text("# changed\n")
+    v.git("add", ".")
+    v.git("commit", "-qm", state)
+    report = v.scope_report()
+    assert bool(report["errors"]) == (state != "allowed")
+    if state == "forbidden":
+        assert f"unauthorized scope: {path}" in report["errors"]
+    if state == "snapshot":
+        assert "product differs from approved03-02 snapshot" in report["errors"]
 
 
 @pytest.mark.parametrize("path", [".github/workflows/new.yml", "pyproject.toml",
@@ -552,12 +654,14 @@ def test_plan_quality_commands_resolve_actual_actor_without_actor_option(monkeyp
             v.session_actor(args.role, args.actor, args.output_dir)
 
 
-def test_finalize_implicit_actor_matches_manifest_actor(tmp_path, monkeypatch):
+@pytest.mark.parametrize("wrong_actor", [False, True])
+def test_finalize_implicit_actor_matches_manifest_actor(tmp_path, monkeypatch, wrong_actor):
     v = verifier()
     output = tmp_path / "quality"
     output.mkdir()
     actor = "argonauts-uat-quality"
-    manifest = dict(role="quality", actor=actor, session="synthetic-identity-only")
+    manifest = dict(role="quality", actor="argonauts-uat-builder" if wrong_actor else actor,
+                    session="synthetic-identity-only")
     v.save_json(output / "manifest.json", manifest)
     v.save_json(output / "reviews.json", {})
     monkeypatch.setenv("HERMES_PROFILE", actor)
@@ -566,6 +670,10 @@ def test_finalize_implicit_actor_matches_manifest_actor(tmp_path, monkeypatch):
     monkeypatch.setattr(v, "evidence_errors", lambda *args, **kwargs: [])
     args = v.parser().parse_args(["--role", "quality", "--output-dir", str(output),
         "--mode", "finalize", "--review-ledger", str(output / "reviews.json")])
+    if wrong_actor:
+        assert v.finalize(args) == 1
+        assert not (output / "finalize-request.json").exists()
+        return
     assert v.finalize(args) == 0
     request = json.loads((output / "finalize-request.json").read_text())
     assert request["session"] == manifest["session"]
@@ -674,18 +782,57 @@ def test_tile_extent_coverage_is_not_image_existence(defect):
     assert bool(v.image_coverage_errors(view, dict(document=dict(clientWidth=305, scrollHeight=1559)))) == (defect != "none")
 
 
-def test_builtin_contract_and_scope_commands_need_no_browser_or_role():
+def test_builtin_contract_and_scope_commands_need_no_browser_or_role(scope_repo):
+    v = scope_repo
+    tool = v.ROOT / "tools/verify_wordfreq_html.py"
+    tool.parent.mkdir()
+    original = (ROOT / "tools/verify_wordfreq_html.py").read_text()
+    tool.write_text(original.replace(verifier().SCOPE_BASE, v.SCOPE_BASE).replace(verifier().APPROVED_PRODUCT, v.APPROVED_PRODUCT))
+    v.git("add", ".")
+    v.git("commit", "-qm", "fixture verifier")
     for flag in ("--check-evidence-contract", "--check-scope"):
-        result = subprocess.run([sys.executable, "-S", str(ROOT / "tools/verify_wordfreq_html.py"), flag], capture_output=True)
-        expected_dirty = flag == "--check-scope" and bool(verifier().provenance()["product_status"])
-        assert result.returncode == int(expected_dirty), result.stderr + result.stdout
+        result = subprocess.run([sys.executable, "-S", str(tool), flag], cwd=v.ROOT, capture_output=True)
+        assert result.returncode == 0, result.stderr + result.stdout
         report = json.loads(result.stdout)
-        assert bool(report["errors"]) == expected_dirty
+        assert report["errors"] == []
         if flag == "--check-evidence-contract":
             assert report["synthetic"] is True
             assert report["product_acceptance"] is False
             assert report["clean"] == "accepted-predicate-only"
             assert len(report["rejected"]) >= 15
+
+
+@pytest.mark.parametrize("missing", ["base", "approved_product", "both", None])
+def test_depth_one_scope_command_keeps_exact_missing_refs(scope_repo, tmp_path, missing):
+    v = scope_repo
+    clone = tmp_path / "depth-one"
+    v.git("clone", "-q", "--depth", "1", v.ROOT.as_uri(), str(clone))
+    def cg(*argv):
+        return subprocess.run(["git", *argv], cwd=clone, capture_output=True, check=True).stdout.decode().strip()
+    assert cg("rev-parse", "--is-shallow-repository") == "true"
+    available = cg("rev-parse", "HEAD")
+    absent = v.SCOPE_BASE
+    assert subprocess.run(["git", "cat-file", "-e", absent], cwd=clone, capture_output=True).returncode != 0
+    base = absent if missing in ("base", "both") else available
+    approved = absent if missing in ("approved_product", "both") else available
+    tool = clone / "tools/verify_wordfreq_html.py"
+    tool.parent.mkdir()
+    original = (ROOT / "tools/verify_wordfreq_html.py").read_text()
+    tool.write_text(original.replace(verifier().SCOPE_BASE, base).replace(verifier().APPROVED_PRODUCT, approved))
+    cg("add", ".")
+    cg("-c", "user.name=Scope Fixture", "-c", "user.email=scope@example.invalid", "commit", "-qm", "fixture verifier")
+    result = subprocess.run([sys.executable, "-S", str(tool), "--check-scope"], cwd=clone, capture_output=True)
+    assert result.returncode == int(missing is not None), result.stderr + result.stdout
+    assert result.stderr == b""
+    report = json.loads(result.stdout)
+    assert report["base"] == base
+    assert report["approved_product"] == approved
+    assert report["target"] == cg("rev-parse", "HEAD")
+    assert bool(report["errors"]) == (missing is not None)
+    assert report["verdict"] == ("unverified" if missing else "passed")
+    if missing:
+        assert report["paths"] is None
+        assert absent in json.dumps(report["ref_diagnostics"])
 
 
 def test_guide_commands_schema_cases_and_ac_match_real_parser():
@@ -721,7 +868,8 @@ def test_guide_commands_schema_cases_and_ac_match_real_parser():
     assert "[ブラウザ検証手順](docs/wordfreq-html-verification.md)" in (ROOT / "README.md").read_text()
 
 
-def test_dirty_review_session_always_saves_end_provenance(tmp_path, monkeypatch):
+@pytest.mark.parametrize("actor_option", [None, "argonauts-uat-builder"])
+def test_dirty_review_session_always_saves_end_provenance(tmp_path, monkeypatch, actor_option):
     from types import SimpleNamespace
     v = verifier()
     monkeypatch.setenv("HERMES_PROFILE", "argonauts-uat-builder")
@@ -729,17 +877,35 @@ def test_dirty_review_session_always_saves_end_provenance(tmp_path, monkeypatch)
     monkeypatch.setattr(v, "provenance", lambda: state)
     monkeypatch.setattr(v, "scope_report", lambda: dict(base=v.SCOPE_BASE, target="h", errors=[]))
     output = tmp_path / "builder" / "fresh"
-    assert v.review_session(SimpleNamespace(role="builder", actor="argonauts-uat-builder",
+    assert v.review_session(SimpleNamespace(role="builder", actor=actor_option,
         output_dir=output, session_timeout=1)) == 1
     manifest = json.loads((output / "manifest.json").read_text())
+    assert manifest["actor"] == "argonauts-uat-builder"
     assert manifest["end_provenance"] == state
     assert manifest["independent_acceptance"] is False
 
 
-def test_scope_rejects_dirty_and_untracked_code(monkeypatch):
-    v = verifier()
-    monkeypatch.setattr(v, "provenance", lambda: dict(product_status="?? tools/new.py",
-        untracked_product=[dict(path="tools/new.py", sha256="hash", content_utf8="actual")]))
+@pytest.mark.parametrize("state", ["untracked", "modified", "staged", "deleted"])
+def test_scope_rejects_dirty_and_untracked_code(scope_repo, state):
+    v = scope_repo
+    path = v.ROOT / "tools/new.py"
+    path.parent.mkdir()
+    if state != "untracked":
+        path.write_text("# original\n")
+        v.git("add", ".")
+        v.git("commit", "-qm", "tool fixture")
+    if state == "deleted":
+        path.unlink()
+    else:
+        path.write_text("# changed\n")
+    if state == "staged":
+        v.git("add", ".")
+    evidence = v.provenance()
+    assert "tools/new.py" in evidence["product_status"]
+    if state == "untracked":
+        assert evidence["untracked_product"][0]["content_utf8"] == "# changed\n"
+    else:
+        assert "tools/new.py" in evidence["product_diff"]
     assert any("dirty" in e for e in v.scope_report()["errors"])
 
 
