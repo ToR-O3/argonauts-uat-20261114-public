@@ -1,7 +1,8 @@
 ---
 phase: "02"
 slug: "wordfreq-html-output"
-status: draft
+status: approved
+reviewed_at: "2026-11-17T17:53:49+09:00"
 shadcn_initialized: false
 preset: none
 created: "2026-11-17"
@@ -9,7 +10,23 @@ created: "2026-11-17"
 
 # Phase 02 — UI Design Contract
 
-> 静的ローカルHTMLレポートの視覚・表示契約。gsd-ui-researcher作成。製品実装・ブラウザ検証・checker承認は未実施。
+> 静的ローカルHTMLレポートの視覚・表示契約。gsd-ui-researcher作成、独立gsd-ui-checkerの全7次元合格（deleg_ee41e23c）。製品実装・ブラウザ受入は未実施。
+
+## UI Considerations
+
+公式engineの入力/出力: `.planning/argonauts/r-5c041156-ui-{elements,probe}.json`。--autoのkind確認でE1はlist-collection、E2/E3はstatic-contentと確定。11 applicable、unclassified0。以下ですべてexplicitに解決（新たなユーザー判断なし）。
+
+- E1 empty: Copywriting Contractの空入力契約を用い、総数0・見出し3列・tbody0行で順位セルを作らない。
+- E1 loading: 完成済み静的ローカル文書を表示し、非同期取得/途中行/ローディングUIはない。CLI完了後に別ファイルを開く。
+- E1 error: CLI失敗は既存exit1/2とstderrで表し、不完全なHTMLを正常レポートとして扱わない。HTML内のretry UIや通信はない。
+- E1 populated: 通常・同数とも3列、選択行に1始まり連番、metadataは表前。Copywriting Contractの固定文言を使用する。
+- E1 partial: topで選択済みの完全な各行のみ出力し、未選択行のplaceholderや欠落セルを作らない。総数は切り詰めない。
+- E1 overflow: 200文字語もセル内折返し。320/375/1280pxで全列が読み取れ、page/tableの横overflow・重なり・省略がない。
+- E1 zero-one-many: 空表・top1・複数行でも同じ3見出し。順位は0行ならなし、1行なら1、複数なら1..N。
+- E2 overflow: basenameと総数は表前の同じviewport内に収まり、ディレクトリやリンクを出さない。
+- E2 long-text: 長い日本語basename、連続空白と改行も元文字列を保持して折返し、ellipsis/切捨てしない。
+- E3 overflow: h1は狭いviewportで自然に折返し、metadata/tableと重ならない。
+- E3 long-text: h1は固定文言でユーザー文字列を含めず、ズームや狭い幅でも折返し、クリップしない。
 
 ## Design System
 
