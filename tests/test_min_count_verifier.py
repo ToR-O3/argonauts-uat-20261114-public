@@ -300,6 +300,146 @@ def test_browser_free_saved_capture_mutations(browser_free_capture, defect):
     assert v.capture_errors(m, root, baseline, allow_synthetic=True), defect
 
 
+def synthetic_ledger(v, m, baseline):
+    """Synthetic attestations exercise publication, never actual image viewing."""
+    views = [view for c in m["cases"] for view in c["views"]] + v.baseline_review_views(baseline, synthetic=True)
+    ledger = {k: m[k] for k in ("request", "session", "head", "actor", "root", "run", "task")}
+    ledger["reviews"] = [dict(actor=m["actor"], image=i["path"], sha256=v.parts.digest(i["path"]),
+        raw=view["raw"], raw_sha256=v.parts.digest(view["raw"]), viewed_at=v.parts.now(), scale=1,
+        extent=[0, 0, i["width"], i["height"]], judgment="readable", notes="SYNTHETIC extent/identity control only")
+        for view in views for i in view["images"]]
+    ledger["ac_reviews"] = [dict(ac=ac, judgment="accepted", notes="SYNTHETIC acceptance control only",
+                                      evidence=m["ac_index"][ac]["evidence"]) for ac in v.ACS]
+    ledger["source_order"] = dict(head=m["head"], path="wordfreq/__main__.py",
+        sha256=v.parts.digest(v.ROOT / "wordfreq/__main__.py"), lines=[34, 35, 36, 37, 38, 44],
+        judgment="filter-before-top-original-total", notes="SYNTHETIC source-order control only")
+    return ledger
+
+
+def test_browser_free_live_owner_normal_publication(browser_free_saved, tmp_path):
+    v, baseline = browser_free_saved
+    root = tmp_path / "builder" / "review"
+    assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+    def hook(m):
+        ledger = synthetic_ledger(v, m, baseline)
+        v.parts.save_json(root / "reviews.json", ledger)
+        assert v.main(["--mode", "finalize", "--role", "builder", "--output-dir", str(root),
+                       "--baseline-dir", str(baseline), "--review-ledger", str(root / "reviews.json")],
+                      collector=synthetic_collect) == 0
+        assert v.parts.load_json(root / "manifest.json")["verdict"] == "pending-review"
+        assert v.parts.load_json(root / "finalize-request.json")["session"] == m["session"]
+    assert v.main(["--mode", "review-session", "--role", "builder", "--output-dir", str(root),
+                   "--baseline-dir", str(baseline)], collector=synthetic_collect,
+                  suite_runner=synthetic_suite, owner_hook=hook) == 0
+    m = v.parts.load_json(root / "manifest.json")
+    assert m["verdict"] == "builder-reviewed" and not m["independent_acceptance"]
+    assert m["synthetic"] and set(m["ac_verdicts"]) == set(v.ACS)
+    assert all(view["verdict"] == "builder-reviewed" for c in m["cases"] for view in c["views"])
+    assert v.final_publication_errors(m, v.parts.load_json(root / "reviews.json"), root, baseline, synthetic=True) == []
+    assert v.main(["--mode", "finalize", "--role", "builder", "--output-dir", str(root),
+                   "--baseline-dir", str(baseline), "--review-ledger", str(root / "reviews.json")],
+                  collector=synthetic_collect) != 0
+
+
+@pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+    "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+    v, baseline = browser_free_saved
+    root = tmp_path / "builder" / "review"
+    assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+    def hook(m):
+        ledger = synthetic_ledger(v, m, baseline)
+        if defect == "unviewed":
+            ledger["reviews"].pop(0)
+        elif defect == "baseline-unviewed":
+            ledger["reviews"].pop()
+        elif defect == "extra":
+            ledger["reviews"].append(dict(ledger["reviews"][0], image="/extra.png"))
+        elif defect == "duplicate":
+            ledger["reviews"].append(ledger["reviews"][0])
+        elif defect == "ac7":
+            ledger["ac_reviews"].pop()
+        elif defect in {"head", "actor", "root"}:
+            ledger[defect] = "different"
+        elif defect == "source-order":
+            ledger.pop("source_order")
+        elif defect == "scope":
+            m["scope"]["base"] = "old-scope"
+        elif defect == "ended":
+            m["ended"] = v.parts.now()
+        elif defect in {"png", "raw"}:
+            view = next(c for c in m["cases"] if c["format"] == "html")["views"][0]
+            Path(view["raw"] if defect == "raw" else view["images"][0]["path"]).write_bytes(b"mutated")
+        elif defect == "zero-suite":
+            (root / "suite.xml").write_text('<testsuites><testsuite tests="0"/></testsuites>')
+        v.parts.save_json(root / "reviews.json", ledger)
+        v.parts.save_json(root / "finalize-request.json", dict(session=m["session"], ledger_sha256=v.parts.digest(root / "reviews.json"), at=v.parts.now()))
+        if defect == "late-network":
+            monkeypatch.setattr(v, "finish_observation", lambda *a: (v.parts.now(), ["late external attempt"]))
+        elif defect in {"write-failure", "derived"}:
+            original = v.parts.save_json
+            fired = False
+            def save(path, value):
+                nonlocal fired
+                if Path(path).name == "derived.json" and value.get("verdict") == "builder-reviewed" and not fired:
+                    fired = True
+                    if defect == "write-failure":
+                        raise OSError("synthetic mid-publication storage error")
+                    value = dict(value, verdict="pending-review")
+                original(path, value)
+            monkeypatch.setattr(v.parts, "save_json", save)
+    assert v.main(["--mode", "review-session", "--role", "builder", "--output-dir", str(root),
+                   "--baseline-dir", str(baseline)], collector=synthetic_collect,
+                  suite_runner=synthetic_suite, owner_hook=hook) != 0
+    m = v.parts.load_json(root / "manifest.json")
+    assert m["verdict"] == "unverified" and m["errors"] and not m["independent_acceptance"]
+    assert set(m["ac_verdicts"].values()) == {"unverified"}
+    for c in m["cases"]:
+        for view in c["views"]:
+            assert view["verdict"] == "unverified"
+            assert v.parts.load_json(Path(view["raw"]).parent / "derived.json")["verdict"] == "unverified"
+
+
+if os.environ.get("WORDFREQ_MIN_COUNT_CAPTURE_ROOT") and os.environ.get("WORDFREQ_MIN_COUNT_BASELINE_ROOT"):
+    def test_saved_capture_originals_readonly():
+        v = driver()
+        root = Path(os.environ["WORDFREQ_MIN_COUNT_CAPTURE_ROOT"]).resolve()
+        baseline = Path(os.environ["WORDFREQ_MIN_COUNT_BASELINE_ROOT"]).resolve()
+        before = {str(p): v.parts.digest(p) for p in root.rglob("*") if p.is_file()}
+        assert before
+        assert v.validate_capture(root, baseline) == []
+        assert before == {str(p): v.parts.digest(p) for p in root.rglob("*") if p.is_file()}
+
+    @pytest.mark.parametrize("defect", ["case", "width", "head", "actor", "ac7", "total", "scope", "empty", "acceptance", "hash"])
+    def test_saved_capture_manifest_controls(defect):
+        import copy
+        v = driver()
+        root = Path(os.environ["WORDFREQ_MIN_COUNT_CAPTURE_ROOT"]).resolve()
+        baseline = Path(os.environ["WORDFREQ_MIN_COUNT_BASELINE_ROOT"]).resolve()
+        assert v.validate_capture(root, baseline) == []
+        m = copy.deepcopy(v.parts.load_json(root / "manifest.json"))
+        if defect == "case":
+            m["cases"].pop()
+        elif defect == "width":
+            next(c for c in m["cases"] if c["format"] == "html")["views"].pop()
+        elif defect in {"head", "actor"}:
+            m[defect] = "other"
+        elif defect == "ac7":
+            del m["ac_index"]["AC7"]
+        elif defect == "total":
+            m["cases"][0]["total"] += 1
+        elif defect == "scope":
+            m["scope"]["tree"] = {}
+        elif defect == "empty":
+            m["cases"] = []
+        elif defect == "acceptance":
+            m["independent_acceptance"] = True
+        else:
+            key = next(iter(m["artifacts"]))
+            m["artifacts"][key] = "0" * 64
+        assert v.capture_errors(m, root, baseline)
+
+
 # Ordinary suite does not collect saved-original tests without the opt-in root.
 # Explicit -k saved_baseline with no root therefore collects zero and exits 5.
 if os.environ.get("WORDFREQ_MIN_COUNT_BASELINE_ROOT"):

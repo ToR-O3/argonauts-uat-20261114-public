@@ -1,0 +1,425 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: /home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48
+configfile: pyproject.toml
+plugins: hypothesis-6.152.9, anyio-4.13.0, mock-3.15.1, asyncio-1.3.0, cov-7.1.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 64 items / 46 deselected / 18 selected
+
+tests/test_min_count_verifier.py::test_browser_free_live_owner_normal_publication FAILED [  5%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[unviewed] FAILED [ 11%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[extra] FAILED [ 16%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[duplicate] FAILED [ 22%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[ac7] FAILED [ 27%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[scope] FAILED [ 33%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[head] FAILED [ 38%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[actor] FAILED [ 44%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[root] FAILED [ 50%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[late-network] FAILED [ 55%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[write-failure] FAILED [ 61%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[derived] FAILED [ 66%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[zero-suite] FAILED [ 72%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[ended] FAILED [ 77%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[png] FAILED [ 83%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[raw] FAILED [ 88%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[baseline-unviewed] FAILED [ 94%]
+tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[source-order] FAILED [100%]
+
+=================================== FAILURES ===================================
+_______________ test_browser_free_live_owner_normal_publication ________________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_live_owner_n0/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_live_owner_n0')
+
+    def test_browser_free_live_owner_normal_publication(browser_free_saved, tmp_path):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:322: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_live_owner_n0/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+_____________ test_browser_free_owner_rejects_mutations[unviewed] ______________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject0/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084c5490>
+defect = 'unviewed'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject0/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+_______________ test_browser_free_owner_rejects_mutations[extra] _______________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject1/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084c4dd0>
+defect = 'extra'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject1/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+_____________ test_browser_free_owner_rejects_mutations[duplicate] _____________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject2/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084aec30>
+defect = 'duplicate'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject2/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+________________ test_browser_free_owner_rejects_mutations[ac7] ________________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject3/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084c7110>
+defect = 'ac7'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject3/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+_______________ test_browser_free_owner_rejects_mutations[scope] _______________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject4/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084df7d0>
+defect = 'scope'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject4/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+_______________ test_browser_free_owner_rejects_mutations[head] ________________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject5/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject5')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084dfb00>
+defect = 'head'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject5/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+_______________ test_browser_free_owner_rejects_mutations[actor] _______________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject6/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject6')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084aed20>
+defect = 'actor'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject6/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+_______________ test_browser_free_owner_rejects_mutations[root] ________________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject7/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject7')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084de8d0>
+defect = 'root'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject7/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+___________ test_browser_free_owner_rejects_mutations[late-network] ____________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject8/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject8')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084d5eb0>
+defect = 'late-network'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject8/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+___________ test_browser_free_owner_rejects_mutations[write-failure] ___________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject9/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject9')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084c6390>
+defect = 'write-failure'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject9/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+______________ test_browser_free_owner_rejects_mutations[derived] ______________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...mes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject10/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject10')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084d48f0>
+defect = 'derived'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject10/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+____________ test_browser_free_owner_rejects_mutations[zero-suite] _____________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...mes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject11/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject11')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084c5f70>
+defect = 'zero-suite'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject11/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+_______________ test_browser_free_owner_rejects_mutations[ended] _______________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...mes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject12/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject12')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084dc980>
+defect = 'ended'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject12/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+________________ test_browser_free_owner_rejects_mutations[png] ________________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...mes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject13/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject13')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084dc6e0>
+defect = 'png'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject13/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+________________ test_browser_free_owner_rejects_mutations[raw] ________________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...mes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject14/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject14')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084a0140>
+defect = 'raw'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject14/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+_________ test_browser_free_owner_rejects_mutations[baseline-unviewed] _________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...mes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject15/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject15')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084d4b00>
+defect = 'baseline-unviewed'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject15/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+___________ test_browser_free_owner_rejects_mutations[source-order] ____________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...mes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject16/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject16')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7036084a1040>
+defect = 'source-order'
+
+    @pytest.mark.parametrize("defect", ["unviewed", "extra", "duplicate", "ac7", "scope", "head", "actor", "root",
+        "late-network", "write-failure", "derived", "zero-suite", "ended", "png", "raw", "baseline-unviewed", "source-order"])
+    def test_browser_free_owner_rejects_mutations(browser_free_saved, tmp_path, monkeypatch, defect):
+        v, baseline = browser_free_saved
+        root = tmp_path / "builder" / "review"
+>       assert callable(getattr(v, "review_session", None)), "live owner pipeline missing"
+E       AssertionError: live owner pipeline missing
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tools/verify_wordfreq_min_count.py'>, 'review_session', None)
+
+tests/test_min_count_verifier.py:349: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-239/test_browser_free_owner_reject16/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+- generated xml file: /home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/t_3221bf48/red-owner.xml -
+=========================== short test summary info ============================
+FAILED tests/test_min_count_verifier.py::test_browser_free_live_owner_normal_publication
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[unviewed]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[extra]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[duplicate]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[ac7]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[scope]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[head]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[actor]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[root]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[late-network]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[write-failure]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[derived]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[zero-suite]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[ended]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[png]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[raw]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[baseline-unviewed]
+FAILED tests/test_min_count_verifier.py::test_browser_free_owner_rejects_mutations[source-order]
+====================== 18 failed, 46 deselected in 13.30s ======================
