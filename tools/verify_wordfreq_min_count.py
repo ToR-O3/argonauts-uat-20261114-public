@@ -384,6 +384,367 @@ def validate_baseline(output, allow_synthetic=False):
         return [f"baseline marker unavailable: {exc}"]
 
 
+# Phase 4 owns cases, scope, AC mapping and lifecycle; only collectors are shared.
+ACTORS = {"builder": "argonauts-uat-builder", "quality": "argonauts-uat-quality"}
+ACS = tuple(f"AC{i}" for i in range(1, 8))
+EXECUTABLE = "/usr/bin/chromium-browser"
+
+
+def relocate(value, old, new):
+    if isinstance(value, str) and (value == old or value.startswith(old + "/")):
+        return str(new) + value[len(old):]
+    if isinstance(value, dict):
+        return {relocate(k, old, new): relocate(v, old, new) for k, v in value.items()}
+    if isinstance(value, list):
+        return [relocate(v, old, new) for v in value]
+    return value
+
+
+def read_baseline(root, synthetic=False):
+    errors = validate_baseline(root, allow_synthetic=synthetic)
+    if errors:
+        raise ValueError(f"baseline invalid: {errors}")
+    index = parts.load_json(root / "index.json")
+    return relocate(index, index["root"], root)
+
+
+def capture_cases():
+    cases = []
+    for original in baseline_cases():
+        for minimum in (None, 1):
+            cases.append(dict(original, id=original["id"] + ("-omitted" if minimum is None else "-one"),
+                              baseline_id=original["id"], minimum=minimum, reverse=False))
+    matrix = [
+        ("beta", "beta beta beta alpha gamma alpha delta", 2, None, [("beta", 3), ("alpha", 2)], 7),
+        ("beta-top", "beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+        ("beta-none", "beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+        ("zoo", "Zoo apple APPLE zoo banana", 2, None, [("zoo", 2), ("apple", 2)], 5),
+        ("zoo-top", "Zoo apple APPLE zoo banana", 2, 1, [("zoo", 2)], 5),
+        ("zoo-reverse", "Zoo apple APPLE zoo banana", 2, 1, [("zoo", 2)], 5),
+        ("zoo-none", "Zoo apple APPLE zoo banana", 3, None, [], 5),
+        ("unicode", "Straße STRASSE", 2, None, [("strasse", 2)], 2),
+        ("empty", "", 2, None, [], 0),
+        ("whitespace", " \t\r\n  ", 2, None, [], 0),
+        ("punctuation", "!?,.;: --", 2, None, [], 0)]
+    for name, body, minimum, top, pairs, total in matrix:
+        for fmt in ("text", "json", "html"):
+            cases.append(dict(id=name + "-" + fmt, basename=name + ".txt", body=body,
+                              pairs=[list(p) for p in pairs], total=total, format=fmt,
+                              explicit_format=True, top=top, minimum=minimum, reverse=name == "zoo-reverse"))
+    for original in baseline_cases()[7:]:
+        # All inherited long/default/99/top12, injection and CR fixtures.
+        cases.append(dict(original, id=original["id"] + "-threshold", minimum=2, reverse=False,
+                          pairs=[p for p in original["pairs"] if p[1] >= 2]))
+    return cases
+
+
+def case_argv(case, executable):
+    argv = [executable, "-m", "wordfreq", case["input"]]
+    if case["explicit_format"]:
+        argv += ["--format", case["format"]]
+    threshold = [] if case["minimum"] is None else ["--min-count", str(case["minimum"])]
+    top = [] if case["top"] is None else ["--top", str(case["top"])]
+    return argv + (top + threshold if case["reverse"] else threshold + top)
+
+
+def generate_capture_cases(output, baseline_index):
+    records = []
+    previous = {c["id"]: c for c in baseline_index["cases"]}
+    for oracle in capture_cases():
+        folder = output / oracle["id"]
+        source = folder / "private-source-directory" / oracle["basename"]
+        source.parent.mkdir(parents=True, exist_ok=False)
+        source.write_bytes(oracle["body"].encode("utf-8"))
+        env = dict(os.environ)
+        if oracle.get("baseline_id"):
+            recorded = previous[oracle["baseline_id"]]["environment"]
+        else:
+            recorded = dict(PYTHONIOENCODING="utf-8", PYTHONUTF8="1", PYTHONDONTWRITEBYTECODE="1",
+                            PYTHONPATH=os.environ.get("PYTHONPATH"), LANG=os.environ.get("LANG"), LC_ALL=os.environ.get("LC_ALL"))
+        for key, value in recorded.items():
+            if value is None:
+                env.pop(key, None)
+            else:
+                env[key] = value
+        record = dict(oracle, input=str(source), input_sha256=parts.digest(source), executable=sys.executable,
+                      environment=recorded, cwd=str(ROOT), stdout=str(folder / "stdout.bin"), stderr=str(folder / "stderr.bin"), views=[])
+        record["argv"] = case_argv(record, sys.executable)
+        result = subprocess.run(record["argv"], cwd=ROOT, env=env, capture_output=True, timeout=20)
+        record["exit"] = result.returncode
+        Path(record["stdout"]).write_bytes(result.stdout)
+        Path(record["stderr"]).write_bytes(result.stderr)
+        if oracle["format"] == "html":
+            record["html"] = str(folder / "stdout.html")
+            Path(record["html"]).write_bytes(result.stdout)
+        errors = cli_errors(record)
+        if errors:
+            raise ValueError(f"{record['id']}: {errors}")
+        parts.save_json(folder / "cli.json", record)
+        records.append(record)
+    return records
+
+
+def allowed_capture_path(path):
+    return (path in {*TASK_FILES, "wordfreq/__main__.py", "tests/test_cli.py", "README.md",
+                     "docs/wordfreq-min-count-verification.md", "openspec/changes/r-e476c11d-wordfreq-min-count/tasks.md"}
+            or path in {".planning/STATE.md", ".planning/state.json", ".planning/ROADMAP.md", ".planning/REQUIREMENTS.md"}
+            or path.startswith((".planning/argonauts/", ".planning/phases/04-wordfreq-min-count/")))
+
+
+def capture_scope(baseline_head, head):
+    git("merge-base", "--is-ancestor", baseline_head, head)
+    before, after = tree(baseline_head), tree(head)
+    changed = sorted(p for p in before.keys() | after.keys() if before.get(p) != after.get(p))
+    forbidden = [p for p in changed if not allowed_capture_path(p)]
+    if forbidden:
+        raise ValueError(f"forbidden current scope: {forbidden}")
+    return dict(base=baseline_head, head=head, base_tree=before, tree=after, changed_paths=changed)
+
+
+def actor_for(role, output):
+    actor = os.environ.get("HERMES_PROFILE")
+    if actor != ACTORS[role] or role not in output.parts or ({"builder", "quality"} - {role}).intersection(output.parts):
+        raise ValueError("actual profile/role/root separation mismatch")
+    if not os.environ.get("HERMES_KANBAN_TASK") or not os.environ.get("HERMES_KANBAN_RUN_ID"):
+        raise ValueError("missing actual task/run")
+    return actor
+
+
+def run_capture_suite(output):
+    import xml.etree.ElementTree as ET
+    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+    for key in ("WORDFREQ_MIN_COUNT_BASELINE_ROOT", "WORDFREQ_MIN_COUNT_CAPTURE_ROOT"):
+        env.pop(key, None)
+    argv = [sys.executable, "-m", "pytest", "--junitxml", str(output / "suite.xml")]
+    started = parts.now()
+    result = subprocess.run(argv, cwd=ROOT, env=env, capture_output=True, timeout=600)
+    (output / "suite.stdout").write_bytes(result.stdout)
+    (output / "suite.stderr").write_bytes(result.stderr)
+    suites = list(ET.parse(output / "suite.xml").getroot().iter("testsuite"))
+    return dict(argv=argv, cwd=str(ROOT), head=git("rev-parse", "HEAD").strip(), started=started,
+                ended=parts.now(), exit=result.returncode, synthetic=False,
+                collected=sum(int(s.get("tests", 0)) for s in suites), environment={k: env.get(k) for k in
+                ("PYTHONPATH", "PYTHONHASHSEED", "PYTHONDONTWRITEBYTECODE", "LANG", "LC_ALL",
+                 "WORDFREQ_MIN_COUNT_BASELINE_ROOT", "WORDFREQ_MIN_COUNT_CAPTURE_ROOT")})
+
+
+def suite_errors(root, synthetic=False):
+    import xml.etree.ElementTree as ET
+    suite = parts.load_json(root / "suite.json")
+    suites = list(ET.parse(root / "suite.xml").getroot().iter("testsuite"))
+    count = sum(int(s.get("tests", 0)) for s in suites)
+    errors = []
+    if (suite["exit"] != 0 or count <= 0 or count != suite["collected"] or
+            any(int(s.get(k, 0)) for s in suites for k in ("errors", "failures", "skipped"))):
+        errors.append("full suite failed/empty/skipped")
+    if suite["synthetic"] and not synthetic:
+        errors.append("synthetic suite is not full regression")
+    if not suite["synthetic"]:
+        if (suite["argv"] != [sys.executable, "-m", "pytest", "--junitxml", str(root / "suite.xml")] or
+                any(suite["environment"].get(k) for k in ("WORDFREQ_MIN_COUNT_BASELINE_ROOT", "WORDFREQ_MIN_COUNT_CAPTURE_ROOT"))):
+            errors.append("suite command/opt-in recursion mismatch")
+    return errors
+
+
+def comparisons(manifest, baseline_index):
+    previous = {c["id"]: c for c in baseline_index["cases"]}
+    result = {}
+    for case in manifest["cases"]:
+        if not case.get("baseline_id"):
+            continue
+        old = previous[case["baseline_id"]]
+        item = dict(bytes_equal=Path(case["stdout"]).read_bytes() == Path(old["stdout"]).read_bytes(),
+                    environment_equal=case["environment"] == old["environment"], views=[])
+        for view, before in zip(case["views"], old["views"]):
+            raw, old_raw = parts.load_json(view["raw"]), parts.load_json(before["raw"])
+            item["views"].append(dict(width=view["width"], raw_equal=raw == old_raw,
+                browser_equal=view["browser"] == before["browser"],
+                images_equal=[parts.digest(i["path"]) for i in view["images"]] == [parts.digest(i["path"]) for i in before["images"]],
+                reviewed=False))
+        result[case["id"]] = item
+    return result
+
+
+def artifact_hashes(output, mutable=False):
+    excluded = {"manifest.json", "manifest.sha256"}
+    if mutable:
+        excluded |= {"network.json", "browser-network.json", "derived.json", "reviews.json", "finalize-request.json"}
+    return {str(p): parts.digest(p) for p in output.rglob("*") if p.is_file() and p.name not in excluded}
+
+
+def ac_mapping(artifacts):
+    return {ac: dict(requirement=f"REQ-{15+i}", evidence=sorted(artifacts), verdict="pending") for i, ac in enumerate(ACS)}
+
+
+def capture_errors(m, output, baseline_dir, allow_synthetic=False, live=False):
+    errors = []
+    try:
+        b = read_baseline(baseline_dir, allow_synthetic)
+        original = m["root"]
+        relative = m["root_relative"]
+        if relative is not None:
+            if (Path(relative).is_absolute() or ".." in Path(relative).parts or
+                    original != str(Path(m["repo_root"]) / relative) or (ROOT / relative).resolve() != output.resolve()):
+                return ["capture root binding differs"]
+        elif original != str(output.resolve()):
+            return ["capture root differs"]
+        m = relocate(m, original, output)
+        if (m["request"] != REQUEST or m["mode"] not in {"capture", "review-session"} or
+                m["actor"] != ACTORS[m["role"]] or m["role"] not in output.parts or
+                not m["task"] or not m["run"] or m["errors"]):
+            errors.append("request/mode/actor/root/errors mismatch")
+        if m["synthetic"] and not allow_synthetic:
+            errors.append("synthetic is not integration")
+        if not live and (m["verdict"] != "pending-review" or m["independent_acceptance"] or m["reviews"] or m["ac_reviews"]):
+            errors.append("unearned acceptance/review")
+        if m["baseline"] != dict(head=b["head"], index_sha256=parts.digest(baseline_dir / "index.json")):
+            errors.append("baseline identity differs")
+        if (m["head"] != m["provenance"]["head"] or m["provenance"]["execution_status"] or
+                m["end_provenance"]["head"] != m["head"] or m["end_provenance"]["execution_status"]):
+            errors.append("head/dirty start/end mismatch")
+        if capture_scope(b["head"], m["head"]) != m["scope"]:
+            errors.append("scope/tree mismatch")
+        if parts.load_json(output / "scope.json") != m["scope"] or parts.load_json(output / "provenance.json") != m["provenance"]:
+            errors.append("scope/provenance sidecar mismatch")
+        if m["environment"]["executable"] != m["cases"][0]["executable"]:
+            errors.append("executable environment mismatch")
+        if not m["synthetic"]:
+            if any(m["environment"][k] != b["environment"][k] for k in ("executable", "python", "os")):
+                errors.append("baseline runtime environment differs")
+            if any(m["browser"][k] != b["browser"][k] for k in ("executable", "version", "os")):
+                errors.append("baseline browser environment differs")
+        expected = capture_cases()
+        if [c["id"] for c in m["cases"]] != [c["id"] for c in expected]:
+            errors.append("missing/reordered cases")
+        required = [str(output / n) for n in ("suite.json", "suite.xml", "suite.stdout", "suite.stderr", "scope.json", "provenance.json")]
+        for case, oracle in zip(m["cases"], expected):
+            if any(case[k] != val for k, val in oracle.items()):
+                errors.append("literal oracle differs")
+            errors += cli_errors(case)
+            sidecar = relocate(parts.load_json(Path(case["stdout"]).parent / "cli.json"), original, output)
+            if (sidecar != dict(case, views=[]) or case["argv"] != case_argv(case, m["environment"]["executable"]) or
+                    case["cwd"] != m["repo_root"] or case["input_sha256"] != parts.digest(case["input"])):
+                errors.append("CLI sidecar/argv/cwd/input differs")
+            if case["format"] == "html" and [v["width"] for v in case["views"]] != list(WIDTHS):
+                errors.append("missing viewport")
+            required += case_paths(case)
+            for view in case["views"]:
+                raw = parts.load_json(view["raw"])
+                errors += parts.view_identity_errors(view) + parts.image_coverage_errors(view, raw)
+                if raw["viewport"] != dict(width=view["width"], height=900, dpr=1, scale=1):
+                    errors.append("viewport differs")
+                for image in view["images"]:
+                    if parts.png_size(image["path"]) != (image["width"], image["height"]):
+                        errors.append("image dimensions differ")
+                if not m["synthetic"]:
+                    errors += parts.geometry_errors(raw) + parts.dom_errors(raw, case)
+                    url = (Path(original) / Path(case["html"]).relative_to(output)).as_uri()
+                    errors += parts.network_errors(parts.load_json(view["network"]), url)
+                    if not raw["platformFonts"] or view["browser"]["viewport"] != raw["viewport"]:
+                        errors.append("missing font/browser environment")
+                derived = relocate(parts.load_json(Path(view["raw"]).parent / "derived.json"), original, output)
+                if derived != view or view["errors"]:
+                    errors.append("view/derived/errors differ")
+        errors += suite_errors(output, allow_synthetic)
+        actual = artifact_hashes(output, mutable=live)
+        if actual != m["artifacts"]:
+            errors.append("artifact set/hash differs")
+        if not live and not set(required) <= set(m["artifacts"]):
+            errors.append("missing required artifacts")
+        if m["ac_index"] != ac_mapping(m["artifacts"]):
+            errors.append("AC1-7 mapping differs")
+        comparison = comparisons(m, b)
+        if m["comparisons"] != comparison or any(not c["bytes_equal"] or not c["environment_equal"] or
+                any(not v["raw_equal"] or not v["browser_equal"] or not v["images_equal"] for v in c["views"]) for c in comparison.values()):
+            errors.append("baseline bytes/raw/environment/images comparison differs")
+    except Exception as exc:
+        errors.append(f"capture unavailable/malformed: {type(exc).__name__}: {exc}")
+    return list(dict.fromkeys(errors))
+
+
+def validate_capture(output, baseline_dir, allow_synthetic=False):
+    """Read-only saved-original check; declared head is never retagged to HEAD."""
+    output, baseline_dir = Path(output).resolve(), Path(baseline_dir).resolve()
+    try:
+        if (output / "manifest.sha256").read_text().strip() != parts.digest(output / "manifest.json"):
+            return ["manifest SHA mismatch"]
+        return capture_errors(parts.load_json(output / "manifest.json"), output, baseline_dir, allow_synthetic)
+    except Exception as exc:
+        return [f"capture marker unavailable: {exc}"]
+
+
+def seal_capture(m, output):
+    parts.save_json(output / "manifest.json", m)
+    (output / "manifest.sha256").write_text(parts.digest(output / "manifest.json") + "\n", encoding="ascii")
+
+
+def capture(args, collector=None, suite_runner=None):
+    import platform
+    import time
+    output, baseline_dir = args.output_dir.resolve(), args.baseline_dir.resolve()
+    if output.exists():
+        raise ValueError("capture root already exists; never overwrite or recapture")
+    actor = actor_for(args.role, output)
+    synthetic = collector is not None or suite_runner is not None
+    b = read_baseline(baseline_dir, synthetic)
+    start = execution_state()
+    if start["execution_status"]:
+        raise ValueError("dirty execution surface; commit first")
+    scope = capture_scope(b["head"], start["head"])
+    output.mkdir(parents=True)
+    started, timer = parts.now(), time.monotonic()
+    m = dict(schema=2, request=REQUEST, mode=args.mode, role=args.role, actor=actor,
+        task=os.environ["HERMES_KANBAN_TASK"], run=os.environ["HERMES_KANBAN_RUN_ID"], root=str(output),
+        root_relative=str(output.relative_to(ROOT)) if output.is_relative_to(ROOT) else None, repo_root=str(ROOT),
+        head=start["head"], provenance=start, scope=scope, baseline=dict(head=b["head"], index_sha256=parts.digest(baseline_dir / "index.json")),
+        environment=dict(executable=sys.executable, python=sys.version, os=platform.platform(), tmpdir=os.environ.get("TMPDIR")),
+        started=started, synthetic=synthetic, errors=[], reviews=[], ac_reviews=[], independent_acceptance=False,
+        verdict="unverified", cases=[])
+    try:
+        parts.save_json(output / "provenance.json", start)
+        parts.save_json(output / "scope.json", scope)
+        suite = (suite_runner or run_capture_suite)(output)
+        parts.save_json(output / "suite.json", suite)
+        if suite_errors(output, synthetic):
+            raise ValueError("full suite failed/empty/skipped")
+        m["cases"] = generate_capture_cases(output, b)
+        def collect(browser):
+            for case in m["cases"]:
+                if case["format"] != "html":
+                    continue
+                for width in WIDTHS:
+                    view = collector(case, width, output) if collector else parts.collect_view(browser, dict(case, stdout=case["html"]), width, output)
+                    view["raw_sha256"] = parts.digest(view["raw"])
+                    for image in view["images"]:
+                        image["sha256"] = parts.digest(image["path"])
+                    parts.save_json(Path(view["raw"]).parent / "derived.json", view)
+                    case["views"].append(view)
+        if collector:
+            m["browser"] = dict(synthetic=True)
+            collect(None)
+        else:
+            from playwright.sync_api import sync_playwright
+            with sync_playwright() as pw, parts.instrumented_browser(pw, EXECUTABLE) as browser:
+                m["browser"] = dict(executable=EXECUTABLE, version=browser.version, os=platform.platform(), launch=browser.launch_record)
+                collect(browser)
+        m["end_provenance"] = execution_state()
+        m["comparisons"] = comparisons(m, b)
+        m["artifacts"] = artifact_hashes(output)
+        m["ac_index"] = ac_mapping(m["artifacts"])
+        m["verdict"] = "pending-review"
+        m["errors"] += capture_errors(m, output, baseline_dir, synthetic)
+        if m["errors"]:
+            m["verdict"] = "unverified"
+    except Exception as exc:
+        m["errors"].append(f"capture unverified: {type(exc).__name__}: {exc}")
+        m["verdict"] = "unverified"
+    m["ended"], m["duration_seconds"] = parts.now(), time.monotonic() - timer
+    seal_capture(m, output)
+    print(json.dumps(dict(manifest=str(output / "manifest.json"), head=m["head"], verdict=m["verdict"],
+        cases=len(m["cases"]), views=sum(len(c["views"]) for c in m["cases"]), errors=m["errors"], synthetic=synthetic)))
+    return 1 if m["errors"] else 0
+
+
 def parser():
     result = argparse.ArgumentParser(description=__doc__)
     result.add_argument("--mode", choices=("baseline", "capture", "review-session", "finalize"), required=True)
@@ -394,7 +755,7 @@ def parser():
     return result
 
 
-def main(argv=None, collector=None):
+def main(argv=None, collector=None, suite_runner=None):
     p = parser()
     args = p.parse_args(argv)
     if args.mode != "baseline" and args.baseline_dir is None:
@@ -402,8 +763,10 @@ def main(argv=None, collector=None):
     if args.mode == "finalize" and args.review_ledger is None:
         p.error("--review-ledger is required for finalize")
     try:
+        if args.mode == "capture":
+            return capture(args, collector, suite_runner)
         if args.mode != "baseline":
-            raise ValueError(f"unsupported mode until PLAN 04-03: {args.mode}")
+            raise ValueError(f"unsupported mode until lifecycle task: {args.mode}")
         return baseline(args, collector=collector)
     except (OSError, ValueError, KeyError, TypeError, RuntimeError, subprocess.CalledProcessError) as exc:
         print(json.dumps(dict(verdict="unverified", errors=[str(exc)], exit=1)))
