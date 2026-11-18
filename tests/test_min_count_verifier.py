@@ -77,6 +77,49 @@ def browser_free_repo(tmp_path, monkeypatch):
     return v, repo
 
 
+def test_browser_free_capture_scope_allows_finalization(browser_free_repo):
+    import subprocess
+    v, repo = browser_free_repo
+    change = "r-e476c11d-wordfreq-min-count"
+    active = repo / "openspec/changes" / change
+    files = (".openspec.yaml", "design.md", "proposal.md", "tasks.md", "specs/wordfreq-cli/spec.md")
+    for name in files:
+        path = active / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("before archive\n")
+    subprocess.run(["git", "add", "."], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-qm", "fixture: active change"], cwd=repo, check=True, capture_output=True)
+    baseline = v.git("rev-parse", "HEAD").strip()
+    archive = repo / "openspec/changes/archive" / ("2026-11-18-" + change)
+    archive.parent.mkdir(parents=True)
+    active.rename(archive)
+    synced = repo / "openspec/specs/wordfreq-cli/spec.md"
+    synced.parent.mkdir(parents=True)
+    synced.write_text("synced specification\n")
+    project = repo / ".planning/PROJECT.md"
+    project.parent.mkdir()
+    project.write_text("phase complete\n")
+    subprocess.run(["git", "add", "."], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-qm", "fixture: archive and complete phase"], cwd=repo, check=True, capture_output=True)
+    scope = v.capture_scope(baseline, v.git("rev-parse", "HEAD").strip())
+    assert set(scope["changed_paths"]) == {
+        *(str((active / name).relative_to(repo)) for name in files),
+        *(str((archive / name).relative_to(repo)) for name in files),
+        ".planning/PROJECT.md", "openspec/specs/wordfreq-cli/spec.md",
+    }
+
+
+@pytest.mark.parametrize("path", [
+    "wordfreq/core.py", ".github/workflows/ci.yml", ".planning/config.json",
+    "openspec/changes/another-change/tasks.md",
+    "openspec/changes/archive/2026-11-18-another-change/tasks.md",
+    "openspec/changes/archive/2026-11-18-r-e476c11d-wordfreq-min-count/extra.py",
+    "openspec/specs/another-cli/spec.md",
+])
+def test_browser_free_finalization_scope_still_rejects_wrong_paths(path):
+    assert not driver().allowed_capture_path(path)
+
+
 def synthetic_collect(case, width, output):
     """Deliberately synthetic boundary; never a real browser/readability claim."""
     import struct

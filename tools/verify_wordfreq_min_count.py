@@ -3,6 +3,7 @@ import argparse
 import importlib.util
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -487,9 +488,17 @@ def generate_capture_cases(output, baseline_index):
 
 
 def allowed_capture_path(path):
-    return (path in {*TASK_FILES, "wordfreq/__main__.py", "tests/test_cli.py", "README.md",
-                     "docs/wordfreq-min-count-verification.md", "openspec/changes/r-e476c11d-wordfreq-min-count/tasks.md"}
-            or path in {".planning/STATE.md", ".planning/state.json", ".planning/ROADMAP.md", ".planning/REQUIREMENTS.md"}
+    # Finalization moves this change and syncs its spec; both old and new tree
+    # paths must remain verifiable. Do not allow unrelated OpenSpec changes.
+    change_file = re.fullmatch(
+        r"openspec/changes/(?:archive/[0-9]{4}-[0-9]{2}-[0-9]{2}-)?"
+        r"r-e476c11d-wordfreq-min-count/"
+        r"(?:\.openspec\.yaml|design\.md|proposal\.md|tasks\.md|specs/wordfreq-cli/spec\.md)", path)
+    return (bool(change_file)
+            or path in {*TASK_FILES, "wordfreq/__main__.py", "tests/test_cli.py", "README.md",
+                        "docs/wordfreq-min-count-verification.md", "openspec/specs/wordfreq-cli/spec.md"}
+            or path in {".planning/PROJECT.md", ".planning/STATE.md", ".planning/state.json",
+                        ".planning/ROADMAP.md", ".planning/REQUIREMENTS.md"}
             or path.startswith((".planning/argonauts/", ".planning/phases/04-wordfreq-min-count/")))
 
 
