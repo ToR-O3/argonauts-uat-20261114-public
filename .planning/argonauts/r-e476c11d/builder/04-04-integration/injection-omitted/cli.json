@@ -1,0 +1,51 @@
+{
+  "id": "injection-omitted",
+  "basename": "検査  &<>\"'\n次\t終.txt",
+  "body": "Café CAFÉ Straße STRASSE 日本語",
+  "pairs": [
+    [
+      "café",
+      2
+    ],
+    [
+      "strasse",
+      2
+    ],
+    [
+      "日本語",
+      1
+    ]
+  ],
+  "total": 5,
+  "format": "html",
+  "top": null,
+  "explicit_format": true,
+  "baseline_id": "injection",
+  "minimum": null,
+  "reverse": false,
+  "input": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/injection-omitted/private-source-directory/検査  &<>\"'\n次\t終.txt",
+  "input_sha256": "f68fa9793d2c33effa7d53681a9ca5af292e2937dd2483ff958337271322bfad",
+  "executable": "/usr/bin/python3",
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/Yuki/.local/lib/python3.12/site-packages",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": null
+  },
+  "cwd": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/injection-omitted/stdout.bin",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/injection-omitted/stderr.bin",
+  "views": [],
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/injection-omitted/private-source-directory/検査  &<>\"'\n次\t終.txt",
+    "--format",
+    "html"
+  ],
+  "exit": 0,
+  "html": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/injection-omitted/stdout.html"
+}

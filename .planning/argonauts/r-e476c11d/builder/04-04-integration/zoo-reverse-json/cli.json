@@ -1,0 +1,45 @@
+{
+  "id": "zoo-reverse-json",
+  "basename": "zoo-reverse.txt",
+  "body": "Zoo apple APPLE zoo banana",
+  "pairs": [
+    [
+      "zoo",
+      2
+    ]
+  ],
+  "total": 5,
+  "format": "json",
+  "explicit_format": true,
+  "top": 1,
+  "minimum": 2,
+  "reverse": true,
+  "input": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/zoo-reverse-json/private-source-directory/zoo-reverse.txt",
+  "input_sha256": "40c14a75ce1fec71759b97f1506fe2cb0eeb3d9781f9db143e29a77640905352",
+  "executable": "/usr/bin/python3",
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/Yuki/.local/lib/python3.12/site-packages",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": null
+  },
+  "cwd": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/zoo-reverse-json/stdout.bin",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/zoo-reverse-json/stderr.bin",
+  "views": [],
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/zoo-reverse-json/private-source-directory/zoo-reverse.txt",
+    "--format",
+    "json",
+    "--top",
+    "1",
+    "--min-count",
+    "2"
+  ],
+  "exit": 0
+}

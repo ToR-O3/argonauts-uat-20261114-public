@@ -14,6 +14,7 @@
 
 - [x] 2.1 既存全件と新規pytestを実行し環境・収集件数・結果・終了値を保存する。変更前原本/未指定/明示1の全形式比較（同数と10種類超を含む）、CI・依存・見た目の差分なしを確認し、各ACへ証拠を対応付ける（AC2、AC6、AC7）。
   - 04-03: clean head `d6dcbef0295f2052324188a24f32d1698c3e1d60`、Builder run149 の許可済み一度限り再採取 `.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/manifest.json`。全683試験exit0、62 CLI/68 view/110画像、24既定比較、saved_capture 25試験exit0を2回。scope/環境/bytes/raw/画像の機械比較とAC1〜7索引を保存。pending-review/independent_acceptance=false。失敗原本・baseline不変。独立品質の画像実閲覧と見た目の最終受入は2.2に残す。
+  - 04-04: clean head `904e95b8b1e9910f95d5832cfe9620370feb5ff9`、Builder run154。人の許可で失敗run153原本を保持し新root `builder/04-04-integration-retry-run154/` へ一度再採取。全685試験exit0、62 CLI/68 view/110画像・24比較・errors空、saved_capture 27試験exit0（112.85s）。採取283.092s、pending-review/independent_acceptance=false。品質2.2・PM原本読取り・現head CIは未実施。
 - [ ] 2.2 品質が検証headで自らCLIを再実行し、既定・閾値部分表示・top併用・全件除外・空結果のHTMLを通常幅1280×900/狭幅320×900・DPR1で開いて閲覧する。比較元と同環境の画像、入力/argv/exit/stdout/stderr/HTML原本、対象head、文字範囲と安全性の既存契約を含む検証証拠を保存・添付し、AC1/2/4/5/6/7と照合する。フィルタ→topのソース箇所も記録し、未検証を合格にしない。
 
 ## Workflow follow-up

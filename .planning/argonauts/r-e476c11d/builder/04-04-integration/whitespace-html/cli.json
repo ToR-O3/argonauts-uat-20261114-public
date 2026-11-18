@@ -1,0 +1,39 @@
+{
+  "id": "whitespace-html",
+  "basename": "whitespace.txt",
+  "body": " \t\r\n  ",
+  "pairs": [],
+  "total": 0,
+  "format": "html",
+  "explicit_format": true,
+  "top": null,
+  "minimum": 2,
+  "reverse": false,
+  "input": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/whitespace-html/private-source-directory/whitespace.txt",
+  "input_sha256": "d783e308f742a9741b1f7231efab2ee0a850dedd9c12de884fda5f6a4ac3c16e",
+  "executable": "/usr/bin/python3",
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/Yuki/.local/lib/python3.12/site-packages",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": null
+  },
+  "cwd": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/whitespace-html/stdout.bin",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/whitespace-html/stderr.bin",
+  "views": [],
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/whitespace-html/private-source-directory/whitespace.txt",
+    "--format",
+    "html",
+    "--min-count",
+    "2"
+  ],
+  "exit": 0,
+  "html": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/whitespace-html/stdout.html"
+}
