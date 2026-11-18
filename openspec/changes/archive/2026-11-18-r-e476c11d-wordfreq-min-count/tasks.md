@@ -15,7 +15,12 @@
 - [x] 2.1 既存全件と新規pytestを実行し環境・収集件数・結果・終了値を保存する。変更前原本/未指定/明示1の全形式比較（同数と10種類超を含む）、CI・依存・見た目の差分なしを確認し、各ACへ証拠を対応付ける（AC2、AC6、AC7）。
   - 04-03: clean head `d6dcbef0295f2052324188a24f32d1698c3e1d60`、Builder run149 の許可済み一度限り再採取 `.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/manifest.json`。全683試験exit0、62 CLI/68 view/110画像、24既定比較、saved_capture 25試験exit0を2回。scope/環境/bytes/raw/画像の機械比較とAC1〜7索引を保存。pending-review/independent_acceptance=false。失敗原本・baseline不変。独立品質の画像実閲覧と見た目の最終受入は2.2に残す。
   - 04-04: clean head `904e95b8b1e9910f95d5832cfe9620370feb5ff9`、Builder run154。人の許可で失敗run153原本を保持し新root `builder/04-04-integration-retry-run154/` へ一度再採取。全685試験exit0、62 CLI/68 view/110画像・24比較・errors空、saved_capture 27試験exit0（112.85s）。採取283.092s、pending-review/independent_acceptance=false。品質2.2・PM原本読取り・現head CIは未実施。
-- [ ] 2.2 品質が検証headで自らCLIを再実行し、既定・閾値部分表示・top併用・全件除外・空結果のHTMLを通常幅1280×900/狭幅320×900・DPR1で開いて閲覧する。比較元と同環境の画像、入力/argv/exit/stdout/stderr/HTML原本、対象head、文字範囲と安全性の既存契約を含む検証証拠を保存・添付し、AC1/2/4/5/6/7と照合する。フィルタ→topのソース箇所も記録し、未検証を合格にしない。
+- [x] 2.2 品質が検証headで自らCLIを再実行し、既定・閾値部分表示・top併用・全件除外・空結果のHTMLを通常幅1280×900/狭幅320×900・DPR1で開いて閲覧する。比較元と同環境の画像、入力/argv/exit/stdout/stderr/HTML原本、対象head、文字範囲と安全性の既存契約を含む検証証拠を保存・添付し、AC1/2/4/5/6/7と照合する。フィルタ→topのソース箇所も記録し、未検証を合格にしない。
+
+  - 最終化 t_68f21475/run162で既に満たしたgateを記録・終結。品質 t_419e62f7/run157、final-01 accepted（製品head `afaa56fc022c895ee2243b8f67a239c7c0096086`、報告head `421a65cb024c848ec8a0b9ff2ff5aec1538abfde`）。標準添付197 VERIFICATION/198 UATと188/189/191〜196が根拠。品質694/694 pass exit0、110 current＋32 baseline画像実閲覧、filter→top/original-totalソース確認は品質の実施記録でありBuilder/PMの実施ではない。
+  - PM gate: t_a60abb2e/run160 添付199 `PM-READ-DECISION.md`、受入 t_9f464654/run161 添付220 `ACCEPTANCE-DECISION.md`（approved、AC1〜7充足）。人default 13:03承認に基づきPMのPNG閲覧を品質142画像実閲覧記録＋PM HTML/raw/CLI原本確認で代替。PM自身はPNG未閲覧、618件SHA一致は人の照合結果を採用。REQ17/P6は単発CLI以上の保証不要。
+  - 添付191のCRITICAL1件は当時の未チェックtask2.2の履歴として保持。上記技術/PM gateを照合し本記録で未チェックを解消し、archive前に公式applyの6/6完了とvalidateを確認する。過去verify/VERIFICATION本文の古いhuman_neededを改変せず最新run/UAT/PM判断と併読する。
+  - これは旧headで完了したgateの記録で、新headの合格ではない。最終品質は `docs/wordfreq-min-count-verification.md` §6どおり新head/fresh rootで独立CLI・全画像実閲覧・source-order・owner exit0・全derived整合・標準添付を全面再確認し、CI未報告を成功としない。
 
 ## Workflow follow-up
 
