@@ -1,0 +1,44 @@
+{
+  "id": "unicode-html",
+  "basename": "unicode.txt",
+  "body": "Straße STRASSE",
+  "pairs": [
+    [
+      "strasse",
+      2
+    ]
+  ],
+  "total": 2,
+  "format": "html",
+  "explicit_format": true,
+  "top": null,
+  "minimum": 2,
+  "reverse": false,
+  "input": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_419e62f7/.planning/argonauts/r-e476c11d/quality/final-01/unicode-html/private-source-directory/unicode.txt",
+  "input_sha256": "ebb60d1a47aceb3af997798eae547b29214bb7c38042f56becbb7e56d90c1fb2",
+  "executable": "/usr/bin/python3",
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/Yuki/.local/lib/python3.12/site-packages",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": null
+  },
+  "cwd": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_419e62f7",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_419e62f7/.planning/argonauts/r-e476c11d/quality/final-01/unicode-html/stdout.bin",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_419e62f7/.planning/argonauts/r-e476c11d/quality/final-01/unicode-html/stderr.bin",
+  "views": [],
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_419e62f7/.planning/argonauts/r-e476c11d/quality/final-01/unicode-html/private-source-directory/unicode.txt",
+    "--format",
+    "html",
+    "--min-count",
+    "2"
+  ],
+  "exit": 0,
+  "html": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_419e62f7/.planning/argonauts/r-e476c11d/quality/final-01/unicode-html/stdout.html"
+}

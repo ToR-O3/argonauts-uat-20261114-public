@@ -1,0 +1,37 @@
+head=afaa56fc022c895ee2243b8f67a239c7c0096086 python=/usr/bin/python3 cwd=/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_419e62f7 date=2026-11-18T03:11:02Z
+argv=/nonexistent/x.txt argv=--format argv=text argv=--min-count argv=0 exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: --min-count must be >= 1|
+argv=/nonexistent/x.txt argv=--format argv=text argv=--min-count argv=-1 exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: --min-count must be >= 1|
+argv=/nonexistent/x.txt argv=--format argv=text argv=--min-count argv=1.5 exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: argument --min-count: invalid int value: '1.5'|
+argv=/nonexistent/x.txt argv=--format argv=text argv=--min-count argv=abc exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: argument --min-count: invalid int value: 'abc'|
+argv=/nonexistent/x.txt argv=--format argv=text argv=--min-count exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: argument --min-count: expected one argument|
+argv=/nonexistent/x.txt --format text --min-count 2 exit=1 stdout_bytes=0 stderr=/nonexistent/x.txt: [Errno 2] No such file or directory: '/nonexistent/x.txt'|
+argv=wordfreq --format text --min-count 2 exit=1 stdout_bytes=0 stderr=wordfreq: [Errno 21] Is a directory: 'wordfreq'|
+argv=/nonexistent/x.txt argv=--format argv=json argv=--min-count argv=0 exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: --min-count must be >= 1|
+argv=/nonexistent/x.txt argv=--format argv=json argv=--min-count argv=-1 exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: --min-count must be >= 1|
+argv=/nonexistent/x.txt argv=--format argv=json argv=--min-count argv=1.5 exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: argument --min-count: invalid int value: '1.5'|
+argv=/nonexistent/x.txt argv=--format argv=json argv=--min-count argv=abc exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: argument --min-count: invalid int value: 'abc'|
+argv=/nonexistent/x.txt argv=--format argv=json argv=--min-count exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: argument --min-count: expected one argument|
+argv=/nonexistent/x.txt --format json --min-count 2 exit=1 stdout_bytes=0 stderr=/nonexistent/x.txt: [Errno 2] No such file or directory: '/nonexistent/x.txt'|
+argv=wordfreq --format json --min-count 2 exit=1 stdout_bytes=0 stderr=wordfreq: [Errno 21] Is a directory: 'wordfreq'|
+argv=/nonexistent/x.txt argv=--format argv=html argv=--min-count argv=0 exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: --min-count must be >= 1|
+argv=/nonexistent/x.txt argv=--format argv=html argv=--min-count argv=-1 exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: --min-count must be >= 1|
+argv=/nonexistent/x.txt argv=--format argv=html argv=--min-count argv=1.5 exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: argument --min-count: invalid int value: '1.5'|
+argv=/nonexistent/x.txt argv=--format argv=html argv=--min-count argv=abc exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: argument --min-count: invalid int value: 'abc'|
+argv=/nonexistent/x.txt argv=--format argv=html argv=--min-count exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]|                [--format {text,json,html}]|                filename|wordfreq: error: argument --min-count: expected one argument|
+argv=/nonexistent/x.txt --format html --min-count 2 exit=1 stdout_bytes=0 stderr=/nonexistent/x.txt: [Errno 2] No such file or directory: '/nonexistent/x.txt'|
+argv=wordfreq --format html --min-count 2 exit=1 stdout_bytes=0 stderr=wordfreq: [Errno 21] Is a directory: 'wordfreq'|
+[{"word": "beta", "count": 3}]
+README example exit=0
+usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]
+                [--format {text,json,html}]
+                filename
+
+positional arguments:
+  filename
+
+options:
+  -h, --help            show this help message and exit
+  --top TOP
+  --min-count MIN_COUNT
+  --format {text,json,html}
+help exit=0
