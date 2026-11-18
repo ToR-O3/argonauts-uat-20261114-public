@@ -1,5 +1,6 @@
 """Command-line argument parsing and component composition."""
 import argparse
+from collections import Counter
 import os
 import sys
 
@@ -13,6 +14,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="wordfreq")
     parser.add_argument("filename")
     parser.add_argument("--top", type=int, default=10)
+    parser.add_argument("--min-count", type=int, default=1)
     parser.add_argument("--format", choices=["text", "json", "html"], default="text")
     return parser
 
@@ -22,6 +24,8 @@ def main(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
     if args.top < 1:
         parser.error("--top must be >= 1")
+    if args.min_count < 1:
+        parser.error("--min-count must be >= 1")
     try:
         text = FileSource(args.filename).read_text()
     except InputError as error:
@@ -29,7 +33,9 @@ def main(argv: list[str] | None = None) -> None:
         sys.exit(1)
     counts = count_words(iter_tokens(text))
     total = sum(counts.values())
-    pairs = top_words(counts, args.top)
+    selected_counts = Counter({word: count for word, count in counts.items()
+                               if count >= args.min_count})
+    pairs = top_words(selected_counts, args.top)
     if args.format == "html":
         # argv uses filesystem surrogateescape; HTML needs displayable Unicode.
         basename = os.fsencode(os.path.basename(args.filename)).decode(

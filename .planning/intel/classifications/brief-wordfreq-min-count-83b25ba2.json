@@ -1,0 +1,12 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/_bmad-output/initiative-r-e476c11d/brief/brief-wordfreq-min-count.md",
+  "type": "DOC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "wordfreq --min-count：低頻度語を表示から除外する",
+  "summary": "wordfreqの低頻度語除外オプションについて、全出力形式の閾値・top適用順序・HTML総数・互換性・受入条件・範囲・未確認の利用背景を整理したBrief。",
+  "scope": ["wordfreq", "--min-count", "--top", "text/json/html出力", "HTML総数", "CLI引数検証", "pytest", "README", "利用背景"],
+  "cross_refs": ["wordfreq/__main__.py", "aggregator.py", "formatters.py", "sources.py", "tokenizer.py", "tests/test_cli.py", "test_aggregator.py", "test_formatters.py", "README.md", "pyproject.toml", "docs/wordfreq-html-verification.md"],
+  "locked": false,
+  "precedence": null
+}

@@ -1,0 +1,13 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/openspec/changes/r-e476c11d-wordfreq-min-count/proposal.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Proposal",
+  "summary": "wordfreqへ最小出現回数オプションを追加し、全出力形式の表示対象、既定互換、HTML元総数を維持する要件と対象範囲。",
+  "scope": ["wordfreq", "--min-count", "--top", "text/json/html", "HTML総数", "pytest", "README"],
+  "cross_refs": ["wordfreq/__main__.py", "aggregator.py", "design.md", "_bmad-output/initiative-r-e476c11d/brief/brief-wordfreq-min-count.md", "prd/prd-wordfreq-min-count.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

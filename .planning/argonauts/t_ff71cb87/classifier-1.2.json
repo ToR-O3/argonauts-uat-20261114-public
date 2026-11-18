@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "block": false,
+  "verdict": "RED_EVIDENCE_OK",
+  "reason": "target_test_failed",
+  "evidence": {
+    "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k min_count -v --junitxml=.planning/argonauts/t_ff71cb87/red-1.2.xml",
+    "exit_code": 1,
+    "target_test": "test_min_count_argument_tracer[text]",
+    "tests": 39,
+    "pass": 18,
+    "fail": 21,
+    "failing_tests": [
+      "tests.test_cli#test_min_count_argument_tracer[text]",
+      "tests.test_cli#test_min_count_argument_tracer[json]",
+      "tests.test_cli#test_min_count_argument_tracer[html]",
+      "tests.test_cli#test_min_count_parser_positive_integer[1]",
+      "tests.test_cli#test_min_count_parser_positive_integer[2]",
+      "tests.test_cli#test_min_count_parser_positive_integer[999999999999999999999999999999999999]",
+      "tests.test_cli#test_min_count_parser_positive_integer[+2]",
+      "tests.test_cli#test_min_count_parser_positive_integer[02]",
+      "tests.test_cli#test_min_count_valid_input_failure[missing-text]",
+      "tests.test_cli#test_min_count_valid_input_failure[missing-json]",
+      "tests.test_cli#test_min_count_valid_input_failure[missing-html]",
+      "tests.test_cli#test_min_count_valid_input_failure[directory-text]",
+      "tests.test_cli#test_min_count_valid_input_failure[directory-json]",
+      "tests.test_cli#test_min_count_valid_input_failure[directory-html]",
+      "tests.test_cli#test_min_count_valid_input_failure[decode-text]",
+      "tests.test_cli#test_min_count_valid_input_failure[decode-json]",
+      "tests.test_cli#test_min_count_valid_input_failure[decode-html]",
+      "tests.test_cli#test_min_count_valid_input_failure[permission-text]",
+      "tests.test_cli#test_min_count_valid_input_failure[permission-json]",
+      "tests.test_cli#test_min_count_valid_input_failure[permission-html]",
+      "tests.test_cli#test_min_count_help_and_readme_example"
+    ],
+    "matched_test": "tests.test_cli#test_min_count_argument_tracer[text]",
+    "format": "junit",
+    "report_errors": []
+  },
+  "record": {
+    "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k min_count -v --junitxml=.planning/argonauts/t_ff71cb87/red-1.2.xml",
+    "exit_code": 1,
+    "failing_test": "tests.test_cli#test_min_count_argument_tracer[text]",
+    "target_test": "test_min_count_argument_tracer[text]",
+    "expected": "exit0 for explicit min-count1",
+    "actual": "exit2 unrecognized --min-count",
+    "verdict": "RED_EVIDENCE_OK",
+    "reason": "target_test_failed"
+  },
+  "message": "RED evidence verified: target test \"test_min_count_argument_tracer[text]\" failed as expected (exit 1). GREEN authorized."
+}

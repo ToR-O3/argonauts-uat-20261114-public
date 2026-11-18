@@ -1,0 +1,39 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "task_count": 2,
+  "tasks": [
+    {
+      "name": "04-02-01: 引数→実ファイル→全形式の明示1、usage/input境界（OpenSpec1.2）",
+      "type": "tracer",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "04-02-02: 選択と空結果/元総数を両群先行RED→共通実装→両群GREEN（OpenSpec1.3+1.4）",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}

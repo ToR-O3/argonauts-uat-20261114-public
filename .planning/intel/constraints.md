@@ -1,72 +1,37 @@
 # Constraints (intel)
 
-承認manifestのSPEC分類2文書（spec.md / tasks.md）から抽出。取込み対象4文書の参照グラフに循環はない。全件staging。初出順は承認済み入力の要求として保持するが、既存CONTEXT D-10との矛盾を自動解決しない。詳細なWHEN/THEN・チェック項目は各sourceの該当節を参照。
+今回のSPEC分類1文書の6 Requirementを抽出。tasks.mdはDOC分類としてcontext.mdへ格納する。承認済みSPECが機能契約の正。旧シナリオ名を理由に語昇順へ戻さない。
 
-DATA_5df1e033_START
+DATA_b2810436_START
 
-## 実行方法とファイル読み込み（FR-1）
-- source: openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md:5-30
+## 最小出現回数オプション（MC-1、AC1–AC4）
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/specs/wordfreq-cli/spec.md:5-26
 - type: api-contract
-- content: ファイル引数はちょうど1個、UTF-8入力。正常・空入力はexit 0。不在・開けない・デコード不能はstderrとexit 1、個数不正はstderrとexit 2。HTMLを含む全形式で維持し、エラー時に結果HTMLをstdoutへ出さない。空ではtextは空、jsonは空配列と改行、htmlはbasename・総数0・3列見出しを持ちデータ行0件。
+- content: --min-count Nは既定1、1以上の整数のみ。不正値0/負数/1.5/abc/値欠落は各形式で入力取得より先にexit2、stderr通知、stdout空、Traceback/エラーHTMLなし（不存在パスでも）。全形式で正規化後回数N未満を除外しNちょうど/超を残してから独立したtopで制限。抽出/casefold/同数初出順/既存エラー契約を維持。beta beta beta alpha gamma alpha deltaをN2/top10ならbeta3,alpha2。Zoo apple APPLE zoo bananaをN2/top1ならzoo2、top10/N2ならzoo2,apple2。Straße STRASSEをN2でstrasse2。有効N2で不存在/ディレクトリ/開けない/不正UTF-8はexit1、stderr、stdout空であり、空結果exit0へ変換しない。
 
-## 出力形式オプション（FR-3）
-- source: openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md:32-45
+## 空結果と既定互換（MC-2、AC1–AC2、AC7）
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/specs/wordfreq-cli/spec.md:28-41
 - type: api-contract
-- content: --formatはtext/json/html、既定text。textはcount先頭のタブ区切りと末尾改行、jsonはword文字列/count整数オブジェクトの配列と末尾改行、htmlは静的1文書。不正形式はexit 2とstderr、結果なし。全形式で語と回数の順序が一致する。順位・ファイル名・総数はhtmlのみに追加する。
+- content: 未指定と明示1は従来出力・並び・各形式構造を維持。同数と10種類超の同一入力・既存引数で変更前/後のstdoutを比較、既定text/top10・回数降順/同数初出順不変。空ファイル/抽出0語/閾値全除外はexit0、text空文字、jsonは[]と末尾改行1つ、htmlは既存メタ情報/3列見出し/0データ行/空状態文言を保持。HTMLの見た目/CSS/静的安全性/basename限定/UTF-8/escapeは変更しない。Zoo apple APPLE zoo bananaをN3なら表示0/総数5、空/空白/句読点のみなら総数0。
+
+## min-countの試験と独立確認（MC-3、AC6–AC7）
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/specs/wordfreq-cli/spec.md:43-52
+- type: protocol
+- content: pytestは下限未満/ちょうど/超・全形式・空/抽出0語/全除外・既定互換・異常値・Unicode合算・top併用を含み既存全試験とともに成功すること。品質が対象headの実CLI生成HTMLを独立ブラウザ確認。pytest環境/件数/exit、CLI argv/入力/stdout/stderr、head、HTML原本、1280×900と320×900・DPR1の画像/閲覧結果をACに対応付ける。既定は同条件の変更前原本と比較し、絞込み行/元総数/全除外を確認。未実施は合格でない。品質は閾値除外がtopより先の該当ソースを記録し、出力一致だけで内部順序確認済みにしない。CI追加変更/依存追加/見た目変更なし。既存CI未報告/pendingを成功と呼ばず、CI待機処理や新CIを追加しない。READMEは既定・順序・不正値・全除外時の閾値調整を説明。
+
+## 表示件数オプション（FR-2）
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/specs/wordfreq-cli/spec.md:56-70
+- type: api-contract
+- content: --top Nは既定10、1以上の整数。不正値（非整数/0以下）はstderr、exit2。min-count適用後に上位N件とし、残った種類数がN未満なら残った全件。両値は独立。省略時は条件を満たす10種類以上から上位10件、top3なら条件を満たす上位3件または残った全種類。
 
 ## 出力の順序決定論性（FR-4・D-2）
-- source: openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md:47-56
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/specs/wordfreq-cli/spec.md:72-81
 - type: nfr
-- content: 回数降順、同数は正規化後の同一語が入力トークン列に初めて現れた順、その後top適用。抽出とcasefoldは変えず、後の再出現で初出位置を更新しない。text/json/htmlで同じ順序。同じ入力とオプションで決定論的。旧語昇順を意図して置き換える。旧シナリオ名は識別子として残るが期待値は初出順へ変更済み。これは既存CONTEXT D-10とのBLOCKERであり自動採用しない。
-
-## 自己完結したHTML表（HTML-1、AC1）
-- source: openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md:60-65
-- type: schema
-- content: 順位・単語・回数の3列表を持つHTML1文書をstdoutへ出す。UTF-8宣言と内部CSSを持つ。スクリプト、外部スタイル・画像・フォント、外部通信を生む要素を含めない。正常時exit 0、stdoutに説明ログなし。保存HTMLをオフラインで読み、日本語basenameが文字化けせず、外部参照・通信試行がなくJavaScript不要であることを確認する。
+- content: 正規化後回数でmin-count未満を除外→回数降順/同数正規化後初出順→top。text/json/htmlで一致し同じ入力/オプションで決定論的。抽出/casefoldは不変。zooが先で両者5回ならzoo,apple、語昇順へ戻さない。「同回数ワードは単語の昇順」は旧シナリオ識別子であって旧期待値apple,zooは廃止済み。Zoo apple APPLE zoo bananaを既定N1/top1ならzoo2、top2ならzoo2,apple2、後の再出現で初出位置を変更しない。
 
 ## HTMLの入力情報と総出現回数（HTML-2、AC2）
-- source: openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md:67-80
+- source: openspec/changes/r-e476c11d-wordfreq-min-count/specs/wordfreq-cli/spec.md:83-100
 - type: api-contract
-- content: 実行環境のパス規則に基づくbasenameのみと、top適用前の全単語の総出現回数を表より上に出す。種類数や表示行の回数の和で代替しない。ディレクトリはtitleや属性を含めHTMLのどこにも埋め込まない。top既定10、正整数のみ、種類数超過なら全種類。不正topはexit 2とstderr、HTMLなし。sourceのtop 1/2/10・異なる頻度のシナリオで総数不変を検証する。
+- content: 表より上に実行環境のパス規則のbasenameのみとmin-count/top前の入力全体総出現回数。種類数や表示行回数和で代替しない。title/属性を含む全HTMLにディレクトリ情報なし。top既定10/正整数、閾値を満たす種類数がtop以下なら全件、超えれば上位top。不正topはexit2/stderr/HTMLなし。zoo apple zoo banana apple cherryはN1/top1,2,10すべて総数6、行は1,2,4。beta beta beta alpha gamma alpha deltaはtop2でbeta3,alpha2/総数7、N2/top1でbeta3/総数7、N4なら0行/総数7。順位は残った行の1始まり連番。
 
-## 明るい背景と表示行順位（HTML-3、AC4）
-- source: openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md:82-87
-- type: schema
-- content: 明るい背景のみ、切替なし。top後の表示行へ1始まりの連番を付け、同数でも同順位や欠番にしない。
-
-## 小画面での全文可読性（HTML-4、AC4）
-- source: openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md:89-98
-- type: nfr
-- content: 通常幅と320 CSS pxを含む幅で長い連続語・長いbasenameの全文を読めること。折返しを許し、省略・切取りによる情報欠落を認めない。viewport・要素・文字Range行断片・切取り祖先の矩形を原本保存する。横収まり、切取り祖先内収まり、隣接内容との非重複、実画像での可読性で判定する。要素自身への厳格な縦包含だけを必須にせず、縦にはみ出す場合も実測値を保存し、欠け・重なり・可読性で判断する。
-
-## HTMLデータの安全な表示（HTML-5、AC5）
-- source: openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md:100-105
-- type: nfr
-- content: 単語とbasenameを表示テキストとして安全にHTMLエスケープし、データからタグ・イベント・スクリプト・外部通信を生まない。CLIでは特殊文字やタグに似た文字列を持つ有効なbasenameを検査し、整形部品単体では特殊文字の単語を検査する。検査のためにUnicode抽出・casefold・入力仕様を変更しない。
-
-## HTML検証の独立した証拠（HTML-6、AC6）
-- source: openspec/changes/r-50053edc-wordfreq-html/specs/wordfreq-cli/spec.md:107-116
-- type: protocol
-- content: 自動試験と品質担当による対象headの実CLI再生成・独立ブラウザ確認を行う。head、入力原本、コマンド、exit/stdout/stderrと期待値、生成HTML、ブラウザ/viewport、文字範囲実測原本、画面画像、外部通信検査をAC1–AC6に対応付け保存・添付する。空・通常・top・長文・安全性・通常幅と320 CSS pxを含める。Builder画像だけで代用せず、未実施を合格にしない。入力境界・抽出・casefold・既存エラー・text/json構造を意図した順序以外は維持する。CI追加・変更、生成日時、テーマ切替、対話操作、サーバーは追加しない。
-
-## 初出順実装タスク（1.1）
-- source: openspec/changes/r-50053edc-wordfreq-html/tasks.md:3-4
-- type: protocol
-- content: 正規化後初出順を集計で保持し、回数降順の安定ソート後にtop適用。集計単体とtext/json実CLIで大文字小文字、top 1/2、後の再出現、異なる回数を検証し、旧語昇順なら失敗する試験を残す。部品順序契約と互換性変更を文書化する。
-
-## 安全なHTMLと接続のタスク（2.1–2.3）
-- source: openspec/changes/r-50053edc-wordfreq-html/tasks.md:6-9
-- type: protocol
-- content: 安全な単語・basename、UTF-8宣言、内部CSS、空pairs・特殊文字・注入候補の整形単体試験を用意する。CLIはtop前countsから総数を計算しbasenameと渡す。HTML全体に入力ディレクトリを出さない。総数不変・異なる頻度・表示位置・top既定/超過/空を実CLIで検証し保存例を説明文書へ追記する。全形式の語・回数・順序、入力境界・Unicode/casefold、不正top/format/個数/読込み/デコードのexit・stderr・空stdoutを回帰検証し、text/json構造を順序以外は変えない。
-
-## レスポンシブ表示と測定タスク（3.1–3.2）
-- source: openspec/changes/r-50053edc-wordfreq-html/tasks.md:11-14
-- type: protocol
-- content: UI設計・PLANで通常幅、対象ブラウザ、320 CSS pxで実際に折返す長い語と有効なbasenameの固定入力を確定する。名前の連続空白・改行・タブ、保存実体と宣言のUTF-8一致、複数桁数値も検証する。明るい背景・切替なし・連番順位と空/通常/長文/同数top表示を実CLI生成HTMLで確認する。ブラウザ手順とローカル補助を用意し、文字Range行断片・切取り祖先・隣接内容を含む矩形原本と全文画像を保存し、値を補正せず判定する。厳格な自己要素内縦包含を必須にしない。
-
-## 独立統合検証と後続工程（4.1–4.2）
-- source: openspec/changes/r-50053edc-wordfreq-html/tasks.md:16-23
-- type: protocol
-- content: 検証開始時の作業状態と製品差分を保存しheadと実行コードの対応を確かめる。品質が入力原本からCLIを独立再実行し全形式を照合、空/通常/top/長文/注入を通常幅と320 CSS pxで確認する。文書を開く前から終了まで通信を記録し、失敗試行・文書由来遷移とブラウザ背景通信を区別する根拠を残す。静的外部参照検査と通信試行記録を併用し遮断だけで無通信としない。全画像を実際に読み幾何原本と合わせACごとに判定する。未実施は未検証。全自動試験と差分を確認しCI/依存追加等の範囲逸脱がないことを示す。承認後GSD計画で検証可能PLANへ対応付け、実装・品質・受入後に別工程でsync/archiveする。現タスクは全て未実施。
-
-DATA_5df1e033_END
+DATA_b2810436_END

@@ -1,0 +1,80 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_ff71cb87
+configfile: pyproject.toml
+plugins: hypothesis-6.152.9, anyio-4.13.0, mock-3.15.1, asyncio-1.3.0, cov-7.1.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 47 items / 31 deselected / 16 selected
+
+tests/test_min_count_verifier.py .F
+
+=================================== FAILURES ===================================
+________________ test_saved_baseline_file_copy_controls[input] _________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-220/test_saved_baseline_file_copy_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x79e367b0fcb0>
+field = 'input'
+
+    @pytest.mark.parametrize("field", ["input", "stdout", "html", "raw", "network", "image", "sha"])
+    def test_saved_baseline_file_copy_controls(tmp_path, monkeypatch, field):
+        import shutil
+        v = driver()
+        original = Path(os.environ["WORDFREQ_MIN_COUNT_BASELINE_ROOT"]).resolve()
+        assert v.validate_baseline(original) == []
+        original_hashes = {str(p): v.parts.digest(p) for p in original.rglob("*") if p.is_file()}
+        # Read the same historical object store, but damage only managed-scratch
+        # copies of evidence. No checkout/commit/CLI/browser or index re-save.
+        repo = tmp_path / "readonly-copy-repo"
+        repo.mkdir()
+        (repo / ".git").symlink_to(ROOT / ".git")
+        relative = Path(v.parts.load_json(original / "index.json")["root_relative"])
+        root = repo / relative
+        shutil.copytree(original, root)
+        monkeypatch.setattr(v, "ROOT", repo)
+        assert v.validate_baseline(root) == []
+        case = v.parts.load_json(root / "index.json")["cases"][3]
+        if field in {"input", "stdout", "html"}:
+            path = case[field]
+        elif field in {"raw", "network"}:
+            path = case["views"][0][field]
+        elif field == "image":
+            path = case["views"][0]["images"][0]["path"]
+        else:
+            path = case["stdout"]
+>       path = root / Path(path).relative_to(original)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_min_count_verifier.py:270: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_337d3562/.planning/argonauts/r-e476c11d/baseline/baseline-html/private-source-directory/input.txt')
+other = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_ff71cb87/.planning/argonauts/r-e476c11d/baseline')
+walk_up = False, _deprecated = (), step = 0
+
+    def relative_to(self, other, /, *_deprecated, walk_up=False):
+        """Return the relative path to another path identified by the passed
+        arguments.  If the operation is not possible (because this is not
+        related to the other path), raise ValueError.
+    
+        The *walk_up* parameter controls whether `..` may be used to resolve
+        the path.
+        """
+        if _deprecated:
+            msg = ("support for supplying more than one positional argument "
+                   "to pathlib.PurePath.relative_to() is deprecated and "
+                   "scheduled for removal in Python {remove}")
+            warnings._deprecated("pathlib.PurePath.relative_to(*args)", msg,
+                                 remove=(3, 14))
+        other = self.with_segments(other, *_deprecated)
+        for step, path in enumerate([other] + list(other.parents)):
+            if self.is_relative_to(path):
+                break
+            elif not walk_up:
+>               raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+E               ValueError: '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_337d3562/.planning/argonauts/r-e476c11d/baseline/baseline-html/private-source-directory/input.txt' is not in the subpath of '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_ff71cb87/.planning/argonauts/r-e476c11d/baseline'
+
+/usr/lib64/python3.12/pathlib.py:682: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_min_count_verifier.py::test_saved_baseline_file_copy_controls[input]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+================== 1 failed, 1 passed, 31 deselected in 1.37s ==================

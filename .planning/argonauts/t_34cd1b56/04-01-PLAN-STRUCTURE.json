@@ -1,0 +1,41 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "Task rated <reversibility rating=\"one-way\"> has no preceding checkpoint:decision — a one-way door must be confirmed before the agent walks through it (unless the decision is already settled in CONTEXT.md, an ingested ADR, or an answered checkpoint)"
+  ],
+  "task_count": 2,
+  "tasks": [
+    {
+      "name": "04-01-01: baseline経路とread-only validatorを実ファイルself-testで準備・正式確定（OpenSpec1.1準備）",
+      "type": "tracer",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "04-01-02: clean正式headから変更前baselineを一度採取・封印しread-only確認",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}

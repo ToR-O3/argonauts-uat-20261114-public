@@ -1,0 +1,536 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-9.0.3, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: /home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_ff71cb87
+configfile: pyproject.toml
+plugins: hypothesis-6.152.9, anyio-4.13.0, mock-3.15.1, asyncio-1.3.0, cov-7.1.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 139 items / 100 deselected / 39 selected
+
+tests/test_cli.py::test_min_count_argument_tracer[text] FAILED           [  2%]
+tests/test_cli.py::test_min_count_argument_tracer[json] FAILED           [  5%]
+tests/test_cli.py::test_min_count_argument_tracer[html] FAILED           [  7%]
+tests/test_cli.py::test_min_count_parser_positive_integer[1] FAILED      [ 10%]
+tests/test_cli.py::test_min_count_parser_positive_integer[2] FAILED      [ 12%]
+tests/test_cli.py::test_min_count_parser_positive_integer[999999999999999999999999999999999999] FAILED [ 15%]
+tests/test_cli.py::test_min_count_parser_positive_integer[+2] FAILED     [ 17%]
+tests/test_cli.py::test_min_count_parser_positive_integer[02] FAILED     [ 20%]
+tests/test_cli.py::test_min_count_invalid_before_read[options0-text] PASSED [ 23%]
+tests/test_cli.py::test_min_count_invalid_before_read[options0-json] PASSED [ 25%]
+tests/test_cli.py::test_min_count_invalid_before_read[options0-html] PASSED [ 28%]
+tests/test_cli.py::test_min_count_invalid_before_read[options1-text] PASSED [ 30%]
+tests/test_cli.py::test_min_count_invalid_before_read[options1-json] PASSED [ 33%]
+tests/test_cli.py::test_min_count_invalid_before_read[options1-html] PASSED [ 35%]
+tests/test_cli.py::test_min_count_invalid_before_read[options2-text] PASSED [ 38%]
+tests/test_cli.py::test_min_count_invalid_before_read[options2-json] PASSED [ 41%]
+tests/test_cli.py::test_min_count_invalid_before_read[options2-html] PASSED [ 43%]
+tests/test_cli.py::test_min_count_invalid_before_read[options3-text] PASSED [ 46%]
+tests/test_cli.py::test_min_count_invalid_before_read[options3-json] PASSED [ 48%]
+tests/test_cli.py::test_min_count_invalid_before_read[options3-html] PASSED [ 51%]
+tests/test_cli.py::test_min_count_invalid_before_read[options4-text] PASSED [ 53%]
+tests/test_cli.py::test_min_count_invalid_before_read[options4-json] PASSED [ 56%]
+tests/test_cli.py::test_min_count_invalid_before_read[options4-html] PASSED [ 58%]
+tests/test_cli.py::test_min_count_invalid_before_read[options5-text] PASSED [ 61%]
+tests/test_cli.py::test_min_count_invalid_before_read[options5-json] PASSED [ 64%]
+tests/test_cli.py::test_min_count_invalid_before_read[options5-html] PASSED [ 66%]
+tests/test_cli.py::test_min_count_valid_input_failure[missing-text] FAILED [ 69%]
+tests/test_cli.py::test_min_count_valid_input_failure[missing-json] FAILED [ 71%]
+tests/test_cli.py::test_min_count_valid_input_failure[missing-html] FAILED [ 74%]
+tests/test_cli.py::test_min_count_valid_input_failure[directory-text] FAILED [ 76%]
+tests/test_cli.py::test_min_count_valid_input_failure[directory-json] FAILED [ 79%]
+tests/test_cli.py::test_min_count_valid_input_failure[directory-html] FAILED [ 82%]
+tests/test_cli.py::test_min_count_valid_input_failure[decode-text] FAILED [ 84%]
+tests/test_cli.py::test_min_count_valid_input_failure[decode-json] FAILED [ 87%]
+tests/test_cli.py::test_min_count_valid_input_failure[decode-html] FAILED [ 89%]
+tests/test_cli.py::test_min_count_valid_input_failure[permission-text] FAILED [ 92%]
+tests/test_cli.py::test_min_count_valid_input_failure[permission-json] FAILED [ 94%]
+tests/test_cli.py::test_min_count_valid_input_failure[permission-html] FAILED [ 97%]
+tests/test_cli.py::test_min_count_help_and_readme_example FAILED         [100%]
+
+=================================== FAILURES ===================================
+_____________________ test_min_count_argument_tracer[text] _____________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_argument_tracer0')
+output_format = 'text'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_min_count_argument_tracer(tmp_path, output_format):
+        path = tmp_path / "input.txt"
+        path.write_text("Zoo apple APPLE zoo banana", encoding="utf-8")
+        default = run_cli_bytes(path, "--format", output_format)
+        explicit = run_cli_bytes(path, "--format", output_format, "--min-count", "1")
+>       assert (explicit.returncode, explicit.stderr) == (0, b"")
+E       AssertionError: assert (2, b'usage: ...in-count 1\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         
+E         Full diff:
+E           (
+E         -     0,
+E         ?     ^...
+E         
+E         ...Full output truncated (6 lines hidden), use '-vv' to show
+
+tests/test_cli.py:605: AssertionError
+_____________________ test_min_count_argument_tracer[json] _____________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_argument_tracer1')
+output_format = 'json'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_min_count_argument_tracer(tmp_path, output_format):
+        path = tmp_path / "input.txt"
+        path.write_text("Zoo apple APPLE zoo banana", encoding="utf-8")
+        default = run_cli_bytes(path, "--format", output_format)
+        explicit = run_cli_bytes(path, "--format", output_format, "--min-count", "1")
+>       assert (explicit.returncode, explicit.stderr) == (0, b"")
+E       AssertionError: assert (2, b'usage: ...in-count 1\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         
+E         Full diff:
+E           (
+E         -     0,
+E         ?     ^...
+E         
+E         ...Full output truncated (6 lines hidden), use '-vv' to show
+
+tests/test_cli.py:605: AssertionError
+_____________________ test_min_count_argument_tracer[html] _____________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_argument_tracer2')
+output_format = 'html'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_min_count_argument_tracer(tmp_path, output_format):
+        path = tmp_path / "input.txt"
+        path.write_text("Zoo apple APPLE zoo banana", encoding="utf-8")
+        default = run_cli_bytes(path, "--format", output_format)
+        explicit = run_cli_bytes(path, "--format", output_format, "--min-count", "1")
+>       assert (explicit.returncode, explicit.stderr) == (0, b"")
+E       AssertionError: assert (2, b'usage: ...in-count 1\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         
+E         Full diff:
+E           (
+E         -     0,
+E         ?     ^...
+E         
+E         ...Full output truncated (6 lines hidden), use '-vv' to show
+
+tests/test_cli.py:605: AssertionError
+__________________ test_min_count_parser_positive_integer[1] ___________________
+
+value = '1'
+
+    @pytest.mark.parametrize("value", ["1", "2", "999999999999999999999999999999999999", "+2", "02"])
+    def test_min_count_parser_positive_integer(value):
+        from wordfreq.__main__ import build_parser
+        parser = build_parser()
+>       assert parser.parse_args(["input.txt"]).min_count == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'Namespace' object has no attribute 'min_count'
+
+tests/test_cli.py:615: AttributeError
+__________________ test_min_count_parser_positive_integer[2] ___________________
+
+value = '2'
+
+    @pytest.mark.parametrize("value", ["1", "2", "999999999999999999999999999999999999", "+2", "02"])
+    def test_min_count_parser_positive_integer(value):
+        from wordfreq.__main__ import build_parser
+        parser = build_parser()
+>       assert parser.parse_args(["input.txt"]).min_count == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'Namespace' object has no attribute 'min_count'
+
+tests/test_cli.py:615: AttributeError
+_ test_min_count_parser_positive_integer[999999999999999999999999999999999999] _
+
+value = '999999999999999999999999999999999999'
+
+    @pytest.mark.parametrize("value", ["1", "2", "999999999999999999999999999999999999", "+2", "02"])
+    def test_min_count_parser_positive_integer(value):
+        from wordfreq.__main__ import build_parser
+        parser = build_parser()
+>       assert parser.parse_args(["input.txt"]).min_count == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'Namespace' object has no attribute 'min_count'
+
+tests/test_cli.py:615: AttributeError
+__________________ test_min_count_parser_positive_integer[+2] __________________
+
+value = '+2'
+
+    @pytest.mark.parametrize("value", ["1", "2", "999999999999999999999999999999999999", "+2", "02"])
+    def test_min_count_parser_positive_integer(value):
+        from wordfreq.__main__ import build_parser
+        parser = build_parser()
+>       assert parser.parse_args(["input.txt"]).min_count == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'Namespace' object has no attribute 'min_count'
+
+tests/test_cli.py:615: AttributeError
+__________________ test_min_count_parser_positive_integer[02] __________________
+
+value = '02'
+
+    @pytest.mark.parametrize("value", ["1", "2", "999999999999999999999999999999999999", "+2", "02"])
+    def test_min_count_parser_positive_integer(value):
+        from wordfreq.__main__ import build_parser
+        parser = build_parser()
+>       assert parser.parse_args(["input.txt"]).min_count == 1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'Namespace' object has no attribute 'min_count'
+
+tests/test_cli.py:615: AttributeError
+_______________ test_min_count_valid_input_failure[missing-text] _______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai0')
+output_format = 'text', failure = 'missing'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai0/input.txt', '--min-count', '2', '--format', 'text'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+_______________ test_min_count_valid_input_failure[missing-json] _______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai1')
+output_format = 'json', failure = 'missing'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai1/input.txt', '--min-count', '2', '--format', 'json'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+_______________ test_min_count_valid_input_failure[missing-html] _______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai2')
+output_format = 'html', failure = 'missing'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai2/input.txt', '--min-count', '2', '--format', 'html'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+______________ test_min_count_valid_input_failure[directory-text] ______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai3')
+output_format = 'text', failure = 'directory'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai3/input.txt', '--min-count', '2', '--format', 'text'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+______________ test_min_count_valid_input_failure[directory-json] ______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai4')
+output_format = 'json', failure = 'directory'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai4/input.txt', '--min-count', '2', '--format', 'json'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+______________ test_min_count_valid_input_failure[directory-html] ______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai5')
+output_format = 'html', failure = 'directory'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai5/input.txt', '--min-count', '2', '--format', 'html'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+_______________ test_min_count_valid_input_failure[decode-text] ________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai6')
+output_format = 'text', failure = 'decode'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai6/input.txt', '--min-count', '2', '--format', 'text'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+_______________ test_min_count_valid_input_failure[decode-json] ________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai7')
+output_format = 'json', failure = 'decode'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai7/input.txt', '--min-count', '2', '--format', 'json'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+_______________ test_min_count_valid_input_failure[decode-html] ________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai8')
+output_format = 'html', failure = 'decode'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai8/input.txt', '--min-count', '2', '--format', 'html'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+_____________ test_min_count_valid_input_failure[permission-text] ______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai9')
+output_format = 'text', failure = 'permission'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai9/input.txt', '--min-count', '2', '--format', 'text'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+_____________ test_min_count_valid_input_failure[permission-json] ______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai10')
+output_format = 'json', failure = 'permission'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai10/input.txt', '--min-count', '2', '--format', 'json'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+_____________ test_min_count_valid_input_failure[permission-html] ______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai11')
+output_format = 'html', failure = 'permission'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (2 == 1)
+E            +  where 2 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_valid_input_fai11/input.txt', '--min-count', '2', '--format', 'html'], returncode=2, stdout=b'', stderr=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\nwordfreq: error: unrecognized arguments: --min-count 2\n').returncode
+
+tests/test_cli.py:663: AssertionError
+____________________ test_min_count_help_and_readme_example ____________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-222/test_min_count_help_and_readme0')
+
+    def test_min_count_help_and_readme_example(tmp_path):
+        help_result = run_cli_bytes("--help")
+        assert help_result.returncode == 0 and help_result.stderr == b""
+>       assert b"--min-count MIN_COUNT" in help_result.stdout
+E       AssertionError: assert b'--min-count MIN_COUNT' in b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\n\npositional arguments:\n  filename\n\noptions:\n  -h, --help            show this help message and exit\n  --top TOP\n  --format {text,json,html}\n'
+E        +  where b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\n\npositional arguments:\n  filename\n\noptions:\n  -h, --help            show this help message and exit\n  --top TOP\n  --format {text,json,html}\n' = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '--help'], returncode=0, stdout=b'usage: wordfreq [-h] [--top TOP] [--format {text,json,html}] filename\n\npositional arguments:\n  filename\n\noptions:\n  -h, --help            show this help message and exit\n  --top TOP\n  --format {text,json,html}\n', stderr=b'').stdout
+
+tests/test_cli.py:675: AssertionError
+- generated xml file: /home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_ff71cb87/.planning/argonauts/t_ff71cb87/red-1.2.xml -
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_min_count_argument_tracer[text] - AssertionErr...
+FAILED tests/test_cli.py::test_min_count_argument_tracer[json] - AssertionErr...
+FAILED tests/test_cli.py::test_min_count_argument_tracer[html] - AssertionErr...
+FAILED tests/test_cli.py::test_min_count_parser_positive_integer[1] - Attribu...
+FAILED tests/test_cli.py::test_min_count_parser_positive_integer[2] - Attribu...
+FAILED tests/test_cli.py::test_min_count_parser_positive_integer[999999999999999999999999999999999999]
+FAILED tests/test_cli.py::test_min_count_parser_positive_integer[+2] - Attrib...
+FAILED tests/test_cli.py::test_min_count_parser_positive_integer[02] - Attrib...
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[missing-text] - ...
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[missing-json] - ...
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[missing-html] - ...
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[directory-text]
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[directory-json]
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[directory-html]
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[decode-text] - A...
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[decode-json] - A...
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[decode-html] - A...
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[permission-text]
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[permission-json]
+FAILED tests/test_cli.py::test_min_count_valid_input_failure[permission-html]
+FAILED tests/test_cli.py::test_min_count_help_and_readme_example - AssertionE...
+================ 21 failed, 18 passed, 100 deselected in 1.69s =================

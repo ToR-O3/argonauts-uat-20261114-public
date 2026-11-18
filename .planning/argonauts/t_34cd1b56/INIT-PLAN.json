@@ -1,0 +1,179 @@
+{
+  "researcher_model": "anthropic/claude-sonnet-5",
+  "planner_model": "anthropic/claude-opus-4-8",
+  "checker_model": "anthropic/claude-sonnet-5",
+  "tdd_mode": false,
+  "granularity": "standard",
+  "research_enabled": true,
+  "plan_checker_enabled": true,
+  "nyquist_validation_enabled": true,
+  "commit_docs": true,
+  "text_mode": false,
+  "auto_advance": false,
+  "auto_chain_active": false,
+  "mode": "interactive",
+  "phase_found": true,
+  "phase_dir": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/04-wordfreq-min-count",
+  "expected_phase_dir": null,
+  "phase_number": "04",
+  "phase_name": "wordfreq min-count",
+  "phase_slug": "wordfreq-min-count",
+  "padded_phase": "04",
+  "phase_req_ids": "REQ-15, REQ-16, REQ-17, REQ-18, REQ-19, REQ-20, REQ-21",
+  "phase_status": "Pending",
+  "has_research": true,
+  "has_context": true,
+  "context_scope": "complete",
+  "has_reviews": false,
+  "has_plans": false,
+  "plan_count": 0,
+  "threat_id_duplicates": [],
+  "threat_id_duplicate_count": 0,
+  "planning_exists": true,
+  "roadmap_exists": true,
+  "state_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/STATE.md",
+  "roadmap_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/ROADMAP.md",
+  "requirements_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/REQUIREMENTS.md",
+  "has_spec": false,
+  "patterns_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/04-wordfreq-min-count/04-PATTERNS.md",
+  "context_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/04-wordfreq-min-count/04-CONTEXT.md",
+  "research_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/04-wordfreq-min-count/04-RESEARCH.md",
+  "section_manifest": {
+    "workflow": "plan-phase",
+    "included": [
+      "prd-express-gate"
+    ],
+    "excluded": [
+      "reviews-prerequisite",
+      "adr-ingest-express-path",
+      "research-only-modifiers",
+      "research-only-early-exit",
+      "chunked-planning-mode"
+    ],
+    "read": [
+      "gsd-core/workflows/plan-phase/steps/prd-express-gate.md"
+    ]
+  },
+  "prior_verify_commands": [
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-01-PLAN.md",
+      "task": "Task 1: End-to-end normalized first-occurrence HTML CLI tracer",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_aggregator.py -x"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-01-PLAN.md",
+      "task": "Task 1: End-to-end normalized first-occurrence HTML CLI tracer",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -x"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-01-PLAN.md",
+      "task": "Task 2: Safe pure formatter contract and current user documentation",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_formatters.py -x"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-01-PLAN.md",
+      "task": "Task 2: Safe pure formatter contract and current user documentation",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-02-PLAN.md",
+      "task": "Task 1: Complete real CLI metadata, byte and failure contracts",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_sources.py -x"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-02-PLAN.md",
+      "task": "Task 1: Complete real CLI metadata, byte and failure contracts",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_tokenizer.py -x"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-02-PLAN.md",
+      "task": "Task 1: Complete real CLI metadata, byte and failure contracts",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_sources_boundary.py -x"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-03-PLAN.md",
+      "task": "Task 1: Regenerate fixed CLI cases and collect unchanged raw browser geometry",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_verifier.py -x"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-03-PLAN.md",
+      "task": "Task 1: Regenerate fixed CLI cases and collect unchanged raw browser geometry",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role builder --output-dir .planning/argonauts/r-50053edc/builder/03-03-01 --mode capture"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-03-PLAN.md",
+      "task": "Task 2: Prove pre-navigation failed-attempt and navigation observation",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role builder --output-dir .planning/argonauts/r-50053edc/builder/03-03-02-canaries --self-test-network"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-04-PLAN.md",
+      "task": "Task 1: Live observation, actual image-review ledger and fail-closed acceptance",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --check-evidence-contract"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-04-PLAN.md",
+      "task": "Task 2: Publish exact independent quality runbook and integrated scope handoff",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --check-scope"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-04-PLAN.md",
+      "task": "",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality-network --self-test-network"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-04-PLAN.md",
+      "task": "",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality --mode review-session"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-04-PLAN.md",
+      "task": "",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality --mode finalize --review-ledger .planning/argonauts/r-50053edc/quality/reviews.json"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-05-PLAN.md",
+      "task": "Task 1: Validated ledger to final manifest and derived view tracer",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_html_finalization.py -x"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-06-PLAN.md",
+      "task": "",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality/gap1-network-01 --self-test-network"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-06-PLAN.md",
+      "task": "",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality/gap1-final-01 --mode review-session --session-timeout 7200"
+    },
+    {
+      "phase": "03",
+      "plan": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/.planning/phases/03-wordfreq-html-output/03-06-PLAN.md",
+      "task": "",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_html.py --role quality --output-dir .planning/argonauts/r-50053edc/quality/gap1-final-01 --mode finalize --review-ledger .planning/argonauts/r-50053edc/quality/gap1-final-01/reviews.json"
+    }
+  ],
+  "project_root": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56",
+  "agents_installed": true,
+  "missing_agents": [],
+  "agents_dir": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-architect/agents",
+  "agent_runtime": "hermes",
+  "project_title": "wordfreq CLI"
+}

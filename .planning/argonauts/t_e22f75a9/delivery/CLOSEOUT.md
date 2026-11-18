@@ -1,0 +1,7 @@
+# Close-out / attachment readback
+
+- Standard attachments181 archive,182 DELIVERY,183 SUMMARY,184 runbook,185 manifest listed by kanban_attachments. attachment-sha256.txt records the exact stored targets; all five equal source hashes reported at archive creation. gzip -t archive exit0. PM original reading remains unperformed.
+- Official state.advance-plan: advanced=false/reason=last_plan/current_plan4/total4/status=ready_for_verification. state.update-progress:updated=true/completed15/total15/percent33. roadmap.update-plan-progress4:updated=true,4plans/4summaries,In Progress/complete=false (independent verification still pending). Persisted STATE:phase4,current_plan4,status=verifying,Current Position Status=Phase complete — ready for verification. No phase.complete.
+- Official requirements.ready-ids returns all seven structurally ready (all SUMMARYs now exist). No requirements.mark-complete applied: phase requirements explicitly include independent quality and PM evidence, still not performed. SUMMARY frontmatter is mandated implementation coverage, not permission to mark those unmet acceptance clauses complete. REQUIREMENTS stays Pending for quality/PM judgment.
+- Final postcommit saved_capture read-only:27 passed/75 deselected/exit0/120.02s at docs commit8266091; originals are not re-captured or relabelled. Latest full suite694 passed/exit0/178.99s; only planning close-out and immutable archive packaging follows.
+- Learning procedural candidate staged in this profile as browser-evidence-retry, pending approval5bcf1358, not claimed installed.

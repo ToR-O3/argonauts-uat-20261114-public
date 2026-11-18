@@ -1,0 +1,6 @@
+[
+  {"id":"E1","text":"h1「単語の出現頻度」。既存折返しで両幅に収め、省略・切取りなし","text_en":"Static heading text wraps at both viewport widths without truncation.","elements":["static-content"]},
+  {"id":"E2","text":"metadata（ファイル名、総出現回数）。basename全文・空白を保持、元totalを全文表示し表より上","text_en":"Static metadata text shows full basename and original total above the table, including long whitespace-sensitive text.","elements":["static-content"]},
+  {"id":"E3","text":"順位・単語・回数の3列表。空入力・抽出0語・全除外で0データ行、閾値とtop後の共通pairsを表示","text_en":"A static result table collection has zero, one or many rows after threshold and top filtering, with long word text and complete content only.","elements":["list-collection","static-content"]},
+  {"id":"E4","text":"pairsが空の場合だけempty-message。既存固定文言を自然に折返し両幅で全文可読","text_en":"Static empty message text wraps fully at both viewport widths.","elements":["static-content"]}
+]

@@ -593,3 +593,227 @@ def test_real_html_preserves_full_long_and_cr_basename(tmp_path, basename):
     browser_input = document.replace("\r\n", "\n").replace("\r", "\n")
     assert CLIHTML(browser_input).values["filename-value"] == basename
     assert path.read_bytes() == LONG_CONTENT.encode("utf-8")
+
+
+# 04-02 tracer: argument acceptance and pre-I/O rejection (OpenSpec 1.2).
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_count_argument_tracer(tmp_path, output_format):
+    path = tmp_path / "input.txt"
+    path.write_text("Zoo apple APPLE zoo banana", encoding="utf-8")
+    default = run_cli_bytes(path, "--format", output_format)
+    explicit = run_cli_bytes(path, "--format", output_format, "--min-count", "1")
+    assert (explicit.returncode, explicit.stderr) == (0, b"")
+    assert explicit.stdout == default.stdout
+    assert_output_bytes(explicit.stdout, output_format,
+                        [("zoo", 2), ("apple", 2), ("banana", 1)], path.name, 5)
+
+
+@pytest.mark.parametrize("value", ["1", "2", "999999999999999999999999999999999999", "+2", "02"])
+def test_min_count_parser_positive_integer(value):
+    from wordfreq.__main__ import build_parser
+    parser = build_parser()
+    assert parser.parse_args(["input.txt"]).min_count == 1
+    assert parser.parse_args(["input.txt", "--min-count", value]).min_count == int(value)
+
+
+MIN_COUNT_INVALID = [("--min-count", "0"), ("--min-count", "-1"),
+                     ("--min-count=-1",), ("--min-count", "1.5"),
+                     ("--min-count", "abc"), ("--min-count",)]
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("options", MIN_COUNT_INVALID)
+def test_min_count_invalid_before_read(tmp_path, monkeypatch, capsys, output_format, options):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    calls = []
+
+    def spy(source):
+        calls.append(source)
+        raise AssertionError("invalid threshold must not read input")
+
+    monkeypatch.setattr(FileSource, "read_text", spy)
+    with pytest.raises(SystemExit) as caught:
+        main([str(tmp_path / "missing"), "--format", output_format, *options])
+    assert caught.value.code == 2
+    assert calls == []
+    output = capsys.readouterr()
+    assert output.out == "" and "--min-count" in output.err
+    real = run_cli_bytes(tmp_path / "missing", "--format", output_format, *options)
+    assert real.returncode == 2 and real.stdout == b""
+    assert b"--min-count" in real.stderr and b"Traceback" not in real.stderr
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+def test_min_count_valid_input_failure(tmp_path, output_format, failure):
+    path = tmp_path / "input.txt"
+    if failure == "directory":
+        path.mkdir()
+    elif failure == "decode":
+        path.write_bytes(b"hello\xff")
+    elif failure == "permission":
+        path.write_bytes(b"hello")
+        path.chmod(0)
+    try:
+        if failure == "permission":
+            with pytest.raises(PermissionError, match="Permission denied"):
+                path.read_bytes()
+        result = run_cli_bytes(path, "--min-count", "2", "--format", output_format)
+        assert result.returncode == 1 and result.stdout == b""
+        assert result.stderr and b"Traceback" not in result.stderr
+        if failure == "permission":
+            assert b"Permission denied" in result.stderr
+    finally:
+        if failure == "permission":
+            path.chmod(0o600)
+
+
+def test_min_count_help_and_readme_example(tmp_path):
+    help_result = run_cli_bytes("--help")
+    assert help_result.returncode == 0 and help_result.stderr == b""
+    assert b"--min-count MIN_COUNT" in help_result.stdout
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "python -m wordfreq input.txt --min-count 2 --top 1 --format json" in readme
+    path = tmp_path / "input.txt"
+    path.write_text("beta beta beta alpha gamma alpha delta", encoding="utf-8")
+    result = run_cli_bytes(path, "--min-count", "2", "--top", "1", "--format", "json")
+    assert (result.returncode, result.stdout, result.stderr) == (
+        0, b'[{"word": "beta", "count": 3}]\n', b"")
+
+
+# Both groups are authored/run before the common filter (OpenSpec 1.3/1.4).
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("content,minimum,expected,total", [
+    ("beta beta beta alpha gamma alpha delta", 1,
+     [("beta", 3), ("alpha", 2), ("gamma", 1), ("delta", 1)], 7),
+    ("beta beta beta alpha gamma alpha delta", 2, [("beta", 3), ("alpha", 2)], 7),
+    ("beta beta beta alpha gamma alpha delta", 3, [("beta", 3)], 7),
+    ("Zoo apple APPLE zoo banana", 2, [("zoo", 2), ("apple", 2)], 5),
+    ("Straße STRASSE", 2, [("strasse", 2)], 2),
+    ("日本語 日本語 Café CAFÉ banana", 2, [("日本語", 2), ("café", 2)], 5),
+])
+@pytest.mark.parametrize("top", [None, 1, 3, 10, 99])
+@pytest.mark.parametrize("reverse", [False, True])
+def test_min_count_selection(tmp_path, output_format, content, minimum, expected, total, top, reverse):
+    path = tmp_path / "input.txt"
+    path.write_text(content, encoding="utf-8")
+    options = ["--min-count", str(minimum)]
+    if top is not None:
+        top_options = ["--top", str(top)]
+        options = top_options + options if reverse else options + top_options
+    result = run_cli_bytes(path, "--format", output_format, *options)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format,
+                        expected[:10 if top is None else top], path.name, total)
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("content,minimum,top,expected,total", [
+    ("beta beta beta alpha gamma alpha delta", 4, None, [], 7),
+    ("beta beta beta alpha gamma alpha delta", 2, 1, [("beta", 3)], 7),
+    ("Zoo apple APPLE zoo banana", 3, 10, [], 5),
+    ("beta beta beta alpha gamma alpha delta", 10**100, 99, [], 7),
+    ("", 2, None, [], 0), (" \t\r\n  ", 2, None, [], 0),
+    ("!?,.;: --", 2, None, [], 0),
+])
+def test_min_count_empty_total(tmp_path, output_format, content, minimum, top, expected, total):
+    from test_formatters import HTMLDocument, assert_static_document
+    path = tmp_path / "empty-or-filtered.txt"
+    path.write_text(content, encoding="utf-8")
+    options = ["--min-count", str(minimum), "--format", output_format]
+    if top is not None:
+        options += ["--top", str(top)]
+    result = run_cli_bytes(path, *options)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+    if not expected:
+        if output_format == "text":
+            assert result.stdout == b""
+        elif output_format == "json":
+            assert result.stdout == b"[]\n"
+        else:
+            doc = HTMLDocument(result.stdout.decode("utf-8"))
+            assert_static_document(doc)
+            assert doc.tagged("td") == []
+            assert len(doc.tagged("tr")) == 1
+            assert doc.classified("empty-message")[0]["text"] == (
+                "集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_count_selection_hashseed(tmp_path, output_format):
+    path = tmp_path / "seed.txt"
+    path.write_text("Zoo apple APPLE zoo banana Café CAFÉ 日本語", encoding="utf-8")
+    outputs = []
+    for seed in ["0", "1", "42"]:
+        result = run_cli_bytes(path, "--min-count", "2", "--format", output_format,
+                               env=dict(os.environ, PYTHONHASHSEED=seed))
+        assert (result.returncode, result.stderr) == (0, b"")
+        assert_output_bytes(result.stdout, output_format,
+                            [("zoo", 2), ("apple", 2), ("café", 2)], path.name, 8)
+        outputs.append(result.stdout)
+    assert outputs[0] == outputs[1] == outputs[2]
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_count_selection_preserves_counter_and_shared_pairs(tmp_path, monkeypatch, output_format):
+    from collections import Counter
+    import wordfreq.__main__ as cli
+    original_counts = Counter({"zoo": 2, "banana": 1, "apple": 2})
+    original_items = list(original_counts.items())
+    monkeypatch.setattr(cli, "count_words", lambda tokens: original_counts)
+    selected = []
+    real_top = cli.top_words
+    real_formatter = getattr(cli, "format_" + output_format)
+    calls = []
+
+    def top_spy(counts, n):
+        assert counts is not original_counts
+        assert list(counts.items()) == [("zoo", 2), ("apple", 2)]
+        pairs = real_top(counts, n)
+        selected.append(pairs)
+        return pairs
+
+    def formatter_spy(pairs, *metadata):
+        assert pairs is selected[0]
+        assert pairs == [("zoo", 2)]
+        assert metadata == (("input.txt", 5) if output_format == "html" else ())
+        calls.append(True)
+        return real_formatter(pairs, *metadata)
+
+    monkeypatch.setattr(cli, "top_words", top_spy)
+    monkeypatch.setattr(cli, "format_" + output_format, formatter_spy)
+    path = tmp_path / "input.txt"
+    path.write_text("Zoo banana apple APPLE zoo", encoding="utf-8")
+    with pytest.raises(SystemExit) as caught:
+        cli.main([str(path), "--min-count", "2", "--top", "1", "--format", output_format])
+    assert caught.value.code == 0 and calls == [True]
+    assert original_counts == Counter({"zoo": 2, "banana": 1, "apple": 2})
+    assert list(original_counts.items()) == original_items
+
+
+@pytest.mark.parametrize("case_index", range(12))
+def test_min_count_saved_default_bytes(case_index):
+    root = ROOT / ".planning/argonauts/r-e476c11d/baseline"
+    index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+    case = index["cases"][case_index]
+    capture_root = Path(index["root"])
+    path = root / Path(case["input"]).relative_to(capture_root)
+    expected = (root / Path(case["stdout"]).relative_to(capture_root)).read_bytes()
+    assert path.read_bytes() == case["body"].encode("utf-8")
+    options = ["--format", case["format"]] if case["explicit_format"] else []
+    if case["top"] is not None:
+        options += ["--top", str(case["top"])]
+    env = os.environ.copy()
+    for key, value in case["environment"].items():
+        if value is None:
+            env.pop(key, None)
+        else:
+            env[key] = value
+    for minimum in [[], ["--min-count", "1"]]:
+        result = run_cli_bytes(path, *options, *minimum, env=env)
+        assert (result.returncode, result.stderr) == (0, b"")
+        assert result.stdout == expected
+
+

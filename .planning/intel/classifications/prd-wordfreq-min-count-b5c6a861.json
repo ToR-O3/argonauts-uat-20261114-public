@@ -1,0 +1,13 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_34cd1b56/_bmad-output/initiative-r-e476c11d/prd/prd-wordfreq-min-count.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "wordfreq --min-count：要求仕様",
+  "summary": "wordfreqの--min-count追加について、閾値検証、全出力形式の表示対象、topとの順序、HTML総数、互換性、試験と受入条件を定義する。",
+  "scope": ["wordfreq", "--min-count", "--top", "text", "JSON", "HTML", "元総数", "pytest", "README"],
+  "cross_refs": ["../brief/brief-wordfreq-min-count.md", "../initiative-r-e476c11d.md", "docs/wordfreq-html-verification.md", "README.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

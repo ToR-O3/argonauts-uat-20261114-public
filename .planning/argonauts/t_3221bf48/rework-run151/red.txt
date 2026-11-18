@@ -1,0 +1,55 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_________ test_browser_free_saved_capture_relocates_suite_argv[False] __________
+
+browser_free_saved = (<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/tool...rmes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-251/test_browser_free_saved_captur0/baseline'))
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-251/test_browser_free_saved_captur0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7c88e5c1da60>
+wrong_argv = False
+
+    @pytest.mark.parametrize("wrong_argv", [False, True])
+    def test_browser_free_saved_capture_relocates_suite_argv(browser_free_saved, tmp_path, monkeypatch, wrong_argv):
+        import shutil
+        v, baseline = browser_free_saved
+        repo = v.ROOT
+        relative = Path(".planning/builder/capture")
+        root = repo / relative
+    
+        def recorded_suite(output):
+            result = synthetic_suite(output)
+            # Exercise the real command predicate without running a recursive suite.
+            return dict(result, synthetic=False,
+                        argv=[sys.executable, "-m", "pytest", "--junitxml", str(output / "suite.xml")],
+                        environment={"WORDFREQ_MIN_COUNT_BASELINE_ROOT": None,
+                                     "WORDFREQ_MIN_COUNT_CAPTURE_ROOT": None})
+    
+        assert v.main(["--mode", "capture", "--role", "builder", "--output-dir", str(root),
+                       "--baseline-dir", str(baseline)], collector=synthetic_collect,
+                      suite_runner=recorded_suite) == 0
+        successor = tmp_path / "successor"
+        shutil.copytree(repo, successor)
+        moved = successor / relative
+        monkeypatch.setattr(v, "ROOT", successor)
+        if wrong_argv:
+            suite = v.parts.load_json(moved / "suite.json")
+            suite["argv"][-1] = str(root / "wrong.xml")
+            v.parts.save_json(moved / "suite.json", suite)
+            manifest = v.parts.load_json(moved / "manifest.json")
+            manifest["artifacts"][str(root / "suite.json")] = v.parts.digest(moved / "suite.json")
+            v.seal_capture(manifest, moved)
+        before = {str(p): v.parts.digest(p) for p in moved.rglob("*") if p.is_file()}
+        errors = v.validate_capture(moved, baseline, allow_synthetic=True)
+>       assert errors == (["suite command/opt-in recursion mismatch"] if wrong_argv else [])
+E       AssertionError: assert ['suite comma...ion mismatch'] == []
+E         
+E         Left contains one more item: 'suite command/opt-in recursion mismatch'
+E         Use -v to get more diff
+
+tests/test_min_count_verifier.py:302: AssertionError
+---------------------------- Captured stdout setup -----------------------------
+{"index": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-251/test_browser_free_saved_captur0/baseline/index.json", "verdict": "baseline-sealed", "synthetic": true, "cli_cases": 12, "views": 18, "exit": 0}
+----------------------------- Captured stdout call -----------------------------
+{"manifest": "/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-251/test_browser_free_saved_captur0/repo/.planning/builder/capture/manifest.json", "head": "3e9c6fdbd3c6310f3f0c8a3f5de72ef809071c82", "verdict": "pending-review", "cases": 62, "views": 68, "errors": [], "synthetic": true}
+=========================== short test summary info ============================
+FAILED tests/test_min_count_verifier.py::test_browser_free_saved_capture_relocates_suite_argv[False]
+1 failed, 1 passed, 64 deselected in 6.98s

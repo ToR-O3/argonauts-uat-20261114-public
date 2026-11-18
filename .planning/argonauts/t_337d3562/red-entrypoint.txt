@@ -1,0 +1,28 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.15, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_337d3562
+configfile: pyproject.toml
+plugins: hypothesis-6.152.9, anyio-4.13.0, mock-3.15.1, asyncio-1.3.0, cov-7.1.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 2 items / 1 deselected / 1 selected
+
+tests/test_min_count_verifier.py F
+
+=================================== FAILURES ===================================
+_________ test_browser_free_entrypoint_requires_real_capture_pipeline __________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-202/test_browser_free_entrypoint_r0')
+
+    def test_browser_free_entrypoint_requires_real_capture_pipeline(tmp_path):
+        v = driver()
+>       assert callable(getattr(v, "main", None)), "baseline entrypoint is not implemented"
+E       AssertionError: baseline entrypoint is not implemented
+E       assert False
+E        +  where False = callable(None)
+E        +    where None = getattr(<module 'min_count_verifier' from '/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_337d3562/tools/verify_wordfreq_min_count.py'>, 'main', None)
+
+tests/test_min_count_verifier.py:44: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_min_count_verifier.py::test_browser_free_entrypoint_requires_real_capture_pipeline
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+======================= 1 failed, 1 deselected in 0.11s ========================

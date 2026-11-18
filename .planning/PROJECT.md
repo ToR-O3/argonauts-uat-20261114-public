@@ -22,7 +22,7 @@
 
 <!-- Shipped and confirmed valuable. -->
 
-(None yet — ship to validate)
+- ✓ REQ-15..REQ-21 (`--min-count`, r-e476c11d) — Phase 4 (verified at afaa56f; UAT passed 2026-11-18; REQ-17 limited to existing single-shot CLI guarantees by human decision)
 
 ### Active
 
@@ -74,4 +74,4 @@
 | D-E: JSON は `[{"word": w, "count": c}]`、`ensure_ascii=True` + 改行 1 つ、0 件は `[]` | spec 固定のキー名と機械可読性 | — Pending |
 
 ---
-*Last updated: 2026-11-17 after ingest (new-project-from-ingest, r-5a3b8a3f)*
+*Last updated: 2026-11-18 after Phase 4*

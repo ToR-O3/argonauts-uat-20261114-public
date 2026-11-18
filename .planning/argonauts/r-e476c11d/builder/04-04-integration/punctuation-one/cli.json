@@ -1,0 +1,40 @@
+{
+  "id": "punctuation-one",
+  "basename": "punctuation.txt",
+  "body": "!?,.;: --",
+  "pairs": [],
+  "total": 0,
+  "format": "html",
+  "top": null,
+  "explicit_format": true,
+  "baseline_id": "punctuation",
+  "minimum": 1,
+  "reverse": false,
+  "input": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/punctuation-one/private-source-directory/punctuation.txt",
+  "input_sha256": "0c5876ee8ce4d9dbeb266ed2cfdb8a6dd31835a3a0a6e066501589fb4f0672e4",
+  "executable": "/usr/bin/python3",
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/Yuki/.local/lib/python3.12/site-packages",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": null
+  },
+  "cwd": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/punctuation-one/stdout.bin",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/punctuation-one/stderr.bin",
+  "views": [],
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/punctuation-one/private-source-directory/punctuation.txt",
+    "--format",
+    "html",
+    "--min-count",
+    "1"
+  ],
+  "exit": 0,
+  "html": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_e22f75a9/.planning/argonauts/r-e476c11d/builder/04-04-integration/punctuation-one/stdout.html"
+}

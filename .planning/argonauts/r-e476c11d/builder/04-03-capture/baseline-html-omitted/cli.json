@@ -1,0 +1,79 @@
+{
+  "id": "baseline-html-omitted",
+  "basename": "input.txt",
+  "body": "Zoo APPLE apple zoo Hello hello HELLO one, two. one b c d e f g h",
+  "pairs": [
+    [
+      "hello",
+      3
+    ],
+    [
+      "zoo",
+      2
+    ],
+    [
+      "apple",
+      2
+    ],
+    [
+      "one",
+      2
+    ],
+    [
+      "two",
+      1
+    ],
+    [
+      "b",
+      1
+    ],
+    [
+      "c",
+      1
+    ],
+    [
+      "d",
+      1
+    ],
+    [
+      "e",
+      1
+    ],
+    [
+      "f",
+      1
+    ]
+  ],
+  "total": 17,
+  "format": "html",
+  "top": null,
+  "explicit_format": true,
+  "baseline_id": "baseline-html",
+  "minimum": null,
+  "reverse": false,
+  "input": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture/baseline-html-omitted/private-source-directory/input.txt",
+  "input_sha256": "959d92721d7a190f3c6962e7310046e3c4684c54e809faef486eb968abe31279",
+  "executable": "/usr/bin/python3",
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/home/Yuki/.local/lib/python3.12/site-packages",
+    "LANG": "en_US.UTF-8",
+    "LC_ALL": null
+  },
+  "cwd": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture/baseline-html-omitted/stdout.bin",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture/baseline-html-omitted/stderr.bin",
+  "views": [],
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture/baseline-html-omitted/private-source-directory/input.txt",
+    "--format",
+    "html"
+  ],
+  "exit": 0,
+  "html": "/home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture/baseline-html-omitted/stdout.html"
+}

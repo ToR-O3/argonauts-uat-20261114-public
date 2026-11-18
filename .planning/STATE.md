@@ -1,19 +1,19 @@
 ---
 gsd_state_version: "1.0"
-current_phase: 3
+current_phase: 4
 current_plan: Not started
 status: completed
-stopped_at: Phase 3 complete — all phases complete
-last_updated: "2026-11-17T19:56:10.831Z"
+stopped_at: Phase 4 complete — all phases complete
+last_updated: "2026-11-18T03:43:57.365Z"
 last_activity: 2026-11-18
-last_activity_desc: Phase 3 complete
-state_head: 7c704f337df10a4bfd4bb18936266a16b606dd3c
+last_activity_desc: Phase 4 complete
+state_head: a4ff7697690d1bd0e4cbd60c06854856eca35847
 progress:
-  total_phases: 2
+  total_phases: 3
   completed_phases: 1
-  total_plans: 11
-  completed_plans: 11
-  percent: 50
+  total_plans: 15
+  completed_plans: 15
+  percent: 33
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -25,22 +25,22 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-17)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 3 — wordfreq HTML output
+**Current focus:** Phase 4 complete (last phase) — PM phase decision / acceptance next
 
 ## Current Position
 
-Phase: 3
+Phase: 4
 Current Plan: Not started
-Total Plans in Phase: 6
+Total Plans in Phase: 4
 Status: All phases complete
-Last activity: 2026-11-18 — Phase 3 complete
+Last activity: 2026-11-18 — Phase 4 complete
 
-Progress: [█████░░░░░] 50%
+Progress: [███░░░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
+- Total plans completed: 15
 - Average duration: — min
 - Total execution time: 0.0 hours
 
@@ -50,6 +50,7 @@ Progress: [█████░░░░░] 50%
 |-------|-------|-------|----------|
 | 1 | 5 | - | - |
 | 3 | 6 | - | - |
+| 4 | 4 | - | - |
 
 **Recent Trend:**
 - Last 5 plans: —
@@ -70,6 +71,8 @@ Progress: [█████░░░░░] 50%
 | Phase 03 P03 | 1550s | 2 tasks | 5 files |
 | Phase 03 P04 | 1159s | 2 tasks | 5 files |
 | Phase 03 P05 | 565s | 2 tasks | 3 files |
+| Phase 04 P01 | 15min | 2 tasks | 158 files |
+| Phase 04 P02 | 11min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -81,10 +84,13 @@ Recent decisions affecting current work:
 - [r-5a3b8a3f]: 承認済み OpenSpec 変更 r-5a3b8a3f-wordfreq が唯一の情報源。text 列書式 `<count>\t<word>`（design D-A）、exit code 0/1/2 分岐は `__main__.py` のみ（D-C）、JSON は `ensure_ascii=True` + 改行 1 つ・0 件は `[]`（D-E）
 - [r-5a3b8a3f]: 部品は tokenizer/aggregator/sources/formatters + `__main__` の 4+1 分割、依存方向一方向（D-A）。実装順は内側から外側（tasks.md 1.1→3.3）
 - [r-5a3b8a3f]: PM 決定 — 承認済みスコープ全体を Phase 1 単一として計画（分割しない）
+- [r-e476c11d]: Phase 4 UAT (t_419e62f7) — human: REQ-17 needs no guarantee beyond single-shot CLI; quality final-01 accepted as quality acceptance; PM's own original reading and OpenSpec task 2.2 PM part are handled in the [フェーズ判断 4] card
 
 ### Roadmap Evolution
 
 - Phase 3 added: wordfreq HTML output (r-50053edc; official phase.add result). Existing Phase 2 directory is unrelated residual work, not reused. Approval t_13dfdc77 run83 replaces old lexical ties via new phase REQ-11; E.7 conflict route, report .planning/INGEST-CONFLICTS.md.
+
+- Phase 4 added: wordfreq min-count (r-e476c11d; official phase.add result 4). Approved t_a438e6b2 run140, merge adds REQ-15..REQ-21 only. Prior phase verification stale is historical debt, not authorization to reopen earlier scope.
 
 ### Pending Todos
 
@@ -105,6 +111,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-17T17:36:40.317Z
-Stopped at: Phase 3 complete — all phases complete
-Resume file: .planning/phases/03-wordfreq-html-output/03-06-PLAN.md
+Last session: 2026-11-18T03:50:00Z
+Stopped at: Phase 4 complete — all phases complete
+Resume file: None

@@ -1,0 +1,601 @@
+{
+  "start": "2026-11-18T01:22:29.240922+00:00",
+  "end": "2026-11-18T01:22:30.419856+00:00",
+  "interval": "capture-only",
+  "events": [
+    {
+      "at": "2026-11-18T01:22:29.246799+00:00",
+      "kind": "browser-autoattach-ready",
+      "data": {}
+    },
+    {
+      "at": "2026-11-18T01:22:29.266212+00:00",
+      "kind": "target-attached",
+      "data": {
+        "sessionId": "464A750750CDAF41C3A897FB61E05696",
+        "targetInfo": {
+          "targetId": "E760BE8AD647825DEA2A247C1868D6FD",
+          "type": "browser_ui",
+          "title": "",
+          "url": "chrome://omnibox-popup.top-chrome/omnibox_popup_aim.html",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "7341AF7DB0C4778C3AC9888461EA2614"
+        },
+        "waitingForDebugger": true
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.267478+00:00",
+      "kind": "target-created",
+      "data": {
+        "targetInfo": {
+          "targetId": "E760BE8AD647825DEA2A247C1868D6FD",
+          "type": "browser_ui",
+          "title": "",
+          "url": "chrome://omnibox-popup.top-chrome/omnibox_popup_aim.html",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "7341AF7DB0C4778C3AC9888461EA2614"
+        }
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.270304+00:00",
+      "kind": "target-attached",
+      "data": {
+        "sessionId": "533106635AF749EF710D7FCBB0D08787",
+        "targetInfo": {
+          "targetId": "A1366E6A6C916816E16E7B29D7D0B76F",
+          "type": "browser_ui",
+          "title": "",
+          "url": "chrome://omnibox-popup.top-chrome/",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "7341AF7DB0C4778C3AC9888461EA2614"
+        },
+        "waitingForDebugger": true
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.271639+00:00",
+      "kind": "target-created",
+      "data": {
+        "targetInfo": {
+          "targetId": "A1366E6A6C916816E16E7B29D7D0B76F",
+          "type": "browser_ui",
+          "title": "",
+          "url": "chrome://omnibox-popup.top-chrome/",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "7341AF7DB0C4778C3AC9888461EA2614"
+        }
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.292453+00:00",
+      "kind": "target-attached",
+      "data": {
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetInfo": {
+          "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+          "type": "page",
+          "title": "",
+          "url": "about:blank",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "7341AF7DB0C4778C3AC9888461EA2614"
+        },
+        "waitingForDebugger": true
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.294874+00:00",
+      "kind": "target-created",
+      "data": {
+        "targetInfo": {
+          "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+          "type": "page",
+          "title": "",
+          "url": "about:blank",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "7341AF7DB0C4778C3AC9888461EA2614"
+        }
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.322040+00:00",
+      "kind": "target-changed",
+      "data": {
+        "targetInfo": {
+          "targetId": "E760BE8AD647825DEA2A247C1868D6FD",
+          "type": "browser_ui",
+          "title": "chrome://omnibox-popup.top-chrome/omnibox_popup_aim.html",
+          "url": "chrome://omnibox-popup.top-chrome/omnibox_popup_aim.html",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "7341AF7DB0C4778C3AC9888461EA2614"
+        }
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.327265+00:00",
+      "kind": "target-changed",
+      "data": {
+        "targetInfo": {
+          "targetId": "A1366E6A6C916816E16E7B29D7D0B76F",
+          "type": "browser_ui",
+          "title": "chrome://omnibox-popup.top-chrome",
+          "url": "chrome://omnibox-popup.top-chrome/",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "7341AF7DB0C4778C3AC9888461EA2614"
+        }
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.335901+00:00",
+      "kind": "Network.policyUpdated",
+      "data": {
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.342437+00:00",
+      "kind": "target-changed",
+      "data": {
+        "targetInfo": {
+          "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+          "type": "page",
+          "title": "about:blank",
+          "url": "about:blank",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "7341AF7DB0C4778C3AC9888461EA2614"
+        }
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.345144+00:00",
+      "kind": "Page.frameStoppedLoading",
+      "data": {
+        "frameId": "9333AFF4F764BAA95E1FC091435680B9",
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.346242+00:00",
+      "kind": "Page.frameResized",
+      "data": {
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.351807+00:00",
+      "kind": "page",
+      "data": {
+        "url": "about:blank"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.359038+00:00",
+      "kind": "page-cdp-ready",
+      "data": {}
+    },
+    {
+      "at": "2026-11-18T01:22:29.372896+00:00",
+      "kind": "Page.frameStartedNavigating",
+      "data": {
+        "frameId": "9333AFF4F764BAA95E1FC091435680B9",
+        "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+        "loaderId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "navigationType": "differentDocument",
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.374005+00:00",
+      "kind": "Page.frameStartedLoading",
+      "data": {
+        "frameId": "9333AFF4F764BAA95E1FC091435680B9",
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.374725+00:00",
+      "kind": "Network.requestWillBeSent",
+      "data": {
+        "requestId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "loaderId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "documentURL": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+        "request": {
+          "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+          "method": "GET",
+          "headers": {
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Linux\""
+          },
+          "mixedContentType": "none",
+          "initialPriority": "VeryHigh",
+          "referrerPolicy": "unsafe-url",
+          "isSameSite": true
+        },
+        "timestamp": 1458.356976,
+        "wallTime": 1794964949.374074,
+        "initiator": {
+          "type": "other"
+        },
+        "redirectHasExtraInfo": false,
+        "type": "Document",
+        "frameId": "9333AFF4F764BAA95E1FC091435680B9",
+        "hasUserGesture": false,
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.375461+00:00",
+      "kind": "request",
+      "data": {
+        "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+        "method": "GET",
+        "resourceType": "document",
+        "navigation": true,
+        "frame": {
+          "url": "about:blank",
+          "name": ""
+        },
+        "redirectedFrom": null,
+        "failure": null
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.375721+00:00",
+      "kind": "Network.requestWillBeSent",
+      "data": {
+        "requestId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "loaderId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "documentURL": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+        "request": {
+          "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+          "method": "GET",
+          "headers": {
+            "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Linux\""
+          },
+          "mixedContentType": "none",
+          "initialPriority": "VeryHigh",
+          "referrerPolicy": "unsafe-url",
+          "isSameSite": true
+        },
+        "timestamp": 1458.356976,
+        "wallTime": 1794964949.37416,
+        "initiator": {
+          "type": "other"
+        },
+        "redirectHasExtraInfo": false,
+        "type": "Document",
+        "frameId": "9333AFF4F764BAA95E1FC091435680B9",
+        "hasUserGesture": false
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.379199+00:00",
+      "kind": "Network.responseReceived",
+      "data": {
+        "requestId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "loaderId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "timestamp": 1458.361584,
+        "type": "Document",
+        "response": {
+          "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "Content-Type": "text/html",
+            "Last-Modified": "Wed, 18 Nov 2026 01:21:33 GMT"
+          },
+          "mimeType": "text/html",
+          "charset": "",
+          "connectionReused": false,
+          "connectionId": 0,
+          "remoteIPAddress": "",
+          "remotePort": 0,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": -1,
+          "protocol": "file",
+          "alternateProtocolUsage": "alternativeJobWonWithoutRace",
+          "securityState": "secure"
+        },
+        "hasExtraInfo": false,
+        "frameId": "9333AFF4F764BAA95E1FC091435680B9",
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.380248+00:00",
+      "kind": "response",
+      "data": {
+        "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+        "status": 200
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.380509+00:00",
+      "kind": "Network.responseReceived",
+      "data": {
+        "requestId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "loaderId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "timestamp": 1458.361654,
+        "type": "Document",
+        "response": {
+          "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "Content-Type": "text/html",
+            "Last-Modified": "Wed, 18 Nov 2026 01:21:33 GMT"
+          },
+          "mimeType": "text/html",
+          "charset": "",
+          "connectionReused": false,
+          "connectionId": 0,
+          "remoteIPAddress": "",
+          "remotePort": 0,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": -1,
+          "protocol": "file",
+          "alternateProtocolUsage": "alternativeJobWonWithoutRace",
+          "securityState": "secure"
+        },
+        "hasExtraInfo": false,
+        "frameId": "9333AFF4F764BAA95E1FC091435680B9"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.384165+00:00",
+      "kind": "Page.frameNavigated",
+      "data": {
+        "frame": {
+          "id": "9333AFF4F764BAA95E1FC091435680B9",
+          "loaderId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+          "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+          "domainAndRegistry": "",
+          "securityOrigin": "file://",
+          "securityOriginDetails": {
+            "isLocalhost": false
+          },
+          "mimeType": "text/html",
+          "adFrameStatus": {
+            "adFrameType": "none"
+          },
+          "secureContextType": "Secure",
+          "crossOriginIsolatedContextType": "NotIsolated",
+          "gatedAPIFeatures": []
+        },
+        "type": "Navigation",
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.385461+00:00",
+      "kind": "frame-navigated",
+      "data": {
+        "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+        "name": ""
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.385626+00:00",
+      "kind": "Page.frameNavigated",
+      "data": {
+        "frame": {
+          "id": "9333AFF4F764BAA95E1FC091435680B9",
+          "loaderId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+          "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+          "domainAndRegistry": "",
+          "securityOrigin": "file://",
+          "securityOriginDetails": {
+            "isLocalhost": false
+          },
+          "mimeType": "text/html",
+          "adFrameStatus": {
+            "adFrameType": "none"
+          },
+          "secureContextType": "Secure",
+          "crossOriginIsolatedContextType": "NotIsolated",
+          "gatedAPIFeatures": []
+        },
+        "type": "Navigation"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.387598+00:00",
+      "kind": "Network.policyUpdated",
+      "data": {
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.392396+00:00",
+      "kind": "target-changed",
+      "data": {
+        "targetInfo": {
+          "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+          "type": "page",
+          "title": "stdout.html",
+          "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "7341AF7DB0C4778C3AC9888461EA2614"
+        }
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.395174+00:00",
+      "kind": "Network.dataReceived",
+      "data": {
+        "requestId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "timestamp": 1458.370054,
+        "dataLength": 3503,
+        "encodedDataLength": 0,
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.395488+00:00",
+      "kind": "Network.loadingFinished",
+      "data": {
+        "requestId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "timestamp": 1458.359674,
+        "encodedDataLength": 3503,
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.396267+00:00",
+      "kind": "Page.domContentEventFired",
+      "data": {
+        "timestamp": 1458.371935,
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.397718+00:00",
+      "kind": "requestfinished",
+      "data": {
+        "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+        "method": "GET",
+        "resourceType": "document",
+        "navigation": true,
+        "frame": {
+          "url": "file:///home/Yuki/workspace/argonauts-uat-20261116/work/public/.worktrees/t_3221bf48/.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/long-default-threshold/stdout.html",
+          "name": ""
+        },
+        "redirectedFrom": null,
+        "failure": null
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.397885+00:00",
+      "kind": "Network.loadingFinished",
+      "data": {
+        "requestId": "CCB247045D3EDF885CE3B3FEDADFF2F4",
+        "timestamp": 1458.359674,
+        "encodedDataLength": 3503
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.411887+00:00",
+      "kind": "Page.loadEventFired",
+      "data": {
+        "timestamp": 1458.373277,
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:29.412726+00:00",
+      "kind": "Page.frameStoppedLoading",
+      "data": {
+        "frameId": "9333AFF4F764BAA95E1FC091435680B9",
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:30.195389+00:00",
+      "kind": "Page.frameResized",
+      "data": {
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:30.197256+00:00",
+      "kind": "Page.frameResized",
+      "data": {
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:30.243129+00:00",
+      "kind": "Page.frameResized",
+      "data": {
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:30.243313+00:00",
+      "kind": "Page.frameResized",
+      "data": {
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:30.272607+00:00",
+      "kind": "Page.frameResized",
+      "data": {
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-18T01:22:30.273634+00:00",
+      "kind": "Page.frameResized",
+      "data": {
+        "sessionId": "55F68F15B88B49A9DA4E0A4A83EED291",
+        "targetId": "9333AFF4F764BAA95E1FC091435680B9",
+        "source": "browser-autoattach"
+      }
+    }
+  ],
+  "coverage": {
+    "context": true,
+    "browserTargets": true,
+    "mainCDP": true,
+    "flattenedAutoAttach": true
+  },
+  "errors": [],
+  "excluded_other_contexts": []
+}
