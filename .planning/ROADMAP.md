@@ -103,7 +103,7 @@ Plans:
   4. AC6: 全pytestと対象headの独立CLI/ブラウザ1280×900・320×900 DPR1、画像の実閲覧と比較・原本の標準配送がAC別に追跡できる。
   5. AC7: CI/依存/見た目の変更なし、READMEは付随最小説明のみ、既存入力・安全性・出力契約を維持。
 **Approval:** t_a438e6b2 run140 approved。要求追加のみのmerge、衝突0。Phase1/3のstale検証は今回の実装範囲へ混ぜず表示する。公式phase.addの番号4を使用。
-**Plans:** 2/4 plans executed
+**Plans:** 3/4 plans executed
 
 Plans:
 **Wave 1**
@@ -113,7 +113,7 @@ Plans:
 - [x] 04-02-PLAN.md — Wave 2 (depends 04-01): 引数と全形式閾値/空結果の先行TDD
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- [ ] 04-03-PLAN.md — Wave 3 (depends 04-02, 3 tasks): capture/validator→live/finalizeのbrowser-free検証・正式commit→clean head一度採取/read-only確認
+- [x] 04-03-PLAN.md — Wave 3 (depends 04-02, 3 tasks): capture/validator→live/finalizeのbrowser-free検証・正式commit→clean head一度採取/read-only確認
 
 **Wave 4** *(blocked on Wave 3 completion)*
 - [ ] 04-04-PLAN.md — Wave 4 (depends 04-03, 2 tasks): 一度限りBuilder統合/read-only確認→品質runbook/原本配送。full E2Eは必須高遅延gate、最終head品質は別主体
