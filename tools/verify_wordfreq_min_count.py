@@ -6,6 +6,8 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+from datetime import timedelta
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 _spec = importlib.util.spec_from_file_location("wordfreq_html_parts", ROOT / "tools/verify_wordfreq_html.py")
@@ -390,7 +392,7 @@ ACS = tuple(f"AC{i}" for i in range(1, 8))
 EXECUTABLE = "/usr/bin/chromium-browser"
 
 
-def relocate(value, old, new):
+def relocate(value: Any, old: str, new: Path) -> Any:
     if isinstance(value, str) and (value == old or value.startswith(old + "/")):
         return str(new) + value[len(old):]
     if isinstance(value, dict):
@@ -678,7 +680,216 @@ def seal_capture(m, output):
     (output / "manifest.sha256").write_text(parts.digest(output / "manifest.json") + "\n", encoding="ascii")
 
 
-def capture(args, collector=None, suite_runner=None):
+def baseline_review_views(baseline_dir, synthetic=False):
+    b = read_baseline(baseline_dir, synthetic)
+    return [v for c in b["cases"] for v in c["views"]]
+
+
+def ledger_errors(m, ledger, baseline_dir, end, synthetic=False):
+    errors = []
+    try:
+        for key in ("request", "session", "head", "actor", "root", "run", "task"):
+            if not m[key] or ledger[key] != m[key]:
+                errors.append(f"ledger {key} differs")
+        views = [v for c in m["cases"] for v in c["views"]] + baseline_review_views(baseline_dir, synthetic)
+        images = [(v, i) for v in views for i in v["images"]]
+        expected = [i["path"] for _, i in images]
+        actual = [r["image"] for r in ledger["reviews"]]
+        if not expected or len(set(expected)) != len(expected) or sorted(expected) != sorted(actual):
+            errors.append("missing/extra/duplicate/unviewed current or baseline image")
+        for view, image in images:
+            image = dict(image, sha256=parts.digest(image["path"]))
+            matches = [r for r in ledger["reviews"] if r["image"] == image["path"]]
+            if len(matches) == 1:
+                errors += parts.review_errors(matches[0], image, view["raw"], parts.digest(view["raw"]), m["actor"], m["ready_at"], end)
+        if sorted(a["ac"] for a in ledger["ac_reviews"]) != list(ACS):
+            errors.append("missing/duplicate AC1-7")
+        for a in ledger["ac_reviews"]:
+            if a["judgment"] != "accepted" or not a["notes"].strip() or a["evidence"] != m["ac_index"][a["ac"]]["evidence"]:
+                errors.append("AC evidence/judgment differs")
+        source = ledger["source_order"]
+        if (source["head"] != m["head"] or source["path"] != "wordfreq/__main__.py" or
+                source["sha256"] != parts.digest(ROOT / source["path"]) or
+                source["lines"] != [34, 35, 36, 37, 38, 44] or
+                source["judgment"] != "filter-before-top-original-total" or not source["notes"].strip()):
+            errors.append("missing current-head source-order/diff attestation")
+    except Exception as exc:
+        errors.append(f"ledger malformed/unavailable: {exc}")
+    return errors
+
+
+def finish_observation(live, browser, output):
+    if browser is None:
+        return parts.now(), []  # Explicit synthetic boundary only.
+    return parts.snapshot_live(live, browser, output)
+
+
+def live_errors(m, output, baseline_dir, ledger, end, synthetic=False, require_end=True):
+    errors = capture_errors(m, output, baseline_dir, synthetic, live=True)
+    if (m["mode"] != "review-session" or m["verdict"] != "pending-review" or m.get("ended") or
+            m["actor"] != actor_for(m["role"], output) or parts.live_session_errors(m)):
+        errors.append("live session absent/ended/actor differs")
+    state = execution_state()
+    if state["head"] != m["head"] or state["execution_status"]:
+        errors.append("current head/execution surface changed")
+    if capture_scope(m["baseline"]["head"], state["head"]) != m["scope"]:
+        errors.append("current scope changed")
+    if parts.datetime.fromisoformat(end) > parts.datetime.fromisoformat(m["expires_at"]):
+        errors.append("session expired")
+    if not synthetic:
+        canaries = parts.load_json(output / "canaries/canaries.json")
+        errors += parts.canary_errors(canaries)
+        if canaries["role"] != m["role"] or canaries["provenance"]["head"] != m["head"]:
+            errors.append("canary head/role differs")
+        for case in m["cases"]:
+            for view in case["views"]:
+                net = parts.load_json(view["network"])
+                if net["interval"] != "live-review" or net["start"] > m["ready_at"] or (require_end and net["end"] < end):
+                    errors.append("incomplete live observation interval")
+    return errors + ledger_errors(m, ledger, baseline_dir, end, synthetic)
+
+
+def revoke_reviews(m, output):
+    m.update(verdict="unverified", independent_acceptance=False, ac_verdicts={a: "unverified" for a in ACS})
+    for case in m.get("cases", []):
+        for view in case.get("views", []):
+            view.update(verdict="unverified", reviewed_images=[])
+            try:
+                parts.save_json(Path(view["raw"]).parent / "derived.json", view)
+            except Exception as exc:
+                m["errors"].append(f"rollback persistence failed: {exc}")
+
+
+def final_publication_errors(m, ledger, output, baseline_dir, synthetic=False):
+    errors = ledger_errors(m, ledger, baseline_dir, m["verification_finished"], synthetic)
+    verdict = "accepted" if m["role"] == "quality" and not synthetic else "builder-reviewed"
+    if (m["verdict"] != verdict or m["errors"] or m["independent_acceptance"] != (verdict == "accepted") or
+            m["ac_verdicts"] != {a: "accepted" for a in ACS} or not m.get("observation_end") or
+            m["end_provenance"]["head"] != m["head"] or m["end_provenance"]["execution_status"]):
+        errors.append("inconsistent final verdict/end provenance")
+    if parts.load_json(output / "reviews.json") != ledger or parts.digest(output / "reviews.json") != m["ledger_sha256"]:
+        errors.append("final ledger changed")
+    for case in m["cases"]:
+        for view in case["views"]:
+            reviews = [r for i in view["images"] for r in ledger["reviews"] if r["image"] == i["path"]]
+            projected = [dict(path=r["image"], sha256=r["sha256"], viewed_at=r["viewed_at"]) for r in reviews]
+            errors += parts.view_identity_errors(view)
+            if (not projected or view["verdict"] != verdict or view["reviewed_images"] != projected or
+                    parts.load_json(Path(view["raw"]).parent / "derived.json") != view):
+                errors.append("all-view/derived/ledger final identity differs")
+    return errors
+
+
+def publish_owner(m, output, baseline_dir, live, browser, synthetic=False):
+    """The owner, never the requester, flushes and publishes the last marker."""
+    try:
+        request = parts.load_json(output / "finalize-request.json")
+        ledger = parts.load_json(output / "reviews.json")
+        if request["session"] != m["session"] or request["ledger_sha256"] != parts.digest(output / "reviews.json"):
+            raise ValueError("finalize request identity changed")
+        for _ in range(2):
+            boundary, errors = finish_observation(live, browser, output)
+            m["errors"] += errors + live_errors(m, output, baseline_dir, ledger, boundary, synthetic)
+        m["verification_finished"] = parts.now()
+        m["observation_end"], late = finish_observation(live, browser, output)
+        m["errors"] += late
+        m["end_provenance"] = execution_state()
+        if m["end_provenance"]["head"] != m["head"] or m["end_provenance"]["execution_status"]:
+            m["errors"].append("head changed at publication")
+        if m["errors"]:
+            raise ValueError("owner revalidation failed")
+        m["ledger_sha256"] = parts.digest(output / "reviews.json")
+        m["verdict"] = "accepted" if m["role"] == "quality" and not synthetic else "builder-reviewed"
+        m["independent_acceptance"] = m["verdict"] == "accepted"
+        m["ac_verdicts"] = {a: "accepted" for a in ACS}
+        # Invalidate the old marker before any projection can be partly written.
+        import copy
+        checkpoint = copy.deepcopy(m)
+        checkpoint.update(verdict="unverified", independent_acceptance=False)
+        seal_capture(checkpoint, output)
+        for case in m["cases"]:
+            for view in case["views"]:
+                view["verdict"] = m["verdict"]
+                view["reviewed_images"] = [dict(path=i["path"], sha256=r["sha256"], viewed_at=r["viewed_at"])
+                    for i in view["images"] for r in ledger["reviews"] if r["image"] == i["path"]]
+                parts.save_json(Path(view["raw"]).parent / "derived.json", view)
+        errors = final_publication_errors(m, ledger, output, baseline_dir, synthetic)
+        if errors:
+            raise ValueError(f"final reconciliation: {errors}")
+    except Exception as exc:
+        m["errors"].append(f"owner publication unverified: {type(exc).__name__}: {exc}")
+        revoke_reviews(m, output)
+    m["ended"] = parts.now()
+    try:
+        seal_capture(m, output)
+    except Exception as exc:
+        m["errors"].append(f"completion marker persistence failed: {exc}")
+        revoke_reviews(m, output)
+        try:
+            seal_capture(m, output)
+        except Exception as final_exc:
+            print(json.dumps(dict(verdict="unverified", persistence_error=str(final_exc))), flush=True)
+    return 0 if not m["errors"] and m["verdict"] in {"accepted", "builder-reviewed"} else 1
+
+
+def serve_review(m, output, baseline_dir, live, browser, owner_hook=None):
+    import uuid
+    import time
+    synthetic = m["synthetic"]
+    m.update(session=uuid.uuid4().hex, pid=os.getpid(), process_start=parts.process_start(os.getpid()),
+             ready_at=parts.now(), verdict="pending-review")
+    m["expires_at"] = (parts.datetime.fromisoformat(m["ready_at"]) + timedelta(seconds=7200)).isoformat()
+    m["artifacts"] = artifact_hashes(output, mutable=True)
+    m["ac_index"] = ac_mapping(m["artifacts"])
+    parts.save_json(output / "reviews.json", {**{k: m[k] for k in ("request", "session", "head", "root", "actor", "run", "task")},
+                                              "reviews": [], "ac_reviews": []})
+    seal_capture(m, output)
+    print(json.dumps(dict(ready=True, manifest=str(output / "manifest.json"), verdict="pending-review", expires_at=m["expires_at"])), flush=True)
+    try:
+        if owner_hook:
+            if not synthetic:
+                raise ValueError("owner hook only permitted at explicit synthetic boundary")
+            owner_hook(m)
+        else:
+            deadline = time.monotonic() + 7200
+            while not (output / "finalize-request.json").exists() and time.monotonic() < deadline:
+                live[0]["page"].wait_for_timeout(100)
+        if not (output / "finalize-request.json").exists():
+            raise ValueError("session expired/interrupted without finalize request")
+        return publish_owner(m, output, baseline_dir, live, browser, synthetic)
+    except Exception as exc:
+        m["errors"].append(f"live owner unverified: {exc}")
+        revoke_reviews(m, output)
+        m["ended"] = parts.now()
+        seal_capture(m, output)
+        return 1
+
+
+def review_session(args, collector=None, suite_runner=None, owner_hook=None):
+    return capture(args, collector, suite_runner, owner_hook)
+
+
+def finalize(args, synthetic=False):
+    output, baseline_dir = args.output_dir.resolve(), args.baseline_dir.resolve()
+    actor = actor_for(args.role, output)
+    if args.review_ledger.resolve() != output / "reviews.json":
+        raise ValueError("ledger must be the live root reviews.json")
+    m = parts.load_json(output / "manifest.json")
+    if m["role"] != args.role or m["actor"] != actor or (m["synthetic"] and not synthetic):
+        raise ValueError("finalize actor/role/synthetic differs")
+    ledger = parts.load_json(args.review_ledger)
+    # Request-side validation is conservative. Only the live owner may accept.
+    errors = live_errors(m, output, baseline_dir, ledger, parts.now(), synthetic, require_end=False)
+    if errors:
+        raise ValueError(f"finalize unverified: {errors}")
+    path = output / "finalize-request.json"
+    with path.open("x", encoding="utf-8") as stream:
+        json.dump(dict(session=m["session"], ledger_sha256=parts.digest(args.review_ledger), at=parts.now()), stream)
+    print(json.dumps(dict(verdict="finalize-requested", independent_acceptance=False)), flush=True)
+    return 0
+
+
+def capture(args, collector=None, suite_runner=None, owner_hook=None):
     import platform
     import time
     output, baseline_dir = args.output_dir.resolve(), args.baseline_dir.resolve()
@@ -707,26 +918,46 @@ def capture(args, collector=None, suite_runner=None):
         parts.save_json(output / "suite.json", suite)
         if suite_errors(output, synthetic):
             raise ValueError("full suite failed/empty/skipped")
+        live = []
+        if args.mode == "review-session" and not synthetic:
+            from types import SimpleNamespace
+            if parts.self_test_network(SimpleNamespace(output_dir=output / "canaries", role=args.role, browser=EXECUTABLE)):
+                raise ValueError("real canary discrimination failed")
         m["cases"] = generate_capture_cases(output, b)
         def collect(browser):
             for case in m["cases"]:
                 if case["format"] != "html":
                     continue
                 for width in WIDTHS:
-                    view = collector(case, width, output) if collector else parts.collect_view(browser, dict(case, stdout=case["html"]), width, output)
+                    view = collector(case, width, output) if collector else parts.collect_view(
+                        browser, dict(case, stdout=case["html"]), width, output,
+                        live=live if args.mode == "review-session" else None)
                     view["raw_sha256"] = parts.digest(view["raw"])
                     for image in view["images"]:
                         image["sha256"] = parts.digest(image["path"])
                     parts.save_json(Path(view["raw"]).parent / "derived.json", view)
                     case["views"].append(view)
+        def review(browser):
+            m["end_provenance"] = execution_state()
+            m["comparisons"] = comparisons(m, b)
+            return serve_review(m, output, baseline_dir, live, browser, owner_hook)
         if collector:
             m["browser"] = dict(synthetic=True)
             collect(None)
+            if args.mode == "review-session":
+                return review(None)
         else:
             from playwright.sync_api import sync_playwright
             with sync_playwright() as pw, parts.instrumented_browser(pw, EXECUTABLE) as browser:
-                m["browser"] = dict(executable=EXECUTABLE, version=browser.version, os=platform.platform(), launch=browser.launch_record)
-                collect(browser)
+                try:
+                    m["browser"] = dict(executable=EXECUTABLE, version=browser.version, os=platform.platform(), launch=browser.launch_record)
+                    collect(browser)
+                    if args.mode == "review-session":
+                        return review(browser)
+                finally:
+                    for item in live:
+                        item["observer"].browser_cdp.detach()
+                        item["context"].close()
         m["end_provenance"] = execution_state()
         m["comparisons"] = comparisons(m, b)
         m["artifacts"] = artifact_hashes(output)
@@ -755,7 +986,7 @@ def parser():
     return result
 
 
-def main(argv=None, collector=None, suite_runner=None):
+def main(argv=None, collector=None, suite_runner=None, owner_hook=None):
     p = parser()
     args = p.parse_args(argv)
     if args.mode != "baseline" and args.baseline_dir is None:
@@ -765,8 +996,10 @@ def main(argv=None, collector=None, suite_runner=None):
     try:
         if args.mode == "capture":
             return capture(args, collector, suite_runner)
-        if args.mode != "baseline":
-            raise ValueError(f"unsupported mode until lifecycle task: {args.mode}")
+        if args.mode == "review-session":
+            return review_session(args, collector, suite_runner, owner_hook)
+        if args.mode == "finalize":
+            return finalize(args, synthetic=collector is not None)
         return baseline(args, collector=collector)
     except (OSError, ValueError, KeyError, TypeError, RuntimeError, subprocess.CalledProcessError) as exc:
         print(json.dumps(dict(verdict="unverified", errors=[str(exc)], exit=1)))
