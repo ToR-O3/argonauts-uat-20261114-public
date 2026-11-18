@@ -477,6 +477,72 @@ if os.environ.get("WORDFREQ_MIN_COUNT_CAPTURE_ROOT") and os.environ.get("WORDFRE
         assert v.capture_errors(m, root, baseline)
 
 
+def assert_runbook_contract(document):
+    """Check executable examples against the actual parser, not a mock CLI."""
+    import re
+    import shlex
+    v = driver()
+    commands = re.findall(r"^env .* tools/verify_wordfreq_min_count\.py (.+)$", document, re.M)
+    assert len(commands) == 4, "four public mode examples required"
+    modes = {}
+    for command in commands:
+        args = v.parser().parse_args(shlex.split(command))
+        assert args.mode not in modes
+        modes[args.mode] = args
+        assert str(args.output_dir).startswith(f".planning/argonauts/{v.REQUEST}/{args.role}/")
+        if args.mode != "baseline":
+            assert args.baseline_dir == Path(f".planning/argonauts/{v.REQUEST}/baseline")
+    assert set(modes) == {a for a in v.parser()._actions if a.dest == "mode" for a in a.choices}
+    assert modes["baseline"].role == modes["capture"].role == "builder"
+    review, final = modes["review-session"], modes["finalize"]
+    assert review.role == final.role == "quality"
+    assert final.output_dir == review.output_dir
+    assert final.review_ledger == review.output_dir / "reviews.json"
+    assert re.findall(r"^\| (AC\d+) \| REQ-(\d+) \|", document, re.M) == [
+        (ac, str(15+i)) for i, ac in enumerate(v.ACS)]
+    for required in ("fresh root", "baseline不変", "保存gate", "標準添付gate", "PM原本読取りgate",
+                     "argonauts-uat-quality", "Builder自己承認不可", "owner実終了", "全view/全derived",
+                     "headが変わったら", "CI未報告は成功でない", "independent_acceptance=true"):
+        assert required in document, required
+    for i in range(1, 15):
+        assert f"| UI{i:02d} |" in document
+    assert v.BASE in document
+    assert "openspec verify " not in document
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    example = "python -m wordfreq input.txt --min-count 2 --top 1 --format json"
+    assert example in readme and example in document
+
+
+def test_browser_free_runbook_matches_real_driver():
+    path = ROOT / "docs/wordfreq-min-count-verification.md"
+    assert path.is_file(), "quality runbook is missing"
+    assert_runbook_contract(path.read_text(encoding="utf-8"))
+
+
+@pytest.mark.parametrize("defect", ["mode", "flag", "ac7", "baseline", "delivery", "root", "owner", "empty"])
+def test_browser_free_runbook_rejects_mutations(defect):
+    document = (ROOT / "docs/wordfreq-min-count-verification.md").read_text(encoding="utf-8")
+    assert_runbook_contract(document)  # The same original must pass first.
+    if defect == "mode":
+        document = document.replace("--mode review-session", "--mode imaginary")
+    elif defect == "flag":
+        document = document.replace("--review-ledger", "--actor")
+    elif defect == "ac7":
+        document = document.replace("| AC7 | REQ-21 |", "| omitted | REQ-21 |")
+    elif defect == "baseline":
+        document = document.replace("baseline不変", "baseline可変")
+    elif defect == "delivery":
+        document = document.replace("PM原本読取りgate", "添付だけ")
+    elif defect == "root":
+        document = document.replace("final-01/reviews.json", "other-root/reviews.json")
+    elif defect == "owner":
+        document = document.replace("owner実終了", "finalize受付だけ")
+    else:
+        document = "# empty control\n"
+    with pytest.raises((AssertionError, SystemExit)):
+        assert_runbook_contract(document)
+
+
 # Ordinary suite does not collect saved-original tests without the opt-in root.
 # Explicit -k saved_baseline with no root therefore collects zero and exits 5.
 if os.environ.get("WORDFREQ_MIN_COUNT_BASELINE_ROOT"):
