@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: wordfreq CLI** - stdlib-only の wordfreq CLI 全体（実行・オプション・決定論出力・部品分離・試験・CI） (completed 2026-11-17)
 - [x] **Phase 3: wordfreq HTML output** (completed 2026-11-18)
-- [ ] **Phase 4: wordfreq min-count**
+- [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 
 ## Phase Details
 
@@ -103,7 +103,7 @@ Plans:
   4. AC6: 全pytestと対象headの独立CLI/ブラウザ1280×900・320×900 DPR1、画像の実閲覧と比較・原本の標準配送がAC別に追跡できる。
   5. AC7: CI/依存/見た目の変更なし、READMEは付随最小説明のみ、既存入力・安全性・出力契約を維持。
 **Approval:** t_a438e6b2 run140 approved。要求追加のみのmerge、衝突0。Phase1/3のstale検証は今回の実装範囲へ混ぜず表示する。公式phase.addの番号4を使用。
-**Plans:** 4/4 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 **Wave 1**
