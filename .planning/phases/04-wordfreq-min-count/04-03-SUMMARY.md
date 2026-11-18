@@ -3,82 +3,94 @@ phase: 04-wordfreq-min-count
 plan: "03"
 subsystem: testing
 tags: [evidence, fail-closed, chromium]
-status: blocked
+status: complete
 requires:
   - phase: 04-02
     provides: min-count product and immutable pre-change baseline
 provides:
   - capture and read-only validator
-  - live review owner and finalization with synthetic refusal controls
+  - live review owner and fail-closed finalization with synthetic refusal controls
+  - real Builder capture at clean declared head, pending independent review
 affects: [04-04, phase-verification]
 tech-stack:
   added: []
   patterns: [immutable-capture, owner-publication]
 key-files:
-  created: [.planning/argonauts/r-e476c11d/builder/04-03-capture/manifest.json]
+  created: [.planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/manifest.json]
   modified: [tools/verify_wordfreq_min_count.py, tests/test_min_count_verifier.py]
 key-decisions:
-  - Preserve failed one-shot capture; never overwrite or recapture without a decision.
-requirements-completed: []
-requirements-targeted: [REQ-15, REQ-16, REQ-18, REQ-19, REQ-20, REQ-21]
+  - Failed capture and baseline stay immutable; human explicitly authorized one retry at a fresh root.
+  - Only Chromium startup uses a short temporary path, removed on exit; no production or collector changes.
+requirements-completed: [REQ-15, REQ-16, REQ-18, REQ-19, REQ-20, REQ-21]
+duration: 11min resumed run149 (earlier interrupted runs recorded below)
+completed: 2026-11-18
 coverage:
   - id: driver
     description: Browser-free capture and synthetic live owner publication
     verification:
       - kind: integration
-        ref: tests/test_min_count_verifier.py -k browser_free (64 passed)
+        ref: tests/test_min_count_verifier.py -k browser_free (64 passed in run148; included in run149 full suite)
         status: pass
     human_judgment: false
   - id: real-capture
     description: Clean-head real browser evidence and baseline comparison
     verification:
       - kind: e2e
-        ref: .planning/argonauts/r-e476c11d/builder/04-03-capture/manifest.json
-        status: fail
+        ref: .planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149/manifest.json
+        status: pass
+      - kind: integration
+        ref: tests/test_min_count_verifier.py -k saved_capture (25 passed twice)
+        status: pass
     human_judgment: true
-    rationale: Chromium cannot start because SingletonSocket path exceeds Unix socket limit; retry forbidden by PLAN.
+    rationale: Mechanical capture passed; independent quality CLI, actual image viewing, source-order attestation and PM original reading remain pending.
 ---
 
-# Phase 4 Plan 03 — partial summary, NOT completion
+# Phase 4 Plan 03: comparison and evidence driver
 
-**Capture/owner code and refusal controls pass, but real one-shot browser capture failed. Do not advance this PLAN or dispatch 04-04.**
+**All four public modes and fail-closed controls exist; real Builder capture saved 62 CLI cases, 68 browser views and 110 images, remaining pending-review / independent_acceptance=false.**
 
 ## Task commits
 
-- 03-01: b88dfcc / 74347b8 RED; e8d6a0b GREEN and tracer feedback (previous run).
-- 03-02: 20eb9d0 RED (18 missing-owner failures); ee88db4 GREEN (implementation inherited from interrupted run, independently rerun here).
-- 03-03: attempted once at clean execution head `ee88db4c822936235676318ad8b29dc1ac88ab1d`; FAILED, partial evidence retained.
+- 03-01: b88dfcc / 74347b8 RED; e8d6a0b GREEN and tracer feedback (run147).
+- 03-02: 20eb9d0 RED (18 missing-owner failures); ee88db4 GREEN (inherited implementation independently rerun in run148).
+- 03-03: failed first capture at ee88db4 retained at original 04-03-capture root, attachments166–169. Human default explicitly permitted a short browser-only TMPDIR and exactly one new-root retry at 2026-11-18 10:16 JST.
+- 03-03 successful retry: 0b7ff61 artifact/OpenSpec2.1 commit. Declared capture head remains d6dcbef0295f2052324188a24f32d1698c3e1d60, NOT this later artifact head.
 
 ## Verification actually run
 
-- `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k browser_free -x`: 64 passed, exit0 (149.03s).
-- Full suite before commit: 683 passed, exit0 (169.03s), green-all.txt/xml.
-- Immutable saved_baseline: 16 passed, exit0 (10.92s).
-- Capture's own full suite at declared head: collected 683, exit0, suite.json/xml/stdout/stderr preserved.
-- Actual capture: 62 CLI cases generated, 0 browser views, exit1, verdict unverified, independent_acceptance=false.
-- Baseline index SHA remains `d317798933ee5cd20e10363e336ec164bc4272599e14cfd6c89ba84d8816f089` (unchanged).
-- Failed manifest SHA: `e79afecd9ae5d45aabe5a191632a71fe527115f4d4e15f04237743bf7381a4ca`.
+- Run148 browser_free: 64 passed exit0 (149.03s), including real CLI/baseline comparison and synthetic owner publication/refusal controls. Synthetic tests are not independent visual acceptance.
+- Run149 immutable saved_baseline: 16 passed exit0 (11.30s).
+- Run149 capture's actual full suite: collected 683, 683 passed exit0 (167.98s), suite.json/xml/stdout/stderr saved in capture root.
+- Authorized real capture: 62 CLI cases, 68 views at widths1280/320, 110 full/tile images, 24 baseline comparisons, errors=[], synthetic=false, exit0, pending-review / independent_acceptance=false.
+- saved_capture read-only: 25 passed exit0 twice (84.77s / 84.43s), no recapture, head rewriting or original updates. Second log at `.planning/argonauts/t_3221bf48/retry-run149/saved-capture.txt`.
+- Baseline index SHA remains d317798933ee5cd20e10363e336ec164bc4272599e14cfd6c89ba84d8816f089.
+- Failed manifest SHA remains e79afecd9ae5d45aabe5a191632a71fe527115f4d4e15f04237743bf7381a4ca.
+- Official evaluation-scope --plan 04-03 --commits-only: resolved, 7 plan commits on this branch before successful artifact commit.
 
-## Exact command and environment
+## Exact command / environment / timing
 
-Public command from PLAN first failed preflight before root creation: terminal does not receive HERMES_KANBAN_TASK/RUN_ID. Actual identity came from kanban_show (task t_3221bf48, current run148); no actor substitution. Bound the known real identifiers explicitly:
+Public modes: baseline, capture, review-session require --mode/--role/--output-dir (non-baseline also --baseline-dir); finalize additionally --review-ledger. Builder did not run as quality or finalize acceptance.
+
+The terminal omits task/run variables; actual identifiers t_3221bf48/run149 from kanban_show were bound explicitly. Actor remains argonauts-uat-builder.
 
 ```sh
-env HERMES_KANBAN_TASK=t_3221bf48 HERMES_KANBAN_RUN_ID=148 PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 tools/verify_wordfreq_min_count.py --mode capture --role builder --output-dir .planning/argonauts/r-e476c11d/builder/04-03-capture --baseline-dir .planning/argonauts/r-e476c11d/baseline
+env HERMES_KANBAN_TASK=t_3221bf48 HERMES_KANBAN_RUN_ID=149 PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 /home/Yuki/workspace/argonauts-uat-20261116/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/authorized_capture_retry.py --mode capture --role builder --output-dir .planning/argonauts/r-e476c11d/builder/04-03-capture-retry-run149 --baseline-dir .planning/argonauts/r-e476c11d/baseline
 ```
 
-Actual capture start/end: 2026-11-18T01:09:42.440546+00:00 / 2026-11-18T01:12:40.587175+00:00; 178.14663191399995 seconds. Actor argonauts-uat-builder, Python /usr/bin/python3 3.12.15, TMPDIR is this profile's managed scratch. Exact environment/argv/cwd/exit and inputs are in capture originals.
+Helper is preserved verbatim at `.planning/argonauts/t_3221bf48/retry-run149/authorized_capture_retry.py`. It loads the unchanged official driver, wraps only instrumented_browser to scope TMPDIR for Chromium startup, restores the original environment before collection, and deletes the short directory on exit. No synthetic collector/suite injection or validation override. Manifest launch argv/tmpdir records /tmp/aw-xkd7wjct; deletion checked by test ! -e. Python/suite/CLI keep profile managed scratch.
 
-## Issues Encountered / required decision
+Capture started 2026-11-18T01:18:42.253570+00:00; ended 01:22:39.594202+00:00; duration237.340641775s. /usr/bin/python3 3.12.15, Chromium156.0.8078.73, Linux6.18.58.1 WSL2. Exact CLI argv/input/bytes/environment, browser/raw/font/network/image hashes, provenance/scope and AC1–7 index live in immutable manifest and sidecars. Command stdout/stderr and 4.3MiB complete archive live beside the helper.
 
-Chromium fatal: `Socket path too long: .../cache/scratch/org.chromium.Chromium.m7bnHS/SingletonSocket`. No browser images/geometry/comparison proof exists. No saved_capture PASS claimed. No independent quality CLI, real image viewing, source-order attestation or PM original reading claimed. OpenSpec 2.1/2.2 remain unchecked. No CI/formatter/geometry/dependency change.
+## Deviations from Plan / issues encountered
 
-Need human decision for a permitted short managed temporary path and a new one-shot output root (or an explicitly amended PLAN). Existing failed root stays immutable; never delete/relabel it as a successful capture. STATE/ROADMAP not advanced. All requirements remain incomplete for this PLAN. No quality request because mandatory real integration gate is incomplete.
+Runs147/148 interrupted/blocked as recorded in task history. Initial Chromium SingletonSocket path overflow produced unverified evidence, never accepted. Explicit human permission allowed exactly one retry without PLAN revision. New root differs from PLAN's initial root; failed original was neither deleted nor relabelled. Partial SUMMARY previously made init.execute-phase list04-04 as incomplete; this run resumed only the explicitly authorized unfinished04-03 task, at STATE Current Plan3/4, and did not execute04-04. No production/driver/tests/collector changes in this retry. Shell functions do not persist across terminal calls; official launcher sourced again when needed.
 
-## Deviations from Plan
+OpenSpec2.1 checked with artifact commit; 2.2 stays unchecked: only its verification apparatus is prepared. No independent quality CLI, image actual viewing, source-order judgment, PM original reading, CI PASS or final visual acceptance claimed. Q-01/Q-02/A-01–04 remain non-requirements; no P6 parallel guarantee. Old phase1/3 stale verification is separate debt.
 
-Execution interrupted in run147; resumed dirty implementation without resetting head. Actual task/run identifiers required explicit binding from board evidence. Browser integration failed on infrastructure path length. No retry/recapture performed.
+## Next Phase Readiness
 
-## Self-Check: FAILED
+Ready for same-card quality review, then04-04 only after quality completes this card. Saved validation must bind the retry root explicitly, never default to the failed root. Independent quality/browser acceptance belongs downstream. Saved original declared head must not be replaced by later artifact/metadata head. STATE advances exactly once from3 to4; no phase.complete here.
 
-03-01/02 tests passed, 03-03 mandatory browser gate failed. Blocked awaiting decision; this SUMMARY records partial work only, not completion.
+## Self-Check: PASSED
+
+Driver and refusal controls covered by actual full suite; required real integration capture succeeded; saved originals passed read-only validation twice. Independent acceptance intentionally pending.
