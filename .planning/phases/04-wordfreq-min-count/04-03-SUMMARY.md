@@ -91,6 +91,23 @@ OpenSpec2.1 checked with artifact commit; 2.2 stays unchecked: only its verifica
 
 Ready for same-card quality review, then04-04 only after quality completes this card. Saved validation must bind the retry root explicitly, never default to the failed root. Independent quality/browser acceptance belongs downstream. Saved original declared head must not be replaced by later artifact/metadata head. STATE advances exactly once from3 to4; no phase.complete here.
 
+## Review rework — run151
+
+Quality found that `suite_errors` compared the recorded absolute JUnit path without relocation. Reproduced with a browser-free saved capture copied to a different repository root: correct argv failed with exactly `suite command/opt-in recursion mismatch`; wrong argv was rejected. The regression fixture is explicitly synthetic, not new capture or independent acceptance.
+
+Minimal fix: pass the manifest's original root into `suite_errors` and apply the same in-memory `relocate` mapping used for CLI/derived sidecars before retaining the exact argv comparison. No saved originals, product behavior, dependencies, CI or OpenSpec task status changed.
+
+Fresh verification:
+- RED: 1 failed / 1 passed, expected command mismatch (`rework-run151/red.txt`).
+- GREEN: 2 passed (`green.txt`); wrong JUnit filename still fails closed after path relocation and recomputed fixture hashes.
+- Full suite: 685 passed exit0, 157.98s (`full-suite.txt`).
+- Actual detached successor worktree at fix commit dcf9b0c: saved_capture selection 27 passed exit0, 85.42s (`relocated-saved-capture.txt`). This includes the existing 25 saved-capture cases plus the two new browser-free regression cases. The real retry-run149 evidence was read as-is; validation tests hash all files before/after. Successor worktree was clean after tests and removed.
+- Saved baseline: 16 passed exit0, 11.55s (`saved-baseline.txt`).
+
+Logs: `.planning/argonauts/t_3221bf48/rework-run151/`. No recapture. Original capture head and pending-review/false remain unchanged; independent quality CLI/image review and PM original reading remain unperformed. Official STATE already points at 04-04 (4/4); no repeated advance/update or phase.complete was performed for this repair.
+
+Non-blocking WR-04/WR-06/IN-01 remain recorded in quality attachment174; not expanded into this minimum root-relocation repair.
+
 ## Self-Check: PASSED
 
 Driver and refusal controls covered by actual full suite; required real integration capture succeeded; saved originals passed read-only validation twice. Independent acceptance intentionally pending.
