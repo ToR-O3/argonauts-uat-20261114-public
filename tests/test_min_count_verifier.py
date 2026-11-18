@@ -267,6 +267,43 @@ def test_browser_free_capture_entrypoint_replays_baseline_and_thresholds(browser
     assert before == {str(p): v.parts.digest(p) for p in root.rglob("*") if p.is_file()}
 
 
+@pytest.mark.parametrize("wrong_argv", [False, True])
+def test_browser_free_saved_capture_relocates_suite_argv(browser_free_saved, tmp_path, monkeypatch, wrong_argv):
+    import shutil
+    v, baseline = browser_free_saved
+    repo = v.ROOT
+    relative = Path(".planning/builder/capture")
+    root = repo / relative
+
+    def recorded_suite(output):
+        result = synthetic_suite(output)
+        # Exercise the real command predicate without running a recursive suite.
+        return dict(result, synthetic=False,
+                    argv=[sys.executable, "-m", "pytest", "--junitxml", str(output / "suite.xml")],
+                    environment={"WORDFREQ_MIN_COUNT_BASELINE_ROOT": None,
+                                 "WORDFREQ_MIN_COUNT_CAPTURE_ROOT": None})
+
+    assert v.main(["--mode", "capture", "--role", "builder", "--output-dir", str(root),
+                   "--baseline-dir", str(baseline)], collector=synthetic_collect,
+                  suite_runner=recorded_suite) == 0
+    successor = tmp_path / "successor"
+    shutil.copytree(repo, successor)
+    moved = successor / relative
+    monkeypatch.setattr(v, "ROOT", successor)
+    if wrong_argv:
+        suite = v.parts.load_json(moved / "suite.json")
+        suite["argv"][-1] = str(root / "wrong.xml")
+        v.parts.save_json(moved / "suite.json", suite)
+        manifest = v.parts.load_json(moved / "manifest.json")
+        manifest["artifacts"][str(root / "suite.json")] = v.parts.digest(moved / "suite.json")
+        v.seal_capture(manifest, moved)
+    before = {str(p): v.parts.digest(p) for p in moved.rglob("*") if p.is_file()}
+    errors = v.validate_capture(moved, baseline, allow_synthetic=True)
+    assert errors == (["suite command/opt-in recursion mismatch"] if wrong_argv else [])
+    assert before == {str(p): v.parts.digest(p) for p in moved.rglob("*") if p.is_file()}
+    assert v.validate_capture(root, baseline, allow_synthetic=True) == ["capture root binding differs"]
+
+
 @pytest.mark.parametrize("defect", ["case", "width", "total", "ac7", "head", "root", "actor", "scope", "suite-zero", "sha", "png", "raw", "baseline", "environment"])
 def test_browser_free_saved_capture_mutations(browser_free_capture, defect):
     import copy

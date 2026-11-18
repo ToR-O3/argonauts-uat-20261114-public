@@ -530,9 +530,9 @@ def run_capture_suite(output):
                  "WORDFREQ_MIN_COUNT_BASELINE_ROOT", "WORDFREQ_MIN_COUNT_CAPTURE_ROOT")})
 
 
-def suite_errors(root, synthetic=False):
+def suite_errors(root, synthetic=False, original=None):
     import xml.etree.ElementTree as ET
-    suite = parts.load_json(root / "suite.json")
+    suite = relocate(parts.load_json(root / "suite.json"), original or str(root), root)
     suites = list(ET.parse(root / "suite.xml").getroot().iter("testsuite"))
     count = sum(int(s.get("tests", 0)) for s in suites)
     errors = []
@@ -647,7 +647,7 @@ def capture_errors(m, output, baseline_dir, allow_synthetic=False, live=False):
                 derived = relocate(parts.load_json(Path(view["raw"]).parent / "derived.json"), original, output)
                 if derived != view or view["errors"]:
                     errors.append("view/derived/errors differ")
-        errors += suite_errors(output, allow_synthetic)
+        errors += suite_errors(output, allow_synthetic, original)
         actual = artifact_hashes(output, mutable=live)
         if actual != m["artifacts"]:
             errors.append("artifact set/hash differs")
