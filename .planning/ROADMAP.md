@@ -131,7 +131,7 @@ Plans:
   4. 品質がCLIの結果・検証対象headを文字の証拠文書とVERIFICATION.mdに記録・標準添付し、PMがread_fileで判断できる。
 **Approval:** t_dafbe600 run5 approved。6文書のmergeは要求追加のみ、衝突0。旧phaseのstale検証は今回の範囲外。公式phase.addが返した番号5を使用。
 **Depends on:** Phase 4
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 5 to break down)
+- [ ] 05-01-PLAN.md — 指定最終行1回の局所追記と固定基底CLI照合（Wave 1、単一tracer）
