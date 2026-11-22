@@ -130,7 +130,7 @@ Plans:
   3. 利用者向け全差分は当該1行のみ。コード・試験不変、工程文書を別分類し、品質が対象headのCLI結果を文字文書へ記録・添付する。
 **Approval:** t_327d2f8f run7 approved、source t_bdf6acb4 run6、OpenSpec r-8ac79daf-readme-verification-a。merge追加のみ・衝突0。公式phase.addの番号5を採用。旧phaseのstale検証を今回の範囲へ混ぜない。文言は通し検証の実施・合格の認定ではない。
 **Depends on:** Phase 4
-**Plans:** 1 plan
+**Plans:** 1/1 plans executed
 
 Plans:
-- [ ] 05-01-PLAN.md — 2 sequential tasks: README末尾追記tracerとC1-C4（OpenSpec1.1）→依頼全差分C5-C6・文字証拠/独立品質handoff（OpenSpec2.1）
+- [x] 05-01-PLAN.md — 2 sequential tasks: README末尾追記tracerとC1-C4（OpenSpec1.1）→依頼全差分C5-C6・文字証拠/独立品質handoff（OpenSpec2.1）

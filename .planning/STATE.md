@@ -4,17 +4,17 @@ milestone: v1.12
 current_phase: 5
 current_phase_name: README verification A
 current_plan: 1
-status: executing
-stopped_at: Phase 5 planned — 05-01 ready for dispatch
-last_updated: "2026-11-22T08:45:28.563Z"
+status: verifying
+stopped_at: Completed 05-01-PLAN.md; independent quality pending
+last_updated: "2026-11-22T08:59:06.101Z"
 last_activity: 2026-11-22
-last_activity_desc: Phase 5 planning complete; 1 plan, 2 tasks; checker passed
-state_head: 54106df87baa6cc017167eb311fd0fd4f81ea0fa
+last_activity_desc: Phase 5 execution started
+state_head: da4da9ac72c3f85e313b0b7b3decf3f0f35672eb
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 16
-  completed_plans: 15
+  completed_plans: 16
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -26,15 +26,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-17)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 5 README verification A — ready to execute 05-01
+**Current focus:** Phase 5 — README verification A
 
 ## Current Position
 
-Phase: 5 (README verification A) — READY TO EXECUTE
+Phase: 5 (README verification A) — EXECUTING
 Current Plan: 1
 Total Plans in Phase: 1
-Status: Ready to execute
-Last activity: 2026-11-22 — Phase 5 planning complete; 1 plan, 2 tasks; checker passed
+Status: Phase complete — ready for verification
+Last activity: 2026-11-22 — Phase 5 execution started
 
 Progress: [███░░░░░░░] 33%
 
@@ -114,6 +114,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-22T08:45:28.459Z
-Stopped at: Phase 5 planned — 05-01 ready for dispatch
+Last session: 2026-11-22T08:59:05.997Z
+Stopped at: Completed 05-01-PLAN.md; independent quality pending
 Resume file: None
