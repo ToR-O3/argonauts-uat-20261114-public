@@ -1,8 +1,8 @@
 ---
 phase: "05"
 slug: "readme-verification-a"
-status: draft
-nyquist_compliant: false
+status: validated
+nyquist_compliant: true
 wave_0_complete: true
 created: "2026-11-22"
 ---
@@ -65,4 +65,12 @@ Existing infrastructure covers all phase requirements. No code/test/fixture/scri
 - Official plan frontmatter and structure validation are planning-only; checker and implementation/quality execution remain pending. Static pipeline warning must not be treated as successful runtime evidence: the PLAN requires `set -o pipefail` in the real execution shell, one verification per invocation and failure-preserving exit handling. C1-C6 stay unchanged.
 - Research Open Questions / Planning Handoff is RESOLVED for baseline recheck, exact evidence names/quality-card standard attachments/runtime head recording, and retained LOW confidence. Resolution fixes the planning contracts only; execution SHAs/results/attachment completion are still unobserved and must not be fabricated. Edge/prohibition unresolved statuses are unchanged.
 
-Approval: pending separate checker; this strategy is not an implementation test result.
+Approval: Nyquist audit 2026-11-22, quality card t_df0c2ebc at cc46cf164aeff3ccbf19cbb7489b5be01f486901. State A audit via gsd-validate-phase 5: PLAN and SUMMARY read, one PLAN / two sequential tasks; no missing infrastructure or automated command dependency. C1-C4 six independent calls raw exit0; C5 forbidden-path guard raw exit0; C6 committed README equality raw exit0. Existing Git/GNU CLI is the authorized test infrastructure, no new tests/scripts permitted or needed. Automated coverage exists for REQ-22/23 and scope/head guards for REQ-24. Supplementary all-path content review and evidence delivery are procedural checks, not a replacement for these automated checks; still pending the official verifier and parent attachment readback at this audit point. This coverage verdict alone does not close the phase, certify end-to-end verification, or imply PM acceptance. Original planning-time pending entries above describe their original timing and are superseded by this audit for execution coverage only. Descriptorless prohibition remains flagged-unverified.
+
+## Validation Audit 2026-11-22
+
+| Metric | Count |
+|---|---|
+| Gaps found | 0 |
+| Resolved | 0 |
+| Escalated | 0 |
