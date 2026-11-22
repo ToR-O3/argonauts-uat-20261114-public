@@ -1,0 +1,123 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "tail -n 1 README.md | grep -Fx -- '検証A: v1.12 の通しの確かめ（2026-11-22）'",
+      "statement": "C1: 句点/前後文字/既存行への連結/後続空行・別文言なら最終行を選べずgrep exit1。入力や上流の失敗も非0で拒否。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）"
+    },
+    {
+      "command": "git show 54106df87baa6cc017167eb311fd0fd4f81ea0fa:README.md | cmp -n 4643 - README.md",
+      "statement": "C2: 既存本文の1 byte改変・削除・並替え・LF変換でcmp非0。prefix一致だけで余計な追記を許可せずC3も必須。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）"
+    },
+    {
+      "command": "printf '%s\\n' '検証A: v1.12 の通しの確かめ（2026-11-22）' | cmp -i 0:4643 - README.md",
+      "statement": "C3: 追記なし・重複・空行・余分な文字・末尾LF欠落/CRLF・後続byteでcmp exit1、読取エラーは2。両方拒否。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）"
+    },
+    {
+      "command": "git diff --no-ext-diff --no-textconv --no-color --unified=3 54106df87baa6cc017167eb311fd0fd4f81ea0fa -- README.md",
+      "statement": "C4 patch review: 末尾以外のhunk、削除・書換え・mode変更を1つでも読めば不合格。表示exit0は合格信号ではない。C2/C3の非0も同時に拒否。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）"
+    },
+    {
+      "command": "git diff --numstat 54106df87baa6cc017167eb311fd0fd4f81ea0fa -- README.md",
+      "statement": "C4 numstat review: README.mdの追加1/削除0以外、欠落、binary表示なら不合格。表示exit0から期待値一致を推測しない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）"
+    },
+    {
+      "command": "git diff --check 54106df87baa6cc017167eb311fd0fd4f81ea0fa -- README.md",
+      "statement": "C4 check: 追記の行末空白・不要なEOF空行等の診断があれば非0で拒否。完全一致はC1/C3で別検証する。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）"
+    },
+    {
+      "command": "git diff --name-status c6b701bfdc1af9c39f9b8421336e881e5cda6ee4 HEAD",
+      "statement": "C5 committed inventory review: 列挙した変更パスにREADME以外の製品変更、未知パス、未分類があれば不合格。exit0だけでは全件分類にならない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）"
+    },
+    {
+      "command": "git diff --no-ext-diff --no-textconv --no-color c6b701bfdc1af9c39f9b8421336e881e5cda6ee4 HEAD",
+      "statement": "C5 committed patch review: コード/試験/別の利用者変更や本文改変があれば不合格。工程フォルダ内の実行コードも拒否。省略されたpatchはunverified。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）"
+    },
+    {
+      "command": "git diff --no-ext-diff --no-textconv --no-color c6b701bfdc1af9c39f9b8421336e881e5cda6ee4 --",
+      "statement": "C5 current patch review: index/worktreeに未分類変更、指定行以外の製品差分があれば不合格。commit済みだけの比較で未確定変更を落とさない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）"
+    },
+    {
+      "command": "git status --porcelain=v1 --untracked-files=all",
+      "statement": "C5 status review: 列挙された全パスを分類表と突合できない、競合状態、未知の製品ファイルがある場合不合格。既存の工程dirty状態を無断削除しない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）"
+    },
+    {
+      "command": "git ls-files --others --exclude-standard",
+      "statement": "C5 untracked review: 未追跡をread_fileして新規コード/試験/fixture/検証スクリプトと判明したら不合格。未読・未分類が残ればunverified。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）"
+    },
+    {
+      "command": "git diff --exit-code c6b701bfdc1af9c39f9b8421336e881e5cda6ee4 -- wordfreq tests tools pyproject.toml .github",
+      "statement": "C5 guard: 既知コード・試験・tool・依存・CIに差分があればexit1、読取等エラーも非0で拒否。.githubは存在前提の検証ファイルではなく予防的監視範囲。未知パスは全件分類で補完。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）"
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "statement": "C6 identity review: 実SHAが宣言したH_impl/品質対象と違うのに対応を説明できない、または実SHAを記録していない場合不合格。可動HEAD名だけの記録はunverified。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）"
+    },
+    {
+      "command": "git show HEAD:README.md | cmp - README.md",
+      "statement": "C6 content: READMEの未commit変更や別head入力ならcmp非0。HEADにREADME追記がまだなければ不合格、成功扱いで先送りしない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 14
+  },
+  "readError": null
+}

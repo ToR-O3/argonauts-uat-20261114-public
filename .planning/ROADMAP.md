@@ -15,6 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: wordfreq CLI** - stdlib-only の wordfreq CLI 全体（実行・オプション・決定論出力・部品分離・試験・CI） (completed 2026-11-17)
 - [x] **Phase 3: wordfreq HTML output** (completed 2026-11-18)
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
+- [x] **Phase 5: README verification A** (completed 2026-11-22)
 
 ## Phase Details
 
@@ -117,3 +118,19 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 - [x] 04-04-PLAN.md — Wave 4 (depends 04-03, 2 tasks): 一度限りBuilder統合/read-only確認→品質runbook/原本配送。full E2Eは必須高遅延gate、最終head品質は別主体
+
+### Phase 5: README verification A
+
+**Goal:** 承認済み依頼r-8ac79dafの指定検証A行をREADME末尾に正確に1行追加し、既存内容・改行・コード・試験の不変を既存CLIと品質の読める証拠で確認できる。
+**Requirements**: REQ-22, REQ-23, REQ-24
+**UI hint:** no — 文書内容のみ。画面やHTML出力は変更しない。
+**Success Criteria:**
+  1. READMEの独立した最終行が `検証A: v1.12 の通しの確かめ（2026-11-22）` と完全一致し、かぎ括弧・句点・後続空行なし。
+  2. 追記以外のREADME既存内容・順序・改行形式を保持し、不要空行・削除・書換えなし。
+  3. 利用者向け全差分は当該1行のみ。コード・試験不変、工程文書を別分類し、品質が対象headのCLI結果を文字文書へ記録・添付する。
+**Approval:** t_327d2f8f run7 approved、source t_bdf6acb4 run6、OpenSpec r-8ac79daf-readme-verification-a。merge追加のみ・衝突0。公式phase.addの番号5を採用。旧phaseのstale検証を今回の範囲へ混ぜない。文言は通し検証の実施・合格の認定ではない。
+**Depends on:** Phase 4
+**Plans:** 1/1 plans complete
+
+Plans:
+- [x] 05-01-PLAN.md — 2 sequential tasks: README末尾追記tracerとC1-C4（OpenSpec1.1）→依頼全差分C5-C6・文字証拠/独立品質handoff（OpenSpec2.1）

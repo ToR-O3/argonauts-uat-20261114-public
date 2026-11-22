@@ -22,6 +22,8 @@
 
 <!-- Shipped and confirmed valuable. -->
 
+- ✓ REQ-22..REQ-24 (README指定最終行・既存byte保持・製品scope限定、r-8ac79daf) — Phase 5。独立CLIと有効なNyquist/security、透明性に関する人のUAT回答passに基づく。指定文言の掲載は通し検証の実施・合格認定ではない。PM受入は別工程。
+
 - ✓ REQ-15..REQ-21 (`--min-count`, r-e476c11d) — Phase 4 (verified at afaa56f; UAT passed 2026-11-18; REQ-17 limited to existing single-shot CLI guarantees by human decision)
 
 ### Active
@@ -74,4 +76,4 @@
 | D-E: JSON は `[{"word": w, "count": c}]`、`ensure_ascii=True` + 改行 1 つ、0 件は `[]` | spec 固定のキー名と機械可読性 | — Pending |
 
 ---
-*Last updated: 2026-11-18 after Phase 4*
+*Last updated: 2026-11-22 after Phase 5*

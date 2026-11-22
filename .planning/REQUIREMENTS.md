@@ -71,6 +71,20 @@ Source: 仕様承認 t_a438e6b2 run140 approved、要求・仕様 t_e6e172d4 run
 | REQ-20 | Phase 4 | Pending |
 | REQ-21 | Phase 4 | Pending |
 
+## r-8ac79daf Requirements (Phase 5)
+
+Source: 仕様承認t_327d2f8f run7、要求・仕様t_bdf6acb4 run6、OpenSpec `r-8ac79daf-readme-verification-a` proposal/spec/tasksと承認BMAD PRD。既存要求は変更しない。
+
+- [x] **REQ-22**: README.mdの独立した最終行に `検証A: v1.12 の通しの確かめ（2026-11-22）` を完全一致で追加する。かぎ括弧・追加句点・余分な前後文字・後続空行や別文言なし。
+- [x] **REQ-23**: 既存README内容・順序・改行形式を保持し、差分は指定行の末尾追記のみ。削除・書換え・不要空行追加なし。
+- [x] **REQ-24**: 利用者向け変更はREADMEの当該1行のみ。コードと試験ファイルを変更せず、工程の仕様・計画・検証文書を全差分から別分類し、既存CLIの結果を検証記録に残す。指定文字列の掲載を通し検証の実施・合格認定と混同しない。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-22 | Phase 5 | Pending |
+| REQ-23 | Phase 5 | Pending |
+| REQ-24 | Phase 5 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.
