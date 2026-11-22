@@ -1,0 +1,83 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "git rev-parse HEAD",
+      "statement": "exit非0、完全SHAが取れない、または記録した対象headと異なる。期待は実在する完全SHA1件とstderr空。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）"
+    },
+    {
+      "command": "git branch --show-current",
+      "statement": "exit非0、出力空、または着手時に記録した依頼branch名と異なる。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）"
+    },
+    {
+      "command": "tail -n 1 README.md",
+      "statement": "exit非0、stderr非空、またはstdoutの最終行が検証B: v1.12 の通しの確かめ（2026-11-22）と完全一致しない。余分な空白・引用符・後続空行も失敗。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）"
+    },
+    {
+      "command": "grep -Fxc '検証B: v1.12 の通しの確かめ（2026-11-22）' README.md",
+      "statement": "exit非0、stderr非空、またはstdoutが1以外。完全一致行の重複・欠落・表記揺れは失敗。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）"
+    },
+    {
+      "command": "grep -Fo '検証B: v1.12 の通しの確かめ（2026-11-22）' README.md",
+      "statement": "exit非0、stderr非空、またはstdoutが指定文字列1件だけでない。同一行の複数出現や他行中の埋込み出現も失敗。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）"
+    },
+    {
+      "command": "git diff --numstat 127143c20b95518585663f176ed767aa4cbfc158 -- README.md",
+      "statement": "exit非0、stderr非空、またはstdoutが追加1・削除0・README.mdの1レコード（タブ区切り）でない。空差分も失敗。exit0だけでは合格しない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）"
+    },
+    {
+      "command": "git diff --no-ext-diff --no-textconv --unified=0 127143c20b95518585663f176ed767aa4cbfc158 -- README.md",
+      "statement": "exit非0、stderr非空、またはpatch本文が既存末尾直後の指定行1行追加だけでない。削除/置換/移動/余分な空行/改行変換/既存内容変更は失敗。diffヘッダを本文の追加数に数えない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）"
+    },
+    {
+      "command": "git diff --name-status 127143c20b95518585663f176ed767aa4cbfc158",
+      "statement": "exit非0、stderr非空、README.mdのMがない、または全パスを個別分類した結果にREADME.md以外の製品変更がある。工程記録を除外した一覧だけを証拠にしない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）"
+    },
+    {
+      "command": "git status --short --untracked-files=all",
+      "statement": "exit非0、stderr非空、未追跡を含む未分類パス、競合、意図しない製品変更がある。README編集前からの工程変更は実パスと由来を明記し、無断で戻さない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 9
+  },
+  "readError": null
+}

@@ -71,6 +71,16 @@ Source: 仕様承認 t_a438e6b2 run140 approved、要求・仕様 t_e6e172d4 run
 | REQ-20 | Phase 4 | Pending |
 | REQ-21 | Phase 4 | Pending |
 
+## r-215b4390 Requirements (Phase 5)
+
+Source: 仕様承認t_dafbe600 run5、要求・仕様t_e0507c11 run4、OpenSpec `r-215b4390-readme-validation-b` とBMADの承認済み6文書。intelのREQ-readme-validation-bを公式書式REQ-22へ対応付ける。既存要求は変更しない。
+
+- [x] **REQ-22**: README.md末尾に `検証B: v1.12 の通しの確かめ（2026-11-22）` が引用符なしの独立した最終行として1回だけ存在する。既存内容を保持し、製品差分は指定行1行追加のみ。コード・試験・他の製品ファイルを変更しない。CLIで最終行完全一致・出現1回・既存内容保持・製品変更限定を確認する。新しい製品の振る舞いや試験ファイルは追加せず、工程記録は別扱い。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-22 | Phase 5 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

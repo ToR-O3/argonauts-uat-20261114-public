@@ -15,6 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: wordfreq CLI** - stdlib-only の wordfreq CLI 全体（実行・オプション・決定論出力・部品分離・試験・CI） (completed 2026-11-17)
 - [x] **Phase 3: wordfreq HTML output** (completed 2026-11-18)
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
+- [x] **Phase 5: README validation B** (completed 2026-11-22)
 
 ## Phase Details
 
@@ -117,3 +118,20 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 - [x] 04-04-PLAN.md — Wave 4 (depends 04-03, 2 tasks): 一度限りBuilder統合/read-only確認→品質runbook/原本配送。full E2Eは必須高遅延gate、最終head品質は別主体
+
+### Phase 5: README validation B
+
+**Goal:** 承認済み依頼r-215b4390に従いREADME.mdの既存内容を保持し、指定行を独立した最終行として1回だけ追加する。製品差分は指定1行のみでコード・試験は変更しない。
+**Requirements**: REQ-22
+**UI hint:** no — 文書の1行追記のみ。画面やHTML出力を変更しない。
+**Success Criteria:**
+  1. 最終行が「検証B: v1.12 の通しの確かめ（2026-11-22）」と完全一致し、出現1回。
+  2. 変更前READMEの全内容を保持し、差分は指定行1行追加・削除0行のみ。
+  3. 工程記録を除く製品変更はREADME.mdのみ。コード・試験・検証機能や試験ファイルの新設なし。
+  4. 品質がCLIの結果・検証対象headを文字の証拠文書とVERIFICATION.mdに記録・標準添付し、PMがread_fileで判断できる。
+**Approval:** t_dafbe600 run5 approved。6文書のmergeは要求追加のみ、衝突0。旧phaseのstale検証は今回の範囲外。公式phase.addが返した番号5を使用。
+**Depends on:** Phase 4
+**Plans:** 1/1 plans complete
+
+Plans:
+- [x] 05-01-PLAN.md — 指定最終行1回の局所追記と固定基底CLI照合（Wave 1、単一tracer）
