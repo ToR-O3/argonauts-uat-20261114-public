@@ -1,8 +1,8 @@
 ---
 phase: "05"
 slug: "readme-validation-b"
-status: draft
-nyquist_compliant: false
+status: validated
+nyquist_compliant: true
 wave_0_complete: true
 created: "2026-11-22"
 ---
@@ -29,7 +29,7 @@ created: "2026-11-22"
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 05-01-01 | 01 | 1 | REQ-22 | T-05-01 | 意図した指定行以外の製品変更なし | CLI + manual | `grep -Fxc '検証B: v1.12 の通しの確かめ（2026-11-22）' README.md` | README.md existing | pending |
+| 05-01-01 | 01 | 1 | REQ-22 | T-05-01 | 意図した指定行以外の製品変更なし | CLI + manual | `grep -Fxc '検証B: v1.12 の通しの確かめ（2026-11-22）' README.md` | README.md existing | ✅ green (品質t_dde16c2b、head f3bac6032db66fa6508a5225a8f447d8b4e08b03でstdout `1`・exit 0・stderr空) |
 
 ## Wave 0 Requirements
 
@@ -46,11 +46,19 @@ created: "2026-11-22"
 
 ## Validation Sign-Off
 
-- [ ] 全taskに既存CLIのautomated verifyと出力判定がある
-- [ ] Sampling continuityを品質で確認
+- [x] 全taskに既存CLIのautomated verifyと出力判定がある（05-01-01の1件。品質が実行し出力1を照合）
+- [x] Sampling continuityを品質で確認（単一PLAN・単一task。Builderのtask/wave結果と品質のphase gateの再実行が同じ判定）
 - [x] Wave 0 MISSING referencesなし。新規試験は承認範囲外
 - [x] watch-modeなし
-- [ ] 実測feedback latency確認
-- [ ] nyquist_compliant: trueへの更新は実行と品質監査の結果に基づく
+- [x] 実測feedback latency確認（quick command実測 real 0m0.002s。品質t_dde16c2b）
+- [x] nyquist_compliant: trueへの更新は実行と品質監査の結果に基づく（下のValidation Audit）
 
-**Approval:** pending — 実装前の戦略であり達成済みと主張しない。
+**Approval:** validated — 品質t_dde16c2bのphase検証（gsd-validate-phase 5、State A）。証拠は `.planning/argonauts/r-215b4390/quality-cli-evidence.md`。Manual-Only の4項目は品質が同証拠で読取り照合した。新規試験・validatorは作っていない。
+
+## Validation Audit 2026-11-22
+
+| Metric | Count |
+|---|---|
+| Gaps found | 0 |
+| Resolved | 0 |
+| Escalated | 0 |
