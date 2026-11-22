@@ -301,3 +301,52 @@ set -o pipefail && git diff --exit-code c6b701bfdc1af9c39f9b8421336e881e5cda6ee4
 ```
 
 このverifierがrepo内で作成/変更したのは05-VERIFICATION.mdと本05-QUALITY-CLI.mdのみ。既存VALIDATION/SECURITY/REVIEW/OpenSpec監査を改変しない。製品/試験/helper変更、commit/push/Kanban/phase.completeなし。親の添付前提と透明性制約の判断待ちを保持して返す。
+
+## Run13 — 人の回答によるUAT再開（初回記録は上に保持）
+
+今回cwdは同じカードworktree、local wt/t_df0c2ebc。正式配送先argonauts/r-8ac79daf。今回start_shaはfetch直後のremote SHA `67032b803114812b87737e48cb3d070f219013ee`（B）。初回品質対象A=`cc46cf164aeff3ccbf19cbb7489b5be01f486901`、H_impl=`5863f7a0ff635dd3bb697c597bf6cf0f6d5a601e`は過去の対象として区別する。報告headは再構成後にmetadataへ記録する。
+
+環境: /usr/bin/bash、LANG=en_US.UTF-8、LC_ALL空、全LC_* en_US.UTF-8。GH_CONFIG_DIR単独有無検査exit0、値/秘密は表示しない。terminalのこのrunの出力は統合stdout/stderrで、分離したと偽らない。以下の成功したCLIに診断表示なし、tool error:null。原本を残した初回C1-C6/fd分離実行や702 passedを今回の再実行としない。
+
+### 再利用条件の実測（GSDが報告を変える前）
+
+- `git fetch origin` exit0。`git rev-parse refs/remotes/origin/argonauts/r-8ac79daf` / `git rev-parse HEAD` は共にB。`gh pr view argonauts/r-8ac79daf --json number,headRefOid,state,isCrossRepository` はnumber11、head=B、OPEN、false。originは `https://github.com/ToR-O3/argonauts-uat-20261114-public.git`。`command -v gsd_run` exit1はPATHにshimが無いだけで、その後公式絶対パスCLIへ切替。
+- 下記Gは `/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/gsd-core/bin/gsd-tools.cjs`。実行argvは `node "$GSD_TOOLS"`、GSD_TOOLSにこの絶対パスを設定するshell関数。別tool呼出しに関数が残らず `gsd_run: command not found` が2回出た呼出しは検証結果として不採用。関数を各呼出しで定義し直した実行を採用し、全体末尾のexit0で当該失敗を隠さない。
+- `node G query init.verify-work 5` exit0: phase_number05、phase_dir本カードの05-readme-verification-a、implementation_complete:true、verification_status:human_needed、stale_indeterminate:false、ready_to_transition:false。uat_path欄は出力に無いが、公式手順がphase_dir内で解決する既存05-UAT.mdを使用し、後の公式predicateもこの1ファイルを認識した。`node G query init.execute-phase 5` exit0: PLAN/SUMMARY各1、incomplete0、REQ-22/23/24。再実装しない。
+- `git show -s --format='%P%n%(trailers:key=Argonauts-Quality-Start,valueonly)' 67032b803114812b87737e48cb3d070f219013ee` は唯一の親と唯一のtrailerがどちらもA。`git merge-base --is-ancestor B HEAD` と `git merge-base --is-ancestor B refs/remotes/origin/argonauts/r-8ac79daf` は各0。
+- `git diff --name-status --no-renames B HEAD`、`git diff --cached --name-status --no-renames`、`git diff --name-status --no-renames`、`git ls-files --others --exclude-standard` は全て空。`git status --ignored --short` は `!! .pytest_cache/` のみ。`git ls-files --others --ignored --exclude-standard` はcacheの.gitignore/CACHEDIR.TAG/README.md/v/cache/nodeidsの4出力ファイルだけ。これは初回pytestの結果cacheで入力コード/fixtureではない。除外された新規検証入力なし。
+- `git show B:.planning/phases/05-readme-verification-a/05-VALIDATION.md | cmp - .planning/phases/05-readme-verification-a/05-VALIDATION.md` とSECURITYの同コマンドは各cmp0。sha256sumはVALIDATION `9937902475f3b8e0e63534be30742f0720fe6b547b2e5d4bfb2ccb333bafed36`、SECURITY `0c41266d7de166c165f188b277bb899b3ab18c0a889f1b598b1922e8b22f6aaf`、添付14/15と一致。原本全文をread_fileしvalidated/nyquist true、verified/threats_open0を確認。監査再利用可。
+- `node G query verification.status .planning/phases/05-readme-verification-a` exit0: human_needed/route verify-work、stale警告なし。README/PLAN/SUMMARYのfingerprint入力は不変。`git show B:README.md | cmp - README.md`、固定B_doc prefix cmp、指定suffix全体cmpは各0。README全patchを再読し末尾指定1行のみ、numstat1/0。`git rev-list --count cd4407c7cd0c88aa5d75bd682ac47c79d2a3dcad..0f385d2e7247f9be7b3d931992166a09b619c7d0` は2、後者の祖先判定0。SUMMARY actualsのbounded commit数と一致。
+- base workflow差分なし、`git merge --no-edit origin/v112-a` はAlready up to date/exit0。起点は変わらない。設定の一時変更なし、復元対象なし。
+
+### 人の回答と公式判定
+
+kanban_showのrun12初回質問・blockの後、defaultが1795340632に `1: pass` と添付12/13の読了・非認定区別・flagged-unverifiedの確認を回答。質問1へ対応づけ原文/来歴を05-UATへ反映し、1 pass/0 issue/0 pending/0 blocked/0 skippedとした。Botの回答で代行しない。
+
+各公式CLIは `node G <以下の完全引数>` として実行、raw exitはいずれも0。
+
+| 引数 | 実際のstdoutの主要値 |
+|---|---|
+| `loop render-hooks verify:pre --raw` | api-integration gate api-coverage.verify-pre/blocking:true/onError:halt |
+| `check api-coverage-verify-pre .planning/phases/05-readme-verification-a --raw` | block:false、passed:true、coverage_present:false、detected:false、外部APIなし |
+| `loop render-hooks verify:post --after-fingerprint .planning/phases/05-readme-verification-a --raw` | active ui-review advisory、skipped nyquist/validate-phase と security/secure-phase、どちらもproduces-present |
+| `query uat.complete-session .planning/phases/05-readme-verification-a/05-UAT.md --message 'test(05): complete UAT - 1 passed, 0 issues'` | changed:true、status:complete、committed:true |
+| `phase uat-passed 5 --uat-only` | passed:true、test1 result:pass、blockers:[]、verification_stale_check_indeterminate:false |
+| `query frontmatter.set .planning/phases/05-readme-verification-a/05-VERIFICATION.md --field status --value passed` | updated:true、field:status、value:passed |
+| `phase uat-passed 5 --require-verification` | passed:true、UAT05-UATとVERIFICATION05-VERIFICATIONを認識、blockers:[]、stale_indeterminate:false |
+| `query verification.status .planning/phases/05-readme-verification-a` | status:passed、route/next_command空、Verification passed — continue. |
+| `query phase.complete 5` | completed_phase:5、plans_executed:1/1、next_phase:null、is_last_phase:true、date:2026-11-22、roadmap_updated:true、state_updated:true |
+| `query init.transition` | other_active_workstreams:[]、workstream-collision-check excluded |
+| `query progress.bar --raw` | `[░░░░░░░░░░░░░░░░░░░░] 16/16 plans`。古いphaseのcanonical staleと表示の乖離を今回修復しない |
+
+phase.completeはrequirements_updated:false/has_warnings:true。bodyのREQ-09..REQ-24計16IDがTraceability表に見つからない、今回22/23/24のrow write skippedという警告を返した。内容coverageはVERIFICATIONの要件表を根拠にし、警告を合格実績に変換せず記録する。STATEのcompleted_phases1/25%も古いphaseのcanonical検証状態に基づく公式出力で、今回のPhase5完了checkbox・1/1と分ける。旧phaseへscopeを広げない。
+
+### 後処理と全追加差分の内容分類
+
+公式UI監査子sa-0-61638cb8は05-UI-REVIEW.mdを作成。原本72行を親が全文read_fileし、UI hint:noでhasFrontendEvidence:false、block:false、6本柱N/A、画像閲覧0、ブラウザ起動なしを確認。非適用を満点やbrowser合格にしない。標準verify:post advisoryの適用性を確認したもので、過去HTMLの再認定ではない。LEARNINGS検索は0件、graduationはitem不足でskip、勝手な昇格なし。次phase/complete-milestoneへ自動継続しない。設定を変更しない。
+
+追加の全tracked/未追跡パスを内容から分類：PROJECTは今回3要件のValidatedと最終更新日、ROADMAPはPhase5 checkboxと1/1、STATE/state.jsonは公式完了位置・日時・状態、VERIFICATIONは公式statusと人回答/再利用根拠の追補、UATは質問1への人の原文と完了数、QUALITY-CLIはこの追補、UI-REVIEWは非適用の文字監査。全て工程文字文書で製品実行コード・試験・helperではない。PLAN/SUMMARY削除なし。B以前の66パス表と初回8文書を保持し、今回の増分だけをこの節で追加分類する。
+
+後処理前の `git diff --exit-code B -- .planning/config.json README.md wordfreq tests tools pyproject.toml .github` は0・空。`git diff --check` 0。PROJECT/ROADMAP/STATE/UATのB以降全patchをterminalで読み、上記分類に一致。09:49:36ZのHEADは公式uat.complete-sessionが作成した `cd7ad3d2873057137df82ff31c74c28485c1b9c4`。この一時commitは品質報告commitとして公開せず、F.5手順7で今回start_sha=Bへsoft resetし、.planningのみの単一親報告へ再構成する。実commit SHAは確定後のmetadataへ記録する。
+
+今回も画像閲覧0枚。README文字/byte/Git差分だけの製品変更で画面/HTML変更なし。指定文字列の掲載は通し検証の実施・合格認定ではない。descriptorless prohibitionはflagged-unverified、edge3件unclassified/unresolvedを保持。PM受入は後続工程。更新原本の標準添付・保存先readback・hash照合を完了してからカードを完了する。

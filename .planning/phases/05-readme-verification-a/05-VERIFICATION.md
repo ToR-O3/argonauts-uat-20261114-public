@@ -1,7 +1,7 @@
 ---
 phase: 05-readme-verification-a
 verified: 2026-11-22T09:33:07Z
-status: human_needed
+status: passed
 score: 4/5 must-haves verified
 covered_files:
   - .planning/phases/05-readme-verification-a/05-01-PLAN.md
@@ -26,6 +26,18 @@ human_verification:
 ---
 
 # Phase 5: README verification A Verification Report
+
+## UAT再開後の現在判定（以下の初回観測より優先）
+
+**現在status: passed**。2026-11-22、defaultの人回答（created_at 1795340632）「1: pass」を初回質問/run12のblockに対応づけ、05-UAT.mdへ原文・来歴を記録。公式verify-workのuat.complete-sessionはcomplete、phase uat-passed 5 --uat-onlyはpassed:true/blockers:[]/stale indeterminate:false。公式frontmatter.setでhuman_neededをpassedへ正規化した後、--require-verificationもpassed:true/blockers:[]。phase.complete 5は1/1、next_phase:null、is_last_phase:true、ROADMAP/STATE更新true。これは文言掲載契約の完了であり、通しの検証や過去のbrowser/E2Eの合格認定ではない。
+
+監査再利用前にB=67032b803114812b87737e48cb3d070f219013eeの唯一の親・trailerがA=cc46cf164aeff3ccbf19cbb7489b5be01f486901と一致、Bが今回start_shaおよびHEADに含まれることを確認。今回start_sha=B（初回Aを転記しない）。BとHEAD/index/worktree/untrackedはUAT反映前に差分なし。除外ファイルはpytest cache出力のみ。VALIDATION/SECURITYをBのblobと個別cmpし両方0、添付14/15のhashとも一致。公式verification.statusはhuman_neededでstale警告なし。よって同phaseの有効なNyquist validated/nyquist_compliant:trueとSECURITY verified/threats_open:0を引き継ぐ。製品・試験・入力の変更なし、再監査・回帰再実行は不要。初回回帰702件は初回の実測として保持し、今回再実行と呼ばない。
+
+初回原本の配送は添付12/13（VERIFICATION/CLI）、監査14/15、UAT16、OpenSpec17で完了し、人は12/13を読了した。以下の配送pending/4-of-5/human_neededは公式verifier作成当時の観測であり現在判定ではない。今回更新したVERIFICATION/CLI/UATは改めて標準添付・hash照合・全文読戻しをしてからカードを完了する。配送のTruth4はその完了をもって満たす。PM受入は別カードの未実施gate。
+
+**重要:** prohibitions[].status:unverified、flagged:trueとprobe3件unclassified/unresolvedは変更しない。人は報告上の区別を確認したのであり、未存在のwired enforcementを検証済みにしていない。UI監査子sa-0-61638cb8はfrontend実体なし/6本柱N/A、05-UI-REVIEW.mdに根拠を保存。画像閲覧0枚、画面/HTML変更なし、ブラウザ起動なし。全差分の追加は工程文字文書とGSD状態だけ。製品・試験・helperの追加変更なし。
+
+phase.completeのREQUIREMENTS traceability警告は原本表形式の未一致であり、REQ-22/23/24の内容判定は本書の表を根拠にする。旧phaseを修復せず、報告に警告を保持する。最終報告commitは今回start_shaの単一親とArgonauts-Quality-Start trailer、.planning/のみの差分で再構成する。自己SHAは本書に捏造せずKanban metadataへ記録する。
 
 **Phase Goal:** 承認済み依頼r-8ac79dafの指定検証A行をREADME末尾に正確に1行追加し、既存内容・改行・コード・試験の不変を既存CLIと品質の読める証拠で確認できる。
 **Verified:** 2026-11-22T09:33:07Z（本検証runのUTC観測時刻）

@@ -2,19 +2,19 @@
 gsd_state_version: "1.0"
 milestone: v1.12
 current_phase: 5
-current_phase_name: README verification A
-current_plan: 1
-status: verifying
-stopped_at: Completed 05-01-PLAN.md; independent quality pending
-last_updated: "2026-11-22T08:59:06.101Z"
+current_plan: Not started
+status: completed
+stopped_at: Phase 5 complete — all phases complete
+last_updated: "2026-11-22T09:48:44.024Z"
 last_activity: 2026-11-22
-last_activity_desc: Phase 5 execution started
-state_head: da4da9ac72c3f85e313b0b7b3decf3f0f35672eb
+last_activity_desc: Phase 5 complete
+state_head: cd7ad3d2873057137df82ff31c74c28485c1b9c4
 progress:
   total_phases: 4
   completed_phases: 1
   total_plans: 16
   completed_plans: 16
+  percent: 25
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -23,25 +23,25 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-11-17)
+See: .planning/PROJECT.md (updated 2026-11-22)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 5 — README verification A
+**Current focus:** Phase 5完了 — PMのフェーズ判断・受入待ち（次phaseなし）
 
 ## Current Position
 
-Phase: 5 (README verification A) — EXECUTING
-Current Plan: 1
+Phase: 5
+Current Plan: Not started
 Total Plans in Phase: 1
-Status: Phase complete — ready for verification
-Last activity: 2026-11-22 — Phase 5 execution started
+Status: All phases complete
+Last activity: 2026-11-22 — Phase 5 complete
 
-Progress: [███░░░░░░░] 33%
+Progress: [███░░░░░░░] 25%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 15
+- Total plans completed: 16
 - Average duration: — min
 - Total execution time: 0.0 hours
 
@@ -52,6 +52,7 @@ Progress: [███░░░░░░░] 33%
 | 1 | 5 | - | - |
 | 3 | 6 | - | - |
 | 4 | 4 | - | - |
+| 5 | 1 | - | - |
 
 **Recent Trend:**
 - Last 5 plans: —
@@ -81,6 +82,8 @@ Progress: [███░░░░░░░] 33%
 
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
+
+- [r-8ac79daf/Phase5]: UAT質問1に人がpass回答。掲載契約の合格と通し検証認定を区別し、descriptorless prohibitionはflagged-unverifiedを保持。品質原本配送後、PMが別工程で受入判断する。
 
 - [r-5a3b8a3f]: 承認済み OpenSpec 変更 r-5a3b8a3f-wordfreq が唯一の情報源。text 列書式 `<count>\t<word>`（design D-A）、exit code 0/1/2 分岐は `__main__.py` のみ（D-C）、JSON は `ensure_ascii=True` + 改行 1 つ・0 件は `[]`（D-E）
 - [r-5a3b8a3f]: 部品は tokenizer/aggregator/sources/formatters + `__main__` の 4+1 分割、依存方向一方向（D-A）。実装順は内側から外側（tasks.md 1.1→3.3）
@@ -114,6 +117,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-22T08:59:05.997Z
-Stopped at: Completed 05-01-PLAN.md; independent quality pending
+Last session: 2026-11-22T09:48:44.024Z
+Stopped at: Phase 5 complete — all phases complete
 Resume file: None
