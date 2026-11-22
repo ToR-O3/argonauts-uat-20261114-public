@@ -83,6 +83,12 @@ Builder implementation ready for same-card quality review. Phase verification t_
 
 After this committed SUMMARY: official state.advance-plan, state.update-progress, roadmap.update-plan-progress5; verify last_plan and saved phase5/plan1/total1 awaiting verification. No phase.complete.
 
+## Actual sequential close-out
+
+SUMMARY commit: cd30784deebb6a83f3dd23abbd204eb6bb63e4d8. Official state.advance-plan returned advanced:false/reason:last_plan/current_plan1/total_plans1/status:ready_for_verification. Saved STATE and query state-snapshot agree Phase5/Plan1/Total1/status verifying. Frontmatter current_plan is now1 (old stale value resolved by advance).
+
+state.update-progress exited0 but returned updated:false/reason `phase scope is unscoped, not complete`; did NOT recalculate the historical33% bar. No invented progress. roadmap.update-plan-progress5 returned updated:true/plan_count1/summary_count1/status In Progress/complete:false, as expected before independent phase verification. requirements.ready-ids returned REQ-22 ready; mark-complete checked REQ-22 but reported table_unmatched/write_set_complete:false (the pre-existing Phase5 table is outside the canonical Traceability section). Its Pending row is retained and disclosed, not silently promoted. The checkbox indexes implementation only. Session continuity recorded awaiting Phase5 verification. All commands exit0; warning retained here. No phase.complete or next plan run.
+
 ## Self-Check: PASSED (Builder scope only)
 
 README/evidence originals exist. All PLAN task and wave CLI outputs manually checked against expected values, product patch exactly one addition, no other product paths. Independent review/phase verification/PM acceptance remain pending.
