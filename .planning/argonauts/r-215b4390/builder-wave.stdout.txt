@@ -1,0 +1,60 @@
+47ada06922e943feb5efadca976957693c35750e
+rev exit=0
+wt/t_2aa2fd81
+branch exit=0
+検証B: v1.12 の通しの確かめ（2026-11-22）
+tail exit=0
+1
+grep-Fxc exit=0
+検証B: v1.12 の通しの確かめ（2026-11-22）
+grep-Fo exit=0
+1	0	README.md
+numstat exit=0
+diff --git a/README.md b/README.md
+index 486b319..12277f7 100644
+--- a/README.md
++++ b/README.md
+@@ -34,0 +35 @@ HTML はロケールや `PYTHONIOENCODING` に依存せず UTF-8 バイト列を
++検証B: v1.12 の通しの確かめ（2026-11-22）
+patch exit=0
+M	.planning/INGEST-CONFLICTS.md
+M	.planning/REQUIREMENTS.md
+M	.planning/ROADMAP.md
+M	.planning/STATE.md
+A	.planning/argonauts/r-215b4390-learnings.md
+A	.planning/argonauts/r-215b4390-manifest.yaml
+A	.planning/argonauts/r-215b4390-prd.md
+A	.planning/argonauts/t_73c0286f/PLANNING-CHECK.md
+A	.planning/argonauts/t_73c0286f/decision-coverage.json
+A	.planning/argonauts/t_73c0286f/edge-coverage.json
+A	.planning/argonauts/t_73c0286f/plan-post.json
+A	.planning/argonauts/t_73c0286f/verify-command-paths.json
+A	.planning/argonauts/t_73c0286f/verify-failure-directions.json
+M	.planning/intel/SYNTHESIS.md
+A	.planning/intel/classifications/r-215b4390/brief-readme-validation-b-b2bab044.json
+A	.planning/intel/classifications/r-215b4390/design-190e7de8.json
+A	.planning/intel/classifications/r-215b4390/prd-readme-validation-b-93fb52d3.json
+A	.planning/intel/classifications/r-215b4390/proposal-d4639744.json
+A	.planning/intel/classifications/r-215b4390/spec-111f6b7c.json
+A	.planning/intel/classifications/r-215b4390/tasks-03b1e441.json
+M	.planning/intel/constraints.md
+M	.planning/intel/context.md
+M	.planning/intel/decisions.md
+M	.planning/intel/requirements.md
+A	.planning/phases/05-readme-validation-b/.gitkeep
+A	.planning/phases/05-readme-validation-b/05-01-PLAN.md
+A	.planning/phases/05-readme-validation-b/05-CONTEXT.md
+A	.planning/phases/05-readme-validation-b/05-PATTERNS.md
+A	.planning/phases/05-readme-validation-b/05-RESEARCH.md
+A	.planning/phases/05-readme-validation-b/05-VALIDATION.md
+M	.planning/state.json
+M	README.md
+M	openspec/changes/r-215b4390-readme-validation-b/tasks.md
+names exit=0
+ M .planning/STATE.md
+ M .planning/state.json
+?? .planning/argonauts/r-215b4390/builder-wave.stderr.txt
+?? .planning/argonauts/r-215b4390/builder-wave.stdout.txt
+status exit=0
+dirty-readme exit=0
+check exit=0
