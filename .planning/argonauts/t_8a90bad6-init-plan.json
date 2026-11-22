@@ -1,0 +1,111 @@
+{
+  "researcher_model": "anthropic/claude-sonnet-5",
+  "planner_model": "anthropic/claude-opus-4-8",
+  "checker_model": "anthropic/claude-sonnet-5",
+  "tdd_mode": false,
+  "granularity": "standard",
+  "research_enabled": true,
+  "plan_checker_enabled": true,
+  "nyquist_validation_enabled": true,
+  "commit_docs": true,
+  "text_mode": false,
+  "auto_advance": false,
+  "auto_chain_active": false,
+  "mode": "interactive",
+  "phase_found": true,
+  "phase_dir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/phases/05-readme-verification-a",
+  "expected_phase_dir": null,
+  "phase_number": "05",
+  "phase_name": "README verification A",
+  "phase_slug": "readme-verification-a",
+  "padded_phase": "05",
+  "phase_req_ids": "REQ-22, REQ-23, REQ-24",
+  "phase_status": "Pending",
+  "has_research": false,
+  "has_context": false,
+  "context_scope": "complete",
+  "has_reviews": false,
+  "has_plans": false,
+  "plan_count": 0,
+  "threat_id_duplicates": [],
+  "threat_id_duplicate_count": 0,
+  "planning_exists": true,
+  "roadmap_exists": true,
+  "state_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/STATE.md",
+  "roadmap_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/ROADMAP.md",
+  "requirements_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/REQUIREMENTS.md",
+  "has_spec": false,
+  "patterns_path": null,
+  "section_manifest": {
+    "workflow": "plan-phase",
+    "included": [
+      "prd-express-gate"
+    ],
+    "excluded": [
+      "reviews-prerequisite",
+      "adr-ingest-express-path",
+      "research-only-modifiers",
+      "research-only-early-exit",
+      "chunked-planning-mode"
+    ],
+    "read": [
+      "gsd-core/workflows/plan-phase/steps/prd-express-gate.md"
+    ]
+  },
+  "prior_verify_commands": [
+    {
+      "phase": "04",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/phases/04-wordfreq-min-count/04-01-PLAN.md",
+      "task": "04-01-01: baseline経路とread-only validatorを実ファイルself-testで準備・正式確定（OpenSpec1.1準備）",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k browser_free -x"
+    },
+    {
+      "phase": "04",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/phases/04-wordfreq-min-count/04-01-PLAN.md",
+      "task": "04-01-02: clean正式headから変更前baselineを一度採取・封印しread-only確認",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages WORDFREQ_MIN_COUNT_BASELINE_ROOT=.planning/argonauts/r-e476c11d/baseline /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k saved_baseline -x"
+    },
+    {
+      "phase": "04",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/phases/04-wordfreq-min-count/04-01-PLAN.md",
+      "task": "04-01-02: clean正式headから変更前baselineを一度採取・封印しread-only確認",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest"
+    },
+    {
+      "phase": "04",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/phases/04-wordfreq-min-count/04-02-PLAN.md",
+      "task": "04-02-01: 引数→実ファイル→全形式の明示1、usage/input境界（OpenSpec1.2）",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -x"
+    },
+    {
+      "phase": "04",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/phases/04-wordfreq-min-count/04-02-PLAN.md",
+      "task": "04-02-02: 選択と空結果/元総数を両群先行RED→共通実装→両群GREEN（OpenSpec1.3+1.4）",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_aggregator.py -x"
+    },
+    {
+      "phase": "04",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/phases/04-wordfreq-min-count/04-02-PLAN.md",
+      "task": "04-02-02: 選択と空結果/元総数を両群先行RED→共通実装→両群GREEN（OpenSpec1.3+1.4）",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_formatters.py -x"
+    },
+    {
+      "phase": "04",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/phases/04-wordfreq-min-count/04-03-PLAN.md",
+      "task": "04-03-03: 全4modeの正式確定後clean headでBuilder captureを一度採取",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages WORDFREQ_MIN_COUNT_BASELINE_ROOT=.planning/argonauts/r-e476c11d/baseline WORDFREQ_MIN_COUNT_CAPTURE_ROOT=.planning/argonauts/r-e476c11d/builder/04-03-capture /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k saved_capture -x"
+    },
+    {
+      "phase": "04",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6/.planning/phases/04-wordfreq-min-count/04-04-PLAN.md",
+      "task": "04-04-01: 全製品成果からBuilder統合・変更前比較・AC索引まで通す（OpenSpec2.1）",
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages WORDFREQ_MIN_COUNT_BASELINE_ROOT=.planning/argonauts/r-e476c11d/baseline WORDFREQ_MIN_COUNT_CAPTURE_ROOT=.planning/argonauts/r-e476c11d/builder/04-04-integration /usr/bin/python3 -m pytest tests/test_min_count_verifier.py -k saved_capture -x"
+    }
+  ],
+  "project_root": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_8a90bad6",
+  "agents_installed": true,
+  "missing_agents": [],
+  "agents_dir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/agents",
+  "agent_runtime": "hermes",
+  "project_title": "wordfreq CLI"
+}

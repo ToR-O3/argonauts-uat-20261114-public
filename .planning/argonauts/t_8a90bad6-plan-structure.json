@@ -1,0 +1,42 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "[plan-criteria R4] A fallible `git` in a non-final pipeline stage is swallowed — the pipeline reports the last stage's status, so a broken command reads as clean. Capture the status first."
+  ],
+  "task_count": 2,
+  "tasks": [
+    {
+      "name": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）",
+      "type": "tracer",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "user_setup",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}
