@@ -1,0 +1,25 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_00c0a626/openspec/changes/r-cf2eeaab-project-description-uat/tasks.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Tasks",
+  "summary": "pyproject.tomlのproject.description追加、標準ライブラリによる変更前後の直接検証、独立品質検証と承認ゲートを定める。",
+  "scope": [
+    "pyproject.toml",
+    "project.description",
+    "標準ライブラリの検証ファイル",
+    "TOML解析",
+    "製品差分",
+    "独立品質検証",
+    "承認ゲート"
+  ],
+  "cross_refs": [
+    "proposal.md",
+    "design.md",
+    "VERIFICATION.md"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

@@ -85,6 +85,20 @@ Source: 仕様承認t_327d2f8f run7、要求・仕様t_bdf6acb4 run6、OpenSpec 
 | REQ-23 | Phase 5 | Pending |
 | REQ-24 | Phase 5 | Pending |
 
+## r-cf2eeaab Requirements (Phase 7)
+
+Source: 仕様承認t_8a187e42、要求・仕様t_62c33f31 run59、OpenSpec `r-cf2eeaab-project-description-uat` proposal/tasks（skip_specs=true）と承認BMAD Brief/PRD。既存要求は変更しない。
+
+- [ ] **REQ-25**: pyproject.tomlの[project].descriptionを新規追加し、解析後の値が厳密に `argonauts-uat public (UAT)` と一致する。完成値に印をさらに追加しない。
+- [ ] **REQ-26**: 製品変更は当該descriptionの1行追加のみ。他製品ファイル・既存TOML項目と値・既存バイトを保持する。工程文書は許容し、既存製品テストと依存は変更しない。
+- [ ] **REQ-27**: 変更後のTOMLを正常解析できる。工程配下の標準ライブラリ検証で起点 `c572613dc626160db2eb3bf4a41c95fc8283b828` と比較し、欠落でRED・追加後GREEN、解析データと追加行以外のバイト不変・製品差分限定を直接検査する。品質が対象headで独立実行し、AC別の文字証拠を添付する。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-25 | Phase 7 | Pending |
+| REQ-26 | Phase 7 | Pending |
+| REQ-27 | Phase 7 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

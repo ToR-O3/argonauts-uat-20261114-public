@@ -1,0 +1,26 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_00c0a626/openspec/changes/r-cf2eeaab-project-description-uat/proposal.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Proposal",
+  "summary": "pyproject.toml のプロジェクト説明文を argonauts-uat public (UAT) として新規追加し、対象外の変更を禁止し、正常解析・完全一致・差分限定を検証する要件。",
+  "scope": [
+    "pyproject.toml",
+    "[project].description",
+    "argonauts-uat public (UAT)",
+    "TOML正常解析",
+    "文字列完全一致",
+    "対象項目以外の差分なし",
+    "工程文書",
+    "人によるマージ"
+  ],
+  "cross_refs": [
+    "pyproject.toml",
+    ".openspec.yaml",
+    "_bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.md",
+    "_bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md"
+  ],
+  "locked": false,
+  "precedence": null
+}
