@@ -1,9 +1,9 @@
 ---
 phase: "7"
 slug: project-description-uat
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: validated
+nyquist_compliant: true
+wave_0_complete: true
 created: "2026-11-25"
 ---
 
@@ -29,10 +29,10 @@ created: "2026-11-25"
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 07-01-01 | 01 | 1 | REQ-25,REQ-26,REQ-27 | T-7-01,T-7-03 | 正常対照/変異で検証の誤合格を防止 | unit | `python3 .planning/argonauts/r-cf2eeaab/test_verify_description.py` | ❌ 同taskで先に作成 | pending; exit0・実行件数1以上 |
-| 07-01-01 | 01 | 1 | REQ-25,REQ-27 | T-7-01,T-7-02 | 正常解析できる実製品の欠落固有RED原本 | integration/expected RED | `python3 .planning/argonauts/r-cf2eeaab/verify_description.py` | ❌ 同taskで先に作成、試験GREEN後 | pending; exit1・description_missingのみ。環境/構文失敗は不合格 |
-| 07-01-02 | 01 | 1 | REQ-25,REQ-26,REQ-27 | T-7-01,T-7-02,T-7-03 | 意味/バイト/全製品差分限定と文字原本 | integration | `python3 .planning/argonauts/r-cf2eeaab/verify_description.py` | ❌ task1で先に作成 | pending; 追加後/製品commit後ともexit0 |
-| 07-01-02 | 01 | 1 | REQ-27 | T-7-01 | 判別力の継続sampling | unit | `python3 .planning/argonauts/r-cf2eeaab/test_verify_description.py` | ❌ task1で先に作成 | pending; exit0・実行件数1以上 |
+| 07-01-01 | 01 | 1 | REQ-25,REQ-26,REQ-27 | T-7-01,T-7-03 | 正常対照/変異で検証の誤合格を防止 | unit | `python3 .planning/argonauts/r-cf2eeaab/test_verify_description.py` | ✅ | ✅ green（品質がc5d0eb1で実行: exit0、Ran 6 tests OK、1.500s） |
+| 07-01-01 | 01 | 1 | REQ-25,REQ-27 | T-7-01,T-7-02 | 正常解析できる実製品の欠落固有RED原本 | integration/expected RED | `python3 .planning/argonauts/r-cf2eeaab/verify_description.py` | ✅ | ✅ Builder原本builder-red-cli.txtで欠落RED（Builder実行・品質は原本を読んだのみ、再現はしていない） |
+| 07-01-02 | 01 | 1 | REQ-25,REQ-26,REQ-27 | T-7-01,T-7-02,T-7-03 | 意味/バイト/全製品差分限定と文字原本 | integration | `python3 .planning/argonauts/r-cf2eeaab/verify_description.py` | ✅ | ✅ green（品質がc5d0eb1で実行: exit0、18 checks true、0.094s） |
+| 07-01-02 | 01 | 1 | REQ-27 | T-7-01 | 判別力の継続sampling | unit | `python3 .planning/argonauts/r-cf2eeaab/test_verify_description.py` | ✅ | ✅ green（上と同じ実行） |
 
 確定PLANは07-01の2tasks（OpenSpec1.1→1.2）。各automated直後のfails_whenに従う。判別力試験がGREENでも製品REDは別記し、タスク1完了を製品完成と呼ばない。品質は同branch全成果・対象headの製品clean/HEAD一致を確認して独立再実行する。T-7-SCはinstallなし/stdlib限定で対処し、設定は変更しない。
 
@@ -51,11 +51,21 @@ created: "2026-11-25"
 
 ## Validation Sign-Off
 
-- [ ] 全taskにautomatedと同task/先行taskによる作成順あり
-- [ ] 全taskで連続sampling
-- [ ] 全MISSING参照をWave0で作成
-- [ ] watchなし
-- [ ] 実測latencyを記録
-- [ ] 品質がvalidate-phaseでnyquist_compliantを判定（計画時は未実行）
+- [x] 全taskにautomatedと同task/先行taskによる作成順あり
+- [x] 全taskで連続sampling
+- [x] 全MISSING参照をWave0で作成
+- [x] watchなし
+- [x] 実測latencyを記録（unittest 1.500s、検証器 0.094s、既存pytest 196.018s）
+- [x] 品質がvalidate-phaseでnyquist_compliantを判定（t_9dff5b92、対象head c5d0eb136bf92d6f00c3fc807346e55103917504）
 
-**Approval:** pending
+Manual-Only「独立品質と証拠配送」は、品質がこのカードで両コマンドを実行し、.planning/argonauts/r-cf2eeaab/VERIFICATION.md と quality-cli-evidence.txt を作って標準添付する（添付IDは完了の要約とVERIFICATION.mdに記録）。
+
+**Approval:** validated 2026-11-25
+
+## Validation Audit 2026-11-24
+
+| Metric | Count |
+|---|---|
+| Gaps found | 0 |
+| Resolved | 0 |
+| Escalated | 0 |
