@@ -147,7 +147,7 @@ Plans:
   3. 依頼者の判断により対象外: 3形式実行・pytest・入力/出力/実行ログ。独立品質の確認は上の2点の文字判断のみ。
 **Approval:** t_9c048e29 run28 approved、source t_38b60b51 run27。merge追加のみ、衝突0。公式phase.add結果6。旧phase1/3/4のstale検証は今回へ混ぜない。
 **Depends on:** Phase 5
-**Plans:** 1 plan
+**Plans:** 1/1 plans executed
 
 Plans:
-- [ ] 06-01-PLAN.md — 既存PLANの範囲縮小部分修正。README例1行と全差分確認のみ。OpenSpec1.1有効、1.2対象外、2.1はscope/文字判断だけ。最終PRから工程差分を外す。
+- [x] 06-01-PLAN.md — 既存PLANの範囲縮小部分修正。README例1行と全差分確認のみ。OpenSpec1.1有効、1.2対象外、2.1はscope/文字判断だけ。最終PRから工程差分を外す。

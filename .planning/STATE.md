@@ -4,17 +4,17 @@ milestone: v1.12
 current_phase: 6
 current_phase_name: README min-count three example
 current_plan: Not started
-status: completed
+status: verifying
 stopped_at: Phase 5 complete — all phases complete
-last_updated: "2026-11-24T12:51:37.353Z"
+last_updated: "2026-11-24T13:19:13.390Z"
 last_activity: 2026-11-24
-last_activity_desc: Phase 6 planned — 1 plan ready
-state_head: 77691d29e6526a0623b8b80c6f6c347f4287ea7b
+last_activity_desc: Phase 6 execution started
+state_head: e7fc7931dea4c1fc6300ee350721d0c477833ce0
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 17
-  completed_plans: 16
+  completed_plans: 17
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -26,15 +26,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-22)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 6 — README min-count three example（計画合格、実装待ち）
+**Current focus:** Phase 6 — README min-count three example
 
 ## Current Position
 
-Phase: 6 (README min-count three example) — READY TO EXECUTE
+Phase: 6 (README min-count three example) — EXECUTING
 Current Plan: 1
 Total Plans in Phase: 1
-Status: Ready to execute
-Last activity: 2026-11-24 — Phase 6 planned: 1 plan, 2 tasks; independent checker passed
+Status: Phase complete — ready for verification
+Last activity: 2026-11-24 — Phase 6 execution started
 
 Progress: [███░░░░░░░] 25%
 

@@ -104,6 +104,12 @@ SUMMARYを独立commit後に公式state.advance-plan / state.update-progress / r
 - 原本添付とPM本人のread_file判断は別gate。添付成功だけでPM既読とはしない。添付ID/hashはカードに記録する。
 - phase6/phase_count5は親の確定値。次phaseへ進まず、phase.complete・sync/archive・最終化・PM受入は後工程。
 
+## Official close-out results
+
+SUMMARY commit後に公式launcherをsourceして直列に実行した。state.advance-planはexit0、reason:last_plan、current_plan:1、total_plans:1、status:ready_for_verification。state.update-progressはexit0だがupdated:false、reason:phase scope is unscoped, not completeで既存progressを保持。roadmap.update-plan-progress6はexit0、updated:true、plan_count1/summary_count1/status In Progress/complete:false。保存STATE本文はphase6、Current Plan1、Total Plans1、Status:Phase complete — ready for verification。snapshotはphase6/status:verifyingでもcurrent_plan:Not startedの古い値が残る。明示承認された既知の不一致として未修復で引き継ぎ、再停止・計画作り直しはしない。phase.complete未実行。
+
+evaluation-scope --plan06-01 --commits-only --rawはexit0、resolved、上記3commitsを同branchで解決。設定差分なし。README期待cmpも再実行exit0。
+
 ## User Setup Required
 
 なし。状態修復を人へ依頼しない。
