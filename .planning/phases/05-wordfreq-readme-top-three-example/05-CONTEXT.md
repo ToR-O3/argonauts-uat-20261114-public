@@ -13,9 +13,11 @@ REQ-22 / OpenSpec task 1.1: 既存CLIの `--top 3` の利用例を README に1�
 <decisions>
 ## Implementation Decisions
 
-- D-01: `README.md` の「wordfreq の実行」の既存 `sh` ブロック内、`--top 2` のJSON例の直後に `python -m wordfreq input.txt --top 3 --format json` をちょうど1行追加。
-- D-02: 実装前後コミットを比較し、製品変更は README の追加1行・削除0行のみ。既存の実行例・説明・フェンス・プログラム・試験・依存・設定・連携は変更しない。
-- D-03: 掲載行から `input.txt` だけを一時UTF-8入力のパスに置換し、リポジトリ直下で実行。入力は `delta gamma beta alpha beta gamma alpha beta alpha alpha`。終了0、JSONは `alpha:4`、`beta:3`、`gamma:2` の順で3件。既存 `input.txt` は保存・上書きしない。一時入力はコミットしない。
+### README の掲載と検証
+
+- **D-01:** `README.md` の「wordfreq の実行」の既存 `sh` ブロック内、`--top 2` のJSON例の直後に `python -m wordfreq input.txt --top 3 --format json` をちょうど1行追加。
+- **D-02:** 実装前後コミットを比較し、製品変更は README の追加1行・削除0行のみ。既存の実行例・説明・フェンス・プログラム・試験・依存・設定・連携は変更しない。
+- **D-03:** 掲載行から `input.txt` だけを一時UTF-8入力のパスに置換し、リポジトリ直下で実行。入力は `delta gamma beta alpha beta gamma alpha beta alpha alpha`。終了0、JSONは `alpha:4`、`beta:3`、`gamma:2` の順で3件。既存 `input.txt` は保存・上書きしない。一時入力はコミットしない。
 
 ### Claude's Discretion
 
