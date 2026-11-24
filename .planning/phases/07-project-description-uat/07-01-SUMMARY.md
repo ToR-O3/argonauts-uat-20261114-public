@@ -49,7 +49,6 @@ coverage:
     verification: []
     human_judgment: true
     rationale: Independent quality execution, original attachments and PM reading remain pending
- duration_placeholder: unused
 duration: 6min
 completed: 2026-11-24
 status: complete
@@ -93,6 +92,12 @@ Existing regression suite could not start: both python3 -m pytest -q and install
 Ready for same-card quality review, NOT phase acceptance. Quality must independently run both real files at the full branch head with clean product/HEAD equality, produce and attach VERIFICATION.md and quality-cli-evidence.txt, and preserve AC-specific provenance. PM must read those text originals separately. Builder does not claim those actions occurred.
 
 Image count 0: metadata only, no visual change. Human merges because pyproject.toml is a risky path under smart. full/skip_specs=true retained, archive/sync deferred. Probe unclassified3 and transparency prohibitions2 stay flagged-unverified. UAT label is not certification of E2E or independent acceptance.
+
+## Official close-out results
+
+Official state.advance-plan returned reason=last_plan, current_plan=1, total_plans=1, status=ready_for_verification. Saved STATE has phase7/current_plan1/status=verifying and body ready for verification; ROADMAP says 1/1 executed, In Progress, complete=false. No phase.complete call.
+state.update-progress explicitly withheld the aggregate percentage (phase scope is unscoped, not complete); existing 25% is stale and not a success metric. This does not obscure the independently confirmed phase7/plan1 verification-waiting position; prior milestone scope is outside this card.
+requirements.mark-complete updated the three implementation checkboxes but reported table_unmatched/write_set_complete=false; the request-local Pending table is NOT an acceptance record. REQ-27 independent-quality delivery is still pending as stated above. No prior-phase requirements were edited.
 
 ## Self-Check: PASSED
 
