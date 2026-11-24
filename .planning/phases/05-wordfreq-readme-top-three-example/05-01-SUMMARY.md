@@ -67,6 +67,10 @@ status: complete
 
 入力: `delta gamma beta alpha beta gamma alpha beta alpha alpha`。成功時の実 stdout は `[{"word": "alpha", "count": 4}, {"word": "beta", "count": 3}, {"word": "gamma", "count": 2}]` と末尾改行1つ、stderr は空。`openspec validate r-864b299c-readme-top-three --type change --strict --json` は `valid: true`、指摘0件。
 
+### レビュー差戻し D-02
+
+`.planning/` の一括除外を、この依頼の工程資料・検証原本の完全一致パスに限定した。サブシェル内の一時 `GIT_INDEX_FILE` に `git read-tree HEAD` で HEAD を読み込み、`git update-index --cacheinfo` で `.planning/argonauts/r-e476c11d/baseline/index.json` の blob だけを `HEAD:README.md` の blob に置換する。`git diff --cached --name-status HEAD` で対象が `M` になったことを確認し、同じ検証コマンドを実行した。修正前は誤って終了0、修正後は対象パスを `out-of-scope change` として報告し終了1（CLI 未実行）。実際のフィクスチャや Git index は変更していない。
+
 ## Decisions Made / Deviations from Plan
 
 - 新しい設計判断や製品範囲の変更なし。作業ツリーの結果とクリーンなコミットの結果を分けて記録した。

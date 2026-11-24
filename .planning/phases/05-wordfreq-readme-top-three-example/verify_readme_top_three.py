@@ -12,6 +12,34 @@ import tempfile
 BASE = "5528aa47cca27a93a6732e914710f2772118a572"
 README = "README.md"
 TASKS = "openspec/changes/r-864b299c-readme-top-three/tasks.md"
+PHASE_DIR = ".planning/phases/05-wordfreq-readme-top-three-example"
+# Existing tests read fixtures under .planning/, so only these exact
+# workflow artifacts are exempt from the product diff check.
+WORKFLOW_PATHS = {
+    ".planning/INGEST-CONFLICTS.md",
+    ".planning/REQUIREMENTS.md",
+    ".planning/ROADMAP.md",
+    ".planning/STATE.md",
+    ".planning/state.json",
+    ".planning/argonauts/r-864b299c-learnings.md",
+    ".planning/argonauts/r-864b299c-manifest.yaml",
+    ".planning/argonauts/r-864b299c-prd.md",
+    ".planning/intel/SYNTHESIS.md",
+    ".planning/intel/classifications/brief-wordfreq-top-three-3adfe49d.json",
+    ".planning/intel/classifications/prd-wordfreq-top-three-73325b60.json",
+    ".planning/intel/classifications/proposal-4146fcc0.json",
+    ".planning/intel/classifications/spec-67452c5a.json",
+    ".planning/intel/classifications/tasks-e477c401.json",
+    ".planning/intel/constraints.md",
+    ".planning/intel/context.md",
+    ".planning/intel/decisions.md",
+    ".planning/intel/requirements.md",
+    *(f"{PHASE_DIR}/{name}" for name in (
+        ".gitkeep", "05-01-PLAN.md", "05-01-SUMMARY.md", "05-CONTEXT.md",
+        "05-PATTERNS.md", "05-RESEARCH.md", "05-VALIDATION.md", "05-REVIEW.md",
+        "05-VERIFICATION.md", "05-CLI-EVIDENCE.md", "verify_readme_top_three.py",
+    )),
+}
 ANCHOR = b"python -m wordfreq input.txt --top 2 --format json"
 EXAMPLE = b"python -m wordfreq input.txt --top 3 --format json"
 INPUT = "delta gamma beta alpha beta gamma alpha beta alpha alpha"
@@ -75,15 +103,11 @@ def scope(root):
     return work, staged, untracked
 
 
-def planning_doc(path):
-    return path.startswith(".planning/") and path != ".planning/config.json"
-
-
 def verify_scope(root, work, staged, untracked, expected_readme):
     touched = set()
     for entries, index in ((work, False), (staged, True)):
         for path, old_mode, new_mode, status in entries:
-            if planning_doc(path):
+            if path in WORKFLOW_PATHS:
                 continue
             if path not in {README, TASKS} or status != b"M" or old_mode != new_mode:
                 raise ValueError(f"out-of-scope change: {path!r} ({status!r})")
@@ -97,7 +121,7 @@ def verify_scope(root, work, staged, untracked, expected_readme):
                 actual = git(root, "show", f":{TASKS}") if index else (root / TASKS).read_bytes()
                 if baseline.count(unchecked) != 1 or actual != baseline.replace(unchecked, b"\n- [x] 1.1 ", 1):
                     raise ValueError("OpenSpec change must only check task 1.1")
-    outside = [path for path in untracked if not planning_doc(path)]
+    outside = [path for path in untracked if path not in WORKFLOW_PATHS]
     if outside:
         raise ValueError(f"out-of-scope untracked paths: {outside!r}")
     if not any(entry[0] == README for entry in work) or README not in touched:
