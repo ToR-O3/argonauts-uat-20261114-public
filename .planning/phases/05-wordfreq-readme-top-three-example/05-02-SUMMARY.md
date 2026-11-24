@@ -92,6 +92,18 @@ status: complete
 
 PLAN 05-02 の実装完了。独立品質レビューの後、同じ HEAD を起点に新規の実報告を置いたフェーズ検証へ渡す。ここでは Phase 5 は閉じず、品質の報告は更新していない。
 
+## レビュー差戻しの修正
+
+コード `de5f7e8a41d105487368d0422a12eae355b07f09`。前回の確認対象 `35c20a9` から、検証器と専用ハーネスだけを変更した。README・製品 CLI・既存試験・OpenSpec は不変。
+
+| ケース | RED：修正前 | GREEN：修正後 |
+|---|---|---|
+| `unchecked-task-worktree` | HEAD/index は `[x]`、worktree だけ基点の `[ ]`。base→worktree の一覧に出ず、誤って CLI と verifier が終了0 | 差分一覧に頼らず HEAD→index→worktree のバイト列を照合。チェックの後退を対象パス付きで終了1、CLI 未実行 |
+| `nonempty-cli-stderr` | 実 CLI は終了0・期待 JSON・import profiler の stderr あり。verifier が誤って終了0 | 同じ CLI 出力で verifier は `published CLI wrote to stderr` を報告し終了1 |
+| `duplicate-cli-key` | テスト用の子プロセスが `count:999` と `count:4` を同一オブジェクトに出力。終了0・stderr 空で verifier も誤って終了0 | JSON のオブジェクトを辞書に変換する前に重複を検出し、verifier は `duplicate JSON key: 'count'` を報告して終了1 |
+
+全23ケース合格。先行 PLAN で使う初回チェック前の検証は引き続き成功し、実依頼ツリーの掲載 CLI は終了0・空 stderr・`alpha:4` → `beta:3` → `gamma:2`。既存 pytest 702件と OpenSpec 厳格検証（指摘0）も再実行して合格した。GSD CLI は Phase 5 / Current Plan 2 / `verifying`、未実施 PLAN なしと読み返せたため、計画位置は再更新していない。GitHub CI は未確認。
+
 ## Self-Check: PASSED
 
-Builder が全19ケース、報告込みの依頼ツリー、既存回帰、OpenSpec 厳格検証を確認。独立品質は別工程。
+Builder が再レビュー時の全23ケース、報告込みの依頼ツリー、既存回帰、OpenSpec 厳格検証を確認。独立品質は別工程。
