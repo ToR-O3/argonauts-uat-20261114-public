@@ -25,6 +25,12 @@
 
 既存試験は`python3 -m pytest -q`と既設`pytest -q`を実行したが、いずれもModuleNotFoundError: No module named pytestで実行不能。`existing-tests-cli.txt`に後者の実出力を保存した。成功とは扱わず、依存/環境変更は範囲外のためインストールしていない。工程の標準unittestは実行成功。製品commit後の再実行は追記する。
 
+製品commit後の対象headはcfc31e7ed6eab2ea27c4f2160e227764296b74d3。builder-green-cli.txt:1500以降は同headでの再実行原本（6 tests/1.581s/exit0、実検証exit0、HEAD対worktree製品一致exit0）。このheadで品質を実施したとは主張しない。後続証拠保存commitは別headとなる。
+
+品質担当は全成果の揃った依頼branchのheadで上記2コマンドを自ら直接再実行し、製品dirtyがなくHEADのpyproject.tomlと作業bytesが一致することも確認すること。
+品質自身の結果を `.planning/argonauts/r-cf2eeaab/VERIFICATION.md` と `quality-cli-evidence.txt` に記し、起点・実行対象head・報告head、cwd/コマンド/exit/条件別実結果、原本pathを残して標準添付すること。PMは両文字原本をread_fileで開いてAC別に判定すること。Builderは品質名義の記録を作成していない。
+保存済み=本Builder原本、標準添付=後続品質gate、受取PM読取り=後続PM gateと区別する。独立品質と受入はpending。
+
 ## 証拠の制限と引継ぎ
 
 通常の未追跡列挙はgit ls-files --others --exclude-standardであり、ignoreされた全filesystemの保証ではない。
