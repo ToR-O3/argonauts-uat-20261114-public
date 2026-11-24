@@ -1,9 +1,9 @@
 ---
 phase: "06"
 slug: "readme-min-count-three-example"
-status: draft
+status: validated
 nyquist_compliant: false
-wave_0_complete: false
+wave_0_complete: true
 created: "2026-11-24"
 ---
 
@@ -34,8 +34,8 @@ created: "2026-11-24"
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| 06-01-01 | 01 | 1 | REQ-25 | T-06-01 | README byte保持・独立期待・例1つ | documentation tracer | `cmp "$E/README.expected.md" README.md` とREADME patch/check | README実在。before/request-base/expected文字原本は同taskで準備してからverify | pending |
-| 06-01-02 | 01 | 1 | 縮小後REQ-27 | T-06-02, T-06-03 | 主体分離・工程含む全差分・保全前に消さない | scope/evidence | PLANの全git差分/HEAD/index/status/untracked、task1期待cmp | git追跡資料実在。SCOPE/SUMMARY/差分原本は同taskで準備 | pending |
+| 06-01-01 | 01 | 1 | REQ-25 | T-06-01 | README byte保持・独立期待・例1つ | documentation tracer | `cmp "$E/README.expected.md" README.md` とREADME patch/check | README実在。before/request-base/expected文字原本は同taskで準備してからverify | green（品質t_de9630c7がhead 34eb0bbで再実行: cmp exit0、README diff +1/-0、diff --check exit0） |
+| 06-01-02 | 01 | 1 | 縮小後REQ-27 | T-06-02, T-06-03 | 主体分離・工程含む全差分・保全前に消さない | scope/evidence | PLANの全git差分/HEAD/index/status/untracked、task1期待cmp | git追跡資料実在。SCOPE/SUMMARY/差分原本は同taskで準備 | partial（name-status全84件を品質が再採取: README以外83件は工程資料、禁止path diff exit0。最終PRのREADME-onlyは最終化後のmanual-only確認でpending） |
 
 両taskの全automated直後にfails_whenを置く。コマンドexit0だけでは2条件の合格としない。README全文/patchと全pathのread_file確認で具体的不一致/欠落を判定する。最終PRのREADME-onlyは後工程pendingでありBuilder taskの完了と別。
 
@@ -55,12 +55,22 @@ created: "2026-11-24"
 
 ## Validation Sign-Off
 
-- [ ] 最終PLANの全taskに標準automatedと直後fails_when、task末入力実在
-- [ ] 2tasks番号順直列、同branch argonauts/r-5f8197e8、先行全成果あり
-- [ ] 新規試験/補助script/入力/実行ログ/quality runbook作成なし
-- [ ] 工程資料込み全差分と現時点のREADME-only未達を明記
-- [ ] 原本添付保全後の工程差分復元/除外と独立品質の最終全差分確認
-- [ ] 独立品質2条件の文字判定とPM read_file判断（Builderは自己完了しない）
-- [ ] 公式validate-phaseがnyquist_compliantを判定。開始設定は維持
+- [x] 最終PLANの全taskに標準automatedと直後fails_when、task末入力実在
+- [x] 2tasks番号順直列、同branch argonauts/r-5f8197e8、先行全成果あり
+- [x] 新規試験/補助script/入力/実行ログ/quality runbook作成なし
+- [x] 工程資料込み全差分と現時点のREADME-only未達を明記
+- [ ] 原本添付保全後の工程差分復元/除外と独立品質の最終全差分確認（最終化・最終確認でpending）
+- [x] 独立品質2条件の文字判定（t_de9630c7）。PM read_file判断は後工程pending
+- [x] 公式validate-phaseがnyquist_compliantを判定。開始設定は維持
 
-**Approval:** pending（計画段階）。計画検査の合格、実装/品質/最終化の完了、既存GSD state-snapshotのplan/status不一致は別々に扱い、状態を勝手に修復しない。
+**Nyquist audit (gsd-validate-phase 6, 品質 t_de9630c7, head 34eb0bb):** REQ-25 COVERED（cmp/git diff/diff --check再実行green）。REQ-27の「最終PR全差分README.mdだけ」は最終化後にしか観測できないためmanual-onlyへescalate（新試験は依頼者判断で作らない）。よって nyquist_compliant: false（PARTIAL: automated 1 / manual-only 1）。監査失敗ではない。
+
+**Approval (計画段階の記録):** pending（計画段階）。計画検査の合格、実装/品質/最終化の完了、既存GSD state-snapshotのplan/status不一致は別々に扱い、状態を勝手に修復しない。
+
+## Validation Audit 2026-11-24
+
+| Metric | Count |
+|---|---|
+| Gaps found | 1 |
+| Resolved | 0 |
+| Escalated | 1 |
