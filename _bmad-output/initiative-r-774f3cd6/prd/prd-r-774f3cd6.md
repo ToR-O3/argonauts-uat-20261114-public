@@ -2,10 +2,11 @@
 title: "r-774f3cd6 — pyproject description UAT PRD"
 template: prd
 version: 1.1.0
-status: draft
+status: final
 headless: true
-intent: create
-workflow: "John CREATE → bmad-facilitate"
+intent: update
+workflow: "John UPDATE → bmad-facilitate"
+output: "_bmad-output/initiative-r-774f3cd6/prd/"
 created: "2026-11-24"
 updated: "2026-11-24"
 ---
@@ -14,91 +15,94 @@ updated: "2026-11-24"
 
 ## Table of Contents
 
-- [Document purpose](#document-purpose) — 入力とpartialの位置付け
-- [Vision](#vision) — 一点の変更という成果
+- [Document purpose](#document-purpose) — 依頼者回答を反映、実装・再承認なし
+- [Vision](#vision) — description新設という一点変更
 - [Users and journeys](#users-and-journeys) — 内部工程向け
-- [Glossary](#glossary) — beforeとASCII suffix
+- [Glossary](#glossary) — 指定連結元、完成値、実装前基準
 - [Features and requirements](#features-and-requirements) — FR-1
 - [Rules](#rules) — RULE-1〜RULE-3
-- [Non-goals](#non-goals) — 推測、新設、Architectureを除外
-- [MVP scope](#mvp-scope) — 最小の変更範囲
+- [Non-goals](#non-goals) — 無関係な変更の排除
+- [MVP scope](#mvp-scope) — 最小変更と承認境界
 - [Success metrics](#success-metrics) — SM-1〜SM-3
-- [Change boundary](#change-boundary) — 製品差分と工程成果物
-- [Stories](#stories) — 条件付きの受入
-- [Decisions](#decisions) — full優先と次工程
+- [Change boundary](#change-boundary) — 製品と工程管理領域
+- [Stories](#stories) — 一つの受入単位
+- [Decisions](#decisions) — full優先、回答根拠、後続工程
 - [Assumptions](#assumptions) — A-1
-- [Open questions](#open-questions) — OQ-1（Brief Q-1）
+- [Open questions](#open-questions) — OQ-1回答済み、未解決なし
 
 ## Document purpose
 
-入力は全文を確認したBrief `_bmad-output/initiative-r-774f3cd6/brief/r-774f3cd6-brief.md`、同initiativeの `initiative-r-774f3cd6.md`、現物 `pyproject.toml` および依頼原文・工程制約である。本PRDは後続の仕様承認と実装・受入に必要な境界をまとめる。initiativeは名称だけを持ち、descriptionの値を与えていない。
+依頼 r-774f3cd6 の仕様承認 `t_1efee04f` 差戻しに対し、依頼者の明示回答をBriefに反映・Finalizeした後、このPRDを改訂する。入力は `_bmad-output/initiative-r-774f3cd6/brief/r-774f3cd6-brief.md`、同initiativeの `initiative-r-774f3cd6.md`、現物 `pyproject.toml`、元依頼、最新回答と工程制約である。読者の非重大な推論はA-1に分離する。
 
-**partial / 実装未承認**: 現物の `[project]` に `description` がない。Brief Q-1をOQ-1として引き継ぎ、この文書作成は止めない。後続の仕様承認PMが質問を一度に集約するため、ここでは質問送信も推測による解決もしない。OQ-1解消前には実装できない。
+**OQ-1は回答済み、未解決事項なし。実装・PM再承認は本runでは行わない。** 文書のfinalは文書改訂の完了のみを意味し、製品受入や実装開始の承認ではない。後続の仕様承認で本改訂を確認する。
 
 ## Vision
 
-依頼原文は「pyproject.toml の [project] の description の末尾に『 (UAT)』を足す。変えるのは pyproject.toml だけ。未決事項は無い。」である。求める成果は既存descriptionへの正確な連結だけであり、製品機能や依存の拡張ではない。
+元依頼は「pyproject.toml の [project] の description の末尾に『 (UAT)』を足す。変えるのは pyproject.toml だけ。未決事項は無い。」である。現物にdescriptionがないことを踏まえ、依頼者はdescription新設を明示許可した。成果は `[project].description` の完成値を正確に `argonauts-uat public (UAT)` とする一点変更である。
 
-「未決事項は無い」という依頼と、description不在という現物の矛盾は別々に記録する。市場価値、期限、利用者の損失、元のdescription値を補作しない。
+指定連結元 `argonauts-uat public` は依頼者の指定であり、現物の旧descriptionではない。製品機能や依存は拡張せず、市場価値・期限・元のdescription値を補作しない。
 
 ## Users and journeys
 
-内部の一点変更のため、実利用者の物語やUI導線は設けず、能力と受入条件を中心にする。読者に関する非重大な推論はA-1に分離する。製品顧客・固有の人物像は未提示であり、創作しない。
+内部の技術的な一点変更なのでUI導線や顧客物語を設けず、FR-1と受入指標を中心にする。製品顧客・固有の人物像は入力にないため創作しない。
 
 ## Glossary
 
-- **before**: 承認された実装前基準のTOML値。参照可能な今回依頼branchの実装前commitは `b34cba0d008923e7f5267ce52d5403492ea53925`。本runではGit操作せず、現物全文を根拠にdescription不在を確認した。
-- **suffix**: 先頭にASCII空白1文字を含む正確なASCII文字列 `' (UAT)'`。
-- **製品差分**: `pyproject.toml` の指定値の変更。PRD、merged template、memlog、必須レビュー等の工程管理成果物とは区別する。
+- **指定連結元**: 依頼者が指定した文字列 `argonauts-uat public`。現物の旧値を意味しない。
+- **suffix**: 先頭にASCII空白1文字を含む正確なASCII文字列 ` (UAT)`。
+- **完成値**: 指定連結元にsuffixを1回連結した `argonauts-uat public (UAT)`。
+- **実装前基準**: 他項目・依存・書式・他製品ファイルの不変を比較する実装前状態。以前の入力に記録されたcommitは `b34cba0d008923e7f5267ce52d5403492ea53925` で、本runはそのcommitの内容をGitで再検証していない。descriptionの連結元を取得するための基準ではない。
+- **製品差分**: `pyproject.toml` のdescriptionキー新設。Brief/PRD、template、memlog、必須レビューや検証スクリプトなど工程管理成果物と区別する。
 
 ## Features and requirements
 
 ### descriptionのUAT表記
 
-- **FR-1**: OQ-1が解消し、連結元の文字列と変更権限が確定した後、依頼対象の `[project].description` を `before.description + ' (UAT)'` にできる。チェック可能な結果は変更後の値との完全一致。Brief AC-1に対応する。欠落値を空文字と見なすことはできない。現在は前提不成立であり、このPRDは新設権限を与えない。
+- **FR-1**: 後続の承認された製品作業で、`[project].description` を新設し、完成値を正確に `argonauts-uat public (UAT)` にできる。指定連結元は `argonauts-uat public` であり、欠落値やnameから導出しない。結果はキーの存在と文字列の完全一致で確認でき、Brief AC-1に対応する。旧 `before.description` への連結式は現行要件ではない。
 
 ## Rules
 
-- **RULE-1**: suffixを1回連結する。既存値の正規化、既存末尾の削除、重複除去を行わない。既にsuffixがあっても、基準文字列への今回1回の連結を意味する。
-- **RULE-2**: 他の設定・依存・他製品ファイルと無関係な書式を変更しない。Brief AC-2に対応する。
-- **RULE-3**: 変更後TOMLが正常解析できること。解析成功だけでFR-1やRULE-2の成立を代替しない。Brief AC-3に対応する。
+- **RULE-1**: 完成値内のASCII ` (UAT)` は1回のみ。指定連結元・完成値を正規化、推測、重複付与しない。
+- **RULE-2**: description以外のTOML項目・依存・他製品ファイル・無関係な書式は不変。検証スクリプトは工程管理領域だけに置き、他製品ファイルを増やさない。Brief AC-2に対応する。
+- **RULE-3**: 編集後TOMLが正常解析できること。解析成功だけでFR-1やRULE-2を代替しない。Brief AC-3に対応する。
 
 ## Non-goals
 
-descriptionの無承認新設、空文字補完、name等からの文章生成、別フィールドへの代替変更、依存更新、リファクタリング、Architecture変更は対象外。実装・Git・Kanban操作・外部引継ぎも本runでは行わない。
+空文字補完、name等からの文章生成、別フィールドへの代替変更、依存更新、リファクタリング、無関係な整形、他製品ファイル追加、Architecture変更は対象外。本runの製品・OpenSpec・共通config編集、実装、PM再承認、commit/push、Kanban操作、外部引継ぎ実行は禁止する。明示許可されたdescription新設は対象内であり、旧「新設未承認」は現行前提にしない。
 
 ## MVP scope
 
-対象はFR-1のみで、既に最小の確定依頼である。削減候補や追加リリースを設けない。OQ-1解消を実装開始条件とし、文書作成から実装へ進むこと自体を承認と扱わない。
+FR-1だけが対象で既に最小の確定依頼であり、削減候補や追加リリースを設けない。OQ-1の回答を再質問せず、後続の仕様承認ではこの改訂内容を確認する。文書更新を実装開始の承認と扱わない。
 
 ## Success metrics
 
 以下は後続実装の受入指標であり、本runで達成したとは主張しない。
 
-- **SM-1**: 現在はdescription不在で評価不能。目標はFR-1の式との完全一致。OQ-1が新設案で解決する場合は、元値と受入基準を明示承認に整合させてから評価する。
-- **SM-2**: SM-1のcounter-metric。description以外の解析済みTOML項目と他製品ファイルの変更をゼロとし、RULE-2を検証する。工程管理成果物は製品ファイル数に混在させない。
-- **SM-3**: SM-1のcounter-metric。変更後TOMLの解析失敗をゼロとし、RULE-3を検証する。
+- **SM-1**: 現在はdescription不在。目標はキーを新設し、文字列が正確に `argonauts-uat public (UAT)` と一致し、ASCII ` (UAT)` が1回のみ含まれること。FR-1とRULE-1を検証する。
+- **SM-2**: SM-1のcounter-metric。description以外の解析済みTOML項目・依存・他製品ファイル・無関係な書式の変更をゼロとする。検証スクリプトの工程管理領域への限定を含めRULE-2を検証する。工程成果物を製品差分に混在させない。
+- **SM-3**: SM-1のcounter-metric。編集後TOMLの解析失敗をゼロとしRULE-3を検証する。SM-1〜SM-3すべての成立が必要。
 
 ## Change boundary
 
-現物の `[project]` は `name = "wordfreq"`、`version = "0.1.0"`、`dependencies = []` のみ。後続の製品編集先は `pyproject.toml` だけで、変更対象はdescriptionだけ。他設定・他製品ファイルは不変で、新しい製品要素は追加しない。descriptionの新設は現時点の範囲外であり、必要ならOQ-1で元値とともに明示承認し、制約を改訂する。
+現物の `[project]` は `name = "wordfreq"`、`version = "0.1.0"`、`dependencies = []` のみ。後続の製品編集は `pyproject.toml` のdescription新設だけで、その他TOML項目・依存・他製品ファイル・無関係な書式を変えない。指定連結元を現物の旧値と主張しない。
 
-PRD作成工程は指定の `_bmad-output/initiative-r-774f3cd6/prd/` 内の最小限の工程管理文書のみを作成する。任意のHTMLは出力しない。
+本PRD UPDATEの出力先は既存 `_bmad-output/initiative-r-774f3cd6/prd/`。文書、merged template、memlog、必要なBMADレビュー記録と工程管理領域の検証スクリプトに限定する。任意のPRD HTMLは出力しない。製品・OpenSpec・共通configやinitiative直下の旧工程記録は更新しないため、そこにある回答前の停止条件を現行判断の根拠にしない。実装前の後続工程で改訂の整合を確認し、本runではその更新・承認を実行しない。
 
 ## Stories
 
-一点変更なので、FR-1を実現する受入単位を一つとする。OQ-1解消後に、確定したbeforeを使ってsuffixを連結し、SM-1〜SM-3の全てを満たすこと。欠落したまま、又は明示承認がない場合は製品を編集せず仕様承認PMへ未解消条件を返す。AC-1〜AC-3の一部だけの合格を完了扱いしない。
+受入単位はFR-1の一つ。後続の承認された実装でdescriptionを新設し、完成値・suffix回数・その他不変・TOML解析の全条件（SM-1〜SM-3、Brief AC-1〜AC-3）を確認する。一部の合格や文書のfinalだけで製品完了としない。
 
 ## Decisions
 
-- 受付light指定より**full**を優先する。対象が危険なパス `pyproject.toml` に該当するという確定制約のためであり、変更量の大小ではない。Architecture変更はない。
-- ユーザー明示の `template: prd` を公式mergeして使用する。小規模でもprd-lightへの置換はしない。
-- 次は仕様承認PMでOQ-1を一度の質問に集約する。外部への引継ぎは実行しない。正式な後続文書化ではSofiaによるinitiative Requirementsへの反映が経路となるが、本runでは起動しない。各実装単位の完了後、学びをUpdateで反映して仮定と未決を見直す。
+- 受付light指定より**full**を優先する。対象が危険パス `pyproject.toml` のためで、変更量の大小ではない。最終報告まで理由を引き継ぐ。
+- OQ-1（Brief旧Q-1）は回答済み。回答根拠は受付 `t_78c8849e` のdefaultコメント、日時 `2026-11-24T13:00:38.567271+00:00`。原文：「②を選ぶ。description を新設してよい。連結元の文字列は「argonauts-uat public」、完成値は「argonauts-uat public (UAT)」とする。」新設未承認・元値不明という旧決定を置換する。
+- ユーザー明示の `template: prd` を公式mergeして使用し、prd-lightには置換しない。BriefのUPDATE・Finalizeを先に完了した。
+- 次は後続PMによる仕様再承認であり、本runでは行わない。正式なBMAD後続経路ではSofiaがinitiative Requirementsへ反映するが、ここでは起動しない。各実装単位の完了後に学びをUpdateへ反映し、仮定と未決を見直す。
 
 ## Assumptions
 
-- **A-1 / Document purpose, Users and journeys**: Brief A-1を継承し、主な読者を後続実装担当者と受入確認担当者と推定する。非重大・未承認の推論であり、固有名、組織、期限は設定しない。
+- Briefの仮定 `A-1` を継承（Document purpose, Users and journeys）: 主な読者を後続実装担当者と受入確認担当者と推定する。非重大・未承認の推論であり、固有名・組織・期限は設定しない。
 
 ## Open questions
 
-- **OQ-1 / Brief Q-1 / owner: 依頼者、集約: 後続仕様承認PM**: 現物にdescriptionがないため、連結元はどの文字列か。正しいbefore値を含む対象を提示するか、description新設とその元値を明示的に承認して制約を改訂する必要がある。空値は仮定しない。必要時点はFR-1実装前。FR-1とSM-1〜SM-3による最終受入を止めるが、本PRD作成は止めない。再確認条件は明確化・明示承認の受領。headlessのため未解消のままdraft / partialを維持する。
+未解決のopen_questionsは空（`[]`）。**OQ-1 / Brief旧Q-1: 回答済み**。Decisionsの依頼者回答によりdescription新設、指定連結元 `argonauts-uat public`、完成値 `argonauts-uat public (UAT)` が確定した。旧未承認記述はmemlogの履歴であって現行の停止前提ではない。PM再承認・実装・製品受入の未実施は工程状態であり、依頼者への未解決質問ではない。

@@ -1,10 +1,7 @@
-# Fresh-reader usability lens
+# UPDATE fresh-reader usability — PRD
 
-Method: sequential local fallback; not an independently delegated reviewer. Evaluated the document alone for what a reader still needs, rather than inventing a successful execution.
+Method: official sequential fallback, not independent delegation; document-only usability pass. Supersedes CREATE review.
 
-Verdict: nothing important left undocumented for specification approval. Implementation still needs the source value or explicit creation-and-base authorization, exactly as OQ-1 states.
+Verdict: nothing important left unanswered for using this revised PRD. A reader can identify key creation, exact final value `argonauts-uat public (UAT)`, source supplied by requester rather than old TOML, suffix once, no other product delta and required edited-TOML parsing. Verification scripts are confined to process management. OQ-1 is answered and no repeated requester question is needed.
 
-1. Highest-impact outstanding input: correct before or explicit permission to create description with a stated original value; owner requester, aggregated by later specification-approval PM, needed before FR-1 implementation. Already in OQ-1; defer without asking now.
-2. No additional important question. Exact suffix, append-once rule, unchanged settings/dependencies/files, parsing, reference commit, and full-over-light rationale are explicit. Artifact production is separate from product acceptance.
-
-No edits proposed. Do not label this partial specification as implementation approval.
+Remaining gates are not missing input: later PM reapproval, consistency across other planning records, implementation and all product acceptance checks remain unexecuted. The PRD says so and preserves full-over-light because of dangerous pyproject.toml. No important gap or proposed edit; no invented execution evidence.

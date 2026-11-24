@@ -1,7 +1,7 @@
-# Independent fresh-reader review
+# UPDATE fresh-reader review — Brief
 
-Hermes independent process `local-44705d28b8962e0eb2ee862814bece67586147934a9083c8d60fa6e1e2ce4443` read only the Brief and returned:
+Method: official sequential local fallback, not independent delegation. This pass judges only the document's downstream usability and supersedes the old CREATE blocked verdict.
 
-> BLOCKED（既知のQ-1。重要な未文書化ギャップなし）。
+Verdict: nothing important left unanswered in the Brief for the requested revision. It says to create `[project].description` with exact `argonauts-uat public (UAT)`, gives the source and answer provenance, requires ASCII suffix once, preserves everything else and requires valid edited TOML. The source is not an existing description. OQ-1 is explicitly answered, unresolved questions empty.
 
-The reviewer could not save its report because a failed Codex run had left an empty output file, and the fresh-reader restriction disallowed reading any other file before overwriting it. The parent read that empty target and transcribed the actual returned conclusion here; this is not a second review or an invented reviewer report. Q-1 remains a documented input blocker, not an additional omission.
+The remaining work is process, not a missing user answer: PRD revision, later PM reapproval and implementation/acceptance. The document does not claim these occurred. Full-over-light reason and process-only verification-script boundary are visible. No edits proposed; no new question.

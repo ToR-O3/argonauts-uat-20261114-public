@@ -1,15 +1,16 @@
 # 未決事項（r-774f3cd6）
 
-## OQ-1：連結元のdescriptionが現物に無い
+## 現行の未解決項目
 
-何が起きたか：依頼branchのpyproject.tomlには `[project].description` がなく、「既存値への追加」という前提を確認できない。
-決めてほしいこと：正しい連結元の値と対象、またはdescription新設を許可するか。
-選択肢と結果：①既存descriptionを含む正しい対象・元値を提示する（その値への追加として仕様を確認する）。②description新設と、その元値・完成値を明示して承認する（受入条件と仕様を改訂する）。③依頼を取り下げる（製品は変更しない）。
+なし。`open_questions: []`。以下は回答済みの履歴であり、再質問や現在の停止条件ではない。
 
-- 依頼者の原文：「pyproject.toml の [project] の description の末尾に『 (UAT)』を足す。変えるのは pyproject.toml だけ。未決事項は無い。」
-- 選択肢①ではrepo・branch/commit・ファイルパスを特定し、提示された元値と現物descriptionの一致を確認する。基準を変更する場合は下記commitの置換を記録する。選択肢②ではBrief・PRD・OpenSpecの受入条件を整合して改訂してから実装する。
-- 実装前commit：`b34cba0d008923e7f5267ce52d5403492ea53925`。現物と `git show origin/argonauts/r-774f3cd6:pyproject.toml` を照合した。
-- `[project]` の項目はname、version、dependenciesのみ。空文字への補完、nameからの生成、新設は承認されていない。
-- Brief Q-1、PRD OQ-1、OpenSpec proposal/design/tasksの同一項目。重複した質問ではない。
-- 後続仕様承認PMが1回にまとめて依頼者へ確認する。回答前は製品を編集せず、実装・最終受入を承認しない。
-- BMADはpartial/draft。OpenSpec planning completeは成果物の存在確認であり、OQ-1の解決や製品実装の合格を意味しない。
+## 回答済み履歴：OQ-1（Briefの旧Q-1）
+
+- 背景：実装前commit `b34cba0d008923e7f5267ce52d5403492ea53925` のpyproject.tomlの `[project]` にはname・version・dependenciesのみがあり、descriptionが存在しなかった。
+- 状態：回答済み。新設を依頼者が明示承認した。
+- 原本：受付t_78c8849eのdefaultによる「argonauts: 依頼者の判断」。仕様承認t_1efee04fにも同じ回答がある。
+- 判断日時：2026-11-24T13:00:38.567271+00:00
+- 依頼者回答原文：「②を選ぶ。description を新設してよい。連結元の文字列は「argonauts-uat public」、完成値は「argonauts-uat public (UAT)」とする。」
+- 反映：Brief・PRD・既存OpenSpec `r-774f3cd6-pyproject-uat` のproposal/design/specs/tasksを新設仕様に整合改訂する。指定連結元は現物の旧値ではない。
+- 現行受入条件：description新設、完成値の完全一致、ASCII ` (UAT)` の連結1回。他のTOML項目・依存・他製品ファイル・無関係書式不変、編集後TOML有効。検証スクリプトは工程管理領域のみ。
+- このカードは文書改訂のみ。製品編集はせず、改訂仕様のPM承認・計画・実装は後続工程で行う。危険なパスpyproject.tomlのためfullを維持し、理由を最終報告まで引き継ぐ。

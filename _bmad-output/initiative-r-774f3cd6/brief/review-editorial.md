@@ -1,19 +1,23 @@
-# Editorial polish — structure and prose
+# UPDATE editorial polish — Brief
+
+This document helps downstream specification, implementation and acceptance readers use the requester-authorized new description without treating it as a pre-existing value or an implementation approval. Method: official sequential fallback, humans, Microsoft Writing Style Guide; replaces CREATE editorial review.
 
 ## Structure
 
-Independent Hermes reviewer `local-f7ed183f32c641304ec6391d107b775fd54863bdd9296d050ea288dfca9d0a53` applied the structure lens to the Brief using the Strategic/Context (Pyramid) model, human readers and Microsoft Writing Style Guide. No structural fix was recommended. Repetition of the stop reason in the summary, decision rule in Solution and resolution condition in Open questions serves different reading needs and was preserved.
+Model: Strategic/Context (Pyramid). Authorized change, answered status and execution boundary are front-loaded; evidence and testable constraints follow. Template-required sections serve separate lookup needs; no meaningful reorganization recommended.
+
+Official word_metrics.py: total 1591; preamble 29; contents 102; Executive summary 223; Problem 216; Solution 160; What makes it different 93; Who it serves 84; Success criteria 220; Scope 258; Assumptions 62; Open questions 108. These are Japanese-aware metrics, not physical pagination. One-to-two-page target remains compact in scope; no fixed page layout was supplied, so physical fit is unverified.
 
 | Pass | Original Text | Revised Text | Changes |
 | --- | --- | --- | --- |
 
-Official word_metrics.py measured 1,674 words (Japanese-aware metric): preamble 29; ToC 97; Executive summary 287; Problem 142; Solution 175; What makes it different 99; Who it serves 82; Success criteria 183; Scope 290; Assumptions 88; Open questions 166. Recommended reduction: 0 words (0%). Physical one-to-two-page fit was not verified because paper, margins and type size were not specified; word count alone does not establish a Japanese page-count violation.
+No structural recommendations. Reduction 0 words (0%); no comprehension trade-off. Exact values in summary/solution/acceptance reinforce distinct reading tasks, not redundant narrative.
 
 ## Prose
 
-Independent dependent prose reviewer `local-51b2fa128c0e9a6d634b8eef96855b6de3100bebaf3516d8cba513043aeeb168` received the structure findings and applied the prose lens. No comprehension issue was found. Preserve concise declarative Japanese, English workflow identifiers, the exact ASCII suffix, the distinction between requester intent and observed contradiction, and the purposeful repetition of stop reason / decision rule / resolution trigger.
+Dependent pass received the completed structure result (no proposed edits). Preserve declarative Japanese, English template headings and literal identifiers, exact ASCII values and the distinction between answer authorization and PM reapproval. Frontmatter/code literals/structural markup excluded from copy-editing.
 
 | Pass | Original Text | Revised Text | Changes |
 | --- | --- | --- | --- |
 
-No prose edits required; no claims added.
+No comprehension defect found; no edits proposed or new claims introduced.
