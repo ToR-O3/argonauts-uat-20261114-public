@@ -339,13 +339,13 @@ sha256 = hashlib.sha256(raw_bytes).hexdigest()
 
 新設CLI名/引数/終了コード/配置は承認されたdiscretion内の**設計提案**であり、実在値や新たなユーザー決定としてverifiedにしない。入力固定の技術的前提は推測で補わず実装前gateで解決する。
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-依頼者へ再質問する仕様OQはない。OQ-1は回答済み。残るのは工程上の検証事項である。[VERIFIED: .planning/phases/06-pyproject-description-uat/06-CONTEXT.md:16; _bmad-output/initiative-r-774f3cd6/prd/prd-r-774f3cd6.md:106–108]
+依頼者へ再質問する仕様OQはない。OQ-1は回答済み。以下は未解決の研究質問ではなく、計画上の責任・実行時gateとして解決した事項である。RESOLVEDは検証方法と担当の決定であり、実測や品質合格を意味しない。
 
-1. **承認/対象の実装直前照合:** 正本に記載のrepo `ToR-O3/argonauts-uat-20261114-public`、branch `argonauts/r-774f3cd6`、承認head `56b70bdca4349c6d2f9eaeb62be2e340a3e04b49`、基準commit `b34cba0d008923e7f5267ce52d5403492ea53925` をBuilderが照合。本researchは再認証していない。[VERIFIED: .planning/phases/06-pyproject-description-uat/06-CONTEXT.md:17–19]
-2. **工程パス全件:** 比較基準以降の実差分を取得してから用途一覧を確定する。未観測パスを想像で列挙しない。
-3. **製品commit/品質/添付:** 実装後に実ID、CLI結果、実SHA、品質主体/添付対象を確定する。証拠の保存先があるだけで標準添付済みとしない。
+1. **RESOLVED — 承認/対象の実装直前照合:** 仕様判断は確定済み。正本のrepo `ToR-O3/argonauts-uat-20261114-public`、branch `argonauts/r-774f3cd6`、承認head `56b70bdca4349c6d2f9eaeb62be2e340a3e04b49`、基準commit `b34cba0d008923e7f5267ce52d5403492ea53925` をBuilderの実行時preflightと正本読取りで照合する。不一致なら未編集停止。本researchが再認証・実測したとはしない。
+2. **RESOLVED — 工程パス全件:** 実行時に全差分を取得し、exact-path/用途台帳をBuilderが作成、未知差分は拒否する方式に決定。未観測パスは推測登録しない。実際の棚卸しは未実施。
+3. **RESOLVED — 製品commit/品質/添付:** 製品commit固定後に実ID/hash/CLI結果を採取し、別主体の品質が同一対象を再計算、文字原本を標準添付する方式に決定。実装・実測・独立品質・配送は後続の未実施gateであり、計画の解決表示で合格にしない。
 
 ## Sources
 

@@ -1,20 +1,20 @@
 ---
 gsd_state_version: "1.0"
 milestone: v1.12
-current_phase: 5
-current_plan: Not started
-status: completed
+current_phase: 6
+current_phase_name: pyproject description UAT
+current_plan: 1
+status: executing
 stopped_at: Phase 5 complete — all phases complete
-last_updated: "2026-11-22T09:22:32.935Z"
-last_activity: 2026-11-22
-last_activity_desc: Phase 5 complete
-state_head: d086e1ee55e979a9751fb18868a276a8722e06ad
+last_updated: "2026-11-24T14:04:45.510Z"
+last_activity: 2026-11-24
+last_activity_desc: Phase 6 planned, 2 plans
+state_head: 8a3304e8eea2226087e1e7c5cf7d2e32e064e32d
 progress:
-  total_phases: 4
+  total_phases: 5
   completed_phases: 1
-  total_plans: 16
+  total_plans: 18
   completed_plans: 16
-  percent: 25
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -26,15 +26,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-17)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 5 — README validation B
+**Current focus:** Phase 6 — pyproject description UAT（計画済み、実装未着手）
 
 ## Current Position
 
-Phase: 5
-Current Plan: Not started
-Total Plans in Phase: 1
-Status: All phases complete
-Last activity: 2026-11-22 — Phase 5 complete
+Phase: 6 (pyproject description UAT) — READY TO EXECUTE
+Current Plan: 1
+Total Plans in Phase: 2
+Status: Ready to execute
+Last activity: 2026-11-24 — Phase 6 planned, 2 plans
 
 Progress: [███░░░░░░░] 25%
 

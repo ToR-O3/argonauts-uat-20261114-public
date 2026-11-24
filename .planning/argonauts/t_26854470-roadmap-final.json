@@ -1,0 +1,127 @@
+{
+  "milestones": [],
+  "phases": [
+    {
+      "number": "1",
+      "name": "wordfreq CLI",
+      "goal": "ユーザーは `python -m wordfreq <file>` で、決定論的な並び順と出力形式、exit code 規約を持つ単語頻度集計を stdlib-only の CLI として実行できる",
+      "mode": null,
+      "depends_on": "Nothing (first phase)",
+      "plan_count": 5,
+      "summary_count": 5,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "3",
+      "name": "wordfreq HTML output",
+      "goal": "承認済み依頼 r-50053edc の自己完結HTMLを安全にstdoutへ出し、全形式の同数順を初出順へ変更し、通常幅/320 CSS pxの独立ブラウザ証拠で受入条件を追跡できる。",
+      "mode": null,
+      "depends_on": "Phase 1",
+      "plan_count": 6,
+      "summary_count": 6,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "4",
+      "name": "wordfreq min-count",
+      "goal": "承認済み依頼r-e476c11dのmin-countを全3形式へ追加し、正規化後の閾値除外→top・元HTML総数・既定互換・見た目/安全性を維持し、独立品質の読める証拠でAC1〜AC7を追跡できる。",
+      "mode": null,
+      "depends_on": "Phase 3",
+      "plan_count": 4,
+      "summary_count": 4,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "5",
+      "name": "README validation B",
+      "goal": "承認済み依頼r-215b4390に従いREADME.mdの既存内容を保持し、指定行を独立した最終行として1回だけ追加する。製品差分は指定1行のみでコード・試験は変更しない。",
+      "mode": null,
+      "depends_on": "Phase 4",
+      "plan_count": 1,
+      "summary_count": 1,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "6",
+      "name": "pyproject description UAT",
+      "goal": "承認済み依頼r-774f3cd6のdescription新設を固定完成値argonauts-uat public (UAT)に一致させ、他製品・他項目・書式・依存を保持し、同一製品commitの独立品質証拠を文字で引き継ぐ。",
+      "mode": null,
+      "depends_on": "Phase 5",
+      "plan_count": 2,
+      "summary_count": 0,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "planned",
+      "roadmap_complete": false,
+      "context_read_error": null,
+      "context_scope": "complete"
+    }
+  ],
+  "phase_count": 5,
+  "completed_phases": 0,
+  "total_plans": 18,
+  "total_summaries": 16,
+  "progress_percent": null,
+  "progress_scope": "unscoped",
+  "current_phase": "1",
+  "next_phase": null,
+  "checkbox_conflict": [
+    {
+      "number": "1",
+      "roadmap_complete": true,
+      "disk_status": "executed",
+      "plan_count": 5,
+      "summary_count": 5
+    },
+    {
+      "number": "3",
+      "roadmap_complete": true,
+      "disk_status": "executed",
+      "plan_count": 6,
+      "summary_count": 6
+    },
+    {
+      "number": "4",
+      "roadmap_complete": true,
+      "disk_status": "executed",
+      "plan_count": 4,
+      "summary_count": 4
+    },
+    {
+      "number": "5",
+      "roadmap_complete": true,
+      "disk_status": "executed",
+      "plan_count": 1,
+      "summary_count": 1
+    }
+  ],
+  "roadmap_record": {
+    "1": true,
+    "3": true,
+    "4": true,
+    "5": true,
+    "6": false
+  },
+  "missing_phase_details": null,
+  "scope": "unscoped"
+}

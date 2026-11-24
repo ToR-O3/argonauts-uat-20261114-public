@@ -1,0 +1,75 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "python3 -B .planning/argonauts/r-774f3cd6/test_verify_description.py -v",
+      "statement": "正例が成功しない、5負例の条件id/exitが違う、未実装REDのassertion証拠が無い、または全Git境界変異のいずれかを受理すると自己テストが非0になる。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-01: 承認固定から条件別検証までの工程tracerを試験先行で通す（OpenSpec1.1/1.2）"
+    },
+    {
+      "command": "python3 -B .planning/argonauts/r-774f3cd6/verify_description.py preflight --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --candidate pyproject.toml --inputs .planning/argonauts/r-774f3cd6/inputs.json --process-paths .planning/argonauts/r-774f3cd6/process-paths.json",
+      "statement": "承認/対象/欠落/基準bytes/全Git状態のいずれかが不一致、未分類、取得不能なら該当条件FAIL/exit1または実行exit2になる。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 未編集の実製品で値条件だけのREDを固定する（OpenSpec1.2完了）"
+    },
+    {
+      "command": "python3 -B .planning/argonauts/r-774f3cd6/verify_description.py expect-red --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --candidate pyproject.toml --inputs .planning/argonauts/r-774f3cd6/inputs.json --process-paths .planning/argonauts/r-774f3cd6/process-paths.json",
+      "statement": "inner exitが1でない、失敗集合がVALUE_EXACT単独でない、または他必須条件がPASSでなければouter非0になる。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 未編集の実製品で値条件だけのREDを固定する（OpenSpec1.2完了）"
+    },
+    {
+      "command": "python3 -B .planning/argonauts/r-774f3cd6/verify_description.py preflight --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --candidate pyproject.toml --inputs .planning/argonauts/r-774f3cd6/inputs.json --process-paths .planning/argonauts/r-774f3cd6/process-paths.json",
+      "statement": "編集直前に承認/対象/欠落/全bytes/全Git状態が一致しないと条件FAIL/exit1または取得exit2になり、新設に進めない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-01: 1.3(a) 直前照合して製品descriptionの1行tracerを通す"
+    },
+    {
+      "command": "python3 -B .planning/argonauts/r-774f3cd6/verify_description.py content --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --candidate pyproject.toml",
+      "statement": "新設値/所属table/許可1行/全構造/生バイトのどれかが違うと該当条件FAIL/exit1、入力取得不能ならexit2になる。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-01: 1.3(a) 直前照合して製品descriptionの1行tracerを通す"
+    },
+    {
+      "command": "python3 -B .planning/argonauts/r-774f3cd6/test_verify_description.py -v",
+      "statement": "内容正負例、raw保持、全Git状態、未知工程path、hash/実行エラーの判別力が壊れると自己テスト非0になる。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-02: 1.3(b) 全Git境界を検証し製品commit/blobを固定する"
+    },
+    {
+      "command": "python3 -B .planning/argonauts/r-774f3cd6/verify_description.py repository --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --target-record .planning/argonauts/r-774f3cd6/product-target.json --process-paths .planning/argonauts/r-774f3cd6/process-paths.json --actor builder",
+      "statement": "製品commit固定/追加1行/全scope用途分類/mode/構造/bytes/blob-input hash/検証器hash/HEAD安定のどれかが不成立なら条件FAIL/exit1、取得不能ならexit2になる。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-02: 1.3(b) 全Git境界を検証し製品commit/blobを固定する"
+    },
+    {
+      "command": "python3 -B .planning/argonauts/r-774f3cd6/verify_description.py repository --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --target-record .planning/argonauts/r-774f3cd6/product-target.json --process-paths .planning/argonauts/r-774f3cd6/process-paths.json --actor builder",
+      "statement": "報告準備中に対象/製品/検証器hashが変わる、または報告差分に未知/他製品pathが混ざると該当条件FAIL/exit1または取得exit2になる。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-03: 1.3(c) 文字証拠と独立品質runbookを完成する"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 8
+  },
+  "readError": null
+}

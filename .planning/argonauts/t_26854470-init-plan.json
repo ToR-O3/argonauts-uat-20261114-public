@@ -1,0 +1,119 @@
+{
+  "researcher_model": "anthropic/claude-sonnet-5",
+  "planner_model": "anthropic/claude-opus-4-8",
+  "checker_model": "anthropic/claude-sonnet-5",
+  "tdd_mode": false,
+  "granularity": "standard",
+  "research_enabled": true,
+  "plan_checker_enabled": true,
+  "nyquist_validation_enabled": true,
+  "commit_docs": true,
+  "text_mode": false,
+  "auto_advance": false,
+  "auto_chain_active": false,
+  "mode": "interactive",
+  "phase_found": true,
+  "phase_dir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/06-pyproject-description-uat",
+  "expected_phase_dir": null,
+  "phase_number": "06",
+  "phase_name": "pyproject description UAT",
+  "phase_slug": "pyproject-description-uat",
+  "padded_phase": "06",
+  "phase_req_ids": "REQ-23",
+  "phase_status": "Pending",
+  "has_research": true,
+  "has_context": true,
+  "context_scope": "complete",
+  "has_reviews": false,
+  "has_plans": false,
+  "plan_count": 0,
+  "threat_id_duplicates": [],
+  "threat_id_duplicate_count": 0,
+  "planning_exists": true,
+  "roadmap_exists": true,
+  "state_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/STATE.md",
+  "roadmap_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/ROADMAP.md",
+  "requirements_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/REQUIREMENTS.md",
+  "has_spec": false,
+  "patterns_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/06-pyproject-description-uat/06-PATTERNS.md",
+  "context_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/06-pyproject-description-uat/06-CONTEXT.md",
+  "research_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/06-pyproject-description-uat/06-RESEARCH.md",
+  "section_manifest": {
+    "workflow": "plan-phase",
+    "included": [
+      "prd-express-gate"
+    ],
+    "excluded": [
+      "reviews-prerequisite",
+      "adr-ingest-express-path",
+      "research-only-modifiers",
+      "research-only-early-exit",
+      "chunked-planning-mode"
+    ],
+    "read": [
+      "gsd-core/workflows/plan-phase/steps/prd-express-gate.md"
+    ]
+  },
+  "prior_verify_commands": [
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/05-readme-validation-b/05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）",
+      "command": "git rev-parse HEAD"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/05-readme-validation-b/05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）",
+      "command": "git branch --show-current"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/05-readme-validation-b/05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）",
+      "command": "tail -n 1 README.md"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/05-readme-validation-b/05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）",
+      "command": "grep -Fxc '検証B: v1.12 の通しの確かめ（2026-11-22）' README.md"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/05-readme-validation-b/05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）",
+      "command": "grep -Fo '検証B: v1.12 の通しの確かめ（2026-11-22）' README.md"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/05-readme-validation-b/05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）",
+      "command": "git diff --numstat 127143c20b95518585663f176ed767aa4cbfc158 -- README.md"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/05-readme-validation-b/05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）",
+      "command": "git diff --no-ext-diff --no-textconv --unified=0 127143c20b95518585663f176ed767aa4cbfc158 -- README.md"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/05-readme-validation-b/05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）",
+      "command": "git diff --name-status 127143c20b95518585663f176ed767aa4cbfc158"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/.planning/phases/05-readme-validation-b/05-01-PLAN.md",
+      "task": "05-01-01: READMEの指定最終行を1回だけ追記し固定基底CLIで照合する（OpenSpec1.1）",
+      "command": "git status --short --untracked-files=all"
+    }
+  ],
+  "project_root": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470",
+  "agents_installed": true,
+  "missing_agents": [],
+  "agents_dir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/agents",
+  "agent_runtime": "hermes",
+  "project_title": "wordfreq CLI"
+}
