@@ -2,7 +2,7 @@
 
 ## 1. README例と直接検証
 
-- [ ] 1.1 README.mdの「wordfreq の実行」に `python -m wordfreq input.txt --min-count 3` の例を1つ追加する。追加前にはこの例が無いことを確認し、追加後はREADME差分で例1つと必要な局所説明だけが増え、既存例・説明・末尾の検証A行が保持されていることを確かめる。新しい試験ファイルは作らない。
+- [x] 1.1 README.mdの「wordfreq の実行」に `python -m wordfreq input.txt --min-count 3` の例を1つ追加する。追加前にはこの例が無いことを確認し、追加後はREADME差分で例1つと必要な局所説明だけが増え、既存例・説明・末尾の検証A行が保持されていることを確かめる。新しい試験ファイルは作らない。
 - [ ] 1.2 例と同じUTF-8実ファイル・閾値3を用い、例そのものの既定textと、形式指定だけを加えたjson/htmlを実行する。3以上と3未満の語を含む同一入力で、各exit0、stderr、語・回数・順序の一致と閾値未満の除外を確認する。textのタブ区切り、JSON配列のword/count、HTMLの3列表・順位・basename・フィルタ前総数を既存契約と照合する。作業場所・検証head・入力パスと内容・完全なコマンド・実exit・stdout/stderr・期待値との照合結果を `_bmad-output/initiative-r-5f8197e8/` 内の文字の検証原本へ残し、PMがread_fileで読めるようにする。未実行や未確認を成功と記さない。
 
 ## 2. 独立確認と範囲の確認
