@@ -1,7 +1,7 @@
 ---
 phase: "08"
 slug: "readme-min-count-example"
-status: draft
+status: validated
 nyquist_compliant: false
 wave_0_complete: true
 created: "2026-11-25"
@@ -30,8 +30,8 @@ created: "2026-11-25"
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 08-01-01 | 01 | 1 | REQ-28 | T-08-01 | 指定行以外のREADMEを保持 | document/manual-assisted | `git diff --check` + 固定編集前SHA対README差分の直接読取り | Git/README既存 | pending |
-| 08-01-02 | 01 | 1 | REQ-29 | T-08-02 | 全一覧を隠さず判定、暫定と最終を区別 | scope/manual-assisted | `git diff --name-status origin/v112-a...HEAD` + 対象base/head原本読取り | Git object既存 | pending |
+| 08-01-01 | 01 | 1 | REQ-28 | T-08-01 | 指定行以外のREADMEを保持 | document/manual-assisted | `git diff --check` + 固定編集前SHA対README差分の直接読取り | Git/README既存 | ✅ green（品質 t_5c607fb0、head 882b4c6、README patch +1/-0 指定行のみ、08-QUALITY-CLI.md §2） |
+| 08-01-02 | 01 | 1 | REQ-29 | T-08-02 | 全一覧を隠さず判定、暫定と最終を区別 | scope/manual-assisted | `git diff --name-status origin/v112-a...HEAD` + 対象base/head原本読取り | Git object既存 | ⚠ partial（整備前：全61件、README以外に工程文書60件 → 未達/暫定。D.5整備後の実PR再確認まで最終判定保留。08-QUALITY-CLI.md §3） |
 
 ## Wave 0 Requirements
 
@@ -54,3 +54,19 @@ created: "2026-11-25"
 - [ ] `nyquist_compliant: true` は品質の公式判定後のみ
 
 **Approval:** pending。これは計画用戦略であり実装・受入の合格ではない。
+
+## Nyquist Audit (quality t_5c607fb0, 2026-11-25)
+
+- State A（既存VALIDATION.mdを監査）。対象head 882b4c60e36a4457c6d504cb07cccc69a03e7130、BASE（fetch済みorigin/v112-a）cf407aaa6babebc0a21cf6370530d321b8a615e1。
+- REQ-28: COVERED（既存Git表示＋README原本の直接読取りでgreen）。
+- REQ-29: PARTIAL（同じ検証コマンドで整備前はREADME以外60件 → 失敗側。D.5整備後の実PR base/headで品質が再実行するmanual-onlyの確認として保持）。
+- 新しい試験・検証スクリプトは作らない（依頼者判断とPLANのD-05：新規test/verifier禁止）。そのためgsd-nyquist-auditorは起動せず、ギャップは「manual-only」として扱った。
+- `nyquist_compliant` は REQ-29 の最終確認が残るため false のまま。
+
+## Validation Audit 2026-11-24
+
+| Metric | Count |
+|---|---|
+| Gaps found | 1 |
+| Resolved | 0 |
+| Escalated | 1 |
