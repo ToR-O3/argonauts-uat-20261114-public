@@ -282,6 +282,8 @@ class RepositoryTests(unittest.TestCase):
         self.assertEqual(red['exit_code'], 0)
         self.assertEqual(red['inner_exit'], 1)
         self.assertEqual(red['inner_result']['failures'], ['VALUE_EXACT'])
+        self.assertEqual(red['inner_result']['head_start'], red['inner_result']['head_end'])
+        self.assertTrue(any(c['id'] == 'HEAD_STABLE' and c['status'] == 'PASS' for c in red['inner_result']['conditions']))
         wrong = dict(inputs, expected_value='WRONG')
         (p / 'inputs.json').write_text(json.dumps(wrong))
         self.assertIn('APPROVAL_BINDING', run('preflight', args)['failures'])

@@ -369,6 +369,8 @@ def main(argv=None) -> int:
                 if args.mode == 'preflight':
                     trim_conditions(result, {'VALUE_EXACT'})
                 else:
+                    result['head_end'] = git(root, 'rev-parse', 'HEAD').strip().decode()
+                    condition(result, 'HEAD_STABLE', result['head_start'] == result['head_end'], 'HEAD observed around inner content and preflight')
                     inner = copy.deepcopy(result)
                     expected = inner['exit_code'] == 1 and inner['failures'] == ['VALUE_EXACT'] and all(c['status'] == 'PASS' for c in inner['conditions'] if c['id'] != 'VALUE_EXACT')
                     result.update(inner_result=inner, inner_exit=inner['exit_code'], outer_exit=0 if expected else (2 if inner['exit_code'] == 2 else 1), exit_code=0 if expected else (2 if inner['exit_code'] == 2 else 1))
