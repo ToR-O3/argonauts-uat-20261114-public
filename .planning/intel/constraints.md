@@ -1,22 +1,22 @@
 # Constraints (intel)
 
-SPEC分類のtasks.mdから3制約を抽出。すべて検証・変更境界・工程に関するnfr。実行時API/schema/protocolは追加しない。skip_specs=trueで能力specは省略されており、tasksのSPEC分類を新しい製品能力の根拠にしない。未作成の検証ファイルは今回実行しない。
+SPEC分類のtasks.mdから3制約を抽出。nfr 3件。新しいAPI/schema/protocol契約はない。以下は後続工程の制約であり、本synthesisで実行する指示ではない。
 
-DATA_712e89b5_START
+DATA_932ab4e6_START
 
-## 変更前後の直接検証と既存データ・バイト保持
-- source: openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:7-8
+## 指定例1つの追加と既存内容の維持
+- source: openspec/changes/r-d78495de-readme-min-count/tasks.md:5
 - type: nfr
-- content: `.planning/argonauts/r-cf2eeaab/` に標準ライブラリのみの検証ファイルを用意する。起点 `c572613dc626160db2eb3bf4a41c95fc8283b828` と比較し、TOML正常解析、project.descriptionの完成値 `argonauts-uat public (UAT)` との厳密一致、当該キー以外の解析データ不変、追加行除外後のバイト列一致、工程文書以外の製品差分が対象ファイルだけであることを検査する。実装前にdescription欠落で失敗することを実コマンド・終了コードで確認し、工程文書に記録する。既存製品テストと依存は変更しない。
+- content: README.md の使い方に `python -m wordfreq input.txt --min-count 3` を1つ追加し、既存例・説明・末尾行を維持する。README原本と差分を読んで追加例1件を確認し、文字証拠をカードへ添付する。実装・試験・ツール・依存・設定・公開入出力は変えない。
 
-## 製品追加の最小化とAC別証拠
-- source: openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:8
+## 独立確認と最終PR全差分の文字証拠
+- source: openspec/changes/r-d78495de-readme-min-count/tasks.md:9
 - type: nfr
-- content: `pyproject.toml` の `[project]` へ `description = "argonauts-uat public (UAT)"` の1行だけを追加し、1.1と同じ検証を成功させる。完成値にさらに印を足さない。コマンド・起点と対象head・終了コード・値と差分・AC別結果を工程文書に記録し、既存TOML項目および他製品ファイルが不変であることを確認する。
+- content: qualityがREADME原本と差分で例1つの追加を独立確認し、チームD.5整備後の最終PR `base...head` 全変更一覧がREADME.mdだけであることを確認する。base/head・全一覧・2条件の判定を文字証拠とVERIFICATION.mdに記録してカードへ添付し、PMがread_fileで読む。工程文書をpath除外して判定しない。最終PR整備前の確認は暫定とし、残る工程ファイルを明示する。
 
-## 独立品質・承認ゲートと人によるマージ
-- source: openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:12-13
+## 最新判断の検証範囲と工程原本の境界
+- source: openspec/changes/r-d78495de-readme-min-count/tasks.md:13-15
 - type: nfr
-- content: 品質が対象headで検証を独立実行し、VERIFICATION.md等の文字の証拠を添付する。PMは文字から条件別結果を判断できること。仕様承認・計画・実装・レビュー・受入の各ゲートを経た後、最終化のカードでsync・archiveする。pyproject.tomlは危険パスのため、smartでも人がマージする。
+- content: 最新判断2026-11-25T06:53+09:00の確認対象は例1つと変更ファイルREADME.mdのみ。text・json・htmlの実行確認、検証入力・出力・終了コードと実行証拠は対象外。旧タスク1.2は撤去済みで未完了に残さない。full工程、工程原本のGit保存・push・カード添付を維持し、後続のD.5で最終PRから工程文書を外した後に品質が最終全差分を再確認する。仕様承認・計画・実装・品質確認・受入・最終化は既存カードで行う。振る舞い不変の文書変更としてspecsはskip_specsで省略する。
 
-DATA_712e89b5_END
+DATA_932ab4e6_END

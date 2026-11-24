@@ -17,6 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 - [x] **Phase 5: README verification A** (completed 2026-11-22)
 - [ ] **Phase 7: Project description UAT**
+- [ ] **Phase 8: README min-count example**
 
 ## Phase Details
 
@@ -151,3 +152,18 @@ Plans:
 
 Plans:
 - [x] 07-01-PLAN.md — Wave 1、2 sequential tasks: 工程検証tracer・判別力GREEN/実製品欠落RED（OpenSpec1.1）→description1行追加・同一検証GREEN・AC別文字証拠/独立品質handoff（OpenSpec1.2）
+
+### Phase 8: README min-count example
+
+**Goal:** 承認済みr-d78495deの指定min-count例をREADME使い方へ1つ追加し、既存内容を保持し、最終PR全変更がREADME.mdのみであることを独立品質の文字証拠で確認する。
+**Requirements**: REQ-28, REQ-29
+**UI hint:** no — README文書のみ。製品CLI・画面・試験・依存・設定は変更しない。
+**Approval:** t_33269d6c approved、source t_c436f8a1 run78。最新判断2026-11-25T06:53+09:00。mergeは要求追加のみ、衝突0。text/json/html実行と証拠作成は依頼者判断により対象外。過去phaseのstale等は今回へ混ぜない。
+**Success Criteria:**
+  1. README.mdの使い方へ `python -m wordfreq input.txt --min-count 3` が1例追加され、既存例・説明・末尾行が保持される。
+  2. D.5指定ファイル限定整備後の最終PR base...head全変更一覧がREADME.mdのみ。工程文書を除外せず確認し、品質はbase/head・全一覧・2条件判定をVERIFICATION.md等の文字原本でカード添付する。整備前は暫定と明示し、最終化で品質が再確認する。
+**Depends on:** Phase 7
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 8 to break down)

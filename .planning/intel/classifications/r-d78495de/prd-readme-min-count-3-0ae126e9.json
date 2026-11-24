@@ -1,0 +1,12 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_19c23e10/_bmad-output/initiative-r-d78495de/prd/prd-readme-min-count-3.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "README --min-count 3 実行例",
+  "summary": "READMEに閾値3の実行例を1つ追加し、最終PRの全変更をREADME.mdだけに限定する要件と受入条件。",
+  "scope": ["README.md", "wordfreq", "--min-count 3", "最終PRの全差分", "文字証拠"],
+  "cross_refs": ["../brief/brief-readme-min-count-3.md", "../initiative-r-d78495de.md", "README.md"],
+  "locked": false,
+  "precedence": null
+}

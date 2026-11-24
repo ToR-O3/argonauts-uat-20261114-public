@@ -101,6 +101,20 @@ Source: 仕様承認t_8a187e42、要求・仕様t_62c33f31 run59、OpenSpec `r-c
 
 Finalization t_20f1102b: REQ-25/26 `[x]` track the implemented product conditions only; the Pending table is full-closure status. REQ-27's premature `[x]` is cleared. Quality run65 independently executed at c5d0eb136bf92d6f00c3fc807346e55103917504; PM t_b9c2f01b subsequently read text originals 85–88 and approved AC1–3 (no PM test rerun). Quality human_needed / phase_completed=false remains unchanged. P1/P2 and unclassified probes REQ-25/26/27 remain flagged-unverified, not human-approved or resolved. See `.planning/argonauts/t_20f1102b/finalization.md` for the separate finalization record.
 
+## r-d78495de Requirements (Phase 8)
+
+Source: 仕様承認t_33269d6c、要求・仕様t_c436f8a1 run78、OpenSpec `r-d78495de-readme-min-count` proposal/tasks（skip_specs=true）と承認BMAD Brief/PRD。最新判断2026-11-25T06:53+09:00。取込みは以下2条件の追加のみ、既存要求・過去の履歴は変更しない。
+
+- [ ] **REQ-28**: README.mdの使い方へ `python -m wordfreq input.txt --min-count 3` の実行例を1つ追加する。既存例・説明・末尾行を保持する。原本と文字差分で確認する。
+- [ ] **REQ-29**: 最終PR base...headの全変更ファイルがREADME.mdだけである。工程文書をpath除外しない。full工程原本は保存・push・カード添付後、後続D.5指定ファイル限定手順でPRから外す。整備前は暫定として残る工程ファイルを明示し、品質が整備後のbase/head・全一覧・2条件判定をVERIFICATION.md等の文字原本でカード添付する。PMはread_fileで判断する。
+
+text/json/htmlの3形式実行、検証入力・出力・終了コードとその実行証拠は依頼者判断により対象外であり残件にしない。実装・試験・ツール・依存・設定・公開入出力変更なし。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-28 | Phase 8 | Pending |
+| REQ-29 | Phase 8 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

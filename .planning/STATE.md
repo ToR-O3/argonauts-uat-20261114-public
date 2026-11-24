@@ -93,6 +93,8 @@ Recent decisions affecting current work:
 
 ### Roadmap Evolution
 
+- Phase 8 added: README min-count example (r-d78495de; official phase.add result 8). 承認t_33269d6c、REQ-28/REQ-29追加のみ、衝突0。最新判断2026-11-25T06:53+09:00で3形式実行と証拠は対象外。最終PR全変更README.mdのみは後続D.5整備後に品質が再確認する。
+
 - Phase 7 added: Project description UAT (r-cf2eeaab; official phase.add result 7). 承認t_8a187e42、REQ-25..REQ-27追加のみ、衝突0。旧phaseのstaleと残存ディレクトリは再利用せず、今回の範囲へ混ぜない。
 
 - Phase 5 added: README verification A (r-8ac79daf; official phase.add result 5). Approved t_327d2f8f run7. Merge adds REQ-22..REQ-24 only, conflicts 0. Prior phases and product files are unchanged by planning.

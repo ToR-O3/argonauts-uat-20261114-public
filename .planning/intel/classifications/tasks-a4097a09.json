@@ -1,0 +1,22 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_19c23e10/openspec/changes/r-d78495de-readme-min-count/tasks.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Tasks",
+  "summary": "READMEに最小出現回数指定の例を1つ追加し、既存内容の維持と最終PRの変更ファイルがREADME.mdのみであることを独立確認するタスク。",
+  "scope": [
+    "README.md",
+    "--min-count 3",
+    "最終PR全差分",
+    "文字証拠",
+    "独立確認"
+  ],
+  "cross_refs": [
+    "README.md",
+    "VERIFICATION.md"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}
