@@ -1,22 +1,22 @@
 # Constraints (intel)
 
-今回のSPEC分類1文書から3制約を抽出。文書の掲載・保持・範囲に関する非機能制約（nfr）であり、実行時API・schema・protocolは追加しない。既存の製品契約を置換しない。
+SPEC分類のtasks.mdから3制約を抽出。すべて検証・変更境界・工程に関するnfr。実行時API/schema/protocolは追加しない。skip_specs=trueで能力specは省略されており、tasksのSPEC分類を新しい製品能力の根拠にしない。未作成の検証ファイルは今回実行しない。
 
-DATA_79027a93_START
+DATA_712e89b5_START
 
-## 指定文言の末尾掲載
-- source: openspec/changes/r-8ac79daf-readme-verification-a/specs/readme-verification-note/spec.md:9-16
+## 変更前後の直接検証と既存データ・バイト保持
+- source: openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:7-8
 - type: nfr
-- content: README.md SHALL `検証A: v1.12 の通しの確かめ（2026-11-22）` を独立した最後の1行として掲載する。かぎ括弧、追加の句点、前後の余分な文字を含めない。追記後のREADME.mdの最後の行の内容は指定行と完全一致し、既存の行に連結されず、この行の後に空行や別の文言がない。
+- content: `.planning/argonauts/r-cf2eeaab/` に標準ライブラリのみの検証ファイルを用意する。起点 `c572613dc626160db2eb3bf4a41c95fc8283b828` と比較し、TOML正常解析、project.descriptionの完成値 `argonauts-uat public (UAT)` との厳密一致、当該キー以外の解析データ不変、追加行除外後のバイト列一致、工程文書以外の製品差分が対象ファイルだけであることを検査する。実装前にdescription欠落で失敗することを実コマンド・終了コードで確認し、工程文書に記録する。既存製品テストと依存は変更しない。
 
-## 既存README内容の保持
-- source: openspec/changes/r-8ac79daf-readme-verification-a/specs/readme-verification-note/spec.md:18-24
+## 製品追加の最小化とAC別証拠
+- source: openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:8
 - type: nfr
-- content: この追記 SHALL 既存READMEの内容と順序を保持し、削除・書換えや不要な空行追加を含まない。変更前後の差分は指定行の末尾追記のみである。
+- content: `pyproject.toml` の `[project]` へ `description = "argonauts-uat public (UAT)"` の1行だけを追加し、1.1と同じ検証を成功させる。完成値にさらに印を足さない。コマンド・起点と対象head・終了コード・値と差分・AC別結果を工程文書に記録し、既存TOML項目および他製品ファイルが不変であることを確認する。
 
-## 製品変更範囲の限定
-- source: openspec/changes/r-8ac79daf-readme-verification-a/specs/readme-verification-note/spec.md:26-32
+## 独立品質・承認ゲートと人によるマージ
+- source: openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:12-13
 - type: nfr
-- content: この依頼の利用者向け変更 SHALL README.mdの指定1行追加だけとし、コード・試験を変更しない。仕様・計画・検証文書は別の工程成果物として区別する。全ファイル差分で工程成果物を除く変更はREADME.mdの指定1行追加だけであり、コード・試験に差分がない。
+- content: 品質が対象headで検証を独立実行し、VERIFICATION.md等の文字の証拠を添付する。PMは文字から条件別結果を判断できること。仕様承認・計画・実装・レビュー・受入の各ゲートを経た後、最終化のカードでsync・archiveする。pyproject.tomlは危険パスのため、smartでも人がマージする。
 
-DATA_79027a93_END
+DATA_712e89b5_END

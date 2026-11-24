@@ -1,0 +1,1648 @@
+# quality-cli-evidence.txt — 品質（argonauts-uat-quality）独立実行の文字原本
+card: t_9dff5b92 [フェーズ検証 7]  request: r-cf2eeaab
+executor: argonauts-uat-quality（このカードのrun 65。Builderではない）
+fixed baseline: c572613dc626160db2eb3bf4a41c95fc8283b828
+target head（検証した対象 = start_sha = fetch時のorigin/argonauts/r-cf2eeaab）: c5d0eb136bf92d6f00c3fc807346e55103917504
+report head: このファイルを保存する後続の .planning のみのcommit（対象headとは別。SHAは完了metadataのhead_sha）
+cwd（全コマンド共通）: /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_9dff5b92（対象headをcheckout）
+python: Python 3.14.9 / 実行開始 UTC 2026-11-24T20:36:20Z（JST 2026-11-25 05:36:20）
+時間: bash TIMEFORMAT 'real=%3Rs' の実測（壁時計）
+以下の stdout/stderr はリダイレクトで保存した生の出力を、そのまま連結したもの（手編集なし）。
+
+=== C1  python3 .planning/argonauts/r-cf2eeaab/verify_description.py
+exit=0
+real=0.094s
+{
+  "exit": 0,
+  "base": "c572613dc626160db2eb3bf4a41c95fc8283b828",
+  "root": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_9dff5b92",
+  "checks": {
+    "git_available": true,
+    "head_scope": true,
+    "index_scope": true,
+    "worktree_scope": true,
+    "untracked_scope": true,
+    "git_state_readable": true,
+    "worktree_io": true,
+    "baseline_utf8": true,
+    "baseline_toml": true,
+    "worktree_utf8": true,
+    "worktree_toml": true,
+    "baseline_description_absent": true,
+    "description_missing": true,
+    "description_type": true,
+    "description_value": true,
+    "other_data_unchanged": true,
+    "single_expected_line": true,
+    "existing_bytes_unchanged": true
+  },
+  "head": "c5d0eb136bf92d6f00c3fc807346e55103917504",
+  "changes": {
+    "head": [
+      {
+        "path": ".planning/INGEST-CONFLICTS.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/REQUIREMENTS.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/ROADMAP.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/STATE.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab-learnings.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab-manifest.yaml",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab-prd.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/builder-evidence.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/builder-green-cli.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/builder-red-cli.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/existing-tests-cli.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/test_verify_description.py",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verifier-tdd-mutations-red.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verifier-tdd-red.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verifier-tdd-scope-red.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verify_description.py",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/SYNTHESIS.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/brief-project-description-uat-2e36618f.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/prd-project-description-uat-4cbc5ec0.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/proposal-9a2da7e8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/brief-project-description-uat-2e36618f.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/prd-project-description-uat-4cbc5ec0.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/proposal-9a2da7e8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/tasks-ef25bec8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/tasks-ef25bec8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/constraints.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/context.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/decisions.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/requirements.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/.gitkeep",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-01-PLAN.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-01-SUMMARY.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-CONTEXT.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-PATTERNS.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-PLAN-CHECK.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-RESEARCH.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-VALIDATION.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-command-paths.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-failure-directions.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/state.json",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/.memlog.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/.template.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.html",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-fresh-reader.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-prose.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-reconciliation.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-rubric.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-structure.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/independent-review.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/.memlog.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/.template.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-fresh-reader.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-prose.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-reconciliation.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-rubric.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-structure.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/.openspec.yaml",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/design.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/proposal.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/tasks.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "pyproject.toml",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": false,
+        "allowed": true
+      }
+    ],
+    "index": [
+      {
+        "path": ".planning/INGEST-CONFLICTS.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/REQUIREMENTS.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/ROADMAP.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/STATE.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab-learnings.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab-manifest.yaml",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab-prd.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/builder-evidence.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/builder-green-cli.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/builder-red-cli.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/existing-tests-cli.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/test_verify_description.py",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verifier-tdd-mutations-red.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verifier-tdd-red.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verifier-tdd-scope-red.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verify_description.py",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/SYNTHESIS.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/brief-project-description-uat-2e36618f.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/prd-project-description-uat-4cbc5ec0.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/proposal-9a2da7e8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/brief-project-description-uat-2e36618f.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/prd-project-description-uat-4cbc5ec0.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/proposal-9a2da7e8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/tasks-ef25bec8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/tasks-ef25bec8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/constraints.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/context.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/decisions.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/requirements.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/.gitkeep",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-01-PLAN.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-01-SUMMARY.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-CONTEXT.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-PATTERNS.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-PLAN-CHECK.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-RESEARCH.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-VALIDATION.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-command-paths.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-failure-directions.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/state.json",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/.memlog.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/.template.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.html",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-fresh-reader.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-prose.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-reconciliation.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-rubric.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-structure.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/independent-review.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/.memlog.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/.template.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-fresh-reader.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-prose.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-reconciliation.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-rubric.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-structure.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/.openspec.yaml",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/design.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/proposal.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/tasks.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "pyproject.toml",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": false,
+        "allowed": true
+      }
+    ],
+    "worktree": [
+      {
+        "path": ".planning/INGEST-CONFLICTS.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/REQUIREMENTS.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/ROADMAP.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/STATE.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab-learnings.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab-manifest.yaml",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab-prd.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/builder-evidence.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/builder-green-cli.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/builder-red-cli.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/existing-tests-cli.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/test_verify_description.py",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verifier-tdd-mutations-red.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verifier-tdd-red.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verifier-tdd-scope-red.txt",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/argonauts/r-cf2eeaab/verify_description.py",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/SYNTHESIS.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/brief-project-description-uat-2e36618f.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/prd-project-description-uat-4cbc5ec0.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/proposal-9a2da7e8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/brief-project-description-uat-2e36618f.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/prd-project-description-uat-4cbc5ec0.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/proposal-9a2da7e8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/r-cf2eeaab/tasks-ef25bec8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/classifications/tasks-ef25bec8.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/constraints.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/context.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/decisions.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/intel/requirements.md",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/.gitkeep",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-01-PLAN.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-01-SUMMARY.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-CONTEXT.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-PATTERNS.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-PLAN-CHECK.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-RESEARCH.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-VALIDATION.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-command-paths.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/phases/07-project-description-uat/07-failure-directions.json",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": ".planning/state.json",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/.memlog.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/.template.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.html",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-fresh-reader.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-prose.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-reconciliation.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-rubric.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/brief/review-structure.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/independent-review.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/.memlog.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/.template.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-fresh-reader.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-prose.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-reconciliation.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-rubric.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "_bmad-output/initiative-r-cf2eeaab/prd/review-structure.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/.openspec.yaml",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/design.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/proposal.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "openspec/changes/r-cf2eeaab-project-description-uat/tasks.md",
+        "status": "A",
+        "old_mode": "000000",
+        "new_mode": "100644",
+        "process": true,
+        "allowed": true
+      },
+      {
+        "path": "pyproject.toml",
+        "status": "M",
+        "old_mode": "100644",
+        "new_mode": "100644",
+        "process": false,
+        "allowed": true
+      }
+    ],
+    "untracked": []
+  },
+  "dirty": [
+    ""
+  ],
+  "patch": "diff --git a/pyproject.toml b/pyproject.toml\nindex d96f26d..eeff26e 100644\n--- a/pyproject.toml\n+++ b/pyproject.toml\n@@ -5,6 +5,7 @@ build-backend = \"setuptools.build_meta\"\n [project]\n name = \"wordfreq\"\n version = \"0.1.0\"\n+description = \"argonauts-uat public (UAT)\"\n dependencies = []\n \n [project.optional-dependencies]\n",
+  "description": "argonauts-uat public (UAT)"
+}
+
+=== C2  cd .planning/argonauts/r-cf2eeaab && python3 test_verify_description.py -v
+（unittestは結果をstderrに書く）
+exit=0
+test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) ... ok
+test_environment_and_parse_failures_are_not_missing (__main__.DescriptionVerificationTests.test_environment_and_parse_failures_are_not_missing) ... ok
+test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) ... ok
+test_positive_control_and_read_only (__main__.DescriptionVerificationTests.test_positive_control_and_read_only) ... ok
+test_process_directories_allowed (__main__.DescriptionVerificationTests.test_process_directories_allowed) ... ok
+test_pyproject_deletion_rename_mode (__main__.DescriptionVerificationTests.test_pyproject_deletion_rename_mode) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.395s
+
+OK
+real=1.500s
+
+=== C3  git status --porcelain=v1 --untracked-files=all（製品dirtyの確認。証拠ファイル作成前、対象headで）
+exit=0
+stdout: （空。変更・stage・未追跡なし）
+
+=== C4  pyproject.toml の HEAD blob と作業bytes
+$ git rev-parse HEAD:pyproject.toml            -> eeff26ea895b3b8d994efe65ac6f926e8b212e35
+$ git hash-object pyproject.toml               -> eeff26ea895b3b8d994efe65ac6f926e8b212e35（一致）
+$ git rev-parse c572613…:pyproject.toml        -> d96f26dd55e3db3f80d5987f8dc90f143868b05d（起点blob）
+$ sha256sum pyproject.toml                     -> 540df8d5bf689fd037f73e336faa5ea05aa809699635472f47dd414dc3afb7e0
+$ git show HEAD:pyproject.toml | sha256sum     -> 540df8d5bf689fd037f73e336faa5ea05aa809699635472f47dd414dc3afb7e0（一致）
+
+=== C5  起点c572613..対象head の製品ファイル（工程文書 .planning/ openspec/ _bmad-output/ .compound-engineering/ docs/solutions/ を除く）
+$ git diff --name-status --no-renames c572613 HEAD | grep -v -E '^[A-Z]\s+(\.planning/|openspec/|_bmad-output/|\.compound-engineering/|docs/solutions/)'
+M	pyproject.toml
+$ git diff --numstat c572613 HEAD -- pyproject.toml
+1	0	pyproject.toml
+工程の文書: 62件（判定の対象外）。全差分63件 = 製品1件 + 工程文書62件。
+$ git diff c572613 HEAD -- pyproject.toml
+diff --git a/pyproject.toml b/pyproject.toml
+index d96f26d..eeff26e 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -5,6 +5,7 @@ build-backend = "setuptools.build_meta"
+ [project]
+ name = "wordfreq"
+ version = "0.1.0"
++description = "argonauts-uat public (UAT)"
+ dependencies = []
+ 
+ [project.optional-dependencies]
+
+=== C6  git diff --check c572613 HEAD -- pyproject.toml
+exit=0  stdout/stderr: （空）
+
+=== C7  既存の試験: uv run --with pytest pytest -q
+exit=0
+real=196.018s
+........................................................................ [ 10%]
+........................................................................ [ 20%]
+........................................................................ [ 30%]
+........................................................................ [ 41%]
+........................................................................ [ 51%]
+........................................................................ [ 61%]
+........................................................................ [ 71%]
+........................................................................ [ 82%]
+........................................................................ [ 92%]
+......................................................                   [100%]
+702 passed in 194.94s (0:03:14)
+Using CPython 3.12.15 interpreter at: /usr/bin/python
+Creating virtual environment at: .venv
+warning: No `requires-python` value found in the workspace. Defaulting to `>=3.12`.
+   Building wordfreq @ file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_9dff5b92
+      Built wordfreq @ file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_9dff5b92
+Installed 1 package in 1ms
+
+注: uv が .venv（gitignore済み）・uv.lock・wordfreq.egg-info/（未追跡のビルド副産物）を作った。品質はPKG-INFOを作業場所の外に控えてから uv.lock と wordfreq.egg-info/ を削除し、その後の git status --porcelain --untracked-files=all は空（exit 0）。
+対象headのsetuptoolsビルドが作ったPKG-INFOの該当行（実際に読んだ値）:
+Name: wordfreq
+Version: 0.1.0
+Summary: argonauts-uat public (UAT)
+
+=== 区別（Builder の RED/GREEN と品質の実行）
+- Builder の欠落RED・追加後GREENは builder-red-cli.txt / builder-green-cli.txt（Builderが実行、対象head b98c8ab2 / cfc31e7e 等）。品質はこれらを読んだだけで、REDを再現していない。
+- 上の C1〜C7 は品質がこのrunで対象head c5d0eb1 に対して実行したもの。保存（このファイルのcommit）・標準添付・PMの読取りはそれぞれ別の状態で、ここでは保存と添付の照合までを品質が行う。PMの読取りは未実施。
+- 画像: 0枚（説明文metadataのみで画面の変更なし。ブラウザーは使っていない）。

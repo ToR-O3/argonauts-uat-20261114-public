@@ -1,0 +1,43 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "python3 .planning/argonauts/r-cf2eeaab/test_verify_description.py",
+      "statement": "exitが0以外、実行件数0、正常対照が失敗、または違反fixtureが成功/狙った判定以外で失敗した場合。これは検証器試験GREENを要求し、製品GREENは要求しない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-01: 実TOML→固定Git基準→判定→文字原本の検証tracerを作り欠落REDを保存する（OpenSpec 1.1）"
+    },
+    {
+      "command": "python3 .planning/argonauts/r-cf2eeaab/verify_description.py",
+      "statement": "この編集前taskではexit0は欠落の誤合格なので失敗。exit1かつTOML解析成功・description_missingの実測だけを期待REDと認定し、それ以外のexit、環境/import/Git/decode/構文エラー、欠落以外の便乗変更、原本欠落ならtask失敗。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-01: 実TOML→固定Git基準→判定→文字原本の検証tracerを作り欠落REDを保存する（OpenSpec 1.1）"
+    },
+    {
+      "command": "python3 .planning/argonauts/r-cf2eeaab/test_verify_description.py",
+      "statement": "exitが0以外、試験件数0、正常対照の失敗、または違反fixtureを対応する判定で拒否できない場合。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-02: description1行を追加して同一検証GREENとAC別証拠・品質引継ぎを完成する（OpenSpec 1.2）"
+    },
+    {
+      "command": "python3 .planning/argonauts/r-cf2eeaab/verify_description.py",
+      "statement": "exitが0以外。具体的にはdescription欠落/誤値/二重印、TOML破損、description以外の解析データやbytes変更、他製品変更、削除/rename/mode変更、固定起点取得不能をいずれも失敗として観測する。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-02: description1行を追加して同一検証GREENとAC別証拠・品質引継ぎを完成する（OpenSpec 1.2）"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 4
+  },
+  "readError": null
+}

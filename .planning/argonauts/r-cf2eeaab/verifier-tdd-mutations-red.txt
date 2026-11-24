@@ -1,0 +1,163 @@
+test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) ... 
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_missing', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndependencies = []\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_value', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT) (UAT)"\ndependencies = []\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_value', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = " argonauts-uat public (UAT)"\ndependencies = []\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_value', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT) "\ndependencies = []\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_type', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = 42\ndependencies = []\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_missing', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndependencies = []\n\n[other]\ndescription = "argonauts-uat public (UAT)"\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='worktree_toml', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT)"\ndependencies = []\ndescription = "argonauts-uat public (UAT)"\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='worktree_toml', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT)"\ndependencies = []\nbroken = [\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='other_data_unchanged', raw=b'[project]\nname = "changed"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT)"\ndependencies = []\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='existing_bytes_unchanged', raw=b'[project]\nname = "fixture"\nversion  = "0.1.0"\ndescription = "argonauts-uat public (UAT)"\ndependencies = []\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='existing_bytes_unchanged', raw=b'[project]\r\nname = "fixture"\r\nversion = "0.1.0"\r\ndescription = "argonauts-uat public (UAT)"\r\ndependencies = []\r\n') ... FAIL
+  test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='existing_bytes_unchanged', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT)"\ndependencies = []\n\n') ... FAIL
+test_positive_control_and_read_only (__main__.DescriptionVerificationTests.test_positive_control_and_read_only) ... ok
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_missing', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndependencies = []\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_value', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT) (UAT)"\ndependencies = []\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_value', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = " argonauts-uat public (UAT)"\ndependencies = []\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_value', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT) "\ndependencies = []\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_type', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = 42\ndependencies = []\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='description_missing', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndependencies = []\n\n[other]\ndescription = "argonauts-uat public (UAT)"\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='worktree_toml', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT)"\ndependencies = []\ndescription = "argonauts-uat public (UAT)"\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='worktree_toml', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT)"\ndependencies = []\nbroken = [\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='other_data_unchanged', raw=b'[project]\nname = "changed"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT)"\ndependencies = []\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='existing_bytes_unchanged', raw=b'[project]\nname = "fixture"\nversion  = "0.1.0"\ndescription = "argonauts-uat public (UAT)"\ndependencies = []\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='existing_bytes_unchanged', raw=b'[project]\r\nname = "fixture"\r\nversion = "0.1.0"\r\ndescription = "argonauts-uat public (UAT)"\r\ndependencies = []\r\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+======================================================================
+FAIL: test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) (condition='existing_bytes_unchanged', raw=b'[project]\nname = "fixture"\nversion = "0.1.0"\ndescription = "argonauts-uat public (UAT)"\ndependencies = []\n\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 68, in test_description_and_toml_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'checks': {}}
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.085s
+
+FAILED (failures=12)

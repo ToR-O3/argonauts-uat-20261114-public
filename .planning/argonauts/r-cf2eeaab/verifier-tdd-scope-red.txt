@@ -1,0 +1,167 @@
+test_description_and_toml_mutations (__main__.DescriptionVerificationTests.test_description_and_toml_mutations) ... ok
+test_environment_and_parse_failures_are_not_missing (__main__.DescriptionVerificationTests.test_environment_and_parse_failures_are_not_missing) ... ok
+test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) ... 
+  test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='unstaged') ... FAIL
+  test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='staged') ... FAIL
+  test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='committed') ... FAIL
+  test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='committed_then_restored') ... FAIL
+  test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='deleted') ... FAIL
+  test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='renamed') ... FAIL
+  test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='mode') ... FAIL
+  test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='untracked') ... FAIL
+  test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='prefix_spoof') ... FAIL
+test_positive_control_and_read_only (__main__.DescriptionVerificationTests.test_positive_control_and_read_only) ... ok
+test_process_directories_allowed (__main__.DescriptionVerificationTests.test_process_directories_allowed) ... ok
+test_pyproject_deletion_rename_mode (__main__.DescriptionVerificationTests.test_pyproject_deletion_rename_mode) ... 
+  test_pyproject_deletion_rename_mode (__main__.DescriptionVerificationTests.test_pyproject_deletion_rename_mode) (state='deleted') ... FAIL
+  test_pyproject_deletion_rename_mode (__main__.DescriptionVerificationTests.test_pyproject_deletion_rename_mode) (state='renamed') ... FAIL
+  test_pyproject_deletion_rename_mode (__main__.DescriptionVerificationTests.test_pyproject_deletion_rename_mode) (state='mode') ... FAIL
+
+======================================================================
+FAIL: test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='unstaged')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 100, in test_git_product_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpjgjjqdvu', 'checks': {'git_available': True, 'worktree_io': True, 'baseline_utf8': True, 'baseline_toml': True, 'worktree_utf8': True, 'worktree_toml': True, 'baseline_description_absent': True, 'description_missing': True, 'description_type': True, 'description_value': True, 'other_data_unchanged': True, 'single_expected_line': True, 'existing_bytes_unchanged': True}, 'head': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'description': 'argonauts-uat public (UAT)'}
+
+======================================================================
+FAIL: test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='staged')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 100, in test_git_product_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpjgjjqdvu', 'checks': {'git_available': True, 'worktree_io': True, 'baseline_utf8': True, 'baseline_toml': True, 'worktree_utf8': True, 'worktree_toml': True, 'baseline_description_absent': True, 'description_missing': True, 'description_type': True, 'description_value': True, 'other_data_unchanged': True, 'single_expected_line': True, 'existing_bytes_unchanged': True}, 'head': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'description': 'argonauts-uat public (UAT)'}
+
+======================================================================
+FAIL: test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='committed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 100, in test_git_product_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpjgjjqdvu', 'checks': {'git_available': True, 'worktree_io': True, 'baseline_utf8': True, 'baseline_toml': True, 'worktree_utf8': True, 'worktree_toml': True, 'baseline_description_absent': True, 'description_missing': True, 'description_type': True, 'description_value': True, 'other_data_unchanged': True, 'single_expected_line': True, 'existing_bytes_unchanged': True}, 'head': 'bcde6b5a51932025b404383519b1dda42d6c2b1b', 'description': 'argonauts-uat public (UAT)'}
+
+======================================================================
+FAIL: test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='committed_then_restored')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 100, in test_git_product_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpjgjjqdvu', 'checks': {'git_available': True, 'worktree_io': True, 'baseline_utf8': True, 'baseline_toml': True, 'worktree_utf8': True, 'worktree_toml': True, 'baseline_description_absent': True, 'description_missing': True, 'description_type': True, 'description_value': True, 'other_data_unchanged': True, 'single_expected_line': True, 'existing_bytes_unchanged': True}, 'head': 'bcde6b5a51932025b404383519b1dda42d6c2b1b', 'description': 'argonauts-uat public (UAT)'}
+
+======================================================================
+FAIL: test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='deleted')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 100, in test_git_product_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpjgjjqdvu', 'checks': {'git_available': True, 'worktree_io': True, 'baseline_utf8': True, 'baseline_toml': True, 'worktree_utf8': True, 'worktree_toml': True, 'baseline_description_absent': True, 'description_missing': True, 'description_type': True, 'description_value': True, 'other_data_unchanged': True, 'single_expected_line': True, 'existing_bytes_unchanged': True}, 'head': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'description': 'argonauts-uat public (UAT)'}
+
+======================================================================
+FAIL: test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='renamed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 100, in test_git_product_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpjgjjqdvu', 'checks': {'git_available': True, 'worktree_io': True, 'baseline_utf8': True, 'baseline_toml': True, 'worktree_utf8': True, 'worktree_toml': True, 'baseline_description_absent': True, 'description_missing': True, 'description_type': True, 'description_value': True, 'other_data_unchanged': True, 'single_expected_line': True, 'existing_bytes_unchanged': True}, 'head': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'description': 'argonauts-uat public (UAT)'}
+
+======================================================================
+FAIL: test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='mode')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 100, in test_git_product_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpjgjjqdvu', 'checks': {'git_available': True, 'worktree_io': True, 'baseline_utf8': True, 'baseline_toml': True, 'worktree_utf8': True, 'worktree_toml': True, 'baseline_description_absent': True, 'description_missing': True, 'description_type': True, 'description_value': True, 'other_data_unchanged': True, 'single_expected_line': True, 'existing_bytes_unchanged': True}, 'head': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'description': 'argonauts-uat public (UAT)'}
+
+======================================================================
+FAIL: test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='untracked')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 100, in test_git_product_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpjgjjqdvu', 'checks': {'git_available': True, 'worktree_io': True, 'baseline_utf8': True, 'baseline_toml': True, 'worktree_utf8': True, 'worktree_toml': True, 'baseline_description_absent': True, 'description_missing': True, 'description_type': True, 'description_value': True, 'other_data_unchanged': True, 'single_expected_line': True, 'existing_bytes_unchanged': True}, 'head': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'description': 'argonauts-uat public (UAT)'}
+
+======================================================================
+FAIL: test_git_product_mutations (__main__.DescriptionVerificationTests.test_git_product_mutations) (state='prefix_spoof')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 100, in test_git_product_mutations
+    self.reject(condition)
+    ~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpjgjjqdvu', 'checks': {'git_available': True, 'worktree_io': True, 'baseline_utf8': True, 'baseline_toml': True, 'worktree_utf8': True, 'worktree_toml': True, 'baseline_description_absent': True, 'description_missing': True, 'description_type': True, 'description_value': True, 'other_data_unchanged': True, 'single_expected_line': True, 'existing_bytes_unchanged': True}, 'head': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'description': 'argonauts-uat public (UAT)'}
+
+======================================================================
+FAIL: test_pyproject_deletion_rename_mode (__main__.DescriptionVerificationTests.test_pyproject_deletion_rename_mode) (state='deleted')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 116, in test_pyproject_deletion_rename_mode
+    self.reject('index_scope' if state == 'renamed' else 'worktree_scope')
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1 : {'exit': 2, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpy_vy9y7_', 'checks': {'git_available': True, 'worktree_io': False}, 'head': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'error': "[Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpy_vy9y7_/pyproject.toml'"}
+
+======================================================================
+FAIL: test_pyproject_deletion_rename_mode (__main__.DescriptionVerificationTests.test_pyproject_deletion_rename_mode) (state='renamed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 116, in test_pyproject_deletion_rename_mode
+    self.reject('index_scope' if state == 'renamed' else 'worktree_scope')
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1 : {'exit': 2, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpy_vy9y7_', 'checks': {'git_available': True, 'worktree_io': False}, 'head': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'error': "[Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpy_vy9y7_/pyproject.toml'"}
+
+======================================================================
+FAIL: test_pyproject_deletion_rename_mode (__main__.DescriptionVerificationTests.test_pyproject_deletion_rename_mode) (state='mode')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 116, in test_pyproject_deletion_rename_mode
+    self.reject('index_scope' if state == 'renamed' else 'worktree_scope')
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 43, in reject
+    self.assertEqual(result['exit'], exit_code, result)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : {'exit': 0, 'base': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'root': '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/tmpy_vy9y7_', 'checks': {'git_available': True, 'worktree_io': True, 'baseline_utf8': True, 'baseline_toml': True, 'worktree_utf8': True, 'worktree_toml': True, 'baseline_description_absent': True, 'description_missing': True, 'description_type': True, 'description_value': True, 'other_data_unchanged': True, 'single_expected_line': True, 'existing_bytes_unchanged': True}, 'head': '84dd24ca27c81d04ac0f88b095a3b230cc7b6909', 'description': 'argonauts-uat public (UAT)'}
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.690s
+
+FAILED (failures=12)

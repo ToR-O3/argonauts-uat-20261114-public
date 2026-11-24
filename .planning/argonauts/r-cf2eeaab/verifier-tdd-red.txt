@@ -1,0 +1,16 @@
+test_positive_control_and_read_only (__main__.DescriptionVerificationTests.test_positive_control_and_read_only) ... ERROR
+
+======================================================================
+ERROR: test_positive_control_and_read_only (__main__.DescriptionVerificationTests.test_positive_control_and_read_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/test_verify_description.py", line 37, in test_positive_control_and_read_only
+    result = v.verify_repository(self.root, self.base)
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_35976c4e/.planning/argonauts/r-cf2eeaab/verify_description.py", line 4, in verify_repository
+    raise NotImplementedError('verification not implemented')
+NotImplementedError: verification not implemented
+
+----------------------------------------------------------------------
+Ran 1 test in 0.045s
+
+FAILED (errors=1)

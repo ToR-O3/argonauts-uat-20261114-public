@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-field="title">r-cf2eeaab — project.description の確定</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #ecefec; --paper: #ffffff; --ink: #1c2321; --muted: #5f6b67; --rule: #d8dfdc;
+  --accent: #2c6e5a; --lead: #f3f7f5; --ask: #fff6e0; --ask-rule: #d9a521;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--page); }
+body { margin: 0; padding: 2rem 1rem 3rem; font: 16px/1.6 var(--sans); color: var(--ink); }
+main { max-width: 52rem; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule); box-shadow: 0 0.25rem 1.5rem rgb(0 0 0 / 6%); padding: 2.25rem 2.5rem 2.5rem; }
+header { padding-bottom: 1rem; border-bottom: 2px solid var(--ink); }
+.kicker { margin: 0 0 0.3rem; font: 700 0.72rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+h1 { margin: 0; font: 700 2.1rem/1.15 var(--serif); letter-spacing: -0.01em; }
+.meta { margin: 0.4rem 0 0; font-size: 0.85rem; color: var(--muted); }
+.meta span + span::before { content: " · "; }
+.lead { margin-top: 1.5rem; padding: 1.25rem 1.5rem; background: var(--lead); border-left: 4px solid var(--accent); font: 1.08rem/1.6 var(--serif); }
+.lead p { margin: 0 0 0.85rem; }
+.lead > div > :last-child > :last-child { margin-bottom: 0; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.75rem; margin-top: 1.75rem; }
+.grid section { min-width: 0; }
+.grid .wide { grid-column: 1 / -1; }
+section > h2 { margin: 0 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--rule); font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+section p, section ul, section ol { margin: 0 0 0.75rem; }
+section ul, section ol { padding-left: 1.2rem; }
+section h3 { margin: 0.9rem 0 0.3rem; font-size: 0.95rem; }
+.ask { margin-top: 1.75rem; padding: 1.1rem 1.4rem; background: var(--ask); border: 1px solid var(--ask-rule); border-radius: 0.35rem; }
+.ask > h2 { border: 0; padding: 0; color: #86630c; }
+.vision { margin-top: 1.75rem; font: italic 1.02rem/1.6 var(--serif); color: var(--muted); }
+.vision > h2 { font-style: normal; }
+.rest { margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); font-size: 0.95rem; }
+.rest h2 { margin: 0 0 0.5rem; font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; margin: 0 0 1rem; font-size: 0.88rem; }
+th, td { padding: 0.35rem 0.5rem; border: 1px solid var(--rule); text-align: left; vertical-align: top; }
+pre { white-space: pre-wrap; font: 0.9rem/1.5 var(--sans); margin: 0; }
+a { color: var(--accent); }
+@media (max-width: 40rem) {
+  body { padding: 1rem 0.75rem 2rem; }
+  main { padding: 1.5rem 1.25rem; }
+  h1 { font-size: 1.65rem; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media print {
+  html { background: none; }
+  body { padding: 0; }
+  main { border: 0; box-shadow: none; padding: 0; max-width: none; }
+  .grid section { break-inside: avoid; }
+}
+</style>
+<style>
+pre.fallback { white-space: pre-wrap; word-wrap: break-word; }
+
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">Product brief</p>
+    <h1 data-field="title">r-cf2eeaab — project.description の確定</h1>
+    <p class="meta"><span data-field="updated">2026-11-25</span><span data-field="status">final</span></p>
+  </header>
+  <section class="lead" data-section="Executive summary"><div data-body><div data-md="0"><pre class="fallback">依頼者の確定判断に従い、`pyproject.toml` の `[project]` に、現在存在しない `description` を新規追加し、値を厳密に `argonauts-uat public (UAT)` とする。旧依頼は既存説明文への追記だったが、実物には対象項目がない。今この作業で必要なのは、その不一致を解消し、実装者と受入担当者が同じ完成値を扱えるようにすることである。
+
+製品差分はこの1項目だけとし、他のTOML項目・製品ファイルを変更しない。変更後のTOML解析成功も受入条件とする。本Briefは判断と境界を記録する工程文書であり、製品やテストの変更自体は行わない。flowはfull固定で、`pyproject.toml` は危険パスのためsmartでも人がマージする。</pre></div></div></section>
+  <div class="grid">
+    <section class="wide" data-section="Problem"><h2>Problem</h2><div data-body><div data-md="1"><pre class="fallback">依頼原文:
+
+&gt; pyproject.toml の [project] の description の末尾に「 (UAT)」を足す。変えるのは pyproject.toml だけ。未決事項は無い。
+
+しかし現物の `[project]` は `name = &quot;wordfreq&quot;`、`version = &quot;0.1.0&quot;`、`dependencies = []` のみであり、`description` が存在しないことを直接確認した。旧条件だけでは追記先がなく、完成値を決められない。この点はPM確認済みであり、下記の最新依頼者判断で解決している。利用者の不満、金銭的損失、市場需要などは本依頼の根拠ではなく、主張しない。</pre></div></div></section>
+    <section data-section="Solution"><h2>Solution</h2><div data-body><div data-md="2"><pre class="fallback">後続の実装で `[project].description` を新設し、完成値を `argonauts-uat public (UAT)` にする。これは既に接尾辞を含む確定値であり、さらに ` (UAT)` を追加しない。名称・バージョン・依存関係を含む他の項目は現状を保つ。</pre></div></div></section>
+    <section data-section="What makes it different"><h2>What makes it different</h2><div data-body><div data-md="3"><pre class="fallback">何もしなければ説明文の追加要求を満たさない。存在しない既存値への機械的な追記や、確定値への二重追記も採用しない。最新判断をそのまま採用する方法だけが、推測で説明文を補わずに指定された完成状態を満たす。これは市場上の差別化ではなく、今回の変更判断の比較である。</pre></div></div></section>
+    <section data-section="Who it serves"><h2>Who it serves</h2><div data-body><div data-md="4"><pre class="fallback">依頼者は指定した説明文を得る。PM、実装担当者、受入担当者、人によるマージ担当者は、旧指示との優先関係と検証可能な完成条件をこの文書で共有する。新しいユーザー像や製品用途は設定しない。</pre></div></div></section>
+    <section data-section="Success criteria"><h2>Success criteria</h2><div data-body><div data-md="5"><pre class="fallback">- **AC-1:** `[project].description` を新規追加し、解析後の文字列が厳密に `argonauts-uat public (UAT)` と一致する。前後の空白や接尾辞の重複も不可。
+- **AC-2:** 製品差分は `pyproject.toml` の当該1項目のみ。他の製品ファイル、既存のTOML項目とその値は不変とする。工程文書はPRに含めてよい。
+- **AC-3:** 変更後の `pyproject.toml` がTOMLとして正常解析できる。
+
+後続工程では文字列の厳密比較、製品差分の確認、TOML解析の結果で判定する。一つでも不成立なら受入不可。本Brief完成は製品の受入完了を意味しない。</pre></div></div></section>
+    <section class="wide" data-section="Scope"><h2>Scope</h2><div data-body><div data-md="6"><pre class="fallback">含むのは、後続の説明文1項目追加とその検証、および必要な工程文書。flowはfull固定とする。architecture変更は不要であり、動作・依存・他設定の追加、テストの追加・変更、他製品ファイルの編集は範囲外。外部調査は不要で、外部送信・権限変更・課金・データ消去は行わない。
+
+本タスクで作成するのはBriefと公式工程上の付随文書のみ。kanban操作、git commit/pushは親が行う。`pyproject.toml` は危険パスであり、smartでも人がマージする。このBriefに自動マージの許可は含まれない。
+
+`The ask` はスポンサーへの資金・時間の提案ではないため対象外。任意の `Vision` は長期構想が依頼範囲外のため設けない。次工程ではSofia（bmad-agent-po）が要求を文書化し、要求をさらに引き出す必要がある場合はJohn（bmad-agent-pm）が先にPRDを作成する。full固定の工程を省略する判断はしない。</pre></div></div></section>
+  </div>
+
+
+  <section class="rest" data-rest><div data-md="7"><pre class="fallback">## Decision record
+
+最新依頼者判断の時刻は **2026-11-24T19:13:42.938043+00:00**。原文は次のとおり。
+
+&gt; 新しく作ってよい。完成後の説明文は「argonauts-uat public (UAT)」とする。
+
+この判断が旧追記条件に優先する。PM確認済みの項目不存在を前提に、新規追加を採用し、完成値への追加の `(UAT)` は行わない。根拠は依頼原文、最新判断、現物 `pyproject.toml`、initiative文書 `_bmad-output/initiative-r-cf2eeaab/initiative-r-cf2eeaab.md`。initiative文書には題名のみがあり、新たな要件の根拠とはしない。
+
+## Open questions
+
+未決事項なし。未確認の重要入力や採用した推測はない。</pre></div></section>
+</main>
+<script type="application/json" id="view-data">{"layout": "view", "slots": ["依頼者の確定判断に従い、`pyproject.toml` の `[project]` に、現在存在しない `description` を新規追加し、値を厳密に `argonauts-uat public (UAT)` とする。旧依頼は既存説明文への追記だったが、実物には対象項目がない。今この作業で必要なのは、その不一致を解消し、実装者と受入担当者が同じ完成値を扱えるようにすることである。\n\n製品差分はこの1項目だけとし、他のTOML項目・製品ファイルを変更しない。変更後のTOML解析成功も受入条件とする。本Briefは判断と境界を記録する工程文書であり、製品やテストの変更自体は行わない。flowはfull固定で、`pyproject.toml` は危険パスのためsmartでも人がマージする。", "依頼原文:\n\n\u003e pyproject.toml の [project] の description の末尾に「 (UAT)」を足す。変えるのは pyproject.toml だけ。未決事項は無い。\n\nしかし現物の `[project]` は `name = \"wordfreq\"`、`version = \"0.1.0\"`、`dependencies = []` のみであり、`description` が存在しないことを直接確認した。旧条件だけでは追記先がなく、完成値を決められない。この点はPM確認済みであり、下記の最新依頼者判断で解決している。利用者の不満、金銭的損失、市場需要などは本依頼の根拠ではなく、主張しない。", "後続の実装で `[project].description` を新設し、完成値を `argonauts-uat public (UAT)` にする。これは既に接尾辞を含む確定値であり、さらに ` (UAT)` を追加しない。名称・バージョン・依存関係を含む他の項目は現状を保つ。", "何もしなければ説明文の追加要求を満たさない。存在しない既存値への機械的な追記や、確定値への二重追記も採用しない。最新判断をそのまま採用する方法だけが、推測で説明文を補わずに指定された完成状態を満たす。これは市場上の差別化ではなく、今回の変更判断の比較である。", "依頼者は指定した説明文を得る。PM、実装担当者、受入担当者、人によるマージ担当者は、旧指示との優先関係と検証可能な完成条件をこの文書で共有する。新しいユーザー像や製品用途は設定しない。", "- **AC-1:** `[project].description` を新規追加し、解析後の文字列が厳密に `argonauts-uat public (UAT)` と一致する。前後の空白や接尾辞の重複も不可。\n- **AC-2:** 製品差分は `pyproject.toml` の当該1項目のみ。他の製品ファイル、既存のTOML項目とその値は不変とする。工程文書はPRに含めてよい。\n- **AC-3:** 変更後の `pyproject.toml` がTOMLとして正常解析できる。\n\n後続工程では文字列の厳密比較、製品差分の確認、TOML解析の結果で判定する。一つでも不成立なら受入不可。本Brief完成は製品の受入完了を意味しない。", "含むのは、後続の説明文1項目追加とその検証、および必要な工程文書。flowはfull固定とする。architecture変更は不要であり、動作・依存・他設定の追加、テストの追加・変更、他製品ファイルの編集は範囲外。外部調査は不要で、外部送信・権限変更・課金・データ消去は行わない。\n\n本タスクで作成するのはBriefと公式工程上の付随文書のみ。kanban操作、git commit/pushは親が行う。`pyproject.toml` は危険パスであり、smartでも人がマージする。このBriefに自動マージの許可は含まれない。\n\n`The ask` はスポンサーへの資金・時間の提案ではないため対象外。任意の `Vision` は長期構想が依頼範囲外のため設けない。次工程ではSofia（bmad-agent-po）が要求を文書化し、要求をさらに引き出す必要がある場合はJohn（bmad-agent-pm）が先にPRDを作成する。full固定の工程を省略する判断はしない。", "## Decision record\n\n最新依頼者判断の時刻は **2026-11-24T19:13:42.938043+00:00**。原文は次のとおり。\n\n\u003e 新しく作ってよい。完成後の説明文は「argonauts-uat public (UAT)」とする。\n\nこの判断が旧追記条件に優先する。PM確認済みの項目不存在を前提に、新規追加を採用し、完成値への追加の `(UAT)` は行わない。根拠は依頼原文、最新判断、現物 `pyproject.toml`、initiative文書 `_bmad-output/initiative-r-cf2eeaab/initiative-r-cf2eeaab.md`。initiative文書には題名のみがあり、新たな要件の根拠とはしない。\n\n## Open questions\n\n未決事項なし。未確認の重要入力や採用した推測はない。"]}</script>
+<script>
+var MARKED_SRC = "https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js";
+var MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js";
+var PRESENTER_HTML = "\u003c!doctype html\u003e\u003chtml\u003e\u003chead\u003e\u003cmeta charset=\"utf-8\"\u003e\u003ctitle\u003eSpeaker notes\u003c/title\u003e\u003cstyle\u003e\n:root { color-scheme: light dark; --bg: #ffffff; --fg: #1f2328; --muted: #59636e; }\n@media (prefers-color-scheme: dark) { :root { --bg: #15181d; --fg: #e3e6ea; --muted: #9aa3ad; } }\nbody { margin: 0; padding: 1.2em 1.6em; background: var(--bg); color: var(--fg);\n  font: 20px/1.55 -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Arial, sans-serif; }\nheader { display: flex; justify-content: space-between; color: var(--muted); font-size: 15px; }\nh1 { font-size: 1.3em; margin: 0.4em 0 0.8em; }\n#next { color: var(--muted); font-size: 15px; border-top: 1px solid var(--muted); padding-top: 0.6em; margin-top: 1.5em; }\n.empty { color: var(--muted); }\npre { white-space: pre-wrap; font: inherit; }\n\u003c/style\u003e\u003c/head\u003e\u003cbody\u003e\u003cheader\u003e\u003cspan id=\"section\"\u003e\u003c/span\u003e\u003cspan id=\"pos\"\u003e\u003c/span\u003e\u003c/header\u003e\n\u003ch1 id=\"title\"\u003e\u003c/h1\u003e\u003cdiv id=\"notes\"\u003e\u003c/div\u003e\u003cdiv id=\"next\"\u003e\u003c/div\u003e\u003c/body\u003e\u003c/html\u003e";
+
+(function () {
+  var data = JSON.parse(document.getElementById('view-data').textContent);
+  var hasMarked = false;
+
+  function md(text) { return hasMarked ? window.marked.parse(text) : null; }
+  function inline(text) { return hasMarked ? window.marked.parseInline(text) : null; }
+
+  function load(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = src; s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  function drawDiagrams() {
+    var blocks = document.querySelectorAll('pre > code.language-mermaid');
+    if (!blocks.length) return;
+    var nodes = [];
+    blocks.forEach(function (code) {
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = code.textContent;
+      code.parentNode.replaceWith(div);
+      nodes.push(div);
+    });
+    load(MERMAID_SRC).then(function () {
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      window.mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'strict' });
+      return window.mermaid.run({ nodes: nodes, suppressErrors: true });
+    }).catch(function () {
+      nodes.forEach(function (div) {
+        if (div.querySelector('svg')) return;
+        var pre = document.createElement('pre');
+        pre.className = 'fallback';
+        pre.textContent = div.textContent;
+        div.replaceWith(pre);
+      });
+    });
+  }
+
+  function renderDocument() {
+    var html = md(data.markdown);
+    if (html === null) return;
+    var doc = document.getElementById('doc');
+    doc.innerHTML = html;
+    // marked adds no heading ids, and table-of-contents links need GitHub's anchors.
+    var seen = {};
+    doc.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (h) {
+      var base = h.textContent.trim().toLowerCase().replace(/[^\p{L}\p{N}_\- ]/gu, '').replace(/ /g, '-');
+      h.id = seen[base] ? base + '-' + seen[base] : base;
+      seen[base] = (seen[base] || 0) + 1;
+    });
+  }
+
+  function renderSlides() {
+    document.querySelectorAll('.slide').forEach(function (el, i) {
+      var s = data.slides[i];
+      var t = inline(s.title);
+      if (t !== null) el.querySelector('.slide-title').innerHTML = t;
+      var b = md(s.body);
+      if (b !== null) el.querySelector('.slide-body').innerHTML = b;
+    });
+  }
+
+  function notesHtml(i) {
+    var s = data.slides[i];
+    if (!s.notes) return '<p class="empty">No notes for this slide.</p>';
+    var h = md(s.notes);
+    if (h !== null) return h;
+    var pre = document.createElement('pre');
+    pre.className = 'fallback';
+    pre.textContent = s.notes;
+    return pre.outerHTML;
+  }
+
+  function startDeck() {
+    var slides = document.querySelectorAll('.slide');
+    var total = slides.length;
+    var current = 0;
+    var panel = document.getElementById('notes-panel');
+    var counter = document.getElementById('counter');
+    var presenter = null;
+    document.body.classList.add('slides');
+
+    function fromHash() {
+      var m = /^#(\d+)$/.exec(location.hash);
+      if (!m) return null;
+      var n = parseInt(m[1], 10);
+      return n >= 1 && n <= total ? n - 1 : null;
+    }
+
+    function updatePresenter() {
+      if (!presenter || presenter.closed) return;
+      var d = presenter.document;
+      var s = data.slides[current];
+      d.getElementById('pos').textContent = (current + 1) + ' / ' + total;
+      d.getElementById('section').textContent = s.section && s.section !== s.title ? s.section : '';
+      d.getElementById('title').innerHTML = slides[current].querySelector('.slide-title').innerHTML;
+      d.getElementById('notes').innerHTML = notesHtml(current);
+      d.getElementById('next').textContent = current + 1 < total ? 'Next: ' + data.slides[current + 1].title : 'Last slide';
+    }
+
+    function show(i) {
+      if (!total) return;
+      current = Math.max(0, Math.min(total - 1, i));
+      slides.forEach(function (el, j) { el.classList.toggle('active', j === current); });
+      counter.textContent = (current + 1) + ' / ' + total;
+      if (!panel.hidden) panel.innerHTML = notesHtml(current);
+      // Some browsers refuse replaceState on file:// pages.
+      try { if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1)); } catch (e) {}
+      updatePresenter();
+    }
+
+    function toggleNotes() {
+      panel.hidden = !panel.hidden;
+      if (!panel.hidden) panel.innerHTML = notesHtml(current);
+    }
+
+    function openPresenter() {
+      if (presenter && !presenter.closed) { presenter.focus(); return; }
+      presenter = window.open('', 'deck-presenter', 'width=760,height=600');
+      if (!presenter) { toggleNotes(); return; }
+      var d = presenter.document;
+      d.open();
+      d.write(PRESENTER_HTML);
+      d.close();
+      d.addEventListener('keydown', onKey);
+      updatePresenter();
+    }
+
+    function onKey(e) {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      var k = e.key;
+      if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) show(current + 1);
+      else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) show(current - 1);
+      else if (k === 'Home') show(0);
+      else if (k === 'End') show(total - 1);
+      else if (k === 'n' || k === 'N') toggleNotes();
+      else if (k === 'p' || k === 'P') openPresenter();
+      else if (k === 'f' || k === 'F') {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+      } else return;
+      e.preventDefault();
+    }
+
+    document.addEventListener('keydown', onKey);
+    document.getElementById('deck').addEventListener('click', function (e) {
+      if (e.target.closest('a') || String(window.getSelection())) return;
+      show(e.clientX < window.innerWidth / 3 ? current - 1 : current + 1);
+    });
+    window.addEventListener('hashchange', function () {
+      var n = fromHash();
+      if (n !== null && n !== current) show(n);
+    });
+    window.addEventListener('beforeunload', function () { if (presenter && !presenter.closed) presenter.close(); });
+    var start = fromHash();
+    show(start === null ? 0 : start);
+  }
+
+  function renderSlots() {
+    document.querySelectorAll('[data-md]').forEach(function (el) {
+      var h = md(data.slots[+el.getAttribute('data-md')]);
+      if (h !== null) el.innerHTML = h;
+    });
+  }
+
+  function renderAll() {
+    if (data.layout === 'slides') renderSlides();
+    else if (data.layout === 'view') renderSlots();
+    else renderDocument();
+    if (hasMarked) drawDiagrams();
+  }
+
+  if (data.layout === 'slides') startDeck();
+  // A document can carry text from outside sources, so raw HTML shows as text and script URLs are dropped.
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function unsafeUrl(href) {
+    var h = String(href || '').replace(/[\s\u0000-\u001f]/g, '').toLowerCase();
+    return /^(javascript|vbscript):/.test(h) || (/^data:/.test(h) && !/^data:image\/(png|gif|jpe?g|webp);/.test(h));
+  }
+  function harden() {
+    window.marked.use({ renderer: {
+      html: function (h) { return escapeHtml(h); },
+      link: function (href, title, text) { return unsafeUrl(href) ? text : false; },
+      image: function (href, title, text) { return unsafeUrl(href) ? escapeHtml(text) : false; }
+    } });
+  }
+
+  load(MARKED_SRC).then(function () { hasMarked = !!window.marked; if (hasMarked) harden(); }, function () {}).then(renderAll);
+})();
+
+</script>
+</body>
+</html>

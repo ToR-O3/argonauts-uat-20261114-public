@@ -16,6 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: wordfreq HTML output** (completed 2026-11-18)
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 - [x] **Phase 5: README verification A** (completed 2026-11-22)
+- [ ] **Phase 7: Project description UAT**
 
 ## Phase Details
 
@@ -134,3 +135,19 @@ Plans:
 
 Plans:
 - [x] 05-01-PLAN.md — 2 sequential tasks: README末尾追記tracerとC1-C4（OpenSpec1.1）→依頼全差分C5-C6・文字証拠/独立品質handoff（OpenSpec2.1）
+
+### Phase 7: Project description UAT
+
+**Goal:** 承認済み依頼r-cf2eeaabのdescriptionを完成値厳密一致で新規追加し、他製品・既存TOMLの意味とバイトを保持し、独立品質の文字証拠でACを確認できる。
+**Requirements**: REQ-25, REQ-26, REQ-27
+**Depends on:** Phase 5
+**UI hint:** no — 説明文メタデータのみ。画面・実行時動作の変更なし。
+**Approval:** t_8a187e42 approved、source t_62c33f31 run59。mergeは要求追加のみ・衝突0。公式phase.addの返した7を使用。過去phaseのstale検証や残存ディレクトリは今回へ混ぜない。
+**Success Criteria:**
+  1. [project].descriptionの解析値が厳密に `argonauts-uat public (UAT)`。さらなる印なし。
+  2. 起点c572613から製品差分はdescription1行だけ。他の解析項目・既存バイト・他製品は不変。
+  3. 工程配下の検証で欠落RED→追加後GREEN、TOML正常解析を記録。品質が対象headで独立実行しVERIFICATION.md等の文字原本を添付する。
+**Plans:** 1/1 plans executed
+
+Plans:
+- [x] 07-01-PLAN.md — Wave 1、2 sequential tasks: 工程検証tracer・判別力GREEN/実製品欠落RED（OpenSpec1.1）→description1行追加・同一検証GREEN・AC別文字証拠/独立品質handoff（OpenSpec1.2）
