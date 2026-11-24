@@ -1,7 +1,8 @@
 # Phase 5: wordfreq README top three example - Research
 
-**調査日:** 2026-11-24 (JST)  
-**領域:** README の CLI 実行例と動作検証  
+**調査日:** 2026-11-24 (JST)
+
+**領域:** README の CLI 実行例と動作検証
 **確度:** HIGH（承認資料・現行ソース・既存試験の読取り。対象行の実行結果は未採取）
 
 <user_constraints>

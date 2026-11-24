@@ -1,7 +1,8 @@
 # Phase 05: wordfreq README top three example - Pattern Map
 
-**Mapped:** 2026-11-24  
-**Files analyzed:** 対象2件（製品1件、検証ファイル案1件）  
+**Mapped:** 2026-11-24
+
+**Files analyzed:** 対象2件（製品1件、検証ファイル案1件）
 **Analogs found:** 2 / 2（完全一致1、役割一致1）
 
 ## File Classification
