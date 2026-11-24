@@ -92,6 +92,8 @@ Recent decisions affecting current work:
 
 - Phase 4 added: wordfreq min-count (r-e476c11d; official phase.add result 4). Approved t_a438e6b2 run140, merge adds REQ-15..REQ-21 only. Prior phase verification stale is historical debt, not authorization to reopen earlier scope.
 
+- Phase 5 added: wordfreq README top three example (r-864b299c)。承認 t_0afdeaeb run 6、取込みは REQ-22 の追加のみ、衝突なし。以前のフェーズの検証を開き直さない。
+
 ### Pending Todos
 
 None yet.

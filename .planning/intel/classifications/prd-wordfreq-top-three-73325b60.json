@@ -1,0 +1,13 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-pilot/argonauts-uat-20261114-public/.worktrees/t_ecb23585/_bmad-output/initiative-r-864b299c/prd/prd-wordfreq-top-three.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "README に wordfreq の上位3件の実行例を追加",
+  "summary": "README の既存コードブロックに、wordfreq の結果を JSON で最大3件表示する実行例を1行追加する。",
+  "scope": ["README.md", "wordfreq CLI", "--top 3", "JSON 出力", "UTF-8 入力ファイル"],
+  "cross_refs": ["../brief/brief-wordfreq-top-three.md", "../../../README.md", "../../../openspec/specs/wordfreq-cli/spec.md", "README.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

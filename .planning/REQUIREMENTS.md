@@ -71,6 +71,14 @@ Source: 仕様承認 t_a438e6b2 run140 approved、要求・仕様 t_e6e172d4 run
 | REQ-20 | Phase 4 | Pending |
 | REQ-21 | Phase 4 | Pending |
 
+## r-864b299c Requirements (Phase 5)
+
+- [ ] **REQ-22**: README.md の既存 `sh` ブロックの `--top 2` JSON例の直後に `python -m wordfreq input.txt --top 3 --format json` を1行追加する。既存例・書式・説明・CLI・試験は変更せず、製品差分はこの1追加行だけ。掲載コマンドの `input.txt` だけを一時UTF-8ファイルに置き換え、`delta gamma beta alpha beta gamma alpha beta alpha alpha` を入力して終了コード0とJSON配列 `alpha:4`、`beta:3`、`gamma:2` の順序・値・件数を照合する。既存の `input.txt` は上書きせず一時入力をコミットしない。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-22 | Phase 5 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

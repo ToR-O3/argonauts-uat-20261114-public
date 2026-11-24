@@ -15,6 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: wordfreq CLI** - stdlib-only の wordfreq CLI 全体（実行・オプション・決定論出力・部品分離・試験・CI） (completed 2026-11-17)
 - [x] **Phase 3: wordfreq HTML output** (completed 2026-11-18)
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
+- [ ] **Phase 5: wordfreq README top three example**
 
 ## Phase Details
 
@@ -117,3 +118,18 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 - [x] 04-04-PLAN.md — Wave 4 (depends 04-03, 2 tasks): 一度限りBuilder統合/read-only確認→品質runbook/原本配送。full E2Eは必須高遅延gate、最終head品質は別主体
+
+### Phase 5: wordfreq README top three example
+
+**Goal:** README の「wordfreq の実行」の既存ブロックで、現行CLIで上位3語をJSON表示する実行例を利用できる。
+**Requirements**: REQ-22
+**Depends on:** Phase 4
+**UI hint:** no — READMEのコマンド例のみ。HTML・画面は変更しない。
+**Success Criteria:**
+  1. `--top 2` のJSON例直後に `python -m wordfreq input.txt --top 3 --format json` を1行だけ追加し、それ以外の製品差分がない。
+  2. 掲載した行を一時UTF-8入力で実行すると終了コード0、JSON配列が順に `alpha:4`、`beta:3`、`gamma:2` の3件ちょうどとなる。
+**Source:** 承認 `t_0afdeaeb` run 6、結合PRD `.planning/argonauts/r-864b299c-prd.md`、OpenSpec task 1.1。
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 5 to break down)
