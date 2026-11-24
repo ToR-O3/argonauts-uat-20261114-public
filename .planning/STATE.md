@@ -1,19 +1,19 @@
 ---
 gsd_state_version: "1.0"
 milestone: v1.12
-current_phase: 7
-current_phase_name: Project description UAT
+current_phase: 8
+current_phase_name: README min-count example
 current_plan: 1
-status: verifying
+status: executing
 stopped_at: Completed 07-01-PLAN.md; independent quality pending
-last_updated: "2026-11-24T20:25:07.601Z"
+last_updated: "2026-11-24T22:54:57.162Z"
 last_activity: 2026-11-25
 last_activity_desc: Phase 7 execution started
-state_head: 289eec47c2db872f99e8920b2ddece9521b06c53
+state_head: caf0158c06989d6e34c436a4c011917ecd0acfe4
 progress:
-  total_phases: 5
+  total_phases: 6
   completed_phases: 1
-  total_plans: 17
+  total_plans: 18
   completed_plans: 17
 ---
 
@@ -26,14 +26,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-22)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 7 — Project description UAT
+**Current focus:** Phase 8 — README min-count example（planning complete、製品実装は未実施）
 
 ## Current Position
 
-Phase: 7 (Project description UAT) — EXECUTING
+Phase: 8 (README min-count example) — READY TO EXECUTE
 Current Plan: 1
 Total Plans in Phase: 1
-Status: Phase complete — ready for verification
+Status: Ready to execute
 Last activity: 2026-11-25 — Phase 7 execution started
 
 Progress: [███░░░░░░░] 25%
