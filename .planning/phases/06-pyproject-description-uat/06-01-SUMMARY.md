@@ -121,6 +121,12 @@ None for this PLAN. PR remains draft pending downstream product work and finaliz
 
 Ready for independent same-card quality review, then06-02 only after review completion. Product still lacks description. Preflight must rerun immediately before06-02 editing. REQ-23 unclassified/unresolved edge1 and descriptor-less transparency prohibition remain flagged for quality/PM original-text judgement; self-test success does not resolve them. OQ-1 is answered. No sync/archive until PM acceptance/finalization.
 
+## Official close-out readback
+
+After the SUMMARY commit, official state.advance-plan returned advanced:true/previous_plan1/current_plan2/total_plans2. state.record-metric and state.record-session returned recorded:true. roadmap.update-plan-progress6 returned updated:true/summary_count1/plan_count2/status In Progress/complete:false. requirements.ready-ids returned ready:[]/blocked:[REQ-23], so no aggregate completion was marked. Snapshot and saved STATE.md both show current_phase6/current_plan2/total_plans_in_phase2; body Status is Ready to execute, canonical snapshot status executing. Stopped At is Completed06-01-PLAN.md. Saved ROADMAP checks06-01 only. No last_plan or phase.complete call.
+
+Official state.update-progress returned updated:false/reason `phase scope is unscoped, not complete` and explicitly left the legacy percentage unchanged. This is reported, not represented as a successful percentage update and not hand-repaired; official current position and phase-local roadmap count are readable and correct. Prior phase/global progress debt remains outside this request.
+
 ## Self-Check: PASSED
 
 Dedicated18-test suite, actual preflight0, actual VALUE_EXACT-only innerRED1/outer0, hash comparison, product diff empty, git diff --check0, official evaluation-scope resolved four task commits. This is PLAN-local completion only, not product/phase acceptance.
