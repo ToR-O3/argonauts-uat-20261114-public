@@ -1,0 +1,21 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/openspec/changes/r-774f3cd6-pyproject-uat/proposal.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Proposal",
+  "summary": "pyproject.tomlのdescriptionを正確にargonauts-uat public (UAT)として新設し、他項目を保持する要件と検証範囲。",
+  "scope": [
+    "pyproject.toml",
+    "[project].description",
+    "package-metadata",
+    "TOML解析",
+    "description以外の構造・生テキスト差分"
+  ],
+  "cross_refs": [
+    "pyproject.toml"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

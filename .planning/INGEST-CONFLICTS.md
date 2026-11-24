@@ -1,20 +1,25 @@
 ## Conflict Detection Report
 
-MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。対象は .planning/intel/classifications/r-215b4390/ の6分類と対応する承認済み6文書のみ。ADR 0 / SPEC 2 / PRD 2 / DOC 2 / UNKNOWN 0。per-doc overrideなし。
+MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。今回manifest `.planning/argonauts/r-774f3cd6-manifest.yaml` の6文書だけを対象とする。ADR 0 / SPEC 3 / PRD 2 / DOC 1 / UNKNOWN 0。分類JSON6件はhigh confidence / manifest_override=true / locked=false / precedence=null。他の古い分類JSONは入力対象外。
 
 ### BLOCKERS (0)
 
-該当なし。全分類high confidence、locked ADRなし、対象内cross_refs循環なし。既存PROJECT/REQUIREMENTS/ROADMAPおよびphase 01/03/04の全CONTEXTを確認し、今回のREADME指定行追記と矛盾する有効な固定決定はない。旧phaseの機能実装・試験義務を今回の文書変更へ拡張しない。
-source: .planning/intel/classifications/r-215b4390/*.json; .planning/PROJECT.md; .planning/REQUIREMENTS.md; .planning/ROADMAP.md; .planning/phases/01-wordfreq-cli/01-CONTEXT.md; .planning/phases/03-wordfreq-html-output/03-CONTEXT.md; .planning/phases/04-wordfreq-min-count/04-CONTEXT.md; openspec/changes/r-215b4390-readme-validation-b/proposal.md:9-25
+該当なし。対象内cross_refsの循環なし、深さ上限50以内。locked ADRなし。既存PROJECT/REQUIREMENTS/ROADMAP/STATEとphase01/03/04/05の全CONTEXTを照合し、今回のdescription新設と矛盾する有効な固定決定なし。既存のCLI挙動・初出順・HTML・min-count・README指定最終行は変更しない。
 
 ### WARNINGS (0)
 
-競合する受入variantなし。proposalとPRDは指定最終行・1回のみ・既存内容保持・製品差分1行・コード/試験変更なしで一致する。SPECは指定行の状態を定義し、designは最小差分と確認方法を具体化する。同義な表現や詳細度の差を相互排他的な条件と扱わず、出典を保持してREQ-readme-validation-bの1文書要件に統合した。Brief/PRDの作成工程限定指示とtasksの後続工程はデータとして保持し、この取込みの実行指示や追加製品要件にはしない。
-source: openspec/changes/r-215b4390-readme-validation-b/proposal.md:7-25; openspec/changes/r-215b4390-readme-validation-b/specs/readme-validation-b/spec.md:5-16; openspec/changes/r-215b4390-readme-validation-b/design.md:7-23; openspec/changes/r-215b4390-readme-validation-b/tasks.md:5-9; _bmad-output/initiative-r-215b4390/prd/prd-readme-validation-b.md:49-79; _bmad-output/initiative-r-215b4390/brief/brief-readme-validation-b.md:50-67
+競合する受入variantなし。PRDとproposalは新設許可、固定完成値、suffix1回、他項目・書式・他製品ファイル不変、TOML解析成功で一致する。SPEC/design/tasksは同じ条件の検証方法を具体化しており、相互排他的な受入条件ではない。未承認の読者推定A-1は要件化しない。
 
-### INFO (0)
+### INFO (2)
 
-precedenceによる自動解決なし。記載自体を検証合格と解釈しない。機能追加・試験新設・既存製品契約変更なし。
-source: openspec/changes/r-215b4390-readme-validation-b/proposal.md:5-25; openspec/changes/r-215b4390-readme-validation-b/design.md:9-18; openspec/changes/r-215b4390-readme-validation-b/specs/readme-validation-b/spec.md:5
+[INFO] 旧description未承認の停止前提は回答済み
+  Found: Brief/PRD/proposal/spec/design/tasksは、受付t_78c8849eの2026-11-24T13:00:38.567271+00:00の回答で新設許可と完成値 `argonauts-uat public (UAT)` が確定したことを明記している。
+  Note: 指定連結元 `argonauts-uat public` は現物の旧値ではない。親からPM t_b8e9c36cの仕様head `56b70bd` 承認済みと提供されている。元文書の「本runではPM再承認しない」は文書改訂時の工程状態であり、今回の承認済み入力を否定する要件ではない。OQ-1を未解決として再登録しない。precedenceによる自動解決ではなく明示回答による解消。
+  source: _bmad-output/initiative-r-774f3cd6/brief/r-774f3cd6-brief.md:30-44,74-76; _bmad-output/initiative-r-774f3cd6/prd/prd-r-774f3cd6.md:95-108; openspec/changes/r-774f3cd6-pyproject-uat/specs/package-metadata/spec.md:21-31; 親の今回委任CONTEXT
 
-本取込みの出力は種別intel4点・SYNTHESIS.md・本報告のみ。衝突なしはPROJECT/REQUIREMENTS/ROADMAP/STATEやREADMEへの書込み承認を意味しない。実装・受入の達成は未検証。
+[INFO] 閉じたphaseの変更制限は過去依頼の境界として保存
+  Found: phase05 D-03はその依頼でREADME.md以外の製品変更と検証スクリプト新設を禁止する。一方、今回の承認済み仕様はpyproject.tomlのdescription1行新設と工程領域の検証スクリプトを求める。PROJECT/STATEはpyproject.tomlを人の承認対象になり得る危険パスとして記録している。
+  Note: phase05の制限はREQ-22/README追記という閉じた依頼のスコープであり、将来すべての依頼への恒久禁止ではない。過去の固定決定・完了履歴・README・製品試験は変更しない。今回の製品変更は別の承認済み依頼のdescription1行のみで、検証スクリプトは工程領域に限定する。危険パスゆえ受付lightよりfullを優先する。過去phaseの再開・書換えや任意コード除外を許可しない。precedenceによる上書きではなくスコープの区別。
+  source: .planning/phases/05-readme-validation-b/05-CONTEXT.md:7-19; .planning/REQUIREMENTS.md:74-82; .planning/PROJECT.md:54-59; .planning/STATE.md:103-106; openspec/changes/r-774f3cd6-pyproject-uat/specs/package-metadata/spec.md:33-39; openspec/changes/r-774f3cd6-pyproject-uat/design.md:25-36
+
+precedenceによるauto-resolvedは0件。INFO2件は回答済み前提と過去依頼のスコープ区別の記録。今回保存するのは種別intel4点・SYNTHESIS.md・本報告だけ。衝突なしはPROJECT/REQUIREMENTS/ROADMAP/STATE、製品、既存CONTEXTへの書込み承認ではない。実装と製品受入は未実施。

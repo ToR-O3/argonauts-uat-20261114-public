@@ -1,0 +1,21 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_26854470/openspec/changes/r-774f3cd6-pyproject-uat/specs/package-metadata/spec.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Spec Delta",
+  "summary": "pyproject.tomlのdescriptionを承認済み固定値で新設し、指定入力と現物を区別しながら他項目・他製品ファイルとTOMLの有効性を保持する技術仕様。",
+  "scope": [
+    "pyproject.toml",
+    "[project].description",
+    "argonauts-uat public (UAT)",
+    "TOML",
+    "検証スクリプト"
+  ],
+  "cross_refs": [
+    "pyproject.toml"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

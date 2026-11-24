@@ -16,6 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: wordfreq HTML output** (completed 2026-11-18)
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 - [x] **Phase 5: README validation B** (completed 2026-11-22)
+- [ ] **Phase 6: pyproject description UAT**
 
 ## Phase Details
 
@@ -135,3 +136,20 @@ Plans:
 
 Plans:
 - [x] 05-01-PLAN.md — 指定最終行1回の局所追記と固定基底CLI照合（Wave 1、単一tracer）
+
+### Phase 6: pyproject description UAT
+
+**Goal:** 承認済み依頼r-774f3cd6のdescription新設を固定完成値argonauts-uat public (UAT)に一致させ、他製品・他項目・書式・依存を保持し、同一製品commitの独立品質証拠を文字で引き継ぐ。
+**Requirements**: REQ-23
+**UI hint:** no — パッケージメタデータ1行のみ。HTML/CLI/画面は変えない。
+**Success Criteria:**
+  1. 基準b34cba0d008923e7f5267ce52d5403492ea53925とのdescription欠落・対象・承認を直前照合し、指定連結元を現物旧値と混同しない。
+  2. 工程領域の試験を先行し、正常解析・基準取得成功の後、固定完成値条件だけの編集前失敗を記録する。正例と負例拒否を分離し、実行エラーを期待失敗と呼ばない。
+  3. 固定完成値完全一致、description除去後構造一致、1行除去後バイト一致、TOML有効、全Git状態と他製品不変を確認する。
+  4. 品質が同一製品commitとSHA-256を独立照合し、VERIFICATION.md/CLI証拠を文字で添付する。PMに画像や圧縮ファイルを開かせない。
+**Approval:** t_b8e9c36c run37 approved、仕様head56b70bd。依頼者判断2026-11-24T13:00:38.567271+00:00。6文書mergeはREQ-23の追加のみ、衝突0。旧phaseのstale検証は今回対象外。危険なパスpyproject.tomlのためfullを維持し理由を最終報告へ渡す。
+**Depends on:** Phase 5
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 6 to break down)

@@ -1,13 +1,13 @@
 # Requirements (intel)
 
-MODE: merge。PRD分類2文書の同義な要求を、出典を保持した1つの文書要件へ統合する。機能追加・試験新設の要件ではない。以下は後続実装の受入条件であり達成宣言ではない。
+MODE: merge。PRD分類2文書は同じ受入単位を記述しているため出典を保持して1要件に統合する。以下は後続実装の条件であり達成宣言ではない。
 
-DATA_a08db3ec_START
+DATA_21a91ba0_START
 
-## REQ-readme-validation-b
-- source: openspec/changes/r-215b4390-readme-validation-b/proposal.md:5-25; _bmad-output/initiative-r-215b4390/prd/prd-readme-validation-b.md:41-79
-- description: README.md末尾に依頼者の指定行を追加する。
-- acceptance: 最終行は「検証B: v1.12 の通しの確かめ（2026-11-22）」そのものと完全一致し、引用符・見出し・囲み記号を含まない独立した1行で、README.md全体での出現は1回のみ。既存本文・書式・行順を保持し、差分は指定行1行の追加のみ。既存行の削除・置換・移動、余分な空行・説明の追加なし。工程記録を除く製品変更ファイルはREADME.mdのみで、コード・試験・他の製品文書・構成を変更しない。最終行・出現回数・差分・変更ファイル一覧を照合し、すべての充足が受入条件。記載自体をv1.12検証合格の証拠とは扱わない。
-- scope: リポジトリ直下README.mdの指定最終行追加のみ。PRD FR-1 / RULE-1・RULE-2 / SM-1〜SM-3、proposal What Changes。同じ受入意図を持つ1文書要件。
+## REQ-pyproject-description-uat
+- source: _bmad-output/initiative-r-774f3cd6/prd/prd-r-774f3cd6.md:49-93; openspec/changes/r-774f3cd6-pyproject-uat/proposal.md:5-26
+- description: pyproject.tomlの[project].descriptionを新設し、完成値を正確に `argonauts-uat public (UAT)` とする。指定連結元 `argonauts-uat public` は現物の旧descriptionではなく依頼者指定入力であり、欠落値・name等から導出しない。
+- acceptance: キーが存在し、文字列が固定完成値と完全一致し、先頭ASCII空白を含むASCII ` (UAT)` は1回のみ。description以外の解析済みTOML項目・依存・他製品ファイル・無関係な書式を変更しない。製品差分はpyproject.tomlの当該キー新設だけ。工程管理領域の検証スクリプトは製品差分と区別する。変更後TOML全体が正常解析できる。固定完成値、他項目と生テキストの不変、解析成功をそれぞれ確認し、一部の合格で代替しない。
+- scope: pyproject.tomlの[project].description新設のみ。PRD FR-1、RULE-1〜RULE-3、SM-1〜SM-3、proposal What Changes。CLI/API/依存/CI/Architectureの変更なし。
 
-DATA_a08db3ec_END
+DATA_21a91ba0_END

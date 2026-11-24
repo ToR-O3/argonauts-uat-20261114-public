@@ -81,6 +81,16 @@ Source: 仕様承認t_dafbe600 run5、要求・仕様t_e0507c11 run4、OpenSpec 
 |-------------|-------|--------|
 | REQ-22 | Phase 5 | Pending |
 
+## r-774f3cd6 Requirements (Phase 6)
+
+Source: 仕様承認t_b8e9c36c run37、要求・仕様t_5b576e9a run36 head56b70bd、承認済みOpenSpec `r-774f3cd6-pyproject-uat` とBMAD 6文書のmerge。intelのREQ-pyproject-description-uatをREQ-23へ対応付ける。既存要求は変更しない。
+
+- [ ] **REQ-23**: pyproject.tomlの[project].descriptionを新設し、依頼者指定連結元 `argonauts-uat public` にASCII ` (UAT)` を1回連結した固定完成値 `argonauts-uat public (UAT)` と完全一致する。他TOML項目・依存・他製品ファイル・無関係な書式は不変、編集後はTOMLとして有効。基準commit `b34cba0d008923e7f5267ce52d5403492ea53925` はdescription欠落の不変比較元であり、指定連結元を現物旧値と呼ばない。承認・対象・欠落を編集直前に再照合し不一致は未編集で返す。工程管理領域の検証スクリプトを試験先行で作成し、正常解析・基準取得後の値条件だけの期待失敗、正例と負例拒否、description除去後構造一致・追加1行除去後バイト一致・全Git状態/製品差分限定を確認する。品質は同じ製品commit・blob SHA-256を独立検証し、コマンド・終了コード・条件別結果を文字の証拠とVERIFICATION.mdに記録/添付してPMがread_fileで判断できる。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-23 | Phase 6 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.
