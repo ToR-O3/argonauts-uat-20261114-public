@@ -92,6 +92,8 @@ Recent decisions affecting current work:
 
 ### Roadmap Evolution
 
+- Phase 6 added: README min-count three example (r-5f8197e8; official phase.add result 6). Approved t_9c048e29 run28. Merge adds REQ-25..REQ-27 only, conflicts 0; existing phase verification debt is outside this request.
+
 - Phase 5 added: README verification A (r-8ac79daf; official phase.add result 5). Approved t_327d2f8f run7. Merge adds REQ-22..REQ-24 only, conflicts 0. Prior phases and product files are unchanged by planning.
 
 - Phase 3 added: wordfreq HTML output (r-50053edc; official phase.add result). Existing Phase 2 directory is unrelated residual work, not reused. Approval t_13dfdc77 run83 replaces old lexical ties via new phase REQ-11; E.7 conflict route, report .planning/INGEST-CONFLICTS.md.

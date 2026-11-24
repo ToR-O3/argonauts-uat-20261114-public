@@ -85,6 +85,20 @@ Source: 仕様承認t_327d2f8f run7、要求・仕様t_bdf6acb4 run6、OpenSpec 
 | REQ-23 | Phase 5 | Pending |
 | REQ-24 | Phase 5 | Pending |
 
+## r-5f8197e8 Requirements (Phase 6)
+
+Source: 仕様承認t_9c048e29 run28、要求・仕様t_38b60b51 run27、OpenSpec r-5f8197e8-readme-min-count-three proposal/tasks、承認BMAD Brief/PRD。追加のみのmerge、衝突0。specsは公式skip_specs経路で省略。過去要求は履歴として保持。
+
+- [ ] **REQ-25**: README.mdの「wordfreq の実行」に `python -m wordfreq input.txt --min-count 3` の実行例を1つ追加する。既存例・説明・末尾の検証A行と改行を保持し、例1つと必要な局所説明だけの差分にする。利用者向け変更はREADME.mdのみでコード・設定・依存・公開入出力・試験ファイルの追加変更を禁止する。
+- [ ] **REQ-26**: 同一UTF-8実ファイル・閾値3で、追加例そのものの既定textと形式指定だけを加えたjson/htmlを実際に実行する。3以上と3未満の語を含め、exit0・stderr・保持/除外・語/回数/初出順、textのタブ、JSON配列word/count、HTML3列表/順位/basename/min-countとtop前総数を既存契約と照合する。
+- [ ] **REQ-27**: Builderと独立品質がそれぞれ実行した作業場所・検証head・入力パスと全文・完全なコマンド・実exit/stdout/stderr・期待値との照合をinitiative配下の文字原本に記録する。品質は全git差分のscopeを確認しVERIFICATION.md等へ対応付け、原本を添付する。PMはread_fileで判断でき、画像・圧縮物を開く必要がない。画像があれば閲覧枚数/内容/結果を記録する。未実行・未確認・不一致は合格としない。コード修正へ無断拡大しない。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-25 | Phase 6 | Pending |
+| REQ-26 | Phase 6 | Pending |
+| REQ-27 | Phase 6 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

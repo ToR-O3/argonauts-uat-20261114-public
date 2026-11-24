@@ -1,0 +1,26 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_07d1d2d7/openspec/changes/r-5f8197e8-readme-min-count-three/proposal.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Proposal",
+  "summary": "READMEに閾値3の実行例を追加し、既存CLIを変更せずtext・JSON・HTMLの実行結果を文字の工程証拠で確認する文書補足の仕様。",
+  "scope": [
+    "README.md",
+    "wordfreq-cli",
+    "--min-count 3",
+    "text出力",
+    "JSON出力",
+    "HTML出力",
+    "工程証拠"
+  ],
+  "cross_refs": [
+    "README.md",
+    ".openspec.yaml",
+    "_bmad-output/initiative-r-5f8197e8/brief/brief-readme-min-count-3.md",
+    "_bmad-output/initiative-r-5f8197e8/prd/prd-readme-min-count-3.md"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

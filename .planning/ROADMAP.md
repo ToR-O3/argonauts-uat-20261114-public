@@ -16,6 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: wordfreq HTML output** (completed 2026-11-18)
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 - [x] **Phase 5: README verification A** (completed 2026-11-22)
+- [ ] **Phase 6: README min-count three example**
 
 ## Phase Details
 
@@ -134,3 +135,19 @@ Plans:
 
 Plans:
 - [x] 05-01-PLAN.md — 2 sequential tasks: README末尾追記tracerとC1-C4（OpenSpec1.1）→依頼全差分C5-C6・文字証拠/独立品質handoff（OpenSpec2.1）
+
+### Phase 6: README min-count three example
+
+**Goal:** 承認済みr-5f8197e8のREADME閾値3実行例1つを追加し、同一入力のtext/json/htmlをBuilderと独立品質が実行して、既存契約・READMEのみの製品差分・PM可読な文字原本を確認できる。
+**Requirements**: REQ-25, REQ-26, REQ-27
+**UI hint:** no — 既存HTML出力は検証するがUI設計・見た目は変更しない。
+**Success Criteria:**
+  1. 使い方に指定コマンド例1つだけを追加し既存説明/例/検証A行を保持する。
+  2. 同一UTF-8入力・閾値3で3形式のexit/語/回数/順序/既存形式契約を実出力と照合する。
+  3. 利用者向け変更READMEのみ。Builder/独立品質の文字証拠を添付しPMがread_fileで判断できる。
+**Approval:** t_9c048e29 run28 approved、source t_38b60b51 run27。merge追加のみ、衝突0。公式phase.add結果6。旧phase1/3/4のstale検証は今回へ混ぜない。
+**Depends on:** Phase 5
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 6 to break down)

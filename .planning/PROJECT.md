@@ -28,6 +28,8 @@
 
 ### Active
 
+- [ ] REQ-25..REQ-27 (r-5f8197e8 / Phase 6): READMEの閾値3例1つ、3形式の直接実行、Builder/独立品質の文字原本。既存製品動作を変えず、製品変更READMEのみ。承認t_9c048e29 run28。
+
 - [ ] **REQ-01**: `python -m wordfreq <file>` がファイル引数ちょうど 1 個を受け取り、UTF-8 で読んで頻度集計を出力する（不存在・開けない・デコード失敗は stderr + exit 1、引数個数不正は exit 2、空ファイルは 0 件で exit 0）
 - [ ] **REQ-02**: `--top N` で表示件数を指定できる（既定 10、N は 1 以上の整数、不正値は exit 2、結果が N 未満なら全件出力）
 - [ ] **REQ-03**: `--format text|json` で出力形式を指定できる（既定 text、不正値は exit 2。text は 1 語 1 行、json は `{"word": <str>, "count": <int>}` の配列で `json.loads` 可読、0 件は `[]`/出力なし）
