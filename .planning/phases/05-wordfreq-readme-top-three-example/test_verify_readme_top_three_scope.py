@@ -6,6 +6,7 @@ from contextlib import contextmanager
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -25,6 +26,8 @@ VALIDATION = f"{PHASE}/05-VALIDATION.md"
 TASKS = "openspec/changes/r-864b299c-readme-top-three/tasks.md"
 REPORTS = (SECURITY, OPEN_SPEC, f"{PHASE}/05-VERIFICATION.md", f"{PHASE}/05-CLI-EVIDENCE.md", NEW_REPORT)
 EXPECTED = [{"word": "alpha", "count": 4}, {"word": "beta", "count": 3}, {"word": "gamma", "count": 2}]
+PUBLISHED = b"python -m wordfreq input.txt --top 3 --format json"
+INPUT = b"delta gamma beta alpha beta gamma alpha beta alpha alpha"
 COMMAND = ["python", VERIFIER]
 
 
@@ -90,11 +93,15 @@ def verify(root, command=COMMAND, overrides=None):
     return result
 
 
-def cli_stream(result, stream):
-    prefix = stream + b": "
+def record(result, key):
+    prefix = key + b": "
     outputs = [line.removeprefix(prefix) for line in result.stdout.splitlines() if line.startswith(prefix)]
-    require(len(outputs) == 1, f"expected one CLI {stream!r} record")
-    return ast.literal_eval(outputs[0].decode("ascii"))
+    require(len(outputs) == 1, f"expected one {key!r} record")
+    return outputs[0]
+
+
+def cli_stream(result, stream):
+    return ast.literal_eval(record(result, stream).decode("ascii"))
 
 
 def expect_cli_json(result):
@@ -107,11 +114,44 @@ def expect_cli_json(result):
         require(actual == expected and type(actual["count"]) is int, f"unexpected CLI JSON row: {row!r}")
 
 
-def expect_success(result):
+def expect_success(root):
+    # Observe actual child arguments and input bytes, then run the real CLI.
+    interpreter = shutil.which("python")
+    require(interpreter is not None, "python not found on PATH")
+    shim = root.parent / "python"
+    evidence = root.parent / "cli-invocation.json"
+    shim.write_text(
+        "#!/usr/bin/env python3\n"
+        "import json, os, sys\nfrom pathlib import Path\n"
+        "args = sys.argv[1:]\n"
+        "if args[:2] == ['-m', 'wordfreq']:\n"
+        f"    with open({str(evidence)!r}, 'x', encoding='utf-8') as stream:\n"
+        "        json.dump([args, Path(args[2]).read_bytes().hex()], stream)\n"
+        f"os.execv({interpreter!r}, [{interpreter!r}, *args])\n",
+        encoding="utf-8",
+    )
+    shim.chmod(0o700)
+    result = verify(root, overrides={"PATH": str(shim.parent) + os.pathsep + os.environ["PATH"]})
     require(result.returncode == 0 and result.stderr == b"", "expected verifier exit 0 and empty stderr")
     lines = result.stdout.splitlines()
-    for marker in (b"placement and scope: PASS", b"CLI: starting", b"CLI exit: 0", b"stderr: b''"):
-        require(marker in lines, f"missing {marker!r}")
+    for marker in (b"placement and scope: PASS", b"CLI: starting", b"CLI exit: 0"):
+        require(lines.count(marker) == 1, f"expected one {marker!r}")
+    require(cli_stream(result, b"stderr") == b"", "expected empty CLI stderr")
+    require(record(result, b"published") == PUBLISHED, "wrong published example")
+    require(record(result, b"input (UTF-8)") == INPUT, "wrong reported input")
+    argv = ast.literal_eval(record(result, b"argv").decode("utf-8"))
+    require(isinstance(argv, list) and all(isinstance(arg, str) for arg in argv)
+            and len(argv) == 8, f"unexpected argv: {argv!r}")
+    input_path = Path(argv[3])
+    require(input_path.is_absolute() and not input_path.resolve().is_relative_to(root.resolve())
+            and input_path.name == "input.txt", f"input is not an external temporary input.txt: {input_path}")
+    require([*argv[:3], "input.txt", *argv[4:]] == PUBLISHED.decode("ascii").split(),
+            f"argv differs beyond the input slot: {argv!r}")
+    require(evidence.is_file(), "missing real CLI invocation evidence")
+    actual_argv, input_hex = json.loads(evidence.read_text(encoding="utf-8"))
+    require(actual_argv == argv[1:], "recorded argv differs from actual CLI argv")
+    require(bytes.fromhex(input_hex) == INPUT, "actual CLI input differs from the specified bytes")
+    require(not input_path.exists(), "temporary input was not removed")
     expect_cli_json(result)
 
 
@@ -120,7 +160,7 @@ def untracked_previous():
         for path in (SECURITY, OPEN_SPEC):
             copy_report(root, path)
             require(git_state(root, path) == (f"?? {path}\n".encode(), b"", b""), "expected untracked original")
-        expect_success(verify(root))
+        expect_success(root)
 
 
 def expect_rejection(result, path, reason):
@@ -170,7 +210,7 @@ def prepare_reports(root, source, state):
 def positive(state):
     with checkout() as (root, source):
         prepare_reports(root, source, state)
-        expect_success(verify(root))
+        expect_success(root)
 
 
 def before_first_task_check():
@@ -183,7 +223,7 @@ def before_first_task_check():
         # Recreate the README edit before the first checkbox update, without
         # bringing the commit containing that update into this history.
         (root / "README.md").write_bytes(git(root, "show", f"{FIRST_TASK_CHECK}:README.md"))
-        expect_success(verify(root))
+        expect_success(root)
 
 
 def unchecked_task_commit():
@@ -230,6 +270,16 @@ def mutate(root, case):
         copy_report(root, path, OPEN_SPEC)
         require(git_state(root, path) == (f"?? {path}\n".encode(), b"", b""), "missing unknown untracked path")
         return path, "out-of-scope untracked paths"
+    if case == "report-intent-to-add":
+        path = ".planning/argonauts/t_11112222/openspec-verify.md"
+        copy_report(root, path, OPEN_SPEC)
+        git(root, "add", "-N", "--", path)
+        status, index, head = git_state(root, path)
+        require(status == f" A {path}\n".encode() and index.startswith(b"100644 ") and not head,
+                "expected an intent-to-add index entry with unstaged content")
+        require(not git(root, "diff", "--cached", "--ita-invisible-in-index", "--name-only", "--", path),
+                "intent-to-add must not appear as a real staged addition")
+        return path, "intent-to-add is not a staged addition"
     if case == "unchecked-task-worktree":
         baseline = git(root, "show", f"{BASE}:{TASKS}")
         require(baseline.count(b"\n- [ ] 1.1 ") == 1, "expected one unchecked task in base")
@@ -257,6 +307,23 @@ def mutate(root, case):
     if case == "fixed-mode-change":
         (root / VALIDATION).chmod(0o755)
         require(git_state(root, VALIDATION)[0] == f" M {VALIDATION}\n".encode(), "missing tracked mode change")
+        return VALIDATION, "file mode change"
+    if case in {"validation-committed-deletion", "validation-committed-mode-change"}:
+        target = root / VALIDATION
+        require(not git(root, "ls-tree", BASE, "--", VALIDATION), "report must be absent at product base")
+        if case == "validation-committed-deletion":
+            git(root, "rm", "--", VALIDATION)
+            git(root, "commit", "-m", "Delete the tracked validation report")
+            require(git_state(root, VALIDATION) == (b"", b"", b"") and not target.exists(),
+                    "expected no validation report at clean HEAD, index or worktree")
+            require(not git(root, "diff", "--name-only", BASE, "HEAD", "--", VALIDATION),
+                    "deleted report must disappear from the fixed-base diff")
+            return VALIDATION, "deleted or missing from a tracked state"
+        target.chmod(0o755)
+        commit_paths(root, "Make the tracked validation report executable", VALIDATION)
+        status, index, head = git_state(root, VALIDATION)
+        require(not status and index.startswith(b"100755 ") and head.startswith(b"100755 blob ")
+                and target.stat().st_mode & 0o100, "expected executable validation report on all three surfaces")
         return VALIDATION, "file mode change"
     if case == "symlink-parent":
         parent = (root / NEW_REPORT).parent
@@ -350,7 +417,8 @@ def main():
     negatives = ("tracked-change", "unrelated-untracked", "tracked-fixture", "wrong-id-length", "wrong-id-case",
                  "extra-level", "wrong-filename", "report-in-base", "symlink-worktree", "symlink-index",
                  "symlink-head", "staged-deletion", "fixed-mode-change", "fixed-symlink", "symlink-parent",
-                 "unchecked-task-worktree")
+                 "unchecked-task-worktree", "validation-committed-deletion", "validation-committed-mode-change",
+                 "report-intent-to-add")
     cli_cases = {"nonempty-cli-stderr": nonempty_cli_stderr, "duplicate-cli-key": duplicate_cli_key}
     cases = ("untracked-previous", *states, "before-first-task-check", "unchecked-task-commit", *negatives, *cli_cases)
     parser.add_argument("--case", choices=cases)

@@ -16,6 +16,9 @@ BASE = "5528aa47cca27a93a6732e914710f2772118a572"
 README = "README.md"
 TASKS = "openspec/changes/r-864b299c-readme-top-three/tasks.md"
 PHASE_DIR = ".planning/phases/05-wordfreq-readme-top-three-example"
+VALIDATION = f"{PHASE_DIR}/05-VALIDATION.md"
+# The report was first tracked here, before the first task 1.1 check.
+VALIDATION_ORIGIN = "264d0ab9eb3a251bbeb6ecad38bcc62330b4c8f2"
 # Existing tests read fixtures under .planning/, so only these exact
 # workflow artifacts are exempt from the product diff check.
 WORKFLOW_PATHS = {
@@ -164,10 +167,15 @@ def report_worktree_mode(root, path):
     return b"100755" if mode & stat.S_IXUSR else b"100644"
 
 
-def verify_workflow_path(root, path, untracked):
+def verify_workflow_path(root, path, untracked, staged_additions):
     base = report_git_mode(root, path, "base", "ls-tree", "--full-tree", "-z", BASE)
     if OPEN_SPEC_REPORT.fullmatch(path) and base is not None:
         raise ValueError(f"workflow artifact {path!r}: report already tracked at base")
+    if path == VALIDATION:
+        # This report is absent at the product base but is not a new report.
+        base = report_git_mode(root, path, "report origin", "ls-tree", "--full-tree", "-z", VALIDATION_ORIGIN)
+        if base is None:
+            raise ValueError(f"workflow artifact {path!r}: missing at report origin")
     head = report_git_mode(root, path, "HEAD", "ls-tree", "--full-tree", "-z", "HEAD")
     index = report_git_mode(root, path, "index", "ls-files", "--stage", "-z")
     work = report_worktree_mode(root, path)
@@ -177,6 +185,8 @@ def verify_workflow_path(root, path, untracked):
         raise ValueError(f"workflow artifact {path!r}: deleted or missing from a tracked state")
     if (index is None) != untracked:
         raise ValueError(f"workflow artifact {path!r}: inconsistent index and untracked states")
+    if head is None and index is not None and path not in staged_additions:
+        raise ValueError(f"workflow artifact {path!r}: intent-to-add is not a staged addition")
     if any(mode is not None and mode != work for mode in (base, head, index)):
         raise ValueError(f"workflow artifact {path!r}: file mode change")
 
@@ -212,8 +222,15 @@ def verify_scope(root, entries_by_diff, untracked, expected_readme):
     untracked = set(untracked)
     candidates = untracked | {entry[0] for entries in entries_by_diff.values() for entry in entries}
     workflow = {path for path in candidates if path in WORKFLOW_PATHS or OPEN_SPEC_REPORT.fullmatch(path)}
+    workflow.add(VALIDATION)
+    # ls-files --stage also returns the placeholder from git add -N.
+    staged_additions = {
+        path for path, _, _, status in diff_entries(git(
+            root, "diff", "--cached", "--ita-invisible-in-index", "--raw", "--no-renames", "-z", "HEAD", "--",
+        )) if status == b"A"
+    }
     for path in sorted(workflow):
-        verify_workflow_path(root, path, path in untracked)
+        verify_workflow_path(root, path, path in untracked, staged_additions)
     outside = sorted(untracked - workflow)
     if outside:
         raise ValueError(f"out-of-scope untracked paths: {outside!r}")
