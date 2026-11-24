@@ -147,7 +147,7 @@ Plans:
   1. [project].descriptionの解析値が厳密に `argonauts-uat public (UAT)`。さらなる印なし。
   2. 起点c572613から製品差分はdescription1行だけ。他の解析項目・既存バイト・他製品は不変。
   3. 工程配下の検証で欠落RED→追加後GREEN、TOML正常解析を記録。品質が対象headで独立実行しVERIFICATION.md等の文字原本を添付する。
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 7 to break down)
+- [ ] 07-01-PLAN.md — Wave 1、2 sequential tasks: 工程検証tracer・判別力GREEN/実製品欠落RED（OpenSpec1.1）→description1行追加・同一検証GREEN・AC別文字証拠/独立品質handoff（OpenSpec1.2）

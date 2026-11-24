@@ -29,10 +29,12 @@ created: "2026-11-25"
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 07-01-01 | 01 | 1 | REQ-25,REQ-26,REQ-27 | T-7-01 | 検証の誤合格を防止 | unit | `python3 .planning/argonauts/r-cf2eeaab/test_verify_description.py` | ❌ 同taskで先に作成 | pending |
-| 07-01-02 | 01 | 1 | REQ-25,REQ-26,REQ-27 | T-7-01 | 意味/バイト/全製品差分限定 | integration | `python3 .planning/argonauts/r-cf2eeaab/verify_description.py` | ❌ task1で先に作成 | pending |
+| 07-01-01 | 01 | 1 | REQ-25,REQ-26,REQ-27 | T-7-01,T-7-03 | 正常対照/変異で検証の誤合格を防止 | unit | `python3 .planning/argonauts/r-cf2eeaab/test_verify_description.py` | ❌ 同taskで先に作成 | pending; exit0・実行件数1以上 |
+| 07-01-01 | 01 | 1 | REQ-25,REQ-27 | T-7-01,T-7-02 | 正常解析できる実製品の欠落固有RED原本 | integration/expected RED | `python3 .planning/argonauts/r-cf2eeaab/verify_description.py` | ❌ 同taskで先に作成、試験GREEN後 | pending; exit1・description_missingのみ。環境/構文失敗は不合格 |
+| 07-01-02 | 01 | 1 | REQ-25,REQ-26,REQ-27 | T-7-01,T-7-02,T-7-03 | 意味/バイト/全製品差分限定と文字原本 | integration | `python3 .planning/argonauts/r-cf2eeaab/verify_description.py` | ❌ task1で先に作成 | pending; 追加後/製品commit後ともexit0 |
+| 07-01-02 | 01 | 1 | REQ-27 | T-7-01 | 判別力の継続sampling | unit | `python3 .planning/argonauts/r-cf2eeaab/test_verify_description.py` | ❌ task1で先に作成 | pending; exit0・実行件数1以上 |
 
-PLANでtask構成が確定したら対応を維持する。判別力試験がGREENでも製品REDは別記し、タスク1完了を製品完成と呼ばない。
+確定PLANは07-01の2tasks（OpenSpec1.1→1.2）。各automated直後のfails_whenに従う。判別力試験がGREENでも製品REDは別記し、タスク1完了を製品完成と呼ばない。品質は同branch全成果・対象headの製品clean/HEAD一致を確認して独立再実行する。T-7-SCはinstallなし/stdlib限定で対処し、設定は変更しない。
 
 ## Wave 0 Requirements
 
