@@ -1,0 +1,147 @@
+{
+  "researcher_model": "anthropic/claude-sonnet-5",
+  "planner_model": "anthropic/claude-opus-4-8",
+  "checker_model": "anthropic/claude-sonnet-5",
+  "tdd_mode": false,
+  "granularity": "standard",
+  "research_enabled": true,
+  "plan_checker_enabled": true,
+  "nyquist_validation_enabled": true,
+  "commit_docs": true,
+  "text_mode": false,
+  "auto_advance": false,
+  "auto_chain_active": false,
+  "mode": "interactive",
+  "phase_found": true,
+  "phase_dir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/06-readme-min-count-three-example",
+  "expected_phase_dir": null,
+  "phase_number": "06",
+  "phase_name": "README min-count three example",
+  "phase_slug": "readme-min-count-three-example",
+  "padded_phase": "06",
+  "phase_req_ids": "REQ-25, REQ-27",
+  "phase_status": "Executed",
+  "has_research": true,
+  "has_context": true,
+  "context_scope": "complete",
+  "has_reviews": false,
+  "has_plans": true,
+  "plan_count": 1,
+  "threat_id_duplicates": [],
+  "threat_id_duplicate_count": 0,
+  "planning_exists": true,
+  "roadmap_exists": true,
+  "state_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/STATE.md",
+  "roadmap_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/ROADMAP.md",
+  "requirements_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/REQUIREMENTS.md",
+  "has_spec": false,
+  "patterns_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/06-readme-min-count-three-example/06-PATTERNS.md",
+  "context_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/06-readme-min-count-three-example/06-CONTEXT.md",
+  "research_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/06-readme-min-count-three-example/06-RESEARCH.md",
+  "verification_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/06-readme-min-count-three-example/06-VERIFICATION.md",
+  "section_manifest": {
+    "workflow": "plan-phase",
+    "included": [],
+    "excluded": [
+      "reviews-prerequisite",
+      "prd-express-gate",
+      "adr-ingest-express-path",
+      "research-only-modifiers",
+      "research-only-early-exit",
+      "chunked-planning-mode"
+    ],
+    "read": []
+  },
+  "prior_verify_commands": [
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）",
+      "command": "tail -n 1 README.md | grep -Fx -- '検証A: v1.12 の通しの確かめ（2026-11-22）'"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）",
+      "command": "git show 54106df87baa6cc017167eb311fd0fd4f81ea0fa:README.md | cmp -n 4643 - README.md"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）",
+      "command": "printf '%s\\n' '検証A: v1.12 の通しの確かめ（2026-11-22）' | cmp -i 0:4643 - README.md"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）",
+      "command": "git diff --no-ext-diff --no-textconv --no-color --unified=3 54106df87baa6cc017167eb311fd0fd4f81ea0fa -- README.md"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）",
+      "command": "git diff --numstat 54106df87baa6cc017167eb311fd0fd4f81ea0fa -- README.md"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-01: 変更前記録から指定行追記・バイト/全patch検証まで通す（OpenSpec 1.1）",
+      "command": "git diff --check 54106df87baa6cc017167eb311fd0fd4f81ea0fa -- README.md"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）",
+      "command": "git diff --name-status c6b701bfdc1af9c39f9b8421336e881e5cda6ee4 HEAD"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）",
+      "command": "git diff --no-ext-diff --no-textconv --no-color c6b701bfdc1af9c39f9b8421336e881e5cda6ee4 HEAD"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）",
+      "command": "git diff --no-ext-diff --no-textconv --no-color c6b701bfdc1af9c39f9b8421336e881e5cda6ee4 --"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）",
+      "command": "git status --porcelain=v1 --untracked-files=all"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）",
+      "command": "git ls-files --others --exclude-standard"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）",
+      "command": "git diff --exit-code c6b701bfdc1af9c39f9b8421336e881e5cda6ee4 -- wordfreq tests tools pyproject.toml .github"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）",
+      "command": "git rev-parse HEAD"
+    },
+    {
+      "phase": "05",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5/.planning/phases/05-readme-verification-a/05-01-PLAN.md",
+      "task": "05-01-02: 依頼全差分を分類し文字証拠と独立品質handoffを完成する（OpenSpec 2.1）",
+      "command": "git show HEAD:README.md | cmp - README.md"
+    }
+  ],
+  "project_root": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_304960d5",
+  "agents_installed": true,
+  "missing_agents": [],
+  "agents_dir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/agents",
+  "agent_runtime": "hermes",
+  "project_title": "wordfreq CLI"
+}

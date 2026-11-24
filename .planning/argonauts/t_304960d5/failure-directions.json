@@ -1,0 +1,227 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "cmp \"$E/README.expected.md\" README.md",
+      "statement": "非0、期待原本欠落、指定例が0回/2回以上、または指定1行以外の既存byte差異をread_file/patch照合で検出した場合。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-01: README例1行をbyte比較とpatchで確認するtracer（OpenSpec1.1）"
+    },
+    {
+      "command": "git diff --no-ext-diff --no-textconv --no-color 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 -- README.md",
+      "statement": "非0またはpatch/full README読取りで指定1行追加以外、追加0回/複数回、既存内容/改行変更を検出。exit0だけで合格にしない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-01: README例1行をbyte比較とpatchで確認するtracer（OpenSpec1.1）"
+    },
+    {
+      "command": "git diff --check 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 -- README.md",
+      "statement": "非0、空白/改行エラー。exit0でも全文/byte不一致は不合格。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-01: README例1行をbyte比較とpatchで確認するtracer（OpenSpec1.1）"
+    },
+    {
+      "command": "git rev-parse HEAD",
+      "statement": "非0、head原本欠落、README/scopeの対象head不一致を説明/再確認せず最終成功とする場合。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
+    },
+    {
+      "command": "git diff --name-status 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 HEAD",
+      "statement": "非0、原本欠落、全列挙pathの分類漏れ、README以外の製品変更または未承認追加。工程差分が残れば最終README-only条件は未達として保持。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
+    },
+    {
+      "command": "git diff --no-ext-diff --no-textconv --no-color 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 HEAD",
+      "statement": "非0、全patch原本欠落/未読、READMEが指定1行追加だけでない、コード/試験/設定/依存/公開I/O変更を検出。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
+    },
+    {
+      "command": "git diff --no-ext-diff --no-textconv --no-color 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 --",
+      "statement": "非0、原本欠落、基点から作業treeまでのscope不一致。exit0や差分表示成功自体を合格にしない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
+    },
+    {
+      "command": "git diff --cached --no-ext-diff --no-textconv --no-color",
+      "statement": "非0、原本欠落、index固有差分の未分類または禁止変更。最終treeで打ち消されたstaged変更も見落とさない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
+    },
+    {
+      "command": "git status --porcelain=v1 --untracked-files=all",
+      "statement": "非0、status原本欠落、追跡/未追跡pathの分類漏れ、新fixture/試験/ツール追加。工程資料を見落としてREADME-onlyとする場合。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
+    },
+    {
+      "command": "git ls-files --others --exclude-standard",
+      "statement": "非0、原本欠落、列挙されたファイルを読まず工程資料と推定、未承認製品path/実行可能検証ツールが存在。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
+    },
+    {
+      "command": "git diff --exit-code 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 -- wordfreq tests tools pyproject.toml .github",
+      "statement": "非0で禁止範囲の差分を検出。exit0でもこの列挙外を含む全差分/status監査が未完ならscope未達。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
+    },
+    {
+      "command": "git diff --check 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 -- README.md",
+      "statement": "非0、空白/改行のエラー。exit0でも1行追加以外の差分は全文照合で不合格。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
+    },
+    {
+      "command": "cmp \"$E/README.expected.md\" README.md",
+      "statement": "task1後のREADME変化、原本欠落、byte不一致。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-01-PLAN.md",
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
+    },
+    {
+      "command": "git diff --no-ext-diff --no-textconv --no-color 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 -- openspec/changes/r-5f8197e8-readme-min-count-three/proposal.md openspec/changes/r-5f8197e8-readme-min-count-three/design.md openspec/changes/r-5f8197e8-readme-min-count-three/tasks.md",
+      "statement": "非0、3文書欠落/未読、1.2の対象外原文/日時不一致、2.1が3形式や工程filter判定のまま、2.1の偽チェック、1.1進捗の後退、例外順序不一致。表示exit0だけは合格でない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-01: 最新縮小判断をOpenSpecのproposal/design/tasksへ一貫して接続する"
+    },
+    {
+      "command": "git diff --check -- openspec/changes/r-5f8197e8-readme-min-count-three/proposal.md openspec/changes/r-5f8197e8-readme-min-count-three/design.md openspec/changes/r-5f8197e8-readme-min-count-three/tasks.md",
+      "statement": "非0/空白エラー。exit0でも最新決定と文言が一致しなければ失敗。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-01: 最新縮小判断をOpenSpecのproposal/design/tasksへ一貫して接続する"
+    },
+    {
+      "command": "cmp _bmad-output/initiative-r-5f8197e8/verification/builder/t_5e02213b-run35/README.expected.md README.md",
+      "statement": "非0、先行READMEを本taskで変更、または全文/基点patch照合で既存指定1行以外の差異を発見した場合。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-01: 最新縮小判断をOpenSpecのproposal/design/tasksへ一貫して接続する"
+    },
+    {
+      "command": "sha256sum --check _bmad-output/initiative-r-5f8197e8/verification/builder/06-02-SHA256SUMS.txt",
+      "statement": "非0、checksum入力欠落、読めない原本/保存実体、FAILED、索引行の原本と添付のhash差異、必要payloadの記載漏れ。全OKでも添付ID/版の文字照合が未完なら保全未達。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-02: 必要原本を標準添付の実体と照合して保全索引を作る"
+    },
+    {
+      "command": "git status --porcelain=v1 --untracked-files=all",
+      "statement": "非0、未追跡を含む文字原本の索引漏れ、未知path/新試験/実入力/製品出力/検証ツール追加、添付済みと称した原本欠落。工程差分ありは条件2未達として保持し、status表示成功をREADME-only達成としない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-02: 必要原本を標準添付の実体と照合して保全索引を作る"
+    },
+    {
+      "command": "sha256sum --check _bmad-output/initiative-r-5f8197e8/verification/builder/06-02-SHA256SUMS.txt",
+      "statement": "非0、追補版とhash不一致、原本/添付実体欠落、SUMMARY/実在検査の未保全、封印後変更を未反映。checksum除外の索引/checksum/HANDOFFも実metadata/添付実体照合が無ければ未達。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-03: 例外順序と最終品質/受入gateを受渡し、保全を追補封印する"
+    },
+    {
+      "command": "sha256sum _bmad-output/initiative-r-5f8197e8/verification/builder/06-02-PRESERVATION.md _bmad-output/initiative-r-5f8197e8/verification/builder/06-02-SHA256SUMS.txt _bmad-output/initiative-r-5f8197e8/verification/builder/06-02-HANDOFF.md",
+      "statement": "非0、実添付metadata/再取得実体hashと文字照合して不一致、receipt未読/未保存。hash表示成功だけを保全完了としない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-03: 例外順序と最終品質/受入gateを受渡し、保全を追補封印する"
+    },
+    {
+      "command": "git diff --name-status 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 HEAD",
+      "statement": "非0、全path文字照合漏れ、README以外の工程差分が残るのに条件2達成と記録した場合、補完のみでphase/受入成功とする場合。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-03: 例外順序と最終品質/受入gateを受渡し、保全を追補封印する"
+    },
+    {
+      "command": "git diff --no-ext-diff --no-textconv --no-color 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 --",
+      "statement": "非0、全patch未読/未分類、README指定1行以外の変更、無断scope拡大、工程差分を本taskで復元/除外していた場合。表示exit0だけで合格にしない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-03: 例外順序と最終品質/受入gateを受渡し、保全を追補封印する"
+    },
+    {
+      "command": "git diff --cached --no-ext-diff --no-textconv --no-color",
+      "statement": "非0、index固有変更の見落とし、禁止pathまたは保全前の原本消失を検出した場合。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-03: 例外順序と最終品質/受入gateを受渡し、保全を追補封印する"
+    },
+    {
+      "command": "git status --porcelain=v1 --untracked-files=all",
+      "statement": "非0、追跡/未追跡原本の分類漏れ、最終品質証拠をcommit/pushする指示、受入前マージ予約、README-only未達の隠蔽。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-03: 例外順序と最終品質/受入gateを受渡し、保全を追補封印する"
+    },
+    {
+      "command": "git ls-files --others --exclude-standard",
+      "statement": "非0、列挙実体未読、未知ファイル/新検証ツール/新入力や試験追加、未追跡を監査対象から落とす場合。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-03: 例外順序と最終品質/受入gateを受渡し、保全を追補封印する"
+    },
+    {
+      "command": "git diff --exit-code f21dda5226c12e42f3d09a86019ccb412c4ed8df -- .planning/phases/06-readme-min-count-three-example/06-01-PLAN.md",
+      "statement": "非0または先行06-01を変更した場合。06-01の履歴を補完実績で上書きしない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-03: 例外順序と最終品質/受入gateを受渡し、保全を追補封印する"
+    },
+    {
+      "command": "cmp _bmad-output/initiative-r-5f8197e8/verification/builder/t_5e02213b-run35/README.expected.md README.md",
+      "statement": "非0、実装済みREADMEを補完で変更した場合。基点からのREADME全patchも指定例1行以外なら失敗。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "06-02-PLAN.md",
+      "task": "06-02-03: 例外順序と最終品質/受入gateを受渡し、保全を追補封印する"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 27
+  },
+  "readError": null
+}
