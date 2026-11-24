@@ -91,13 +91,15 @@ Source: 仕様承認t_8a187e42、要求・仕様t_62c33f31 run59、OpenSpec `r-c
 
 - [x] **REQ-25**: pyproject.tomlの[project].descriptionを新規追加し、解析後の値が厳密に `argonauts-uat public (UAT)` と一致する。完成値に印をさらに追加しない。
 - [x] **REQ-26**: 製品変更は当該descriptionの1行追加のみ。他製品ファイル・既存TOML項目と値・既存バイトを保持する。工程文書は許容し、既存製品テストと依存は変更しない。
-- [x] **REQ-27**: 変更後のTOMLを正常解析できる。工程配下の標準ライブラリ検証で起点 `c572613dc626160db2eb3bf4a41c95fc8283b828` と比較し、欠落でRED・追加後GREEN、解析データと追加行以外のバイト不変・製品差分限定を直接検査する。品質が対象headで独立実行し、AC別の文字証拠を添付する。
+- [ ] **REQ-27**: 変更後のTOMLを正常解析できる。工程配下の標準ライブラリ検証で起点 `c572613dc626160db2eb3bf4a41c95fc8283b828` と比較し、欠落でRED・追加後GREEN、解析データと追加行以外のバイト不変・製品差分限定を直接検査する。品質が対象headで独立実行し、AC別の文字証拠を添付する。
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | REQ-25 | Phase 7 | Pending |
 | REQ-26 | Phase 7 | Pending |
 | REQ-27 | Phase 7 | Pending |
+
+Finalization t_20f1102b: REQ-25/26 `[x]` track the implemented product conditions only; the Pending table is full-closure status. REQ-27's premature `[x]` is cleared. Quality run65 independently executed at c5d0eb136bf92d6f00c3fc807346e55103917504; PM t_b9c2f01b subsequently read text originals 85–88 and approved AC1–3 (no PM test rerun). Quality human_needed / phase_completed=false remains unchanged. P1/P2 and unclassified probes REQ-25/26/27 remain flagged-unverified, not human-approved or resolved. See `.planning/argonauts/t_20f1102b/finalization.md` for the separate finalization record.
 
 ## v2 Requirements
 

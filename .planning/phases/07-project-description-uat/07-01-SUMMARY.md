@@ -25,7 +25,7 @@ key-files:
 key-decisions:
   - Preserve full/skip_specs=true and human merge for risky pyproject.toml
   - Keep independent quality, attachment and PM reading pending
-requirements-completed: [REQ-25, REQ-26, REQ-27]
+requirements-completed: []
 coverage:
   - id: D1
     description: Exact description and unchanged existing TOML/product scope
@@ -99,6 +99,16 @@ Official state.advance-plan returned reason=last_plan, current_plan=1, total_pla
 state.update-progress explicitly withheld the aggregate percentage (phase scope is unscoped, not complete); existing 25% is stale and not a success metric. This does not obscure the independently confirmed phase7/plan1 verification-waiting position; prior milestone scope is outside this card.
 requirements.mark-complete updated the three implementation checkboxes but reported table_unmatched/write_set_complete=false; the request-local Pending table is NOT an acceptance record. REQ-27 independent-quality delivery is still pending as stated above. No prior-phase requirements were edited.
 
-## Self-Check: PASSED
+## Finalization reconciliation — t_20f1102b
+
+The sections above describe the Builder implementation snapshot, not current acceptance. The original `requirements-completed: [REQ-25, REQ-26, REQ-27]` was premature for independent quality delivery; the current aggregate is empty until unresolved human-review flags are resolved. This correction does not revoke the AC-specific execution evidence.
+
+Quality run65 independently verified c5d0eb136bf92d6f00c3fc807346e55103917504 and saved its report at 09c31bdc5b49ac4f64ecab8d5bd30110d58f91ac. Acceptance PM t_b9c2f01b read original text attachments 85–88 and plan-conflict original 80, approved product AC1–3 without rerunning tests. Those are parent-card facts, not actions performed by this finalization Builder. Historical quality originals are unchanged.
+
+Official quality status remains human_needed, phase_completed=false, next_phase=null, gaps=[]. P1/P2 and the three unclassified probes REQ-25/26/27 remain flagged-unverified; no human resolution/approval is claimed. REQ-27's prior checkbox is cleared to prevent reading technical evidence as full gate completion; REQ-25/26 checkboxes track implementation only, with the Pending table and flagged restrictions still authoritative for full closure. PM reading is now evidenced by acceptance, but does not resolve the remaining flags. Product AC approval is not phase completion or UAT certification.
+
+Latest requester judgement: 2026-11-24T19:13:42.938043+00:00 — 新しく作ってよい。完成後の説明文は「argonauts-uat public (UAT)」とする。
+
+## Self-Check: PASSED (historical implementation snapshot)
 
 Both planned files and evidence originals exist. Required two commands passed after product commit; RED shows only missing-description failure with successful parse. Product change is exactly one line. Independent-quality and PM gates explicitly remain pending.
