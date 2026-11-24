@@ -356,3 +356,14 @@ raw exit=0
 $ git ls-files --others --exclude-standard
 raw exit=0
 ```
+
+## Close-out observations
+
+SUMMARY commit d2b5deea2b09ede073035d7df1bdf6a8c628e5fa created after Task2 commit. Official `state.advance-plan`: advanced=false, reason=last_plan, current_plan1/total_plans1, status=ready_for_verification. `state.update-progress`: updated=false, reason='phase scope is unscoped, not complete'; existing progress25% deliberately unchanged, not a claim of completion. `roadmap.update-plan-progress 8`: updated=true, plans1/summaries1, status=In Progress, complete=false. Read back STATE: phase8/current_plan1, status verifying / 'Phase complete — ready for verification' (official wording, not final acceptance); stopped_at Completed 08-01-PLAN.md; independent quality and final README-only PR pending. ROADMAP08-01 checked executed, 1/1, with existing '(ready to execute)' suffix left by official updater; no phase.complete called.
+
+`requirements.ready-ids ... REQ-28`: ready=[REQ-28], blocked=[]. `requirements.mark-complete REQ-28`: checkbox applied=true, traceability applied=false/table_unmatched REQ-28/write_set_complete=false. Read actual diff: only REQ-28 checkbox checked; traceability table still Pending. This tracks Builder implementation, not quality/PM closure; no claim that official write-set fully succeeded. REQ-29 checkbox/table remain pending. Official record-session returned recorded=true. All command exits0; update-progress warning explicitly retained here rather than falsely reporting progress updated.
+
+Before delivery, uncommitted tracked files were .planning/REQUIREMENTS.md, .planning/ROADMAP.md, .planning/STATE.md, .planning/state.json (official state mutations), plus this evidence close-out append. SUMMARY now appears in complete committed path list alongside all previously listed paths; no paths removed. These engineering changes all remain outside the final README-only restriction. They will be committed and all full scope paths re-observed at delivery head; transition metadata fixes actual push/head.
+
+Additional evidence-file diff --check returned exit2 for literal single-space Git patch context lines. Preserve raw stdout: no rewriting the patch to manufacture a clean evidence check. README-only diff --check returned0 again. Full README patch at SUMMARY head read again, unchanged one added example/zero deleted lines, no other content change. No product test/CI success claimed. No independent quality performed here.
+

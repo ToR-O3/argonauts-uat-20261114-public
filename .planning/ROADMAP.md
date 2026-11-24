@@ -163,7 +163,7 @@ Plans:
   1. README.mdの使い方へ `python -m wordfreq input.txt --min-count 3` が1例追加され、既存例・説明・末尾行が保持される。
   2. D.5指定ファイル限定整備後の最終PR base...head全変更一覧がREADME.mdのみ。工程文書を除外せず確認し、品質はbase/head・全一覧・2条件判定をVERIFICATION.md等の文字原本でカード添付する。整備前は暫定と明示し、最終化で品質が再確認する。
 **Depends on:** Phase 7
-**Plans:** 1 plan (ready to execute)
+**Plans:** 1/1 plans executed (ready to execute)
 
 Plans:
-- [ ] 08-01-PLAN.md — Wave 1、2 tasks直列: README指定例1行と原本文字確認（OpenSpec1.1）→全一覧の暫定判定・独立品質とD.5後の最終PR確認引継ぎ（OpenSpec2.1）
+- [x] 08-01-PLAN.md — Wave 1、2 tasks直列: README指定例1行と原本文字確認（OpenSpec1.1）→全一覧の暫定判定・独立品質とD.5後の最終PR確認引継ぎ（OpenSpec2.1）

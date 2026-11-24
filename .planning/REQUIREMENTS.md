@@ -105,7 +105,7 @@ Finalization t_20f1102b: REQ-25/26 `[x]` track the implemented product condition
 
 Source: 仕様承認t_33269d6c、要求・仕様t_c436f8a1 run78、OpenSpec `r-d78495de-readme-min-count` proposal/tasks（skip_specs=true）と承認BMAD Brief/PRD。最新判断2026-11-25T06:53+09:00。取込みは以下2条件の追加のみ、既存要求・過去の履歴は変更しない。
 
-- [ ] **REQ-28**: README.mdの使い方へ `python -m wordfreq input.txt --min-count 3` の実行例を1つ追加する。既存例・説明・末尾行を保持する。原本と文字差分で確認する。
+- [x] **REQ-28**: README.mdの使い方へ `python -m wordfreq input.txt --min-count 3` の実行例を1つ追加する。既存例・説明・末尾行を保持する。原本と文字差分で確認する。
 - [ ] **REQ-29**: 最終PR base...headの全変更ファイルがREADME.mdだけである。工程文書をpath除外しない。full工程原本は保存・push・カード添付後、後続D.5指定ファイル限定手順でPRから外す。整備前は暫定として残る工程ファイルを明示し、品質が整備後のbase/head・全一覧・2条件判定をVERIFICATION.md等の文字原本でカード添付する。PMはread_fileで判断する。
 
 text/json/htmlの3形式実行、検証入力・出力・終了コードとその実行証拠は依頼者判断により対象外であり残件にしない。実装・試験・ツール・依存・設定・公開入出力変更なし。

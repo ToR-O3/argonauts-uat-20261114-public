@@ -4,17 +4,17 @@ milestone: v1.12
 current_phase: 8
 current_phase_name: README min-count example
 current_plan: 1
-status: executing
-stopped_at: Completed 07-01-PLAN.md; independent quality pending
-last_updated: "2026-11-24T22:54:57.162Z"
+status: verifying
+stopped_at: Completed 08-01-PLAN.md; independent quality and final README-only PR pending
+last_updated: "2026-11-24T23:08:52.250Z"
 last_activity: 2026-11-25
-last_activity_desc: Phase 7 execution started
-state_head: caf0158c06989d6e34c436a4c011917ecd0acfe4
+last_activity_desc: Phase 8 execution started
+state_head: d2b5deea2b09ede073035d7df1bdf6a8c628e5fa
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 18
-  completed_plans: 17
+  completed_plans: 18
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -26,15 +26,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-22)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 8 — README min-count example（planning complete、製品実装は未実施）
+**Current focus:** Phase 8 — README min-count example
 
 ## Current Position
 
-Phase: 8 (README min-count example) — READY TO EXECUTE
+Phase: 8 (README min-count example) — EXECUTING
 Current Plan: 1
 Total Plans in Phase: 1
-Status: Ready to execute
-Last activity: 2026-11-25 — Phase 7 execution started
+Status: Phase complete — ready for verification
+Last activity: 2026-11-25 — Phase 8 execution started
 
 Progress: [███░░░░░░░] 25%
 
@@ -122,6 +122,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-24T20:24:57.946Z
-Stopped at: Completed 07-01-PLAN.md; independent quality pending
+Last session: 2026-11-24T23:08:52.115Z
+Stopped at: Completed 08-01-PLAN.md; independent quality and final README-only PR pending
 Resume file: None
