@@ -15,8 +15,12 @@ START = "14e6df0700bb19a9e54a0d1b32e0f16f6eced634"
 REPORTS_REF = "96c2df6c65af7060baca53fd80d573b3808d3728"
 PHASE = ".planning/phases/05-wordfreq-readme-top-three-example"
 VERIFIER = f"{PHASE}/verify_readme_top_three.py"
+HARNESS = f"{PHASE}/test_verify_readme_top_three_scope.py"
 SECURITY = f"{PHASE}/05-SECURITY.md"
 OPEN_SPEC = ".planning/argonauts/t_40ba151e/openspec-verify.md"
+NEW_REPORT = ".planning/argonauts/t_0a1b2c3d/openspec-verify.md"
+VALIDATION = f"{PHASE}/05-VALIDATION.md"
+REPORTS = (SECURITY, OPEN_SPEC, f"{PHASE}/05-VERIFICATION.md", f"{PHASE}/05-CLI-EVIDENCE.md", NEW_REPORT)
 EXPECTED = [{"word": "alpha", "count": 4}, {"word": "beta", "count": 3}, {"word": "gamma", "count": 2}]
 COMMAND = ["python", VERIFIER]
 
@@ -55,7 +59,7 @@ def checkout():
         git(root, "remote", "remove", "origin")
         require(not (root / ".git/objects/info/alternates").exists(), "clone shares objects")
         (root / VERIFIER).write_bytes((source / VERIFIER).read_bytes())
-        yield root
+        yield root, source
 
 
 def copy_report(root, path, original=None):
@@ -94,19 +98,172 @@ def expect_success(result):
 
 
 def untracked_previous():
-    with checkout() as root:
+    with checkout() as (root, _):
         for path in (SECURITY, OPEN_SPEC):
             copy_report(root, path)
             require(git_state(root, path) == (f"?? {path}\n".encode(), b"", b""), "expected untracked original")
         expect_success(verify(root))
 
 
+def expect_rejection(result, path, reason):
+    lines = result.stdout.splitlines()
+    failures = [line for line in lines if line.startswith(b"verification: FAIL")]
+    require(result.returncode == 1 and result.stderr == b"", "expected scope rejection, not process failure")
+    require(len(failures) == 1 and path.encode() in failures[0] and reason.encode() in failures[0],
+            f"expected {reason!r} for {path!r}, got {failures!r}")
+    require(b"CLI: not run" in lines, "expected no CLI attempt")
+    require(not any(line.startswith((b"published:", b"argv:", b"CLI: starting", b"CLI exit:", b"stdout:"))
+                    for line in lines), "unexpected CLI launch evidence")
+
+
+def commit_paths(root, subject, *paths):
+    git(root, "add", "--", *paths)
+    git(root, "commit", "-m", subject)
+
+
+def prepare_reports(root, source, state):
+    (root / HARNESS).write_bytes((source / HARNESS).read_bytes())
+    copy_report(root, VALIDATION)
+    commit_paths(root, "Prepare verifier and tracked validation update", VERIFIER, HARNESS, VALIDATION)
+    validation_diff = git(root, "diff", "--raw", "--no-renames", START, "HEAD", "--", VALIDATION)
+    require(validation_diff.startswith(b":100644 100644 ") and b" M\t" in validation_diff,
+            "VALIDATION must be a same-mode tracked update from START")
+    print(f"tracked preparation: {validation_diff!r}")
+    for path in REPORTS:
+        require(git_state(root, path) == (b"", b"", b""), f"unexpected pre-existing report: {path}")
+        require(not git(root, "ls-tree", BASE, "--", path), f"report already in base: {path}")
+        copy_report(root, path, OPEN_SPEC if path == NEW_REPORT else None)
+    if state == "staged":
+        git(root, "add", "--", *REPORTS)
+    elif state == "committed":
+        commit_paths(root, "Save the added reports", *REPORTS)
+        require(not git(root, "status", "--porcelain=v1", "--untracked-files=all"), "expected clean committed state")
+        added = git(root, "diff", "--no-renames", "--name-status", BASE, "HEAD", "--", *REPORTS)
+        require(set(added.splitlines()) == {f"A\t{path}".encode() for path in REPORTS}, "not all reports added from base")
+        print(f"committed additions from base: {added!r}")
+    for path in REPORTS:
+        status, index, head = git_state(root, path)
+        prefix = {"untracked": "??", "staged": "A ", "committed": ""}[state]
+        require(status == (f"{prefix} {path}\n".encode() if prefix else b""), f"wrong report status: {path}")
+        require(index.startswith(b"100644 ") if state != "untracked" else not index, f"wrong index: {path}")
+        require(head.startswith(b"100644 blob ") if state == "committed" else not head, f"wrong HEAD: {path}")
+
+
+def positive(state):
+    with checkout() as (root, source):
+        prepare_reports(root, source, state)
+        expect_success(verify(root))
+
+
+def mutate(root, case):
+    tracked = {
+        "tracked-change": "CONCEPTS.md",
+        "tracked-fixture": ".planning/argonauts/r-e476c11d/baseline/index.json",
+        "report-in-base": ".planning/argonauts/t_419e62f7/openspec-verify.md",
+    }
+    unknown = {
+        "unrelated-untracked": ".planning/unrelated.md",
+        "wrong-id-length": ".planning/argonauts/t_0a1b2c3/openspec-verify.md",
+        "wrong-id-case": ".planning/argonauts/t_0A1b2c3d/openspec-verify.md",
+        "extra-level": ".planning/argonauts/t_0a1b2c3d/nested/openspec-verify.md",
+        "wrong-filename": ".planning/argonauts/t_0a1b2c3d/other.md",
+    }
+    if case in tracked:
+        path = tracked[case]
+        require(git(root, "ls-tree", BASE, "--", path).startswith(b"100644 blob "), "missing base file")
+        target = root / path
+        target.write_bytes(target.read_bytes() + b"\nchanged in test\n")
+        if case != "tracked-change":
+            git(root, "add", "--", path)
+        prefix = " M" if case == "tracked-change" else "M "
+        require(git_state(root, path)[0] == f"{prefix} {path}\n".encode(), "missing expected tracked change")
+        return path, "already tracked at base" if case == "report-in-base" else "out-of-scope change"
+    if case in unknown:
+        path = unknown[case]
+        copy_report(root, path, OPEN_SPEC)
+        require(git_state(root, path) == (f"?? {path}\n".encode(), b"", b""), "missing unknown untracked path")
+        return path, "out-of-scope untracked paths"
+    if case == "staged-deletion":
+        path = OPEN_SPEC
+        git(root, "rm", "--", path)
+        status, index, head = git_state(root, path)
+        require(status == f"D  {path}\n".encode() and not index and head.startswith(b"100644 blob ")
+                and not (root / path).exists(), "expected staged deletion of a regular HEAD report")
+        for args in ((BASE,), ("--cached", BASE)):
+            require(not git(root, "diff", "--name-only", "--no-renames", *args, "--", path), "not absent from old diff")
+        require(not git(root, "ls-files", "--others", "--exclude-standard", "--", path), "not absent from untracked")
+        for args, prefix in (((BASE, "HEAD"), "A"), (("--cached", "HEAD"), "D")):
+            diff = git(root, "diff", "--name-status", "--no-renames", *args, "--", path)
+            require(diff == f"{prefix}\t{path}\n".encode(), "missing addition or deletion in extra diff")
+            print(f"diff {args}: {diff!r}")
+        return path, "staged deletion"
+    if case == "fixed-mode-change":
+        (root / VALIDATION).chmod(0o755)
+        require(git_state(root, VALIDATION)[0] == f" M {VALIDATION}\n".encode(), "missing tracked mode change")
+        return VALIDATION, "file mode change"
+    if case == "symlink-parent":
+        parent = (root / NEW_REPORT).parent
+        moved = parent.rename(root.parent / "moved-report-directory")
+        parent.symlink_to(moved, target_is_directory=True)
+        status = git(root, "status", "--porcelain=v1", "--untracked-files=all")
+        print(f"parent symlink: {status!r}")
+        require(f" D {NEW_REPORT}\n".encode() in status and parent.is_symlink()
+                and (root / NEW_REPORT).is_file(), "expected a symlink parent reaching the original report")
+        return NEW_REPORT, "symlink parent"
+    path = ".planning/argonauts/t_11112222/openspec-verify.md"
+    if case == "fixed-symlink":
+        path = f"{PHASE}/05-REVIEW.md"
+    target = root / path
+    require(not target.exists(), f"non-regular scenario needs a new path: {path}")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.symlink_to(root / SECURITY)
+    if case in {"symlink-index", "symlink-head"}:
+        if case == "symlink-head":
+            commit_paths(root, "Save a non-regular report", path)
+        else:
+            git(root, "add", "--", path)
+        target.unlink()
+        copy_report(root, path, OPEN_SPEC)
+        if case == "symlink-head":
+            git(root, "add", "--", path)
+        status, index, head = git_state(root, path)
+        if case == "symlink-index":
+            require(status == f"AT {path}\n".encode() and index.startswith(b"120000 ") and not head,
+                    "expected a staged symlink masked by a regular worktree file")
+            return path, "non-regular or conflicted entry in index"
+        require(status == f"T  {path}\n".encode() and index.startswith(b"100644 ") and head.startswith(b"120000 blob "),
+                "expected a HEAD symlink masked by regular index and worktree files")
+        return path, "non-regular or conflicted entry in HEAD"
+    require(target.is_symlink() and git_state(root, path) == (f"?? {path}\n".encode(), b"", b""),
+            "expected an untracked symlink")
+    return path, "non-regular file in worktree"
+
+
+def negative(case):
+    with checkout() as (root, source):
+        prepare_reports(root, source, "committed")
+        path, reason = mutate(root, case)
+        expect_rejection(verify(root), path, reason)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--case", choices=["untracked-previous"])
-    parser.parse_args()
-    untracked_previous()
-    print("PASS: untracked-previous")
+    states = ("untracked", "staged", "committed")
+    negatives = ("tracked-change", "unrelated-untracked", "tracked-fixture", "wrong-id-length", "wrong-id-case",
+                 "extra-level", "wrong-filename", "report-in-base", "symlink-worktree", "symlink-index",
+                 "symlink-head", "staged-deletion", "fixed-mode-change", "fixed-symlink", "symlink-parent")
+    cases = ("untracked-previous", *states, *negatives)
+    parser.add_argument("--case", choices=cases)
+    selection = parser.parse_args().case
+    for case in (selection,) if selection else cases:
+        print(f"\n=== {case} ===", flush=True)
+        if case == "untracked-previous":
+            untracked_previous()
+        elif case in states:
+            positive(case)
+        else:
+            negative(case)
+        print(f"PASS: {case}")
 
 
 if __name__ == "__main__":

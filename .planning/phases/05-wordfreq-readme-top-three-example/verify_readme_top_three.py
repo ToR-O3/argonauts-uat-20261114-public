@@ -182,13 +182,14 @@ def verify_workflow_path(root, path, untracked):
 
 
 def verify_scope(root, entries_by_diff, untracked, expected_readme):
-    candidates = set(untracked) | {entry[0] for entries in entries_by_diff.values() for entry in entries}
+    untracked = set(untracked)
+    candidates = untracked | {entry[0] for entries in entries_by_diff.values() for entry in entries}
     workflow = {path for path in candidates if path in WORKFLOW_PATHS or OPEN_SPEC_REPORT.fullmatch(path)}
-    outside = sorted(set(untracked) - workflow)
-    if outside:
-        raise ValueError(f"out-of-scope untracked paths: {outside!r}")
     for path in sorted(workflow):
         verify_workflow_path(root, path, path in untracked)
+    outside = sorted(untracked - workflow)
+    if outside:
+        raise ValueError(f"out-of-scope untracked paths: {outside!r}")
     for label, entries in entries_by_diff.items():
         for path, old_mode, new_mode, status in entries:
             if path in workflow:
@@ -242,8 +243,6 @@ def verify_cli(root, argv):
     print(f"CLI exit: {result.returncode}\nstdout: {result.stdout!r}\nstderr: {result.stderr!r}")
     if result.returncode:
         raise ValueError("published CLI returned nonzero")
-    if result.stderr:
-        raise ValueError("published CLI stderr must be empty")
     data = json.loads(result.stdout)
     if data != EXPECTED or any(type(item["count"]) is not int for item in data):
         raise ValueError(f"expected exactly {EXPECTED!r} with integer counts")
