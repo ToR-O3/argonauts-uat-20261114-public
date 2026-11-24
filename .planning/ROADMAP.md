@@ -138,16 +138,16 @@ Plans:
 
 ### Phase 6: README min-count three example
 
-**Goal:** 承認済みr-5f8197e8のREADME閾値3実行例1つを追加し、同一入力のtext/json/htmlをBuilderと独立品質が実行して、既存契約・READMEのみの製品差分・PM可読な文字原本を確認できる。
-**Requirements**: REQ-25, REQ-26, REQ-27
-**UI hint:** no — 既存HTML出力は検証するがUI設計・見た目は変更しない。
+**Goal:** 最新依頼者判断2026-11-24T21:20+09:00に従いREADMEの閾値3例1つとREADMEだけの全PR差分の2点を確認できる。3形式実行・実行証拠は対象外。
+**Requirements**: REQ-25, REQ-27
+**UI hint:** no — 文書1行だけ。画面もCLIも実行検証しない。
 **Success Criteria:**
   1. 使い方に指定コマンド例1つだけを追加し既存説明/例/検証A行を保持する。
-  2. 同一UTF-8入力・閾値3で3形式のexit/語/回数/順序/既存形式契約を実出力と照合する。
-  3. 利用者向け変更READMEのみ。Builder/独立品質の文字証拠を添付しPMがread_fileで判断できる。
+  2. 最終PRの全差分がREADME.mdだけ。工程原本を添付保全し、最終化で工程文書の差分を外す。除外して数えるだけの判定は不可。
+  3. 依頼者の判断により対象外: 3形式実行・pytest・入力/出力/実行ログ。独立品質の確認は上の2点の文字判断のみ。
 **Approval:** t_9c048e29 run28 approved、source t_38b60b51 run27。merge追加のみ、衝突0。公式phase.add結果6。旧phase1/3/4のstale検証は今回へ混ぜない。
 **Depends on:** Phase 5
 **Plans:** 1 plan
 
 Plans:
-- [ ] 06-01-PLAN.md — 2 sequential tasks: README1行と同一入力3形式tracer（OpenSpec1.1/1.2）→全回帰/全scope/独立品質runbook（2.1 handoff）。品質本人の独立実行と文字原本配送は後続必須gate。
+- [ ] 06-01-PLAN.md — 既存PLANの範囲縮小部分修正。README例1行と全差分確認のみ。OpenSpec1.1有効、1.2対象外、2.1はscope/文字判断だけ。最終PRから工程差分を外す。

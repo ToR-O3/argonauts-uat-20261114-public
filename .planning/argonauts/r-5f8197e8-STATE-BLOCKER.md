@@ -1,5 +1,15 @@
 # 計画引継ぎ保留 — GSD状態の公式照会不一致
 
+## 最新追記（下記の旧範囲・旧SHA・旧検査件数より優先）
+
+判断日時: 2026-11-24T21:20+09:00。受付/自身の正本を終了前再読し、指定例1つとREADMEのみの全PR差分の2条件へ同じPLANを部分修正した。3形式/pytest/実入力/出力・実行ログは「依頼者の判断により対象外」。全体作り直しや工程追加はしていない。最終化では工程文書も必要原本添付保全後に差分から外し、READMEのみを全件で確認する。
+
+縮小後PLAN SHA: c069f22c28c02875e0fe828499266e31134818ec19c1cf5d1e83c78b2366bc9e。両公式probe exit0、13commands blocker/warning0、decision7/7、gap9/9。独立checker sa-0-6c5897a4が正常完了・truncated=false、VERIFICATION PASSED、指摘0。原本 r-5f8197e8-checker-revised.md。旧添付26/28は旧範囲の履歴なので実行に使わず、新しい同名添付を使う。
+
+GSD状態不一致は未解決のまま。旧PLANの検査合格も縮小後の計画合格も、この状態の完了証明ではない。本文Current Plan:1/Total Plans:1/Ready to executeと公式snapshotのNot started/completedが一致せず、計画カードは完了しない。
+
+以下は初回作成時の調査記録（旧範囲と旧SHAは履歴）。
+
 ## 現象
 
 Phase 6のPLANは独立公式checker合格、同じSHAを保持している。しかしSTATE.md本文のCurrent Positionが `Current Plan: 1` / `Total Plans in Phase: 1` / `Status: Ready to execute` でも、公式state-snapshotが `current_plan: Not started` / `status: completed` を返す。frontmatterに古い値が残る。

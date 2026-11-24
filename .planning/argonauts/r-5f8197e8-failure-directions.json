@@ -7,167 +7,39 @@
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
+      "task": "06-01-01: README例1行をbyte比較とpatchで確認するtracer（OpenSpec1.1）"
     },
     {
-      "command": "cmp \"$E/input.txt\" input.txt",
-      "statement": "入力が欠落または実行用と保存原本で1byteでも不一致。",
+      "command": "git diff --no-ext-diff --no-textconv --no-color 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 -- README.md",
+      "statement": "非0またはpatch/full README読取りで指定1行追加以外、追加0回/複数回、既存内容/改行変更を検出。exit0だけで合格にしない。",
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
+      "task": "06-01-01: README例1行をbyte比較とpatchで確認するtracer（OpenSpec1.1）"
     },
     {
-      "command": "python -m wordfreq input.txt --min-count 3 > \"$E/text.stdout.txt\" 2> \"$E/text.stderr.txt\"",
-      "statement": "直後保存したtext.exit.txtが0以外、stderr非空、stdout欠落/空またはhello4→zoo3→apple3の実TAB/LF3行と不一致。",
+      "command": "git diff --check 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 -- README.md",
+      "statement": "非0、空白/改行エラー。exit0でも全文/byte不一致は不合格。",
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "python -m wordfreq input.txt --min-count 3 --format json > \"$E/json.stdout.json\" 2> \"$E/json.stderr.txt\"",
-      "statement": "直後保存したjson.exit.txtが0以外、stderr非空、JSON欠落/不正、配列/語/整数回数/順序/LFが期待と不一致。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "python -m wordfreq input.txt --min-count 3 --format html > \"$E/html.stdout.html\" 2> \"$E/html.stderr.txt\"",
-      "statement": "直後保存したhtml.exit.txtが0以外、stderr非空、HTML欠落/空、データ3行/順位/語/回数/元総数13/basename/静的UTF-8契約のいずれか不一致。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "cmp \"$E/text.expected.txt\" \"$E/text.stdout.txt\"",
-      "statement": "非0または原本欠落。TABが空白、末尾LF欠落、順序違い、閾値未満残存もbyte不一致とする。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "cmp \"$E/json.expected.json\" \"$E/json.stdout.json\"",
-      "statement": "非0または原本欠落。既存JSON空白/末尾LFを含む全文不一致。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "jq -e '. == [{\"word\":\"hello\",\"count\":4},{\"word\":\"zoo\",\"count\":3},{\"word\":\"apple\",\"count\":3}]' \"$E/json.stdout.json\"",
-      "statement": "非0、JSON不正、配列構造・キー/型/値・件数・順序の具体的不一致。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "cmp \"$E/zero.expected.txt\" \"$E/text.exit.txt\"",
-      "statement": "非0、textのexit原本欠落、または実exitが0以外。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "cmp \"$E/zero.expected.txt\" \"$E/json.exit.txt\"",
-      "statement": "非0、jsonのexit原本欠落、または実exitが0以外。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "cmp \"$E/zero.expected.txt\" \"$E/html.exit.txt\"",
-      "statement": "非0、htmlのexit原本欠落、または実exitが0以外。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "cmp \"$E/empty.expected.txt\" \"$E/text.stderr.txt\"",
-      "statement": "非0、textのstderr原本欠落または1byte以上出力。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "cmp \"$E/empty.expected.txt\" \"$E/json.stderr.txt\"",
-      "statement": "非0、jsonのstderr原本欠落または1byte以上出力。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "cmp \"$E/empty.expected.txt\" \"$E/html.stderr.txt\"",
-      "statement": "非0、htmlのstderr原本欠落または1byte以上出力。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "iconv -f UTF-8 -t UTF-8 \"$E/html.stdout.html\" > /dev/null",
-      "statement": "非0、原本欠落またはUTF-8 decode不能。exit0でもHTML全文の構造/安全性読取り不一致は不合格。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k 'min_count_selection or min_count_help_and_readme_example' -x",
-      "statement": "非0、環境import失敗、collected/selectedが0、失敗または必須対象skip。旧閾値2掲載試験だけでは新例の合格にしない。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_formatters.py -x",
-      "statement": "非0、collected0、失敗、必須skip、text/JSON/静的HTML既存契約の回帰。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "cmp \"$E/input.txt\" input.txt",
-      "statement": "3CLI/試験後に入力欠落または保存全文からの変化。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）"
-    },
-    {
-      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest",
-      "statement": "非0、実行環境不成立、collected0、失敗または必須対象skip。全件成功の原本/実件数が無いのにgreenとする場合。",
-      "status": "ok",
-      "severity": "none",
-      "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-01: README例1行をbyte比較とpatchで確認するtracer（OpenSpec1.1）"
     },
     {
       "command": "git rev-parse HEAD",
-      "statement": "非0、head原本欠落、CLI/pytest/scopeの対象head不一致を説明/再検証せず最終成功とする場合。",
+      "statement": "非0、head原本欠落、README/scopeの対象head不一致を説明/再確認せず最終成功とする場合。",
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
     },
     {
       "command": "git diff --name-status 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 HEAD",
-      "statement": "非0、原本欠落、全列挙pathの分類漏れ、README以外の製品変更または未承認追加。",
+      "statement": "非0、原本欠落、全列挙pathの分類漏れ、README以外の製品変更または未承認追加。工程差分が残れば最終README-only条件は未達として保持。",
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
     },
     {
       "command": "git diff --no-ext-diff --no-textconv --no-color 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 HEAD",
@@ -175,7 +47,7 @@
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
     },
     {
       "command": "git diff --no-ext-diff --no-textconv --no-color 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 --",
@@ -183,7 +55,7 @@
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
     },
     {
       "command": "git diff --cached --no-ext-diff --no-textconv --no-color",
@@ -191,15 +63,15 @@
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
     },
     {
       "command": "git status --porcelain=v1 --untracked-files=all",
-      "statement": "非0、status原本欠落、追跡/未追跡pathの分類漏れ、root input.txt残存または工程以外の新fixture/試験/ツール。",
+      "statement": "非0、status原本欠落、追跡/未追跡pathの分類漏れ、新fixture/試験/ツール追加。工程資料を見落としてREADME-onlyとする場合。",
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
     },
     {
       "command": "git ls-files --others --exclude-standard",
@@ -207,7 +79,7 @@
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
     },
     {
       "command": "git diff --exit-code 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 -- wordfreq tests tools pyproject.toml .github",
@@ -215,7 +87,7 @@
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
     },
     {
       "command": "git diff --check 2437aa3445ecdb87e7a11fe7a1c0e196726a5af4 -- README.md",
@@ -223,7 +95,7 @@
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
     },
     {
       "command": "cmp \"$E/README.expected.md\" README.md",
@@ -231,13 +103,13 @@
       "status": "ok",
       "severity": "none",
       "plan": "06-01-PLAN.md",
-      "task": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）"
+      "task": "06-01-02: 全差分分類と原本保全・独立品質/最終化への引継ぎ（OpenSpec2.1 handoff）"
     }
   ],
   "counts": {
     "blocker": 0,
     "warning": 0,
-    "total": 29
+    "total": 13
   },
   "readError": null
 }
