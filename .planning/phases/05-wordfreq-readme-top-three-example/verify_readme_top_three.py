@@ -181,6 +181,24 @@ def verify_workflow_path(root, path, untracked):
         raise ValueError(f"workflow artifact {path!r}: file mode change")
 
 
+def verify_tasks(root):
+    baseline = git(root, "show", f"{BASE}:{TASKS}")
+    unchecked = b"\n- [ ] 1.1 "
+    if baseline.count(unchecked) != 1:
+        raise ValueError(f"{TASKS}: expected one unchecked task 1.1 at base")
+    checked = baseline.replace(unchecked, b"\n- [x] 1.1 ", 1)
+    # The same verifier can run before the first check, but later surfaces
+    # cannot undo it. A rollback to the base bytes may have no base diff.
+    was_checked = False
+    for surface, ref in (("HEAD", "HEAD:"), ("index", ":"), ("worktree", None)):
+        actual = git(root, "show", f"{ref}{TASKS}") if ref is not None else (root / TASKS).read_bytes()
+        if actual not in (baseline, checked):
+            raise ValueError(f"{TASKS}: only the task 1.1 checkbox may change ({surface})")
+        if was_checked and actual == baseline:
+            raise ValueError(f"{TASKS}: task 1.1 reverted in {surface}")
+        was_checked = actual == checked
+
+
 def verify_scope(root, entries_by_diff, untracked, expected_readme):
     untracked = set(untracked)
     candidates = untracked | {entry[0] for entries in entries_by_diff.values() for entry in entries}
@@ -197,15 +215,9 @@ def verify_scope(root, entries_by_diff, untracked, expected_readme):
             if path not in {README, TASKS} or status != b"M" or old_mode != new_mode:
                 raise ValueError(f"out-of-scope change: {path!r} ({status!r})")
             ref = {"base → index": ":", "base → HEAD": "HEAD:", "HEAD → index": ":"}.get(label)
-            if path == README:
-                if ref is not None and git(root, "show", f"{ref}{README}") != expected_readme:
-                    raise ValueError(f"README is not the exact approved insertion ({label})")
-            else:
-                baseline = git(root, "show", f"{BASE}:{TASKS}")
-                unchecked = b"\n- [ ] 1.1 "
-                actual = git(root, "show", f"{ref}{TASKS}") if ref is not None else (root / TASKS).read_bytes()
-                if baseline.count(unchecked) != 1 or actual != baseline.replace(unchecked, b"\n- [x] 1.1 ", 1):
-                    raise ValueError("OpenSpec change must only check task 1.1")
+            if path == README and ref is not None and git(root, "show", f"{ref}{README}") != expected_readme:
+                raise ValueError(f"README is not the exact approved insertion ({label})")
+    verify_tasks(root)
     if not any(entry[0] == README for entry in entries_by_diff["base → worktree"]):
         raise ValueError("README insertion not found in worktree diff")
     if git(root, "diff", "--numstat", BASE, "--", README) != b"1\t0\tREADME.md\n":
@@ -228,6 +240,15 @@ def prepare_cli(root, published):
         yield argv
 
 
+def unique_json_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key!r}")
+        result[key] = value
+    return result
+
+
 def verify_cli(root, argv):
     try:
         result = subprocess.run(
@@ -243,7 +264,9 @@ def verify_cli(root, argv):
     print(f"CLI exit: {result.returncode}\nstdout: {result.stdout!r}\nstderr: {result.stderr!r}")
     if result.returncode:
         raise ValueError("published CLI returned nonzero")
-    data = json.loads(result.stdout)
+    if result.stderr:
+        raise ValueError("published CLI wrote to stderr")
+    data = json.loads(result.stdout, object_pairs_hook=unique_json_object)
     if data != EXPECTED or any(type(item["count"]) is not int for item in data):
         raise ValueError(f"expected exactly {EXPECTED!r} with integer counts")
 

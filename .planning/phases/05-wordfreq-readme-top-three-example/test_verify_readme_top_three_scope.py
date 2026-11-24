@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 
 
@@ -20,6 +21,7 @@ SECURITY = f"{PHASE}/05-SECURITY.md"
 OPEN_SPEC = ".planning/argonauts/t_40ba151e/openspec-verify.md"
 NEW_REPORT = ".planning/argonauts/t_0a1b2c3d/openspec-verify.md"
 VALIDATION = f"{PHASE}/05-VALIDATION.md"
+TASKS = "openspec/changes/r-864b299c-readme-top-three/tasks.md"
 REPORTS = (SECURITY, OPEN_SPEC, f"{PHASE}/05-VERIFICATION.md", f"{PHASE}/05-CLI-EVIDENCE.md", NEW_REPORT)
 EXPECTED = [{"word": "alpha", "count": 4}, {"word": "beta", "count": 3}, {"word": "gamma", "count": 2}]
 COMMAND = ["python", VERIFIER]
@@ -30,9 +32,10 @@ def require(condition, message):
         raise AssertionError(message)
 
 
-def run(cwd, *argv, check=True):
+def run(cwd, *argv, check=True, overrides=None):
     env = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
     env.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull, PYTHONDONTWRITEBYTECODE="1")
+    env.update(overrides or {})
     return subprocess.run(
         argv, cwd=cwd, env=env, shell=False, check=check, capture_output=True, timeout=30,
     )
@@ -77,13 +80,30 @@ def git_state(root, path):
     return status, index, head
 
 
-def verify(root):
+def verify(root, command=COMMAND, overrides=None):
     head = git(root, "rev-parse", "HEAD").decode().strip()
-    print(f"base={BASE}, HEAD={head}, command={COMMAND!r}")
-    result = run(root, *COMMAND, check=False)
+    print(f"base={BASE}, HEAD={head}, command={command!r}")
+    result = run(root, *command, check=False, overrides=overrides)
     print(result.stdout.decode(errors="backslashreplace"), end="")
     print(f"verifier exit: {result.returncode}, verifier stderr: {result.stderr!r}")
     return result
+
+
+def cli_stream(result, stream):
+    prefix = stream + b": "
+    outputs = [line.removeprefix(prefix) for line in result.stdout.splitlines() if line.startswith(prefix)]
+    require(len(outputs) == 1, f"expected one CLI {stream!r} record")
+    return ast.literal_eval(outputs[0].decode("ascii"))
+
+
+def expect_cli_json(result):
+    rows = json.loads(cli_stream(result, b"stdout"), object_pairs_hook=list)
+    require(isinstance(rows, list) and len(rows) == len(EXPECTED), "unexpected CLI JSON array length or type")
+    for row, expected in zip(rows, EXPECTED):
+        require(isinstance(row, list) and all(isinstance(pair, tuple) for pair in row)
+                and len(row) == len(expected), f"unexpected CLI JSON object: {row!r}")
+        actual = dict(row)
+        require(actual == expected and type(actual["count"]) is int, f"unexpected CLI JSON row: {row!r}")
 
 
 def expect_success(result):
@@ -91,10 +111,7 @@ def expect_success(result):
     lines = result.stdout.splitlines()
     for marker in (b"placement and scope: PASS", b"CLI: starting", b"CLI exit: 0", b"stderr: b''"):
         require(marker in lines, f"missing {marker!r}")
-    outputs = [line.removeprefix(b"stdout: ") for line in lines if line.startswith(b"stdout: ")]
-    require(len(outputs) == 1, "expected one CLI stdout record")
-    data = json.loads(ast.literal_eval(outputs[0].decode("ascii")))
-    require(data == EXPECTED and all(type(row["count"]) is int for row in data), f"unexpected CLI JSON: {data!r}")
+    expect_cli_json(result)
 
 
 def untracked_previous():
@@ -155,6 +172,18 @@ def positive(state):
         expect_success(verify(root))
 
 
+def before_first_task_check():
+    with checkout() as (root, source):
+        prepare_reports(root, source, "committed")
+        baseline = git(root, "show", f"{BASE}:{TASKS}")
+        (root / TASKS).write_bytes(baseline)
+        commit_paths(root, "Simulate the state before checking OpenSpec task 1.1", TASKS)
+        require(all(git(root, "show", f"{ref}{TASKS}") == baseline for ref in ("HEAD:", ":")),
+                "expected unchecked task in HEAD and index")
+        require(not git(root, "status", "--porcelain=v1", "--", TASKS), "expected unchanged worktree task")
+        expect_success(verify(root))
+
+
 def mutate(root, case):
     tracked = {
         "tracked-change": "CONCEPTS.md",
@@ -183,6 +212,16 @@ def mutate(root, case):
         copy_report(root, path, OPEN_SPEC)
         require(git_state(root, path) == (f"?? {path}\n".encode(), b"", b""), "missing unknown untracked path")
         return path, "out-of-scope untracked paths"
+    if case == "unchecked-task-worktree":
+        baseline = git(root, "show", f"{BASE}:{TASKS}")
+        require(baseline.count(b"\n- [ ] 1.1 ") == 1, "expected one unchecked task in base")
+        checked = baseline.replace(b"\n- [ ] 1.1 ", b"\n- [x] 1.1 ", 1)
+        for ref in ("HEAD:", ":"):
+            require(git(root, "show", f"{ref}{TASKS}") == checked, f"expected checked task in {ref}")
+        (root / TASKS).write_bytes(baseline)
+        require(git_state(root, TASKS)[0] == f" M {TASKS}\n".encode(), "expected worktree-only rollback")
+        require(not git(root, "diff", "--name-only", BASE, "--", TASKS), "task must disappear from base→worktree")
+        return TASKS, "task 1.1 reverted in worktree"
     if case == "staged-deletion":
         path = OPEN_SPEC
         git(root, "rm", "--", path)
@@ -246,13 +285,56 @@ def negative(case):
         expect_rejection(verify(root), path, reason)
 
 
+def cli_output_case(program):
+    with checkout() as (root, source):
+        prepare_reports(root, source, "committed")
+        # Only the verifier's child resolves this shim. It is outside the checkout.
+        shim = root.parent / "python"
+        shim.write_text("#!/usr/bin/env python3\n" + program, encoding="utf-8")
+        shim.chmod(0o700)
+        result = verify(root, [sys.executable, VERIFIER], {"PATH": str(shim.parent) + os.pathsep + os.environ["PATH"]})
+    lines = result.stdout.splitlines()
+    for marker in (b"placement and scope: PASS", b"CLI: starting", b"CLI exit: 0"):
+        require(marker in lines, f"missing {marker!r}")
+    require(b"CLI: not run" not in lines, "expected the CLI to run")
+    return result
+
+
+def expect_cli_rejection(result, reason):
+    require(result.returncode == 1 and result.stderr == b"", "expected verifier to reject child output")
+    require(f"verification: FAIL (exit 1): {reason}".encode() in result.stdout.splitlines(),
+            f"missing expected CLI failure: {reason}")
+
+
+def nonempty_cli_stderr():
+    result = cli_output_case(
+        "import os, sys\n"
+        "assert sys.argv[1:3] == ['-m', 'wordfreq']\n"
+        f"os.execve({sys.executable!r}, [{sys.executable!r}, *sys.argv[1:]], "
+        "dict(os.environ, PYTHONPROFILEIMPORTTIME='1'))\n"
+    )
+    expect_cli_json(result)
+    require(cli_stream(result, b"stderr").startswith(b"import time:"), "missing CLI import profiler stderr")
+    expect_cli_rejection(result, "published CLI wrote to stderr")
+
+
+def duplicate_cli_key():
+    payload = b'[{"word":"alpha","count":999,"count":4},{"word":"beta","count":3},{"word":"gamma","count":2}]\n'
+    result = cli_output_case(f"import sys\nsys.stdout.buffer.write({payload!r})\n")
+    require(cli_stream(result, b"stdout") == payload, "missing duplicate-key fixture output")
+    require(cli_stream(result, b"stderr") == b"", "fixture must not write to stderr")
+    expect_cli_rejection(result, "duplicate JSON key: 'count'")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     states = ("untracked", "staged", "committed")
     negatives = ("tracked-change", "unrelated-untracked", "tracked-fixture", "wrong-id-length", "wrong-id-case",
                  "extra-level", "wrong-filename", "report-in-base", "symlink-worktree", "symlink-index",
-                 "symlink-head", "staged-deletion", "fixed-mode-change", "fixed-symlink", "symlink-parent")
-    cases = ("untracked-previous", *states, *negatives)
+                 "symlink-head", "staged-deletion", "fixed-mode-change", "fixed-symlink", "symlink-parent",
+                 "unchecked-task-worktree")
+    cli_cases = {"nonempty-cli-stderr": nonempty_cli_stderr, "duplicate-cli-key": duplicate_cli_key}
+    cases = ("untracked-previous", *states, "before-first-task-check", *negatives, *cli_cases)
     parser.add_argument("--case", choices=cases)
     selection = parser.parse_args().case
     for case in (selection,) if selection else cases:
@@ -261,6 +343,10 @@ def main():
             untracked_previous()
         elif case in states:
             positive(case)
+        elif case == "before-first-task-check":
+            before_first_task_check()
+        elif case in cli_cases:
+            cli_cases[case]()
         else:
             negative(case)
         print(f"PASS: {case}")
