@@ -129,7 +129,11 @@ Plans:
   1. `--top 2` のJSON例直後に `python -m wordfreq input.txt --top 3 --format json` を1行だけ追加し、それ以外の製品差分がない。
   2. 掲載した行を一時UTF-8入力で実行すると終了コード0、JSON配列が順に `alpha:4`、`beta:3`、`gamma:2` の3件ちょうどとなる。
 **Source:** 承認 `t_0afdeaeb` run 6、結合PRD `.planning/argonauts/r-864b299c-prd.md`、OpenSpec task 1.1。
-**Plans:** 1/1 plans executed
+**Plans:** 1/2 plans executed
 
 Plans:
+**Wave 1**
 - [x] 05-01-PLAN.md — README実行例のRED→GREENと対象headの独立検証（OpenSpec 1.1）
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 05-02-PLAN.md — 必須報告を含む検証ツリーの範囲判定と回帰（OpenSpec 1.1 の再検証）

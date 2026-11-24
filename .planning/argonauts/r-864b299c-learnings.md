@@ -1,8 +1,11 @@
-# r-864b299c — CE 学習調査
+# r-864b299c — CE 学習調査（Phase 5 gap 1 / t_24b12432）
 
-`docs/solutions/` の Markdown 5件を対象に、README、wordfreq、CLI、JSON、UTF-8、一時入力、差分、PM向け証拠を調査。関連4件（直接2件）、critical-patterns なし。
+`docs/solutions/` の Markdown 5件を調査し、関連5件（直接3件、隣接2件）を確認。検索軸は Git index/worktree/commit、完全一致許可、既存フィクスチャ、実CLI、JSON順序、対象head、平文証拠と添付。pack指定なし。
 
-- `docs/solutions/best-practices/input-boundary-verification-and-deterministic-ordering.md`: 実CLIを再実行し、JSONの件数・順序・値を照合する。今回は頻度が異なる4語を使い、上位3語を確認する。旧学習の同率時語昇順は現行契約ではなく、今回の証拠で同率順を主張しない。
-- `docs/solutions/workflow-issues/pm-readable-evidence-delivery.md`: コマンド・入力・終了値・実出力・差分を品質の平文証拠へ残し、添付後に原本を読み戻す。圧縮ファイルや画像をPMの判断の前提にしない。
-- `docs/solutions/best-practices/git-state-test-discrimination-and-staged-baseline.md`（隣接）: 実装前の比較基点を固定して1行追加を確認。既存試験変更や新設を要求しない。
-- `docs/solutions/workflow-issues/ci-dependent-requirement-evidence-types-and-head-recheck.md`（隣接）: 独立検証の対象headを記録し、証拠のcommitと区別する。ローカルCLIの成功をCI成功とみなさない。
+- `docs/solutions/best-practices/git-state-test-discrimination-and-staged-baseline.md`: 固定比較基点を含む使い捨てコピーで、状態と変異を一つずつ独立に用意し、対象パスと拒否理由を照合する。
+- `docs/solutions/workflow-issues/ci-dependent-requirement-evidence-types-and-head-recheck.md`: 比較基点・実行対象 HEAD・index/worktree の状態・報告コミットを区別し、品質が最新の報告込み対象を再確認する。ローカル成功をCI成功とみなさない。
+- `docs/solutions/workflow-issues/pm-readable-evidence-delivery.md`: `05-VERIFICATION.md` と `05-CLI-EVIDENCE.md` に終了値・コマンド・入力・実出力・対象headを平文で保存し、添付を読み戻す。
+- `docs/solutions/best-practices/input-boundary-verification-and-deterministic-ordering.md`（隣接）: 実 CLI の JSON を並べ替えずに比較する。古い同率時の語昇順は現行契約ではなく、今回は `alpha:4`、`beta:3`、`gamma:2` の順と3件ちょうどを確認する。
+- `docs/solutions/workflow-issues/attachment-refusal-git-original-and-human-standard-reattachment.md`（隣接）: 添付拒否は検証器の差分拒否と区別する。拒否を迂回せず、共有可能なGit原本を特定し、標準添付時はバイト同一性まで確認する。
+
+計画への適用: 現在の報告2件と次回に必要な報告・計画成果だけを限定する。既存の検証コマンドを変えず、隔離コピーで報告の未追跡・ステージ・コミットの3状態を確認し、無関係な追跡変更・未追跡・既存フィクスチャの独立した負例を残す。
