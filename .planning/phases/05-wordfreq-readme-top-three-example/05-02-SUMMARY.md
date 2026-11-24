@@ -104,6 +104,17 @@ PLAN 05-02 の実装完了。独立品質レビューの後、同じ HEAD を起
 
 全23ケース合格。先行 PLAN で使う初回チェック前の検証は引き続き成功し、実依頼ツリーの掲載 CLI は終了0・空 stderr・`alpha:4` → `beta:3` → `gamma:2`。既存 pytest 702件と OpenSpec 厳格検証（指摘0）も再実行して合格した。GSD CLI は Phase 5 / Current Plan 2 / `verifying`、未実施 PLAN なしと読み返せたため、計画位置は再更新していない。GitHub CI は未確認。
 
+## 再レビュー差戻しの修正
+
+コード `32638304c7e59f795b2786e6ad187f4fd72023e6`。対象は OpenSpec 1.1 の**コミット済み**のチェック後退。未チェックの HEAD が固定基点と同じ場合、対象パスについて基点から HEAD までの履歴を調べ、チェック済みの履歴がある場合は CLI 起動前に拒否する。基点や OpenSpec 原本は変更していない。
+
+| ケース | 実測結果 |
+|---|---|
+| `unchecked-task-commit` | チェックを外したコミットの clean HEAD では、基点→HEAD の対象パス差分なし。RED は CLI 起動・終了0、verifier 終了0、負例ハーネス終了1。GREEN は `openspec/changes/r-864b299c-readme-top-three/tasks.md` と `task 1.1 reverted in HEAD` を示して verifier 終了1、CLI 未実行、ハーネス合格。 |
+| `before-first-task-check` | 実チェックコミットの親から README の掲載行だけを再現。実チェックコミットは祖先になく、HEAD・index・worktree の 1.1 がすべて未チェック。verifier と CLI は終了0、stderr は空。 |
+
+専用回帰は報告の三状態を含む全24件、既存 pytest は702件、OpenSpec 厳格検証は1件（指摘0）が合格。報告込みの依頼ツリーでは掲載 CLI が終了0、空 stderr、`alpha:4` → `beta:3` → `gamma:2`。GSD は Phase 5 / PLAN 2 / `verifying`、未実施 PLAN なし。計画位置は更新せず、独立検証に引き継ぐ。GitHub CI は未確認。
+
 ## Self-Check: PASSED
 
-Builder が再レビュー時の全23ケース、報告込みの依頼ツリー、既存回帰、OpenSpec 厳格検証を確認。独立品質は別工程。
+Builder が全24ケース、報告込みの依頼ツリー、既存回帰、OpenSpec 厳格検証を確認。独立品質は別工程。
