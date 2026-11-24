@@ -115,6 +115,18 @@ PLAN 05-02 の実装完了。独立品質レビューの後、同じ HEAD を起
 
 専用回帰は報告の三状態を含む全24件、既存 pytest は702件、OpenSpec 厳格検証は1件（指摘0）が合格。報告込みの依頼ツリーでは掲載 CLI が終了0、空 stderr、`alpha:4` → `beta:3` → `gamma:2`。GSD は Phase 5 / PLAN 2 / `verifying`、未実施 PLAN なし。計画位置は更新せず、独立検証に引き継ぐ。GitHub CI は未確認。
 
+## 追跡済み検証報告と実行証拠の再レビュー修正
+
+コード `a1b0374b52be5947e9af209967c76396b6958cab`。`05-VALIDATION.md` は製品の固定基点にはないが、初出 `264d0ab9eb3a251bbeb6ecad38bcc62330b4c8f2` と PLAN の開始スナップショットでは `100644` で追跡済み。固定基点を変えず、差分候補に現れなくても HEAD・index・worktree のすべてに元のモードの通常ファイルを要求する。
+
+| ケース | RED：修正前 | GREEN：修正後 |
+|---|---|---|
+| `validation-committed-deletion` | 削除をコミットした clean HEAD は基点差分に当該パスなし。CLI・verifier 終了0 | 対象パスと `deleted or missing from a tracked state`。verifier 終了1、`CLI: not run` |
+| `validation-committed-mode-change` | HEAD・index・worktree を `100755` にした clean HEAD で CLI・verifier 終了0 | 対象パスと `file mode change`。verifier 終了1、`CLI: not run` |
+| `report-intent-to-add` | `git add -N` で status は ` A`、HEAD なし・index に placeholder。CLI・verifier 終了0 | 実ステージ追加と区別し、対象パスと `intent-to-add is not a staged addition`。verifier 終了1、`CLI: not run` |
+
+正例では、掲載行と報告された入力に加え、実 CLI 起動時の引数と入力ファイルの UTF-8 バイト列を別に観測し、期待値と照合した。作業ツリー外の `input.txt` 以外は掲載 argv のまま、一時入力は削除され、CLI 終了0・空 stderr・`alpha:4` → `beta:3` → `gamma:2`。専用回帰27件、既存 pytest 702件、OpenSpec 厳格検証1件（指摘0）が合格。OpenSpec 1.1 は既存チェックを照合し、README・製品 CLI・既存製品試験・OpenSpec の差分はない。GSD CLI で Phase 5 / PLAN 2 of 2 / 独立検証待ち、未実施 PLAN なしを再確認し、STATE/ROADMAP は再更新していない。GitHub CI は未確認。
+
 ## Self-Check: PASSED
 
-Builder が全24ケース、報告込みの依頼ツリー、既存回帰、OpenSpec 厳格検証を確認。独立品質は別工程。
+Builder が全27ケース、報告込みの依頼ツリー、既存回帰、OpenSpec 厳格検証を確認。独立品質は別工程。
