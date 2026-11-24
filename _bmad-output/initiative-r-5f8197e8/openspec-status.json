@@ -1,0 +1,102 @@
+{
+  "changeName": "r-5f8197e8-readme-min-count-three",
+  "schemaName": "spec-driven",
+  "planningHome": {
+    "kind": "repo",
+    "root": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51",
+    "changesDir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51/openspec/changes",
+    "defaultSchema": "spec-driven"
+  },
+  "changeRoot": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51/openspec/changes/r-5f8197e8-readme-min-count-three",
+  "artifactPaths": {
+    "proposal": {
+      "outputPath": "proposal.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51/openspec/changes/r-5f8197e8-readme-min-count-three/proposal.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51/openspec/changes/r-5f8197e8-readme-min-count-three/proposal.md"
+      ]
+    },
+    "specs": {
+      "outputPath": "specs/**/*.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51/openspec/changes/r-5f8197e8-readme-min-count-three/specs/**/*.md",
+      "existingOutputPaths": []
+    },
+    "design": {
+      "outputPath": "design.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51/openspec/changes/r-5f8197e8-readme-min-count-three/design.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51/openspec/changes/r-5f8197e8-readme-min-count-three/design.md"
+      ]
+    },
+    "tasks": {
+      "outputPath": "tasks.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51/openspec/changes/r-5f8197e8-readme-min-count-three/tasks.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51/openspec/changes/r-5f8197e8-readme-min-count-three/tasks.md"
+      ]
+    }
+  },
+  "isPlanningComplete": true,
+  "isComplete": true,
+  "applyRequires": [
+    "tasks"
+  ],
+  "nextSteps": [
+    "All planning artifacts are complete. Run openspec instructions apply --change \"r-5f8197e8-readme-min-count-three\" --json to inspect implementation progress."
+  ],
+  "actionContext": {
+    "mode": "repo-local",
+    "sourceOfTruth": "repo",
+    "planningArtifacts": [
+      "proposal",
+      "specs",
+      "design",
+      "tasks"
+    ],
+    "linkedContext": [],
+    "allowedEditRoots": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51"
+    ],
+    "requiresAffectedAreaSelection": false,
+    "constraints": [
+      "Repo-local change artifacts and implementation edits are scoped to this project."
+    ]
+  },
+  "artifacts": [
+    {
+      "id": "proposal",
+      "outputPath": "proposal.md",
+      "status": "done",
+      "requires": []
+    },
+    {
+      "id": "specs",
+      "outputPath": "specs/**/*.md",
+      "status": "skipped",
+      "requires": [
+        "proposal"
+      ]
+    },
+    {
+      "id": "design",
+      "outputPath": "design.md",
+      "status": "done",
+      "requires": [
+        "proposal"
+      ]
+    },
+    {
+      "id": "tasks",
+      "outputPath": "tasks.md",
+      "status": "done",
+      "requires": [
+        "specs",
+        "design"
+      ]
+    }
+  ],
+  "root": {
+    "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_38b60b51",
+    "source": "nearest"
+  }
+}
