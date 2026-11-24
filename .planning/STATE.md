@@ -1,20 +1,20 @@
 ---
 gsd_state_version: "1.0"
 milestone: v1.12
-current_phase: 8
-current_phase_name: README min-count example
+current_phase: 7
+current_phase_name: Project description UAT
 current_plan: 1
 status: verifying
-stopped_at: Completed 08-01-PLAN.md; independent quality and final README-only PR pending
-last_updated: "2026-11-24T23:08:52.250Z"
+stopped_at: Completed 07-01-PLAN.md; independent quality pending
+last_updated: "2026-11-24T20:25:07.601Z"
 last_activity: 2026-11-25
-last_activity_desc: Phase 8 execution started
-state_head: d2b5deea2b09ede073035d7df1bdf6a8c628e5fa
+last_activity_desc: Phase 7 execution started
+state_head: 289eec47c2db872f99e8920b2ddece9521b06c53
 progress:
-  total_phases: 6
+  total_phases: 5
   completed_phases: 1
-  total_plans: 18
-  completed_plans: 18
+  total_plans: 17
+  completed_plans: 17
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -26,15 +26,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-22)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 8 — README min-count example
+**Current focus:** Phase 7 — Project description UAT
 
 ## Current Position
 
-Phase: 8 (README min-count example) — EXECUTING
+Phase: 7 (Project description UAT) — EXECUTING
 Current Plan: 1
 Total Plans in Phase: 1
 Status: Phase complete — ready for verification
-Last activity: 2026-11-25 — Phase 8 execution started
+Last activity: 2026-11-25 — Phase 7 execution started
 
 Progress: [███░░░░░░░] 25%
 
@@ -93,8 +93,6 @@ Recent decisions affecting current work:
 
 ### Roadmap Evolution
 
-- Phase 8 added: README min-count example (r-d78495de; official phase.add result 8). 承認t_33269d6c、REQ-28/REQ-29追加のみ、衝突0。最新判断2026-11-25T06:53+09:00で3形式実行と証拠は対象外。最終PR全変更README.mdのみは後続D.5整備後に品質が再確認する。
-
 - Phase 7 added: Project description UAT (r-cf2eeaab; official phase.add result 7). 承認t_8a187e42、REQ-25..REQ-27追加のみ、衝突0。旧phaseのstaleと残存ディレクトリは再利用せず、今回の範囲へ混ぜない。
 
 - Phase 5 added: README verification A (r-8ac79daf; official phase.add result 5). Approved t_327d2f8f run7. Merge adds REQ-22..REQ-24 only, conflicts 0. Prior phases and product files are unchanged by planning.
@@ -122,6 +120,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-24T23:08:52.115Z
-Stopped at: Completed 08-01-PLAN.md; independent quality and final README-only PR pending
+Last session: 2026-11-24T20:24:57.946Z
+Stopped at: Completed 07-01-PLAN.md; independent quality pending
 Resume file: None
