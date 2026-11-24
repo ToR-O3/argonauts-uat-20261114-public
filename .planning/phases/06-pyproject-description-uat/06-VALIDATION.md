@@ -1,9 +1,9 @@
 ---
 phase: "6"
 slug: "pyproject-description-uat"
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: validated
+nyquist_compliant: true
+wave_0_complete: true
 created: "2026-11-24"
 ---
 
@@ -34,12 +34,12 @@ task IDとexact CLI/exit/条件スキーマは06-01-PLAN.mdのFixed interfaces�
 
 | Task ID / OpenSpec | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |--------------------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 06-01-01 / 1.1,1.2 | REQ-23 | T-06-01/02/03/04/SC | 承認入力固定、テスト先行IMPLEMENTATION_MISSING RED→GREEN、正例成功/5負例拒否/全Git状態変異 | unit/integration | `python3 -B .planning/argonauts/r-774f3cd6/test_verify_description.py -v` | ❌ W0 | pending |
-| 06-01-02 / 1.2 | REQ-23 | T-06-01/04 | 実未編集の基準取得/双方解析成功、唯一VALUE_EXACT FAIL、inner exit1をouter判定と分離 | integration | `python3 -B .planning/argonauts/r-774f3cd6/verify_description.py preflight --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --candidate pyproject.toml --inputs .planning/argonauts/r-774f3cd6/inputs.json --process-paths .planning/argonauts/r-774f3cd6/process-paths.json` および同引数の `expect-red`（PLANのexact command） | ❌ W0 | pending |
-| 06-02-01 / 1.3(a) | REQ-23 | T-06-05 | 直前preflight→1行新設→固定値/構造/raw GREEN | integration | 編集直前は06-01-02と同じpreflight、編集後は `python3 -B .planning/argonauts/r-774f3cd6/verify_description.py content --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --candidate pyproject.toml` | ❌ W0 | pending |
-| 06-02-02 / 1.3(b) | REQ-23 | T-06-06/07 | 固定製品commit、全Git scope、blob/実入力/検証器hash、追加1行/mode不変 | unit/integration | 同自己テスト、および `python3 -B .planning/argonauts/r-774f3cd6/verify_description.py repository --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --target-record .planning/argonauts/r-774f3cd6/product-target.json --process-paths .planning/argonauts/r-774f3cd6/process-paths.json --actor builder` | ❌ W0 | pending |
-| 06-02-03 / 1.3(c) | REQ-23 | T-06-07/08 | 同一対象再確認、報告commit分離、文字原本/品質runbook | integration + read_file | 06-02-02と同じrepository builder、およびbuilder-cli.md/quality-runbook.mdの原本照合 | ❌ W0 | pending |
-| 独立品質phase gate / Workflow follow-up | REQ-23 | T-06-07/08 | 別主体の同一製品blob独立SHA計算と全条件、文字標準添付/PM read_file、PM前sync/archive禁止 | independent | 同自己テスト、および06-02-02と同じrepositoryの `--actor quality`（06-02-PLAN.mdにexact command）。quality-cli.md/06-VERIFICATION.mdの原本/添付照合 | ❌ 後続品質 | pending |
+| 06-01-01 / 1.1,1.2 | REQ-23 | T-06-01/02/03/04/SC | 承認入力固定、テスト先行IMPLEMENTATION_MISSING RED→GREEN、正例成功/5負例拒否/全Git状態変異 | unit/integration | `python3 -B .planning/argonauts/r-774f3cd6/test_verify_description.py -v` | ✅ | green（品質 18 OK, exit0） |
+| 06-01-02 / 1.2 | REQ-23 | T-06-01/04 | 実未編集の基準取得/双方解析成功、唯一VALUE_EXACT FAIL、inner exit1をouter判定と分離 | integration | `python3 -B .planning/argonauts/r-774f3cd6/verify_description.py preflight --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --candidate pyproject.toml --inputs .planning/argonauts/r-774f3cd6/inputs.json --process-paths .planning/argonauts/r-774f3cd6/process-paths.json` および同引数の `expect-red`（PLANのexact command） | ✅ | green（原REDはBuilder証拠。編集後は再実行せず、自己テスト test_cli_preflight_expect_red_and_fixed_repository がfixtureで網羅 OK） |
+| 06-02-01 / 1.3(a) | REQ-23 | T-06-05 | 直前preflight→1行新設→固定値/構造/raw GREEN | integration | 編集直前は06-01-02と同じpreflight、編集後は `python3 -B .planning/argonauts/r-774f3cd6/verify_description.py content --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --candidate pyproject.toml` | ✅ | green（品質 content 11条件PASS, exit0） |
+| 06-02-02 / 1.3(b) | REQ-23 | T-06-06/07 | 固定製品commit、全Git scope、blob/実入力/検証器hash、追加1行/mode不変 | unit/integration | 同自己テスト、および `python3 -B .planning/argonauts/r-774f3cd6/verify_description.py repository --baseline b34cba0d008923e7f5267ce52d5403492ea53925 --target-record .planning/argonauts/r-774f3cd6/product-target.json --process-paths .planning/argonauts/r-774f3cd6/process-paths.json --actor builder` | ✅ | green（品質が同引数 --actor quality で25条件PASS, exit0） |
+| 06-02-03 / 1.3(c) | REQ-23 | T-06-07/08 | 同一対象再確認、報告commit分離、文字原本/品質runbook | integration + read_file | 06-02-02と同じrepository builder、およびbuilder-cli.md/quality-runbook.mdの原本照合 | ✅ | green（品質がrunbook読取り、報告commit分離を確認） |
+| 独立品質phase gate / Workflow follow-up | REQ-23 | T-06-07/08 | 別主体の同一製品blob独立SHA計算と全条件、文字標準添付/PM read_file、PM前sync/archive禁止 | independent | 同自己テスト、および06-02-02と同じrepositoryの `--actor quality`（06-02-PLAN.mdにexact command）。quality-cli.md/06-VERIFICATION.mdの原本/添付照合 | ✅ | green（t_81c896f6 品質実行。原本添付は完了要約） |
 
 各automated直後のfails_whenは両PLANに記載。exit0=全評価条件合格、exit1=要件不一致、exit2=取得/実行エラー。expect-redだけはinner exit1/失敗集合VALUE_EXACT単独を検査しouter0にする。基準取得/解析失敗を期待REDとしない。全PLANは同じ依頼branchに直列、06-02は06-01に依存。flagged edge REQ-23 unclassified/unresolved1件とdescriptor-less transparency prohibitionは自動解決せず品質/PM判断へ維持する。
 
@@ -60,11 +60,19 @@ task IDとexact CLI/exit/条件スキーマは06-01-PLAN.mdのFixed interfaces�
 
 ## Validation Sign-Off
 
-- [ ] 全taskのautomatedと入力がtask終了時点で存在する。
-- [ ] 連続3taskの自動確認欠落なし。
-- [ ] Wave 0が全MISSING referencesを作る。
-- [ ] watchなし、承認不要な標準実行。
-- [ ] latency実測と品質独立確認。
-- [ ] nyquist_compliant=trueは実測した品質工程でのみ設定。
+- [x] 全taskのautomatedと入力がtask終了時点で存在する。
+- [x] 連続3taskの自動確認欠落なし。
+- [x] Wave 0が全MISSING referencesを作る。
+- [x] watchなし、承認不要な標準実行。
+- [x] latency実測と品質独立確認（品質実測: 自己テスト3.1秒、repository約1秒、content 1秒未満。製品pytest 702件 189.5秒は製品既存試験）。
+- [x] nyquist_compliant=trueは実測した品質工程でのみ設定（t_81c896f6、2026-11-25）。
 
-**Approval:** pending — 計画は実装/品質の成功証拠ではない。
+**Approval:** validated 2026-11-25（独立品質 argonauts-uat-quality / t_81c896f6）。gap 0件のため gsd-nyquist-auditor は起動せず、新しい試験も作っていない。flagged edge と transparency prohibition の扱いは 06-VERIFICATION.md を参照。
+
+## Validation Audit 2026-11-24
+
+| Metric | Count |
+|---|---|
+| Gaps found | 0 |
+| Resolved | 0 |
+| Escalated | 0 |
