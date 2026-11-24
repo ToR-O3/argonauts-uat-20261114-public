@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-field="title">README の --min-count 3 実行例</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #ecefec; --paper: #ffffff; --ink: #1c2321; --muted: #5f6b67; --rule: #d8dfdc;
+  --accent: #2c6e5a; --lead: #f3f7f5; --ask: #fff6e0; --ask-rule: #d9a521;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--page); }
+body { margin: 0; padding: 2rem 1rem 3rem; font: 16px/1.6 var(--sans); color: var(--ink); }
+main { max-width: 52rem; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule); box-shadow: 0 0.25rem 1.5rem rgb(0 0 0 / 6%); padding: 2.25rem 2.5rem 2.5rem; }
+header { padding-bottom: 1rem; border-bottom: 2px solid var(--ink); }
+.kicker { margin: 0 0 0.3rem; font: 700 0.72rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+h1 { margin: 0; font: 700 2.1rem/1.15 var(--serif); letter-spacing: -0.01em; }
+.meta { margin: 0.4rem 0 0; font-size: 0.85rem; color: var(--muted); }
+.meta span + span::before { content: " · "; }
+.lead { margin-top: 1.5rem; padding: 1.25rem 1.5rem; background: var(--lead); border-left: 4px solid var(--accent); font: 1.08rem/1.6 var(--serif); }
+.lead p { margin: 0 0 0.85rem; }
+.lead > div > :last-child > :last-child { margin-bottom: 0; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.75rem; margin-top: 1.75rem; }
+.grid section { min-width: 0; }
+.grid .wide { grid-column: 1 / -1; }
+section > h2 { margin: 0 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--rule); font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+section p, section ul, section ol { margin: 0 0 0.75rem; }
+section ul, section ol { padding-left: 1.2rem; }
+section h3 { margin: 0.9rem 0 0.3rem; font-size: 0.95rem; }
+.ask { margin-top: 1.75rem; padding: 1.1rem 1.4rem; background: var(--ask); border: 1px solid var(--ask-rule); border-radius: 0.35rem; }
+.ask > h2 { border: 0; padding: 0; color: #86630c; }
+.vision { margin-top: 1.75rem; font: italic 1.02rem/1.6 var(--serif); color: var(--muted); }
+.vision > h2 { font-style: normal; }
+.rest { margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); font-size: 0.95rem; }
+.rest h2 { margin: 0 0 0.5rem; font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; margin: 0 0 1rem; font-size: 0.88rem; }
+th, td { padding: 0.35rem 0.5rem; border: 1px solid var(--rule); text-align: left; vertical-align: top; }
+pre { white-space: pre-wrap; font: 0.9rem/1.5 var(--sans); margin: 0; }
+a { color: var(--accent); }
+@media (max-width: 40rem) {
+  body { padding: 1rem 0.75rem 2rem; }
+  main { padding: 1.5rem 1.25rem; }
+  h1 { font-size: 1.65rem; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media print {
+  html { background: none; }
+  body { padding: 0; }
+  main { border: 0; box-shadow: none; padding: 0; max-width: none; }
+  .grid section { break-inside: avoid; }
+}
+</style>
+<style>
+pre.fallback { white-space: pre-wrap; word-wrap: break-word; }
+
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">Product brief</p>
+    <h1 data-field="title">README の --min-count 3 実行例</h1>
+    <p class="meta"><span data-field="updated">2026-11-25T06:53+09:00</span><span data-field="status">final</span></p>
+  </header>
+  <section class="lead" data-section="Executive summary"><div data-body><div data-md="0"><pre class="fallback">README の使い方に `python -m wordfreq input.txt --min-count 3` の実行例を1つ追加する。既存 CLI を使う読者への説明追加で、新機能ではない。最新の依頼者判断により、受入で確かめるのは「例が1つ追加されたこと」と「最終PRの全変更が README.md だけであること」の2点だけとする。
+
+text・json・html の3形式実行とその入力・出力・実行証拠は対象外。full の Brief→PRD は維持する。本仕様工程は文書の更新であり、README 編集や製品の実行確認を行わない。文書の final は製品の受入済みを意味しない。</pre></div></div></section>
+  <div class="grid">
+    <section class="wide" data-section="Problem"><h2>Problem</h2><div data-body><div data-md="1"><pre class="fallback">従来の Brief が記録した不足は、README の使い方に閾値3の実行例がないこと。今回の更新は新たな利用者調査ではなく、依頼者が検証を2点に縮小した判断を反映する。損失額や利用効果は推測しない。</pre></div></div></section>
+    <section data-section="Solution"><h2>Solution</h2><div data-body><div data-md="2"><pre class="fallback">追加例は `python -m wordfreq input.txt --min-count 3` の1つを維持する。既存例と説明を保ち、無関係な改稿や追加機能は含めない。判定には README 原本と差分の文字確認を用い、CLI を起動しない。</pre></div></div></section>
+    <section data-section="What makes it different"><h2>What makes it different</h2><div data-body><div data-md="3"><pre class="fallback">現状維持では指定例の追加を満たさない。一方、3形式の実行確認まで広げると最新依頼を越える。指定例1つに絞ることが今回の価値であり、競争優位は主張しない。</pre></div></div></section>
+    <section data-section="Who it serves"><h2>Who it serves</h2><div data-body><div data-md="4"><pre class="fallback">主読者は README の使い方を参照する CLI 利用者。後続 Builder が追記と自己確認、quality が独立確認、PM が原本文字証拠の読取りと受入を担当する。今回の文書セルフチェックと、親が行う更新原本の独立レビューは別である。</pre></div></div></section>
+    <section data-section="Success criteria"><h2>Success criteria</h2><div data-body><div data-md="5"><pre class="fallback">1. README.md に `python -m wordfreq input.txt --min-count 3` の実行例が1つ追加されている。README 原本と差分を文字で確認する。
+2. 最終PRの `base...head` の全変更ファイルが README.md だけである。工程文書を含む全差分を対象とし、パス除外による見かけ上の「READMEのみ」は認めない。
+
+証拠はこの2条件を判断できる README 原本・差分・全変更ファイル一覧と文字判定に限定し、PM が read_file で読める形で渡す。製品CLIの実行結果は求めない。</pre></div></div></section>
+    <section class="wide" data-section="Scope"><h2>Scope</h2><div data-body><div data-md="6"><pre class="fallback">README の指定例1つが製品変更の範囲。実装、試験、ツール、依存、設定、公開入出力を変えない。3形式実行、検証用入力、期待出力、終了コード、stdout／stderr、語の残存／除外の実行証拠は対象外であり、追加の受入条件にしない。
+
+Brief・full PRD・memlog・レビュー・HTML は工程原本であるが、Git差分から隠してよい例外ではない。full仕様工程では文書をGitへ保存・pushし、工程原本をカードへ添付する。最終PRを指定ファイルだけに整える後続工程で、チームD.5手順により工程文書をPRから外す。整理後の最終PRの `base...head` 全変更が README.md だけかを確認する。今回の委任ではGit・kanban操作や添付を実行しない。
+
+Architecture は不要。説明追加だけで設計や公開契約を変更しないため。The ask はスポンサー提案でないため、Vision は長期構想を要しない限定変更のため省略する。</pre></div></div></section>
+  </div>
+
+
+  <section class="rest" data-rest><div data-md="7"><pre class="fallback">## Decisions
+
+日時: 2026-11-25T06:53+09:00。親が受付正本で確認した最新依頼者判断の原文:
+
+&gt; 検証の範囲を狭める。確かめるのは次の2点だけでよい。(1) README.md に --min-count 3 の実行例が1つ足されている。(2) 変わったファイルが README.md だけである。text・json・html の3つの形式での実行の確かめは要らない。
+
+理由は依頼者による検証範囲の縮小。過去の3形式実行とその入力・出力・証拠の受入条件は失効し、現行要件から削除した。旧レビューは履歴であり、更新版への合格証ではない。full、指定追加例、Architecture不要、未決事項なしは維持する。
+
+## Assumptions
+
+未確認の要件上の前提なし。現在の README や最終PRの充足を本更新で確認したとは主張しない。
+
+## Open questions
+
+なし。README 追記、工程原本の保存・添付、D.5による最終PR整備と2条件の確認は後続作業であり、仕様上の未決事項ではない。</pre></div></section>
+</main>
+<script type="application/json" id="view-data">{"layout": "view", "slots": ["README の使い方に `python -m wordfreq input.txt --min-count 3` の実行例を1つ追加する。既存 CLI を使う読者への説明追加で、新機能ではない。最新の依頼者判断により、受入で確かめるのは「例が1つ追加されたこと」と「最終PRの全変更が README.md だけであること」の2点だけとする。\n\ntext・json・html の3形式実行とその入力・出力・実行証拠は対象外。full の Brief→PRD は維持する。本仕様工程は文書の更新であり、README 編集や製品の実行確認を行わない。文書の final は製品の受入済みを意味しない。", "従来の Brief が記録した不足は、README の使い方に閾値3の実行例がないこと。今回の更新は新たな利用者調査ではなく、依頼者が検証を2点に縮小した判断を反映する。損失額や利用効果は推測しない。", "追加例は `python -m wordfreq input.txt --min-count 3` の1つを維持する。既存例と説明を保ち、無関係な改稿や追加機能は含めない。判定には README 原本と差分の文字確認を用い、CLI を起動しない。", "現状維持では指定例の追加を満たさない。一方、3形式の実行確認まで広げると最新依頼を越える。指定例1つに絞ることが今回の価値であり、競争優位は主張しない。", "主読者は README の使い方を参照する CLI 利用者。後続 Builder が追記と自己確認、quality が独立確認、PM が原本文字証拠の読取りと受入を担当する。今回の文書セルフチェックと、親が行う更新原本の独立レビューは別である。", "1. README.md に `python -m wordfreq input.txt --min-count 3` の実行例が1つ追加されている。README 原本と差分を文字で確認する。\n2. 最終PRの `base...head` の全変更ファイルが README.md だけである。工程文書を含む全差分を対象とし、パス除外による見かけ上の「READMEのみ」は認めない。\n\n証拠はこの2条件を判断できる README 原本・差分・全変更ファイル一覧と文字判定に限定し、PM が read_file で読める形で渡す。製品CLIの実行結果は求めない。", "README の指定例1つが製品変更の範囲。実装、試験、ツール、依存、設定、公開入出力を変えない。3形式実行、検証用入力、期待出力、終了コード、stdout／stderr、語の残存／除外の実行証拠は対象外であり、追加の受入条件にしない。\n\nBrief・full PRD・memlog・レビュー・HTML は工程原本であるが、Git差分から隠してよい例外ではない。full仕様工程では文書をGitへ保存・pushし、工程原本をカードへ添付する。最終PRを指定ファイルだけに整える後続工程で、チームD.5手順により工程文書をPRから外す。整理後の最終PRの `base...head` 全変更が README.md だけかを確認する。今回の委任ではGit・kanban操作や添付を実行しない。\n\nArchitecture は不要。説明追加だけで設計や公開契約を変更しないため。The ask はスポンサー提案でないため、Vision は長期構想を要しない限定変更のため省略する。", "## Decisions\n\n日時: 2026-11-25T06:53+09:00。親が受付正本で確認した最新依頼者判断の原文:\n\n\u003e 検証の範囲を狭める。確かめるのは次の2点だけでよい。(1) README.md に --min-count 3 の実行例が1つ足されている。(2) 変わったファイルが README.md だけである。text・json・html の3つの形式での実行の確かめは要らない。\n\n理由は依頼者による検証範囲の縮小。過去の3形式実行とその入力・出力・証拠の受入条件は失効し、現行要件から削除した。旧レビューは履歴であり、更新版への合格証ではない。full、指定追加例、Architecture不要、未決事項なしは維持する。\n\n## Assumptions\n\n未確認の要件上の前提なし。現在の README や最終PRの充足を本更新で確認したとは主張しない。\n\n## Open questions\n\nなし。README 追記、工程原本の保存・添付、D.5による最終PR整備と2条件の確認は後続作業であり、仕様上の未決事項ではない。"]}</script>
+<script>
+var MARKED_SRC = "https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js";
+var MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js";
+var PRESENTER_HTML = "\u003c!doctype html\u003e\u003chtml\u003e\u003chead\u003e\u003cmeta charset=\"utf-8\"\u003e\u003ctitle\u003eSpeaker notes\u003c/title\u003e\u003cstyle\u003e\n:root { color-scheme: light dark; --bg: #ffffff; --fg: #1f2328; --muted: #59636e; }\n@media (prefers-color-scheme: dark) { :root { --bg: #15181d; --fg: #e3e6ea; --muted: #9aa3ad; } }\nbody { margin: 0; padding: 1.2em 1.6em; background: var(--bg); color: var(--fg);\n  font: 20px/1.55 -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Arial, sans-serif; }\nheader { display: flex; justify-content: space-between; color: var(--muted); font-size: 15px; }\nh1 { font-size: 1.3em; margin: 0.4em 0 0.8em; }\n#next { color: var(--muted); font-size: 15px; border-top: 1px solid var(--muted); padding-top: 0.6em; margin-top: 1.5em; }\n.empty { color: var(--muted); }\npre { white-space: pre-wrap; font: inherit; }\n\u003c/style\u003e\u003c/head\u003e\u003cbody\u003e\u003cheader\u003e\u003cspan id=\"section\"\u003e\u003c/span\u003e\u003cspan id=\"pos\"\u003e\u003c/span\u003e\u003c/header\u003e\n\u003ch1 id=\"title\"\u003e\u003c/h1\u003e\u003cdiv id=\"notes\"\u003e\u003c/div\u003e\u003cdiv id=\"next\"\u003e\u003c/div\u003e\u003c/body\u003e\u003c/html\u003e";
+
+(function () {
+  var data = JSON.parse(document.getElementById('view-data').textContent);
+  var hasMarked = false;
+
+  function md(text) { return hasMarked ? window.marked.parse(text) : null; }
+  function inline(text) { return hasMarked ? window.marked.parseInline(text) : null; }
+
+  function load(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = src; s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  function drawDiagrams() {
+    var blocks = document.querySelectorAll('pre > code.language-mermaid');
+    if (!blocks.length) return;
+    var nodes = [];
+    blocks.forEach(function (code) {
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = code.textContent;
+      code.parentNode.replaceWith(div);
+      nodes.push(div);
+    });
+    load(MERMAID_SRC).then(function () {
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      window.mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'strict' });
+      return window.mermaid.run({ nodes: nodes, suppressErrors: true });
+    }).catch(function () {
+      nodes.forEach(function (div) {
+        if (div.querySelector('svg')) return;
+        var pre = document.createElement('pre');
+        pre.className = 'fallback';
+        pre.textContent = div.textContent;
+        div.replaceWith(pre);
+      });
+    });
+  }
+
+  function renderDocument() {
+    var html = md(data.markdown);
+    if (html === null) return;
+    var doc = document.getElementById('doc');
+    doc.innerHTML = html;
+    // marked adds no heading ids, and table-of-contents links need GitHub's anchors.
+    var seen = {};
+    doc.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (h) {
+      var base = h.textContent.trim().toLowerCase().replace(/[^\p{L}\p{N}_\- ]/gu, '').replace(/ /g, '-');
+      h.id = seen[base] ? base + '-' + seen[base] : base;
+      seen[base] = (seen[base] || 0) + 1;
+    });
+  }
+
+  function renderSlides() {
+    document.querySelectorAll('.slide').forEach(function (el, i) {
+      var s = data.slides[i];
+      var t = inline(s.title);
+      if (t !== null) el.querySelector('.slide-title').innerHTML = t;
+      var b = md(s.body);
+      if (b !== null) el.querySelector('.slide-body').innerHTML = b;
+    });
+  }
+
+  function notesHtml(i) {
+    var s = data.slides[i];
+    if (!s.notes) return '<p class="empty">No notes for this slide.</p>';
+    var h = md(s.notes);
+    if (h !== null) return h;
+    var pre = document.createElement('pre');
+    pre.className = 'fallback';
+    pre.textContent = s.notes;
+    return pre.outerHTML;
+  }
+
+  function startDeck() {
+    var slides = document.querySelectorAll('.slide');
+    var total = slides.length;
+    var current = 0;
+    var panel = document.getElementById('notes-panel');
+    var counter = document.getElementById('counter');
+    var presenter = null;
+    document.body.classList.add('slides');
+
+    function fromHash() {
+      var m = /^#(\d+)$/.exec(location.hash);
+      if (!m) return null;
+      var n = parseInt(m[1], 10);
+      return n >= 1 && n <= total ? n - 1 : null;
+    }
+
+    function updatePresenter() {
+      if (!presenter || presenter.closed) return;
+      var d = presenter.document;
+      var s = data.slides[current];
+      d.getElementById('pos').textContent = (current + 1) + ' / ' + total;
+      d.getElementById('section').textContent = s.section && s.section !== s.title ? s.section : '';
+      d.getElementById('title').innerHTML = slides[current].querySelector('.slide-title').innerHTML;
+      d.getElementById('notes').innerHTML = notesHtml(current);
+      d.getElementById('next').textContent = current + 1 < total ? 'Next: ' + data.slides[current + 1].title : 'Last slide';
+    }
+
+    function show(i) {
+      if (!total) return;
+      current = Math.max(0, Math.min(total - 1, i));
+      slides.forEach(function (el, j) { el.classList.toggle('active', j === current); });
+      counter.textContent = (current + 1) + ' / ' + total;
+      if (!panel.hidden) panel.innerHTML = notesHtml(current);
+      // Some browsers refuse replaceState on file:// pages.
+      try { if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1)); } catch (e) {}
+      updatePresenter();
+    }
+
+    function toggleNotes() {
+      panel.hidden = !panel.hidden;
+      if (!panel.hidden) panel.innerHTML = notesHtml(current);
+    }
+
+    function openPresenter() {
+      if (presenter && !presenter.closed) { presenter.focus(); return; }
+      presenter = window.open('', 'deck-presenter', 'width=760,height=600');
+      if (!presenter) { toggleNotes(); return; }
+      var d = presenter.document;
+      d.open();
+      d.write(PRESENTER_HTML);
+      d.close();
+      d.addEventListener('keydown', onKey);
+      updatePresenter();
+    }
+
+    function onKey(e) {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      var k = e.key;
+      if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) show(current + 1);
+      else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) show(current - 1);
+      else if (k === 'Home') show(0);
+      else if (k === 'End') show(total - 1);
+      else if (k === 'n' || k === 'N') toggleNotes();
+      else if (k === 'p' || k === 'P') openPresenter();
+      else if (k === 'f' || k === 'F') {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+      } else return;
+      e.preventDefault();
+    }
+
+    document.addEventListener('keydown', onKey);
+    document.getElementById('deck').addEventListener('click', function (e) {
+      if (e.target.closest('a') || String(window.getSelection())) return;
+      show(e.clientX < window.innerWidth / 3 ? current - 1 : current + 1);
+    });
+    window.addEventListener('hashchange', function () {
+      var n = fromHash();
+      if (n !== null && n !== current) show(n);
+    });
+    window.addEventListener('beforeunload', function () { if (presenter && !presenter.closed) presenter.close(); });
+    var start = fromHash();
+    show(start === null ? 0 : start);
+  }
+
+  function renderSlots() {
+    document.querySelectorAll('[data-md]').forEach(function (el) {
+      var h = md(data.slots[+el.getAttribute('data-md')]);
+      if (h !== null) el.innerHTML = h;
+    });
+  }
+
+  function renderAll() {
+    if (data.layout === 'slides') renderSlides();
+    else if (data.layout === 'view') renderSlots();
+    else renderDocument();
+    if (hasMarked) drawDiagrams();
+  }
+
+  if (data.layout === 'slides') startDeck();
+  // A document can carry text from outside sources, so raw HTML shows as text and script URLs are dropped.
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function unsafeUrl(href) {
+    var h = String(href || '').replace(/[\s\u0000-\u001f]/g, '').toLowerCase();
+    return /^(javascript|vbscript):/.test(h) || (/^data:/.test(h) && !/^data:image\/(png|gif|jpe?g|webp);/.test(h));
+  }
+  function harden() {
+    window.marked.use({ renderer: {
+      html: function (h) { return escapeHtml(h); },
+      link: function (href, title, text) { return unsafeUrl(href) ? text : false; },
+      image: function (href, title, text) { return unsafeUrl(href) ? escapeHtml(text) : false; }
+    } });
+  }
+
+  load(MARKED_SRC).then(function () { hasMarked = !!window.marked; if (hasMarked) harden(); }, function () {}).then(renderAll);
+})();
+
+</script>
+</body>
+</html>
