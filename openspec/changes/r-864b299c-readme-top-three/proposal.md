@@ -17,7 +17,7 @@
 
 ### Modified Capabilities
 
-なし。既存の `wordfreq-cli` の契約を変えない文書変更のため、仕様差分は作らない（`skip_specs: true`）。
+- `wordfreq-cli`: README に上位3件の実行例を掲載する要件だけを追加する。既存の CLI 契約は変更しない。
 
 ## Impact
 
