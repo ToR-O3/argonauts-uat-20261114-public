@@ -1,7 +1,7 @@
 ---
 phase: 06-pyproject-description-uat
 verified: 2026-11-24T15:24:00Z
-status: human_needed
+status: passed
 score: 6/6 must-haves verified
 covered_files:
   - ".planning/argonauts/r-774f3cd6/builder-cli.md"
