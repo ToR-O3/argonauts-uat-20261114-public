@@ -13,6 +13,7 @@ import tempfile
 
 BASE = "5528aa47cca27a93a6732e914710f2772118a572"
 START = "14e6df0700bb19a9e54a0d1b32e0f16f6eced634"
+FIRST_TASK_CHECK = "8df000ffbd4ef344e5063a21034cb612084ac35c"
 REPORTS_REF = "96c2df6c65af7060baca53fd80d573b3808d3728"
 PHASE = ".planning/phases/05-wordfreq-readme-top-three-example"
 VERIFIER = f"{PHASE}/verify_readme_top_three.py"
@@ -46,7 +47,7 @@ def git(cwd, *args):
 
 
 @contextmanager
-def checkout():
+def checkout(start=START):
     source = Path(os.fsdecode(git(Path(__file__).resolve().parent, "rev-parse", "--show-toplevel").rstrip(b"\n")))
     temp_root = Path(tempfile.gettempdir()).resolve()
     require(not temp_root.is_relative_to(source), "scratch must be outside the source worktree")
@@ -57,8 +58,8 @@ def checkout():
         git(root, "config", "user.name", "Verifier Test")
         git(root, "config", "user.email", "verifier-test@example.invalid")
         git(root, "config", "commit.gpgSign", "false")
-        git(root, "checkout", "--detach", START)
-        git(root, "merge-base", "--is-ancestor", BASE, START)
+        git(root, "checkout", "--detach", start)
+        git(root, "merge-base", "--is-ancestor", BASE, start)
         git(root, "remote", "remove", "origin")
         require(not (root / ".git/objects/info/alternates").exists(), "clone shares objects")
         (root / VERIFIER).write_bytes((source / VERIFIER).read_bytes())
@@ -173,15 +174,32 @@ def positive(state):
 
 
 def before_first_task_check():
+    with checkout(f"{FIRST_TASK_CHECK}^") as (root, _):
+        ancestry = run(root, "git", "merge-base", "--is-ancestor", FIRST_TASK_CHECK, "HEAD", check=False)
+        require(ancestry.returncode == 1, "first check must not be in the test checkout ancestry")
+        baseline = git(root, "show", f"{BASE}:{TASKS}")
+        require(all(git(root, "show", f"{ref}{TASKS}") == baseline for ref in ("HEAD:", ":"))
+                and (root / TASKS).read_bytes() == baseline, "expected task to be unchecked everywhere")
+        # Recreate the README edit before the first checkbox update, without
+        # bringing the commit containing that update into this history.
+        (root / "README.md").write_bytes(git(root, "show", f"{FIRST_TASK_CHECK}:README.md"))
+        expect_success(verify(root))
+
+
+def unchecked_task_commit():
     with checkout() as (root, source):
         prepare_reports(root, source, "committed")
+        git(root, "merge-base", "--is-ancestor", FIRST_TASK_CHECK, "HEAD")
         baseline = git(root, "show", f"{BASE}:{TASKS}")
+        require(git(root, "show", f"HEAD:{TASKS}") == baseline.replace(b"\n- [ ] 1.1 ", b"\n- [x] 1.1 ", 1)
+                and baseline.count(b"\n- [ ] 1.1 ") == 1, "expected a checked task before rollback")
         (root / TASKS).write_bytes(baseline)
-        commit_paths(root, "Simulate the state before checking OpenSpec task 1.1", TASKS)
+        commit_paths(root, "Revert the committed OpenSpec task 1.1 check", TASKS)
         require(all(git(root, "show", f"{ref}{TASKS}") == baseline for ref in ("HEAD:", ":")),
                 "expected unchecked task in HEAD and index")
-        require(not git(root, "status", "--porcelain=v1", "--", TASKS), "expected unchanged worktree task")
-        expect_success(verify(root))
+        require(not git(root, "status", "--porcelain=v1", "--untracked-files=all"), "expected clean rollback commit")
+        require(not git(root, "diff", "--name-only", BASE, "HEAD", "--", TASKS), "rollback must disappear from base→HEAD")
+        expect_rejection(verify(root), TASKS, "task 1.1 reverted in HEAD")
 
 
 def mutate(root, case):
@@ -334,7 +352,7 @@ def main():
                  "symlink-head", "staged-deletion", "fixed-mode-change", "fixed-symlink", "symlink-parent",
                  "unchecked-task-worktree")
     cli_cases = {"nonempty-cli-stderr": nonempty_cli_stderr, "duplicate-cli-key": duplicate_cli_key}
-    cases = ("untracked-previous", *states, "before-first-task-check", *negatives, *cli_cases)
+    cases = ("untracked-previous", *states, "before-first-task-check", "unchecked-task-commit", *negatives, *cli_cases)
     parser.add_argument("--case", choices=cases)
     selection = parser.parse_args().case
     for case in (selection,) if selection else cases:
@@ -345,6 +363,8 @@ def main():
             positive(case)
         elif case == "before-first-task-check":
             before_first_task_check()
+        elif case == "unchecked-task-commit":
+            unchecked_task_commit()
         elif case in cli_cases:
             cli_cases[case]()
         else:

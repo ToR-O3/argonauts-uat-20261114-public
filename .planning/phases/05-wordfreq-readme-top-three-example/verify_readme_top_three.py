@@ -187,15 +187,24 @@ def verify_tasks(root):
     if baseline.count(unchecked) != 1:
         raise ValueError(f"{TASKS}: expected one unchecked task 1.1 at base")
     checked = baseline.replace(unchecked, b"\n- [x] 1.1 ", 1)
-    # The same verifier can run before the first check, but later surfaces
-    # cannot undo it. A rollback to the base bytes may have no base diff.
+    # Allow a run before the first check, but never a rollback to the base
+    # bytes. Such a rollback can disappear from every current diff surface.
     was_checked = False
     for surface, ref in (("HEAD", "HEAD:"), ("index", ":"), ("worktree", None)):
         actual = git(root, "show", f"{ref}{TASKS}") if ref is not None else (root / TASKS).read_bytes()
         if actual not in (baseline, checked):
             raise ValueError(f"{TASKS}: only the task 1.1 checkbox may change ({surface})")
-        if was_checked and actual == baseline:
-            raise ValueError(f"{TASKS}: task 1.1 reverted in {surface}")
+        if actual == baseline:
+            if surface == "HEAD":
+                # Include merged history and inspect diffs against each merge
+                # parent. A change adding or removing the check proves it existed.
+                was_checked = bool(git(
+                    root, "log", "--full-history", "-m", "--format=%H",
+                    "--no-ext-diff", "--no-textconv", "--text",
+                    "-G", r"^- \[x\] 1\.1 ", f"{BASE}..HEAD", "--", TASKS,
+                ))
+            if was_checked:
+                raise ValueError(f"{TASKS}: task 1.1 reverted in {surface}")
         was_checked = actual == checked
 
 
