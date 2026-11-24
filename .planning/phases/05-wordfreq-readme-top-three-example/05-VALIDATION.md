@@ -1,9 +1,9 @@
 ---
 phase: "05"
 slug: wordfreq-readme-top-three-example
-status: draft
+status: validated
 nyquist_compliant: false
-wave_0_complete: false
+wave_0_complete: true
 created: "2026-11-24"
 ---
 
@@ -28,20 +28,28 @@ created: "2026-11-24"
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| 05-01-01 | 01 | 1 | REQ-22 | — | 読んだ行は引数列として検証、shell実行なし。UTF-8一時入力を清掃 | ドキュメント差分＋CLI | `python .planning/phases/05-wordfreq-readme-top-three-example/verify_readme_top_three.py` | W0 同タスク | pending |
+| 05-01-01 | 01 | 1 | REQ-22 | T-05-01, T-05-02 | 固定 argv を shell なしで実行し、一時入力を清掃 | ドキュメント差分＋CLI | `python .planning/phases/05-wordfreq-readme-top-three-example/verify_readme_top_three.py` | yes | PARTIAL: 実装 head で PASS、必須の監査原本を配置すると FAIL |
 
 ## Wave 0 Requirements
 
-- [ ] `.planning/phases/05-wordfreq-readme-top-three-example/verify_readme_top_three.py` — BuilderがREADME変更前に作る検証用ファイル。製品・既存試験は変更しない。
+- [x] `.planning/phases/05-wordfreq-readme-top-three-example/verify_readme_top_three.py` — 実ファイル確認済み。製品・既存試験は変更していない。
 
 ## Manual-Only Verifications
 
-品質が独立で対象headの結果を `VERIFICATION.md` と平文CLI証拠に記録・添付し、PMが `read_file` で原本を読めるようにする。画面変更・画像なし。
+人の操作は不要。既存検査と必須の監査原本の両立は未解決で、実装手戻りとして扱う。`14e6df0700bb19a9e54a0d1b32e0f16f6eced634` のクリーンな検証では終了0。未追跡の `05-SECURITY.md` と `openspec-verify.md` を配置して同コマンドを再実行すると、CLI 未実行のまま終了1。実行結果は `05-CLI-EVIDENCE.md` を参照。画面変更・画像なし。
 
 ## Validation Sign-Off
 
-- [ ] 自動検証を作成
-- [ ] 変更前の失敗・変更後の成功を観測
-- [ ] 独立検証記録を保存
+- [x] 既存自動検証を確認。新しい試験は作成しない。
+- [x] Builder の RED / GREEN の記録を SUMMARY で確認し、品質が対象 head で成功を独立確認。
+- [ ] 必須報告を含むツリーでの再現性（PARTIAL）
 
-**Approval:** pending
+**Approval:** partial — 報告共存の不足を解消するまで合格としない。
+
+## Validation Audit 2026-11-24
+
+| Metric | Count |
+|---|---|
+| Gaps found | 1 |
+| Resolved | 0 |
+| Escalated | 1 |
