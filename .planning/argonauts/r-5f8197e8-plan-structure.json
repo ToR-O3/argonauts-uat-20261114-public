@@ -1,0 +1,39 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "task_count": 2,
+  "tasks": [
+    {
+      "name": "06-01-01: 例1行の掲載から同一入力3CLIの原本照合まで通す（OpenSpec1.1/1.2）",
+      "type": "tracer",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "06-01-02: 全回帰・依頼全差分と文字証拠/独立品質runbookを仕上げる（OpenSpec2.1 handoff）",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}

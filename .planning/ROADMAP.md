@@ -147,7 +147,7 @@ Plans:
   3. 利用者向け変更READMEのみ。Builder/独立品質の文字証拠を添付しPMがread_fileで判断できる。
 **Approval:** t_9c048e29 run28 approved、source t_38b60b51 run27。merge追加のみ、衝突0。公式phase.add結果6。旧phase1/3/4のstale検証は今回へ混ぜない。
 **Depends on:** Phase 5
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 6 to break down)
+- [ ] 06-01-PLAN.md — 2 sequential tasks: README1行と同一入力3形式tracer（OpenSpec1.1/1.2）→全回帰/全scope/独立品質runbook（2.1 handoff）。品質本人の独立実行と文字原本配送は後続必須gate。
