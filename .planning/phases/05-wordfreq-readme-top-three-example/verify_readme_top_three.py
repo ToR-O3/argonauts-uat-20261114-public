@@ -1,5 +1,6 @@
 """Verify the one-line README change and execute the command as published."""
 
+from contextlib import contextmanager
 import json
 import os
 from pathlib import Path
@@ -89,6 +90,17 @@ def diff_entries(raw):
         yield os.fsdecode(path), old_mode, new_mode, status
 
 
+def verify_index_visibility(root):
+    hidden = []
+    for entry in git(root, "ls-files", "-v", "-z").split(b"\0"):
+        # -v lowercases assume-unchanged entries; S marks skip-worktree.
+        if entry and (entry[:1].islower() or entry.startswith(b"S ")):
+            tag, path = entry.split(b" ", 1)
+            hidden.append((os.fsdecode(path), tag.decode("ascii")))
+    if hidden:
+        raise ValueError(f"tracked paths hidden from Git diff (path, index tag): {hidden!r}")
+
+
 def scope(root):
     work = list(diff_entries(git(root, "diff", "--raw", "--no-renames", "-z", BASE, "--")))
     staged = list(diff_entries(git(root, "diff", "--cached", "--raw", "--no-renames", "-z", BASE, "--")))
@@ -130,7 +142,8 @@ def verify_scope(root, work, staged, untracked, expected_readme):
         raise ValueError("README diff must report one addition and zero deletions")
 
 
-def verify_cli(root, published):
+@contextmanager
+def prepare_cli(root, published):
     argv = shlex.split(published.decode("ascii"))
     if argv != EXAMPLE.decode("ascii").split():
         raise ValueError("published argv does not match the approved command")
@@ -142,11 +155,21 @@ def verify_cli(root, published):
         path.write_text(INPUT, encoding="utf-8")
         argv[3] = str(path)
         print(f"published: {published.decode('ascii')}\nargv: {argv!r}\ninput (UTF-8): {INPUT}")
-        print("CLI: starting")
+        yield argv
+
+
+def verify_cli(root, argv):
+    try:
         result = subprocess.run(
             argv, cwd=root, shell=False, capture_output=True, timeout=10,
             env=dict(os.environ, PYTHONDONTWRITEBYTECODE="1"),
         )
+    except OSError:
+        print("CLI: launch failed")
+        raise
+    except subprocess.TimeoutExpired:
+        print("CLI: timed out")
+        raise
     print(f"CLI exit: {result.returncode}\nstdout: {result.stdout!r}\nstderr: {result.stderr!r}")
     if result.returncode:
         raise ValueError("published CLI returned nonzero")
@@ -156,12 +179,14 @@ def verify_cli(root, published):
 
 
 def main():
-    cli_started = False
+    cli_attempted = False
     try:
         root = Path(os.fsdecode(git(Path(__file__).resolve().parent, "rev-parse", "--show-toplevel").rstrip(b"\n"))).resolve()
         head = git(root, "rev-parse", "HEAD").decode("ascii").strip()
+        print(f"base: {BASE}\nHEAD: {head}")
+        verify_index_visibility(root)
         dirty = git(root, "status", "--porcelain=v1", "--untracked-files=all")
-        print(f"base: {BASE}\nHEAD: {head}\ntarget: {'working tree (not a committed result)' if dirty else 'clean HEAD'}")
+        print(f"target: {'working tree (not a committed result)' if dirty else 'clean HEAD'}")
         git(root, "cat-file", "-e", f"{BASE}^{{commit}}")
         git(root, "merge-base", "--is-ancestor", BASE, head)
         work, staged, untracked = scope(root)
@@ -182,10 +207,12 @@ def main():
             raise ValueError("README differs from a single exact insertion at the approved anchor")
         verify_scope(root, work, staged, untracked, expected)
         print("placement and scope: PASS")
-        cli_started = True
-        verify_cli(root, published)
+        with prepare_cli(root, published) as argv:
+            print("CLI: starting")
+            cli_attempted = True
+            verify_cli(root, argv)
     except (ValueError, OSError, subprocess.SubprocessError) as exc:
-        if not cli_started:
+        if not cli_attempted:
             print("CLI: not run")
         print(f"verification: FAIL (exit 1): {exc}")
         if isinstance(exc, (subprocess.CalledProcessError, subprocess.TimeoutExpired)):

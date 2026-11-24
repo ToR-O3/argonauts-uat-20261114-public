@@ -71,6 +71,12 @@ status: complete
 
 `.planning/` の一括除外を、この依頼の工程資料・検証原本の完全一致パスに限定した。サブシェル内の一時 `GIT_INDEX_FILE` に `git read-tree HEAD` で HEAD を読み込み、`git update-index --cacheinfo` で `.planning/argonauts/r-e476c11d/baseline/index.json` の blob だけを `HEAD:README.md` の blob に置換する。`git diff --cached --name-status HEAD` で対象が `M` になったことを確認し、同じ検証コマンドを実行した。修正前は誤って終了0、修正後は対象パスを `out-of-scope change` として報告し終了1（CLI 未実行）。実際のフィクスチャや Git index は変更していない。
 
+### 再レビュー差戻し D-02 / D-03
+
+- D-02: 隔離したローカル clone の既存フィクスチャに `assume-unchanged`（`h`）または `skip-worktree`（`S`）を設定し、作業コピーだけを `{}` に変更した。修正前は両方で差分を見逃し `target: clean HEAD` と終了0を返した。修正後は `git ls-files -v -z` で追跡パスのフラグを先に検査し、両方で対象パスとタグを報告して終了1（CLI 未実行）。フラグを変更せず、前回の staged 反例も対象パス付きで終了1を維持した。
+- D-03: 作業ツリー内を `TMPDIR` にすると、修正前は終了1でも CLI 未実行の表示がなかった。修正後は一時入力の準備完了を起動試行と分け、同じ入力で終了1・`CLI: not run` を確認。別の隔離ケースで、実行ファイルが無いときは `CLI: launch failed`、タイムアウト時は `CLI: timed out`、プロセスが7で終了したときは `CLI exit: 7` を報告し、いずれも検証終了1で未実行とは表示しなかった。
+- README、製品 CLI、既存試験、OpenSpec のチェック欄はこの手直しで変更していない。正常系では掲載 CLI が終了0で上記の3件を返した。既存回帰試験は `env -u GIT_INDEX_FILE /usr/bin/python3 -m pytest -q --tb=short` で702件合格。OpenSpec strict は1件合格、指摘0。GitHub CI は未確認。
+
 ## Decisions Made / Deviations from Plan
 
 - 新しい設計判断や製品範囲の変更なし。作業ツリーの結果とクリーンなコミットの結果を分けて記録した。
