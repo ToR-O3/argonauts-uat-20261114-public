@@ -121,6 +121,12 @@ None for Builder scope. PR remains draft. Independent quality, phase verificatio
 
 Same-card quality review first; downstream phase verification is not this review. REQ-23 edge unclassified/unresolved1 and descriptor-less transparency prohibition remain flagged; spec-less fallback/supplied=false kept, input1=projected1, no double-count across two plans. Selftests do not resolve independent judgement. OQ-1 answered. Quality must acquire same fixed product blob itself, recalculate SHA and run both exact commands, create quality-cli.md/06-VERIFICATION.md, attach text and verify original/saved hashes. PM must read originals and accept before finalization sync/archive. Prior phases1/3/4/5 stale verification untouched.
 
+## Official sequential close-out readback
+
+After SUMMARY commit81eb73b, official state.advance-plan returned advanced:false/reason:last_plan/current_plan2/total_plans2/status:ready_for_verification. Saved STATE frontmatter and official snapshot both show phase6/plan2/of2/status verifying; saved body says Phase complete — ready for verification, not phase acceptance. Session stopped_at Completed06-02-PLAN.md. roadmap.update-plan-progress6 returned updated:true/2 summaries/2 plans/status In Progress/complete:false; saved roadmap checks both PLANs and says2/2 executed. No phase.complete was called.
+
+state.update-progress returned updated:false/reason `phase scope is unscoped, not complete`, leaving legacy25% unchanged. This is not represented as a successful percentage update or repaired outside scope. Official requirements.ready-ids returned ready:[REQ-23]/blocked:[] (both SUMMARYs exist), but requirement's independent quality and PM evidence are still pending per approved contract, so no mark-complete mutation was made. Review/phase lane must resolve remaining gates.
+
 ## Self-Check: PASSED
 
 Builder-local only:18 selftests, actual unedited VALUE_EXACT-only RED→preflight0→content0, repository0/all PASS/no SKIP including fresh presummary head a523656,702 existing product tests pass, product patch+1/-0/mode unchanged, tool hashes fixed, git diff --check0, official evaluation scope resolves four commits. Not independent quality or phase/PM acceptance.
