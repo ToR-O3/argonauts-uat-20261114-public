@@ -116,6 +116,7 @@ fullは `288e9162d5c22d2d804623db7d3d1f59a3633f53` ＋README未commit差分で�
 - CLIとfullは30秒を超え、高速検査としない。
 - terminalへカードIDの環境変数が渡らずstage resultのtaskがnull。カード帰属はVERIFICATION.mdに記録し、実測原本は変えない。
 - 新headのCIと独立品質はこの時点では未確認。ローカル1008成功をその代用にしない。
+- SUMMARY commit後の公式advance-planはadvanced=true、2→3/全3。roadmap.update-plan-progressはsummary2/plan3・In Progress・complete=false。update-progressは既存milestoneのscopeがunscopedのためupdated=falseで、表示率25%を維持した（成功扱いや手修正なし）。公式state-snapshot/init.execute-phaseと保存STATEのCurrent Positionはphase7/plan3/全3・Ready to execute、残り07-03のみと一致。requirements.ready-idsは6IDすべてblockedのためComplete更新を行わない。次PLANを実行せず同カード品質へ渡す。
 
 ## User Setup Required
 
