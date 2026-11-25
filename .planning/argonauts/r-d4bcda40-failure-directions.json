@@ -1,0 +1,147 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k browser_free -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、破損fixtureが受理される、syntheticが実baselineを満たす、read-only検査で原本hashが変わる。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-01: baseline前提を封印してmax2の実CLI tracerをRED→GREENにする"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k saved_baseline -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、封印原本欠落・hash違い・開始製品blob不一致。検査中の原本書換えも失敗。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-01: baseline前提を封印してmax2の実CLI tracerをRED→GREENにする"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k saved_preimplementation_red -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、1.1対象caseの先行実行漏れ、製品編集後/変異だけのRED、狙ったassert差なし、製品blob/件数/JUnit/原本hash欠落または書換え。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-01: baseline前提を封印してmax2の実CLI tracerをRED→GREENにする"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count_tracer -q -x",
+      "statement": "先行REDが未実装maxの狙ったassert失敗でない、またはGREEN時非0/ERROR/0 collected/必須skip、任意形式のpairs/exit/stderr/HTML元total不一致。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-01: baseline前提を封印してmax2の実CLI tracerをRED→GREENにする"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、先行作成した1.1全追加群に未解消のassert失敗が残る。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-01: baseline前提を封印してmax2の実CLI tracerをRED→GREENにする"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、包含/AND/順序/spy/固定bytesの不一致、各単一変異が狙ったassertで検出されない、REDを環境エラーで代用する。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-02: 先行作成済みの頻度帯・内部順序・固定bytes試験に追加の変異判別力を確認する"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、既存期待値を削除/緩和しないと通らない、既存HTML/encoding/permissionの必須経路が未実施。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": "07-01-02: 先行作成済みの頻度帯・内部順序・固定bytes試験に追加の変異判別力を確認する"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/ -q",
+      "statement": "非0/ERROR/0 collected/必須skipまたは実件数/exit/環境/原本の記録欠落。品質独立受入はこれだけで完了しない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-01-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k \"max_count_empty or max_count_invalid_before_read or max_count_input_failure or max_count_read_only\" -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、任意の正常空がexit2、入力失敗がexit0、usageでread spy呼出し、permission実拒否未確認、既存書込み回帰、各誤出口の単一変異を検出できない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-02-PLAN.md",
+      "task": "07-02-01: 正常空・入力失敗・読込み前usageの三出口を固定する"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -q -x",
+      "statement": "非0/ERROR/0 collected/必須skipまたは旧期待値削除/緩和が必要。encoding/HTML/既定互換など既存必須経路を回避している。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-02-PLAN.md",
+      "task": "07-02-01: 正常空・入力失敗・読込み前usageの三出口を固定する"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count_readme_example -q -x",
+      "statement": "先行REDが掲載例欠落のassert失敗でない、GREEN時非0/ERROR/0 collected/必須skip、掲載command重複/入力期待欠落、実exit/stdout/stderr不一致、既存min例や最終検証B行が消える。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-02-PLAN.md",
+      "task": "07-02-02: 指定README例1つと説明を先行再現試験で追加する"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/ -q",
+      "statement": "非0/ERROR/0 collected/必須skip、全suiteの実件数/環境/argv/exitログ欠落、未報告CIをローカル成功から推認する。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-02-PLAN.md",
+      "task": "07-02-02: 指定README例1つと説明を先行再現試験で追加する"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k browser_free -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、各欠落/偽装/late-network fixtureがaccepted、任意view/derivedだけ合格が残る、syntheticが実証拠扱いされる。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-03-PLAN.md",
+      "task": "07-03-01: max専用CLI/ブラウザcaptureとfail-closed品質入力を完成させる"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k saved_builder_capture -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、必須gateの実成功原本/hash/実時間・件数・exit/actor/head/全case/view/canary/suite欠落や不整合、原本書換え、Builderが独立accepted。browser再起動や再採取で検査を代用する。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-03-PLAN.md",
+      "task": "07-03-01: max専用CLI/ブラウザcaptureとfail-closed品質入力を完成させる"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k \"evidence_contract or scope_contract\" -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、違反scope/削除試験/誤flag/runbook欠落を検出できない、全AC/REQ/画像/PM文字証拠の項目欠落、未実施2.2をcompletedにしている。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-03-PLAN.md",
+      "task": "07-03-02: 全scope/pytestを確認しAC別文字証拠と独立2.2を引き渡す"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -q -x",
+      "statement": "非0/ERROR/0 collected/必須skip、追加群/README実CLI/固定bytes/三出口/元12/11種類以上topの必須case欠落。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-03-PLAN.md",
+      "task": "07-03-02: 全scope/pytestを確認しAC別文字証拠と独立2.2を引き渡す"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/ -q",
+      "statement": "非0/ERROR/0 collected/必須skip、件数/環境/head/exit原本欠落、旧試験削除/回避。未報告CIはこの成功で代替できない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "07-03-PLAN.md",
+      "task": "07-03-02: 全scope/pytestを確認しAC別文字証拠と独立2.2を引き渡す"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 17
+  },
+  "readError": null
+}

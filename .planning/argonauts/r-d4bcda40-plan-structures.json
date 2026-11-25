@@ -1,0 +1,115 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "task_count": 2,
+  "tasks": [
+    {
+      "name": "07-01-01: baseline前提を封印してmax2の実CLI tracerをRED→GREENにする",
+      "type": "tracer",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "07-01-02: 先行作成済みの頻度帯・内部順序・固定bytes試験に追加の変異判別力を確認する",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "task_count": 2,
+  "tasks": [
+    {
+      "name": "07-02-01: 正常空・入力失敗・読込み前usageの三出口を固定する",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "07-02-02: 指定README例1つと説明を先行再現試験で追加する",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "task_count": 2,
+  "tasks": [
+    {
+      "name": "07-03-01: max専用CLI/ブラウザcaptureとfail-closed品質入力を完成させる",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "07-03-02: 全scope/pytestを確認しAC別文字証拠と独立2.2を引き渡す",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}

@@ -1,0 +1,20 @@
+F
+=================================== FAILURES ===================================
+________________________ test_max_count_readme_example _________________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-101/test_max_count_readme_example0')
+
+    def test_max_count_readme_example(tmp_path):
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        command = "python -m wordfreq input.txt --min-count 2 --max-count 3 --format json"
+>       assert readme.count(command) == 1, "README must contain the specified max-count example once"
+E       AssertionError: README must contain the specified max-count example once
+E       assert 0 == 1
+E        +  where 0 = <built-in method count of str object at 0x5a2679339e70>('python -m wordfreq input.txt --min-count 2 --max-count 3 --format json')
+E        +    where <built-in method count of str object at 0x5a2679339e70> = '# argonauts-uat public\n\nwordfreq は、テキストに出てくる単語の回数を数えて一覧にする小さなコマンドです。\n\n## wordfreq の実行\n\nリポジトリ直下で、UTF-8 の実ファイルを指定...やcapture成功は独立品質・phase受入の完了ではなく、そのgateは実行までpendingです。CSS・幾何・画像の存在だけで可読性や無通信の合格とはしません。\n検証B: v1.12 の通しの確かめ（2026-11-22）\n'.count
+
+tests/test_cli.py:1174: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_readme_example - AssertionError: REA...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 649 deselected in 0.26s

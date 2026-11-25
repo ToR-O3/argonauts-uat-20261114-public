@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/t_87068596-browser-preflight.py", line 14, in <module>
+    with instrumented_browser(pw, "/usr/bin/chromium-browser") as browser:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.12/contextlib.py", line 137, in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_87068596/tools/verify_wordfreq_html.py", line 380, in instrumented_browser
+    raise RuntimeError(f"Chromium debugger unavailable: {logs.read_text(errors='replace')}")
+RuntimeError: Chromium debugger unavailable: [1284029:1284029:1125/211738.615157:FATAL:chrome/browser/process_singleton_posix.cc:315] Socket path too long: /home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/org.chromium.Chromium.HDJlEP/SingletonSocket.
+[1125/211738.632444:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq: No such file or directory (2)
+[1125/211738.632535:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq: No such file or directory (2)
+

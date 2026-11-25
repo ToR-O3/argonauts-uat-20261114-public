@@ -1,0 +1,43 @@
+{
+  "head": "da8916c77f80bd11532787648e1a8808cf397e61",
+  "product_blobs": {
+    "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+    "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+    "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+    "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+    "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+    "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6"
+  },
+  "started": "2026-11-25T13:09:16.709763+00:00",
+  "python": "3.12.15 (main, Oct  1 2026, 00:00:00) [GCC 14.3.1 20251022 (Red Hat 14.3.1-4)]",
+  "task": null,
+  "profile": "argonauts-uat-builder",
+  "exit": 1,
+  "duration_seconds": 0.6190132320043631,
+  "product_after": {
+    "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+    "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+    "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+    "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+    "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+    "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6"
+  },
+  "tests": 1,
+  "failures": 1,
+  "errors": 0,
+  "skipped": 0,
+  "ended": "2026-11-25T13:09:17.329182+00:00",
+  "case_results": [
+    {
+      "name": "test_max_count_readme_example",
+      "status": "failed"
+    }
+  ],
+  "artifacts": {
+    "stdout.txt": "7b330789a92ece1914c7330ad42c23c7c18c816f26291ce1984fd102c106a535",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_cli.py.original": "8dbe95e0bd71bdf585e7a3275c63ab1308a6af9d7f0f8770b4684f38377343da",
+    "command.json": "2196ed03e7e36a190d10b232f75bb47db11d12206fe7d901ffcdd9382b42ffe7",
+    "junit.xml": "41d6e36b3ab84a45f2d4645ceef835da765bab389382aff6cb61d1a4d9ff2412"
+  }
+}

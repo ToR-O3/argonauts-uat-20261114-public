@@ -1,0 +1,235 @@
+{
+  "head": "e7bb32adafff85dcc13748218c71a26893028d44",
+  "product_blobs": {
+    "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+    "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+    "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+    "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+    "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+    "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6"
+  },
+  "started": "2026-11-25T13:35:01.296981+00:00",
+  "python": "3.12.15 (main, Oct  1 2026, 00:00:00) [GCC 14.3.1 20251022 (Red Hat 14.3.1-4)]",
+  "task": null,
+  "profile": "argonauts-uat-builder",
+  "exit": 0,
+  "duration_seconds": 7.685593481990509,
+  "product_after": {
+    "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+    "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+    "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+    "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+    "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+    "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6"
+  },
+  "tests": 49,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "ended": "2026-11-25T13:35:08.982871+00:00",
+  "case_results": [
+    {
+      "name": "test_browser_free_capture_api",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_cases",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_quality_role_cannot_be_flag_only",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_case_contract",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_existing_root_rejected",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_tamper_rejected[stdout]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_tamper_rejected[input]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_tamper_rejected[argv]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_tamper_rejected[environment]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_tamper_rejected[head]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_tamper_rejected[hash]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_tamper_rejected[html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_tamper_rejected[synthetic]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_damage_rejected[head]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_damage_rejected[argv]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_damage_rejected[case]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_damage_rejected[input]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_damage_rejected[stdout]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_damage_rejected[html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_damage_rejected[synthetic]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_damage_rejected[acceptance]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_damage_rejected[profile]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_capture_damage_rejected[hash]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_partial_cannot_pass",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_bad_suite_rejected[0-0-0-0-0]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_bad_suite_rejected[1-1-0-0-0]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_bad_suite_rejected[1-0-1-0-0]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_bad_suite_rejected[1-0-0-1-0]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_bad_suite_rejected[1-0-0-0-1]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_bad_suite_rejected[2-0-0-0-0]",
+      "status": "passed"
+    },
+    {
+      "name": "test_evidence_contract_runbook_exists",
+      "status": "passed"
+    },
+    {
+      "name": "test_scope_contract_api",
+      "status": "passed"
+    },
+    {
+      "name": "test_evidence_contract_complete",
+      "status": "passed"
+    },
+    {
+      "name": "test_evidence_contract_omission_detected[AC6]",
+      "status": "passed"
+    },
+    {
+      "name": "test_evidence_contract_omission_detected[REQ-28]",
+      "status": "passed"
+    },
+    {
+      "name": "test_evidence_contract_omission_detected[kanban_attachments]",
+      "status": "passed"
+    },
+    {
+      "name": "test_evidence_contract_omission_detected[\\u5143Counter\\u4e0d\\u5909]",
+      "status": "passed"
+    },
+    {
+      "name": "test_evidence_contract_omission_detected[\\u672a\\u5831\\u544aCI\\u306f\\u672a\\u78ba\\u8a8d]",
+      "status": "passed"
+    },
+    {
+      "name": "test_evidence_contract_omission_detected[--review-ledger]",
+      "status": "passed"
+    },
+    {
+      "name": "test_evidence_contract_omission_detected[1795609328]",
+      "status": "passed"
+    },
+    {
+      "name": "test_scope_contract_clean_and_append_only",
+      "status": "passed"
+    },
+    {
+      "name": "test_scope_contract_cold_damage_rejected[unrelated]",
+      "status": "passed"
+    },
+    {
+      "name": "test_scope_contract_cold_damage_rejected[dependency]",
+      "status": "passed"
+    },
+    {
+      "name": "test_scope_contract_cold_damage_rejected[delete]",
+      "status": "passed"
+    },
+    {
+      "name": "test_scope_contract_cold_damage_rejected[relax]",
+      "status": "passed"
+    },
+    {
+      "name": "test_scope_contract_cold_damage_rejected[formatter]",
+      "status": "passed"
+    },
+    {
+      "name": "test_scope_contract_cold_damage_rejected[readme]",
+      "status": "passed"
+    },
+    {
+      "name": "test_scope_contract_cold_damage_rejected[workflow]",
+      "status": "passed"
+    },
+    {
+      "name": "test_browser_free_foreign_owner_rejected",
+      "status": "passed"
+    }
+  ],
+  "artifacts": {
+    "stdout.txt": "9f6562c42f485cfc1d6bbc89dc1d49037c6a06995458958a20d112ad795946a9",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_cli.py.original": "8dbe95e0bd71bdf585e7a3275c63ab1308a6af9d7f0f8770b4684f38377343da",
+    "command.json": "9cb0760d33569baaf4581dc286da88aee14fcfd98098a578867c8b2b3cb63de2",
+    "junit.xml": "fc42f15c83fcca010e614eb39045a113e34801f156d636d6cec724942a426731"
+  }
+}

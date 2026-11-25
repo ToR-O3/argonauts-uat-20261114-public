@@ -1,0 +1,29 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______________________ test_browser_free_capture_cases ________________________
+
+    def test_browser_free_capture_cases():
+        d = driver()
+>       assert hasattr(d, 'build_capture_cases'), 'max-specific cases missing'
+E       AssertionError: max-specific cases missing
+E       assert False
+E        +  where False = hasattr(<module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'>, 'build_capture_cases')
+
+tests/test_max_count_verifier.py:27: AssertionError
+______________ test_browser_free_quality_role_cannot_be_flag_only ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7cf0d850b6e0>
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-120/test_browser_free_quality_role0')
+
+    def test_browser_free_quality_role_cannot_be_flag_only(monkeypatch, tmp_path):
+        d = driver()
+>       assert hasattr(d, 'capture'), 'capture API missing'
+E       AssertionError: capture API missing
+E       assert False
+E        +  where False = hasattr(<module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'>, 'capture')
+
+tests/test_max_count_verifier.py:43: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_max_count_verifier.py::test_browser_free_capture_cases - As...
+FAILED tests/test_max_count_verifier.py::test_browser_free_quality_role_cannot_be_flag_only
+2 failed, 15 deselected in 0.11s

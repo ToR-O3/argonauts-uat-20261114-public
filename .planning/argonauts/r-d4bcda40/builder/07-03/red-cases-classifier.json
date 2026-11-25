@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "block": false,
+  "verdict": "RED_EVIDENCE_OK",
+  "reason": "target_test_failed",
+  "evidence": {
+    "command": "/usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k capture_cases or quality_role -q --junitxml=/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/.planning/argonauts/r-d4bcda40/builder/07-03/red-cases/junit.xml",
+    "exit_code": 1,
+    "target_test": "test_browser_free_capture_cases",
+    "tests": 2,
+    "pass": 0,
+    "fail": 2,
+    "failing_tests": [
+      "tests.test_max_count_verifier#test_browser_free_capture_cases",
+      "tests.test_max_count_verifier#test_browser_free_quality_role_cannot_be_flag_only"
+    ],
+    "matched_test": "tests.test_max_count_verifier#test_browser_free_capture_cases",
+    "format": "junit",
+    "report_errors": []
+  },
+  "record": {
+    "command": "/usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k capture_cases or quality_role -q --junitxml=/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/.planning/argonauts/r-d4bcda40/builder/07-03/red-cases/junit.xml",
+    "exit_code": 1,
+    "failing_test": "tests.test_max_count_verifier#test_browser_free_capture_cases",
+    "target_test": "test_browser_free_capture_cases",
+    "expected": "max cases include literal total12 and AND/top boundaries",
+    "actual": "assert hasattr(d, build_capture_cases) failed before implementation",
+    "verdict": "RED_EVIDENCE_OK",
+    "reason": "target_test_failed"
+  },
+  "message": "RED evidence verified: target test \"test_browser_free_capture_cases\" failed as expected (exit 1). GREEN authorized."
+}

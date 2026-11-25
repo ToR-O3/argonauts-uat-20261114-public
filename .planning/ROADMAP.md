@@ -16,6 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: wordfreq HTML output** (completed 2026-11-18)
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 - [x] **Phase 5: README validation B** (completed 2026-11-22)
+- [x] **Phase 7: wordfreq max-count** (completed 2026-11-25)
 
 ## Phase Details
 
@@ -135,3 +136,28 @@ Plans:
 
 Plans:
 - [x] 05-01-PLAN.md — 指定最終行1回の局所追記と固定基底CLI照合（Wave 1、単一tracer）
+
+### Phase 7: wordfreq max-count
+
+**Goal:** 承認済み依頼r-d4bcda40の整数--max-countを全3形式へ追加し、包含上限とminの積集合をtop前に適用する。省略互換・元Counter/HTML総数・安全性を保ち、追加/既存試験と独立CLI/HTML検証の読める証拠で全受入条件を追跡できる。
+**Requirements**: REQ-23, REQ-24, REQ-25, REQ-26, REQ-27, REQ-28
+**Depends on:** Phase 5
+**UI hint:** yes — 既存HTMLの表示契約を維持し、通常幅/狭幅を検証。新UI/スタイル変更なし。
+**Approval:** t_ef216d95 approved、t_fa8e2c5f completed run119の5文書mergeは要求追加のみ、衝突0。公式phase.addの番号7を使用（過去ディレクトリを再利用しない）。過去phaseのstale検証は別スコープとして残す。
+**Success Criteria:**
+  1. 整数全域/省略None、両端包含、min併用、共通filter-before-top、全形式の固定期待値が一致。
+  2. 正常空集合exit0・有効上限で入力失敗exit1・欠落/非整数と既存不正min/topは入力取得前exit2。
+  3. 変更前の省略期待値、元Counter/元総数12、Unicode/casefold/初出順/formatter API/安全性/見た目を保持。
+  4. 先行RED/GREENと全pytest成功、README例1つを実CLIで検証。依存/CI/無関係変更なし。
+  5. 品質が対象headで独立CLI/通常幅・狭幅HTML/全画像閲覧/通信観測を実施しVERIFICATION.mdとCLI/CI文字証拠に受入条件別結果と閲覧枚数/内容/結果を記録・添付。PMへ画像/圧縮ファイル閲覧を要求しない。
+**Plans:** 3/3 plans complete
+
+Plans:
+**Wave 1**
+- [x] 07-01-PLAN.md — Wave 1: 変更前oracle/両幅画像を封印しmax-count全形式tracerと包含・内部順序・固定bytesを検証（2 tasks）
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [x] 07-02-PLAN.md — Wave 2（depends 07-01）: 正常空/usage/入力失敗の三出口とREADME指定1例の先行試験（2 tasks）
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [x] 07-03-PLAN.md — Wave 3（depends 07-02）: max専用証拠経路・全suite/scope・独立品質2.2のphase verification引継ぎ（2 tasks）
