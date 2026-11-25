@@ -175,11 +175,11 @@ Plans:
   3. RED→GREENと全pytest成功を記録し、READMEのHTML説明に1行追加する。依存/CI/権限/外部送信/移行なし。
   4. 品質が対象headでCLI・1280×900/320×900 DPR1ブラウザを独立実行し横配置と可読性・安全性を確認。VERIFICATION.mdとCLI/CI文字証拠へAC別結果、閲覧画像数/内容/結果を記録・標準添付する。PMへ画像や圧縮ファイルを開くことを要求しない。
 **Depends on:** Phase 7
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
 **Wave 1**
-- [ ] 08-01-PLAN.md — Wave 1: 製品編集前の実CLI/両幅画像を保全し表示N全ケースの先行RED（2 tasks）
+- [x] 08-01-PLAN.md — Wave 1: 製品編集前の実CLI/両幅画像を保全し表示N全ケースの先行RED（2 tasks）
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 08-02-PLAN.md — Wave 2（depends 08-01）: 最終pairs表示・限定HTML期待値整合・README1行・全pytest GREEN（2 tasks）
