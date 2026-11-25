@@ -1,20 +1,20 @@
 ---
 gsd_state_version: "1.0"
 milestone: v1.12
-current_phase: 5
-current_plan: Not started
-status: completed
-stopped_at: Phase 5 complete — all phases complete
-last_updated: "2026-11-22T09:22:32.935Z"
-last_activity: 2026-11-22
-last_activity_desc: Phase 5 complete
-state_head: d086e1ee55e979a9751fb18868a276a8722e06ad
+current_phase: 7
+current_phase_name: wordfreq max-count
+current_plan: 1
+status: executing
+stopped_at: Phase 7 planning complete — 3 plans ready
+last_updated: "2026-11-25T12:09:07.806Z"
+last_activity: 2026-11-25
+last_activity_desc: Phase 7 planning complete — 3 plans ready
+state_head: 921d6cc2cc3b14f7277d2900400c3982f8ad82ca
 progress:
-  total_phases: 4
+  total_phases: 5
   completed_phases: 1
-  total_plans: 16
+  total_plans: 19
   completed_plans: 16
-  percent: 25
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -26,15 +26,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-17)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 5 — README validation B
+**Current focus:** Phase 7 — wordfreq max-count
 
 ## Current Position
 
-Phase: 5
-Current Plan: Not started
-Total Plans in Phase: 1
-Status: All phases complete
-Last activity: 2026-11-22 — Phase 5 complete
+Phase: 7 (wordfreq max-count) — READY TO EXECUTE
+Current Plan: 1
+Total Plans in Phase: 3
+Status: Ready to execute
+Last activity: 2026-11-25 — Phase 7 planning complete
 
 Progress: [███░░░░░░░] 25%
 
@@ -117,6 +117,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-22T08:52:41.238Z
-Stopped at: Phase 5 complete — all phases complete
-Resume file: None
+Last session: 2026-11-25T12:09:07.683Z
+Stopped at: Phase 7 planning complete — 3 plans ready
+Resume file: .planning/phases/07-wordfreq-max-count/07-01-PLAN.md

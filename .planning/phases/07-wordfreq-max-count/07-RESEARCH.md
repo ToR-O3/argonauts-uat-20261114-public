@@ -33,7 +33,7 @@
 
 計画上の主なリスクはコード量でなく証拠設計である。変更前固定bytes、狙ったREDとGREEN、top入力spy、元Counter不変、品質本人による対象headの独立CLI/ブラウザ証拠を別々に確保する。旧min-count用driverはrequest・scope・ケース・引数が専用で、そのまま実行してmax-count受入を満たすものではない。 [VERIFIED: .planning/argonauts/r-d4bcda40-prd.md:198–210; tools/verify_wordfreq_min_count.py:18–20,145–163,414–450,490–521]
 
-**Primary recommendation:** 最初の製品編集前に固定oracleと採取手順を成立させ、実CLIの小さいtracerのRED→最小GREENを先頭に置き、残りの判別ケースとREADMEを同一branchへ直列に積む。独立品質の実施をフェーズ検証の必須gateとして明示する（この文書はPLANでも受入証拠でもない）。 [VERIFIED: 07-CONTEXT.md:20–27; .planning/argonauts/r-d4bcda40-prd.md:203–210]
+**Primary recommendation:** 最初の製品編集前に固定oracleと採取手順を成立させ、OpenSpec1.1の全追加試験（整数表記/境界/Unicode/top/空/入力失敗等）を作成して未実装時の狙ったREDを保存した後、実CLI tracerと全追加群を最小実装GREENへ進める。後続の変異判別力検査は追加検査でありこのREDの代替でない。READMEは同一branchへ直列に積む。独立品質の実施をフェーズ検証の必須gateとして明示する（この文書は受入証拠ではない）。 [VERIFIED: 07-CONTEXT.md:20–27; .planning/argonauts/r-d4bcda40-prd.md:203–210]
 
 ## Architectural Responsibility Map
 
@@ -226,7 +226,7 @@ README試験は既存の `test_min_count_help_and_readme_example` 型を使う�
 
 ### Sampling Rate and RED/GREEN evidence
 
-- **最初の製品編集前:** oracle保存/不足分採取と同条件画像を先に成立させる。その後、最初のtracerの新試験を実在ファイルへ作成し、未実装maxの狙った失敗を保存する。import失敗/pytest欠落/0 collectedは機能のREDではない。
+- **最初の製品編集前:** 07-01-01でoracle保存/不足分採取と同条件画像を先に成立させ、1.1全追加試験を作成して全件実行（-xなし）し、未実装maxの狙ったassert失敗と自然GREENのcaseを区別して保存する。import失敗/pytest欠落/0 collectedや実装後変異はこのREDではない。
 - **Per task:** そのtaskの実在node selectorまたは追加群のfocused command。tracer以降も識別対象の失敗方向を明記し、包含・AND・filter順・元totalを別assertで区別する。GREEN後は既存回帰も実施。
 - **Per wave / phase gate:** 全既存suiteを無削除・無回避で実行し、追加群と全suiteの環境/argv/cwd/対象head/実件数/exit/stdout/stderrを保存する。必要ならpytest標準 `--junitxml` を今回fresh evidence root内のファイルへ指定する（root作成taskを先行させる）。
 - **Latency:** まだ測定していないため「30秒以内」とは記さない。unit/内部spyを最短feedbackにし、CLI matrixは必要な直交caseへ絞り、全suite/ブラウザは別gateにする。Builderが各stageの実測時間を記録する。
@@ -298,11 +298,13 @@ configの原文は `"security_enforcement": true`, `"security_asvs_level": 1`, `
 
 採用した製品判断に `[ASSUMED]` はない。要件・実装境界は読了済み仕様/現物へ結び付けた。新規検証ファイル名・将来件数・browser成功・CI成功・品質acceptedは推測せず、未作成/未実施と明記している。外部API説明は下記の取得限界を越えて断定しない。
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **仕様の未決事項はない。** 実装方式は承認designで固定されている。 [VERIFIED: 07-CONTEXT.md:51–53; design.md:19–26]
-2. **品質能力の実行確認は後工程。** Browser executable存在と旧runbookだけでは全画像閲覧/通信観測可能性を保証できない。計画には製品変更前の能力gateと不足時の停止/報告を含める。 [VERIFIED: 本調査version結果; docs/wordfreq-min-count-verification.md:14–15]
-3. **pytest所要時間/全suite件数は未測定。** 今回は研究のみで、既存/提案テストは実行していない。Builderが実数を記録し品質が対象headで再確認する。 [VERIFIED: 本調査実行範囲; PRD:209–210]
+ここでRESOLVEDは仕様/計画上の扱いと責任が確定した意味で、未実行能力/時間/件数の実測成功ではない。
+
+1. **仕様の未決事項 — RESOLVED:** なし。実装方式は承認designで固定されている。 [VERIFIED: 07-CONTEXT.md:51–53; design.md:19–26]
+2. **品質能力の実行確認 — RESOLVED: 実行gateへ委譲。** Browser executable存在だけで保証しない。07-01-01の製品変更前baseline precondition gateで起動/両幅画像/raw/通信/閲覧手段を確認し、07-03-01の有限capture gateで実canary/全原本を確認する。独立profile/全画像実閲覧/最終通信/標準添付/PM読取りは07-03-02 runbookからphase verification品質本人へ引き継ぐ。不能なら停止・gap、能力成立の推測や新installなし。 [VERIFIED: 各PLAN gate/action; docs/wordfreq-min-count-verification.md:14–15; PRD:210]
+3. **pytest所要時間/全suite件数 — RESOLVED: 初回実測を実行gateへ委譲。** 現時点は未測定。全taskで初回wall time/件数/exitを保存し、07-01-01と07-03-01はfast browser_free/read-only検査と全case両幅E2Eを分ける。E2Eは600秒有限timeoutの必須gate、fast検査30秒超はlatency gapを報告する。全suiteは各PLAN/wave終端、07-03-02と品質対象headで実数再確認。測定なしの高速/件数/合格宣言はしない。 [VERIFIED: 07-VALIDATION.md Sampling Rate/gates; 各PLAN; PRD:209–210]
 
 ## Sources
 

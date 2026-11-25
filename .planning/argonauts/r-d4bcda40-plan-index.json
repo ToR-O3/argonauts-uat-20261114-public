@@ -1,0 +1,104 @@
+{
+  "phase": "07",
+  "plans": [
+    {
+      "id": "07-01",
+      "wave": 1,
+      "depends_on": [],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "D-01/D-02/D-04/D-05/D-08に従い、変更前baselineを前提に、実ファイル→max2→共通選択→既存top→全3形式stdoutのtracerを通す。次に包含・Unicode・初出順・Counter不変を判別力ある先行試験で拡張する。",
+      "files_modified": [
+        "tools/verify_wordfreq_max_count.py",
+        "tests/test_max_count_verifier.py",
+        "tests/test_cli.py",
+        "wordfreq/__main__.py",
+        ".planning/argonauts/r-d4bcda40/baseline/",
+        ".planning/argonauts/r-d4bcda40/builder/07-01/"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": true
+    },
+    {
+      "id": "07-02",
+      "wave": 2,
+      "depends_on": [
+        "07-01"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "D-03/D-04/D-05/D-06/D-08に従い、正常空結果/使用法エラー/入力失敗を全形式で区別し、READMEの新1例をそのまま利用できるようにする。OpenSpec1.1残りの空/異常系、1.3説明/例、2.1回帰に対応。1.2の本体は07-01で提供済みなので、試験が自然GREENなら本体へ不要な変更を追加しない。",
+      "files_modified": [
+        "tests/test_cli.py",
+        "README.md",
+        ".planning/argonauts/r-d4bcda40/builder/07-02/"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "07-01"
+      ]
+    },
+    {
+      "id": "07-03",
+      "wave": 3,
+      "depends_on": [
+        "07-02"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "D-05/D-07/D-08に従い、max-count専用の証拠経路を完成させ、Builderの全試験/差分を確認し、OpenSpec2.2の実施を独立phase verificationへ引き渡す。Builderが独立品質を代行・自己合格しない。製品コード・formatter・CSS・依存・CIはこのPLANで編集しない。",
+      "files_modified": [
+        "tools/verify_wordfreq_max_count.py",
+        "tests/test_max_count_verifier.py",
+        "docs/wordfreq-max-count-verification.md",
+        ".planning/argonauts/r-d4bcda40/builder/07-03/"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "07-02"
+      ]
+    }
+  ],
+  "waves": {
+    "1": [
+      "07-01"
+    ],
+    "2": [
+      "07-02"
+    ],
+    "3": [
+      "07-03"
+    ]
+  },
+  "incomplete": [
+    "07-01",
+    "07-02",
+    "07-03"
+  ],
+  "runnable": [
+    "07-01",
+    "07-02",
+    "07-03"
+  ],
+  "ready_plans": [
+    "07-01"
+  ],
+  "has_checkpoints": false
+}
