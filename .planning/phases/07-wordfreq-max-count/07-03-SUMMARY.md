@@ -112,6 +112,8 @@ capture実行headはe7bb32a＋実装working diff。provenance.runtimeのtools/te
 
 - 初回green-contractは公式生成の.planning/state.jsonをscopeに含めておらずfixture ERROR。13成功/ERROR1の原本を保持し、成功REDとしない。公式stateファイルを許可し、fixtureはGit履歴なしのunit検証とcold repo scope検証を分離して49成功を再実行。
 - task環境変数がterminalへ渡らずstageのtask=null。実task/runはVERIFICATION.mdへ記録し原本は変更しない。
+- 最終公式advance-planは`advanced=false/reason=last_plan/current_plan=3/total_plans=3/status=ready_for_verification`。保存STATEとstate-snapshotはphase7/plan3/全3・verifying、init.execute-phaseはSUMMARY3/PLAN3・incomplete0。roadmapは3/3実装済み・In Progress/complete=falseで独立検証を待つ。
+- update-progressは既存milestone scopeがunscopedのためupdated=false。表示率を手修正せず維持。requirements.ready-idsは6件readyだが、mark-complete(23/24/25/26/28)はcheckboxのみ更新、traceability未照合でwrite_set_complete=falseだった。部分更新を完了扱いせずcheckboxを元へ戻して6REQともPendingを維持し、後続品質/PMへ伝える。REQ-27は独立確認前のため最初から更新対象外。既存文書構造の修復へ範囲を広げない。
 - quality profileの成功実施、品質文字証拠添付とPM読取り、最終head CIは未確認。自動的に成功/2.2完了へ進めない。
 
 ## User Setup Required
