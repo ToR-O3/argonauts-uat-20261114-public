@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 
 import pytest
 
@@ -13,7 +14,29 @@ BEFORE = ROOT / '.planning/argonauts/r-6ae2cbf2/before-cjk-run169'
 LEGACY_BEFORE = ROOT / '.planning/argonauts/r-6ae2cbf2/before'
 
 
+def require_original_history(root):
+    """Skip only unavailable shallow-clone history, never invalid evidence.
+
+    The standalone validator remains fail-closed. Ordinary CI does not fetch
+    history or launch the workstation-only browser/font capture environment.
+    """
+    head = json.loads((root / 'provenance.json').read_text())['head']
+    available = subprocess.run(
+        ['git', 'cat-file', '-e', head + '^{commit}'], cwd=ROOT,
+        capture_output=True,
+    )
+    if available.returncode:
+        shallow = subprocess.run(
+            ['git', 'rev-parse', '--is-shallow-repository'], cwd=ROOT,
+            capture_output=True, check=True, text=True,
+        ).stdout.strip()
+        if shallow == 'true':
+            pytest.skip(f'sealed evidence needs historical commit {head}; shallow clone lacks it; run with full history')
+        pytest.fail(f'sealed evidence historical commit missing in full clone: {head}')
+
+
 def test_superseded_before_stays_valid_read_only():
+    require_original_history(LEGACY_BEFORE)
     driver().validate_before(LEGACY_BEFORE)
 
 
@@ -90,6 +113,7 @@ def test_capture_before_real_browser():
         d.capture_before(BEFORE)
         d.validate_before(BEFORE)
     elif BEFORE.exists():
+        require_original_history(BEFORE)
         d.validate_before(BEFORE)
     else:
         # Ordinary suite never captures implicitly; absence is not browser success.
@@ -103,6 +127,7 @@ def test_saved_original_tamper_rejected(tmp_path, damage):
         with pytest.raises(FileNotFoundError):
             d.validate_before(BEFORE)
         return
+    require_original_history(BEFORE)
     copy = tmp_path / 'copy'
     shutil.copytree(BEFORE, copy)
     index = json.loads((copy / 'index.json').read_text())

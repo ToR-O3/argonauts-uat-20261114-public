@@ -1,0 +1,832 @@
+F.......FFF..FF..F                                                       [100%]
+=================================== FAILURES ===================================
+_________________ test_superseded_before_stays_valid_read_only _________________
+
+    def test_superseded_before_stays_valid_read_only():
+>       driver().validate_before(LEGACY_BEFORE)
+
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:224: in validate_before
+    if hashlib.sha256(git_bytes('show', provenance['head'] + ':' + p)).hexdigest() != sha:
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:31: in git_bytes
+    return subprocess.run(['git', *args], cwd=ROOT, capture_output=True, check=True).stdout
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['git', 'show', 'be231840989079fed532c7372efb66f577e39b09:wordfreq/__init__.py'],)
+kwargs = {'cwd': PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/rework-run171/shallow'), 'stderr': -1, 'stdout': -1}
+process = <Popen: returncode: 128 args: ['git', 'show', 'be231840989079fed532c7372efb6...>
+stdout = b''
+stderr = b"fatal: path 'wordfreq/__init__.py' exists on disk, but not in 'be231840989079fed532c7372efb66f577e39b09'\n"
+retcode = 128
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['git', 'show', 'be231840989079fed532c7372efb66f577e39b09:wordfreq/__init__.py']' returned non-zero exit status 128.
+
+/usr/lib64/python3.12/subprocess.py:571: CalledProcessError
+_______________________ test_capture_before_real_browser _______________________
+
+    def test_capture_before_real_browser():
+        d = driver()
+        if os.environ.get('WORDFREQ_DISPLAY_CAPTURE') == 'before':
+            d.capture_before(BEFORE)
+            d.validate_before(BEFORE)
+        elif BEFORE.exists():
+>           d.validate_before(BEFORE)
+
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:224: in validate_before
+    if hashlib.sha256(git_bytes('show', provenance['head'] + ':' + p)).hexdigest() != sha:
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:31: in git_bytes
+    return subprocess.run(['git', *args], cwd=ROOT, capture_output=True, check=True).stdout
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py'],)
+kwargs = {'cwd': PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/rework-run171/shallow'), 'stderr': -1, 'stdout': -1}
+process = <Popen: returncode: 128 args: ['git', 'show', 'fe0f0b322ff81b687bc8c8314e856...>
+stdout = b''
+stderr = b"fatal: path 'wordfreq/__init__.py' exists on disk, but not in 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2'\n"
+retcode = 128
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py']' returned non-zero exit status 128.
+
+/usr/lib64/python3.12/subprocess.py:571: CalledProcessError
+_________________ test_saved_original_tamper_rejected[missing] _________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-263/test_saved_original_tamper_rej0')
+damage = 'missing'
+
+    @pytest.mark.parametrize('damage', ['missing', 'bytes', 'head', 'product', 'viewport', 'dpr', 'synthetic', 'interrupted', 'inventory'])
+    def test_saved_original_tamper_rejected(tmp_path, damage):
+        d = driver()
+        if not BEFORE.exists():
+            with pytest.raises(FileNotFoundError):
+                d.validate_before(BEFORE)
+            return
+        copy = tmp_path / 'copy'
+        shutil.copytree(BEFORE, copy)
+        index = json.loads((copy / 'index.json').read_text())
+        if damage in {'missing', 'bytes'}:
+            path = copy / next(iter(index['artifacts']))
+            if damage == 'missing':
+                path.unlink()
+            else:
+                path.write_bytes(b'corrupt')
+        elif damage in {'head', 'product'}:
+            index['provenance']['head' if damage == 'head' else 'product_hashes'] = 'wrong'
+        elif damage in {'viewport', 'dpr'}:
+            case = next(c for c in index['cases'] if c['format'] == 'html')
+            view = case['views'][0]
+            view['browser']['viewport']['width' if damage == 'viewport' else 'dpr'] = 42
+        elif damage == 'synthetic':
+            index['synthetic'] = True
+        elif damage == 'inventory':
+            index['artifacts'].pop(next(iter(index['artifacts'])))
+        else:
+            index['verdict'] = 'collecting'
+        d.save_json(copy / 'index.json', index)
+        (copy / 'index.sha256').write_text(d.digest(copy / 'index.json') + '\n')
+        with pytest.raises((ValueError, FileNotFoundError)):
+>           d.validate_before(copy)
+
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:224: in validate_before
+    if hashlib.sha256(git_bytes('show', provenance['head'] + ':' + p)).hexdigest() != sha:
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:31: in git_bytes
+    return subprocess.run(['git', *args], cwd=ROOT, capture_output=True, check=True).stdout
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py'],)
+kwargs = {'cwd': PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/rework-run171/shallow'), 'stderr': -1, 'stdout': -1}
+process = <Popen: returncode: 128 args: ['git', 'show', 'fe0f0b322ff81b687bc8c8314e856...>
+stdout = b''
+stderr = b"fatal: path 'wordfreq/__init__.py' exists on disk, but not in 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2'\n"
+retcode = 128
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py']' returned non-zero exit status 128.
+
+/usr/lib64/python3.12/subprocess.py:571: CalledProcessError
+__________________ test_saved_original_tamper_rejected[bytes] __________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-263/test_saved_original_tamper_rej1')
+damage = 'bytes'
+
+    @pytest.mark.parametrize('damage', ['missing', 'bytes', 'head', 'product', 'viewport', 'dpr', 'synthetic', 'interrupted', 'inventory'])
+    def test_saved_original_tamper_rejected(tmp_path, damage):
+        d = driver()
+        if not BEFORE.exists():
+            with pytest.raises(FileNotFoundError):
+                d.validate_before(BEFORE)
+            return
+        copy = tmp_path / 'copy'
+        shutil.copytree(BEFORE, copy)
+        index = json.loads((copy / 'index.json').read_text())
+        if damage in {'missing', 'bytes'}:
+            path = copy / next(iter(index['artifacts']))
+            if damage == 'missing':
+                path.unlink()
+            else:
+                path.write_bytes(b'corrupt')
+        elif damage in {'head', 'product'}:
+            index['provenance']['head' if damage == 'head' else 'product_hashes'] = 'wrong'
+        elif damage in {'viewport', 'dpr'}:
+            case = next(c for c in index['cases'] if c['format'] == 'html')
+            view = case['views'][0]
+            view['browser']['viewport']['width' if damage == 'viewport' else 'dpr'] = 42
+        elif damage == 'synthetic':
+            index['synthetic'] = True
+        elif damage == 'inventory':
+            index['artifacts'].pop(next(iter(index['artifacts'])))
+        else:
+            index['verdict'] = 'collecting'
+        d.save_json(copy / 'index.json', index)
+        (copy / 'index.sha256').write_text(d.digest(copy / 'index.json') + '\n')
+        with pytest.raises((ValueError, FileNotFoundError)):
+>           d.validate_before(copy)
+
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:224: in validate_before
+    if hashlib.sha256(git_bytes('show', provenance['head'] + ':' + p)).hexdigest() != sha:
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:31: in git_bytes
+    return subprocess.run(['git', *args], cwd=ROOT, capture_output=True, check=True).stdout
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py'],)
+kwargs = {'cwd': PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/rework-run171/shallow'), 'stderr': -1, 'stdout': -1}
+process = <Popen: returncode: 128 args: ['git', 'show', 'fe0f0b322ff81b687bc8c8314e856...>
+stdout = b''
+stderr = b"fatal: path 'wordfreq/__init__.py' exists on disk, but not in 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2'\n"
+retcode = 128
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py']' returned non-zero exit status 128.
+
+/usr/lib64/python3.12/subprocess.py:571: CalledProcessError
+________________ test_saved_original_tamper_rejected[viewport] _________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-263/test_saved_original_tamper_rej4')
+damage = 'viewport'
+
+    @pytest.mark.parametrize('damage', ['missing', 'bytes', 'head', 'product', 'viewport', 'dpr', 'synthetic', 'interrupted', 'inventory'])
+    def test_saved_original_tamper_rejected(tmp_path, damage):
+        d = driver()
+        if not BEFORE.exists():
+            with pytest.raises(FileNotFoundError):
+                d.validate_before(BEFORE)
+            return
+        copy = tmp_path / 'copy'
+        shutil.copytree(BEFORE, copy)
+        index = json.loads((copy / 'index.json').read_text())
+        if damage in {'missing', 'bytes'}:
+            path = copy / next(iter(index['artifacts']))
+            if damage == 'missing':
+                path.unlink()
+            else:
+                path.write_bytes(b'corrupt')
+        elif damage in {'head', 'product'}:
+            index['provenance']['head' if damage == 'head' else 'product_hashes'] = 'wrong'
+        elif damage in {'viewport', 'dpr'}:
+            case = next(c for c in index['cases'] if c['format'] == 'html')
+            view = case['views'][0]
+            view['browser']['viewport']['width' if damage == 'viewport' else 'dpr'] = 42
+        elif damage == 'synthetic':
+            index['synthetic'] = True
+        elif damage == 'inventory':
+            index['artifacts'].pop(next(iter(index['artifacts'])))
+        else:
+            index['verdict'] = 'collecting'
+        d.save_json(copy / 'index.json', index)
+        (copy / 'index.sha256').write_text(d.digest(copy / 'index.json') + '\n')
+        with pytest.raises((ValueError, FileNotFoundError)):
+>           d.validate_before(copy)
+
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:224: in validate_before
+    if hashlib.sha256(git_bytes('show', provenance['head'] + ':' + p)).hexdigest() != sha:
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:31: in git_bytes
+    return subprocess.run(['git', *args], cwd=ROOT, capture_output=True, check=True).stdout
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py'],)
+kwargs = {'cwd': PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/rework-run171/shallow'), 'stderr': -1, 'stdout': -1}
+process = <Popen: returncode: 128 args: ['git', 'show', 'fe0f0b322ff81b687bc8c8314e856...>
+stdout = b''
+stderr = b"fatal: path 'wordfreq/__init__.py' exists on disk, but not in 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2'\n"
+retcode = 128
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py']' returned non-zero exit status 128.
+
+/usr/lib64/python3.12/subprocess.py:571: CalledProcessError
+___________________ test_saved_original_tamper_rejected[dpr] ___________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-263/test_saved_original_tamper_rej5')
+damage = 'dpr'
+
+    @pytest.mark.parametrize('damage', ['missing', 'bytes', 'head', 'product', 'viewport', 'dpr', 'synthetic', 'interrupted', 'inventory'])
+    def test_saved_original_tamper_rejected(tmp_path, damage):
+        d = driver()
+        if not BEFORE.exists():
+            with pytest.raises(FileNotFoundError):
+                d.validate_before(BEFORE)
+            return
+        copy = tmp_path / 'copy'
+        shutil.copytree(BEFORE, copy)
+        index = json.loads((copy / 'index.json').read_text())
+        if damage in {'missing', 'bytes'}:
+            path = copy / next(iter(index['artifacts']))
+            if damage == 'missing':
+                path.unlink()
+            else:
+                path.write_bytes(b'corrupt')
+        elif damage in {'head', 'product'}:
+            index['provenance']['head' if damage == 'head' else 'product_hashes'] = 'wrong'
+        elif damage in {'viewport', 'dpr'}:
+            case = next(c for c in index['cases'] if c['format'] == 'html')
+            view = case['views'][0]
+            view['browser']['viewport']['width' if damage == 'viewport' else 'dpr'] = 42
+        elif damage == 'synthetic':
+            index['synthetic'] = True
+        elif damage == 'inventory':
+            index['artifacts'].pop(next(iter(index['artifacts'])))
+        else:
+            index['verdict'] = 'collecting'
+        d.save_json(copy / 'index.json', index)
+        (copy / 'index.sha256').write_text(d.digest(copy / 'index.json') + '\n')
+        with pytest.raises((ValueError, FileNotFoundError)):
+>           d.validate_before(copy)
+
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:224: in validate_before
+    if hashlib.sha256(git_bytes('show', provenance['head'] + ':' + p)).hexdigest() != sha:
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:31: in git_bytes
+    return subprocess.run(['git', *args], cwd=ROOT, capture_output=True, check=True).stdout
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py'],)
+kwargs = {'cwd': PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/rework-run171/shallow'), 'stderr': -1, 'stdout': -1}
+process = <Popen: returncode: 128 args: ['git', 'show', 'fe0f0b322ff81b687bc8c8314e856...>
+stdout = b''
+stderr = b"fatal: path 'wordfreq/__init__.py' exists on disk, but not in 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2'\n"
+retcode = 128
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py']' returned non-zero exit status 128.
+
+/usr/lib64/python3.12/subprocess.py:571: CalledProcessError
+________________ test_saved_original_tamper_rejected[inventory] ________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-263/test_saved_original_tamper_rej8')
+damage = 'inventory'
+
+    @pytest.mark.parametrize('damage', ['missing', 'bytes', 'head', 'product', 'viewport', 'dpr', 'synthetic', 'interrupted', 'inventory'])
+    def test_saved_original_tamper_rejected(tmp_path, damage):
+        d = driver()
+        if not BEFORE.exists():
+            with pytest.raises(FileNotFoundError):
+                d.validate_before(BEFORE)
+            return
+        copy = tmp_path / 'copy'
+        shutil.copytree(BEFORE, copy)
+        index = json.loads((copy / 'index.json').read_text())
+        if damage in {'missing', 'bytes'}:
+            path = copy / next(iter(index['artifacts']))
+            if damage == 'missing':
+                path.unlink()
+            else:
+                path.write_bytes(b'corrupt')
+        elif damage in {'head', 'product'}:
+            index['provenance']['head' if damage == 'head' else 'product_hashes'] = 'wrong'
+        elif damage in {'viewport', 'dpr'}:
+            case = next(c for c in index['cases'] if c['format'] == 'html')
+            view = case['views'][0]
+            view['browser']['viewport']['width' if damage == 'viewport' else 'dpr'] = 42
+        elif damage == 'synthetic':
+            index['synthetic'] = True
+        elif damage == 'inventory':
+            index['artifacts'].pop(next(iter(index['artifacts'])))
+        else:
+            index['verdict'] = 'collecting'
+        d.save_json(copy / 'index.json', index)
+        (copy / 'index.sha256').write_text(d.digest(copy / 'index.json') + '\n')
+        with pytest.raises((ValueError, FileNotFoundError)):
+>           d.validate_before(copy)
+
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py:130: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:224: in validate_before
+    if hashlib.sha256(git_bytes('show', provenance['head'] + ':' + p)).hexdigest() != sha:
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tools/verify_wordfreq_displayed_types.py:31: in git_bytes
+    return subprocess.run(['git', *args], cwd=ROOT, capture_output=True, check=True).stdout
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py'],)
+kwargs = {'cwd': PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/rework-run171/shallow'), 'stderr': -1, 'stdout': -1}
+process = <Popen: returncode: 128 args: ['git', 'show', 'fe0f0b322ff81b687bc8c8314e856...>
+stdout = b''
+stderr = b"fatal: path 'wordfreq/__init__.py' exists on disk, but not in 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2'\n"
+retcode = 128
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['git', 'show', 'fe0f0b322ff81b687bc8c8314e85614407f1d0c2:wordfreq/__init__.py']' returned non-zero exit status 128.
+
+/usr/lib64/python3.12/subprocess.py:571: CalledProcessError
+=========================== short test summary info ============================
+FAILED .planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py::test_superseded_before_stays_valid_read_only
+FAILED .planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py::test_capture_before_real_browser
+FAILED .planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py::test_saved_original_tamper_rejected[missing]
+FAILED .planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py::test_saved_original_tamper_rejected[bytes]
+FAILED .planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py::test_saved_original_tamper_rejected[viewport]
+FAILED .planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py::test_saved_original_tamper_rejected[dpr]
+FAILED .planning/argonauts/r-6ae2cbf2/rework-run171/shallow/tests/test_displayed_types_verifier.py::test_saved_original_tamper_rejected[inventory]
+7 failed, 11 passed in 2.41s

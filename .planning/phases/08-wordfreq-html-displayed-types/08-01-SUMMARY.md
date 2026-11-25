@@ -113,6 +113,12 @@ None for product. Browser version/path is explicitly recorded; independent quali
 
 `requirements-completed`は公式テンプレートが指定するPLAN配列の転記であり、REQ-29/30/31全体の受入完了を意味しない。各IDは後続2計画と共有しているためREQUIREMENTSのComplete更新は行わない。
 
+## Review rework run171: shallow-clone prerequisite
+
+品質run170でbefore-cjk-run169の38画像の日本語描画は独立確認済み。一方、c5c8707のGitHub CIは49 failed/1058 passedで、手元42失敗に加えて歴史commit欠落の7失敗があった。今回、実depth1 cloneで7失敗を再現してから、原本の履歴commitが無い浅いcloneだけ理由付きskipにする前提検査を既存試験へ追加した。standalone validator・封印原本・製品・README・workflowは無変更。
+
+修正後は浅いcloneの検証試験7 passed/11 skipped、全suite42 failed/1054 passed/11 skipped。全履歴の手元は検証18 passed（skipなし）、全suite42 failed/1065 passed。両環境の失敗は表示欠如41件と局所CSS期待1件のみ。新GitHub CIの合格は主張せず、実pushのheadの結果は引継ぎで区別する。コマンド・ログ・JUnit・CI記述の訂正は `.planning/argonauts/r-6ae2cbf2/rework-run171/rework-proof.md`。計画位置は08-02待ちのまま、advanceを繰り返さない。
+
 ## Self-Check: PASSED (08-01 boundary only)
 
 原本/index・新tool/test・REDログ/JUnit・OpenSpec1.1が実在し、上の実行結果と製品未変更を確認。実装未完を意図したREDのまま品質へ渡す。
