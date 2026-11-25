@@ -101,7 +101,8 @@ def assert_static_document(document):
         "td": {"class"}, "p": {"class"},
     }
     classes = {"metadata", "metadata-item", "label", "filename-value",
-               "total-value", "rank", "word", "count", "empty-message"}
+               "total-value", "total-summary", "displayed-types",
+               "rank", "word", "count", "empty-message"}
     for node in document.nodes:
         assert node["tag"] in allowed
         assert set(node["attrs"]) <= allowed[node["tag"]]
@@ -250,6 +251,8 @@ def test_complete_fixed_css_contract_is_static_not_browser_acceptance():
         ".filename-value, .word": {"white-space": "break-spaces", "overflow-wrap": "anywhere",
                                     "word-break": "normal", "tab-size": "4"},
         ".total-value": {"color": "#1D4ED8"},
+        ".total-summary": {"display": "flex", "flex-wrap": "wrap", "gap": "8px", "align-items": "baseline"},
+        ".displayed-types": {"white-space": "pre-wrap", "overflow-wrap": "anywhere"},
         "table": {"width": "100%", "table-layout": "fixed", "border-collapse": "collapse"},
         "caption": {"text-align": "left", "color": "#475569", "margin-bottom": "8px"},
         "th, td": {"box-sizing": "border-box", "padding": "8px", "vertical-align": "top",
@@ -260,3 +263,42 @@ def test_complete_fixed_css_contract_is_static_not_browser_acceptance():
         ".empty-message": {"margin": "24px 0 0", "color": "#475569", "overflow-wrap": "anywhere"},
     }
     assert not re.search(r'overflow\s*:|hidden|clip|ellipsis|nowrap|min-width|(?<![-\w])height\s*:|clamp\(|scale\(|zoom\s*:|@font|@keyframes', css, re.I)
+
+
+def assert_displayed_types(document, expected, total, basename):
+    """Exact leaves, ancestry and source order; not a claim of horizontal render."""
+    leaves = document.classified('displayed-types')
+    assert len(leaves) == 1, 'missing unique displayed-types leaf'
+    count, = leaves
+    summary, = document.classified('total-summary')
+    total_leaf, = document.classified('total-value')
+    assert count['tag'] == total_leaf['tag'] == summary['tag'] == 'div'
+    assert count['text'] == f'表示 {len(expected)} 種類'
+    assert total_leaf['text'] == str(total)
+    assert document.classified('filename-value')[0]['text'] == basename
+    assert count['ancestors'][-1] is summary and total_leaf['ancestors'][-1] is summary
+    children = [n for n in document.nodes if n['ancestors'] and n['ancestors'][-1] is summary]
+    assert children == [total_leaf, count]
+    assert document.nodes.index(total_leaf) < document.nodes.index(count) < document.nodes.index(document.tagged('table')[0])
+    assert [n['text'] for n in document.tagged('td')] == [str(x) for i, (w, n) in enumerate(expected, 1) for x in (i, w, n)]
+    assert len(document.tagged('tr')) == len(expected) + 1
+    assert all(n['ancestors'][-2]['tag'] == 'tbody' for n in document.tagged('td'))
+    assert_static_document(document)
+
+
+def test_html_displayed_types():
+    from wordfreq.formatters import format_html
+
+    # Unsorted pairs and unrelated original totals distinguish len from sums/top.
+    matrix = [([], 0), ([], 7), ([('zoo', 3)], 12),
+              ([('alpha', 2), ('gamma', 1), ('delta', 1)], 7),
+              ([(f'row{i}', 2) for i in range(10)], 27),
+              ([(f'row{i}', 2) for i in range(12)], 27),
+              ([('low', 1), ('high', 99)], 10**100),
+              ([('&<\r>\"\'', 2)], 2)]
+    for pairs, total in matrix:
+        original = list(pairs)
+        basename = '集計\r\n&<>\"\'.txt'
+        document = HTMLDocument(format_html(pairs, basename, total))
+        assert_displayed_types(document, original, total, basename)
+        assert pairs == original

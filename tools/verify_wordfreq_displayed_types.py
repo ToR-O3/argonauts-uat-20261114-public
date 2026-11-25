@@ -225,6 +225,12 @@ def validate_before(root):
             raise ValueError('historical product hash differs')
     if set(provenance['product_hashes']) != set(PRODUCT):
         raise ValueError('missing product hashes')
+    for p, sha in provenance['driver_hashes'].items():
+        if hashlib.sha256(git_bytes('show', provenance['head'] + ':' + p)).hexdigest() != sha:
+            raise ValueError('historical driver hash differs')
+    actual_files = {p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file() and p.name not in {'index.json', 'index.sha256', 'partial.json'}}
+    if set(index['artifacts']) != actual_files:
+        raise ValueError('artifact inventory incomplete')
     for rel, sha in index['artifacts'].items():
         path = (root / rel).resolve()
         path.relative_to(root)

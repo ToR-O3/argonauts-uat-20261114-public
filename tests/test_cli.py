@@ -205,6 +205,7 @@ class CLIHTML(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.rows = []
         self.values = {}
+        self.displayed_types = []
         self.headers = []
         self.target = None
         self.feed(document)
@@ -216,7 +217,7 @@ class CLIHTML(HTMLParser):
             self.row = []
         if tag in {"td", "th"}:
             self.target = (tag, "")
-        elif attrs.get("class") in {"filename-value", "total-value"}:
+        elif attrs.get("class") in {"filename-value", "total-value", "displayed-types"}:
             self.target = (attrs["class"], "")
 
     def handle_data(self, data):
@@ -227,11 +228,13 @@ class CLIHTML(HTMLParser):
     def handle_endtag(self, tag):
         if self.target is not None:
             kind, text = self.target
-            if kind == tag or kind in {"filename-value", "total-value"}:
+            if kind == tag or kind in {"filename-value", "total-value", "displayed-types"}:
                 if kind == "td":
                     self.row.append(text)
                 elif kind == "th":
                     self.headers.append(text)
+                elif kind == "displayed-types":
+                    self.displayed_types.append(text)
                 else:
                     self.values[kind] = text
                 self.target = None
@@ -1206,4 +1209,103 @@ def test_max_count_readme_example(tmp_path):
           exit=result.returncode, stdout=result.stdout.decode("utf-8"),
           stderr=result.stderr.decode("utf-8"))))
     assert (result.returncode, result.stdout, result.stderr) == (0, expected, b"")
+
+
+DISPLAY_MATRIX = [
+    (MAX_NORMAL, ['--max-count', '2'], [('alpha', 2), ('gamma', 1), ('delta', 1)], 7),
+    (MAX_NORMAL, ['--max-count', '2', '--top', '1'], [('alpha', 2)], 7),
+    (MAX_NORMAL, ['--max-count', '2', '--top', '99'], [('alpha', 2), ('gamma', 1), ('delta', 1)], 7),
+    (MAX_NORMAL, ['--min-count', '2', '--max-count', '2'], [('alpha', 2)], 7),
+    (MAX_THREE, ['--min-count', '2', '--max-count', '3', '--top', '1'], [('zoo', 3)], 12),
+    (MAX_MANY_BODY, ['--min-count', '2', '--max-count', '2'], MAX_MANY_PAIRS[:10], 27),
+    (MAX_MANY_BODY, ['--min-count', '2', '--max-count', '2', '--top', '99'], MAX_MANY_PAIRS, 27),
+    (MAX_NORMAL, ['--max-count', '0'], [], 7),
+    (MAX_NORMAL, ['--max-count', '-1'], [], 7),
+    (MAX_NORMAL, ['--min-count', '3', '--max-count', '2'], [], 7),
+    (MAX_NORMAL, ['--min-count', '4'], [], 7),
+    ('', [], [], 0), (' \t\r\n', [], [], 0), ('!? -- ...', [], [], 0),
+    ('Straße STRASSE', ['--min-count', '2', '--max-count', '2'], [('strasse', 2)], 2),
+    ('Zoo apple APPLE zoo banana', ['--top', '2'], [('zoo', 2), ('apple', 2)], 5),
+    ('zoo apple zoo banana apple cherry', ['--top', '1'], [('zoo', 2)], 6),
+    ('zoo apple zoo banana apple cherry', ['--top', '2'], [('zoo', 2), ('apple', 2)], 6),
+    ('zoo apple zoo banana apple cherry', ['--top', '10'], [('zoo', 2), ('apple', 2), ('banana', 1), ('cherry', 1)], 6),
+    (MAX_NORMAL, ['--top', '2'], [('beta', 3), ('alpha', 2)], 7),
+]
+
+
+@pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+@pytest.mark.parametrize('reverse', [False, True])
+def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+    from test_formatters import HTMLDocument, assert_displayed_types
+    path = tmp_path / '表示 &<>.txt'
+    path.write_bytes(content.encode('utf-8'))
+    groups = [options[i:i+2] for i in range(0, len(options), 2)]
+    if reverse:
+        groups.reverse()
+    args = [x for group in groups for x in group]
+    # Byte oracles run before the new HTML assertion, including newline/escapes.
+    for fmt in ('text', 'json'):
+        result = run_cli_bytes(path, *args, '--format', fmt)
+        expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                          json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+        assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+    result = run_cli_bytes(path, *args, '--format', 'html')
+    assert (result.returncode, result.stderr) == (0, b'')
+    document = result.stdout.decode('utf-8')
+    parsed = CLIHTML(document)
+    assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+    assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+    assert parsed.headers == ['順位', '単語', '回数']
+    assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+    assert_displayed_types(HTMLDocument(document), expected, total, path.name)
+
+
+def record_display_red(output):
+    """Explicit recorder for actual pytest/CLI originals, never normal collection."""
+    output = Path(output).resolve()
+    output.mkdir(parents=True, exist_ok=False)
+    environment = {k: os.environ.get(k) for k in ('PYTHONPATH', 'PYTHONUTF8', 'TMPDIR')}
+    records = []
+    commands = [
+        ('new-feature', ['tests/test_formatters.py::test_html_displayed_types', 'tests/test_cli.py::test_displayed_types_cli_matrix']),
+        ('focused', ['tests/test_formatters.py', 'tests/test_cli.py']),
+    ]
+    for name, selectors in commands:
+        argv = [sys.executable, '-m', 'pytest', *selectors, '-q', '--junitxml=' + str(output / (name + '.xml'))]
+        run = subprocess.run(argv, cwd=ROOT, capture_output=True, timeout=180)
+        (output / (name + '-stdout.bin')).write_bytes(run.stdout)
+        (output / (name + '-stderr.bin')).write_bytes(run.stderr)
+        records.append(dict(name=name, argv=argv, cwd=str(ROOT), exit=run.returncode,
+                            stdout=name+'-stdout.bin', stderr=name+'-stderr.bin'))
+        if run.returncode != 1 or b'AssertionError' not in run.stdout or b'ERROR collecting' in run.stdout:
+            raise ValueError('not an intentional feature assertion RED')
+    # Keep literal input and all three raw streams attributable to the unchanged product.
+    path = output / 'input.txt'
+    path.write_bytes(MAX_NORMAL.encode())
+    cli = []
+    for fmt in ('html', 'text', 'json'):
+        argv = [sys.executable, '-m', 'wordfreq', str(path), '--max-count', '2', '--format', fmt]
+        run = subprocess.run(argv, cwd=ROOT, capture_output=True, timeout=10)
+        (output / ('cli-' + fmt + '.stdout')).write_bytes(run.stdout)
+        (output / ('cli-' + fmt + '.stderr')).write_bytes(run.stderr)
+        cli.append(dict(argv=argv, exit=run.returncode))
+    head = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT, check=True, capture_output=True).stdout.decode().strip()
+    proof = dict(execution_head=head, report_head=None, profile=os.environ.get('HERMES_PROFILE'),
+                 task=os.environ.get('HERMES_KANBAN_TASK'), executable=sys.executable,
+                 environment=environment, commands=records, cli=cli, verdict='intentional-feature-RED')
+    (output / 'commands.json').write_text(json.dumps(proof, ensure_ascii=False, indent=2) + '\n')
+    (output / 'cli-ci-proof.md').write_text(
+        '# 08-01 実RED記録\n\n表示追加は未実装。製品GREEN・phase合格ではない。\n'
+        + f'実行head: {head}\nPython: {sys.version}\n'
+        + '\n環境・正確argv・exit・元stdout/stderrはcommands.json、JUnitはnew-feature.xml/focused.xml。\n'
+        + '新機能試験はdisplayed-types欠如、既存CSS試験は新しい局所2規則の欠如で失敗。\n'
+        + 'text/jsonの全バイト照合は各HTML失敗より先に実行。CIは未確認（ローカル結果のみ）。\n')
+    print(json.dumps(proof, ensure_ascii=False, indent=2))
+
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--record-display-red', type=Path, required=True)
+    record_display_red(parser.parse_args().record_display_red)
 

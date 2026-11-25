@@ -1,0 +1,88 @@
+{
+  "execution_head": "be231840989079fed532c7372efb66f577e39b09",
+  "report_head": null,
+  "profile": "argonauts-uat-builder",
+  "task": null,
+  "executable": "/usr/bin/python3",
+  "environment": {
+    "PYTHONPATH": "/home/Yuki/.local/lib/python3.12/site-packages",
+    "PYTHONUTF8": null,
+    "TMPDIR": "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch"
+  },
+  "commands": [
+    {
+      "name": "new-feature",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "pytest",
+        "tests/test_formatters.py::test_html_displayed_types",
+        "tests/test_cli.py::test_displayed_types_cli_matrix",
+        "-q",
+        "--junitxml=/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/red/new-feature.xml"
+      ],
+      "cwd": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068",
+      "exit": 1,
+      "stdout": "new-feature-stdout.bin",
+      "stderr": "new-feature-stderr.bin"
+    },
+    {
+      "name": "focused",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "pytest",
+        "tests/test_formatters.py",
+        "tests/test_cli.py",
+        "-q",
+        "--junitxml=/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/red/focused.xml"
+      ],
+      "cwd": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068",
+      "exit": 1,
+      "stdout": "focused-stdout.bin",
+      "stderr": "focused-stderr.bin"
+    }
+  ],
+  "cli": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/red/input.txt",
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "exit": 0
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/red/input.txt",
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "exit": 0
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/red/input.txt",
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "exit": 0
+    }
+  ],
+  "verdict": "intentional-feature-RED"
+}

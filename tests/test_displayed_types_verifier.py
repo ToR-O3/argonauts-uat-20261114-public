@@ -49,6 +49,35 @@ def test_incomplete_or_synthetic_cannot_validate(tmp_path, marker):
         driver().validate_before(tmp_path)
 
 
+def test_interrupt_preserves_owned_root_without_completion(monkeypatch, tmp_path):
+    d = driver()
+    target = tmp_path / 'interrupted'
+
+    def interrupt():
+        raise KeyboardInterrupt('injected interruption, synthetic control')
+
+    monkeypatch.setattr(d, 'source_state', interrupt)
+    with pytest.raises(KeyboardInterrupt):
+        d.capture_before(target)
+    assert (target / 'owner.json').is_file()
+    assert not (target / 'index.sha256').exists()
+    with pytest.raises((ValueError, FileNotFoundError)):
+        d.validate_before(target)
+    with pytest.raises(FileExistsError):
+        d.capture_before(target)
+
+
+def test_wrong_product_refused_before_browser(monkeypatch, tmp_path):
+    d = driver()
+    provenance = d.source_state()
+    provenance['product_hashes']['wordfreq/formatters.py'] = '0' * 64
+    monkeypatch.setattr(d, 'source_state', lambda: provenance)
+    target = tmp_path / 'wrong-product'
+    with pytest.raises(ValueError, match='unchanged product'):
+        d.capture_before(target)
+    assert not (target / 'index.sha256').exists()
+
+
 def test_capture_before_real_browser():
     d = driver()
     if os.environ.get('WORDFREQ_DISPLAY_CAPTURE') == 'before':
@@ -61,7 +90,7 @@ def test_capture_before_real_browser():
         assert not (BEFORE / 'index.json').exists()
 
 
-@pytest.mark.parametrize('damage', ['missing', 'bytes', 'head', 'product', 'viewport', 'dpr', 'synthetic', 'interrupted'])
+@pytest.mark.parametrize('damage', ['missing', 'bytes', 'head', 'product', 'viewport', 'dpr', 'synthetic', 'interrupted', 'inventory'])
 def test_saved_original_tamper_rejected(tmp_path, damage):
     d = driver()
     if not BEFORE.exists():
@@ -85,6 +114,8 @@ def test_saved_original_tamper_rejected(tmp_path, damage):
         view['browser']['viewport']['width' if damage == 'viewport' else 'dpr'] = 42
     elif damage == 'synthetic':
         index['synthetic'] = True
+    elif damage == 'inventory':
+        index['artifacts'].pop(next(iter(index['artifacts'])))
     else:
         index['verdict'] = 'collecting'
     d.save_json(copy / 'index.json', index)

@@ -1,0 +1,34 @@
+{
+  "id": "negative-text",
+  "body": "beta beta beta alpha gamma alpha delta",
+  "basename": "negative.txt",
+  "options": [
+    "--max-count",
+    "-1",
+    "--format",
+    "text"
+  ],
+  "pairs": [],
+  "total": 7,
+  "format": "text",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/negative-text/private-source-directory/negative.txt",
+    "--max-count",
+    "-1",
+    "--format",
+    "text"
+  ],
+  "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/negative-text/private-source-directory/negative.txt",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/negative-text/stdout.bin",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/negative-text/stderr.bin",
+  "exit": 0,
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "views": []
+}

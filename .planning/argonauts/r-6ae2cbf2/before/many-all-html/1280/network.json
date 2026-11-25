@@ -1,0 +1,471 @@
+{
+  "start": "2026-11-25T20:52:24.031257+00:00",
+  "end": "2026-11-25T20:52:25.058095+00:00",
+  "interval": "capture-only",
+  "events": [
+    {
+      "at": "2026-11-25T20:52:24.041562+00:00",
+      "kind": "browser-autoattach-ready",
+      "data": {}
+    },
+    {
+      "at": "2026-11-25T20:52:24.066403+00:00",
+      "kind": "target-attached",
+      "data": {
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetInfo": {
+          "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+          "type": "page",
+          "title": "",
+          "url": "about:blank",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "C308FE8EFE08A50D84FE454A23763E7A"
+        },
+        "waitingForDebugger": true
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.068112+00:00",
+      "kind": "target-created",
+      "data": {
+        "targetInfo": {
+          "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+          "type": "page",
+          "title": "",
+          "url": "about:blank",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "C308FE8EFE08A50D84FE454A23763E7A"
+        }
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.085706+00:00",
+      "kind": "Network.policyUpdated",
+      "data": {
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.087881+00:00",
+      "kind": "target-changed",
+      "data": {
+        "targetInfo": {
+          "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+          "type": "page",
+          "title": "about:blank",
+          "url": "about:blank",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "C308FE8EFE08A50D84FE454A23763E7A"
+        }
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.088623+00:00",
+      "kind": "Page.frameStoppedLoading",
+      "data": {
+        "frameId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.089230+00:00",
+      "kind": "Page.frameResized",
+      "data": {
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.096922+00:00",
+      "kind": "page",
+      "data": {
+        "url": "about:blank"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.105616+00:00",
+      "kind": "page-cdp-ready",
+      "data": {}
+    },
+    {
+      "at": "2026-11-25T20:52:24.116665+00:00",
+      "kind": "Page.frameStartedNavigating",
+      "data": {
+        "frameId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+        "loaderId": "A2098650152453FBA791C3787B843994",
+        "navigationType": "differentDocument",
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.116973+00:00",
+      "kind": "Page.frameStartedLoading",
+      "data": {
+        "frameId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.117690+00:00",
+      "kind": "Network.requestWillBeSent",
+      "data": {
+        "requestId": "A2098650152453FBA791C3787B843994",
+        "loaderId": "A2098650152453FBA791C3787B843994",
+        "documentURL": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+        "request": {
+          "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+          "method": "GET",
+          "headers": {
+            "sec-ch-ua": "\"Not/A)Brand\";v=\"99\", \"Chromium\";v=\"148\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Linux\""
+          },
+          "mixedContentType": "none",
+          "initialPriority": "VeryHigh",
+          "referrerPolicy": "unsafe-url",
+          "isSameSite": true
+        },
+        "timestamp": 95396.02778,
+        "wallTime": 1795639944.11719,
+        "initiator": {
+          "type": "other"
+        },
+        "redirectHasExtraInfo": false,
+        "type": "Document",
+        "frameId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "hasUserGesture": false,
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.118487+00:00",
+      "kind": "request",
+      "data": {
+        "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+        "method": "GET",
+        "resourceType": "document",
+        "navigation": true,
+        "frame": {
+          "url": "about:blank",
+          "name": ""
+        },
+        "redirectedFrom": null,
+        "failure": null
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.118794+00:00",
+      "kind": "Network.requestWillBeSent",
+      "data": {
+        "requestId": "A2098650152453FBA791C3787B843994",
+        "loaderId": "A2098650152453FBA791C3787B843994",
+        "documentURL": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+        "request": {
+          "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+          "method": "GET",
+          "headers": {
+            "sec-ch-ua": "\"Not/A)Brand\";v=\"99\", \"Chromium\";v=\"148\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Linux\""
+          },
+          "mixedContentType": "none",
+          "initialPriority": "VeryHigh",
+          "referrerPolicy": "unsafe-url",
+          "isSameSite": true
+        },
+        "timestamp": 95396.02778,
+        "wallTime": 1795639944.117244,
+        "initiator": {
+          "type": "other"
+        },
+        "redirectHasExtraInfo": false,
+        "type": "Document",
+        "frameId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "hasUserGesture": false
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.121573+00:00",
+      "kind": "Network.responseReceived",
+      "data": {
+        "requestId": "A2098650152453FBA791C3787B843994",
+        "loaderId": "A2098650152453FBA791C3787B843994",
+        "timestamp": 95396.031011,
+        "type": "Document",
+        "response": {
+          "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "Content-Type": "text/html",
+            "Last-Modified": "Wed, 25 Nov 2026 20:52:13 GMT"
+          },
+          "mimeType": "text/html",
+          "charset": "",
+          "connectionReused": false,
+          "connectionId": 0,
+          "remoteIPAddress": "",
+          "remotePort": 0,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": -1,
+          "protocol": "file",
+          "alternateProtocolUsage": "alternativeJobWonWithoutRace",
+          "securityState": "secure"
+        },
+        "hasExtraInfo": false,
+        "frameId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.122154+00:00",
+      "kind": "response",
+      "data": {
+        "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+        "status": 200
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.122284+00:00",
+      "kind": "Network.responseReceived",
+      "data": {
+        "requestId": "A2098650152453FBA791C3787B843994",
+        "loaderId": "A2098650152453FBA791C3787B843994",
+        "timestamp": 95396.031072,
+        "type": "Document",
+        "response": {
+          "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "Content-Type": "text/html",
+            "Last-Modified": "Wed, 25 Nov 2026 20:52:13 GMT"
+          },
+          "mimeType": "text/html",
+          "charset": "",
+          "connectionReused": false,
+          "connectionId": 0,
+          "remoteIPAddress": "",
+          "remotePort": 0,
+          "fromDiskCache": false,
+          "fromServiceWorker": false,
+          "fromPrefetchCache": false,
+          "encodedDataLength": -1,
+          "protocol": "file",
+          "alternateProtocolUsage": "alternativeJobWonWithoutRace",
+          "securityState": "secure"
+        },
+        "hasExtraInfo": false,
+        "frameId": "977AA56C4ADA04EAE50EE1D1F689FE6E"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.125086+00:00",
+      "kind": "Page.frameNavigated",
+      "data": {
+        "frame": {
+          "id": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+          "loaderId": "A2098650152453FBA791C3787B843994",
+          "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+          "domainAndRegistry": "",
+          "securityOrigin": "file://",
+          "securityOriginDetails": {
+            "isLocalhost": false
+          },
+          "mimeType": "text/html",
+          "adFrameStatus": {
+            "adFrameType": "none"
+          },
+          "secureContextType": "Secure",
+          "crossOriginIsolatedContextType": "NotIsolated",
+          "gatedAPIFeatures": []
+        },
+        "type": "Navigation",
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.125837+00:00",
+      "kind": "frame-navigated",
+      "data": {
+        "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+        "name": ""
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.126047+00:00",
+      "kind": "Page.frameNavigated",
+      "data": {
+        "frame": {
+          "id": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+          "loaderId": "A2098650152453FBA791C3787B843994",
+          "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+          "domainAndRegistry": "",
+          "securityOrigin": "file://",
+          "securityOriginDetails": {
+            "isLocalhost": false
+          },
+          "mimeType": "text/html",
+          "adFrameStatus": {
+            "adFrameType": "none"
+          },
+          "secureContextType": "Secure",
+          "crossOriginIsolatedContextType": "NotIsolated",
+          "gatedAPIFeatures": []
+        },
+        "type": "Navigation"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.126928+00:00",
+      "kind": "Network.policyUpdated",
+      "data": {
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.129734+00:00",
+      "kind": "Network.dataReceived",
+      "data": {
+        "requestId": "A2098650152453FBA791C3787B843994",
+        "timestamp": 95396.036821,
+        "dataLength": 3188,
+        "encodedDataLength": 0,
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.129760+00:00",
+      "kind": "Network.loadingFinished",
+      "data": {
+        "requestId": "A2098650152453FBA791C3787B843994",
+        "timestamp": 95396.029893,
+        "encodedDataLength": 3188,
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.129890+00:00",
+      "kind": "Page.domContentEventFired",
+      "data": {
+        "timestamp": 95396.038506,
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.130192+00:00",
+      "kind": "target-changed",
+      "data": {
+        "targetInfo": {
+          "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+          "type": "page",
+          "title": "stdout.html",
+          "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+          "attached": true,
+          "canAccessOpener": false,
+          "browserContextId": "C308FE8EFE08A50D84FE454A23763E7A"
+        }
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.131517+00:00",
+      "kind": "Network.loadingFinished",
+      "data": {
+        "requestId": "A2098650152453FBA791C3787B843994",
+        "timestamp": 95396.029893,
+        "encodedDataLength": 3188
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.131852+00:00",
+      "kind": "requestfinished",
+      "data": {
+        "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+        "method": "GET",
+        "resourceType": "document",
+        "navigation": true,
+        "frame": {
+          "url": "file:///home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-html/stdout.html",
+          "name": ""
+        },
+        "redirectedFrom": null,
+        "failure": null
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.138933+00:00",
+      "kind": "Page.loadEventFired",
+      "data": {
+        "timestamp": 95396.039409,
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.138967+00:00",
+      "kind": "Page.frameStoppedLoading",
+      "data": {
+        "frameId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.894346+00:00",
+      "kind": "Page.frameResized",
+      "data": {
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    },
+    {
+      "at": "2026-11-25T20:52:24.894806+00:00",
+      "kind": "Page.frameResized",
+      "data": {
+        "sessionId": "C52FB851DD7DADE86349DB6ADCE0E78D",
+        "targetId": "977AA56C4ADA04EAE50EE1D1F689FE6E",
+        "source": "browser-autoattach"
+      }
+    }
+  ],
+  "coverage": {
+    "context": true,
+    "browserTargets": true,
+    "mainCDP": true,
+    "flattenedAutoAttach": true
+  },
+  "errors": [],
+  "excluded_other_contexts": []
+}

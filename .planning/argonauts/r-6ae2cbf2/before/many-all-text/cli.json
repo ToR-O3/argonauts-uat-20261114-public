@@ -1,0 +1,87 @@
+{
+  "id": "many-all-text",
+  "body": "zoo zoo apple apple pear pear mango mango lime lime kiwi kiwi plum plum berry berry melon melon peach peach grape grape fig fig beta beta beta",
+  "basename": "many-all.txt",
+  "options": [
+    "--max-count",
+    "2",
+    "--top",
+    "99",
+    "--format",
+    "text"
+  ],
+  "pairs": [
+    [
+      "zoo",
+      2
+    ],
+    [
+      "apple",
+      2
+    ],
+    [
+      "pear",
+      2
+    ],
+    [
+      "mango",
+      2
+    ],
+    [
+      "lime",
+      2
+    ],
+    [
+      "kiwi",
+      2
+    ],
+    [
+      "plum",
+      2
+    ],
+    [
+      "berry",
+      2
+    ],
+    [
+      "melon",
+      2
+    ],
+    [
+      "peach",
+      2
+    ],
+    [
+      "grape",
+      2
+    ],
+    [
+      "fig",
+      2
+    ]
+  ],
+  "total": 27,
+  "format": "text",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-text/private-source-directory/many-all.txt",
+    "--max-count",
+    "2",
+    "--top",
+    "99",
+    "--format",
+    "text"
+  ],
+  "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-text/private-source-directory/many-all.txt",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-text/stdout.bin",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before/many-all-text/stderr.bin",
+  "exit": 0,
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "views": []
+}
