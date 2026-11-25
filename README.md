@@ -1,6 +1,6 @@
 # argonauts-uat public
 
-Argonauts v1.10 acceptance test repository.
+テキストファイルの単語の出現回数を数えて、text・json・html の形式で出力する小さなコマンドラインツールです。
 
 ## wordfreq の実行
 
