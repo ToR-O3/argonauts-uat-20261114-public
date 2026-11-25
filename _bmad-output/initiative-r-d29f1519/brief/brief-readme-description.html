@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-field="title">README先頭説明文の明確化 — Brief</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #ecefec; --paper: #ffffff; --ink: #1c2321; --muted: #5f6b67; --rule: #d8dfdc;
+  --accent: #2c6e5a; --lead: #f3f7f5; --ask: #fff6e0; --ask-rule: #d9a521;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--page); }
+body { margin: 0; padding: 2rem 1rem 3rem; font: 16px/1.6 var(--sans); color: var(--ink); }
+main { max-width: 52rem; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule); box-shadow: 0 0.25rem 1.5rem rgb(0 0 0 / 6%); padding: 2.25rem 2.5rem 2.5rem; }
+header { padding-bottom: 1rem; border-bottom: 2px solid var(--ink); }
+.kicker { margin: 0 0 0.3rem; font: 700 0.72rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+h1 { margin: 0; font: 700 2.1rem/1.15 var(--serif); letter-spacing: -0.01em; }
+.meta { margin: 0.4rem 0 0; font-size: 0.85rem; color: var(--muted); }
+.meta span + span::before { content: " · "; }
+.lead { margin-top: 1.5rem; padding: 1.25rem 1.5rem; background: var(--lead); border-left: 4px solid var(--accent); font: 1.08rem/1.6 var(--serif); }
+.lead p { margin: 0 0 0.85rem; }
+.lead > div > :last-child > :last-child { margin-bottom: 0; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.75rem; margin-top: 1.75rem; }
+.grid section { min-width: 0; }
+.grid .wide { grid-column: 1 / -1; }
+section > h2 { margin: 0 0 0.5rem; padding-bottom: 0.3rem; border-bottom: 1px solid var(--rule); font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+section p, section ul, section ol { margin: 0 0 0.75rem; }
+section ul, section ol { padding-left: 1.2rem; }
+section h3 { margin: 0.9rem 0 0.3rem; font-size: 0.95rem; }
+.ask { margin-top: 1.75rem; padding: 1.1rem 1.4rem; background: var(--ask); border: 1px solid var(--ask-rule); border-radius: 0.35rem; }
+.ask > h2 { border: 0; padding: 0; color: #86630c; }
+.vision { margin-top: 1.75rem; font: italic 1.02rem/1.6 var(--serif); color: var(--muted); }
+.vision > h2 { font-style: normal; }
+.rest { margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); font-size: 0.95rem; }
+.rest h2 { margin: 0 0 0.5rem; font: 700 0.78rem/1.2 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; margin: 0 0 1rem; font-size: 0.88rem; }
+th, td { padding: 0.35rem 0.5rem; border: 1px solid var(--rule); text-align: left; vertical-align: top; }
+pre { white-space: pre-wrap; font: 0.9rem/1.5 var(--sans); margin: 0; }
+a { color: var(--accent); }
+@media (max-width: 40rem) {
+  body { padding: 1rem 0.75rem 2rem; }
+  main { padding: 1.5rem 1.25rem; }
+  h1 { font-size: 1.65rem; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media print {
+  html { background: none; }
+  body { padding: 0; }
+  main { border: 0; box-shadow: none; padding: 0; max-width: none; }
+  .grid section { break-inside: avoid; }
+}
+</style>
+<style>
+pre.fallback { white-space: pre-wrap; word-wrap: break-word; }
+
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">Product brief</p>
+    <h1 data-field="title">README先頭説明文の明確化 — Brief</h1>
+    <p class="meta"><span data-field="updated">2026-11-25</span><span data-field="status">final</span></p>
+  </header>
+  
+  <div class="grid">
+    
+    
+    
+    
+    
+    
+  </div>
+  
+  
+  <section class="rest" data-rest><div data-md="0"><pre class="fallback">## 目次
+
+- [要約 — revise=1と再承認](#要約)
+- [課題 — 元の依頼](#課題)
+- [解決案 — PM確定文](#解決案)
+- [選択肢との違い — 旧案の扱い](#選択肢との違い)
+- [対象読者 — 未確認仮説](#対象読者)
+- [成功基準 — 後続受入の全条件](#成功基準)
+- [範囲 — 工程と製品の境界](#範囲)
+- [前提 — 未確認仮説](#前提)
+- [未解決事項 — 未決なし](#未解決事項)
+
+## 要約
+
+依頼r-d29f1519、flow full、工程「要求・仕様」のrevise=1である。元版は `71b7a0a19992d03e63d2b71fbb85661c59aba159`。PM判断 `t_c5dd0fce completed run91` でREADME.mdの3行目は「Argonauts v1.10 の動作を確認するための公開受入テスト用リポジトリです。」と全基準に確定し、仕様承認工程 `t_296a5f28 completed run92` は文書整合の差戻し（changes_requested）とした。これはPM決定であり、依頼者が選択したとは記録しない。
+
+目的はREADME冒頭の用途を分かりやすくすること。初見の日本語読者を想定するが、読者像・今回実施する理由・改善率は未確認仮説である。追加調査は必須ではない。本書のfinalは文書更新完了を表し、再承認や実装・製品受入の完了ではない。revise=1の再承認後のみ計画へ進む。
+
+## 課題
+
+元の依頼は「README.md の先頭の1行の説明文を、もっと分かりやすい文に書き換える。新しい文をどうするかは、まだ決めていない。変えるのは README.md だけ。」である。未選定という記述は依頼当時の履歴であり、現行の決定状態ではない。READMEの1行目は `# argonauts-uat public`、3行目は `Argonauts v1.10 acceptance test repository.`。具体的な困りごと・損失は測定されていない。
+
+## 解決案
+
+後続実装で3行目だけを次の確定文へ置換する。
+
+&gt; Argonauts v1.10 の動作を確認するための公開受入テスト用リポジトリです。
+
+Argonauts v1.10・公開・受入テスト・リポジトリ・動作確認用途を一文にする。新機能を加えず、バージョンを更新も省略もしない。本工程ではREADMEを編集しない。
+
+## 選択肢との違い
+
+現状維持では書換え依頼に応えない。旧版のv1.10省略候補はPM決定で置き換えられたため、現行の候補・未決事項ではない。1行変更に限定し既存の対象と用途を保つ。市場優位性や新規性は主張しない。
+
+## 対象読者
+
+初見の日本語読者が冒頭だけで用途を判断する想定である。人物・優先読者は未確認。後続の利用者は再承認するPM、計画・実装担当、独立品質担当である。未確認事項は前提に集約し、内容選択の未決とはしない。
+
+## 成功基準
+
+以下は固定された後続製品受入基準であり、本工程では実装試験しない。すべて必要である。
+
+1. README.mdの3行目が解決案の確定文と完全一致する。
+2. 品質担当がその1行だけを読み、Argonauts v1.10・公開・受入テスト・リポジトリ・動作確認用途を、他節参照や専門語の補足なしで平易に言い換え、文字で記録する。要素の存在や文字列一致だけでは合格にしない。
+3. 原本 `69b97f1c9dfa7211367a9bdd0af885d80d8bf380` のREADME.mdの1–2行目と4行目以降を改行・末尾改行までバイト保持する。
+4. 全差分・staged・unstaged・untrackedを調べ、README以外の製品変更0、無関係な工程文書変更0を確認する。工程境界 `.planning/`、`openspec/`、`_bmad-output/`、`.compound-engineering/`、`docs/solutions/` は配置境界であり、領域を丸ごと検査除外しない。本依頼の工程成果物を明示リストで識別する。
+5. 実行コマンド・終了値・比較原本・対象head・判定を文字のVERIFICATION.md等へ記録する。機械検査と品質の言い換え記録の両方を残す。
+
+理解度改善率を創作しない。対象外行に既存差分がある場合は自動復元せず停止し、PMへ確認する。
+
+## 範囲
+
+製品変更は後続のREADME.mdの3行目だけ。本カードの編集は既存Brief／PRDの2run、initiativeの未決事項・改訂レビュー記録、本OpenSpec変更のproposal／design／tasksに限る。README・テストコード・無関係な工程成果物は変更しない。commit/pushと標準kanbanは親担当の範囲。外部handoffは実行しない。
+
+機能・構造変更がないためArchitecture不要。wordfreq、新機能、見出し・空行・他行の整形は範囲外。The askはスポンサー案件でなく対象外、Visionは任意で1行変更に不要なため対象外。JohnのUPDATEによるPRD更新は本改訂で実施済み。残る手順は改訂仕様の再承認を経て計画へ進むことである。
+
+## 前提
+
+- A4（対象読者・課題）: [ASSUMPTION: 初見の日本語読者を想定。読者像・実施理由・理解容易性の改善および改善率は未確認。追加調査は必須ではない。]
+- 旧A1〜A3の文案・版省略・基準の問いは上記PM決定と今回の固定入力により解決済み。過去memlog／reviewは当時の記録として保持する。
+
+## 未解決事項
+
+未決なし。文案・版・基準は確定しており、仮説は追加の内容選択を要求しない。改訂文書の再承認gateは未実施であるが、未解決内容の問いではない。再承認前に計画・実装へ進まない。</pre></div></section>
+</main>
+<script type="application/json" id="view-data">{"layout": "view", "slots": ["## 目次\n\n- [要約 — revise=1と再承認](#要約)\n- [課題 — 元の依頼](#課題)\n- [解決案 — PM確定文](#解決案)\n- [選択肢との違い — 旧案の扱い](#選択肢との違い)\n- [対象読者 — 未確認仮説](#対象読者)\n- [成功基準 — 後続受入の全条件](#成功基準)\n- [範囲 — 工程と製品の境界](#範囲)\n- [前提 — 未確認仮説](#前提)\n- [未解決事項 — 未決なし](#未解決事項)\n\n## 要約\n\n依頼r-d29f1519、flow full、工程「要求・仕様」のrevise=1である。元版は `71b7a0a19992d03e63d2b71fbb85661c59aba159`。PM判断 `t_c5dd0fce completed run91` でREADME.mdの3行目は「Argonauts v1.10 の動作を確認するための公開受入テスト用リポジトリです。」と全基準に確定し、仕様承認工程 `t_296a5f28 completed run92` は文書整合の差戻し（changes_requested）とした。これはPM決定であり、依頼者が選択したとは記録しない。\n\n目的はREADME冒頭の用途を分かりやすくすること。初見の日本語読者を想定するが、読者像・今回実施する理由・改善率は未確認仮説である。追加調査は必須ではない。本書のfinalは文書更新完了を表し、再承認や実装・製品受入の完了ではない。revise=1の再承認後のみ計画へ進む。\n\n## 課題\n\n元の依頼は「README.md の先頭の1行の説明文を、もっと分かりやすい文に書き換える。新しい文をどうするかは、まだ決めていない。変えるのは README.md だけ。」である。未選定という記述は依頼当時の履歴であり、現行の決定状態ではない。READMEの1行目は `# argonauts-uat public`、3行目は `Argonauts v1.10 acceptance test repository.`。具体的な困りごと・損失は測定されていない。\n\n## 解決案\n\n後続実装で3行目だけを次の確定文へ置換する。\n\n\u003e Argonauts v1.10 の動作を確認するための公開受入テスト用リポジトリです。\n\nArgonauts v1.10・公開・受入テスト・リポジトリ・動作確認用途を一文にする。新機能を加えず、バージョンを更新も省略もしない。本工程ではREADMEを編集しない。\n\n## 選択肢との違い\n\n現状維持では書換え依頼に応えない。旧版のv1.10省略候補はPM決定で置き換えられたため、現行の候補・未決事項ではない。1行変更に限定し既存の対象と用途を保つ。市場優位性や新規性は主張しない。\n\n## 対象読者\n\n初見の日本語読者が冒頭だけで用途を判断する想定である。人物・優先読者は未確認。後続の利用者は再承認するPM、計画・実装担当、独立品質担当である。未確認事項は前提に集約し、内容選択の未決とはしない。\n\n## 成功基準\n\n以下は固定された後続製品受入基準であり、本工程では実装試験しない。すべて必要である。\n\n1. README.mdの3行目が解決案の確定文と完全一致する。\n2. 品質担当がその1行だけを読み、Argonauts v1.10・公開・受入テスト・リポジトリ・動作確認用途を、他節参照や専門語の補足なしで平易に言い換え、文字で記録する。要素の存在や文字列一致だけでは合格にしない。\n3. 原本 `69b97f1c9dfa7211367a9bdd0af885d80d8bf380` のREADME.mdの1–2行目と4行目以降を改行・末尾改行までバイト保持する。\n4. 全差分・staged・unstaged・untrackedを調べ、README以外の製品変更0、無関係な工程文書変更0を確認する。工程境界 `.planning/`、`openspec/`、`_bmad-output/`、`.compound-engineering/`、`docs/solutions/` は配置境界であり、領域を丸ごと検査除外しない。本依頼の工程成果物を明示リストで識別する。\n5. 実行コマンド・終了値・比較原本・対象head・判定を文字のVERIFICATION.md等へ記録する。機械検査と品質の言い換え記録の両方を残す。\n\n理解度改善率を創作しない。対象外行に既存差分がある場合は自動復元せず停止し、PMへ確認する。\n\n## 範囲\n\n製品変更は後続のREADME.mdの3行目だけ。本カードの編集は既存Brief／PRDの2run、initiativeの未決事項・改訂レビュー記録、本OpenSpec変更のproposal／design／tasksに限る。README・テストコード・無関係な工程成果物は変更しない。commit/pushと標準kanbanは親担当の範囲。外部handoffは実行しない。\n\n機能・構造変更がないためArchitecture不要。wordfreq、新機能、見出し・空行・他行の整形は範囲外。The askはスポンサー案件でなく対象外、Visionは任意で1行変更に不要なため対象外。JohnのUPDATEによるPRD更新は本改訂で実施済み。残る手順は改訂仕様の再承認を経て計画へ進むことである。\n\n## 前提\n\n- A4（対象読者・課題）: [ASSUMPTION: 初見の日本語読者を想定。読者像・実施理由・理解容易性の改善および改善率は未確認。追加調査は必須ではない。]\n- 旧A1〜A3の文案・版省略・基準の問いは上記PM決定と今回の固定入力により解決済み。過去memlog／reviewは当時の記録として保持する。\n\n## 未解決事項\n\n未決なし。文案・版・基準は確定しており、仮説は追加の内容選択を要求しない。改訂文書の再承認gateは未実施であるが、未解決内容の問いではない。再承認前に計画・実装へ進まない。"]}</script>
+<script>
+var MARKED_SRC = "https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js";
+var MERMAID_SRC = "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js";
+var PRESENTER_HTML = "\u003c!doctype html\u003e\u003chtml\u003e\u003chead\u003e\u003cmeta charset=\"utf-8\"\u003e\u003ctitle\u003eSpeaker notes\u003c/title\u003e\u003cstyle\u003e\n:root { color-scheme: light dark; --bg: #ffffff; --fg: #1f2328; --muted: #59636e; }\n@media (prefers-color-scheme: dark) { :root { --bg: #15181d; --fg: #e3e6ea; --muted: #9aa3ad; } }\nbody { margin: 0; padding: 1.2em 1.6em; background: var(--bg); color: var(--fg);\n  font: 20px/1.55 -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Arial, sans-serif; }\nheader { display: flex; justify-content: space-between; color: var(--muted); font-size: 15px; }\nh1 { font-size: 1.3em; margin: 0.4em 0 0.8em; }\n#next { color: var(--muted); font-size: 15px; border-top: 1px solid var(--muted); padding-top: 0.6em; margin-top: 1.5em; }\n.empty { color: var(--muted); }\npre { white-space: pre-wrap; font: inherit; }\n\u003c/style\u003e\u003c/head\u003e\u003cbody\u003e\u003cheader\u003e\u003cspan id=\"section\"\u003e\u003c/span\u003e\u003cspan id=\"pos\"\u003e\u003c/span\u003e\u003c/header\u003e\n\u003ch1 id=\"title\"\u003e\u003c/h1\u003e\u003cdiv id=\"notes\"\u003e\u003c/div\u003e\u003cdiv id=\"next\"\u003e\u003c/div\u003e\u003c/body\u003e\u003c/html\u003e";
+
+(function () {
+  var data = JSON.parse(document.getElementById('view-data').textContent);
+  var hasMarked = false;
+
+  function md(text) { return hasMarked ? window.marked.parse(text) : null; }
+  function inline(text) { return hasMarked ? window.marked.parseInline(text) : null; }
+
+  function load(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = src; s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  function drawDiagrams() {
+    var blocks = document.querySelectorAll('pre > code.language-mermaid');
+    if (!blocks.length) return;
+    var nodes = [];
+    blocks.forEach(function (code) {
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = code.textContent;
+      code.parentNode.replaceWith(div);
+      nodes.push(div);
+    });
+    load(MERMAID_SRC).then(function () {
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      window.mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'strict' });
+      return window.mermaid.run({ nodes: nodes, suppressErrors: true });
+    }).catch(function () {
+      nodes.forEach(function (div) {
+        if (div.querySelector('svg')) return;
+        var pre = document.createElement('pre');
+        pre.className = 'fallback';
+        pre.textContent = div.textContent;
+        div.replaceWith(pre);
+      });
+    });
+  }
+
+  function renderDocument() {
+    var html = md(data.markdown);
+    if (html === null) return;
+    var doc = document.getElementById('doc');
+    doc.innerHTML = html;
+    // marked adds no heading ids, and table-of-contents links need GitHub's anchors.
+    var seen = {};
+    doc.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (h) {
+      var base = h.textContent.trim().toLowerCase().replace(/[^\p{L}\p{N}_\- ]/gu, '').replace(/ /g, '-');
+      h.id = seen[base] ? base + '-' + seen[base] : base;
+      seen[base] = (seen[base] || 0) + 1;
+    });
+  }
+
+  function renderSlides() {
+    document.querySelectorAll('.slide').forEach(function (el, i) {
+      var s = data.slides[i];
+      var t = inline(s.title);
+      if (t !== null) el.querySelector('.slide-title').innerHTML = t;
+      var b = md(s.body);
+      if (b !== null) el.querySelector('.slide-body').innerHTML = b;
+    });
+  }
+
+  function notesHtml(i) {
+    var s = data.slides[i];
+    if (!s.notes) return '<p class="empty">No notes for this slide.</p>';
+    var h = md(s.notes);
+    if (h !== null) return h;
+    var pre = document.createElement('pre');
+    pre.className = 'fallback';
+    pre.textContent = s.notes;
+    return pre.outerHTML;
+  }
+
+  function startDeck() {
+    var slides = document.querySelectorAll('.slide');
+    var total = slides.length;
+    var current = 0;
+    var panel = document.getElementById('notes-panel');
+    var counter = document.getElementById('counter');
+    var presenter = null;
+    document.body.classList.add('slides');
+
+    function fromHash() {
+      var m = /^#(\d+)$/.exec(location.hash);
+      if (!m) return null;
+      var n = parseInt(m[1], 10);
+      return n >= 1 && n <= total ? n - 1 : null;
+    }
+
+    function updatePresenter() {
+      if (!presenter || presenter.closed) return;
+      var d = presenter.document;
+      var s = data.slides[current];
+      d.getElementById('pos').textContent = (current + 1) + ' / ' + total;
+      d.getElementById('section').textContent = s.section && s.section !== s.title ? s.section : '';
+      d.getElementById('title').innerHTML = slides[current].querySelector('.slide-title').innerHTML;
+      d.getElementById('notes').innerHTML = notesHtml(current);
+      d.getElementById('next').textContent = current + 1 < total ? 'Next: ' + data.slides[current + 1].title : 'Last slide';
+    }
+
+    function show(i) {
+      if (!total) return;
+      current = Math.max(0, Math.min(total - 1, i));
+      slides.forEach(function (el, j) { el.classList.toggle('active', j === current); });
+      counter.textContent = (current + 1) + ' / ' + total;
+      if (!panel.hidden) panel.innerHTML = notesHtml(current);
+      // Some browsers refuse replaceState on file:// pages.
+      try { if (location.hash !== '#' + (current + 1)) history.replaceState(null, '', '#' + (current + 1)); } catch (e) {}
+      updatePresenter();
+    }
+
+    function toggleNotes() {
+      panel.hidden = !panel.hidden;
+      if (!panel.hidden) panel.innerHTML = notesHtml(current);
+    }
+
+    function openPresenter() {
+      if (presenter && !presenter.closed) { presenter.focus(); return; }
+      presenter = window.open('', 'deck-presenter', 'width=760,height=600');
+      if (!presenter) { toggleNotes(); return; }
+      var d = presenter.document;
+      d.open();
+      d.write(PRESENTER_HTML);
+      d.close();
+      d.addEventListener('keydown', onKey);
+      updatePresenter();
+    }
+
+    function onKey(e) {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      var k = e.key;
+      if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) show(current + 1);
+      else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || (k === ' ' && e.shiftKey)) show(current - 1);
+      else if (k === 'Home') show(0);
+      else if (k === 'End') show(total - 1);
+      else if (k === 'n' || k === 'N') toggleNotes();
+      else if (k === 'p' || k === 'P') openPresenter();
+      else if (k === 'f' || k === 'F') {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+      } else return;
+      e.preventDefault();
+    }
+
+    document.addEventListener('keydown', onKey);
+    document.getElementById('deck').addEventListener('click', function (e) {
+      if (e.target.closest('a') || String(window.getSelection())) return;
+      show(e.clientX < window.innerWidth / 3 ? current - 1 : current + 1);
+    });
+    window.addEventListener('hashchange', function () {
+      var n = fromHash();
+      if (n !== null && n !== current) show(n);
+    });
+    window.addEventListener('beforeunload', function () { if (presenter && !presenter.closed) presenter.close(); });
+    var start = fromHash();
+    show(start === null ? 0 : start);
+  }
+
+  function renderSlots() {
+    document.querySelectorAll('[data-md]').forEach(function (el) {
+      var h = md(data.slots[+el.getAttribute('data-md')]);
+      if (h !== null) el.innerHTML = h;
+    });
+  }
+
+  function renderAll() {
+    if (data.layout === 'slides') renderSlides();
+    else if (data.layout === 'view') renderSlots();
+    else renderDocument();
+    if (hasMarked) drawDiagrams();
+  }
+
+  if (data.layout === 'slides') startDeck();
+  // A document can carry text from outside sources, so raw HTML shows as text and script URLs are dropped.
+  function escapeHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function unsafeUrl(href) {
+    var h = String(href || '').replace(/[\s\u0000-\u001f]/g, '').toLowerCase();
+    return /^(javascript|vbscript):/.test(h) || (/^data:/.test(h) && !/^data:image\/(png|gif|jpe?g|webp);/.test(h));
+  }
+  function harden() {
+    window.marked.use({ renderer: {
+      html: function (h) { return escapeHtml(h); },
+      link: function (href, title, text) { return unsafeUrl(href) ? text : false; },
+      image: function (href, title, text) { return unsafeUrl(href) ? escapeHtml(text) : false; }
+    } });
+  }
+
+  load(MARKED_SRC).then(function () { hasMarked = !!window.marked; if (hasMarked) harden(); }, function () {}).then(renderAll);
+})();
+
+</script>
+</body>
+</html>

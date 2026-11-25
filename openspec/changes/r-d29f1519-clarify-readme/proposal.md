@@ -2,32 +2,35 @@
 
 ## Why
 
-依頼者はREADMEの先頭の説明文をもっと分かりやすくしたいが、新文はまだ選択していない。現物の3行目 `Argonauts v1.10 acceptance test repository.` を、何のための公開リポジトリかが一文で分かる日本語へ明確化することを提案する。実施時機の理由・理解度の実測は未確認である。
+依頼はREADME先頭の説明文をもっと分かりやすくすることである。現物の3行目 `Argonauts v1.10 acceptance test repository.` を、対象版と公開受入テストの用途を保持した日本語へ明確化する。読者像・実施時機の理由・理解度の改善率は未確認の仮説であり、追加調査は必須にしない。
 
 ## What Changes
 
-- 製品変更はREADME.mdの3行目だけ。1行目の見出しは対象外。
-- 文案（未承認）: `Argonauts の動作を確認するための公開受入テスト用リポジトリです。`
-- 対象Argonauts、公開であること、受入テストの用途を現物から引き継ぐ。最新版へのバージョン更新はしない。候補による `v1.10` の省略は個別に承認を求める。
-- 受入基準案: 承認文との完全一致、当該1行の意味・用途の判別、READMEの他バイトとREADME以外の製品ファイルの保持。品質は専門語の補足や他節参照なしで用途を平易に言い換え、5要素の包含だけで明確化を合格にしない。
-- 最終文・バージョンの扱い・検証基準・承認者・文書版を仕様承認で一組として確定する。依頼者が提案を選択したとは扱わない。
+- 製品変更はREADME.mdの3行目だけ。確定文字列は `Argonauts v1.10 の動作を確認するための公開受入テスト用リポジトリです。`。
+- PM判断 `t_c5dd0fce` completed run91、仕様承認 `t_296a5f28` completed run92の差戻しを反映した文書版revise=1。対象は元版 `71b7a0a19992d03e63d2b71fbb85661c59aba159` の本変更とBMAD Brief/PRD。v1.10の更新・省略はしない。これはPM決定であり、依頼者が文を選んだとの記録ではない。
+- 元版の版省略候補・未決事項は現行決定ではない。過去のGit履歴、memlog、reviewを保持し、今回の決定と区別する。文案・版・基準の選択は解決済みだが、本改訂の再承認後にだけ計画へ進む。ここではREADMEを編集しない。
+- 受入条件（すべて必須）:
+  1. README.mdの3行目が上記確定文字列と完全一致する。
+  2. 品質が当該1行だけからArgonauts v1.10・公開・受入テスト・リポジトリ・動作確認の用途を読み取り、他節参照や補足なしで平易に言い換え、結果を文字で記録する。要素の存在・完全一致だけで明確化を合格にしない。
+  3. 原本 `69b97f1c9dfa7211367a9bdd0af885d80d8bf380` の1–2行目と4行目以降を改行・末尾改行までバイト保持する。
+  4. README以外の製品変更0、無関係な工程文書変更0を全差分とstaged/unstaged/untrackedで確認する。
+  5. 実行コマンド・終了値・原本・対象headと判定を文字の検証文書に残す。
 
 ## Capabilities
 
 ### New Capabilities
 
-なし。文書だけの変更で、新しい製品動作はない。
+なし。文書のみの変更で、新しい製品動作はない。
 
 ### Modified Capabilities
 
-なし。既存 `readme-validation-b` はREADME末尾の指定行の保持を要求し、今回その行を変更しない。`wordfreq-cli` の機能変更もない。
+なし。既存 `readme-validation-b` のREADME末尾指定行を保持し、`wordfreq-cli` の機能も変更しない。
 
-`openspec instructions proposal` の文書のみの変更に対する指示に従い `.openspec.yaml` に `skip_specs: true` を指定する。架空の製品要件を作らず、詳細な文案・検証案は本proposal、design、tasksとBMAD PRDに残す。
+公式instructionsが指示する文書のみ・spec-level動作変更なしの分岐として、既存 `.openspec.yaml` の `skip_specs: true` を維持する。specsはskippedであり、架空の機能要件を追加しない。詳細は本proposal、design、tasksとBMAD PRDに残す。
 
 ## Impact
 
-- 製品: README.mdの1行だけ。コード・API・依存・CI・設定の変更なし。現段階ではREADMEを編集しない。
-- 原本: `69b97f1c9dfa7211367a9bdd0af885d80d8bf380` のREADME。1–2行目と4行目以降（改行・末尾改行を含む）をバイト単位で保持する。
-- 工程文書: `.planning/`、`openspec/`、`_bmad-output/`、`.compound-engineering/`、`docs/solutions/` は配置境界。本依頼の成果物のみを明示して識別し、領域丸ごとの除外で無関係な変更を見逃さない。
-- BMAD: `_bmad-output/initiative-r-d29f1519/brief/brief-readme-description.md`、`_bmad-output/initiative-r-d29f1519/prd/prd-readme-description.md`。
-- 未決事項: 文案、v1.10省略、検証基準の採否。読者像・実施理由は未確認の仮説であり、追加調査を勝手に必須にしない。`_bmad-output/initiative-r-d29f1519/open-questions.md` に集約して仕様承認へ渡す。
+- コード・API・依存・CI・設定変更なし。製品は将来のREADME説明文1行のみ。
+- 工程文書の配置境界: `.planning/`、`openspec/`、`_bmad-output/`、`.compound-engineering/`、`docs/solutions/`。本依頼の成果物を個別識別し、領域全体を検査除外しない。
+- BMAD: `_bmad-output/initiative-r-d29f1519/brief/brief-readme-description.md`、`_bmad-output/initiative-r-d29f1519/prd/prd-readme-description.md`（ともにrevise=1）。
+- 内容選択の未決事項なし。未確認の読者像・実施理由・改善率を事実に変えず、再承認gateと区別する。

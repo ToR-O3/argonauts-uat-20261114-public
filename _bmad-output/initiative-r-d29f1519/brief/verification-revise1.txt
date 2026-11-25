@@ -1,0 +1,107 @@
+# revise=1 document verification (not implementation tests)
+$ git rev-parse HEAD
+71b7a0a19992d03e63d2b71fbb85661c59aba159
+exit=0
+$ git rev-parse 69b97f1c9dfa7211367a9bdd0af885d80d8bf380:README.md
+3625ed42efa55c9929e47952698c25decd5050b7
+exit=0
+$ git hash-object README.md
+3625ed42efa55c9929e47952698c25decd5050b7
+exit=0
+$ git diff --check
+exit=0
+$ git diff --name-status 69b97f1c9dfa7211367a9bdd0af885d80d8bf380
+A	_bmad-output/initiative-r-d29f1519/brief/.memlog.md
+A	_bmad-output/initiative-r-d29f1519/brief/.template.md
+A	_bmad-output/initiative-r-d29f1519/brief/brief-readme-description.md
+A	_bmad-output/initiative-r-d29f1519/brief/review-editorial.md
+A	_bmad-output/initiative-r-d29f1519/brief/review-finalize.md
+A	_bmad-output/initiative-r-d29f1519/brief/review-fresh-reader.md
+A	_bmad-output/initiative-r-d29f1519/brief/review-reconciliation.md
+A	_bmad-output/initiative-r-d29f1519/brief/review-rubric.md
+A	_bmad-output/initiative-r-d29f1519/independent-review.md
+A	_bmad-output/initiative-r-d29f1519/open-questions.md
+A	_bmad-output/initiative-r-d29f1519/prd/.memlog.md
+A	_bmad-output/initiative-r-d29f1519/prd/.template.md
+A	_bmad-output/initiative-r-d29f1519/prd/prd-readme-description.md
+A	_bmad-output/initiative-r-d29f1519/prd/review-editorial.md
+A	_bmad-output/initiative-r-d29f1519/prd/review-finalize.md
+A	_bmad-output/initiative-r-d29f1519/prd/review-fresh-reader.md
+A	_bmad-output/initiative-r-d29f1519/prd/review-reconciliation.md
+A	_bmad-output/initiative-r-d29f1519/prd/review-rubric.md
+A	openspec/changes/r-d29f1519-clarify-readme/.openspec.yaml
+A	openspec/changes/r-d29f1519-clarify-readme/design.md
+A	openspec/changes/r-d29f1519-clarify-readme/proposal.md
+A	openspec/changes/r-d29f1519-clarify-readme/tasks.md
+exit=0
+$ git diff --name-status HEAD
+M	_bmad-output/initiative-r-d29f1519/brief/.memlog.md
+M	_bmad-output/initiative-r-d29f1519/brief/brief-readme-description.md
+M	_bmad-output/initiative-r-d29f1519/open-questions.md
+M	_bmad-output/initiative-r-d29f1519/prd/.memlog.md
+M	_bmad-output/initiative-r-d29f1519/prd/prd-readme-description.md
+exit=0
+$ git diff --cached --name-status
+exit=0
+$ git diff --name-status
+M	_bmad-output/initiative-r-d29f1519/brief/.memlog.md
+M	_bmad-output/initiative-r-d29f1519/brief/brief-readme-description.md
+M	_bmad-output/initiative-r-d29f1519/open-questions.md
+M	_bmad-output/initiative-r-d29f1519/prd/.memlog.md
+M	_bmad-output/initiative-r-d29f1519/prd/prd-readme-description.md
+exit=0
+$ git ls-files --others --exclude-standard
+_bmad-output/initiative-r-d29f1519/brief/brief-readme-description.html
+_bmad-output/initiative-r-d29f1519/brief/review-fresh-reader-revise1.md
+_bmad-output/initiative-r-d29f1519/brief/review-prose-revise1.md
+_bmad-output/initiative-r-d29f1519/brief/review-reconciliation-revise1.md
+_bmad-output/initiative-r-d29f1519/brief/review-rubric-revise1.md
+_bmad-output/initiative-r-d29f1519/brief/review-structure-revise1.md
+_bmad-output/initiative-r-d29f1519/brief/verification-revise1.txt
+_bmad-output/initiative-r-d29f1519/prd/review-fresh-reader-revise1.md
+_bmad-output/initiative-r-d29f1519/prd/review-prose-revise1.md
+_bmad-output/initiative-r-d29f1519/prd/review-reconciliation-revise1.md
+_bmad-output/initiative-r-d29f1519/prd/review-rubric-revise1.md
+_bmad-output/initiative-r-d29f1519/prd/review-structure-revise1.md
+exit=0
+$ check_ids.py brief
+{
+  "undefined": {},
+  "unknown_prefix": {},
+  "duplicate": {},
+  "withdrawn": {},
+  "toc": {
+    "missing": {},
+    "stale": {},
+    "out_of_order": []
+  },
+  "counts": {}
+}
+exit=0
+$ check_ids.py prd
+{
+  "undefined": {},
+  "unknown_prefix": {},
+  "duplicate": {},
+  "withdrawn": {},
+  "toc": {
+    "missing": {},
+    "stale": {},
+    "out_of_order": []
+  },
+  "counts": {
+    "FR": {
+      "defined": 1,
+      "referenced": 1
+    },
+    "RULE": {
+      "defined": 4,
+      "referenced": 4
+    },
+    "SM": {
+      "defined": 3,
+      "referenced": 3
+    }
+  }
+}
+exit=0
