@@ -1,0 +1,52 @@
+.............E
+==================================== ERRORS ====================================
+______ ERROR at setup of test_browser_free_capture_damage_rejected[head] _______
+
+tmp_path_factory = TempPathFactory(_given_basetemp=None, _trace=<pluggy._tracing.TagTracerSub object at 0x791f4cb44890>, _basetemp=PosixP.../profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-122'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope='module')
+    def collected_capture(tmp_path_factory):
+        # Fixture only: real CLI bytes, deliberately incomplete suite, never acceptance.
+        from unittest.mock import patch
+        d = driver()
+        target = tmp_path_factory.mktemp('max-contract') / 'capture'
+        with patch.dict('os.environ', HERMES_PROFILE='argonauts-uat-builder',
+                        HERMES_HOME='/fixture/argonauts-uat-builder'):
+>           d.collect_capture(target, 'builder', ROOT / d.BASELINE)
+
+tests/test_max_count_verifier.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/verify_wordfreq_max_count.py:365: in collect_capture
+    save_json(output/'scope.json', validate_scope())
+                                   ^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+repo = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4')
+base = '8efbfaa1907ace272a4f685e2659144a4085d303'
+
+    def validate_scope(repo=ROOT, base=START):
+        repo = Path(repo)
+    
+        def run(*args):
+            return subprocess.run(['git', *args], cwd=repo, capture_output=True,
+                                  check=True, timeout=20).stdout
+    
+        changed = run('diff', '--name-only', '-z', '--no-renames', base).decode().split('\0')
+        changed += run('ls-files', '--others', '--exclude-standard', '-z').decode().split('\0')
+        changed = sorted(set(p for p in changed if p))
+        exact = {'wordfreq/__main__.py', 'tests/test_cli.py', 'README.md',
+                 'tools/verify_wordfreq_max_count.py', 'tests/test_max_count_verifier.py',
+                 'docs/wordfreq-max-count-verification.md', '.planning/STATE.md',
+                 '.planning/ROADMAP.md', '.planning/REQUIREMENTS.md'}
+        prefixes = ('.planning/argonauts/r-d4bcda40', '.planning/phases/07-wordfreq-max-count/',
+                    'openspec/changes/r-d4bcda40-max-count/')
+        for path in changed:
+            if path not in exact and not path.startswith(prefixes):
+>               raise ValueError('out-of-scope path: '+path)
+E               ValueError: out-of-scope path: .planning/state.json
+
+tools/verify_wordfreq_max_count.py:481: ValueError
+=========================== short test summary info ============================
+ERROR tests/test_max_count_verifier.py::test_browser_free_capture_damage_rejected[head]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+13 passed, 5 deselected, 1 error in 0.73s

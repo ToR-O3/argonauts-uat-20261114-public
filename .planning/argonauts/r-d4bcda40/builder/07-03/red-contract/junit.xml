@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.040" timestamp="2026-11-25T22:31:53.723754+09:00" hostname="Ys-Minify"><testcase classname="tests.test_max_count_verifier" name="test_evidence_contract_runbook_exists" time="0.000"><failure message="AssertionError: max runbook missing&#10;assert False&#10; +  where False = is_file()&#10; +    where is_file = (PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4') / 'docs/wordfreq-max-count-verification.md').is_file">def test_evidence_contract_runbook_exists():
+&gt;       assert (ROOT / 'docs/wordfreq-max-count-verification.md').is_file(), 'max runbook missing'
+E       AssertionError: max runbook missing
+E       assert False
+E        +  where False = is_file()
+E        +    where is_file = (PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4') / 'docs/wordfreq-max-count-verification.md').is_file
+
+tests/test_max_count_verifier.py:179: AssertionError</failure></testcase><testcase classname="tests.test_max_count_verifier" name="test_scope_contract_api" time="0.003"><failure message="AssertionError: scope validator missing&#10;assert False&#10; +  where False = hasattr(&lt;module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'&gt;, 'validate_scope')&#10; +    where &lt;module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'&gt; = driver()">def test_scope_contract_api():
+&gt;       assert hasattr(driver(), 'validate_scope'), 'scope validator missing'
+E       AssertionError: scope validator missing
+E       assert False
+E        +  where False = hasattr(&lt;module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'&gt;, 'validate_scope')
+E        +    where &lt;module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'&gt; = driver()
+
+tests/test_max_count_verifier.py:183: AssertionError</failure></testcase></testsuite></testsuites>

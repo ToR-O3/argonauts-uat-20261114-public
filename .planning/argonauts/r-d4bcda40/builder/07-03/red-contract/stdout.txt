@@ -1,0 +1,26 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+____________________ test_evidence_contract_runbook_exists _____________________
+
+    def test_evidence_contract_runbook_exists():
+>       assert (ROOT / 'docs/wordfreq-max-count-verification.md').is_file(), 'max runbook missing'
+E       AssertionError: max runbook missing
+E       assert False
+E        +  where False = is_file()
+E        +    where is_file = (PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4') / 'docs/wordfreq-max-count-verification.md').is_file
+
+tests/test_max_count_verifier.py:179: AssertionError
+___________________________ test_scope_contract_api ____________________________
+
+    def test_scope_contract_api():
+>       assert hasattr(driver(), 'validate_scope'), 'scope validator missing'
+E       AssertionError: scope validator missing
+E       assert False
+E        +  where False = hasattr(<module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'>, 'validate_scope')
+E        +    where <module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'> = driver()
+
+tests/test_max_count_verifier.py:183: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_max_count_verifier.py::test_evidence_contract_runbook_exists
+FAILED tests/test_max_count_verifier.py::test_scope_contract_api - AssertionE...
+2 failed, 35 deselected in 0.11s

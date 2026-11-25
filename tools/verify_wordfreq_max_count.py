@@ -14,6 +14,7 @@ import platform
 import subprocess
 import sys
 import time
+from typing import Any
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -272,12 +273,334 @@ def validate_red(root):
     return result
 
 
+CAPTURE = Path('.planning/argonauts/r-d4bcda40/builder/07-03/capture')
+DECISION = 't_87068596/default/1795609328'
+AC_REQ = {'AC1': ['REQ-23', 'REQ-26'], 'AC2': ['REQ-24', 'REQ-25'],
+          'AC3': ['REQ-24', 'REQ-25', 'REQ-26'], 'AC4': ['REQ-27'],
+          'AC5': ['REQ-28'], 'AC6': ['REQ-26', 'REQ-27']}
+
+
+def build_capture_cases():
+    # Literal spec oracles, independent of product parsing, sorting and formatting.
+    cases = []
+    for baseline in build_baseline_cases():
+        cases.append(dict(baseline, oracle=baseline['id']))
+        cases.append(dict(baseline, id='large-'+baseline['id'],
+                          options=baseline['options']+['--max-count', '1000000'],
+                          oracle=baseline['id']))
+
+    def add(name, body, pairs, total, options):
+        for fmt in ('text', 'json', 'html'):
+            cases.append(dict(id=name+'-'+fmt, body=body, pairs=[list(p) for p in pairs],
+                              total=total, options=[*options, '--format', fmt],
+                              basename='input.txt', format=fmt))
+
+    normal = 'beta beta beta alpha gamma alpha delta'
+    add('max1', normal, [('gamma', 1), ('delta', 1)], 7, ['--max-count', '1'])
+    add('max2', normal, [('alpha', 2), ('gamma', 1), ('delta', 1)], 7, ['--max-count', '2'])
+    for maximum, pairs in [('2', [('alpha', 2)]), ('3', [('beta', 3), ('alpha', 2)])]:
+        for reverse in (False, True):
+            options = ['--min-count', '2', '--max-count', maximum]
+            if reverse:
+                options = options[2:]+options[:2]
+            add('min2max'+maximum+('-reverse' if reverse else ''), normal, pairs, 7, options)
+    add('top1', normal, [('alpha', 2)], 7, ['--max-count', '2', '--top', '1'])
+    add('triple', 'beta beta beta beta zoo zoo zoo apple apple pear pear single',
+        [('zoo', 3)], 12, ['--min-count', '2', '--max-count', '3', '--top', '1'])
+    for name, options in [('zero', ['--max-count', '0']),
+                          ('negative', ['--max-count=-1']),
+                          ('inverted', ['--min-count', '3', '--max-count', '2'])]:
+        add(name, normal, [], 7, options)
+    for name, text in [('empty-max', ''), ('whitespace-max', ' \t\n\r  '),
+                       ('punctuation-max', '!?,.;: --')]:
+        add(name, text, [], 0, ['--max-count', '2'])
+    for top in ('1', '2'):
+        add('tie'+top, 'Zoo apple APPLE zoo banana', [('zoo', 2), ('apple', 2)][:int(top)],
+            5, ['--min-count', '2', '--max-count', '2', '--top', top])
+    unicode_body = 'Straße STRASSE 日本語 日本語'
+    add('unicode-empty', unicode_body, [], 4, ['--max-count', '1'])
+    add('unicode-selected', unicode_body, [('strasse', 2), ('日本語', 2)], 4,
+        ['--min-count', '2', '--max-count', '2'])
+    words = ['zoo', 'apple', 'pear', 'cherry', 'dog', 'eel', 'fox', 'goat', 'horse', 'ibis', 'jay', 'koala']
+    many = ' '.join(['excluded']*3 + [w for w in words for _ in range(2)])
+    for name, options, selected in [('many', [], words[:10]), ('many-all', ['--top', '99'], words)]:
+        add(name, many, [(w, 2) for w in selected], 27, ['--max-count', '2', *options])
+    return cases
+
+
+def runtime_snapshot():
+    paths = [ROOT/'README.md', ROOT/'pyproject.toml', ROOT/'.planning/config.json']
+    for folder in ('wordfreq', 'tools', 'tests'):
+        paths.extend((ROOT/folder).rglob('*.py'))
+    return {str(p.relative_to(ROOT)): digest(p) for p in sorted(paths)}
+
+
+def actor(role):
+    expected = 'argonauts-uat-'+role
+    if (role not in ('builder', 'quality') or os.environ.get('HERMES_PROFILE') != expected
+            or Path(os.environ.get('HERMES_HOME', '')).name != expected):
+        raise ValueError('actual profile and home must match role, not only the flag')
+    return expected
+
+
+def capture_seal(root, manifest):
+    manifest['artifacts'] = {str(p.relative_to(root)): digest(p)
+                             for p in sorted(root.rglob('*'))
+                             if p.is_file() and p.name not in ('manifest.json', 'manifest.sha256')}
+    save_json(root/'manifest.json', manifest)
+    (root/'manifest.sha256').write_text(digest(root/'manifest.json')+'\n', encoding='ascii')
+
+
+def collect_capture(output, role, baseline):
+    profile = actor(role)
+    output, baseline = Path(output).resolve(), Path(baseline).resolve()
+    if output.exists():
+        raise FileExistsError('fresh root required; preserve partial evidence')
+    fixed = validate_baseline(baseline)
+    before = runtime_snapshot()
+    head = git('rev-parse', 'HEAD')
+    started = time.monotonic()
+    env = environment()
+    output.mkdir(parents=True)
+    save_json(output/'scope.json', validate_scope())
+    provenance = dict(head=head, profile=profile, role=role, pid=os.getpid(),
+                      runtime=before, baseline_sha256=digest(baseline/'index.json'),
+                      decision=DECISION, status=git('status', '--porcelain'))
+    save_json(output/'provenance.json', provenance)
+    manifest: dict[str, Any] = dict(request='r-d4bcda40', head=head, provenance=provenance,
+                    root=str(output), cwd=str(ROOT), executable=sys.executable,
+                    python=sys.version, os=platform.platform(), environment=env,
+                    synthetic=False, independent_acceptance=False, verdict='pending-review',
+                    phase='collecting', started=datetime.now(timezone.utc).isoformat(),
+                    timeout_seconds=600, browser='not run: '+DECISION,
+                    views=0, images=0, cases=[], ac_index=AC_REQ)
+    fixed_cases = {c['id']: c for c in fixed['cases']}
+    for case in build_capture_cases():
+        remaining = 600-(time.monotonic()-started)
+        if remaining <= 0:
+            raise TimeoutError('capture deadline; preserve partial originals')
+        folder = output/case['id']
+        (folder/'input').mkdir(parents=True)
+        source = folder/'input'/case['basename']
+        source.write_bytes(case['body'].encode('utf-8'))
+        argv = [sys.executable, '-m', 'wordfreq', str(source), *case['options']]
+        run = subprocess.run(argv, cwd=ROOT, env=env, capture_output=True, timeout=min(20, remaining))
+        (folder/'stdout.bin').write_bytes(run.stdout)
+        (folder/'stderr.bin').write_bytes(run.stderr)
+        record = dict(case, input=str(source.relative_to(output)), argv=argv,
+                      stdout=case['id']+'/stdout.bin', stderr=case['id']+'/stderr.bin', exit=run.returncode)
+        if case['format'] == 'html':
+            (folder/'stdout.html').write_bytes(run.stdout)
+            record['html'] = case['id']+'/stdout.html'
+        manifest['cases'].append(record)
+        save_json(output/'partial.json', dict(head=head, last_case=case['id'], exit=run.returncode))
+        if run.returncode or run.stderr:
+            raise ValueError('CLI failed: '+case['id'])
+        check_output(run.stdout, case)
+        if 'oracle' in case and run.stdout != (baseline/fixed_cases[case['oracle']]['stdout']).read_bytes():
+            raise ValueError('pre-feature bytes differ: '+case['id'])
+    if before != runtime_snapshot() or head != git('rev-parse', 'HEAD'):
+        raise ValueError('execution surface changed during capture')
+    manifest.update(phase='collected', cli_cases=len(manifest['cases']),
+                    collection_seconds=time.monotonic()-started)
+    capture_seal(output, manifest)
+    validate_collection(output, baseline)
+    return manifest
+
+
+def validate_collection(root, baseline, active_owner=False):
+    root = Path(root)
+    m = json.loads((root/'manifest.json').read_text())
+    if (root/'manifest.sha256').read_text().strip() != digest(root/'manifest.json'):
+        raise ValueError('manifest checksum mismatch')
+    if (m['request'] != 'r-d4bcda40' or m['synthetic'] or m['independent_acceptance']
+            or m['verdict'] != 'pending-review' or m['images'] != 0 or m['views'] != 0
+            or m['ac_index'] != AC_REQ or m['browser'] != 'not run: '+DECISION):
+        raise ValueError('capture cannot claim independent acceptance or browser success')
+    p = m['provenance']
+    if (p != json.loads((root/'provenance.json').read_text()) or p['head'] != m['head']
+            or len(m['head']) != 40 or any(c not in '0123456789abcdef' for c in m['head'])
+            or p['role'] not in ('builder', 'quality') or p['profile'] != 'argonauts-uat-'+p['role']
+            or p['decision'] != DECISION):
+        raise ValueError('head/profile provenance mismatch')
+    fixed = validate_baseline(baseline)
+    if p['baseline_sha256'] != digest(Path(baseline)/'index.json'):
+        raise ValueError('wrong baseline')
+    definitions = build_capture_cases()
+    if len(m['cases']) != len(definitions) or m['cli_cases'] != len(definitions):
+        raise ValueError('missing capture case')
+    baseline_cases = {c['id']: c for c in fixed['cases']}
+    for c, expected in zip(m['cases'], definitions):
+        if any(c[k] != v for k, v in expected.items()):
+            raise ValueError('capture case definition mismatch')
+        if (c['input'] != c['id']+'/input/'+c['basename']
+                or c['stdout'] != c['id']+'/stdout.bin' or c['stderr'] != c['id']+'/stderr.bin'
+                or c['argv'] != [m['executable'], '-m', 'wordfreq', str(Path(m['root'])/c['input']), *c['options']]):
+            raise ValueError('capture argv/path mismatch')
+        if (root/c['input']).read_bytes() != c['body'].encode('utf-8'):
+            raise ValueError('capture input mismatch')
+        raw = (root/c['stdout']).read_bytes()
+        if c['exit'] or (root/c['stderr']).read_bytes():
+            raise ValueError('capture exit/stderr mismatch')
+        check_output(raw, c)
+        if c['format'] == 'html' and (root/c['html']).read_bytes() != raw:
+            raise ValueError('capture HTML original mismatch')
+        if 'oracle' in c and raw != (Path(baseline)/baseline_cases[c['oracle']]['stdout']).read_bytes():
+            raise ValueError('capture fixed bytes differ')
+    actual = {str(f.relative_to(root)): digest(f) for f in root.rglob('*')
+              if f.is_file() and f.name not in ('manifest.json', 'manifest.sha256')}
+    if active_owner:
+        if (p['pid'] != os.getppid() or m['phase'] != 'collected'
+                or os.environ.get('WORDFREQ_MAX_ACTIVE_ROOT') != str(root.resolve())):
+            raise ValueError('only direct pytest child of live capture owner may inspect collection')
+        for name in ('suite-command.json', 'suite.xml'):
+            actual.pop(name, None)
+    if actual != m['artifacts']:
+        raise ValueError('capture artifact completeness/hash mismatch')
+    return m
+
+
+def validate_scope(repo=ROOT, base=START):
+    repo = Path(repo)
+
+    def run(*args):
+        return subprocess.run(['git', *args], cwd=repo, capture_output=True,
+                              check=True, timeout=20).stdout
+
+    changed = run('diff', '--name-only', '-z', '--no-renames', base).decode().split('\0')
+    changed += run('ls-files', '--others', '--exclude-standard', '-z').decode().split('\0')
+    changed = sorted(set(p for p in changed if p))
+    exact = {'wordfreq/__main__.py', 'tests/test_cli.py', 'README.md',
+             'tools/verify_wordfreq_max_count.py', 'tests/test_max_count_verifier.py',
+             'docs/wordfreq-max-count-verification.md', '.planning/STATE.md',
+             '.planning/ROADMAP.md', '.planning/REQUIREMENTS.md', '.planning/state.json'}
+    prefixes = ('.planning/argonauts/r-d4bcda40', '.planning/phases/07-wordfreq-max-count/',
+                'openspec/changes/r-d4bcda40-max-count/')
+    for path in changed:
+        if path not in exact and not path.startswith(prefixes):
+            raise ValueError('out-of-scope path: '+path)
+        if not (repo/path).is_file() or (repo/path).is_symlink():
+            raise ValueError('deleted/symlink path: '+path)
+    # Entire inherited tests/helpers remain byte-for-byte; append-only additions.
+    original = run('show', base+':tests/test_cli.py')
+    if not (repo/'tests/test_cli.py').read_bytes().startswith(original):
+        raise ValueError('existing tests changed/deleted/relaxed')
+    approved = {'wordfreq/__main__.py': '9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba',
+                'README.md': '43f1a6a69cd3aa616bd715e513f4913875f5c2ba0ef85907c98769787c318d68'}
+    for path, sha in approved.items():
+        if digest(repo/path) != sha:
+            raise ValueError('unapproved product/README change: '+path)
+    return dict(base=base, paths=changed, product_blobs={p: digest(repo/p) for p in PRODUCT},
+                existing_tests_preserved=True, approved_product_and_readme=True)
+
+
+def suite_counts(path, exit_code):
+    suites = ET.parse(path).getroot()
+    cases = suites.findall('.//testcase')
+    counts = {key: sum(int(s.get(key, 0)) for s in suites.findall('testsuite'))
+              for key in ('tests', 'failures', 'errors', 'skipped')}
+    if (exit_code != 0 or counts['tests'] <= 0 or counts['tests'] != len(cases)
+            or any(counts[k] for k in ('failures', 'errors', 'skipped'))
+            or any(c.find(tag) is not None for c in cases for tag in ('failure', 'error', 'skipped'))):
+        raise ValueError('suite is not a nonempty complete success')
+    return counts
+
+
+def capture(output, role, baseline):
+    started = time.monotonic()
+    m = collect_capture(output, role, baseline)
+    output = Path(output).resolve()
+    env = dict(os.environ, WORDFREQ_MAX_ACTIVE_ROOT=str(output))
+    argv = [sys.executable, '-m', 'pytest', 'tests/', '-q', '--junitxml='+str(output/'suite.xml')]
+    save_json(output/'suite-command.json', dict(argv=argv, cwd=str(ROOT), environment=environment()))
+    before = runtime_snapshot()
+    run = subprocess.run(argv, cwd=ROOT, env=env, capture_output=True,
+                         timeout=max(1, 600-(time.monotonic()-started)))
+    (output/'suite.stdout.txt').write_bytes(run.stdout)
+    (output/'suite.stderr.txt').write_bytes(run.stderr)
+    counts = suite_counts(output/'suite.xml', run.returncode)
+    if before != runtime_snapshot() or m['head'] != git('rev-parse', 'HEAD'):
+        raise ValueError('execution surface changed during suite')
+    save_json(output/'suite.json', dict(counts, exit=run.returncode, head=m['head'],
+                                      duration_seconds=time.monotonic()-started-m['collection_seconds']))
+    m.update(phase='complete', duration_seconds=time.monotonic()-started,
+             ended=datetime.now(timezone.utc).isoformat())
+    capture_seal(output, m)
+    validate_capture(output, baseline)
+    return m
+
+
+def validate_capture(root, baseline):
+    m = validate_collection(root, baseline)
+    root = Path(root)
+    if m['phase'] != 'complete':
+        raise ValueError('suite incomplete')
+    suite = json.loads((root/'suite.json').read_text())
+    counts = suite_counts(root/'suite.xml', suite['exit'])
+    if any(suite[k] != v for k, v in counts.items()) or suite['head'] != m['head']:
+        raise ValueError('suite record mismatch')
+    command = json.loads((root/'suite-command.json').read_text())
+    if command['argv'] != [m['executable'], '-m', 'pytest', 'tests/', '-q',
+                           '--junitxml='+str(Path(m['root'])/'suite.xml')]:
+        raise ValueError('not the standard full suite')
+    return m
+
+
+def review_session(output, role, baseline):
+    if role != 'quality':
+        raise ValueError('review-session requires quality profile')
+    # No live browser/session or image ledger: explicitly superseded by DECISION.
+    return capture(output, role, baseline)
+
+
+def finalize(output, role, baseline, ledger):
+    actor(role)
+    m = validate_capture(output, baseline)
+    if role != 'quality' or m['provenance']['role'] != 'quality':
+        raise ValueError('builder capture cannot become quality acceptance')
+    if m['head'] != git('rev-parse', 'HEAD') or m['provenance']['runtime'] != runtime_snapshot():
+        raise ValueError('quality must regenerate for current head and source')
+    review = json.loads(Path(ledger).read_text())
+    if (review.get('head') != m['head'] or review.get('profile') != actor(role)
+            or review.get('capture_sha256') != digest(Path(output)/'manifest.json')
+            or set(review.get('ac_reviews', {})) != set(AC_REQ)
+            or not all(isinstance(v, str) and v.strip() for v in review['ac_reviews'].values())
+            or review.get('source_sha256') != digest(ROOT/'wordfreq/__main__.py')
+            or review.get('source_order') != 'original-Counter/total -> AND -> top -> shared-pairs'
+            or not review.get('source_notes', '').strip()):
+        raise ValueError('incomplete independent CLI/HTML/source review ledger')
+    # Do not mutate sealed originals or auto-complete OpenSpec2.2/CI/PM delivery.
+    return dict(head=m['head'], verdict='quality-content-reviewed',
+                ledger_sha256=digest(ledger), independent_acceptance=False,
+                remaining=['quality VERIFICATION.md', 'CLI/CI text attachments', 'PM readback', 'OpenSpec2.2 judgement'])
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--mode', choices=['baseline'], required=True)
+    parser.add_argument('--mode', choices=['baseline', 'capture', 'review-session', 'finalize', 'validate'], required=True)
     parser.add_argument('--output-dir', type=Path, required=True)
+    parser.add_argument('--role', choices=['builder', 'quality'])
+    parser.add_argument('--baseline-dir', type=Path)
+    parser.add_argument('--review-ledger', type=Path)
     args = parser.parse_args()
-    capture_baseline(args.output_dir)
+    if args.mode == 'baseline':
+        capture_baseline(args.output_dir)
+        return
+    if args.baseline_dir is None:
+        parser.error('--baseline-dir required')
+    if args.mode != 'validate' and args.role is None:
+        parser.error('--role required')
+    if args.mode == 'finalize' and args.review_ledger is None:
+        parser.error('--review-ledger required')
+    if args.mode == 'validate':
+        result = validate_capture(args.output_dir, args.baseline_dir)
+    elif args.mode == 'capture':
+        result = capture(args.output_dir, args.role, args.baseline_dir)
+    elif args.mode == 'review-session':
+        result = review_session(args.output_dir, args.role, args.baseline_dir)
+    else:
+        result = finalize(args.output_dir, args.role, args.baseline_dir, args.review_ledger)
+    print(json.dumps(result, ensure_ascii=False))
 
 
 if __name__ == '__main__':

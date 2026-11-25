@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.040" timestamp="2026-11-25T22:29:22.071674+09:00" hostname="Ys-Minify"><testcase classname="tests.test_max_count_verifier" name="test_browser_free_capture_cases" time="0.003"><failure message="AssertionError: max-specific cases missing&#10;assert False&#10; +  where False = hasattr(&lt;module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'&gt;, 'build_capture_cases')">def test_browser_free_capture_cases():
+        d = driver()
+&gt;       assert hasattr(d, 'build_capture_cases'), 'max-specific cases missing'
+E       AssertionError: max-specific cases missing
+E       assert False
+E        +  where False = hasattr(&lt;module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'&gt;, 'build_capture_cases')
+
+tests/test_max_count_verifier.py:27: AssertionError</failure></testcase><testcase classname="tests.test_max_count_verifier" name="test_browser_free_quality_role_cannot_be_flag_only" time="0.004"><failure message="AssertionError: capture API missing&#10;assert False&#10; +  where False = hasattr(&lt;module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'&gt;, 'capture')">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7cf0d850b6e0&gt;
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-120/test_browser_free_quality_role0')
+
+    def test_browser_free_quality_role_cannot_be_flag_only(monkeypatch, tmp_path):
+        d = driver()
+&gt;       assert hasattr(d, 'capture'), 'capture API missing'
+E       AssertionError: capture API missing
+E       assert False
+E        +  where False = hasattr(&lt;module 'max_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/tools/verify_wordfreq_max_count.py'&gt;, 'capture')
+
+tests/test_max_count_verifier.py:43: AssertionError</failure></testcase></testsuite></testsuites>

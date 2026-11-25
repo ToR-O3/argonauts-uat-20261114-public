@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "block": false,
+  "verdict": "RED_EVIDENCE_OK",
+  "reason": "target_test_failed",
+  "evidence": {
+    "command": "/usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k evidence_contract or scope_contract -q --junitxml=/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/.planning/argonauts/r-d4bcda40/builder/07-03/red-contract/junit.xml",
+    "exit_code": 1,
+    "target_test": "test_evidence_contract_runbook_exists",
+    "tests": 2,
+    "pass": 0,
+    "fail": 2,
+    "failing_tests": [
+      "tests.test_max_count_verifier#test_evidence_contract_runbook_exists",
+      "tests.test_max_count_verifier#test_scope_contract_api"
+    ],
+    "matched_test": "tests.test_max_count_verifier#test_evidence_contract_runbook_exists",
+    "format": "junit",
+    "report_errors": []
+  },
+  "record": {
+    "command": "/usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k evidence_contract or scope_contract -q --junitxml=/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/.planning/argonauts/r-d4bcda40/builder/07-03/red-contract/junit.xml",
+    "exit_code": 1,
+    "failing_test": "tests.test_max_count_verifier#test_evidence_contract_runbook_exists",
+    "target_test": "test_evidence_contract_runbook_exists",
+    "expected": "max-count quality runbook exists",
+    "actual": "max runbook missing; is_file assertion failed",
+    "verdict": "RED_EVIDENCE_OK",
+    "reason": "target_test_failed"
+  },
+  "message": "RED evidence verified: target test \"test_evidence_contract_runbook_exists\" failed as expected (exit 1). GREEN authorized."
+}
