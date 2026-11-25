@@ -17,6 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 - [x] **Phase 5: README validation B** (completed 2026-11-22)
 - [x] **Phase 7: wordfreq max-count** (completed 2026-11-25)
+- [ ] **Phase 8: wordfreq HTML displayed types**
 
 ## Phase Details
 
@@ -161,3 +162,22 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [x] 07-03-PLAN.md — Wave 3（depends 07-02）: max専用証拠経路・全suite/scope・独立品質2.2のphase verification引継ぎ（2 tasks）
+
+### Phase 8: wordfreq HTML displayed types
+
+**Goal:** 承認済みr-6ae2cbf2に従いHTML表上の総出現回数の横へ最終表示語種類数を追加し、text/jsonと元総数・安全性を維持する。試験先行・README説明1行・独立CLI/通常幅/狭幅ブラウザ確認の文字証拠で全条件を追跡する。
+**Requirements**: REQ-29, REQ-30, REQ-31
+**UI hint:** yes — 既存ライトテーマと表を継承し、メタ情報表示追加と必要最小レイアウトだけ変更する。
+**Approval / conflict:** t_e811c751 run164 approved。取込みのBLOCKERS 2件は今回承認済みのHTMLバイト互換例外。E.7/F.3の新phase経路で公式phase.addが返した8を使う。旧Phase4/7のCONTEXT・封印baseline・完了履歴は保持。今回表示Nと必要最小レイアウトのみ例外、text/json固定期待値と安全性検査を緩めない。過去stale検証/snapshot scope gateと今回の合否を分ける。参照: .planning/INGEST-CONFLICTS.md（添付107）。
+**Success Criteria:**
+  1. 通常/top/既定top10/min/max併用/Unicode/空・全除外のHTML表示Nが最終データ行数に一致し、総出現回数は元counts和のまま。
+  2. text/jsonは同一入力・オプションで全バイト不変。封印baselineは上書きせずHTML今回用期待値または明示変換で許可差分だけ扱い、既存escape・basename・静的安全性を維持。
+  3. RED→GREENと全pytest成功を記録し、READMEのHTML説明に1行追加する。依存/CI/権限/外部送信/移行なし。
+  4. 品質が対象headでCLI・1280×900/320×900 DPR1ブラウザを独立実行し横配置と可読性・安全性を確認。VERIFICATION.mdとCLI/CI文字証拠へAC別結果、閲覧画像数/内容/結果を記録・標準添付する。PMへ画像や圧縮ファイルを開くことを要求しない。
+**Depends on:** Phase 7
+**Plans:** 3 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Wave 1: 製品編集前の実CLI/両幅画像を保全し表示N全ケースの先行RED（2 tasks）
+- [ ] 08-02-PLAN.md — Wave 2（depends 08-01）: 最終pairs表示・限定HTML期待値整合・README1行・全pytest GREEN（2 tasks）
+- [ ] 08-03-PLAN.md — Wave 3（depends 08-02）: 実行可能な現行ブラウザ検証seamをBuilderがexerciseし独立品質OpenSpec2.1へ引継ぎ（2 tasks）
