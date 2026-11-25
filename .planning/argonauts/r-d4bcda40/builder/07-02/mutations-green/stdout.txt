@@ -1,0 +1,174 @@
+EXIT DISCRIMINATION positive-max mutated True exit 1
+F
+=================================== FAILURES ===================================
+___ test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-text] ____
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-68/test_max_count_empty_beta_beta0')
+output_format = 'text', content = 'beta beta beta alpha gamma alpha delta'
+minimum = 1, maximum = 0, total = 7
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,maximum,total", [
+        (MAX_NORMAL, 1, 0, 7), (MAX_NORMAL, 1, -1, 7),
+        (MAX_NORMAL, 1, -10**100, 7), (MAX_NORMAL, 3, 2, 7),
+        ("one", 1, 0, 1), ("", 1, 2, 0), (" \t\r\n  ", 1, 2, 0),
+        ("!?,.;: --", 1, 2, 0), ("Zoo apple APPLE zoo banana", 3, 3, 5),
+    ])
+    def test_max_count_empty(tmp_path, output_format, content, minimum, maximum, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        result = run_cli_bytes(path, "--min-count", minimum, "--max-count", maximum, "--format", output_format)
+>       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'usage: ...e positive\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:901: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 622 deselected in 0.28s
+
+
+.EXIT DISCRIMINATION inverted-range mutated True exit 1
+F
+=================================== FAILURES ===================================
+___ test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-text] ____
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-69/test_max_count_empty_beta_beta0')
+output_format = 'text', content = 'beta beta beta alpha gamma alpha delta'
+minimum = 1, maximum = 0, total = 7
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,maximum,total", [
+        (MAX_NORMAL, 1, 0, 7), (MAX_NORMAL, 1, -1, 7),
+        (MAX_NORMAL, 1, -10**100, 7), (MAX_NORMAL, 3, 2, 7),
+        ("one", 1, 0, 1), ("", 1, 2, 0), (" \t\r\n  ", 1, 2, 0),
+        ("!?,.;: --", 1, 2, 0), ("Zoo apple APPLE zoo banana", 3, 3, 5),
+    ])
+    def test_max_count_empty(tmp_path, output_format, content, minimum, maximum, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        result = run_cli_bytes(path, "--min-count", minimum, "--max-count", maximum, "--format", output_format)
+>       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'usage: ...rted range\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:901: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 622 deselected in 0.34s
+
+
+.EXIT DISCRIMINATION skip-empty-read mutated True exit 1
+F
+=================================== FAILURES ===================================
+_____________ test_max_count_input_failure[missing-options0-text] ______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-70/test_max_count_input_failure_m0')
+output_format = 'text', options = ('--max-count', '0'), failure = 'missing'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("options", [("--max-count", "0"), ("--max-count", "-1"),
+                                          ("--min-count", "3", "--max-count", "2")])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_max_count_input_failure(tmp_path, output_format, options, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--format", output_format, *options)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (0 == 1)
+E            +  where 0 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.h...t_max_count_input_failure_m0/input.txt', '--format', 'text', '--max-count', '0'], returncode=0, stdout=b'', stderr=b'').returncode
+
+tests/test_cli.py:959: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_input_failure[missing-options0-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 613 deselected in 0.26s
+
+
+.EXIT DISCRIMINATION late-usage mutated True exit 1
+.........F
+=================================== FAILURES ===================================
+______________ test_max_count_invalid_before_read[options3-text] _______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-71/test_max_count_invalid_before_9')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f6b20d5a150>
+capsys = <_pytest.capture.CaptureFixture object at 0x7f6b20e0c440>
+output_format = 'text', options = ('--max-count', '0', '--min-count', '0')
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("options", MAX_USAGE)
+    def test_max_count_invalid_before_read(tmp_path, monkeypatch, capsys, output_format, options):
+        from wordfreq.__main__ import main
+        from wordfreq.sources import FileSource
+        calls = []
+    
+        def spy(source):
+            calls.append(source)
+            raise AssertionError("usage must not acquire input")
+    
+        monkeypatch.setattr(FileSource, "read_text", spy)
+        args = [str(tmp_path / "missing"), "--format", output_format, *options]
+        with pytest.raises(SystemExit) as caught:
+>           main(args)
+
+tests/test_cli.py:931: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+wordfreq/__main__.py:27: in main
+    text = FileSource(args.filename).read_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+source = <wordfreq.sources.FileSource object at 0x7f6b20e0cf50>
+
+    def spy(source):
+        calls.append(source)
+>       raise AssertionError("usage must not acquire input")
+E       AssertionError: usage must not acquire input
+
+tests/test_cli.py:926: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_invalid_before_read[options3-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 9 passed, 586 deselected in 0.49s
+
+
+.EXIT DISCRIMINATION positive-max mutated False exit 0
+...........................                                              [100%]
+27 passed, 622 deselected in 0.98s
+
+
+.EXIT DISCRIMINATION inverted-range mutated False exit 0
+...........................                                              [100%]
+27 passed, 622 deselected in 0.96s
+
+
+.EXIT DISCRIMINATION skip-empty-read mutated False exit 0
+....................................                                     [100%]
+36 passed, 613 deselected in 1.17s
+
+
+.EXIT DISCRIMINATION late-usage mutated False exit 0
+...............................................................          [100%]
+63 passed, 586 deselected in 1.95s
+
+
+.
+8 passed, 641 deselected in 8.63s

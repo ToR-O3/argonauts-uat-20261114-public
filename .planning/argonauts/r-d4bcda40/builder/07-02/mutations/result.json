@@ -1,0 +1,71 @@
+{
+  "head": "0012db4060977bd5afeb07f12e36b857c1e6a882",
+  "product_blobs": {
+    "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+    "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+    "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+    "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+    "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+    "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6"
+  },
+  "started": "2026-11-25T13:06:46.358765+00:00",
+  "python": "3.12.15 (main, Oct  1 2026, 00:00:00) [GCC 14.3.1 20251022 (Red Hat 14.3.1-4)]",
+  "task": null,
+  "profile": "argonauts-uat-builder",
+  "exit": 1,
+  "duration_seconds": 9.006907205010066,
+  "product_after": {
+    "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+    "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+    "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+    "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+    "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+    "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6"
+  },
+  "tests": 8,
+  "failures": 4,
+  "errors": 0,
+  "skipped": 0,
+  "ended": "2026-11-25T13:06:55.365971+00:00",
+  "case_results": [
+    {
+      "name": "test_max_count_empty_exit_discrimination[mutant-positive-max-max_count_empty]",
+      "status": "failed"
+    },
+    {
+      "name": "test_max_count_empty_exit_discrimination[mutant-inverted-range-max_count_empty]",
+      "status": "failed"
+    },
+    {
+      "name": "test_max_count_empty_exit_discrimination[mutant-skip-empty-read-max_count_input_failure]",
+      "status": "failed"
+    },
+    {
+      "name": "test_max_count_empty_exit_discrimination[mutant-late-usage-max_count_invalid_before_read]",
+      "status": "failed"
+    },
+    {
+      "name": "test_max_count_empty_exit_discrimination[control-positive-max-max_count_empty]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty_exit_discrimination[control-inverted-range-max_count_empty]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty_exit_discrimination[control-skip-empty-read-max_count_input_failure]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty_exit_discrimination[control-late-usage-max_count_invalid_before_read]",
+      "status": "passed"
+    }
+  ],
+  "artifacts": {
+    "stdout.txt": "b789cee448e8cdc5d7918ddea938b448ac1e48d48e4745882e9759573328e13c",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_cli.py.original": "3ba04090275e4476c492d68572f55e67c03e4222583760823077ece39366caa4",
+    "command.json": "e9de9466626f7bc28e5df2c09c0497e3afad6141888b50110c3258a7ad980cdf",
+    "junit.xml": "cc91b33a1a9407e6a3f75e8d7b3dfee6782c21db9fceb0d7ba4effef16c2f577"
+  }
+}

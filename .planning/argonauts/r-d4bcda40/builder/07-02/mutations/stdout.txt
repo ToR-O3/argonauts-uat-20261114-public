@@ -1,0 +1,437 @@
+EXIT DISCRIMINATION positive-max mutated True exit 1
+F
+=================================== FAILURES ===================================
+___ test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-text] ____
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-59/test_max_count_empty_beta_beta0')
+output_format = 'text', content = 'beta beta beta alpha gamma alpha delta'
+minimum = 1, maximum = 0, total = 7
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,maximum,total", [
+        (MAX_NORMAL, 1, 0, 7), (MAX_NORMAL, 1, -1, 7),
+        (MAX_NORMAL, 1, -10**100, 7), (MAX_NORMAL, 3, 2, 7),
+        ("one", 1, 0, 1), ("", 1, 2, 0), (" \t\r\n  ", 1, 2, 0),
+        ("!?,.;: --", 1, 2, 0), ("Zoo apple APPLE zoo banana", 3, 3, 5),
+    ])
+    def test_max_count_empty(tmp_path, output_format, content, minimum, maximum, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        result = run_cli_bytes(path, "--min-count", minimum, "--max-count", maximum, "--format", output_format)
+>       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'usage: ...e positive\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:901: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 622 deselected in 0.28s
+
+
+FEXIT DISCRIMINATION inverted-range mutated True exit 1
+F
+=================================== FAILURES ===================================
+___ test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-text] ____
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-60/test_max_count_empty_beta_beta0')
+output_format = 'text', content = 'beta beta beta alpha gamma alpha delta'
+minimum = 1, maximum = 0, total = 7
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,minimum,maximum,total", [
+        (MAX_NORMAL, 1, 0, 7), (MAX_NORMAL, 1, -1, 7),
+        (MAX_NORMAL, 1, -10**100, 7), (MAX_NORMAL, 3, 2, 7),
+        ("one", 1, 0, 1), ("", 1, 2, 0), (" \t\r\n  ", 1, 2, 0),
+        ("!?,.;: --", 1, 2, 0), ("Zoo apple APPLE zoo banana", 3, 3, 5),
+    ])
+    def test_max_count_empty(tmp_path, output_format, content, minimum, maximum, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        path = tmp_path / "empty-or-filtered.txt"
+        path.write_text(content, encoding="utf-8")
+        result = run_cli_bytes(path, "--min-count", minimum, "--max-count", maximum, "--format", output_format)
+>       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'usage: ...rted range\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:901: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 622 deselected in 0.28s
+
+
+FEXIT DISCRIMINATION skip-empty-read mutated True exit 1
+F
+=================================== FAILURES ===================================
+_____________ test_max_count_input_failure[missing-options0-text] ______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-61/test_max_count_input_failure_m0')
+output_format = 'text', options = ('--max-count', '0'), failure = 'missing'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("options", [("--max-count", "0"), ("--max-count", "-1"),
+                                          ("--min-count", "3", "--max-count", "2")])
+    @pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+    def test_max_count_input_failure(tmp_path, output_format, options, failure):
+        path = tmp_path / "input.txt"
+        if failure == "directory":
+            path.mkdir()
+        elif failure == "decode":
+            path.write_bytes(b"hello\xff")
+        elif failure == "permission":
+            path.write_bytes(b"hello")
+            path.chmod(0)
+        try:
+            if failure == "permission":
+                with pytest.raises(PermissionError, match="Permission denied"):
+                    path.read_bytes()
+            result = run_cli_bytes(path, "--format", output_format, *options)
+>           assert result.returncode == 1 and result.stdout == b""
+E           AssertionError: assert (0 == 1)
+E            +  where 0 = CompletedProcess(args=['/usr/bin/python3', '-m', 'wordfreq', '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.h...t_max_count_input_failure_m0/input.txt', '--format', 'text', '--max-count', '0'], returncode=0, stdout=b'', stderr=b'').returncode
+
+tests/test_cli.py:959: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_input_failure[missing-options0-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 613 deselected in 0.25s
+
+
+FEXIT DISCRIMINATION late-usage mutated True exit 1
+.........F
+=================================== FAILURES ===================================
+______________ test_max_count_invalid_before_read[options3-text] _______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-62/test_max_count_invalid_before_9')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x733eb35049b0>
+capsys = <_pytest.capture.CaptureFixture object at 0x733eb35056a0>
+output_format = 'text', options = ('--max-count', '0', '--min-count', '0')
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("options", MAX_USAGE)
+    def test_max_count_invalid_before_read(tmp_path, monkeypatch, capsys, output_format, options):
+        from wordfreq.__main__ import main
+        from wordfreq.sources import FileSource
+        calls = []
+    
+        def spy(source):
+            calls.append(source)
+            raise AssertionError("usage must not acquire input")
+    
+        monkeypatch.setattr(FileSource, "read_text", spy)
+        args = [str(tmp_path / "missing"), "--format", output_format, *options]
+        with pytest.raises(SystemExit) as caught:
+>           main(args)
+
+tests/test_cli.py:931: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+wordfreq/__main__.py:27: in main
+    text = FileSource(args.filename).read_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+source = <wordfreq.sources.FileSource object at 0x733eb353c530>
+
+    def spy(source):
+        calls.append(source)
+>       raise AssertionError("usage must not acquire input")
+E       AssertionError: usage must not acquire input
+
+tests/test_cli.py:926: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_invalid_before_read[options3-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 9 passed, 586 deselected in 0.48s
+
+
+FEXIT DISCRIMINATION positive-max mutated False exit 0
+...........................                                              [100%]
+27 passed, 622 deselected in 0.98s
+
+
+.EXIT DISCRIMINATION inverted-range mutated False exit 0
+...........................                                              [100%]
+27 passed, 622 deselected in 1.01s
+
+
+.EXIT DISCRIMINATION skip-empty-read mutated False exit 0
+....................................                                     [100%]
+36 passed, 613 deselected in 1.21s
+
+
+.EXIT DISCRIMINATION late-usage mutated False exit 0
+...............................................................          [100%]
+63 passed, 586 deselected in 1.95s
+
+
+.
+=================================== FAILURES ===================================
+_ test_max_count_empty_exit_discrimination[mutant-positive-max-max_count_empty] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-58/test_max_count_empty_exit_disc0')
+mutation = 'positive-max', target = 'max_count_empty', mutated = True
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+        suite = ET.parse(report).getroot().find("testsuite")
+        assert suite is not None and int(suite.get("tests")) > 0
+        assert int(suite.get("errors")) == int(suite.get("skipped")) == 0
+        assert result.returncode == (1 if mutated else 0)
+        failures = suite.findall("testcase/failure")
+        if mutated:
+            assert len(failures) == 1
+            failure = failures[0]
+>           assert failure.get("type") == "AssertionError"
+E           AssertionError: assert None == 'AssertionError'
+E            +  where None = <built-in method get of xml.etree.ElementTree.Element object at 0x7047ae279170>('type')
+E            +    where <built-in method get of xml.etree.ElementTree.Element object at 0x7047ae279170> = <Element 'failure' at 0x7047ae279170>.get
+
+tests/test_cli.py:1162: AssertionError
+_ test_max_count_empty_exit_discrimination[mutant-inverted-range-max_count_empty] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-58/test_max_count_empty_exit_disc1')
+mutation = 'inverted-range', target = 'max_count_empty', mutated = True
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+        suite = ET.parse(report).getroot().find("testsuite")
+        assert suite is not None and int(suite.get("tests")) > 0
+        assert int(suite.get("errors")) == int(suite.get("skipped")) == 0
+        assert result.returncode == (1 if mutated else 0)
+        failures = suite.findall("testcase/failure")
+        if mutated:
+            assert len(failures) == 1
+            failure = failures[0]
+>           assert failure.get("type") == "AssertionError"
+E           AssertionError: assert None == 'AssertionError'
+E            +  where None = <built-in method get of xml.etree.ElementTree.Element object at 0x7047ae229ad0>('type')
+E            +    where <built-in method get of xml.etree.ElementTree.Element object at 0x7047ae229ad0> = <Element 'failure' at 0x7047ae229ad0>.get
+
+tests/test_cli.py:1162: AssertionError
+_ test_max_count_empty_exit_discrimination[mutant-skip-empty-read-max_count_input_failure] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-58/test_max_count_empty_exit_disc2')
+mutation = 'skip-empty-read', target = 'max_count_input_failure', mutated = True
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+        suite = ET.parse(report).getroot().find("testsuite")
+        assert suite is not None and int(suite.get("tests")) > 0
+        assert int(suite.get("errors")) == int(suite.get("skipped")) == 0
+        assert result.returncode == (1 if mutated else 0)
+        failures = suite.findall("testcase/failure")
+        if mutated:
+            assert len(failures) == 1
+            failure = failures[0]
+>           assert failure.get("type") == "AssertionError"
+E           AssertionError: assert None == 'AssertionError'
+E            +  where None = <built-in method get of xml.etree.ElementTree.Element object at 0x7047ae22a2a0>('type')
+E            +    where <built-in method get of xml.etree.ElementTree.Element object at 0x7047ae22a2a0> = <Element 'failure' at 0x7047ae22a2a0>.get
+
+tests/test_cli.py:1162: AssertionError
+_ test_max_count_empty_exit_discrimination[mutant-late-usage-max_count_invalid_before_read] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-58/test_max_count_empty_exit_disc3')
+mutation = 'late-usage', target = 'max_count_invalid_before_read'
+mutated = True
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+        suite = ET.parse(report).getroot().find("testsuite")
+        assert suite is not None and int(suite.get("tests")) > 0
+        assert int(suite.get("errors")) == int(suite.get("skipped")) == 0
+        assert result.returncode == (1 if mutated else 0)
+        failures = suite.findall("testcase/failure")
+        if mutated:
+            assert len(failures) == 1
+            failure = failures[0]
+>           assert failure.get("type") == "AssertionError"
+E           AssertionError: assert None == 'AssertionError'
+E            +  where None = <built-in method get of xml.etree.ElementTree.Element object at 0x7047ae22a200>('type')
+E            +    where <built-in method get of xml.etree.ElementTree.Element object at 0x7047ae22a200> = <Element 'failure' at 0x7047ae22a200>.get
+
+tests/test_cli.py:1162: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[mutant-positive-max-max_count_empty]
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[mutant-inverted-range-max_count_empty]
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[mutant-skip-empty-read-max_count_input_failure]
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[mutant-late-usage-max_count_invalid_before_read]
+4 failed, 4 passed, 641 deselected in 8.73s

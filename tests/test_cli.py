@@ -1105,3 +1105,65 @@ def test_max_count_discrimination(tmp_path, mutation):
     assert b"AssertionError" in result.stdout
     assert b"ERROR collecting" not in result.stdout and b"SyntaxError" not in result.stdout
 
+
+@pytest.mark.parametrize("mutation,target", [
+    ("positive-max", "max_count_empty"),
+    ("inverted-range", "max_count_empty"),
+    ("skip-empty-read", "max_count_input_failure"),
+    ("late-usage", "max_count_invalid_before_read"),
+])
+@pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+    # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+    import xml.etree.ElementTree as ET
+    repo = tmp_path / "cold"
+    repo.mkdir()
+    shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    (repo / "tests").mkdir()
+    for name in ("test_cli.py", "test_formatters.py"):
+        shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+    source = repo / "wordfreq/__main__.py"
+    original = source.read_text(encoding="utf-8")
+    if mutation == "positive-max":
+        changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                   "        parser.error('--max-count must be positive')\n    try:\n", 1)
+    elif mutation == "inverted-range":
+        changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                   "        parser.error('inverted range')\n    try:\n", 1)
+    elif mutation == "skip-empty-read":
+        changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                   "        sys.exit(0)\n    try:\n", 1)
+    else:
+        validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                      '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+        assert original.count(validation) == 1
+        changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+    assert changed != original
+    if mutated:
+        source.write_text(changed, encoding="utf-8")
+    report = repo / "junit.xml"
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+         "-q", "-x", "--junitxml=" + str(report)],
+        cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+    )
+    print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+    print(result.stdout.decode("utf-8"))
+    print(result.stderr.decode("utf-8"))
+    suite = ET.parse(report).getroot().find("testsuite")
+    assert suite is not None and int(suite.attrib["tests"]) > 0
+    assert int(suite.attrib["errors"]) == int(suite.attrib["skipped"]) == 0
+    assert result.returncode == (1 if mutated else 0)
+    failures = suite.findall("testcase/failure")
+    if mutated:
+        assert len(failures) == 1
+        failure_text = failures[0].text or ""
+        assert "AssertionError" in failure_text
+        expected = {"positive-max": "(2, b'usage:", "inverted-range": "(2, b'usage:",
+                    "skip-empty-read": "assert (0 == 1)",
+                    "late-usage": "usage must not acquire input"}[mutation]
+        assert expected in failure_text
+    else:
+        assert failures == []
+
