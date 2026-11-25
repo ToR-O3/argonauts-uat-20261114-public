@@ -25,7 +25,7 @@
       clip:{left:r.left+el.clientLeft,top:r.top+el.clientTop,
         right:r.left+el.clientLeft+el.clientWidth,bottom:r.top+el.clientTop+el.clientHeight}};
   };
-  const targets = Array.from(document.querySelectorAll('main,h1,.metadata,.metadata-item,.label,.filename-value,.total-value,table,caption,thead,tbody,tr,th,td,.empty-message'));
+  const targets = Array.from(document.querySelectorAll('main,h1,.metadata,.metadata-item,.label,.filename-value,.total-value,.total-summary,.displayed-types,table,caption,thead,tbody,tr,th,td,.empty-message'));
   const elements = targets.map(el => {
     const all = [], full = document.createRange();
     for (let a=el.parentElement; a; a=a.parentElement) all.push(ancestor(a));
@@ -62,6 +62,7 @@
       clientWidth:document.documentElement.clientWidth,clientHeight:document.documentElement.clientHeight},
     elements,texts,dom:{basename:document.querySelector('.filename-value')?.textContent,
       total:document.querySelector('.total-value')?.textContent,
+      displayedTypes:document.querySelector('.displayed-types')?.textContent ?? null,
       headers:Array.from(document.querySelectorAll('th'),n=>n.textContent),
       rows:Array.from(document.querySelectorAll('tbody tr'),n=>Array.from(n.querySelectorAll('td'),t=>t.textContent)),
       empty:Array.from(document.querySelectorAll('.empty-message'),n=>n.textContent)}};
