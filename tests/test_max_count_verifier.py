@@ -16,6 +16,12 @@ def driver():
     return module
 
 
+def test_browser_free_capture_api():
+    d = driver()
+    required = {'build_capture_cases', 'capture', 'validate_capture', 'review_session', 'finalize'}
+    assert required <= set(dir(d)), 'max-specific capture and independent review API missing'
+
+
 def test_browser_free_case_contract():
     cases = driver().build_baseline_cases()
     assert len({c['id'] for c in cases}) == len(cases)

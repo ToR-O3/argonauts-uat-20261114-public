@@ -1,0 +1,22 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________________________ test_browser_free_capture_api _________________________
+
+    def test_browser_free_capture_api():
+        d = driver()
+        required = {'build_capture_cases', 'capture', 'validate_capture', 'review_session', 'finalize'}
+>       assert required <= set(dir(d)), 'max-specific capture and independent review API missing'
+E       AssertionError: max-specific capture and independent review API missing
+E       assert {'build_captu...date_capture'} <= {'BASELINE', ...LParser', ...}
+E         
+E         Extra items in the left set:
+E         'review_session'
+E         'validate_capture'
+E         'build_capture_cases'
+E         'finalize'
+E         'capture'
+
+tests/test_max_count_verifier.py:22: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_max_count_verifier.py::test_browser_free_capture_api - Asse...
+1 failed, 14 deselected in 0.10s

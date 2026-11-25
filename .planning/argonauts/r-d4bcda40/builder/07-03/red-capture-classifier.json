@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "block": false,
+  "verdict": "RED_EVIDENCE_OK",
+  "reason": "target_test_failed",
+  "evidence": {
+    "command": "/usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k capture_api -q --junitxml=/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/.planning/argonauts/r-d4bcda40/builder/07-03/red-capture/junit.xml",
+    "exit_code": 1,
+    "target_test": "test_browser_free_capture_api",
+    "tests": 1,
+    "pass": 0,
+    "fail": 1,
+    "failing_tests": [
+      "tests.test_max_count_verifier#test_browser_free_capture_api"
+    ],
+    "matched_test": "tests.test_max_count_verifier#test_browser_free_capture_api",
+    "format": "junit",
+    "report_errors": []
+  },
+  "record": {
+    "command": "/usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k capture_api -q --junitxml=/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_814e09b4/.planning/argonauts/r-d4bcda40/builder/07-03/red-capture/junit.xml",
+    "exit_code": 1,
+    "failing_test": "tests.test_max_count_verifier#test_browser_free_capture_api",
+    "target_test": "test_browser_free_capture_api",
+    "expected": "max-specific capture and independent review API exists",
+    "actual": "Required API absent; assert required <= set(dir(d)) failed",
+    "verdict": "RED_EVIDENCE_OK",
+    "reason": "target_test_failed"
+  },
+  "message": "RED evidence verified: target test \"test_browser_free_capture_api\" failed as expected (exit 1). GREEN authorized."
+}

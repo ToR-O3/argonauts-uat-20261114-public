@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.031" timestamp="2026-11-25T22:28:19.129864+09:00" hostname="Ys-Minify"><testcase classname="tests.test_max_count_verifier" name="test_browser_free_capture_api" time="0.004"><failure message="AssertionError: max-specific capture and independent review API missing&#10;assert {'build_captu...date_capture'} &lt;= {'BASELINE', ...LParser', ...}&#10;  &#10;  Extra items in the left set:&#10;  'review_session'&#10;  'validate_capture'&#10;  'build_capture_cases'&#10;  'finalize'&#10;  'capture'">def test_browser_free_capture_api():
+        d = driver()
+        required = {'build_capture_cases', 'capture', 'validate_capture', 'review_session', 'finalize'}
+&gt;       assert required &lt;= set(dir(d)), 'max-specific capture and independent review API missing'
+E       AssertionError: max-specific capture and independent review API missing
+E       assert {'build_captu...date_capture'} &lt;= {'BASELINE', ...LParser', ...}
+E         
+E         Extra items in the left set:
+E         'review_session'
+E         'validate_capture'
+E         'build_capture_cases'
+E         'finalize'
+E         'capture'
+
+tests/test_max_count_verifier.py:22: AssertionError</failure></testcase></testsuite></testsuites>
