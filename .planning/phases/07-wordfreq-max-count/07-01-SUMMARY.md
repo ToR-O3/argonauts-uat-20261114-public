@@ -85,7 +85,7 @@ Task commit数は `git rev-list --count 8efbfaa..HEAD` で3を確認。SUMMARY�
 ## Evidence and Verification
 
 原本root: `.planning/argonauts/r-d4bcda40/`。
-詳細の全scenario→case群と件数、変異別失敗方向、環境、後続gateは `builder/07-01/VERIFICATION.md`。
+詳細の全scenario→case群と件数、変異別失敗方向、環境、後続gateは repo root相対 `.planning/argonauts/r-d4bcda40/builder/07-01/VERIFICATION.md`。
 
 - `baseline/index.json`, `index.sha256`, `provenance.json`: CLI39、views0/images0、1.154767425秒。旧oracleの12caseは不変参照。
 - `builder/07-01/red/`: exit1、276件、213失敗/63成功、16.406800224秒。正常maxの未登録exit2対期待exit0/1という意図したassert差。parser/helpも未登録による差。permission実拒否・復元確認済み。

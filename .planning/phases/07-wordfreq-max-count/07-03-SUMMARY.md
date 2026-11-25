@@ -80,7 +80,7 @@ status: complete
 
 ## Evidence and Verification
 
-原本root `.planning/argonauts/r-d4bcda40/builder/07-03/`。詳細はVERIFICATION.md。
+原本root `.planning/argonauts/r-d4bcda40/builder/07-03/`。詳細は repo root相対 `.planning/argonauts/r-d4bcda40/builder/07-03/VERIFICATION.md`。
 
 | Stage | tests / exit | wall秒 |
 |---|---|---|

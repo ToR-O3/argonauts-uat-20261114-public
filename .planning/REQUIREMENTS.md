@@ -94,12 +94,14 @@ Source: 仕様承認t_ef216d95、要求・仕様t_fa8e2c5f completed run119、�
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| REQ-23 | Phase 7 | Pending |
-| REQ-24 | Phase 7 | Pending |
-| REQ-25 | Phase 7 | Pending |
-| REQ-26 | Phase 7 | Pending |
-| REQ-27 | Phase 7 | Pending |
-| REQ-28 | Phase 7 | Pending |
+| REQ-23 | Phase 7 | Complete |
+| REQ-24 | Phase 7 | Complete |
+| REQ-25 | Phase 7 | Complete |
+| REQ-26 | Phase 7 | Complete |
+| REQ-27 | Phase 7 | Complete |
+| REQ-28 | Phase 7 | Complete |
+
+完了根拠: `phases/07-wordfreq-max-count/07-VERIFICATION.md`（10/10）、品質の標準添付93〜95と受入t_d6a12bfd approved。判断日時2026-11-25 21:22の依頼者原文「変更前後の画像の取得と比較は省いてください。html の出力は、試験で中身（出す単語と回数）を確かめれば足ります。ほかの受入条件と品質の独立した確認はそのままにしてください。」により、REQ-26/27のブラウザー画像・幾何・通信観測/canaryは未実施・対象外。Completeはそれらの合格を示さず、独立CLI/HTML内容・全試験・文字証拠添付の完了を示す。
 
 ## v2 Requirements
 
