@@ -1,0 +1,74 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+______________ test_saved_evidence_without_git_history[baseline] _______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7821704f4380>
+evidence = 'baseline'
+
+    @pytest.mark.parametrize('evidence', ['baseline', 'red'])
+    def test_saved_evidence_without_git_history(monkeypatch, evidence):
+        d = driver()
+    
+        def unavailable_history(*args, **kwargs):
+            raise AssertionError('saved evidence verification must not read Git history')
+    
+        monkeypatch.setattr(d.subprocess, 'run', unavailable_history)
+        if evidence == 'baseline':
+>           d.validate_baseline(ROOT / d.BASELINE)
+
+tests/test_max_count_verifier.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/verify_wordfreq_max_count.py:202: in validate_baseline
+    or index['provenance']['product_blobs'] != start_blobs()):
+                                               ^^^^^^^^^^^^^
+tools/verify_wordfreq_max_count.py:47: in start_blobs
+    return {p: hashlib.sha256(subprocess.run(['git', 'show', f'{START}:{p}'], cwd=ROOT,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (['git', 'show', '8efbfaa1907ace272a4f685e2659144a4085d303:wordfreq/__init__.py'],)
+kwargs = {'capture_output': True, 'check': True, 'cwd': PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_87068596'), 'timeout': 20}
+
+    def unavailable_history(*args, **kwargs):
+>       raise AssertionError('saved evidence verification must not read Git history')
+E       AssertionError: saved evidence verification must not read Git history
+
+tests/test_max_count_verifier.py:85: AssertionError
+_________________ test_saved_evidence_without_git_history[red] _________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7821703130b0>
+evidence = 'red'
+
+    @pytest.mark.parametrize('evidence', ['baseline', 'red'])
+    def test_saved_evidence_without_git_history(monkeypatch, evidence):
+        d = driver()
+    
+        def unavailable_history(*args, **kwargs):
+            raise AssertionError('saved evidence verification must not read Git history')
+    
+        monkeypatch.setattr(d.subprocess, 'run', unavailable_history)
+        if evidence == 'baseline':
+            d.validate_baseline(ROOT / d.BASELINE)
+        else:
+>           d.validate_red(ROOT / d.EVIDENCE / 'red')
+
+tests/test_max_count_verifier.py:91: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/verify_wordfreq_max_count.py:236: in validate_red
+    if (result['exit'] != 1 or result['product_blobs'] != start_blobs()
+                                                          ^^^^^^^^^^^^^
+tools/verify_wordfreq_max_count.py:47: in start_blobs
+    return {p: hashlib.sha256(subprocess.run(['git', 'show', f'{START}:{p}'], cwd=ROOT,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (['git', 'show', '8efbfaa1907ace272a4f685e2659144a4085d303:wordfreq/__init__.py'],)
+kwargs = {'capture_output': True, 'check': True, 'cwd': PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_87068596'), 'timeout': 20}
+
+    def unavailable_history(*args, **kwargs):
+>       raise AssertionError('saved evidence verification must not read Git history')
+E       AssertionError: saved evidence verification must not read Git history
+
+tests/test_max_count_verifier.py:85: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_max_count_verifier.py::test_saved_evidence_without_git_history[baseline]
+FAILED tests/test_max_count_verifier.py::test_saved_evidence_without_git_history[red]
+2 failed, 12 deselected in 0.11s

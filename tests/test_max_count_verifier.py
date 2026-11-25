@@ -75,3 +75,17 @@ def test_saved_baseline():
 def test_saved_preimplementation_red():
     d = driver()
     d.validate_red(ROOT / d.EVIDENCE / 'red')
+
+
+@pytest.mark.parametrize('evidence', ['baseline', 'red'])
+def test_saved_evidence_without_git_history(monkeypatch, evidence):
+    d = driver()
+
+    def unavailable_history(*args, **kwargs):
+        raise AssertionError('saved evidence verification must not read Git history')
+
+    monkeypatch.setattr(d.subprocess, 'run', unavailable_history)
+    if evidence == 'baseline':
+        d.validate_baseline(ROOT / d.BASELINE)
+    else:
+        d.validate_red(ROOT / d.EVIDENCE / 'red')
