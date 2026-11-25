@@ -81,6 +81,26 @@ Source: 仕様承認t_dafbe600 run5、要求・仕様t_e0507c11 run4、OpenSpec 
 |-------------|-------|--------|
 | REQ-22 | Phase 5 | Pending |
 
+## r-d4bcda40 Requirements (Phase 7)
+
+Source: 仕様承認t_ef216d95、要求・仕様t_fa8e2c5f completed run119、承認済みOpenSpec `r-d4bcda40-max-count` proposal/spec/tasksとBMAD PRD。mergeは追加のみ。過去の要件・完了履歴を保持し、上限省略時は従来の契約を維持する。詳細の出典対応はintel/requirements.mdとconstraints.md。
+
+- [ ] **REQ-23**: FR-1/MAX-1: --max-countをtype=int相当・省略Noneで追加し、0/負数/+2/02/大整数を受理。help表示、欠落/非整数は入力取得前exit2・stdout空・stderr通知・Tracebackなし。
+- [ ] **REQ-24**: FR-2/MAX-1/MC-1: 正規化後count>=min AND (max未指定 OR count<=max)で共通選択し、回数降順/同数初出順のtopへ渡す。全3形式、両端包含、引数順独立、Unicode合算、選択後11種類以上の既定top10。top入力spy・元Counter不変・共通pairsを検証する。
+- [ ] **REQ-25**: FR-3/MAX-1: 正常入力のmax0/負数/min>max/全除外/空/抽出0語は既存空形式でexit0。空集合でも入力取得を省略せず不存在/ディレクトリ/読込/不正UTF-8はexit1。不正min0/top0併用は入力取得前exit2。min/max関係エラーを追加しない。
+- [ ] **REQ-26**: FR-4/MAX-2: 未指定/十分大きい上限を変更前固定期待バイト列と照合。元Counter・HTML元総数はmin/max/top前を維持。beta4/zoo3/apple2/pear2/single1でmin2/max3/top1はzoo3・元総数12。抽出/casefold/初出順/UTF-8/escape/basename/静的安全性/formatter API/既存出力/既定値を保持。CI・依存・見た目・無関係変更なし。
+- [ ] **REQ-27**: FR-5/MAX-3/tasks1.1/1.2/2.1/2.2: 先行追加試験RED→最小実装GREENと全既存pytest成功を環境・件数・exit付きで記録。品質が対象headで独立CLI・通常幅/狭幅HTMLブラウザ/画像閲覧/通信観測を実施し、入力/argv/exit/stdout/stderr/HTML原本を追跡可能にする。VERIFICATION.mdとCLI/CI文字証拠を添付し受入条件別結果・画像閲覧枚数/内容/結果を記録。PMに画像/圧縮ファイル閲覧を求めず未実施/未報告CIを成功扱いしない。
+- [ ] **REQ-28**: FR-6/MAX-3/tasks1.3: READMEへ `python -m wordfreq input.txt --min-count 2 --max-count 3 --format json` の例1つを入力 `beta beta beta alpha gamma alpha delta` と期待JSON（beta3/alpha2）付きで追加し実CLIのexit0/stdout/stderrを検証。整数全域・省略上限なし・包含・min併用・正常空結果・全除外時のmax調整・HTML総数はmax前を説明。既存本文の無関係変更なし。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-23 | Phase 7 | Pending |
+| REQ-24 | Phase 7 | Pending |
+| REQ-25 | Phase 7 | Pending |
+| REQ-26 | Phase 7 | Pending |
+| REQ-27 | Phase 7 | Pending |
+| REQ-28 | Phase 7 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

@@ -1,0 +1,12 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_67272f01/openspec/changes/r-d4bcda40-max-count/proposal.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Proposal",
+  "summary": "wordfreqに任意の整数上限--max-countを追加し、既存互換、min-count併用、共通出力、境界試験、README更新の要件と対象範囲を定める。",
+  "scope": ["wordfreq", "--max-count", "--min-count", "text/json/html", "CLI試験", "README.md"],
+  "cross_refs": ["README.md", "wordfreq/__main__.py", "_bmad-output/initiative-r-d4bcda40/"],
+  "locked": false,
+  "precedence": null
+}

@@ -1,0 +1,12 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_67272f01/openspec/changes/r-d4bcda40-max-count/tasks.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Tasks",
+  "summary": "--max-countの実装、共通選択、README使用例、互換性試験、独立CLI・HTML検証と受入後の最終化に関する作業仕様。",
+  "scope": ["--max-count", "共通選択", "Counter", "formatter", "pytest", "README使用例", "CLI", "HTML", "独立検証", "OpenSpec"],
+  "cross_refs": ["tests/test_cli.py", "wordfreq/__main__.py", "README.md", "VERIFICATION.md"],
+  "locked": false,
+  "precedence": null
+}

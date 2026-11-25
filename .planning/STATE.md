@@ -90,6 +90,8 @@ Recent decisions affecting current work:
 
 ### Roadmap Evolution
 
+- Phase 7 added: wordfreq max-count (r-d4bcda40; official phase.add result 7). Approved t_ef216d95, merge adds REQ-23..REQ-28 only, blockers/warnings/info 0. Existing stale verification remains outside this request; no prior unrelated phase artifacts reused.
+
 - Phase 5 added: README validation B (r-215b4390; official phase.add result 5). Approved t_dafbe600 run5, merge adds only REQ-22. No conflict; earlier stale verification remains outside this request.
 
 - Phase 3 added: wordfreq HTML output (r-50053edc; official phase.add result). Existing Phase 2 directory is unrelated residual work, not reused. Approval t_13dfdc77 run83 replaces old lexical ties via new phase REQ-11; E.7 conflict route, report .planning/INGEST-CONFLICTS.md.

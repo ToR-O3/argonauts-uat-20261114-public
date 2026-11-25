@@ -1,0 +1,12 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_67272f01/openspec/changes/r-d4bcda40-max-count/specs/wordfreq-cli/spec.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Spec Delta",
+  "summary": "wordfreq-cliの最大出現回数オプション、上下限とtopの適用順、各出力形式、空結果、エラー、既存互換、試験と使用例の契約を規定する。",
+  "scope": ["wordfreq-cli", "--max-count", "--min-count", "--top", "text/json/html出力", "Unicode正規化", "同数初出順", "HTML総出現回数", "空結果", "引数エラー", "入力読込みエラー", "既定互換", "pytest", "README"],
+  "cross_refs": ["README"],
+  "locked": false,
+  "precedence": null
+}

@@ -1,0 +1,12 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_67272f01/_bmad-output/initiative-r-d4bcda40/brief/brief-wordfreq-max-count.md",
+  "type": "DOC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "wordfreq --max-count Brief",
+  "summary": "wordfreq の整数オプション --max-count 追加について、頻度上限・下限の併用、既存互換、受入条件 B1–B6、変更範囲と導出根拠をまとめた Brief。",
+  "scope": ["wordfreq", "--max-count", "--min-count", "頻度選択", "text/json/html", "追加試験", "README"],
+  "cross_refs": ["wordfreq/__main__.py", "README.md", "aggregator.py", "formatters.py", "tests/test_cli.py", "pyproject.toml"],
+  "locked": false,
+  "precedence": null
+}

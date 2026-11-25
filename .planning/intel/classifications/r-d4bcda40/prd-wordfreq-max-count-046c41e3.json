@@ -1,0 +1,29 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_67272f01/_bmad-output/initiative-r-d4bcda40/prd/prd-wordfreq-max-count.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "wordfreq --max-count PRD",
+  "summary": "wordfreqの整数上限オプション--max-count、共通頻度帯選択、既存互換、追加試験、README説明の要件と受入条件を定義する。",
+  "scope": [
+    "wordfreq",
+    "--max-count",
+    "--min-count",
+    "--top",
+    "text/json/html出力",
+    "HTML総数",
+    "pytest",
+    "README.md"
+  ],
+  "cross_refs": [
+    "../brief/brief-wordfreq-max-count.md",
+    "_bmad-output/initiative-r-d4bcda40/brief/brief-wordfreq-max-count.md",
+    "tests/test_cli.py",
+    "pyproject.toml",
+    "README.md",
+    "wordfreq/__main__.py"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}
