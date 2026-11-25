@@ -1,0 +1,29 @@
+{
+  "passed": false,
+  "block": true,
+  "verdict": "INVALID_RED",
+  "reason": "invalid_record",
+  "evidence": {
+    "command": "",
+    "exit_code": null,
+    "target_test": "",
+    "tests": 0,
+    "pass": 0,
+    "fail": 0,
+    "failing_tests": [],
+    "matched_test": null,
+    "format": "unknown",
+    "report_errors": []
+  },
+  "record": {
+    "command": "",
+    "exit_code": null,
+    "failing_test": null,
+    "target_test": "",
+    "expected": "exit0, stderr empty, alpha2/gamma1/delta1",
+    "actual": "assertion fails: exit2 unrecognized --max-count 2, expected exit0",
+    "verdict": "INVALID_RED",
+    "reason": "invalid_record"
+  },
+  "message": "INVALID_RED (invalid_record): GREEN blocked. Fix the RED phase — only an intentional failure of target test \"\" authorizes production edits."
+}

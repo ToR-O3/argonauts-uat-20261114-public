@@ -817,3 +817,241 @@ def test_min_count_saved_default_bytes(case_index):
         assert result.stdout == expected
 
 
+# Phase 7 / OpenSpec 1.1: all groups below are authored and run before product edits.
+MAX_NORMAL = "beta beta beta alpha gamma alpha delta"
+MAX_THREE = "beta beta beta beta zoo zoo zoo apple apple pear pear single"
+MAX_MANY_PAIRS = [(f"eligible{i:02d}", 2) for i in range(12)]
+MAX_MANY_BODY = "over over over " + " ".join(w for w, n in MAX_MANY_PAIRS for _ in range(n))
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_max_count_tracer(tmp_path, output_format):
+    path = tmp_path / "input.txt"
+    path.write_text(MAX_NORMAL, encoding="utf-8")
+    result = run_cli_bytes(path, "--max-count", "2", "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format,
+                        [("alpha", 2), ("gamma", 1), ("delta", 1)], path.name, 7)
+
+
+@pytest.mark.parametrize("value", [None, "0", "-1", "+2", "02", str(10**100), str(-10**100)])
+def test_max_count_parser(value):
+    from wordfreq.__main__ import build_parser
+    parser = build_parser()
+    args = ["input.txt"] + ([] if value is None else ["--max-count=" + value])
+    actual = parser.parse_args(args).max_count
+    assert actual == (None if value is None else int(value))
+    assert actual is None or type(actual) is int
+
+
+def test_max_count_parser_equals_negative():
+    from wordfreq.__main__ import build_parser
+    assert build_parser().parse_args(["input.txt", "--max-count=-1"]).max_count == -1
+
+
+def test_max_count_help():
+    result = run_cli_bytes("--help")
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert b"--max-count MAX_COUNT" in result.stdout
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("reverse", [False, True])
+@pytest.mark.parametrize("content,minimum,maximum,top,expected,total", [
+    (MAX_NORMAL, 1, 2, None, [("alpha", 2), ("gamma", 1), ("delta", 1)], 7),
+    (MAX_NORMAL, 1, 1, 3, [("gamma", 1), ("delta", 1)], 7),
+    (MAX_NORMAL, 2, 2, None, [("alpha", 2)], 7),
+    (MAX_NORMAL, 2, 3, None, [("beta", 3), ("alpha", 2)], 7),
+    (MAX_NORMAL, 1, 2, 1, [("alpha", 2)], 7),
+    (MAX_THREE, 2, 3, 1, [("zoo", 3)], 12),
+    ("Straße STRASSE 日本語 日本語", 1, 1, None, [], 4),
+    ("Straße STRASSE 日本語 日本語", 2, 2, None, [("strasse", 2), ("日本語", 2)], 4),
+    ("Zoo apple APPLE zoo banana", 2, 2, 1, [("zoo", 2)], 5),
+    ("Zoo apple APPLE zoo banana", 2, 2, 2, [("zoo", 2), ("apple", 2)], 5),
+    ("zoo apple zoo apple zoo apple zoo apple zoo apple", 1, 5, None, [("zoo", 5), ("apple", 5)], 10),
+    (MAX_MANY_BODY, 2, 2, None, MAX_MANY_PAIRS[:10], 27),
+    (MAX_MANY_BODY, 2, 2, 3, MAX_MANY_PAIRS[:3], 27),
+    (MAX_MANY_BODY, 2, 2, 99, MAX_MANY_PAIRS, 27),
+    ("one", 1, 1, 3, [("one", 1)], 1),
+])
+def test_max_count_selection(tmp_path, output_format, reverse, content, minimum, maximum, top, expected, total):
+    path = tmp_path / "input.txt"
+    path.write_text(content, encoding="utf-8")
+    low, high = ["--min-count", str(minimum)], ["--max-count", str(maximum)]
+    options = high + low if reverse else low + high
+    if top is not None:
+        options += ["--top", str(top)]
+    result = run_cli_bytes(path, "--format", output_format, *options)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("content,minimum,maximum,total", [
+    (MAX_NORMAL, 1, 0, 7), (MAX_NORMAL, 1, -1, 7),
+    (MAX_NORMAL, 1, -10**100, 7), (MAX_NORMAL, 3, 2, 7),
+    ("one", 1, 0, 1), ("", 1, 2, 0), (" \t\r\n  ", 1, 2, 0),
+    ("!?,.;: --", 1, 2, 0), ("Zoo apple APPLE zoo banana", 3, 3, 5),
+])
+def test_max_count_empty(tmp_path, output_format, content, minimum, maximum, total):
+    from test_formatters import HTMLDocument, assert_static_document
+    path = tmp_path / "empty-or-filtered.txt"
+    path.write_text(content, encoding="utf-8")
+    result = run_cli_bytes(path, "--min-count", minimum, "--max-count", maximum, "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [], path.name, total)
+    if output_format == "html":
+        document = HTMLDocument(result.stdout.decode("utf-8"))
+        assert_static_document(document)
+        assert document.tagged("td") == []
+        assert document.classified("empty-message")[0]["text"] == (
+            "集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。")
+
+
+MAX_USAGE = [("--max-count", "abc"), ("--max-count", "1.5"), ("--max-count",)] + [
+    ("--max-count", maximum, option, bad)
+    for maximum in ("0", "-1") for option in ("--min-count", "--top") for bad in ("0", "-1", "abc", "1.5")
+] + [("--max-count", "0", "--min-count"), ("--max-count", "-1", "--top")]
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("options", MAX_USAGE)
+def test_max_count_invalid_before_read(tmp_path, monkeypatch, capsys, output_format, options):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    calls = []
+
+    def spy(source):
+        calls.append(source)
+        raise AssertionError("usage must not acquire input")
+
+    monkeypatch.setattr(FileSource, "read_text", spy)
+    args = [str(tmp_path / "missing"), "--format", output_format, *options]
+    with pytest.raises(SystemExit) as caught:
+        main(args)
+    assert caught.value.code == 2 and calls == []
+    output = capsys.readouterr()
+    assert output.out == "" and "wordfreq: error:" in output.err
+    assert "Traceback" not in output.err
+    real = run_cli_bytes(*args)
+    assert real.returncode == 2 and real.stdout == b""
+    assert b"wordfreq: error:" in real.stderr and b"Traceback" not in real.stderr
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("options", [("--max-count", "0"), ("--max-count", "-1"),
+                                      ("--min-count", "3", "--max-count", "2")])
+@pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+def test_max_count_input_failure(tmp_path, output_format, options, failure):
+    path = tmp_path / "input.txt"
+    if failure == "directory":
+        path.mkdir()
+    elif failure == "decode":
+        path.write_bytes(b"hello\xff")
+    elif failure == "permission":
+        path.write_bytes(b"hello")
+        path.chmod(0)
+    try:
+        if failure == "permission":
+            with pytest.raises(PermissionError, match="Permission denied"):
+                path.read_bytes()
+        result = run_cli_bytes(path, "--format", output_format, *options)
+        assert result.returncode == 1 and result.stdout == b""
+        assert result.stderr and b"Traceback" not in result.stderr
+        if failure == "permission":
+            assert b"Permission denied" in result.stderr
+    finally:
+        if failure == "permission":
+            path.chmod(0o600)
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_max_count_internal_order(tmp_path, monkeypatch, output_format):
+    from collections import Counter
+    import wordfreq.__main__ as cli
+    original = Counter({"beta": 4, "zoo": 3, "apple": 2, "pear": 2, "single": 1})
+    before = list(original.items())
+    monkeypatch.setattr(cli, "count_words", lambda tokens: original)
+    real_top = cli.top_words
+    real_formatter = getattr(cli, "format_" + output_format)
+    selected, formatted = [], []
+
+    def top_spy(counts, n):
+        assert counts is not original
+        assert list(counts.items()) == [("zoo", 3), ("apple", 2), ("pear", 2)]
+        pairs = real_top(counts, n)
+        selected.append(pairs)
+        return pairs
+
+    def formatter_spy(pairs, *metadata):
+        assert pairs is selected[0]
+        assert pairs == [("zoo", 3)]
+        assert metadata == (("input.txt", 12) if output_format == "html" else ())
+        formatted.append(True)
+        return real_formatter(pairs, *metadata)
+
+    monkeypatch.setattr(cli, "top_words", top_spy)
+    monkeypatch.setattr(cli, "format_" + output_format, formatter_spy)
+    path = tmp_path / "input.txt"
+    path.write_text(MAX_THREE, encoding="utf-8")
+    with pytest.raises(SystemExit) as caught:
+        cli.main([str(path), "--min-count", "2", "--max-count", "3", "--top", "1", "--format", output_format])
+    assert caught.value.code == 0 and formatted == [True]
+    assert list(original.items()) == before
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_max_count_hashseed(tmp_path, output_format):
+    path = tmp_path / "seed.txt"
+    path.write_text("Zoo apple APPLE zoo banana Café CAFÉ 日本語", encoding="utf-8")
+    outputs = []
+    for seed in ["0", "1", "42"]:
+        result = run_cli_bytes(path, "--min-count", "2", "--max-count", "2", "--format", output_format,
+                               env=dict(os.environ, PYTHONHASHSEED=seed))
+        assert (result.returncode, result.stderr) == (0, b"")
+        assert_output_bytes(result.stdout, output_format, [("zoo", 2), ("apple", 2), ("café", 2)], path.name, 8)
+        outputs.append(result.stdout)
+    assert outputs[0] == outputs[1] == outputs[2]
+
+
+@pytest.mark.parametrize("case_index", range(39))
+def test_max_count_saved_bytes(case_index):
+    root = ROOT / ".planning/argonauts/r-d4bcda40/baseline"
+    index = json.loads((root / "index.json").read_text(encoding="utf-8"))
+    case = index["cases"][case_index]
+    path = root / case["input"]
+    assert path.read_bytes() == case["body"].encode("utf-8")
+    expected = (root / case["stdout"]).read_bytes()
+    for extra in [[], ["--max-count", str(10**100)], ["--min-count", "1"]
+                  if "--min-count" not in case["options"] else []]:
+        result = run_cli_bytes(path, *case["options"], *extra, env=index["environment"])
+        assert (result.returncode, result.stderr) == (case["exit"], (root / case["stderr"]).read_bytes())
+        assert result.stdout == expected
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_max_count_read_only(tmp_path, output_format):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    shutil.copy2(ROOT / ".gitignore", repo / ".gitignore")
+    subprocess.run(["git", "init", "--quiet", str(repo)], check=True)
+    subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
+    inputs = tmp_path / "inputs"
+    inputs.mkdir()
+    path = inputs / "input.txt"
+    body = MAX_NORMAL.encode("utf-8")
+    path.write_bytes(body)
+    env = os.environ.copy()
+    env.pop("PYTHONDONTWRITEBYTECODE", None)
+    before = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"],
+                            cwd=repo, capture_output=True, check=True).stdout
+    result = subprocess.run([sys.executable, "-m", "wordfreq", str(path), "--max-count", "2",
+                             "--format", output_format], cwd=repo, env=env, capture_output=True, timeout=10)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert path.read_bytes() == body and list(inputs.iterdir()) == [path]
+    after = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"],
+                           cwd=repo, capture_output=True, check=True).stdout
+    assert before == after
+
