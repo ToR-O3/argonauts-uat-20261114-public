@@ -150,11 +150,11 @@ Plans:
   3. 変更前の省略期待値、元Counter/元総数12、Unicode/casefold/初出順/formatter API/安全性/見た目を保持。
   4. 先行RED/GREENと全pytest成功、README例1つを実CLIで検証。依存/CI/無関係変更なし。
   5. 品質が対象headで独立CLI/通常幅・狭幅HTML/全画像閲覧/通信観測を実施しVERIFICATION.mdとCLI/CI文字証拠に受入条件別結果と閲覧枚数/内容/結果を記録・添付。PMへ画像/圧縮ファイル閲覧を要求しない。
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
 **Wave 1**
-- [ ] 07-01-PLAN.md — Wave 1: 変更前oracle/両幅画像を封印しmax-count全形式tracerと包含・内部順序・固定bytesを検証（2 tasks）
+- [x] 07-01-PLAN.md — Wave 1: 変更前oracle/両幅画像を封印しmax-count全形式tracerと包含・内部順序・固定bytesを検証（2 tasks）
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 07-02-PLAN.md — Wave 2（depends 07-01）: 正常空/usage/入力失敗の三出口とREADME指定1例の先行試験（2 tasks）

@@ -112,6 +112,7 @@ GREEN原本はtest commit＋製品working diff、full原本は製品commit＋7�
 - 初回2runはChromiumのSocket path too longで停止。環境は未修復。上記の人の判断により今回画像gateを除外して再開した。
 - 公式RED classifierのrecord.commandは文字列が必要。配列だとexit0でもJSONはINVALID_REDだったため、JSONを読んで修正し、再判定でOKを確認した。JUnitは変更していない。
 - CLI641/全suite997のwall timeは30秒超。高速性やCI成功と主張しない。
+- SUMMARY commit後の公式advance-planは1→2/全3へadvanced=true、roadmap.update-plan-progressはsummary1/plan3・In Progress・complete=false。state.update-progressは既存milestone scopeがunscopedのためupdated=falseで表示率25%を維持した。率を手修正・成功扱いせず記録。公式init.execute-phase 7でSUMMARY07-01のみ、未完了07-02/03、保存後Current Positionはphase7/plan2/全3・Ready to executeと一致を確認できたため次PLANを実行せず品質レビューへ渡す。
 
 ## User Setup Required
 
