@@ -1,11 +1,15 @@
 ---
 phase: "07"
 slug: "wordfreq-max-count"
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: validated
+nyquist_compliant: true
+wave_0_complete: true
 created: "2026-11-25"
+audited: "2026-11-25"
+audited_head: "b4e9037892f01582554a96df2389c9e0458d7c35"
 ---
+
+> **Validate-phase audit (2026-11-25, head b4e9037):** State A (existing draft). 3 PLAN / 3 SUMMARY read. All per-task selectors exist in `tests/test_cli.py` / `tests/test_max_count_verifier.py` and run green at audited head. Requirement gaps: 0 (no auditor spawned, no tests generated). Browser/image/Range/network gates are **N/A by requester decision 2026-11-25 21:22 JST** (t_87068596, created_at=1795609328): image comparison is not an acceptance criterion; HTML is sufficiently verified by tests confirming words and counts. They are recorded as not-applicable, **not passed**. Independent quality / text delivery / PM read (REQ-27, OpenSpec 2.2) remain Manual-Only process gates.
 
 # Phase 7 — Validation Strategy
 
@@ -41,17 +45,17 @@ timeoutは同taskで作るdriverの有限deadlineとして実装し、成功ま�
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| 07-01-01a | 07-01 | 1 | REQ-26,REQ-27 | T-07-01,T-07-03 | oracle破損/偽head/synthetic/再採取拒否 | validator | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k browser_free -q -x` | 同task新規作成 | pending |
-| 07-01-01c | 07-01 | 1 | REQ-26,REQ-27 | T-07-01 | 封印原本のread-only照合 | regression | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k saved_baseline -q -x` | 同task新規作成、baseline後 | pending |
-| 07-01-01e | 07-01 | 1 | REQ-23..REQ-27 | T-07-01,T-07-02,T-07-04,T-07-05 | 全1.1先行実行/未実装時RED/未変更製品blobのread-only照合 | evidence validator | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k saved_preimplementation_red -q -x` | 同task新規作成 | pending |
-| 07-01-01f | 07-01 | 1 | REQ-23..REQ-27 | T-07-01,T-07-02,T-07-04,T-07-05 | 本体変更前に作った1.1全追加群が実装後GREEN | CLI+spy | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count -q -x` | file既存、同taskで全1.1群作成 | pending |
-| 07-01-01d | 07-01 | 1 | REQ-23,REQ-24,REQ-26,REQ-27 | T-07-02,T-07-03 | 全3形式の実max path RED/GREEN | CLI E2E | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count_tracer -q -x` | file既存、同task群追加 | pending |
-| 07-01-02 | 07-01 | 1 | REQ-23,REQ-24,REQ-26,REQ-27 | T-07-01,T-07-02,T-07-03 | 先行群の包含/AND/top前/Counter不変/shared pairs/保存bytesと追加判別力 | CLI+spy+discrimination | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count -q -x` | 07-01-01で全群作成済み、同task変異fixture追加 | pending |
-| 07-02-01 | 07-02 | 2 | REQ-23,REQ-24,REQ-25,REQ-26,REQ-27 | T-07-04,T-07-05 | 先行群の正常空/usage前readなし/実入力失敗/書込みなしと追加判別力 | CLI+spy | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k "max_count_empty or max_count_invalid_before_read or max_count_input_failure or max_count_read_only" -q -x` | 07-01-01で全群作成済み、同task変異fixture追加 | pending |
-| 07-02-02 | 07-02 | 2 | REQ-27,REQ-28 | T-07-06 | 指定README1例を実CLIで再現 | doc+CLI | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count_readme_example -q -x` | file既存、同task群追加 | pending |
-| 07-03-01a | 07-03 | 3 | REQ-26,REQ-27 | T-07-07,T-07-08 | actor/head/全画像/raw/late-network欠落を拒否 | validator | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k browser_free -q -x` | 07-01作成file、同task拡張 | pending |
-| 07-03-01b | 07-03 | 3 | REQ-23..REQ-28 | T-07-07,T-07-08 | 必須captureの全原本/全case/view/canary/suite/実成功とpending-reviewをread-only照合 | evidence validator | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k saved_builder_capture -q -x` | 07-01作成file、同task試験追加 | pending |
-| 07-03-02 | 07-03 | 3 | REQ-23..REQ-28 | T-07-09,T-07-10 | scope限定/既存試験維持/全AC文字証拠の独立handoff | contract+git diff | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k "evidence_contract or scope_contract" -q -x` | 同task群とrunbook作成 | pending |
+| 07-01-01a | 07-01 | 1 | REQ-26,REQ-27 | T-07-01,T-07-03 | oracle破損/偽head/synthetic/再採取拒否 | validator | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k browser_free -q -x` | 同task新規作成 | ✅ green |
+| 07-01-01c | 07-01 | 1 | REQ-26,REQ-27 | T-07-01 | 封印原本のread-only照合 | regression | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k saved_baseline -q -x` | 同task新規作成、baseline後 | ✅ green |
+| 07-01-01e | 07-01 | 1 | REQ-23..REQ-27 | T-07-01,T-07-02,T-07-04,T-07-05 | 全1.1先行実行/未実装時RED/未変更製品blobのread-only照合 | evidence validator | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k saved_preimplementation_red -q -x` | 同task新規作成 | ✅ green |
+| 07-01-01f | 07-01 | 1 | REQ-23..REQ-27 | T-07-01,T-07-02,T-07-04,T-07-05 | 本体変更前に作った1.1全追加群が実装後GREEN | CLI+spy | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count -q -x` | file既存、同taskで全1.1群作成 | ✅ green |
+| 07-01-01d | 07-01 | 1 | REQ-23,REQ-24,REQ-26,REQ-27 | T-07-02,T-07-03 | 全3形式の実max path RED/GREEN | CLI E2E | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count_tracer -q -x` | file既存、同task群追加 | ✅ green |
+| 07-01-02 | 07-01 | 1 | REQ-23,REQ-24,REQ-26,REQ-27 | T-07-01,T-07-02,T-07-03 | 先行群の包含/AND/top前/Counter不変/shared pairs/保存bytesと追加判別力 | CLI+spy+discrimination | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count -q -x` | 07-01-01で全群作成済み、同task変異fixture追加 | ✅ green |
+| 07-02-01 | 07-02 | 2 | REQ-23,REQ-24,REQ-25,REQ-26,REQ-27 | T-07-04,T-07-05 | 先行群の正常空/usage前readなし/実入力失敗/書込みなしと追加判別力 | CLI+spy | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k "max_count_empty or max_count_invalid_before_read or max_count_input_failure or max_count_read_only" -q -x` | 07-01-01で全群作成済み、同task変異fixture追加 | ✅ green |
+| 07-02-02 | 07-02 | 2 | REQ-27,REQ-28 | T-07-06 | 指定README1例を実CLIで再現 | doc+CLI | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count_readme_example -q -x` | file既存、同task群追加 | ✅ green |
+| 07-03-01a | 07-03 | 3 | REQ-26,REQ-27 | T-07-07,T-07-08 | actor/head/全画像/raw/late-network欠落を拒否 | validator | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k browser_free -q -x` | 07-01作成file、同task拡張 | ✅ green |
+| 07-03-01b | 07-03 | 3 | REQ-23..REQ-28 | T-07-07,T-07-08 | 必須captureの全原本/全case/view/canary/suite/実成功とpending-reviewをread-only照合 | evidence validator | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k saved_builder_capture -q -x` | 07-01作成file、同task試験追加 | ✅ green |
+| 07-03-02 | 07-03 | 3 | REQ-23..REQ-28 | T-07-09,T-07-10 | scope限定/既存試験維持/全AC文字証拠の独立handoff | contract+git diff | `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k "evidence_contract or scope_contract" -q -x` | 同task群とrunbook作成 | ✅ green |
 
 **全command共通の失敗方向:** 非0/ERROR/0 collected/必須case skipは失敗。REDは対象assertの失敗を保存し、pytest欠落/import失敗/未作成selectorはREDにしない。GREENで同失敗が残る、対象case未実施、入力/期待値不一致、原本改変/欠落、対象head/環境/件数/exitの記録欠落も失敗。PLANの各automatedの直後に個別fails_whenを記した。baseline commandは製品編集前の一度限りで、以後はsaved_baselineのread-only検証を使う。
 
@@ -157,25 +161,53 @@ AC1..6はBriefのB1..6を指す。ROADMAPの5項目へ圧縮して6ACを失わ�
 
 ASVS1/high blockのまま。high mitigation未確認をpassedにせず、認証/DB/AI/外部APIは非該当。公式API/assumption negativeは07-01に記録、最終probes/独立checkerは親が実施する。
 
+## Requirement Coverage (validate-phase audit, head b4e9037)
+
+| Requirement | Test file → tests | Status |
+|---|---|---|
+| REQ-23 | tests/test_cli.py → test_max_count_parser, test_max_count_parser_equals_negative, test_max_count_help, test_max_count_invalid_before_read, test_max_count_tracer | COVERED |
+| REQ-24 | tests/test_cli.py → test_max_count_selection, test_max_count_internal_order, test_max_count_hashseed, test_max_count_discrimination | COVERED |
+| REQ-25 | tests/test_cli.py → test_max_count_empty, test_max_count_input_failure, test_max_count_invalid_before_read, test_max_count_empty_exit_discrimination | COVERED |
+| REQ-26 | tests/test_cli.py → test_max_count_saved_bytes, test_max_count_read_only, test_min_count_saved_default_bytes; tests/test_max_count_verifier.py → test_saved_baseline, test_saved_builder_capture (CLI138/HTML46 words+counts), test_scope_contract_* | COVERED (HTML by words/counts per requester decision) |
+| REQ-27 | tests/test_max_count_verifier.py → test_saved_preimplementation_red, test_saved_builder_capture, test_browser_free_bad_suite_rejected, test_evidence_contract_*, test_scope_contract_*; full suite 1048 passed (quality final-01 suite.xml) | COVERED (automated part); independent quality/text delivery = Manual-Only; browser/image = N/A by decision |
+| REQ-28 | tests/test_cli.py → test_max_count_readme_example | COVERED |
+
+Gaps: none MISSING/PARTIAL. Gate choice (unattended): "Skip — mark manual-only" path for non-automatable process items only; no tests generated, no auditor spawned.
+
 ## Wave 0 Requirements
-- [ ] Before production edits, inspect existing saved output and freeze any missing omission oracle/input/argv/cwd/env/exit/stderr. Never regenerate expected values from new implementation.
-- [ ] 07-01-01で1.1全追加pytestを本体変更前に作成・実行し、未実装時の狙ったRED/自然GREENを保存・検証してから最小実装GREEN。README先行試験だけ1.3として07-02-02。後続単一変異は追加判別力であり先行REDの代替不可。
-- [ ] If new baseline fixture or verifier/test driver is needed, PLAN explicitly creates it in same/earlier task, with nonzero failure assertions and standard Python/pytest execution. No no-op or synthetic evidence.
-- [ ] Existing CPython3.12 pytest environment suffices; do not add dependencies/CI. PATH Python3.14 has no pytest; use recorded explicit environment.
+- [x] Before production edits, inspect existing saved output and freeze any missing omission oracle/input/argv/cwd/env/exit/stderr. Never regenerate expected values from new implementation.
+- [x] 07-01-01で1.1全追加pytestを本体変更前に作成・実行し、未実装時の狙ったRED/自然GREENを保存・検証してから最小実装GREEN。README先行試験だけ1.3として07-02-02。後続単一変異は追加判別力であり先行REDの代替不可。（test_saved_preimplementation_red green at b4e9037）
+- [x] If new baseline fixture or verifier/test driver is needed, PLAN explicitly creates it in same/earlier task, with nonzero failure assertions and standard Python/pytest execution. No no-op or synthetic evidence.
+- [x] Existing CPython3.12 pytest environment suffices; do not add dependencies/CI. PATH Python3.14 has no pytest; use recorded explicit environment.
 
 ## Manual-Only Verifications
 
 | Behavior | Requirement | Why Manual | Test Instructions |
 |---|---|---|---|
-| Actual HTML readability and image inspection | REQ-26,REQ-27 | DOM/pytest cannot substitute actual visual review | Quality independently generates HTML from target head; 1280x900 and 320x900 CSS px DPR1; compare same-condition pre-change states; inspect all images/tiles, raw Range, clipping, overlap, whitespace and injection candidates; track all document-caused request/failed-request/navigation/popup attempts. |
+| ~~Actual HTML readability and image inspection~~ — **N/A by requester decision 2026-11-25 21:22 JST (not passed)** | REQ-26,REQ-27 | Requester: image comparison not in acceptance; HTML verified by tests of words/counts. Browser cannot launch in this environment. | Not executed. Original instructions retained for record only: |
+| Independent quality CLI/HTML-content re-check, text evidence attachment, PM read_file | REQ-27 (OpenSpec 2.2) | Independence/attribution is a process gate, not a testable code behavior | Per docs/wordfreq-max-count-verification.md runbook; quality final-01 full suite already 1048 passed exit0 at b4e9037. |
+| (orig) Actual HTML readability and image inspection | REQ-26,REQ-27 | N/A by decision | Quality independently generates HTML from target head; 1280x900 and 320x900 CSS px DPR1; compare same-condition pre-change states; inspect all images/tiles, raw Range, clipping, overlap, whitespace and injection candidates; track all document-caused request/failed-request/navigation/popup attempts. |
 | Ownership/head and delivery | REQ-27 | evidence attribution not inferred from file presence | Quality records fresh head, source, actor, argv/input/exit/stdout/stderr, HTML/raw/image/network files; attaches VERIFICATION.md plus CLI/CI text proof and states viewed image count/content/result per AC. PM reads text only; no archive/image requirement. OpenSpec2.2 execution belongs to phase verification. |
 
 ## Validation Sign-Off
-- [x] All final task IDs/commands mapped to saved 07-01..03 PLANs; command execution remains pending
-- [ ] No missing command inputs at task completion
-- [ ] Sampling continuity and no watch flags
-- [ ] RED/GREEN and all existing suite results measured, not inferred
-- [ ] Quality independent CLI/browser/image/network evidence and text attachment complete
-- [ ] nyquist_compliant true only after official validate-phase verifies actual implementation
+- [x] All final task IDs/commands mapped to saved 07-01..03 PLANs; all selectors exist and ran green at b4e9037
+- [x] No missing command inputs at task completion
+- [x] Sampling continuity and no watch flags
+- [x] RED/GREEN and all existing suite results measured, not inferred (SUMMARY stage originals; audit re-run below; quality final-01 suite 1048/0/0/0)
+- [ ] Quality independent CLI evidence and text attachment complete — Manual-Only (browser/image/network part N/A by requester decision, not passed)
+- [x] nyquist_compliant true only after official validate-phase verifies actual implementation
 
-**Approval:** executable planning map saved. Official PLAN frontmatter/structure checks are separate from execution. Implementation, Nyquist completion, independent quality OpenSpec2.2, text-original delivery and phase acceptance remain pending.
+**Approval:** Nyquist validated 2026-11-25 at b4e9037. Independent quality OpenSpec2.2 text delivery / PM read and phase acceptance remain separate gates.
+
+### Audit commands run (repo root, head b4e9037)
+- `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k max_count -q` → 292 passed, 358 deselected, exit 0 (56.96s)
+- `env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -q` → 54 passed, exit 0 (8.11s)
+- Full suite reused from quality: `.planning/argonauts/r-d4bcda40/quality/final-01/suite.json` → tests 1048, failures 0, errors 0, skipped 0, exit 0, head b4e9037 (208.9s)
+
+## Validation Audit 2026-11-25
+
+| Metric | Count |
+|---|---|
+| Gaps found | 0 |
+| Resolved | 0 |
+| Escalated | 0 |

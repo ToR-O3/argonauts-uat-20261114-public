@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: wordfreq HTML output** (completed 2026-11-18)
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 - [x] **Phase 5: README validation B** (completed 2026-11-22)
-- [ ] **Phase 7: wordfreq max-count**
+- [x] **Phase 7: wordfreq max-count** (completed 2026-11-25)
 
 ## Phase Details
 
@@ -150,7 +150,7 @@ Plans:
   3. 変更前の省略期待値、元Counter/元総数12、Unicode/casefold/初出順/formatter API/安全性/見た目を保持。
   4. 先行RED/GREENと全pytest成功、README例1つを実CLIで検証。依存/CI/無関係変更なし。
   5. 品質が対象headで独立CLI/通常幅・狭幅HTML/全画像閲覧/通信観測を実施しVERIFICATION.mdとCLI/CI文字証拠に受入条件別結果と閲覧枚数/内容/結果を記録・添付。PMへ画像/圧縮ファイル閲覧を要求しない。
-**Plans:** 3/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 **Wave 1**
