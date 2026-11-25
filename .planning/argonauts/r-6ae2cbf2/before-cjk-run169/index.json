@@ -1,0 +1,4039 @@
+{
+  "version": 1,
+  "verdict": "pending-review",
+  "synthetic": false,
+  "independent_acceptance": false,
+  "reviewed_images": [],
+  "provenance": {
+    "head": "fe0f0b322ff81b687bc8c8314e85614407f1d0c2",
+    "product_hashes": {
+      "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+      "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+      "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+      "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+      "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+      "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6",
+      "README.md": "43f1a6a69cd3aa616bd715e513f4913875f5c2ba0ef85907c98769787c318d68"
+    },
+    "driver_hashes": {
+      "tools/verify_wordfreq_displayed_types.py": "7f98349e5b325ed0ffb98a248c5135d3bee379f18783af864f99c96205b24e43",
+      "tools/verify_wordfreq_html.py": "eb5473dc51dd4eb531a05ea83f69e2190df6f6ffd8349e557a688b6aa3104b28",
+      "tools/wordfreq_html_geometry.js": "b3b639c8b324a2c65fef24e3ba9cb37bc59ee9d8cbe24d647058c1e6c7537626"
+    },
+    "cwd": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068",
+    "executable": "/usr/bin/python3",
+    "python": "3.12.15 (main, Oct  1 2026, 00:00:00) [GCC 14.3.1 20251022 (Red Hat 14.3.1-4)]",
+    "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "profile": "argonauts-uat-builder",
+    "task": null,
+    "run": null,
+    "environment": {
+      "TMPDIR": "/tmp/ab.NQr3Dz",
+      "PYTHONPATH": "/home/Yuki/.local/lib/python3.12/site-packages",
+      "PYTHONUTF8": null
+    }
+  },
+  "execution_head": "fe0f0b322ff81b687bc8c8314e85614407f1d0c2",
+  "report_head": null,
+  "root": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169",
+  "cases": [
+    {
+      "id": "max2-html",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "max2.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ],
+        [
+          "gamma",
+          1
+        ],
+        [
+          "delta",
+          1
+        ]
+      ],
+      "total": 7,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-html/private-source-directory/max2.txt",
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-html/private-source-directory/max2.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "max2-text",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "max2.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ],
+        [
+          "gamma",
+          1
+        ],
+        [
+          "delta",
+          1
+        ]
+      ],
+      "total": 7,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-text/private-source-directory/max2.txt",
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-text/private-source-directory/max2.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "max2-json",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "max2.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ],
+        [
+          "gamma",
+          1
+        ],
+        [
+          "delta",
+          1
+        ]
+      ],
+      "total": 7,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-json/private-source-directory/max2.txt",
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-json/private-source-directory/max2.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/max2-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "top1-html",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "top1.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--top",
+        "1",
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ]
+      ],
+      "total": 7,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-html/private-source-directory/top1.txt",
+        "--max-count",
+        "2",
+        "--top",
+        "1",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-html/private-source-directory/top1.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "top1-text",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "top1.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--top",
+        "1",
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ]
+      ],
+      "total": 7,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-text/private-source-directory/top1.txt",
+        "--max-count",
+        "2",
+        "--top",
+        "1",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-text/private-source-directory/top1.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "top1-json",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "top1.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--top",
+        "1",
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ]
+      ],
+      "total": 7,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-json/private-source-directory/top1.txt",
+        "--max-count",
+        "2",
+        "--top",
+        "1",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-json/private-source-directory/top1.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top1-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "top99-html",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "top99.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ],
+        [
+          "gamma",
+          1
+        ],
+        [
+          "delta",
+          1
+        ]
+      ],
+      "total": 7,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-html/private-source-directory/top99.txt",
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-html/private-source-directory/top99.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "top99-text",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "top99.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ],
+        [
+          "gamma",
+          1
+        ],
+        [
+          "delta",
+          1
+        ]
+      ],
+      "total": 7,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-text/private-source-directory/top99.txt",
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-text/private-source-directory/top99.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "top99-json",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "top99.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ],
+        [
+          "gamma",
+          1
+        ],
+        [
+          "delta",
+          1
+        ]
+      ],
+      "total": 7,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-json/private-source-directory/top99.txt",
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-json/private-source-directory/top99.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "min2max2-html",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "min2max2.txt",
+      "options": [
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ]
+      ],
+      "total": 7,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-html/private-source-directory/min2max2.txt",
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-html/private-source-directory/min2max2.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "min2max2-text",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "min2max2.txt",
+      "options": [
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ]
+      ],
+      "total": 7,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-text/private-source-directory/min2max2.txt",
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-text/private-source-directory/min2max2.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "min2max2-json",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "min2max2.txt",
+      "options": [
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          2
+        ]
+      ],
+      "total": 7,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-json/private-source-directory/min2max2.txt",
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-json/private-source-directory/min2max2.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min2max2-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "triple-html",
+      "body": "beta beta beta beta zoo zoo zoo apple apple pear pear single",
+      "basename": "triple.txt",
+      "options": [
+        "--min-count",
+        "2",
+        "--max-count",
+        "3",
+        "--top",
+        "1",
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "zoo",
+          3
+        ]
+      ],
+      "total": 12,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/private-source-directory/triple.txt",
+        "--min-count",
+        "2",
+        "--max-count",
+        "3",
+        "--top",
+        "1",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/private-source-directory/triple.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "triple-text",
+      "body": "beta beta beta beta zoo zoo zoo apple apple pear pear single",
+      "basename": "triple.txt",
+      "options": [
+        "--min-count",
+        "2",
+        "--max-count",
+        "3",
+        "--top",
+        "1",
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "zoo",
+          3
+        ]
+      ],
+      "total": 12,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-text/private-source-directory/triple.txt",
+        "--min-count",
+        "2",
+        "--max-count",
+        "3",
+        "--top",
+        "1",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-text/private-source-directory/triple.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "triple-json",
+      "body": "beta beta beta beta zoo zoo zoo apple apple pear pear single",
+      "basename": "triple.txt",
+      "options": [
+        "--min-count",
+        "2",
+        "--max-count",
+        "3",
+        "--top",
+        "1",
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "zoo",
+          3
+        ]
+      ],
+      "total": 12,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-json/private-source-directory/triple.txt",
+        "--min-count",
+        "2",
+        "--max-count",
+        "3",
+        "--top",
+        "1",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-json/private-source-directory/triple.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "many-html",
+      "body": "zoo zoo apple apple pear pear mango mango lime lime kiwi kiwi plum plum berry berry melon melon peach peach grape grape fig fig beta beta beta",
+      "basename": "many.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "zoo",
+          2
+        ],
+        [
+          "apple",
+          2
+        ],
+        [
+          "pear",
+          2
+        ],
+        [
+          "mango",
+          2
+        ],
+        [
+          "lime",
+          2
+        ],
+        [
+          "kiwi",
+          2
+        ],
+        [
+          "plum",
+          2
+        ],
+        [
+          "berry",
+          2
+        ],
+        [
+          "melon",
+          2
+        ],
+        [
+          "peach",
+          2
+        ]
+      ],
+      "total": 27,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-html/private-source-directory/many.txt",
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-html/private-source-directory/many.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "many-text",
+      "body": "zoo zoo apple apple pear pear mango mango lime lime kiwi kiwi plum plum berry berry melon melon peach peach grape grape fig fig beta beta beta",
+      "basename": "many.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "zoo",
+          2
+        ],
+        [
+          "apple",
+          2
+        ],
+        [
+          "pear",
+          2
+        ],
+        [
+          "mango",
+          2
+        ],
+        [
+          "lime",
+          2
+        ],
+        [
+          "kiwi",
+          2
+        ],
+        [
+          "plum",
+          2
+        ],
+        [
+          "berry",
+          2
+        ],
+        [
+          "melon",
+          2
+        ],
+        [
+          "peach",
+          2
+        ]
+      ],
+      "total": 27,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-text/private-source-directory/many.txt",
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-text/private-source-directory/many.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "many-json",
+      "body": "zoo zoo apple apple pear pear mango mango lime lime kiwi kiwi plum plum berry berry melon melon peach peach grape grape fig fig beta beta beta",
+      "basename": "many.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "zoo",
+          2
+        ],
+        [
+          "apple",
+          2
+        ],
+        [
+          "pear",
+          2
+        ],
+        [
+          "mango",
+          2
+        ],
+        [
+          "lime",
+          2
+        ],
+        [
+          "kiwi",
+          2
+        ],
+        [
+          "plum",
+          2
+        ],
+        [
+          "berry",
+          2
+        ],
+        [
+          "melon",
+          2
+        ],
+        [
+          "peach",
+          2
+        ]
+      ],
+      "total": 27,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-json/private-source-directory/many.txt",
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-json/private-source-directory/many.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "many-all-html",
+      "body": "zoo zoo apple apple pear pear mango mango lime lime kiwi kiwi plum plum berry berry melon melon peach peach grape grape fig fig beta beta beta",
+      "basename": "many-all.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "zoo",
+          2
+        ],
+        [
+          "apple",
+          2
+        ],
+        [
+          "pear",
+          2
+        ],
+        [
+          "mango",
+          2
+        ],
+        [
+          "lime",
+          2
+        ],
+        [
+          "kiwi",
+          2
+        ],
+        [
+          "plum",
+          2
+        ],
+        [
+          "berry",
+          2
+        ],
+        [
+          "melon",
+          2
+        ],
+        [
+          "peach",
+          2
+        ],
+        [
+          "grape",
+          2
+        ],
+        [
+          "fig",
+          2
+        ]
+      ],
+      "total": 27,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-html/private-source-directory/many-all.txt",
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-html/private-source-directory/many-all.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "many-all-text",
+      "body": "zoo zoo apple apple pear pear mango mango lime lime kiwi kiwi plum plum berry berry melon melon peach peach grape grape fig fig beta beta beta",
+      "basename": "many-all.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "zoo",
+          2
+        ],
+        [
+          "apple",
+          2
+        ],
+        [
+          "pear",
+          2
+        ],
+        [
+          "mango",
+          2
+        ],
+        [
+          "lime",
+          2
+        ],
+        [
+          "kiwi",
+          2
+        ],
+        [
+          "plum",
+          2
+        ],
+        [
+          "berry",
+          2
+        ],
+        [
+          "melon",
+          2
+        ],
+        [
+          "peach",
+          2
+        ],
+        [
+          "grape",
+          2
+        ],
+        [
+          "fig",
+          2
+        ]
+      ],
+      "total": 27,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-text/private-source-directory/many-all.txt",
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-text/private-source-directory/many-all.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "many-all-json",
+      "body": "zoo zoo apple apple pear pear mango mango lime lime kiwi kiwi plum plum berry berry melon melon peach peach grape grape fig fig beta beta beta",
+      "basename": "many-all.txt",
+      "options": [
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "zoo",
+          2
+        ],
+        [
+          "apple",
+          2
+        ],
+        [
+          "pear",
+          2
+        ],
+        [
+          "mango",
+          2
+        ],
+        [
+          "lime",
+          2
+        ],
+        [
+          "kiwi",
+          2
+        ],
+        [
+          "plum",
+          2
+        ],
+        [
+          "berry",
+          2
+        ],
+        [
+          "melon",
+          2
+        ],
+        [
+          "peach",
+          2
+        ],
+        [
+          "grape",
+          2
+        ],
+        [
+          "fig",
+          2
+        ]
+      ],
+      "total": 27,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-json/private-source-directory/many-all.txt",
+        "--max-count",
+        "2",
+        "--top",
+        "99",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-json/private-source-directory/many-all.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/many-all-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "empty-html",
+      "body": "",
+      "basename": "empty.txt",
+      "options": [
+        "--format",
+        "html"
+      ],
+      "pairs": [],
+      "total": 0,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-html/private-source-directory/empty.txt",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-html/private-source-directory/empty.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "empty-text",
+      "body": "",
+      "basename": "empty.txt",
+      "options": [
+        "--format",
+        "text"
+      ],
+      "pairs": [],
+      "total": 0,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-text/private-source-directory/empty.txt",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-text/private-source-directory/empty.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "empty-json",
+      "body": "",
+      "basename": "empty.txt",
+      "options": [
+        "--format",
+        "json"
+      ],
+      "pairs": [],
+      "total": 0,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-json/private-source-directory/empty.txt",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-json/private-source-directory/empty.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/empty-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "whitespace-html",
+      "body": " \t\n\r",
+      "basename": "whitespace.txt",
+      "options": [
+        "--format",
+        "html"
+      ],
+      "pairs": [],
+      "total": 0,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-html/private-source-directory/whitespace.txt",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-html/private-source-directory/whitespace.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "whitespace-text",
+      "body": " \t\n\r",
+      "basename": "whitespace.txt",
+      "options": [
+        "--format",
+        "text"
+      ],
+      "pairs": [],
+      "total": 0,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-text/private-source-directory/whitespace.txt",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-text/private-source-directory/whitespace.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "whitespace-json",
+      "body": " \t\n\r",
+      "basename": "whitespace.txt",
+      "options": [
+        "--format",
+        "json"
+      ],
+      "pairs": [],
+      "total": 0,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-json/private-source-directory/whitespace.txt",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-json/private-source-directory/whitespace.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/whitespace-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "punctuation-html",
+      "body": "!?... --",
+      "basename": "punctuation.txt",
+      "options": [
+        "--format",
+        "html"
+      ],
+      "pairs": [],
+      "total": 0,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-html/private-source-directory/punctuation.txt",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-html/private-source-directory/punctuation.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "punctuation-text",
+      "body": "!?... --",
+      "basename": "punctuation.txt",
+      "options": [
+        "--format",
+        "text"
+      ],
+      "pairs": [],
+      "total": 0,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-text/private-source-directory/punctuation.txt",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-text/private-source-directory/punctuation.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "punctuation-json",
+      "body": "!?... --",
+      "basename": "punctuation.txt",
+      "options": [
+        "--format",
+        "json"
+      ],
+      "pairs": [],
+      "total": 0,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-json/private-source-directory/punctuation.txt",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-json/private-source-directory/punctuation.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/punctuation-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "excluded-html",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "excluded.txt",
+      "options": [
+        "--max-count",
+        "0",
+        "--format",
+        "html"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-html/private-source-directory/excluded.txt",
+        "--max-count",
+        "0",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-html/private-source-directory/excluded.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "excluded-text",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "excluded.txt",
+      "options": [
+        "--max-count",
+        "0",
+        "--format",
+        "text"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-text/private-source-directory/excluded.txt",
+        "--max-count",
+        "0",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-text/private-source-directory/excluded.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "excluded-json",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "excluded.txt",
+      "options": [
+        "--max-count",
+        "0",
+        "--format",
+        "json"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-json/private-source-directory/excluded.txt",
+        "--max-count",
+        "0",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-json/private-source-directory/excluded.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/excluded-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "negative-html",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "negative.txt",
+      "options": [
+        "--max-count",
+        "-1",
+        "--format",
+        "html"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-html/private-source-directory/negative.txt",
+        "--max-count",
+        "-1",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-html/private-source-directory/negative.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "negative-text",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "negative.txt",
+      "options": [
+        "--max-count",
+        "-1",
+        "--format",
+        "text"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-text/private-source-directory/negative.txt",
+        "--max-count",
+        "-1",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-text/private-source-directory/negative.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "negative-json",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "negative.txt",
+      "options": [
+        "--max-count",
+        "-1",
+        "--format",
+        "json"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-json/private-source-directory/negative.txt",
+        "--max-count",
+        "-1",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-json/private-source-directory/negative.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/negative-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "contradictory-html",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "contradictory.txt",
+      "options": [
+        "--min-count",
+        "3",
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/private-source-directory/contradictory.txt",
+        "--min-count",
+        "3",
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/private-source-directory/contradictory.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "contradictory-text",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "contradictory.txt",
+      "options": [
+        "--min-count",
+        "3",
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-text/private-source-directory/contradictory.txt",
+        "--min-count",
+        "3",
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-text/private-source-directory/contradictory.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "contradictory-json",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "contradictory.txt",
+      "options": [
+        "--min-count",
+        "3",
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-json/private-source-directory/contradictory.txt",
+        "--min-count",
+        "3",
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-json/private-source-directory/contradictory.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "min4-html",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "min4.txt",
+      "options": [
+        "--min-count",
+        "4",
+        "--format",
+        "html"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-html/private-source-directory/min4.txt",
+        "--min-count",
+        "4",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-html/private-source-directory/min4.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "min4-text",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "min4.txt",
+      "options": [
+        "--min-count",
+        "4",
+        "--format",
+        "text"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-text/private-source-directory/min4.txt",
+        "--min-count",
+        "4",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-text/private-source-directory/min4.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "min4-json",
+      "body": "beta beta beta alpha gamma alpha delta",
+      "basename": "min4.txt",
+      "options": [
+        "--min-count",
+        "4",
+        "--format",
+        "json"
+      ],
+      "pairs": [],
+      "total": 7,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-json/private-source-directory/min4.txt",
+        "--min-count",
+        "4",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-json/private-source-directory/min4.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/min4-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "unicode-html",
+      "body": "Straße STRASSE",
+      "basename": "unicode.txt",
+      "options": [
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "strasse",
+          2
+        ]
+      ],
+      "total": 2,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-html/private-source-directory/unicode.txt",
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-html/private-source-directory/unicode.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "unicode-text",
+      "body": "Straße STRASSE",
+      "basename": "unicode.txt",
+      "options": [
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "strasse",
+          2
+        ]
+      ],
+      "total": 2,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-text/private-source-directory/unicode.txt",
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-text/private-source-directory/unicode.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "unicode-json",
+      "body": "Straße STRASSE",
+      "basename": "unicode.txt",
+      "options": [
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "strasse",
+          2
+        ]
+      ],
+      "total": 2,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-json/private-source-directory/unicode.txt",
+        "--min-count",
+        "2",
+        "--max-count",
+        "2",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-json/private-source-directory/unicode.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/unicode-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "long-html",
+      "body": "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "basename": "集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt",
+      "options": [
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+          1
+        ]
+      ],
+      "total": 1,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/private-source-directory/集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/private-source-directory/集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 1012
+            },
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/320/tile-0.png",
+              "type": "tile",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900,
+              "requested_clip": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 900
+              }
+            },
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/320/tile-800.png",
+              "type": "tile",
+              "x": 0,
+              "y": 800,
+              "width": 320,
+              "height": 212,
+              "requested_clip": {
+                "x": 0,
+                "y": 800,
+                "width": 320,
+                "height": 212
+              }
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "long-text",
+      "body": "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "basename": "集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt",
+      "options": [
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+          1
+        ]
+      ],
+      "total": 1,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-text/private-source-directory/集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-text/private-source-directory/集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "long-json",
+      "body": "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+      "basename": "集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt",
+      "options": [
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
+          1
+        ]
+      ],
+      "total": 1,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-json/private-source-directory/集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-json/private-source-directory/集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/long-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "escape-html",
+      "body": "Café CAFÉ Straße STRASSE 日本語",
+      "basename": "検査\r\n&<>\"'.txt",
+      "options": [
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "café",
+          2
+        ],
+        [
+          "strasse",
+          2
+        ],
+        [
+          "日本語",
+          1
+        ]
+      ],
+      "total": 5,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-html/private-source-directory/検査\r\n&<>\"'.txt",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-html/private-source-directory/検査\r\n&<>\"'.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "escape-text",
+      "body": "Café CAFÉ Straße STRASSE 日本語",
+      "basename": "検査\r\n&<>\"'.txt",
+      "options": [
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "café",
+          2
+        ],
+        [
+          "strasse",
+          2
+        ],
+        [
+          "日本語",
+          1
+        ]
+      ],
+      "total": 5,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-text/private-source-directory/検査\r\n&<>\"'.txt",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-text/private-source-directory/検査\r\n&<>\"'.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "escape-json",
+      "body": "Café CAFÉ Straße STRASSE 日本語",
+      "basename": "検査\r\n&<>\"'.txt",
+      "options": [
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "café",
+          2
+        ],
+        [
+          "strasse",
+          2
+        ],
+        [
+          "日本語",
+          1
+        ]
+      ],
+      "total": 5,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-json/private-source-directory/検査\r\n&<>\"'.txt",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-json/private-source-directory/検査\r\n&<>\"'.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/escape-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "cr-html",
+      "body": "alpha\r\nbeta",
+      "basename": "検査\r\n&<>\"'.txt",
+      "options": [
+        "--format",
+        "html"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          1
+        ],
+        [
+          "beta",
+          1
+        ]
+      ],
+      "total": 2,
+      "format": "html",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-html/private-source-directory/検査\r\n&<>\"'.txt",
+        "--format",
+        "html"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-html/private-source-directory/検査\r\n&<>\"'.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-html/stdout.html",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-html/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": [
+        {
+          "width": 1280,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-html/1280/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 1280,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-html/1280/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-html/1280/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 1280,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 1280
+            }
+          },
+          "errors": []
+        },
+        {
+          "width": 320,
+          "images": [
+            {
+              "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-html/320/full.png",
+              "type": "full",
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 900
+            }
+          ],
+          "raw": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-html/320/raw.json",
+          "network": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-html/320/network.json",
+          "reviewed_images": [],
+          "verdict": "pending-review",
+          "browser": {
+            "version": "148.0.7778.96",
+            "os": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "viewport": {
+              "width": 320,
+              "height": 900,
+              "dpr": 1,
+              "scale": 1
+            },
+            "capture_layout": {
+              "scrollbars_hidden": true,
+              "command": "Emulation.setScrollbarsHidden",
+              "effective_client_width": 320
+            }
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "cr-text",
+      "body": "alpha\r\nbeta",
+      "basename": "検査\r\n&<>\"'.txt",
+      "options": [
+        "--format",
+        "text"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          1
+        ],
+        [
+          "beta",
+          1
+        ]
+      ],
+      "total": 2,
+      "format": "text",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-text/private-source-directory/検査\r\n&<>\"'.txt",
+        "--format",
+        "text"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-text/private-source-directory/検査\r\n&<>\"'.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-text/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-text/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    },
+    {
+      "id": "cr-json",
+      "body": "alpha\r\nbeta",
+      "basename": "検査\r\n&<>\"'.txt",
+      "options": [
+        "--format",
+        "json"
+      ],
+      "pairs": [
+        [
+          "alpha",
+          1
+        ],
+        [
+          "beta",
+          1
+        ]
+      ],
+      "total": 2,
+      "format": "json",
+      "argv": [
+        "/usr/bin/python3",
+        "-m",
+        "wordfreq",
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-json/private-source-directory/検査\r\n&<>\"'.txt",
+        "--format",
+        "json"
+      ],
+      "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-json/private-source-directory/検査\r\n&<>\"'.txt",
+      "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-json/stdout.bin",
+      "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-json/stderr.bin",
+      "exit": 0,
+      "environment": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUTF8": "1",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "views": []
+    }
+  ],
+  "artifacts": {
+    "canaries/clean-network.json": "81e6cc80abe9ee86e51a1dce8dc37b118d963eefb72c715094384c5393ccfca9",
+    "canaries/clean.html": "cdd139dd65aea7b34d3b2f26765077def59a7b093dd8be2eeb242d8446848a26",
+    "canaries/results.json": "749e502805a13f99987354042177129249deea29dc039d805ebf332a906d5d56",
+    "canaries/violating-network.json": "7e4f9453278a973783d5658de6b6e397367f47f3a5f22fe0a8cab45635466a17",
+    "canaries/violating.html": "b597608551e6699daa72471f43d24038a24a2f603e48f0cd574a1989f1e8b2f6",
+    "contradictory-html/1280/derived.json": "d5b5492de35869691a61e325b1f2ff0afe36f42b20ea3c6dc65a6010b108ba85",
+    "contradictory-html/1280/full.png": "2d0327311f3a4215e33e0fa5a410dc315946cbfa5b2a4237efb49059de653a9b",
+    "contradictory-html/1280/network.json": "4dd88a617f59b6295f535951ba62dbaee5122aa97d32439a6510851616ad90f0",
+    "contradictory-html/1280/raw.json": "5142f017864a487236d8726e6b47364ff1035c4015200c32efbfe576719ac118",
+    "contradictory-html/320/derived.json": "0e9062828555595487028c45477d98c63c8f704f50d6f38beb31135e4b966187",
+    "contradictory-html/320/full.png": "6b302dd2bccbc55646befb8c8b6b5ef23acd76da2c40300f7fc2a65194635b2b",
+    "contradictory-html/320/network.json": "336f4d49308d3122759e1adf1035164a13aa4decde865935386dac1f994b6987",
+    "contradictory-html/320/raw.json": "dff759ad44c6287b400cb4252a2130644f48b886ec27e17569e4699b27dbfcb1",
+    "contradictory-html/cli.json": "438b9e6c518f89b2d60754debce018c06caf9a584be469e0d6a68feb064de1ac",
+    "contradictory-html/private-source-directory/contradictory.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "contradictory-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "contradictory-html/stdout.html": "65502a758c8ba024a51205c6cda1f7d231de4fbbb710b51e7cdb4ac59786be1f",
+    "contradictory-json/cli.json": "0ea16a6a3a4e8c0376281806032b0eca87b0e4dad24bd859dc45d78e56502ea3",
+    "contradictory-json/private-source-directory/contradictory.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "contradictory-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "contradictory-json/stdout.bin": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "contradictory-text/cli.json": "8e893cc76163110ae33c94f89e577aa9f3c5d3a4bf91e3e82e6f39439f1e7b50",
+    "contradictory-text/private-source-directory/contradictory.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "contradictory-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "contradictory-text/stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cr-html/1280/derived.json": "13196ce19b3ca37e8f7bbd4918290b35fcbe13e572018b6d94979ca80f189ba7",
+    "cr-html/1280/full.png": "ccc2f886a00fa114a013fe39c48fa8e08286726163ee0877bcf8bf1d33b9d533",
+    "cr-html/1280/network.json": "d4ec8a61fecd115c7b9dde43dc60e628b690df26723c11285d9526701291ac73",
+    "cr-html/1280/raw.json": "5c45fca1c2ca66be0777a123f4f52c0d1ee3cbb59c1fa43a186d74e49aa33cb9",
+    "cr-html/320/derived.json": "d71ee14abc02eebdef4464e147f39b473a79090472cac5ba897b052c5c93c5ab",
+    "cr-html/320/full.png": "50c50b2213ba3903cfd2ae376cc22f4a767b54a728390117748e4575099f299c",
+    "cr-html/320/network.json": "45e4bf5dc772d893cd23b87950345eec25fff10c6527a08af0ed117ae6a62ff8",
+    "cr-html/320/raw.json": "f3bdcd510aba26a500421c21677971ee4520d9b6b241a81cd0d4681a14ada768",
+    "cr-html/cli.json": "c1e69ff304a1cebb34aa08b37b4f6446a124002b7c3dfaab2ea5d9753ed56e46",
+    "cr-html/private-source-directory/検査\r\n&<>\"'.txt": "4854aaef74503959fd26363306e2ef967a9d50bdda90d033a3a4acacbbd57547",
+    "cr-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cr-html/stdout.html": "c09501b5d136f157d7c860b0dadc817812aed29e6d87cfae8ba8f278964f5010",
+    "cr-json/cli.json": "8b33a7297eb0a2bb1f23903b2ce92288cd25051509fdaab4ff3f6775ab221d53",
+    "cr-json/private-source-directory/検査\r\n&<>\"'.txt": "4854aaef74503959fd26363306e2ef967a9d50bdda90d033a3a4acacbbd57547",
+    "cr-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cr-json/stdout.bin": "f5450639d2c07878056a3392c67e725bda2af474596fd3d14342fc3aa808abcd",
+    "cr-text/cli.json": "c546ebc8ebe9e78f483b4dec3a6facebc430457100b6ebb43f0ef7fb999295c4",
+    "cr-text/private-source-directory/検査\r\n&<>\"'.txt": "4854aaef74503959fd26363306e2ef967a9d50bdda90d033a3a4acacbbd57547",
+    "cr-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cr-text/stdout.bin": "0dee48718cf4904ace5fe2a6a0a675af9e6c49f02cba61f4f9b12ecbff5892ce",
+    "empty-html/1280/derived.json": "c0fc68f34d9650069dbd176cd20d4b38a1a937b3629026d4adaacb41ba2a24cf",
+    "empty-html/1280/full.png": "8bc2b7e2988e0d1944d36296fb0078f8da58341c85f7dcad24b2b0bf5fe8f015",
+    "empty-html/1280/network.json": "49b0a977772f7a5d21e74b0520664ded2747d7bd5a7e4c4054d023bc4ca830e8",
+    "empty-html/1280/raw.json": "b2fb2172732f940bc250883002dde1632fcb941aa962f51fe220c40445659be0",
+    "empty-html/320/derived.json": "1a9b859c0cb2525cec744f6d42a8c3a903a1ed31ea10039d7b48b1e266e9f0cb",
+    "empty-html/320/full.png": "e048927935b287d398fbac7fa2cb6b138f8fe60d9ab574dace728670b0e0d3d9",
+    "empty-html/320/network.json": "5cd4139dc82c812835a8be4adc59d36f54c5173463388f7a2b5077ed1a09afb0",
+    "empty-html/320/raw.json": "f868451745c6346e6bd53fb117aa170ed87ee1a515082d9fdecec6d44edb6805",
+    "empty-html/cli.json": "1663a451fd9ec74ed9b853181630fab2efe7429e26e9ee66ad7a86ab6a3c029c",
+    "empty-html/private-source-directory/empty.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "empty-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "empty-html/stdout.html": "cb60b30a8be7dc8659aca7404002fedc958dec61f6efdc6acd30171c1b1f5298",
+    "empty-json/cli.json": "54751701fabe5c2bf0def4ae9d1e605e3d64e413b262f2aa369f35e51297ecab",
+    "empty-json/private-source-directory/empty.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "empty-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "empty-json/stdout.bin": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "empty-text/cli.json": "990b9db5df8624339a2298b3ffcb037a109637d1a9d83bb6f9139e68cd1f894f",
+    "empty-text/private-source-directory/empty.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "empty-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "empty-text/stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "escape-html/1280/derived.json": "90b9219d244fb71ed2462ab859811037960ae77038ed3c31fa2dc7ab2eaf463a",
+    "escape-html/1280/full.png": "b8bb3ba2e41646c7b976743eafdd4557ab5ce01711b7bfaca7b67b240f35c688",
+    "escape-html/1280/network.json": "a9c4e046949666da4ec245eb1fc2e85ad06db88ed9131986d833eda3c19bd470",
+    "escape-html/1280/raw.json": "2d844e96035da7941fc8efa45bccf1dcca892194ce242f7796cef60b11d48266",
+    "escape-html/320/derived.json": "bb96dbd85bce6a9f7b3c3b7b706819b5e69f4fa4e541d8094b8d050686da5e78",
+    "escape-html/320/full.png": "ec51db2b7aa146e090367db47af6d4c856b931190775dcc354207ef2fed30c80",
+    "escape-html/320/network.json": "32da09ced5862ba92d88533ad443cbb5c6c70fc3b8ea8378449d14457ee4c461",
+    "escape-html/320/raw.json": "c444ef621c499c5406a4d3d140d4728276bf59e6d3fc6cec19db2640947381c8",
+    "escape-html/cli.json": "ccb73857ac219657688d328e94c95f3db674c19d9f2e1fcadee0908918e30a15",
+    "escape-html/private-source-directory/検査\r\n&<>\"'.txt": "f68fa9793d2c33effa7d53681a9ca5af292e2937dd2483ff958337271322bfad",
+    "escape-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "escape-html/stdout.html": "78dafb1e7ce78e7f72c85a645d5fcab6879b5f9d9e9d804ab56bafee1f99b27e",
+    "escape-json/cli.json": "5e98c8731e370132906d06e7d49e048bc66041f60b40b7043e1936a153829fab",
+    "escape-json/private-source-directory/検査\r\n&<>\"'.txt": "f68fa9793d2c33effa7d53681a9ca5af292e2937dd2483ff958337271322bfad",
+    "escape-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "escape-json/stdout.bin": "515ff9f0276015fe51824cde34617452bcbb1a8f5f8f35de9a83db5ef4aa5072",
+    "escape-text/cli.json": "315d8b319f7518ff3add51c8433356a3b6b50867abaf4ce876afb82bf83f618b",
+    "escape-text/private-source-directory/検査\r\n&<>\"'.txt": "f68fa9793d2c33effa7d53681a9ca5af292e2937dd2483ff958337271322bfad",
+    "escape-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "escape-text/stdout.bin": "40dfcc919cfe9bfc0fc7a0918812825eb6db8bdd6f7e9f219b6af8d70c653997",
+    "excluded-html/1280/derived.json": "ba255754508067b70e9a069cc1282e0626ab697bfe71a47005e5de178c658a77",
+    "excluded-html/1280/full.png": "f5b5228d1a77420c610a0268cc10592f65f0099909ec9bb7b4d641530eefa322",
+    "excluded-html/1280/network.json": "501b6b349a93d3a9e46f644c789c21124c9119aa4b54c708f4c4fa62f8ad3263",
+    "excluded-html/1280/raw.json": "9f67a50470c51994d56da084a2b93ee8c51c351d2197154295a5feac4ab9a3b7",
+    "excluded-html/320/derived.json": "81e5055ad4f8b0d982c8187bc0a069f1e88da211c8349679cf9b8c9620885d37",
+    "excluded-html/320/full.png": "f6552dfe969298d3e43a68857004255c9720e4360c493cfbed08bdbe403060ef",
+    "excluded-html/320/network.json": "a0f9cfcc676473067700386dacd32ac843213980654dee0b6a55308b05083c21",
+    "excluded-html/320/raw.json": "00a59aaf0fa5659e16ada81cfc5262210fe8c8226cf708175858225b209c5aba",
+    "excluded-html/cli.json": "1870039143872e866f76ad8499d4f13ce62507bbb07d0145430c9ec2a978343a",
+    "excluded-html/private-source-directory/excluded.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "excluded-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "excluded-html/stdout.html": "66bf982de4971b1ddabf37aa8c45a2f06df984c2348636dc18077d88b252453c",
+    "excluded-json/cli.json": "c21cc7ecc4db6d76430ff236fe3394eab93ed03cd9867c2351d7be2e0b7e2a96",
+    "excluded-json/private-source-directory/excluded.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "excluded-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "excluded-json/stdout.bin": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "excluded-text/cli.json": "4e5b778450ec577d40692f388480c1229e9f52e55b7a347cdb45f56f7369da98",
+    "excluded-text/private-source-directory/excluded.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "excluded-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "excluded-text/stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "long-html/1280/derived.json": "0fead81f20551dd236206e49ccc18c9b7bfef29b7d1cca57806e15d5985b2b8f",
+    "long-html/1280/full.png": "e22af4b127bc19aed303a892e24c7f84f9f220f9dffb342132297e5d0149755f",
+    "long-html/1280/network.json": "3748009f4f77fed6003ac00a5b75a3e2e58d77d71c0616466d1f164000603a94",
+    "long-html/1280/raw.json": "296fa8ef9d66ec97d710e5c444da6dcec9900bf001027d9fc61ae04e55e15e60",
+    "long-html/320/derived.json": "c01c3d41cd68de6e290a1aa97e933c9fd97c2667c61dc04bb837e967150c1ab9",
+    "long-html/320/full.png": "d41964c9a401043c8b4ecbb6c72456321bad8e62a3625e7665a66373e822850b",
+    "long-html/320/network.json": "862b6522ca9234402f17df22f334a7085a426eb85658755dfcd661a8a1993afd",
+    "long-html/320/raw.json": "aae03bca800a5eb588ba7d4c6298b74bb3babac6c14e3af182c487ecd507b531",
+    "long-html/320/tile-0.png": "61818ad0f3d535abaa7cb5d7e87f438f3421908557aa560e813d933a8bf2a1f4",
+    "long-html/320/tile-800.png": "da6a5f4101134ab311d218d711a4a7d1c53c1af99855bd32e1aed1f5b518cd03",
+    "long-html/cli.json": "75d9a454b7bf869827a9bb012d6966e71b65ab6930474d5c637379f70c89eb65",
+    "long-html/private-source-directory/集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt": "38bc2286bb38fa85cbfdfd496efb50dfd1a879f1bab3bd8d93dee14a3ea68203",
+    "long-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "long-html/stdout.html": "1aff28bd3351958d12698d24d5bdb0698819e3d35ec24740ed0286335bde3731",
+    "long-json/cli.json": "e531eab5a12c1be546c34e738dd8a584f19678d564a81dbe2a578b9d83a4e31d",
+    "long-json/private-source-directory/集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt": "38bc2286bb38fa85cbfdfd496efb50dfd1a879f1bab3bd8d93dee14a3ea68203",
+    "long-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "long-json/stdout.bin": "2b8bf2b196df6e9dfc0fa68975d50d3415cf9647434e0b862d3fe49a120e7592",
+    "long-text/cli.json": "9e7c8e0fa8baa4359a2f6547e88bb9423b2f22fc72351f7dfe551722616c4d0d",
+    "long-text/private-source-directory/集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>\"'.txt": "38bc2286bb38fa85cbfdfd496efb50dfd1a879f1bab3bd8d93dee14a3ea68203",
+    "long-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "long-text/stdout.bin": "d01bfb859a358126ef383e3beea5fe8da290f18d8f5f205b3789221f8657e48e",
+    "many-all-html/1280/derived.json": "8035f813be4400a2f7ad2767e5b59f24e8cb9d24803a8dc3a46ccb66bcc419eb",
+    "many-all-html/1280/full.png": "f1b1b835d9548a8f2268ec006f45f0e5d149a89d9c1e2ed3be42bfe6c7019541",
+    "many-all-html/1280/network.json": "fc3b566fef7e270e66cab59bb6dcce6d73767f5ec5dadd4bd26b6fd3bdc5cc8b",
+    "many-all-html/1280/raw.json": "2405e11256c1259c2666f3451acb58ae9cc66f83776919416a491df65d003ae1",
+    "many-all-html/320/derived.json": "fa398d691586de3c3db35b02131eac04d4e05e7031993279335997abaa4b4440",
+    "many-all-html/320/full.png": "ade9a714c85f82ec743f8c5328a0c4368f071757edd2b89780e2c9bc1d14d852",
+    "many-all-html/320/network.json": "95aafc1a620c43566b288207ac089e5b81729b021f3a9f459bcf88f6dbe15f1d",
+    "many-all-html/320/raw.json": "9cd0872a71241e67cb42afe309c749371437baf9b5e20e89d32561aeb136555c",
+    "many-all-html/cli.json": "6317035e2102c1b15f97977e2eaff8c55c64f9b1c7aeb72fa1c6696b8bfbc059",
+    "many-all-html/private-source-directory/many-all.txt": "8800e9c2cd319e2c9b45e8612e55d8be7ec2afaae9fdc92ef4e1251f7010472f",
+    "many-all-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "many-all-html/stdout.html": "93fbcf35b6dd79ebfe4d48eaaed419c523afa34747b55b686b5d7100547f2ab9",
+    "many-all-json/cli.json": "5b56dda42980e89ab0b933438c52b9e46ae32aa5d19500e67b3a80d7131c9910",
+    "many-all-json/private-source-directory/many-all.txt": "8800e9c2cd319e2c9b45e8612e55d8be7ec2afaae9fdc92ef4e1251f7010472f",
+    "many-all-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "many-all-json/stdout.bin": "9b1f88eaee3a4f7b6114f42af5fff3008635e026aa8f17c808bafc6a291864b1",
+    "many-all-text/cli.json": "16d8ceb32db604ad4c003c95b1a0acc848c61658d0d991e5c3707dd1b9c34c8c",
+    "many-all-text/private-source-directory/many-all.txt": "8800e9c2cd319e2c9b45e8612e55d8be7ec2afaae9fdc92ef4e1251f7010472f",
+    "many-all-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "many-all-text/stdout.bin": "1c4960e09aa967e6d46e2909c20674ad73b707952a21bf6b96653ae4b6c3776e",
+    "many-html/1280/derived.json": "00c12266faf5cd55ef94d519381bd570da3543987259c73b24775133b3ed741f",
+    "many-html/1280/full.png": "80c70367d2da7543164f9a3c98edf388cb9751d0b4dbe71804997c57c7144d85",
+    "many-html/1280/network.json": "288cb6b9cbaa8e5311dd4b5ca1032400e179ccfe7cc4ff3a8631ad99ea678790",
+    "many-html/1280/raw.json": "9dd64952c75a6df533398849a5d7ad7fe419c725917b8d29b32859948862ce19",
+    "many-html/320/derived.json": "971ada08892d1f83f01c1e0489a14c696bf4ee37b9e7ea8c2e20dfebb9a2c5b7",
+    "many-html/320/full.png": "094ee942d4c726b7986000743747dd7252d7e65039ead0284919ceab6fd1c5e0",
+    "many-html/320/network.json": "7ad693bfef16e234d3803058cad6daa725dd1e5dbf8faf208634c7f297bb0f20",
+    "many-html/320/raw.json": "851aa167e2fe6e21ed2c459764e6757fa0efc6658ccdcd4d09562355ec22a41c",
+    "many-html/cli.json": "2a87ac84b7fe1be2318160403d126f18629338f36ed0a4bdd7c47ea7837b41ea",
+    "many-html/private-source-directory/many.txt": "8800e9c2cd319e2c9b45e8612e55d8be7ec2afaae9fdc92ef4e1251f7010472f",
+    "many-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "many-html/stdout.html": "f1dffb5888de82a71a0ecd1e03fe46887708e1625feaaad3d3ed4135e7ffc551",
+    "many-json/cli.json": "055c968f2249700c5767b5e558599ccbf760125685109715047f41a65efbf2d2",
+    "many-json/private-source-directory/many.txt": "8800e9c2cd319e2c9b45e8612e55d8be7ec2afaae9fdc92ef4e1251f7010472f",
+    "many-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "many-json/stdout.bin": "371a9ba4ec5c90d9bcd22740fc8e1504480dd27a4213bf0088e8f2d2e450ebda",
+    "many-text/cli.json": "0ea00a91940e9b8f58176468db8db8de3d1c9ec528583b54477741b4eb1d6bc3",
+    "many-text/private-source-directory/many.txt": "8800e9c2cd319e2c9b45e8612e55d8be7ec2afaae9fdc92ef4e1251f7010472f",
+    "many-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "many-text/stdout.bin": "1cc8a31798d5228ddb269c8d688c41db3ea1fe13ba6c08a8aa22a2fb8c736550",
+    "max2-html/1280/derived.json": "eb26fbf7e43f8e5460c5c8d15b9ed8e9cb99e1caaad3899f126f9d5d6b43b715",
+    "max2-html/1280/full.png": "c30fa45ca7c7a6856a7174690b3b54bd16e711b46d67739253be1add8b0adaab",
+    "max2-html/1280/network.json": "7e95196475170501d4e12bc826ad82a149d2cbc1c2d033a59870dd61f10ce2cc",
+    "max2-html/1280/raw.json": "58d3d50ef4471a2e8f618352a6403b18b70061b6e0151bee969c4a26b10f083e",
+    "max2-html/320/derived.json": "ce76fe5c25f0e3feef2346ad3d5fa143054c26bac0fa4513d4b139664bf47c93",
+    "max2-html/320/full.png": "d92ad17c440e470b45ea563b6aab770e25f5c35227363a4bd1b943be9113bfe3",
+    "max2-html/320/network.json": "63d3880d5483b6f45792a9528846bf7b263ec14981f7ae29c2d18363d4428a85",
+    "max2-html/320/raw.json": "6e570b63bf1a4989d8c1718ed7ac291082b2271f3a68cd891bea0a436f03eefc",
+    "max2-html/cli.json": "63c53dc3113753584f7c34bcb4b4624d5977f85474da56f717cf78741a3c4c35",
+    "max2-html/private-source-directory/max2.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "max2-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "max2-html/stdout.html": "d28e14128223eb1cded7758f7a7d83012a352e107c4c3c32b24a635ba0f4a95a",
+    "max2-json/cli.json": "28e50ce161874374f627d9ae08bc05b5b8c4b03c915fc75ac4922846fb6547ea",
+    "max2-json/private-source-directory/max2.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "max2-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "max2-json/stdout.bin": "0785833163489314ad272419af05d139c654c418aa96d49e7c968d6dd5ad3d1c",
+    "max2-text/cli.json": "57ac4fc9de17b5492dc871111ed7db823042f4c79bc33ebecb693e850451af14",
+    "max2-text/private-source-directory/max2.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "max2-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "max2-text/stdout.bin": "be43758569d9dcc74225db0144da495b0ef908ed1d99a07040e54635e0a7258a",
+    "min2max2-html/1280/derived.json": "040f3da7be249af64d763c92b2a6ab89c3d5625439b4715c13b28f5fca2cea43",
+    "min2max2-html/1280/full.png": "0fc645de7fc181930a3a5b71de7686e7cebfa24b92c4eb36d613954c8f425ba5",
+    "min2max2-html/1280/network.json": "3ddc24f1b2809bb48f664c448dc9a32c90940f2cb450721c3c6a1fcec73f8c0b",
+    "min2max2-html/1280/raw.json": "617f1d05845093abea7ce10dda7c8095b52fbd03a5a7792a84d51b66c4fdb476",
+    "min2max2-html/320/derived.json": "a1bb784248b55f11999286295004e8d9bfb19c47d6571e01ec6e04560ec18ee7",
+    "min2max2-html/320/full.png": "f27bc3e389372066396893320682fdcbb737d88bfb2cdbaa6ee17ba44e98cb5d",
+    "min2max2-html/320/network.json": "8ce6deaa52c9dcd1865d5048b1d70fbd948db6ffbab5b20a7bfc09fb164d699b",
+    "min2max2-html/320/raw.json": "773dfb794642fc2c178b9a6f17bd4765d0e1b377d37d3712111b0577e181c9ac",
+    "min2max2-html/cli.json": "c18c125a92c1ba65786d3dfb03a473d385ce5ccc9a6a0a5858d5fd3fc7dc0436",
+    "min2max2-html/private-source-directory/min2max2.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "min2max2-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "min2max2-html/stdout.html": "d2b9c282a87280278b15837c56fd26d5abd1bc6a87acd1a593f65143b76418b7",
+    "min2max2-json/cli.json": "d59b056f41eba37caae6e2a5d536bf35008fbfece127c490335e6b11adb41948",
+    "min2max2-json/private-source-directory/min2max2.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "min2max2-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "min2max2-json/stdout.bin": "1c50ce6cc453974d1fe2e5a7637ea399183c1ba69f1e4f0fff661fc7dc0b0707",
+    "min2max2-text/cli.json": "4246337c9a77f99b1b7174c6843d218a3c9a1adf292aa839ae8c12596ac1f9da",
+    "min2max2-text/private-source-directory/min2max2.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "min2max2-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "min2max2-text/stdout.bin": "89bbb67643bd63e3927aa0c9d98bc9ef50709de60578414b8698c5fe1aafd15d",
+    "min4-html/1280/derived.json": "6645fd4b1ded194d24e3afa32b7b01555b8d78f0b8f2d47e6aecdb592118f410",
+    "min4-html/1280/full.png": "00ebab8f3297b41c8062ddcd1309983148626451da16568ad75661fe64c59fd2",
+    "min4-html/1280/network.json": "f6512322a5984da8169201f002f3f4ca33672cc67dd54fae48dc64ccc8b3a2ef",
+    "min4-html/1280/raw.json": "da7abe5dc923191726bf5aa8ff9f29c41be76a6b79e589ee44e95d26ca7b231b",
+    "min4-html/320/derived.json": "efccfb37527fedfa31608243cef712dc51f394c04dce347f94242d97e9d58067",
+    "min4-html/320/full.png": "38c6ed6308fc69c4a28bceed08c4b8c364641c762adb8a93a9500f0c9391b172",
+    "min4-html/320/network.json": "4ecc30f2fedbed41c556b9303911d6abf11aa60774d8c99745c78101db394474",
+    "min4-html/320/raw.json": "5095fede597766f410a3defcfdec767a3c0f044a70e9e1d1a5a488eecce7827f",
+    "min4-html/cli.json": "6bcbda346663989a2f1caecf6f720a7d47959fb9e7c6e9539a0195104d7e099b",
+    "min4-html/private-source-directory/min4.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "min4-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "min4-html/stdout.html": "b0aa706a91547c7287a0f98d912d6747771b35db4f01d53edc227efdba76eaa9",
+    "min4-json/cli.json": "02399879835c6b0aee644468fc3c7e9137dcbf781de069b4bf766703b99c5a21",
+    "min4-json/private-source-directory/min4.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "min4-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "min4-json/stdout.bin": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "min4-text/cli.json": "c6c9f06b70b9ca41becd0e53cc5be9482903d8c9060f95131fd189885d7aa1d4",
+    "min4-text/private-source-directory/min4.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "min4-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "min4-text/stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "negative-html/1280/derived.json": "026e922c9add5fb2985b1b767f5943cc68aa5022b0a476963fbb1afcc244032b",
+    "negative-html/1280/full.png": "cb41743e13482941dfaef02eaca3e72f42ea114954294af8ea6a4f060d9250c3",
+    "negative-html/1280/network.json": "92ecfbd5f58612de1b49b698dbed35a7188d8a424ee84032281b8ff68c44b823",
+    "negative-html/1280/raw.json": "b8f02018fdde20bb032e15b8ecdf4f9e2e938b9cfdfc761c4eb634c33c85debe",
+    "negative-html/320/derived.json": "960a34149c115ab2c6e83da19cc3eb870a4aa15ecb2a80c42614867bbfda790b",
+    "negative-html/320/full.png": "dffa3ec5bd41b0388714f6a6aafd0fbab89ae28aa4e8c5bdb03ea8e855f94ea0",
+    "negative-html/320/network.json": "fef58e26cabbcf51c083ab98dfe53ce734e797931d2eb3deb418b8ce5e476e19",
+    "negative-html/320/raw.json": "49f6ee48775ba12f84c08b04249c711a1dab862be24205dd93f8b409a3ef91c4",
+    "negative-html/cli.json": "e476c7d7be6593ccd813c4933cf7df74bfcbb1155f06bcdb0d232ba8496b64f1",
+    "negative-html/private-source-directory/negative.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "negative-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "negative-html/stdout.html": "b037ad6ab1a9d0b061327ee004b5fe85f1ff3b8f8abb57b57412c0a605f12929",
+    "negative-json/cli.json": "531cf87ebe33d2488d2ae401068e6b4d6ba873b2c80281a0711395d8990076a4",
+    "negative-json/private-source-directory/negative.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "negative-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "negative-json/stdout.bin": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "negative-text/cli.json": "9f078532ff69cf1238b7590853669b5a4a6b012e85469c2b93f01c2f3a7b2481",
+    "negative-text/private-source-directory/negative.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "negative-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "negative-text/stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "owner.json": "d3fe43b389ab6ceeaf6605483b06aa825d13a5cf25d3cc6781d5ff8ab225daf0",
+    "provenance.json": "672f2b13c1a0a7a517833c23be5bf79e5357f4bc7068d44b8db664c25fb13efe",
+    "punctuation-html/1280/derived.json": "9b48ebe46f54412822a442742d255e660f65da33537827cee754d27d003bbf35",
+    "punctuation-html/1280/full.png": "054dddee61375be43be8614aab85308cf47e26f6018372b3caf83a73e97112ab",
+    "punctuation-html/1280/network.json": "5da7a5b056615a1208b8d5ce5357bacd0ee2c016737ebb2dba923d9909233874",
+    "punctuation-html/1280/raw.json": "2dd9478c44261c1b86c036d1504d8badd76df55a7de30162a59de96897a85d29",
+    "punctuation-html/320/derived.json": "7151aedc8f9b163d80e6d8273e5fc51a4629d5232b179276352139a1f7bc0c86",
+    "punctuation-html/320/full.png": "919e6b8bc820ca4373761c9e8f15dfef2483dfc9381b68ecfca293874b0557a8",
+    "punctuation-html/320/network.json": "f8fcd74d8499c1597b96f9d696ae1eb6132e2d644b44d9a9531a7dbef5ce6620",
+    "punctuation-html/320/raw.json": "dc00596210cef15d7e3de83a71643c5a017c7723fd3079df7f376cb89ed0faf9",
+    "punctuation-html/cli.json": "8cc0f39276a736f43dbbb50740db0acd88451d257c99db45e4ffc34f4d4f5f33",
+    "punctuation-html/private-source-directory/punctuation.txt": "d84ba06dafc8bbf61686a36c2720e4bda9b6bb4d6a4b71f7c6a593a0e8ab4941",
+    "punctuation-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "punctuation-html/stdout.html": "40a1de644d15ecc6e7365078c8aec045750c311bdb218a142bdae40756e396ab",
+    "punctuation-json/cli.json": "b89e562464c1b4e941dda5425eda20306f7fd9d9726d8d5dee8c1427838e1619",
+    "punctuation-json/private-source-directory/punctuation.txt": "d84ba06dafc8bbf61686a36c2720e4bda9b6bb4d6a4b71f7c6a593a0e8ab4941",
+    "punctuation-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "punctuation-json/stdout.bin": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "punctuation-text/cli.json": "24329f60a5ce1d33b21d6f99d4a3e2b158a71d3e39bd4f0af58dc796f37a61d6",
+    "punctuation-text/private-source-directory/punctuation.txt": "d84ba06dafc8bbf61686a36c2720e4bda9b6bb4d6a4b71f7c6a593a0e8ab4941",
+    "punctuation-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "punctuation-text/stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "top1-html/1280/derived.json": "6070e2c0f2657362a73a649656f84972eeab920602d6b4363e524816a5e9937c",
+    "top1-html/1280/full.png": "d65549a9dd33c1542f03773df026d3fd130c346948d87d5440a063a160eba63d",
+    "top1-html/1280/network.json": "f29fe39b36bc05ad3ce80014c707ccbc6cadd3edb6efc4fe9ae0737b09e424b7",
+    "top1-html/1280/raw.json": "6b656063c1df037d91b3000a5c4a71d4903e53c5ecf1a94901508dd306b2061a",
+    "top1-html/320/derived.json": "88414b9fd361192da91fb80a8aafc3ba2476848e1d93c7b0326310bd4c3b3d4f",
+    "top1-html/320/full.png": "ab4c8a0ab360312fd81038a05f4b9bd5862f4c5924c3c758472cec0efd1c516d",
+    "top1-html/320/network.json": "5f28383cb6df2a0fd6664a88064d9b953f9c3772d5045adfa9d82ce73d3fac9e",
+    "top1-html/320/raw.json": "d65de64f949fb12b1353889489270d52386864a27247e359039a118c58bdb200",
+    "top1-html/cli.json": "39c509c96b54b830afd64ec0406044b77fa268a11cbf4c181aa1542354fdc96b",
+    "top1-html/private-source-directory/top1.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "top1-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "top1-html/stdout.html": "648c0e2566533f257fbb946273dbf63fe2228404d5e9da54c97855436f97cc0b",
+    "top1-json/cli.json": "28d2c4b183c3a15c3852b6c4b41c5e7b2ea62e896e37456719c91d05814c909e",
+    "top1-json/private-source-directory/top1.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "top1-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "top1-json/stdout.bin": "1c50ce6cc453974d1fe2e5a7637ea399183c1ba69f1e4f0fff661fc7dc0b0707",
+    "top1-text/cli.json": "f124e7e2d8d295a928095df943a4b6918b0141c11e0195cc5a0fe1a78c92f324",
+    "top1-text/private-source-directory/top1.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "top1-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "top1-text/stdout.bin": "89bbb67643bd63e3927aa0c9d98bc9ef50709de60578414b8698c5fe1aafd15d",
+    "top99-html/1280/derived.json": "4353774bf369610ecad1da4969d324cda27a86877e5f3de3db143160b1997f15",
+    "top99-html/1280/full.png": "436b71e79de543d4d937757d9f18795ff2b96a0c96a7e09a104e667443f8e86d",
+    "top99-html/1280/network.json": "99bdc39bf9aefd209f321a227b42fed951797105ef05ed9a3994171a9bc482d2",
+    "top99-html/1280/raw.json": "ab6f8fbe612fcceacd7ad75c26c50dfc9efa16354a9fed931fca8f8bf7a113aa",
+    "top99-html/320/derived.json": "abffb6b0604f97786c6ee376b2f1ea13a7f9f083b47b625e9c7e82876bae77a3",
+    "top99-html/320/full.png": "60dffeb2b864b129128dd8b4d24480e9b589558981b07ebfb5d456045c59ecfd",
+    "top99-html/320/network.json": "562a4a88f7c8b0fcfdf613cb4ef675b67204912e8c8d624c6dc90d14c6aba20e",
+    "top99-html/320/raw.json": "ea3cbb7aa27e595808143dd770dc7f2b369cc23f8a8ae0d927eadf03e3a9beea",
+    "top99-html/cli.json": "6bf7c94d4f483fd6edf837585b40030212b9d6dfb1c8b5f9965d16c1bf7e1026",
+    "top99-html/private-source-directory/top99.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "top99-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "top99-html/stdout.html": "8cb6afccd2f3c7f8bbece9a7fe432187af6b813a74f0118e34ccd4d9f2803261",
+    "top99-json/cli.json": "1ef13b8f060b78b72abcca9ec12029b6a1c9c55e8622211f636a9d66ac3cc258",
+    "top99-json/private-source-directory/top99.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "top99-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "top99-json/stdout.bin": "0785833163489314ad272419af05d139c654c418aa96d49e7c968d6dd5ad3d1c",
+    "top99-text/cli.json": "a0b2a68312b6916b8570440b8fce891319c2db22a1f3fb046e5088de7197d20a",
+    "top99-text/private-source-directory/top99.txt": "40d3399cef2fe2ce3c61cba6673e8b27606db2027905ec64b9a9d6cb19604001",
+    "top99-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "top99-text/stdout.bin": "be43758569d9dcc74225db0144da495b0ef908ed1d99a07040e54635e0a7258a",
+    "triple-html/1280/derived.json": "232b5ac64f7520bedba3f83cb0d9ab8c4b94bf97dde7bb2f8f645f0ffbcb2551",
+    "triple-html/1280/full.png": "ba511dc679e8a3c8882fe5df778453199c15bad4352197c43f9f972a2148e508",
+    "triple-html/1280/network.json": "987ac8f474dff9331f35a2f4d1831adb902fa9198a84088edef919c5e297aba8",
+    "triple-html/1280/raw.json": "f0f99d8fbbbec248981d431c770abb8408d7ff0ccdfbf87d6f8ea172226663ee",
+    "triple-html/320/derived.json": "59fdacbba6fee912faf3d18ea9e7b6e9ba1c68554d3394ccf7f611fc8bace686",
+    "triple-html/320/full.png": "c17766cb66510dedaacdfa98c10d66c8e936af7defd5e69865dc38d9bc5fe3b3",
+    "triple-html/320/network.json": "2843a2b61d86122ca09459726be2c24912c474f9a966ef6ecedb8c16e5337bdf",
+    "triple-html/320/raw.json": "db2048219cd42a455eeaa3a292c3f1a7ee51acbc69f641767565988c22334a26",
+    "triple-html/cli.json": "e4d9a1ee919bfff8a74d976e0074170f7f85c42229c2048f357b24e2e107c78e",
+    "triple-html/private-source-directory/triple.txt": "f5b5b159aa9fd580dd21ad4a89681277480d90c0750fafecc4b29d89387ab17f",
+    "triple-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "triple-html/stdout.html": "bf40d497fe1646b2b30e823a625b089688e7407ac413083e3444ce03c8cc4933",
+    "triple-json/cli.json": "c757ff50ad7b6bf0a11d220c95f0251723c931dee379b9170d3bc70221cb610d",
+    "triple-json/private-source-directory/triple.txt": "f5b5b159aa9fd580dd21ad4a89681277480d90c0750fafecc4b29d89387ab17f",
+    "triple-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "triple-json/stdout.bin": "62babd018ff6ff2bb69a38b1737dd5ca204426448b374d87683371b9f9f244d6",
+    "triple-text/cli.json": "85e02dbff25ac9b5932945abbf8de026ffe24221060309251ee20e8eddce7f28",
+    "triple-text/private-source-directory/triple.txt": "f5b5b159aa9fd580dd21ad4a89681277480d90c0750fafecc4b29d89387ab17f",
+    "triple-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "triple-text/stdout.bin": "3f587f86b42b621aaca2de48a3d7aa7847945608d1015d0ed5c0ff59a819e576",
+    "unicode-html/1280/derived.json": "a2f37f39d66c7ef7e9c4412b474d3982d1a9fc7f346d38a7d02cf67f97b3007c",
+    "unicode-html/1280/full.png": "64fa77a14760e6c7d87f36405460f18b6ac844330fedde63be16a92a8a2f973b",
+    "unicode-html/1280/network.json": "f5453b20260c89fe9c17366f18742b1eeddb76e23190c947eb54171a6a13205b",
+    "unicode-html/1280/raw.json": "6742e2e1dc1078e22ca3d534ea27ba1f43d387945a7594fbc61ddfdf97e883e9",
+    "unicode-html/320/derived.json": "231c5249c5aa5b43b0cd850a32a7ca16fe1adef5782851547f24282ccc948b78",
+    "unicode-html/320/full.png": "1e0374473457b4cf3e1bc73c663aebf15f2755c00a1909f26f4e8d0ed8d1c526",
+    "unicode-html/320/network.json": "dba9104525c404f24dcf5955ea3c08ad5fce1cb9d99ee1a602bd4b5a6e2797d7",
+    "unicode-html/320/raw.json": "4dbbdc3d1654cc2b923695963252a49c6902ba5ea3d6b808b48d004aa932f69d",
+    "unicode-html/cli.json": "107c3920e9bfe22c6ec99dfd600c8d1ebc3f4e341dbcf1839d21c5df3ce46156",
+    "unicode-html/private-source-directory/unicode.txt": "ebb60d1a47aceb3af997798eae547b29214bb7c38042f56becbb7e56d90c1fb2",
+    "unicode-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unicode-html/stdout.html": "7f20e52987fa27287600cc67c4fb1ec37863700095280042489c4db9364fb50c",
+    "unicode-json/cli.json": "f3c674926d1eed77ede4c6bd1b7ddcd1f4046e40e9fa4cb9e1d644cb221c2c45",
+    "unicode-json/private-source-directory/unicode.txt": "ebb60d1a47aceb3af997798eae547b29214bb7c38042f56becbb7e56d90c1fb2",
+    "unicode-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unicode-json/stdout.bin": "13c0925d41fcc3d057fbe5ab3df76f3eef0ce46b211f86701b94b8f80db98ea0",
+    "unicode-text/cli.json": "207ee83dd04d64e0f78ee82aeac3817c008cf09cf7c9602c29823d3fe19f85f5",
+    "unicode-text/private-source-directory/unicode.txt": "ebb60d1a47aceb3af997798eae547b29214bb7c38042f56becbb7e56d90c1fb2",
+    "unicode-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unicode-text/stdout.bin": "60712e86e0634e4e8d653303970ec374e2eaa905bd501b085677857f5256df35",
+    "whitespace-html/1280/derived.json": "a551366307c5253959bae9d5f816307de95bde22e00c12464bdc32f3766160d4",
+    "whitespace-html/1280/full.png": "c6663d70ace383581fe5e3b1d31439577d85b65ad0d77f569ad1695bc6af5087",
+    "whitespace-html/1280/network.json": "8d7350a8c3af3331867d257d3fea6b7f192b8cdfe32b90bf9eb247dfa5a65189",
+    "whitespace-html/1280/raw.json": "5c0205a899b86b8c669be72451ffb94abb58eb4ff2035fcd014e6ea2b3895430",
+    "whitespace-html/320/derived.json": "5908de69f62e7cb0e15384d61b539c3b17c3810a79ff74c16010fa200cbd5a9e",
+    "whitespace-html/320/full.png": "73f14e2e9feed68133c5f4fe28d7479be292f0ef24c4f92a2815437c8019d5ab",
+    "whitespace-html/320/network.json": "ff00bdf2c25d9d322e7e65f9da381a3021cb9e96b220619404cc852f8aefdf8a",
+    "whitespace-html/320/raw.json": "d21ea900d6b366bc0010476d65ba84e355fa222829fca4e12318de3b79b30376",
+    "whitespace-html/cli.json": "b2cf2e91587631a84e674063c7f5379b6a9ef9da54e7491f255b653c1c8a598e",
+    "whitespace-html/private-source-directory/whitespace.txt": "6a1610a2e2f77eb8be2c87ffa7842595fd6976ed1f358e6bd120c41a00b77eb2",
+    "whitespace-html/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "whitespace-html/stdout.html": "736acf05552495445b7c76b3342726928d6e12ec18a479dce7aff27fb375557b",
+    "whitespace-json/cli.json": "341f87c4d3abb652b42b5064024a6a292e1548b977be3febddfc2234c5c539c8",
+    "whitespace-json/private-source-directory/whitespace.txt": "6a1610a2e2f77eb8be2c87ffa7842595fd6976ed1f358e6bd120c41a00b77eb2",
+    "whitespace-json/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "whitespace-json/stdout.bin": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "whitespace-text/cli.json": "094e0fdf41ced44e2631c9863f0cf674efca8d9aa2c9c5ea5f1135204340f288",
+    "whitespace-text/private-source-directory/whitespace.txt": "6a1610a2e2f77eb8be2c87ffa7842595fd6976ed1f358e6bd120c41a00b77eb2",
+    "whitespace-text/stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "whitespace-text/stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "browser": {
+    "version": "148.0.7778.96",
+    "executable": "/home/Yuki/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+    "launch": {
+      "argv": [
+        "/home/Yuki/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+        "--headless",
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-background-networking",
+        "--disable-component-update",
+        "--disable-extensions",
+        "--disable-component-extensions-with-background-pages",
+        "--disable-default-apps",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--disable-popup-blocking",
+        "--no-startup-window",
+        "--remote-debugging-port=0",
+        "--remote-debugging-address=127.0.0.1",
+        "--user-data-dir=/tmp/ab.NQr3Dz/wf-abfk8xaf"
+      ],
+      "tmpdir": "/tmp/ab.NQr3Dz",
+      "transport": "loopback flattened CDP",
+      "websocket_package": "websockets"
+    }
+  },
+  "controls": [
+    {
+      "id": "clean",
+      "errors": [],
+      "rejected": false
+    },
+    {
+      "id": "violating",
+      "errors": [
+        "external/unexpected attempt Network.requestWillBeSent: http://wordfreq-canary.invalid:9/attempt",
+        "external/unexpected attempt request: http://wordfreq-canary.invalid:9/attempt",
+        "external/unexpected attempt requestfailed: http://wordfreq-canary.invalid:9/attempt"
+      ],
+      "rejected": true
+    }
+  ],
+  "ended": "2026-11-25T21:15:09.962528+00:00"
+}

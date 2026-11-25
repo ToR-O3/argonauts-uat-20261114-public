@@ -1,0 +1,48 @@
+{
+  "cases": 54,
+  "views": 36,
+  "images": 38,
+  "controls": [
+    {
+      "id": "clean",
+      "errors": [],
+      "rejected": false
+    },
+    {
+      "id": "violating",
+      "errors": [
+        "external/unexpected attempt Network.requestWillBeSent: http://wordfreq-canary.invalid:9/attempt",
+        "external/unexpected attempt request: http://wordfreq-canary.invalid:9/attempt",
+        "external/unexpected attempt requestfailed: http://wordfreq-canary.invalid:9/attempt"
+      ],
+      "rejected": true
+    }
+  ],
+  "browser": {
+    "version": "148.0.7778.96",
+    "executable": "/home/Yuki/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+    "launch": {
+      "argv": [
+        "/home/Yuki/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome",
+        "--headless",
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-background-networking",
+        "--disable-component-update",
+        "--disable-extensions",
+        "--disable-component-extensions-with-background-pages",
+        "--disable-default-apps",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--disable-popup-blocking",
+        "--no-startup-window",
+        "--remote-debugging-port=0",
+        "--remote-debugging-address=127.0.0.1",
+        "--user-data-dir=/tmp/ab.NQr3Dz/wf-abfk8xaf"
+      ],
+      "tmpdir": "/tmp/ab.NQr3Dz",
+      "transport": "loopback flattened CDP",
+      "websocket_package": "websockets"
+    }
+  }
+}

@@ -1,0 +1,1652 @@
+........................................................................ [  6%]
+........................................................................ [ 13%]
+........................................................................ [ 19%]
+........................................................................ [ 26%]
+........................................................................ [ 32%]
+........................................................................ [ 39%]
+........................................................................ [ 45%]
+........................................................................ [ 52%]
+........................................................................ [ 58%]
+.......FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF......................... [ 65%]
+.FF..................................................................... [ 71%]
+........................................................................ [ 78%]
+........................................................................ [ 84%]
+........................................................................ [ 91%]
+........................................................................ [ 97%]
+...........................                                              [100%]
+=================================== FAILURES ===================================
+_ test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options0-expected0-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri0')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--max-count', '2']
+expected = [('alpha', 2), ('gamma', 1), ('delta', 1)], total = 7
+reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 3 種類']
+E         
+E         Right contains one more item: '表示 3 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options1-expected1-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri1')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--max-count', '2', '--top', '1'], expected = [('alpha', 2)]
+total = 7, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 1 種類']
+E         
+E         Right contains one more item: '表示 1 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options2-expected2-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri2')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--max-count', '2', '--top', '99']
+expected = [('alpha', 2), ('gamma', 1), ('delta', 1)], total = 7
+reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 3 種類']
+E         
+E         Right contains one more item: '表示 3 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options3-expected3-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri3')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--min-count', '2', '--max-count', '2'], expected = [('alpha', 2)]
+total = 7, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 1 種類']
+E         
+E         Right contains one more item: '表示 1 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-beta beta beta beta zoo zoo zoo apple apple pear pear single-options4-expected4-12] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri4')
+content = 'beta beta beta beta zoo zoo zoo apple apple pear pear single'
+options = ['--min-count', '2', '--max-count', '3', '--top', '1']
+expected = [('zoo', 3)], total = 12, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 1 種類']
+E         
+E         Right contains one more item: '表示 1 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-options5-expected5-27] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri5')
+content = 'over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eli...igible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11'
+options = ['--min-count', '2', '--max-count', '2']
+expected = [('eligible00', 2), ('eligible01', 2), ('eligible02', 2), ('eligible03', 2), ('eligible04', 2), ('eligible05', 2), ...]
+total = 27, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 10 種類']
+E         
+E         Right contains one more item: '表示 10 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-options6-expected6-27] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri6')
+content = 'over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eli...igible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11'
+options = ['--min-count', '2', '--max-count', '2', '--top', '99']
+expected = [('eligible00', 2), ('eligible01', 2), ('eligible02', 2), ('eligible03', 2), ('eligible04', 2), ('eligible05', 2), ...]
+total = 27, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 12 種類']
+E         
+E         Right contains one more item: '表示 12 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options7-expected7-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri7')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--max-count', '0'], expected = [], total = 7, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options8-expected8-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri8')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--max-count', '-1'], expected = [], total = 7, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options9-expected9-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri9')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--min-count', '3', '--max-count', '2'], expected = [], total = 7
+reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options10-expected10-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri10')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--min-count', '4'], expected = [], total = 7, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+________ test_displayed_types_cli_matrix[False--options11-expected11-0] ________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri11')
+content = '', options = [], expected = [], total = 0, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+____ test_displayed_types_cli_matrix[False- \t\r\n-options12-expected12-0] _____
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri12')
+content = ' \t\r\n', options = [], expected = [], total = 0, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+___ test_displayed_types_cli_matrix[False-!? -- ...-options13-expected13-0] ____
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri13')
+content = '!? -- ...', options = [], expected = [], total = 0, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-Stra\xdfe STRASSE-options14-expected14-2] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri14')
+content = 'Straße STRASSE', options = ['--min-count', '2', '--max-count', '2']
+expected = [('strasse', 2)], total = 2, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 1 種類']
+E         
+E         Right contains one more item: '表示 1 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-Zoo apple APPLE zoo banana-options15-expected15-5] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri15')
+content = 'Zoo apple APPLE zoo banana', options = ['--top', '2']
+expected = [('zoo', 2), ('apple', 2)], total = 5, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 2 種類']
+E         
+E         Right contains one more item: '表示 2 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-zoo apple zoo banana apple cherry-options16-expected16-6] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri16')
+content = 'zoo apple zoo banana apple cherry', options = ['--top', '1']
+expected = [('zoo', 2)], total = 6, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 1 種類']
+E         
+E         Right contains one more item: '表示 1 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-zoo apple zoo banana apple cherry-options17-expected17-6] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri17')
+content = 'zoo apple zoo banana apple cherry', options = ['--top', '2']
+expected = [('zoo', 2), ('apple', 2)], total = 6, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 2 種類']
+E         
+E         Right contains one more item: '表示 2 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-zoo apple zoo banana apple cherry-options18-expected18-6] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri18')
+content = 'zoo apple zoo banana apple cherry', options = ['--top', '10']
+expected = [('zoo', 2), ('apple', 2), ('banana', 1), ('cherry', 1)], total = 6
+reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 4 種類']
+E         
+E         Right contains one more item: '表示 4 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options19-expected19-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri19')
+content = 'beta beta beta alpha gamma alpha delta', options = ['--top', '2']
+expected = [('beta', 3), ('alpha', 2)], total = 7, reverse = False
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 2 種類']
+E         
+E         Right contains one more item: '表示 2 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options0-expected0-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri20')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--max-count', '2']
+expected = [('alpha', 2), ('gamma', 1), ('delta', 1)], total = 7, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 3 種類']
+E         
+E         Right contains one more item: '表示 3 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options1-expected1-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri21')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--max-count', '2', '--top', '1'], expected = [('alpha', 2)]
+total = 7, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 1 種類']
+E         
+E         Right contains one more item: '表示 1 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options2-expected2-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri22')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--max-count', '2', '--top', '99']
+expected = [('alpha', 2), ('gamma', 1), ('delta', 1)], total = 7, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 3 種類']
+E         
+E         Right contains one more item: '表示 3 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options3-expected3-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri23')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--min-count', '2', '--max-count', '2'], expected = [('alpha', 2)]
+total = 7, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 1 種類']
+E         
+E         Right contains one more item: '表示 1 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-beta beta beta beta zoo zoo zoo apple apple pear pear single-options4-expected4-12] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri24')
+content = 'beta beta beta beta zoo zoo zoo apple apple pear pear single'
+options = ['--min-count', '2', '--max-count', '3', '--top', '1']
+expected = [('zoo', 3)], total = 12, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 1 種類']
+E         
+E         Right contains one more item: '表示 1 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-options5-expected5-27] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri25')
+content = 'over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eli...igible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11'
+options = ['--min-count', '2', '--max-count', '2']
+expected = [('eligible00', 2), ('eligible01', 2), ('eligible02', 2), ('eligible03', 2), ('eligible04', 2), ('eligible05', 2), ...]
+total = 27, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 10 種類']
+E         
+E         Right contains one more item: '表示 10 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-options6-expected6-27] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri26')
+content = 'over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eli...igible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11'
+options = ['--min-count', '2', '--max-count', '2', '--top', '99']
+expected = [('eligible00', 2), ('eligible01', 2), ('eligible02', 2), ('eligible03', 2), ('eligible04', 2), ('eligible05', 2), ...]
+total = 27, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 12 種類']
+E         
+E         Right contains one more item: '表示 12 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options7-expected7-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri27')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--max-count', '0'], expected = [], total = 7, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options8-expected8-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri28')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--max-count', '-1'], expected = [], total = 7, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options9-expected9-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri29')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--min-count', '3', '--max-count', '2'], expected = [], total = 7
+reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options10-expected10-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri30')
+content = 'beta beta beta alpha gamma alpha delta'
+options = ['--min-count', '4'], expected = [], total = 7, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+________ test_displayed_types_cli_matrix[True--options11-expected11-0] _________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri31')
+content = '', options = [], expected = [], total = 0, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_____ test_displayed_types_cli_matrix[True- \t\r\n-options12-expected12-0] _____
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri32')
+content = ' \t\r\n', options = [], expected = [], total = 0, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+____ test_displayed_types_cli_matrix[True-!? -- ...-options13-expected13-0] ____
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri33')
+content = '!? -- ...', options = [], expected = [], total = 0, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 0 種類']
+E         
+E         Right contains one more item: '表示 0 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-Stra\xdfe STRASSE-options14-expected14-2] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri34')
+content = 'Straße STRASSE', options = ['--min-count', '2', '--max-count', '2']
+expected = [('strasse', 2)], total = 2, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 1 種類']
+E         
+E         Right contains one more item: '表示 1 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-Zoo apple APPLE zoo banana-options15-expected15-5] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri35')
+content = 'Zoo apple APPLE zoo banana', options = ['--top', '2']
+expected = [('zoo', 2), ('apple', 2)], total = 5, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 2 種類']
+E         
+E         Right contains one more item: '表示 2 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-zoo apple zoo banana apple cherry-options16-expected16-6] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri36')
+content = 'zoo apple zoo banana apple cherry', options = ['--top', '1']
+expected = [('zoo', 2)], total = 6, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 1 種類']
+E         
+E         Right contains one more item: '表示 1 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-zoo apple zoo banana apple cherry-options17-expected17-6] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri37')
+content = 'zoo apple zoo banana apple cherry', options = ['--top', '2']
+expected = [('zoo', 2), ('apple', 2)], total = 6, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 2 種類']
+E         
+E         Right contains one more item: '表示 2 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-zoo apple zoo banana apple cherry-options18-expected18-6] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri38')
+content = 'zoo apple zoo banana apple cherry', options = ['--top', '10']
+expected = [('zoo', 2), ('apple', 2), ('banana', 1), ('cherry', 1)], total = 6
+reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 4 種類']
+E         
+E         Right contains one more item: '表示 4 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+_ test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options19-expected19-7] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-247/test_displayed_types_cli_matri39')
+content = 'beta beta beta alpha gamma alpha delta', options = ['--top', '2']
+expected = [('beta', 3), ('alpha', 2)], total = 7, reverse = True
+
+    @pytest.mark.parametrize('content,options,expected,total', DISPLAY_MATRIX)
+    @pytest.mark.parametrize('reverse', [False, True])
+    def test_displayed_types_cli_matrix(tmp_path, content, options, expected, total, reverse):
+        from test_formatters import HTMLDocument, assert_displayed_types
+        path = tmp_path / '表示 &<>.txt'
+        path.write_bytes(content.encode('utf-8'))
+        groups = [options[i:i+2] for i in range(0, len(options), 2)]
+        if reverse:
+            groups.reverse()
+        args = [x for group in groups for x in group]
+        # Byte oracles run before the new HTML assertion, including newline/escapes.
+        for fmt in ('text', 'json'):
+            result = run_cli_bytes(path, *args, '--format', fmt)
+            expected_bytes = (''.join(f'{n}\t{w}\n' for w, n in expected) if fmt == 'text' else
+                              json.dumps([dict(word=w, count=n) for w, n in expected], ensure_ascii=True) + '\n').encode()
+            assert (result.returncode, result.stdout, result.stderr) == (0, expected_bytes, b'')
+        result = run_cli_bytes(path, *args, '--format', 'html')
+        assert (result.returncode, result.stderr) == (0, b'')
+        document = result.stdout.decode('utf-8')
+        parsed = CLIHTML(document)
+        assert parsed.values == {'filename-value': path.name, 'total-value': str(total)}
+        assert parsed.rows == [[str(i), w, str(n)] for i, (w, n) in enumerate(expected, 1)]
+        assert parsed.headers == ['順位', '単語', '回数']
+>       assert parsed.displayed_types == [f'表示 {len(expected)} 種類'], 'missing displayed-types count'
+E       AssertionError: missing displayed-types count
+E       assert [] == ['表示 2 種類']
+E         
+E         Right contains one more item: '表示 2 種類'
+E         Use -v to get more diff
+
+tests/test_cli.py:1259: AssertionError
+______ test_complete_fixed_css_contract_is_static_not_browser_acceptance _______
+
+    def test_complete_fixed_css_contract_is_static_not_browser_acceptance():
+        from wordfreq.formatters import format_html
+    
+        document = HTMLDocument(format_html([], "empty.txt", 0))
+        assert_static_document(document)
+        assert [node["text"] for node in document.classified("label")] == ["ファイル名", "総出現回数"]
+        css = document.tagged("style")[0]["text"]
+        # Exact fixed declarations reject additional theme branches, clipping,
+        # scrolling, shrink-to-fit, animation and encoded communication paths.
+        # This checks source declarations only; real geometry/images remain pending.
+        narrow = '@media (max-width: 480px) { main { padding: 16px; } }'
+        assert css.count(narrow) == 1
+        rules = re.findall(r'([^{}]+)\{([^{}]*)\}', css.replace(narrow, ""))
+        parsed = {}
+        for selector, block in rules:
+            selector = selector.strip()
+            assert selector not in parsed
+            parsed[selector] = dict(part.strip().split(":", 1) for part in block.split(";") if part.strip())
+            parsed[selector] = {key.strip(): value.strip() for key, value in parsed[selector].items()}
+>       assert parsed == {
+            ":root": {"color-scheme": "light"},
+            "body": {"margin": "0", "background": "#FFFFFF", "color": "#0F172A",
+                     "font-family": 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                     "font-size": "16px", "font-weight": "400", "line-height": "1.5"},
+            "main": {"width": "100%", "max-width": "960px", "box-sizing": "border-box",
+                     "margin": "0 auto", "padding": "32px"},
+            "h1": {"margin": "0 0 16px", "color": "#1D4ED8", "font-size": "24px",
+                   "font-weight": "600", "line-height": "1.25", "overflow-wrap": "anywhere"},
+            ".metadata": {"margin": "0 0 24px"},
+            ".metadata-item + .metadata-item": {"margin-top": "8px"},
+            ".label, caption, th": {"font-size": "14px", "font-weight": "600", "line-height": "1.5"},
+            ".label": {"margin-bottom": "4px", "color": "#475569"},
+            ".filename-value, .word": {"white-space": "break-spaces", "overflow-wrap": "anywhere",
+                                        "word-break": "normal", "tab-size": "4"},
+            ".total-value": {"color": "#1D4ED8"},
+            ".total-summary": {"display": "flex", "flex-wrap": "wrap", "gap": "8px", "align-items": "baseline"},
+            ".displayed-types": {"white-space": "pre-wrap", "overflow-wrap": "anywhere"},
+            "table": {"width": "100%", "table-layout": "fixed", "border-collapse": "collapse"},
+            "caption": {"text-align": "left", "color": "#475569", "margin-bottom": "8px"},
+            "th, td": {"box-sizing": "border-box", "padding": "8px", "vertical-align": "top",
+                       "text-align": "left", "overflow-wrap": "anywhere", "border-bottom": "1px solid #CBD5E1"},
+            "th": {"background": "#F1F5F9"}, "td": {"background": "#FFFFFF"},
+            ".rank, .count": {"text-align": "right", "font-variant-numeric": "tabular-nums"},
+            ".rank": {"width": "56px"}, ".count": {"width": "64px"},
+            ".empty-message": {"margin": "24px 0 0", "color": "#475569", "overflow-wrap": "anywhere"},
+        }
+E       AssertionError: assert {'.count': {'...: '4px'}, ...} == {'.count': {'...normal'}, ...}
+E         
+E         Omitting 19 identical items, use -vv to show
+E         Right contains 2 more items:
+E         {'.displayed-types': {'overflow-wrap': 'anywhere', 'white-space': 'pre-wrap'},
+E          '.total-summary': {'align-items': 'baseline',
+E                             'display': 'flex',
+E                             'flex-wrap': 'wrap',
+E                             'gap': '8px'}}
+E         Use -v to get more diff
+
+tests/test_formatters.py:238: AssertionError
+__________________________ test_html_displayed_types ___________________________
+
+    def test_html_displayed_types():
+        from wordfreq.formatters import format_html
+    
+        # Unsorted pairs and unrelated original totals distinguish len from sums/top.
+        matrix = [([], 0), ([], 7), ([('zoo', 3)], 12),
+                  ([('alpha', 2), ('gamma', 1), ('delta', 1)], 7),
+                  ([(f'row{i}', 2) for i in range(10)], 27),
+                  ([(f'row{i}', 2) for i in range(12)], 27),
+                  ([('low', 1), ('high', 99)], 10**100),
+                  ([('&<\r>\"\'', 2)], 2)]
+        for pairs, total in matrix:
+            original = list(pairs)
+            basename = '集計\r\n&<>\"\'.txt'
+            document = HTMLDocument(format_html(pairs, basename, total))
+>           assert_displayed_types(document, original, total, basename)
+
+tests/test_formatters.py:303: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+document = <test_formatters.HTMLDocument object at 0x70a608b09700>
+expected = [], total = 0, basename = '集計\r\n&<>"\'.txt'
+
+    def assert_displayed_types(document, expected, total, basename):
+        """Exact leaves, ancestry and source order; not a claim of horizontal render."""
+        leaves = document.classified('displayed-types')
+>       assert len(leaves) == 1, 'missing unique displayed-types leaf'
+E       AssertionError: missing unique displayed-types leaf
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests/test_formatters.py:271: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options0-expected0-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options1-expected1-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options2-expected2-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options3-expected3-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-beta beta beta beta zoo zoo zoo apple apple pear pear single-options4-expected4-12]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-options5-expected5-27]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-options6-expected6-27]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options7-expected7-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options8-expected8-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options9-expected9-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options10-expected10-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False--options11-expected11-0]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False- \t\r\n-options12-expected12-0]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-!? -- ...-options13-expected13-0]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-Stra\xdfe STRASSE-options14-expected14-2]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-Zoo apple APPLE zoo banana-options15-expected15-5]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-zoo apple zoo banana apple cherry-options16-expected16-6]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-zoo apple zoo banana apple cherry-options17-expected17-6]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-zoo apple zoo banana apple cherry-options18-expected18-6]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[False-beta beta beta alpha gamma alpha delta-options19-expected19-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options0-expected0-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options1-expected1-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options2-expected2-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options3-expected3-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-beta beta beta beta zoo zoo zoo apple apple pear pear single-options4-expected4-12]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-options5-expected5-27]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-options6-expected6-27]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options7-expected7-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options8-expected8-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options9-expected9-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options10-expected10-7]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True--options11-expected11-0]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True- \t\r\n-options12-expected12-0]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-!? -- ...-options13-expected13-0]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-Stra\xdfe STRASSE-options14-expected14-2]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-Zoo apple APPLE zoo banana-options15-expected15-5]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-zoo apple zoo banana apple cherry-options16-expected16-6]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-zoo apple zoo banana apple cherry-options17-expected17-6]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-zoo apple zoo banana apple cherry-options18-expected18-6]
+FAILED tests/test_cli.py::test_displayed_types_cli_matrix[True-beta beta beta alpha gamma alpha delta-options19-expected19-7]
+FAILED tests/test_formatters.py::test_complete_fixed_css_contract_is_static_not_browser_acceptance
+FAILED tests/test_formatters.py::test_html_displayed_types - AssertionError: ...
+42 failed, 1065 passed in 204.52s (0:03:24)

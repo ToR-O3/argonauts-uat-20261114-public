@@ -1,0 +1,47 @@
+{
+  "id": "triple-html",
+  "body": "beta beta beta beta zoo zoo zoo apple apple pear pear single",
+  "basename": "triple.txt",
+  "options": [
+    "--min-count",
+    "2",
+    "--max-count",
+    "3",
+    "--top",
+    "1",
+    "--format",
+    "html"
+  ],
+  "pairs": [
+    [
+      "zoo",
+      3
+    ]
+  ],
+  "total": 12,
+  "format": "html",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/private-source-directory/triple.txt",
+    "--min-count",
+    "2",
+    "--max-count",
+    "3",
+    "--top",
+    "1",
+    "--format",
+    "html"
+  ],
+  "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/private-source-directory/triple.txt",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/stdout.html",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/triple-html/stderr.bin",
+  "exit": 0,
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "views": []
+}

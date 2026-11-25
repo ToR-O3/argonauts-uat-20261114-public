@@ -11,7 +11,7 @@
 
 既定のplaywrightコマンドはPython importに失敗。指定済みの `/usr/bin/python3` と `PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages` ではPlaywright 1.60.0を確認した。標準ブラウザーの保存先には実行ファイルがなくscreenshotが失敗したため、既設 `/home/Yuki/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome` を明示。依存の導入・更新はしていない。
 
-probe/browser_probe.py は実CLIでREADME.mdから生成したHTMLを320×900/DPR1で開き、Chromium 148.0.7778.96とtitle「単語の出現頻度」を返してexit0。probe/launch.pngを画像入力で実閲覧した子sa-0-4d06d912は、白背景・README.md・総数404・10行の表（sh/readme/result等）と判読可能な文字を報告した。能力確認のみで、製品の受入合格ではない。
+probe/browser_probe.py は実CLIでREADME.mdから生成したHTMLを320×900/DPR1で開き、Chromium 148.0.7778.96とtitle「単語の出現頻度」を返してexit0。probe/launch.pngを画像入力で実閲覧した子sa-0-4d06d912は英数字の判読を報告したが、日本語の描画は確認できていなかった。品質run168で日本語が空白と判明し、初回の能力実証は不十分として差戻された。旧probeとbefore/は履歴原本として保全し、比較基準には使わない。再採取と日本語の実証は rework-run169/rework-proof.md を正とする。
 
 端末からの起動は自身の `mktemp -d /tmp/ab.XXXXXX` による短い専用パスをTMPDIR/TMP/TEMPへ同一コマンドで渡した。変更前採取の実パスはbefore/provenance.jsonの `/tmp/ab.iaPDXe`。Chromiumの実argv/user-data-dirはindex.jsonのbrowser.launchに保存され、子へ短いパスが渡ったことを確認できる。
 

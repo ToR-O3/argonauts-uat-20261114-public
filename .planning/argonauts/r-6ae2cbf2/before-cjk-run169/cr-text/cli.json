@@ -1,0 +1,39 @@
+{
+  "id": "cr-text",
+  "body": "alpha\r\nbeta",
+  "basename": "検査\r\n&<>\"'.txt",
+  "options": [
+    "--format",
+    "text"
+  ],
+  "pairs": [
+    [
+      "alpha",
+      1
+    ],
+    [
+      "beta",
+      1
+    ]
+  ],
+  "total": 2,
+  "format": "text",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-text/private-source-directory/検査\r\n&<>\"'.txt",
+    "--format",
+    "text"
+  ],
+  "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-text/private-source-directory/検査\r\n&<>\"'.txt",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-text/stdout.bin",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/cr-text/stderr.bin",
+  "exit": 0,
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "views": []
+}

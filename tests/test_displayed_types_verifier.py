@@ -8,7 +8,13 @@ import shutil
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-BEFORE = ROOT / '.planning/argonauts/r-6ae2cbf2/before'
+# Replacement originals with verified Japanese rendering; the first root stays sealed.
+BEFORE = ROOT / '.planning/argonauts/r-6ae2cbf2/before-cjk-run169'
+LEGACY_BEFORE = ROOT / '.planning/argonauts/r-6ae2cbf2/before'
+
+
+def test_superseded_before_stays_valid_read_only():
+    driver().validate_before(LEGACY_BEFORE)
 
 
 def driver():

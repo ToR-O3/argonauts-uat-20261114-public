@@ -1,0 +1,38 @@
+{
+  "id": "contradictory-html",
+  "body": "beta beta beta alpha gamma alpha delta",
+  "basename": "contradictory.txt",
+  "options": [
+    "--min-count",
+    "3",
+    "--max-count",
+    "2",
+    "--format",
+    "html"
+  ],
+  "pairs": [],
+  "total": 7,
+  "format": "html",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/private-source-directory/contradictory.txt",
+    "--min-count",
+    "3",
+    "--max-count",
+    "2",
+    "--format",
+    "html"
+  ],
+  "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/private-source-directory/contradictory.txt",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/stdout.html",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/contradictory-html/stderr.bin",
+  "exit": 0,
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "views": []
+}

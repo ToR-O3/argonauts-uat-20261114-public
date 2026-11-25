@@ -71,7 +71,7 @@ status: complete
 
 ## Accomplishments
 
-1. `before/index.json` は採取head be231840989079fed532c7372efb66f577e39b09、54CLIケース、HTML18ケース×2幅、38画像を記録。1280×900と320×900/DPR1。画像閲覧能力は先行probeで実証、採取画像はpending-reviewのまま。
+1. 初回 `before/index.json` は日本語未描画のため品質run168で差戻し。run169で **`before-cjk-run169/index.json` に54CLI・36表示・38画像を新規採取**した。1280×900と320×900/DPR1、製品無変更。既存Windowsフォントを検証プロセスだけから参照し、36表示の見出しでNoto Sans JPの実glyphを記録。max2/empty/escape/longの両幅8原本と、font無し/有りのprobe2枚を画像入力で実閲覧した。旧before/は封印保全し、次のPLANの比較原本はbefore-cjk-run169/を使う。詳細・再現コマンドは `.planning/argonauts/r-6ae2cbf2/rework-run169/rework-proof.md`。品質の全画像閲覧・独立受入はpending。
 2. fresh-root/所有権/欠損/改変/出所/viewport/DPR/synthetic/中断の拒否と、実clean/violatingネットワークcanaryを確認した。
 3. 新機能41件は表示leaf欠如で実RED。全focusedでは658成功・42失敗（41新機能＋局所CSS期待値1件）。text/json全bytes、元総数・行・basename、既存静的安全性・固定期待値を保持。
 4. OpenSpec1.1のみチェック。1.2・2.1、README追加、製品実装は次のPLANへ残した。

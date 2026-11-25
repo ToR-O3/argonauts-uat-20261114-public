@@ -1,0 +1,51 @@
+{
+  "id": "top99-text",
+  "body": "beta beta beta alpha gamma alpha delta",
+  "basename": "top99.txt",
+  "options": [
+    "--max-count",
+    "2",
+    "--top",
+    "99",
+    "--format",
+    "text"
+  ],
+  "pairs": [
+    [
+      "alpha",
+      2
+    ],
+    [
+      "gamma",
+      1
+    ],
+    [
+      "delta",
+      1
+    ]
+  ],
+  "total": 7,
+  "format": "text",
+  "argv": [
+    "/usr/bin/python3",
+    "-m",
+    "wordfreq",
+    "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-text/private-source-directory/top99.txt",
+    "--max-count",
+    "2",
+    "--top",
+    "99",
+    "--format",
+    "text"
+  ],
+  "input": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-text/private-source-directory/top99.txt",
+  "stdout": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-text/stdout.bin",
+  "stderr": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b82e2068/.planning/argonauts/r-6ae2cbf2/before-cjk-run169/top99-text/stderr.bin",
+  "exit": 0,
+  "environment": {
+    "PYTHONIOENCODING": "utf-8",
+    "PYTHONUTF8": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "views": []
+}

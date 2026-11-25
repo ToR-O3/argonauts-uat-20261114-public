@@ -1,0 +1,16 @@
+[
+  {
+    "id": "clean",
+    "errors": [],
+    "rejected": false
+  },
+  {
+    "id": "violating",
+    "errors": [
+      "external/unexpected attempt Network.requestWillBeSent: http://wordfreq-canary.invalid:9/attempt",
+      "external/unexpected attempt request: http://wordfreq-canary.invalid:9/attempt",
+      "external/unexpected attempt requestfailed: http://wordfreq-canary.invalid:9/attempt"
+    ],
+    "rejected": true
+  }
+]
