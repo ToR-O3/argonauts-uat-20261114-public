@@ -1,41 +1,44 @@
 # Synthesis Summary
 
-MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。今回専用 .planning/intel/classifications/r-d4bcda40/ の5分類だけを入力とし、過去分類・過去intelの内容を混ぜずstaging出力を置換した。
+MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。manifest: .planning/argonauts/r-6ae2cbf2-manifest.yaml。今回指定の5分類と対応原本だけを統合し、過去分類JSON/過去intelの内容を入力へ混ぜない。既存intelは置換対象としてのみ読んだ。
 
-STATUS: READY — safe to route
+STATUS: BLOCKED — review report before routing
 
-## 入力と公式CLI
+## 入力
 
-- Docs synthesized: 5（ADR 0 / SPEC 2 / PRD 2 / DOC 1 / UNKNOWN 0）。全5分類JSON・対応5原本をread_fileで全文確認。
-- jq -s: docs=5 / unique_sources=5 / valid=true。全件high confidence・manifest_override true・locked false・precedence null。上書きprecedenceなし。
-- SPEC: openspec/changes/r-d4bcda40-max-count/specs/wordfreq-cli/spec.md、openspec/changes/r-d4bcda40-max-count/tasks.md。
-- PRD: openspec/changes/r-d4bcda40-max-count/proposal.md、_bmad-output/initiative-r-d4bcda40/prd/prd-wordfreq-max-count.md。
-- DOC: _bmad-output/initiative-r-d4bcda40/brief/brief-wordfreq-max-count.md。
-- 公式CLI: node /home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/gsd-core/bin/gsd-tools.cjs init ingest-docs、exit0。project_exists/planning_exists=true、project_root/git_worktree_rootが本worktree、intel_dir/conflicts_pathが指定絶対パスと一致。commit_docs=trueは実行許可ではなくcommitしない。
-- 既存文脈: search_filesで実名を列挙したPROJECT.md、REQUIREMENTS.md、ROADMAP.md、phase01/03/04/05のCONTEXT.mdをread_fileで全文確認。過去の種別intelは置換先としてのみ読み、今回入力に採用しない。
+- Docs synthesized: 5（ADR 0 / SPEC 1 / PRD 1 / DOC 3 / UNKNOWN 0）。全分類JSONと5原本をread_fileで全文確認。
+- DOC: _bmad-output/initiative-r-6ae2cbf2/brief/brief-wordfreq-displayed-types.md; openspec/changes/r-6ae2cbf2-html-displayed-types/proposal.md; openspec/changes/r-6ae2cbf2-html-displayed-types/tasks.md。
+- PRD: _bmad-output/initiative-r-6ae2cbf2/prd/prd-wordfreq-displayed-types.md。
+- SPEC: openspec/changes/r-6ae2cbf2-html-displayed-types/specs/wordfreq-cli/spec.md。
+- jqによる今回5 JSONだけの抽出結果: docs=5、unique_sources=5、全件high confidence / manifest_override=true / locked=false / precedence=null、valid=true。
+- 分類の正確な入力: classifications/brief-wordfreq-displayed-types-c70ea0d6.json; classifications/prd-wordfreq-displayed-types-3af29342.json; classifications/proposal-9930bbe9.json; classifications/spec-c8e32257.json; classifications/tasks-73de775f.json。
+- 公式CLI node /home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/gsd-core/bin/gsd-tools.cjs init ingest-docs はexit0。project_exists/planning_exists=true、本worktreeのproject_root/git_worktree_root/intel_dir/conflicts_path一致。commit_docs=trueはcommit許可ではない。
+- 既存文脈: PROJECT.md、REQUIREMENTS.md、ROADMAP.md、STATE.md、search_filesで列挙したphase01/03/04/05/07の全5 CONTEXT.mdを全文読取り。変更しない。
 
-## cross_refsの循環検出
+## cross_refs循環検出
 
-今回5 source_pathをノードとし、cross_refsをsource親相対・repository-root相対で照合した。対象内の唯一の有向edgeはPRD→Brief（相対パス表記2つは同じedgeに集約）。proposalのinitiativeディレクトリ参照は個別文書へのedgeではなく、外部参照のREADME/製品コード/tests/pyproject/VERIFICATIONもノード追加しない。
+今回の5 source_pathをノードとし、cross_refsをsource親相対またはrepo-root相対で照合。対象内有向edgeはPRD→Brief、proposal→Brief、proposal→PRD。README、initiative、コード、試験、pyproject、VERIFICATIONは今回対象外の参照先であり再帰取込みしない。
 
-三色DFSを手動適用: Brief white→gray→black、PRD white→gray→Briefのblack参照→black、proposal/spec/tasksは各々white→gray→black。grayへのback-edgeなし、循環0。最長依存鎖はPRD→Briefの2ノードで深度上限50以内。全5文書を統合可能。
-source: .planning/intel/classifications/r-d4bcda40/brief-wordfreq-max-count-b2d9d48e.json; .planning/intel/classifications/r-d4bcda40/prd-wordfreq-max-count-046c41e3.json; .planning/intel/classifications/r-d4bcda40/proposal-1fba2397.json; .planning/intel/classifications/r-d4bcda40/spec-34d03d6b.json; .planning/intel/classifications/r-d4bcda40/tasks-ffeefeae.json
+三色DFSを手動適用した。Brief white→gray→black、PRD white→gray→Brief black→black、proposal white→gray→Brief black/PRD black→black、SPEC/tasksは各white→gray→black。grayへのback-edgeなし、循環0。最長鎖proposal→PRD→Briefは3ノードで深度50以内。全5件をstagingへ抽出した。
+source: classifications/brief-wordfreq-displayed-types-c70ea0d6.json; classifications/prd-wordfreq-displayed-types-3af29342.json; classifications/proposal-9930bbe9.json; classifications/spec-c8e32257.json; classifications/tasks-73de775f.json
 
-## 抽出結果
+## 抽出結果と入口
 
-- [decisions.md](decisions.md): ADR決定0、locked決定0、source paths該当なし。PRDのDecisions節をlocked ADRへ昇格させない。
-- [requirements.md](requirements.md): 6要求、REQ-max-count-option / REQ-max-count-selection / REQ-max-count-empty-errors / REQ-max-count-compatibility / REQ-max-count-verification / REQ-max-count-readme。PRDのFR-1〜FR-6に対応しproposalの同義条件を出典付きで保持。
-- [constraints.md](constraints.md): 8制約（api-contract 4 / nfr 1 / protocol 3 / schema 0）。引数、共通選択、空/エラー、元総数、互換/境界、README例、TDD/回帰、独立品質/後続工程。
-- [context.md](context.md): 2トピック（Briefの成功条件/範囲、導出/非阻害推定/未実施受入）。原文抜粋にsourceを付けて保持。
+- [decisions.md](decisions.md): ADR決定0、locked決定0、source paths該当なし。既存locked決定を上書きしない。
+- [requirements.md](requirements.md): 3要求（REQ-html-displayed-types / REQ-html-displayed-types-tests / REQ-html-displayed-types-readme）。PRD FR-1/FR-2/FR-3。RULE-1〜RULE-3、実描画、固定期待値/安全性保全も保持。
+- [constraints.md](constraints.md): 10制約（api-contract 6 / protocol 3 / nfr 1 / schema 0）。SPECのADDED 5、MODIFIED 5をそれぞれ保存。
+- [context.md](context.md): 3トピック（Brief目的と件数境界、proposalの明示例外、tasksの先行試験/実装/独立確認）。source付き原文抜粋。
+- [INGEST-CONFLICTS.md](../INGEST-CONFLICTS.md): 2 blockers / 0 competing-variants / 0 auto-resolved。
 
-## 承認契約とmerge境界
+## 承認済み変更とlocked衝突
 
-整数maxは0/負数も受理、省略は上限なし。正常読込み後のmax0/負数/min>maxは空結果exit0だが、空集合でも入力を読み入力失敗exit1を維持する。不正max/既存min/topは入力取得前exit2。正規化後の下限AND上限をtopより前に適用し同数初出順、元Counter、全フィルタ前HTML元総数を保つ。HTMLの見た目・安全性・formatter公開API・依存・CIは不変。
-source: openspec/changes/r-d4bcda40-max-count/specs/wordfreq-cli/spec.md:5-52,64-162; openspec/changes/r-d4bcda40-max-count/tasks.md:5-12
+Nは最終pairsのデータ行数。元総数はmin/max/top前の回数和。総数横・表より上に表示し、空は0。通常3/top1/top99、12候補の既定10/top99、min/max/top、Unicode合算、空/語なし/全除外を検証する。text/json全バイト・初出順・CLI出口・basename/escape/静的安全性・formatter境界を維持する。README追加はHTML説明1行のみ。
+source: _bmad-output/initiative-r-6ae2cbf2/prd/prd-wordfreq-displayed-types.md:51-72,94-110; openspec/changes/r-6ae2cbf2-html-displayed-types/specs/wordfreq-cli/spec.md:3-52
 
-先行phaseは履歴と有効継続契約を分けて照合した。Phase3がPhase1の語昇順を既に置換し、今回も初出順維持。Phase4の当時の下限だけ追加というscopeやPhase5のREADME1行だけ/コード試験禁止は今回機能を無条件に禁止する契約ではない。既存文脈は書き換えず、新規phase/公式REQ番号への対応付けは後続担当に委ねる。過去の検証合格・stale状態を今回達成や作業範囲へ混ぜない。
-source: .planning/REQUIREMENTS.md:34-41,54-62,74-82; .planning/ROADMAP.md:94-137; .planning/phases/03-wordfreq-html-output/03-CONTEXT.md:17; .planning/phases/04-wordfreq-min-count/04-CONTEXT.md:10,17-38; .planning/phases/05-readme-validation-b/05-CONTEXT.md:8-18
+HTMLバイト互換・見た目不変に対する今回の表示Nと必要最小レイアウトの明示例外は承認済み。封印baselineは変更せず今回用期待値/明示変換を使う。ただし既存Phase4 D-06/D-07とPhase7 D-04はlockedなHTML不変/固定期待値契約のままなので、公式synthesizer規則で矛盾をBLOCKERとして残す。既存locked決定を優先順位で黙って上書きしない。親工程は承認済み変更の新phase/決定と限定例外の対応を明示してroutingを判断する。未承認の製品要求が残っているという意味ではなく、既存locked文脈との安全な統合が未了である。
+source: openspec/changes/r-6ae2cbf2-html-displayed-types/proposal.md:12; openspec/changes/r-6ae2cbf2-html-displayed-types/specs/wordfreq-cli/spec.md:79-84,105-126; .planning/phases/04-wordfreq-min-count/04-CONTEXT.md:14,26-29; .planning/phases/07-wordfreq-max-count/07-CONTEXT.md:15,19; user approval context for this invocation
 
-Conflicts: 0 blockers / 0 competing-variants / 0 auto-resolved。詳細は [INGEST-CONFLICTS.md](../INGEST-CONFLICTS.md)。scope照合は優先順位による矛盾の自動解決として数えない。
+過去snapshot専用scope gateを今回の製品合否と区別し、gate/安全性/text-json期待値を緩めない。Phase7の過去画像省略判断を今回の描画義務へ流用しない。品質は実CLIを独立生成し1280×900/320×900 DPR1で実閲覧、位置・可読性・非重複・件数・静的安全性を確認し、文字のVERIFICATION.mdとCLI/CI証拠をAC別に添付する。未実施を成功としない。
+source: _bmad-output/initiative-r-6ae2cbf2/prd/prd-wordfreq-displayed-types.md:100-102; openspec/changes/r-6ae2cbf2-html-displayed-types/tasks.md:5-10; openspec/changes/r-6ae2cbf2-html-displayed-types/specs/wordfreq-cli/spec.md:97-103; .planning/REQUIREMENTS.md:104
 
-今回変更は上記intel4点・本SYNTHESIS・INGEST-CONFLICTSの6ファイルのみ。既存requirements/roadmap/PROJECT/STATE/CONTEXT、原本、分類、README、製品コード・試験を変更しない。commit/push/kanban操作なし。計画中に未作成の検証コマンドを試していない。後続PLANの検証はBuilder・品質が実在する検証ファイルから実行する。追加pytest・実CLI・独立ブラウザ・CI・製品受入は本作業では未実施であり合格を主張しない。
+本担当の保存対象は種別intel4点、本SYNTHESIS、INGEST-CONFLICTSの6ファイルのみ。既存destination4点・全CONTEXT、原本、分類、README、製品コード/試験は未変更。公式initと読取り/抽出のみを実行し、製品試験・未作成検証コマンド・実CLI/ブラウザ・commit/push/Kanban操作は未実施。後続PLANの検証コマンドはBuilder・品質が実在する検証ファイルから実行する。

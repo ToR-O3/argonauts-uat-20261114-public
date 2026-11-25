@@ -1,0 +1,32 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b9d50823/_bmad-output/initiative-r-6ae2cbf2/prd/prd-wordfreq-displayed-types.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "wordfreq HTMLの表示語種類数 — PRD",
+  "summary": "wordfreq HTMLの総出現回数の横に絞込み・top後の表示語種類数を追加し、既存出力契約を維持する要件、テスト対象、READMEへの説明追加を定める。",
+  "scope": [
+    "wordfreq",
+    "HTML",
+    "表示語種類数",
+    "総出現回数",
+    "min-count",
+    "max-count",
+    "top",
+    "text/json",
+    "自動テスト",
+    "README"
+  ],
+  "cross_refs": [
+    "../brief/brief-wordfreq-displayed-types.md",
+    "_bmad-output/initiative-r-6ae2cbf2/initiative-r-6ae2cbf2.md",
+    "wordfreq/formatters.py",
+    "wordfreq/__main__.py",
+    "README.md",
+    "tests/test_formatters.py",
+    "tests/test_cli.py",
+    "pyproject.toml"
+  ],
+  "locked": false,
+  "precedence": null
+}

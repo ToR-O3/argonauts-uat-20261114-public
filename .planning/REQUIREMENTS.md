@@ -103,6 +103,20 @@ Source: 仕様承認t_ef216d95、要求・仕様t_fa8e2c5f completed run119、�
 
 完了根拠: `phases/07-wordfreq-max-count/07-VERIFICATION.md`（10/10）、品質の標準添付93〜95と受入t_d6a12bfd approved。判断日時2026-11-25 21:22の依頼者原文「変更前後の画像の取得と比較は省いてください。html の出力は、試験で中身（出す単語と回数）を確かめれば足ります。ほかの受入条件と品質の独立した確認はそのままにしてください。」により、REQ-26/27のブラウザー画像・幾何・通信観測/canaryは未実施・対象外。Completeはそれらの合格を示さず、独立CLI/HTML内容・全試験・文字証拠添付の完了を示す。
 
+## r-6ae2cbf2 Requirements (Phase 8)
+
+Source: 仕様承認t_e811c751 run164、要求・仕様t_61eb0c74 completed run163。OpenSpec `r-6ae2cbf2-html-displayed-types` proposal/spec/tasks、承認BMAD Brief/PRD。取込みBLOCKERS2件は今回承認済み変更として新phaseへ記録（E.7/F.3）。旧REQ-16/19/21/26と旧CONTEXTは履歴を保持し、今回表示N追加と必要最小レイアウトのみHTML不変契約の限定例外とする。text/jsonバイト不変・安全性・封印baselineは変更しない。
+
+- [ ] **REQ-29**: HTML-DISPLAY-1: 表の上の総出現回数の横に「表示 N 種類」を表示する。Nは既存Unicode抽出/casefold正規化・min/max・top適用後の最終データ行数。通常、top指定/既定10、閾値併用/境界、空/語なし/全除外/矛盾範囲、Unicode合算で一致。元総出現回数はmin/max/top前のcounts和を維持。
+- [ ] **REQ-30**: HTML-DISPLAY-2/HTML-1/HTML-2/MC-2/MAX-2: 同一入力/同一オプションのtext/jsonは全バイト不変、HTMLは表示Nと最小レイアウト以外を保持。封印済baseline上書きなし、今回用期待値または許可差分を明示した変換で比較し、旧snapshot専用scope gateを今回の判定と混同しない。escape、basename、内包CSS、script/外部参照/通信なし、既存API/抽出/順位/エラーを維持。通常幅1280×900・狭幅320×900 DPR1で総数横の表示、長語/basename含む可読性を実描画で確かめる。
+- [ ] **REQ-31**: HTML-DISPLAY-3/tasks1.1/1.2/2.1: 追加試験RED→最小実装GREEN・全pytestを記録しREADMEのHTML説明に1行追加。品質が対象headのCLI・ブラウザ・全pytestを独立確認しVERIFICATION.mdとCLI/CI文字証拠を標準添付、条件別結果と画像閲覧枚数/内容/結果を記録する。PMへ画像/圧縮ファイル閲覧を要求しない。依存/CI/権限/外部送信/移行の追加変更なし。過去依頼の画像省略判断を今回へ流用しない。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-29 | Phase 8 | Pending |
+| REQ-30 | Phase 8 | Pending |
+| REQ-31 | Phase 8 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

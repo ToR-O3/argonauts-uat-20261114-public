@@ -1,0 +1,29 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b9d50823/openspec/changes/r-6ae2cbf2-html-displayed-types/specs/wordfreq-cli/spec.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "spec.md",
+  "summary": "HTMLの総出現回数の横に絞込み・top適用後の表示語種類数を追加し、空結果・既存互換性・試験・独立確認・README追記の契約を定める。",
+  "scope": [
+    "wordfreq-cli",
+    "HTML",
+    "表示語種類数",
+    "総出現回数",
+    "min-count",
+    "max-count",
+    "top",
+    "Unicode casefold",
+    "text/json",
+    "pytest",
+    "README"
+  ],
+  "cross_refs": [
+    "tests/test_formatters.py",
+    "tests/test_cli.py",
+    "README"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

@@ -178,6 +178,11 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
+**Wave 1**
 - [ ] 08-01-PLAN.md — Wave 1: 製品編集前の実CLI/両幅画像を保全し表示N全ケースの先行RED（2 tasks）
+
+**Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 08-02-PLAN.md — Wave 2（depends 08-01）: 最終pairs表示・限定HTML期待値整合・README1行・全pytest GREEN（2 tasks）
+
+**Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 08-03-PLAN.md — Wave 3（depends 08-02）: 実行可能な現行ブラウザ検証seamをBuilderがexerciseし独立品質OpenSpec2.1へ引継ぎ（2 tasks）

@@ -1,0 +1,123 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_displayed_types_verifier.py -q",
+      "statement": "Nonzero for missing API, bad rejection/control tests, accidental current-only baseline requirement, zero collected/ERROR; no real-browser success claim from this browser-free invocation.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-01: Unchanged real CLI-to-browser comparison tracer and immutable pre-edit originals"
+    },
+    {
+      "command": "env WORDFREQ_DISPLAY_CAPTURE=before PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_displayed_types_verifier.py::test_capture_before_real_browser -q -s",
+      "statement": "Nonzero for launch/import/canary failure, missing actual views/raw/fonts/images/CLI bytes, mismatch head/source, overwrite, viewport other than 1280x900/320x900 DPR1 or 0 collected. Real capture must occur, not the ordinary noncapture path.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-01: Unchanged real CLI-to-browser comparison tracer and immutable pre-edit originals"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py -k saved_baseline -q -x",
+      "statement": "Nonzero if sealed legacy baseline is altered or invalid, or zero tests collected; this is inherited integrity coverage, not current visual acceptance.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-01: Unchanged real CLI-to-browser comparison tracer and immutable pre-edit originals"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_formatters.py::test_html_displayed_types tests/test_cli.py::test_displayed_types_cli_matrix -q",
+      "statement": "Expected exit1 with real new-display AssertionError is RED evidence; exit0 means missing discrimination and rejects task completion; exit2/4/5, zero collected, errors/import/syntax/setup failures are invalid RED and must be corrected.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-02: Author full displayed-types literal matrix and capture OpenSpec1.1 RED"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_formatters.py tests/test_cli.py -q",
+      "statement": "Expected nonzero feature-assertion failures at this RED-only boundary; unrelated regressions must be isolated, not accepted as feature RED. No all-green claim until 08-02.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-02: Author full displayed-types literal matrix and capture OpenSpec1.1 RED"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_formatters.py tests/test_cli.py -q",
+      "statement": "Nonzero for absent/wrong N, contaminated total, wrong rows/top/Unicode/empty, unsafe markup, CSS beyond local rules, full byte mismatch or cold-copy import failure; zero collected/ERROR is not GREEN.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-01: Final-pairs display tracer and strict legacy/current byte compatibility GREEN"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_max_count_verifier.py tests/test_min_count_verifier.py -q",
+      "statement": "Nonzero if current fixture still compares old HTML incorrectly, defaults weaken old checks, saved captures/baselines/RED change, old scope damage stops being rejected, or no tests collect.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-01: Final-pairs display tracer and strict legacy/current byte compatibility GREEN"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -q -x",
+      "statement": "Nonzero for README not exactly one allowed added line, deleted/changed legacy content, byte mismatch, mutant passing unexpectedly, control failure, collection/import errors or zero collected.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-02: One README line and full regression evidence with discrimination"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/ -q",
+      "statement": "Any nonzero, errors, failures, unexpected skip/xfail, zero collected or incomplete recording is not full GREEN; no use of old-scope exclusions to obtain success.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-02: One README line and full regression evidence with discrimination"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_displayed_types_verifier.py -q",
+      "statement": "Nonzero if clean controls fail, a validator accepts wrong count/geometry/network/head/provenance/missing evidence/ledger/suite, no tests collect, or the runbook omits an executable independent gate. Synthetic controls do not satisfy real rendering.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-03-PLAN.md",
+      "task": "08-03-01: Current count-to-browser verification and independent-quality executable seam"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_formatters.py tests/test_cli.py -q",
+      "statement": "Any nonzero byte/feature/security/layout-source regression, collection/import error or zero collected; this does not replace the next actual-browser gate.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-03-PLAN.md",
+      "task": "08-03-01: Current count-to-browser verification and independent-quality executable seam"
+    },
+    {
+      "command": "env WORDFREQ_DISPLAY_CAPTURE=current WORDFREQ_DISPLAY_ROLE=builder WORDFREQ_DISPLAY_OUTPUT=.planning/argonauts/r-6ae2cbf2/tracer PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_displayed_types_verifier.py::test_capture_current_real_browser -q -s",
+      "statement": "Nonzero for absent real CLI/browser path, missing count/geometry/raw/network/images/canary, wrong head or reused root; 0 collected/import errors are not tracer success. Actual imagery is pending review, not independent acceptance.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-03-PLAN.md",
+      "task": "08-03-01: Current count-to-browser verification and independent-quality executable seam"
+    },
+    {
+      "command": "env WORDFREQ_DISPLAY_CAPTURE=current WORDFREQ_DISPLAY_ROLE=builder WORDFREQ_DISPLAY_OUTPUT=.planning/argonauts/r-6ae2cbf2/builder PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_displayed_types_verifier.py::test_capture_current_real_browser -q -s",
+      "statement": "Nonzero for browser unavailable, reused root, wrong role, any CLI/raw/fonts/image/canary/count/placement/network failure, missing before comparison or zero collected. It must run real capture, not noncapture or synthetic path.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-03-PLAN.md",
+      "task": "08-03-02: Exercise Builder actual browser/full suite and deliver quality-owned pending acceptance"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/ -q",
+      "statement": "Any nonzero, failures/errors/added skip/xfail/0 collected or incomplete suite originals; full result is distinct from independent quality and CI.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-03-PLAN.md",
+      "task": "08-03-02: Exercise Builder actual browser/full suite and deliver quality-owned pending acceptance"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 14
+  },
+  "readError": null
+}

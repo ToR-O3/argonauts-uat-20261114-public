@@ -1,0 +1,28 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_b9d50823/openspec/changes/r-6ae2cbf2-html-displayed-types/tasks.md",
+  "type": "DOC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Tasks",
+  "summary": "HTMLの実表示種類数と説明の追加について、試験先行の実装、独立した統合確認、証拠記録、および受入後の仕様同期・archiveを定める作業一覧。",
+  "scope": [
+    "HTML",
+    "実表示種類数",
+    "README",
+    "text/json",
+    "pytest",
+    "CLI",
+    "統合確認",
+    "静的安全性",
+    "仕様同期",
+    "archive"
+  ],
+  "cross_refs": [
+    "tests/test_formatters.py",
+    "tests/test_cli.py",
+    "README.md",
+    "VERIFICATION.md"
+  ],
+  "locked": false,
+  "precedence": null
+}

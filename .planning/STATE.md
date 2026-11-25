@@ -1,20 +1,20 @@
 ---
 gsd_state_version: "1.0"
 milestone: v1.12
-current_phase: 7
-current_plan: Not started
-status: completed
-stopped_at: Phase 7 complete — all phases complete
-last_updated: "2026-11-25T14:15:02.771Z"
-last_activity: 2026-11-25
-last_activity_desc: Phase 7 complete
-state_head: b4e9037892f01582554a96df2389c9e0458d7c35
+current_phase: 8
+current_phase_name: wordfreq HTML displayed types
+current_plan: 1
+status: executing
+stopped_at: Phase 8 planned — 3 plans ready, independent checker passed
+last_updated: "2026-11-25T20:40:35.894Z"
+last_activity: 2026-11-26
+last_activity_desc: Phase 8 planning complete — 3 plans ready
+state_head: af939cbb6becec5725fd3d9fa698bd8c4b2b6c9c
 progress:
-  total_phases: 5
+  total_phases: 6
   completed_phases: 1
-  total_plans: 19
+  total_plans: 22
   completed_plans: 19
-  percent: 20
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -26,15 +26,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-17)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 7 — wordfreq max-count
+**Current focus:** Phase 8 — wordfreq HTML displayed types
 
 ## Current Position
 
-Phase: 7
-Current Plan: Not started
+Phase: 8 (wordfreq HTML displayed types) — READY TO EXECUTE
+Current Plan: 1
 Total Plans in Phase: 3
-Status: All phases complete
-Last activity: 2026-11-25 — Phase 7 complete
+Status: Ready to execute
+Last activity: 2026-11-26 — Phase 8 planning complete
 
 Progress: [██░░░░░░░░] 20%
 
@@ -91,6 +91,8 @@ Recent decisions affecting current work:
 
 ### Roadmap Evolution
 
+- Phase 8 added: wordfreq HTML displayed types (r-6ae2cbf2; official phase.add result 8). Approval t_e811c751 run164. BLOCKERS 2 are approved HTML display/minimal-layout exceptions to old locked contracts; use E.7 new-phase route, not merge overwrite. REQ-29..REQ-31. Old CONTEXT/baseline/history and stale reports retained; current quality browser verification remains mandatory.
+
 - Phase 7 added: wordfreq max-count (r-d4bcda40; official phase.add result 7). Approved t_ef216d95, merge adds REQ-23..REQ-28 only, blockers/warnings/info 0. Existing stale verification remains outside this request; no prior unrelated phase artifacts reused.
 
 - Phase 5 added: README validation B (r-215b4390; official phase.add result 5). Approved t_dafbe600 run5, merge adds only REQ-22. No conflict; earlier stale verification remains outside this request.
@@ -118,6 +120,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-25T13:44:07.506Z
-Stopped at: Phase 7 complete — all phases complete
-Resume file: .planning/phases/07-wordfreq-max-count/07-03-SUMMARY.md
+Last session: 2026-11-25T20:40:35.755Z
+Stopped at: Phase 8 planned — 3 plans ready, independent checker passed
+Resume file: .planning/phases/08-wordfreq-html-displayed-types/08-01-PLAN.md

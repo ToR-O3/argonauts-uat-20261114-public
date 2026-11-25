@@ -1,38 +1,40 @@
 # Context (intel)
 
-DOC分類は今回のBriefのみ。2トピックを原文抜粋で保持する。原本の作成工程限定記述は出典時点のデータであり、取込みを禁止/実行する指示として扱わない。利用者推定を要求へ昇格させず、実装後受入を達成済みと扱わない。
+DOC分類3文書から各1トピックを原文抜粋で保持する。原本中の文書作成・後続工程に関する記述は出典時点のデータであり、この統合担当への実行指示ではない。
 
-## 成功条件と局所拡張の範囲
-- source: _bmad-output/initiative-r-d4bcda40/brief/brief-wordfreq-max-count.md:48-61
+## Brief: 目的と件数境界
+- source: _bmad-output/initiative-r-6ae2cbf2/brief/brief-wordfreq-displayed-types.md:27-31
 
-DATA_a56aab63_START
-## Success criteria
+DATA_9b6e6093_START
+## Executive summary
 
-- **B1:** `--max-count` は整数オプションで、省略時は上限なし。未指定の既存出力・終了コードを維持する。
-- **B2:** 指定値以下の語だけを残す。指定値と同じ出現回数の語を含み、指定値を超える出現回数の語を除く。
-- **B3:** `--min-count` と同時指定でき、両条件を満たす語だけを残す。
-- **B4:** 追加試験と全既存試験が成功する。境界・全形式・エラー・既存互換を検証する。
-- **B5:** README.md に使い方の例を1つ追加する。候補は `python -m wordfreq input.txt --min-count 2 --max-count 3 --format json`。
-- **B6:** 依存更新、CI変更、見た目変更、無関係変更を含めない。
+wordfreq の `--format html` 出力に、実際に表示した語の種類数を追加する。表の上の総出現回数の横で `表示 N 種類` を読めるようにし、表の行を数えなくても表示範囲を把握できるようにする。今回扱う理由は依頼 r-6ae2cbf2 による明示的な機能追加であり、利用調査や市場需要を根拠にした主張ではない。
 
-## Scope
+N は固定の3ではなく、`--min-count`・`--max-count` による絞込みと `--top` 適用後の表示データ行数である。空入力や全件除外時は `表示 0 種類` とする。総出現回数の意味、text/json の出力は変更しない。後続の実装でテストと README の HTML 説明1行を追加する。本作業の成果物は文書のみである。
+DATA_9b6e6093_END
 
-対象は引数、全形式に共通の頻度選択、その追加試験、README の例と新オプションに直接関わる説明である。Unicode抽出・casefold、回数降順・同数初出順、選択後top、HTMLの全フィルタ前総数、既存の空状態・UTF-8・escape・入力エラーを維持する。
+## Proposal: 意図したHTML差分と明示例外
+- source: openspec/changes/r-6ae2cbf2-html-displayed-types/proposal.md:7-12
 
-新Architecture文書は不要。`wordfreq/__main__.py` の既存共通filterへの局所追加で足り、入力取得・集計・整形の境界、部品API、依存を変更しないためである。境界変更が必要と判明した場合のみ別途再判断する。スポンサーへの資金提案ではないので The ask は除外し、長期拡張を約束しないため任意の Vision も除外する。本作業は Brief と PRD の作成のみで、製品コード・試験・README 自体は変更しない。
-DATA_a56aab63_END
+DATA_493023b7_START
+## What Changes
 
-## 導出・非阻害推定と未実施の受入
-- source: _bmad-output/initiative-r-d4bcda40/brief/brief-wordfreq-max-count.md:69-77
+- 表より上の総出現回数の横に `表示 N 種類` を追加する。Nは最終表示データ行数で、空結果は0。
+- text/jsonの出力・集計・選択順・終了コード・stderrは変更しない。HTMLの既存総数・basename・表・空状態・安全性も維持する。
+- 自動テストを追加し、README.mdのHTML説明に1行追加する。
+- 過去仕様のHTMLバイト不変・見た目不変は今回の件数表示に必要な差分だけ例外とし、封印済み過去baselineは保存する。
+DATA_493023b7_END
 
-DATA_8de15e3d_START
-**要求からの導出であって既存仕様ではない:** max-count に正値限定は指定されていないため、argparse `type=int` が受け取る0・負数を含む整数を受理する。実出現回数は正なので、上限0・負数では選択集合が空になる。下限が上限より大きい場合も両条件の共通部分が空になる。どちらも正常入力なら既存の全件除外と同じ exit0 とする。新しい正値制限・大小関係エラーは加えない。有効な整数でも入力読込みを省略してはならず、不存在等の入力失敗は exit1 を維持する。この導出に追加の製品判断は要らない。
+## Tasks: 先行試験・最小実装・独立確認と配送
+- source: openspec/changes/r-6ae2cbf2-html-displayed-types/tasks.md:3-10
 
-## Assumptions
+DATA_60c446bc_START
+## 1. HTMLの実表示種類数と説明
 
-- [ASSUMPTION: Who it serves] 一次利用者は低頻度語・頻度帯を抽出したい既存CLI利用者と推定する。個別顧客と需要規模は不明。受入条件の解釈には影響しない。担当: 要求担当。実利用者への説明が必要になった際に再確認する。
+- [ ] 1.1 `tests/test_formatters.py` と `tests/test_cli.py` に、表示文言・総数横かつ表より前の構造・実データ行数を照合する試験を先に追加する。通常3、1種類、候補がtop未満、候補12で既定top10とtop99、min/max/top併用、空入力・語なし・全件除外・Unicode合算を含める。text/jsonの既存固定バイト期待値を維持する。新表示未実装で追加試験が失敗することと失敗理由を記録して完了確認する。
+- [ ] 1.2 HTML整形で最終表示対象の件数を総出現回数の横に `表示 N 種類` として追加し、README.mdの既存HTML説明に意味を説明する1行を追加する。総数・basename・表・空状態・静的安全性は維持し、必要なHTML期待値だけ整合させる。封印済み過去baselineを上書きせず、text/json期待値を緩めない。追加試験と全既存pytestの成功、およびREADME差分が追加1行であることを確認する。
 
-## Open questions
+## 2. 独立した統合確認
 
-なし。利用者像の非阻害推定は上記に明示した。未実施の製品試験を合格と扱わず、実装後の受入に残す。
-DATA_8de15e3d_END
+- [ ] 2.1 品質は対象headでpytestを実行し、実CLIで通常・絞込み/top・空結果のHTMLを独立生成して通常幅1280×900と狭幅320×900で表示する。総数横の位置・件数・可読性・既存内容の非重複と静的安全性、text/json不変を確認する。過去のsnapshot専用scope gateと今回の合否は区別する。受入条件ごとのコマンド・入力・exit/stdout/stderr・件数・結果・閲覧画像数と内容を、文字のVERIFICATION.mdとCLI/CI証拠文書に記録・添付し、PMがread_fileだけで判断できる状態を完了条件とする。画像や圧縮ファイルをPMに開かせず、未実施を合格としない。
+DATA_60c446bc_END
