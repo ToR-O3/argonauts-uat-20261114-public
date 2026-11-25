@@ -1,7 +1,8 @@
 ---
 phase: "08"
 slug: "wordfreq-html-displayed-types"
-status: draft
+status: approved
+reviewed_at: "2026-11-26T05:15:10+09:00"
 shadcn_initialized: false
 preset: none
 created: "2026-11-26"
@@ -9,7 +10,7 @@ created: "2026-11-26"
 
 # Phase 08 — UI Design Contract
 
-> wordfreq HTML displayed types。既存の静的HTMLを継承する設計契約。研究者によるdraftであり、checkerの承認・実装・描画検証は未実施。
+> wordfreq HTML displayed types。既存の静的HTMLを継承する設計契約。公式UI checkerは7/7 APPROVED（2026-11-26T05:15:10+09:00）。実装・描画の受入は未実施。
 
 ## Design System
 
@@ -113,7 +114,7 @@ READMEは既存HTML説明へ上の1行だけを追加する。上限・下限の
 
 ## UI Considerations
 
-研究者による状態契約。公式post-verification probe（ui-phase Step 9.5）はchecker後にorchestratorが実行し、この節を置換する。以下はprobe実行済み・描画合格を意味しない。未解決の製品設計判断なし。
+公式post-verification probeをchecker後に実行し、exit0とJSON形を確認。E1 metadata、E2 read-only results table、E3 empty result surfaceを入力し、22 applicable / 0 unclassified。`--auto`のkind確認として全文を再読し、いずれも静的データ表示でありform/action/media等の欠落なしと判断。下表は全E1/E2/E3に共通のカテゴリをまとめたexplicit解決であり、描画合格を意味しない。empty/populated/partial/zero-one-manyは現行ケース試験、overflow/long-textは実ブラウザで後続検証する。loading/errorは理由付きdismissed（非同期なし、エラー時HTMLなし）。未解決の製品判断なし。
 
 | Category | Element(s) | Status | Resolution / Reason |
 |----------|------------|--------|---------------------|
@@ -148,12 +149,12 @@ READMEは既存HTML説明へ上の1行だけを追加する。上限・下限の
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
-- [ ] Dimension 7 Inventory Provenance: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
+- [x] Dimension 7 Inventory Provenance: PASS
 
-**Approval:** pending — checkerによる検証後に更新する。実装・ブラウザ受入の合格とは別。
+**Approval:** approved — independent gsd-ui-checker sa-0-e69bfede、7/7、通常終了・truncated:false。post-verification probe exit0。実装・ブラウザ受入の合格とは別。
