@@ -1,6 +1,6 @@
 # argonauts-uat public
 
-Argonauts v1.10 acceptance test repository.
+wordfreq は、テキストに出てくる単語の回数を数えて一覧にする小さなコマンドです。
 
 ## wordfreq の実行
 
