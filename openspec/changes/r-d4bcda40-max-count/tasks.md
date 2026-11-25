@@ -2,8 +2,8 @@
 
 ## 1. 上限指定・共通選択・使用例の一体実装
 
-- [ ] 1.1 既存の保存済み期待出力を確認し、不足する省略互換の期待バイト列・入力・実行条件を変更前に固定する。tests/test_cli.pyにMAX-1/MAX-2と変更されたFR-2/FR-4/HTML-2/MC-1/MC-2の追加pytestを先に書き、新オプション未実装で狙いどおり失敗することを確認する。整数表記・欠落/非整数・読込み前検証、0/負数/逆転、全形式、min/max境界、max1、Unicode、同数初出順、top既定/明示、空入力/抽出0語、有効上限でも入力失敗を含める。検証は追加ケースのRED出力を残し、既存試験の期待値を新コードで作り直さないこと。
-- [ ] 1.2 wordfreq/__main__.pyにtype=int・省略Noneの--max-countを追加し、共通選択で下限AND任意上限を適用してから既存topへ渡す。正値制約・min/max関係エラー・空集合による入力取得の短絡を加えない。元Counterと全フィルタ前総数、全formatterのAPIを保つ。1.1の追加pytestのGREENと、top入力のspyによる選択順序・元Counter不変・formatter共有pairsの確認で検証する。
+- [x] 1.1 既存の保存済み期待出力を確認し、不足する省略互換の期待バイト列・入力・実行条件を変更前に固定する。tests/test_cli.pyにMAX-1/MAX-2と変更されたFR-2/FR-4/HTML-2/MC-1/MC-2の追加pytestを先に書き、新オプション未実装で狙いどおり失敗することを確認する。整数表記・欠落/非整数・読込み前検証、0/負数/逆転、全形式、min/max境界、max1、Unicode、同数初出順、top既定/明示、空入力/抽出0語、有効上限でも入力失敗を含める。検証は追加ケースのRED出力を残し、既存試験の期待値を新コードで作り直さないこと。
+- [x] 1.2 wordfreq/__main__.pyにtype=int・省略Noneの--max-countを追加し、共通選択で下限AND任意上限を適用してから既存topへ渡す。正値制約・min/max関係エラー・空集合による入力取得の短絡を加えない。元Counterと全フィルタ前総数、全formatterのAPIを保つ。1.1の追加pytestのGREENと、top入力のspyによる選択順序・元Counter不変・formatter共有pairsの確認で検証する。
 - [ ] 1.3 README.mdに`python -m wordfreq input.txt --min-count 2 --max-count 3 --format json`の例を1つ追加する。入力`beta beta beta alpha gamma alpha delta`と期待JSON（beta3、alpha2）を同じ例に併記し、整数・省略上限なし・包含・min併用・0/負数/逆転は正常空結果・全除外時の上限調整・max前のHTML元総数を説明する。同じ掲載コマンドを実CLIで走らせるpytestを追加し、例のexit0/stdout/stderrとREADMEの内容を検証する。
 
 ## 2. 全体の互換性と独立検証

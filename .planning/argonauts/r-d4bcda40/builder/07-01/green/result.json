@@ -1,0 +1,1143 @@
+{
+  "head": "d89164d9561ccf38b5cf873650788588d501fe20",
+  "product_blobs": {
+    "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+    "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+    "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+    "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+    "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+    "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6"
+  },
+  "started": "2026-11-25T12:30:26.529695+00:00",
+  "python": "3.12.15 (main, Oct  1 2026, 00:00:00) [GCC 14.3.1 20251022 (Red Hat 14.3.1-4)]",
+  "task": null,
+  "profile": "argonauts-uat-builder",
+  "exit": 0,
+  "duration_seconds": 10.85505324100086,
+  "product_after": {
+    "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+    "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+    "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+    "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+    "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+    "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6"
+  },
+  "tests": 276,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "ended": "2026-11-25T12:30:37.385067+00:00",
+  "case_results": [
+    {
+      "name": "test_max_count_tracer[text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_tracer[json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_tracer[html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_parser[None]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_parser[0]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_parser[-1]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_parser[+2]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_parser[02]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_parser[10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_parser[-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_parser_equals_negative",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_help",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-None-expected0-7-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-None-expected0-7-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-None-expected0-7-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-None-expected0-7-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-None-expected0-7-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-None-expected0-7-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-1-3-expected1-7-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-1-3-expected1-7-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-1-3-expected1-7-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-1-3-expected1-7-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-1-3-expected1-7-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-1-3-expected1-7-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-2-None-expected2-7-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-2-None-expected2-7-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-2-None-expected2-7-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-2-None-expected2-7-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-2-None-expected2-7-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-2-None-expected2-7-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-3-None-expected3-7-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-3-None-expected3-7-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-3-None-expected3-7-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-3-None-expected3-7-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-3-None-expected3-7-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-2-3-None-expected3-7-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-1-expected4-7-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-1-expected4-7-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-1-expected4-7-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-1-expected4-7-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-1-expected4-7-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta alpha gamma alpha delta-1-2-1-expected4-7-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta beta zoo zoo zoo apple apple pear pear single-2-3-1-expected5-12-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta beta zoo zoo zoo apple apple pear pear single-2-3-1-expected5-12-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta beta zoo zoo zoo apple apple pear pear single-2-3-1-expected5-12-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta beta zoo zoo zoo apple apple pear pear single-2-3-1-expected5-12-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta beta zoo zoo zoo apple apple pear pear single-2-3-1-expected5-12-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[beta beta beta beta zoo zoo zoo apple apple pear pear single-2-3-1-expected5-12-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-1-1-None-expected6-4-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-1-1-None-expected6-4-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-1-1-None-expected6-4-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-1-1-None-expected6-4-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-1-1-None-expected6-4-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-1-1-None-expected6-4-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-2-2-None-expected7-4-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-2-2-None-expected7-4-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-2-2-None-expected7-4-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-2-2-None-expected7-4-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-2-2-None-expected7-4-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Stra\\xdfe STRASSE \\u65e5\\u672c\\u8a9e \\u65e5\\u672c\\u8a9e-2-2-None-expected7-4-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-1-expected8-5-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-1-expected8-5-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-1-expected8-5-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-1-expected8-5-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-1-expected8-5-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-1-expected8-5-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-2-expected9-5-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-2-expected9-5-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-2-expected9-5-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-2-expected9-5-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-2-expected9-5-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[Zoo apple APPLE zoo banana-2-2-2-expected9-5-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[zoo apple zoo apple zoo apple zoo apple zoo apple-1-5-None-expected10-10-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[zoo apple zoo apple zoo apple zoo apple zoo apple-1-5-None-expected10-10-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[zoo apple zoo apple zoo apple zoo apple zoo apple-1-5-None-expected10-10-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[zoo apple zoo apple zoo apple zoo apple zoo apple-1-5-None-expected10-10-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[zoo apple zoo apple zoo apple zoo apple zoo apple-1-5-None-expected10-10-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[zoo apple zoo apple zoo apple zoo apple zoo apple-1-5-None-expected10-10-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-None-expected11-27-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-None-expected11-27-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-None-expected11-27-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-None-expected11-27-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-None-expected11-27-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-None-expected11-27-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-3-expected12-27-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-3-expected12-27-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-3-expected12-27-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-3-expected12-27-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-3-expected12-27-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-3-expected12-27-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-99-expected13-27-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-99-expected13-27-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-99-expected13-27-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-99-expected13-27-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-99-expected13-27-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[over over over eligible00 eligible00 eligible01 eligible01 eligible02 eligible02 eligible03 eligible03 eligible04 eligible04 eligible05 eligible05 eligible06 eligible06 eligible07 eligible07 eligible08 eligible08 eligible09 eligible09 eligible10 eligible10 eligible11 eligible11-2-2-99-expected13-27-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[one-1-1-3-expected14-1-False-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[one-1-1-3-expected14-1-False-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[one-1-1-3-expected14-1-False-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[one-1-1-3-expected14-1-True-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[one-1-1-3-expected14-1-True-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_selection[one-1-1-3-expected14-1-True-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-1-0-7-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-1--1-7-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-1--1-7-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-1--1-7-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-1--10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-7-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-1--10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-7-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-1--10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000-7-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-3-2-7-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-3-2-7-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[beta beta beta alpha gamma alpha delta-3-2-7-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[one-1-0-1-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[one-1-0-1-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[one-1-0-1-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[-1-2-0-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[-1-2-0-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[-1-2-0-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[ \\t\\r\\n  -1-2-0-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[ \\t\\r\\n  -1-2-0-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[ \\t\\r\\n  -1-2-0-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[!?,.;: ---1-2-0-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[!?,.;: ---1-2-0-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[!?,.;: ---1-2-0-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[Zoo apple APPLE zoo banana-3-3-5-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[Zoo apple APPLE zoo banana-3-3-5-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_empty[Zoo apple APPLE zoo banana-3-3-5-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options0-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options0-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options0-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options1-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options1-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options1-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options2-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options2-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options2-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options3-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options3-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options3-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options4-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options4-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options4-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options5-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options5-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options5-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options6-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options6-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options6-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options7-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options7-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options7-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options8-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options8-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options8-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options9-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options9-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options9-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options10-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options10-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options10-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options11-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options11-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options11-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options12-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options12-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options12-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options13-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options13-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options13-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options14-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options14-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options14-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options15-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options15-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options15-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options16-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options16-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options16-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options17-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options17-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options17-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options18-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options18-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options18-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options19-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options19-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options19-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options20-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options20-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_invalid_before_read[options20-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[missing-options0-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[missing-options0-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[missing-options0-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[missing-options1-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[missing-options1-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[missing-options1-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[missing-options2-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[missing-options2-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[missing-options2-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[directory-options0-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[directory-options0-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[directory-options0-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[directory-options1-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[directory-options1-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[directory-options1-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[directory-options2-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[directory-options2-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[directory-options2-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[decode-options0-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[decode-options0-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[decode-options0-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[decode-options1-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[decode-options1-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[decode-options1-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[decode-options2-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[decode-options2-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[decode-options2-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[permission-options0-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[permission-options0-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[permission-options0-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[permission-options1-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[permission-options1-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[permission-options1-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[permission-options2-text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[permission-options2-json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_input_failure[permission-options2-html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_internal_order[text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_internal_order[json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_internal_order[html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_hashseed[text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_hashseed[json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_hashseed[html]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[0]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[1]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[2]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[3]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[4]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[5]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[6]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[7]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[8]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[9]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[10]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[11]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[12]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[13]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[14]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[15]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[16]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[17]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[18]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[19]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[20]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[21]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[22]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[23]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[24]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[25]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[26]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[27]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[28]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[29]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[30]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[31]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[32]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[33]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[34]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[35]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[36]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[37]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_saved_bytes[38]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_read_only[text]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_read_only[json]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_read_only[html]",
+      "status": "passed"
+    }
+  ],
+  "artifacts": {
+    "stdout.txt": "1f98b2833207c115dbdc8bde177c923503a62616ff369bfa5e1e60436df9b079",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_cli.py.original": "4f1ce8921370cdc621abef559462a54bc3297c0a0c89f8261c3f25a7d63a5e10",
+    "command.json": "1a55145ff27f5e85df8c1769b5cfabcebbf11bd9d51e7a363157610ec1287c68",
+    "junit.xml": "065e760a3934f77b429c8aea45a34d344dc83321cbf4ffd95b390a8295bd86a8"
+  }
+}
