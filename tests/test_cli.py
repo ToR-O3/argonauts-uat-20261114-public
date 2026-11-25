@@ -1167,3 +1167,43 @@ def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated
     else:
         assert failures == []
 
+
+def test_max_count_readme_example(tmp_path):
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    command = "python -m wordfreq input.txt --min-count 2 --max-count 3 --format json"
+    assert readme.count(command) == 1, "README must contain the specified max-count example once"
+    section = readme.split("### 出現回数の範囲を指定する\n", 1)[1].split("\n### ", 1)[0]
+    body = "beta beta beta alpha gamma alpha delta"
+    expected = b'[{"word": "beta", "count": 3}, {"word": "alpha", "count": 2}]\n'
+    assert "```text\n" + body + "\n```" in section
+    assert "```sh\n" + command + "\n```" in section
+    assert "```json\n" + expected.decode("ascii") + "```" in section
+    for explanation in (
+        "0・負数を含む整数", "省略時は上限なし", "両端を含む", "--min-count",
+        "0以下", "min-count が max-count を超える", "正常な空結果（exit0）",
+        "max-count を上げるか省略",
+    ):
+        assert explanation in readme
+    assert readme.count("--max-count 3 --format json") == 1
+    assert readme.count("min-count / max-count / top 前") == 2
+    old_commands = (
+        "python -m wordfreq input.txt", "python -m wordfreq README.md --top 5",
+        "python -m wordfreq README.md --top 3",
+        "python -m wordfreq input.txt --min-count 2 --top 1 --format json",
+        "python -m wordfreq input.txt --top 2 --format json",
+        "python -m wordfreq input.txt --format html",
+        "python -m wordfreq input.txt --format html > result.html",
+    )
+    assert "```sh\n" + "\n".join(old_commands) + "\n```" in readme
+    assert readme.endswith("検証B: v1.12 の通しの確かめ（2026-11-22）\n")
+    path = tmp_path / "input.txt"
+    path.write_text(body, encoding="utf-8")
+    # Use exactly the documented filename/options, with only the interpreter resolved.
+    argv = [sys.executable, *command.split()[1:]]
+    env = dict(os.environ, PYTHONPATH=str(ROOT) + os.pathsep + os.environ.get("PYTHONPATH", ""))
+    result = subprocess.run(argv, cwd=tmp_path, env=env, capture_output=True, timeout=10)
+    print("README CLI", json.dumps(dict(argv=argv, cwd=str(tmp_path), input=body,
+          exit=result.returncode, stdout=result.stdout.decode("utf-8"),
+          stderr=result.stderr.decode("utf-8"))))
+    assert (result.returncode, result.stdout, result.stderr) == (0, expected, b"")
+
