@@ -1055,3 +1055,53 @@ def test_max_count_read_only(tmp_path, output_format):
                            cwd=repo, capture_output=True, check=True).stdout
     assert before == after
 
+
+@pytest.mark.parametrize("mutation", ["ignore-upper", "exclusive", "or", "top-first",
+                                     "destroy-counter", "recalculate-total", "lexical-ties"])
+def test_max_count_discrimination(tmp_path, mutation):
+    # Each single mutation runs only in a cold package copy under managed pytest scratch.
+    repo = tmp_path / "mutant"
+    repo.mkdir()
+    shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    (repo / "tests").mkdir()
+    shutil.copy2(ROOT / "tests/test_cli.py", repo / "tests/test_cli.py")
+    source = repo / "wordfreq/__main__.py"
+    original = source.read_text(encoding="utf-8")
+    upper = "and (args.max_count is None or count <= args.max_count)"
+    if mutation == "ignore-upper":
+        changed = original.replace(upper, "")
+    elif mutation == "exclusive":
+        changed = original.replace("count <= args.max_count", "count < args.max_count")
+    elif mutation == "or":
+        changed = original.replace(upper, upper.replace("and", "or", 1))
+    elif mutation == "top-first":
+        start = original.index("    selected_counts = Counter(")
+        end = original.index('    if args.format == "html":', start)
+        changed = original[:start] + (
+            "    pairs = [(word, count) for word, count in top_words(counts, args.top)\n"
+            "             if count >= args.min_count and (args.max_count is None or count <= args.max_count)]\n"
+        ) + original[end:]
+    elif mutation == "destroy-counter":
+        changed = original.replace("    pairs = top_words", "    counts.clear()\n    pairs = top_words")
+    elif mutation == "recalculate-total":
+        changed = original.replace("    pairs = top_words", "    total = sum(selected_counts.values())\n    pairs = top_words")
+    else:
+        source = repo / "wordfreq/aggregator.py"
+        original = source.read_text(encoding="utf-8")
+        changed = original.replace("key=lambda wc: -wc[1]", "key=lambda wc: (-wc[1], wc[0])")
+    assert changed != original, "mutation must hit exactly the current implementation seam"
+    source.write_text(changed, encoding="utf-8")
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k",
+         "max_count_tracer or max_count_selection or max_count_internal_order", "-q"],
+        cwd=repo, env=dict(os.environ, PYTHONPATH=os.environ.get("PYTHONPATH", "")),
+        capture_output=True, timeout=90,
+    )
+    print("MUTATION", mutation, "exit", result.returncode)
+    print(result.stdout.decode("utf-8"))
+    print(result.stderr.decode("utf-8"))
+    assert result.returncode == 1
+    assert b"AssertionError" in result.stdout
+    assert b"ERROR collecting" not in result.stdout and b"SyntaxError" not in result.stdout
+

@@ -1,0 +1,67 @@
+{
+  "head": "31953e1c3f1bd0b5da09484f079f0027976ec737",
+  "product_blobs": {
+    "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+    "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+    "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+    "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+    "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+    "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6"
+  },
+  "started": "2026-11-25T12:31:31.426694+00:00",
+  "python": "3.12.15 (main, Oct  1 2026, 00:00:00) [GCC 14.3.1 20251022 (Red Hat 14.3.1-4)]",
+  "task": null,
+  "profile": "argonauts-uat-builder",
+  "exit": 0,
+  "duration_seconds": 31.9454171949983,
+  "product_after": {
+    "wordfreq/__init__.py": "8004295c8623cc0913025efb31807353a72698470a9497cf8dee95ed6e7d7239",
+    "wordfreq/__main__.py": "9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba",
+    "wordfreq/aggregator.py": "33c40f5d0c5bbc7c8e185bbc8a25051ef7d381ebd42c9ed42c35b4ec7cbbbd35",
+    "wordfreq/formatters.py": "184bb48ae6badf9c7fedc874e55bf163e4bd576c0a234a0ccffa37c49056f726",
+    "wordfreq/sources.py": "8800710801b75e5e87e085471f4fca7d8079dcf924e125da9536259bbda67f58",
+    "wordfreq/tokenizer.py": "beb26f7b2713dde42d6532397df50bec22a5676969ecbc3fdd7c1762e8668dc6"
+  },
+  "tests": 7,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "ended": "2026-11-25T12:32:03.372538+00:00",
+  "case_results": [
+    {
+      "name": "test_max_count_discrimination[ignore-upper]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_discrimination[exclusive]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_discrimination[or]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_discrimination[top-first]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_discrimination[destroy-counter]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_discrimination[recalculate-total]",
+      "status": "passed"
+    },
+    {
+      "name": "test_max_count_discrimination[lexical-ties]",
+      "status": "passed"
+    }
+  ],
+  "artifacts": {
+    "stdout.txt": "c7739d3f76403da8867268902183d4885239f551a4ed32731e6ea1bdfcf0882b",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "test_cli.py.original": "0dd69fc03778b5ed7469934316b601eecd3179d98b2ffa3a354a28f866074be4",
+    "command.json": "20075ed9f22e5de541fa14903d3b553d228810cfac00b01c0253dc2be1e574d5",
+    "junit.xml": "ac12b6233300149f830fc5927e1f3e240861059c03007f8782dd01e8505ff5be"
+  }
+}
