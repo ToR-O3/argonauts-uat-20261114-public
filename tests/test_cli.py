@@ -1191,6 +1191,7 @@ def test_max_count_readme_example(tmp_path):
         "python -m wordfreq README.md --top 3",
         "python -m wordfreq input.txt --min-count 2 --top 1 --format json",
         "python -m wordfreq input.txt --top 2 --format json",
+        "python -m wordfreq input.txt --min-count 3 --format json",
         "python -m wordfreq input.txt --format html",
         "python -m wordfreq input.txt --format html > result.html",
     )
