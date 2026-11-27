@@ -27,10 +27,10 @@ READMEの実行手順の末尾に、入力ファイルのUTF-8保存を案内す
 ## 実装と試験（1まとまり）
 1. 編集前にREADMEの指定文がまだ無いことと、追加位置をread_fileで確認する。文書変更なので試験ファイルは追加・変更しない。
 2. 既存の正常系・改変拒否試験を編集前に実行する。
-   `PYTHONDONTWRITEBYTECODE=1 uv run --with pytest python -m pytest -q -p no:cacheprovider tests/test_max_count_verifier.py::test_scope_contract_clean_and_append_only tests/test_max_count_verifier.py::test_scope_contract_cold_damage_rejected`
+   `PYTHONDONTWRITEBYTECODE=1 uv run --no-project --with pytest python -m pytest -q -p no:cacheprovider tests/test_max_count_verifier.py::test_scope_contract_clean_and_append_only tests/test_max_count_verifier.py::test_scope_contract_cold_damage_rejected`
 3. READMEだけに指定文を挿入し、正常系試験を再実行して承認ハッシュ不一致の失敗を観測する（検査が有効である証拠）。
 4. `sha256sum README.md` を実測し、承認ハッシュ1値のみ更新。同じ正常系・改変拒否試験を再実行し全件成功を確認する。
-5. `PYTHONDONTWRITEBYTECODE=1 uv run --with pytest python -m pytest -q -p no:cacheprovider` で既存全試験も実行。失敗は既存証拠の陳腐化等と区別して記録し、検査の省略・無効化で通さない。解消に範囲外の変更が要ればPM判断へ渡す。
+5. `PYTHONDONTWRITEBYTECODE=1 uv run --no-project --with pytest python -m pytest -q -p no:cacheprovider` で既存全試験も実行。失敗は既存証拠の陳腐化等と区別して記録し、検査の省略・無効化で通さない。解消に範囲外の変更が要ればPM判断へ渡す。
 6. 上記受入条件の差分・配置・ハッシュを確認し、`git diff --check` を実行。commitして依頼branchへpush、draft PRを確認または作成し、同じ実装カードで品質レビューへ渡す。
 
 ## 品質への引継ぎ
