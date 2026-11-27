@@ -37,3 +37,15 @@
 
 verdict: passed（受入条件2件とも直接実行で満たした）。
 今回の学び：特になし。
+
+## 最終化の再検証（t_16580b70）
+
+- 検証記録commit a32a74757fa9f10c071b2e687fa547669d5e7f38 のREADMEを再確認。READMEの内容は確認時の製品head 4c6eb68ce03ef57fb18aef0c9ebaa128354ef200 と同一。
+- `git merge --no-edit origin/v112-a` → Already up to date. baseのworkflow差分無し。
+- `rg -F -x -c -- 'python -m wordfreq input.txt --top 8' README.md` → 1。節内の既存top7の直後、README全差分は指定の1行追加のみ。
+- NUL区切りの全件差分 → README.md、今回のPLAN.md、VERIFICATION.mdのみ。危険なパスの変更無し。
+- `git diff --check` → exit 0。
+- `uv run --python 3.12 --with pytest python -m pytest tests/test_cli.py` → Python 3.12.15、358 passed in 14.98s、exit 0（CLI回帰を選択して再実行）。生成されたuv.lockとegg-infoは削除し、製品差分に含めない。
+- 実CLI: `python3 -m wordfreq <scratch>/r-59788e5d-final-input.txt --top 8` → exit 0。入力は apple×10、banana×9、cherry×8、date×7、elderberry×6、fig×5、grape×4、honeydew×3、kiwi×2、lemon×1。出力は順に `10\tapple`、`9\tbanana`、`8\tcherry`、`7\tdate`、`6\telderberry`、`5\tfig`、`4\tgrape`、`3\thoneydew` の8行で期待値どおり。
+- `gh pr ready argonauts/r-59788e5d` → 成功。読み戻しで同じPR #46がOPEN・isDraft=falseであることを確認してから、本記録をcommit・pushする。
+- OpenSpec同期・archiveおよび新規の工程文書生成は行わない。今回の学びは空のまま引き継ぐ。最終headの品質判定と予約判断は同じカードの品質レビューへ渡す。
