@@ -49,6 +49,7 @@ python -m wordfreq input.txt --min-count 2 --max-count 3 --format json
 [{"word": "beta", "count": 3}, {"word": "alpha", "count": 2}]
 ```
 
+入力ファイルは UTF-8 で保存してください。
 ## 部品の契約と検証状況
 
 `count_words` が正規化済みトークン列から作る Counter の挿入順は初出順です。`top_words(counts, n)` に直接渡す場合も、この挿入順を保つことが前提です。回数だけの安定ソート後に制限し、入力は変更しません。

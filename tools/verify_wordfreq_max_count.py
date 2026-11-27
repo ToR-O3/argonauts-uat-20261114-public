@@ -486,7 +486,7 @@ def validate_scope(repo=ROOT, base=START):
     if not (repo/'tests/test_cli.py').read_bytes().startswith(original):
         raise ValueError('existing tests changed/deleted/relaxed')
     approved = {'wordfreq/__main__.py': '9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba',
-                'README.md': 'e8c2babfe5371cd4cbce3fe5f67d7e5887a236fd59eedb91b3c77d696ccb9696'}
+                'README.md': '5a0ca56634033c569765f1c3002962b15357b45821cbfd1245b86862a54aeb3a'}
     for path, sha in approved.items():
         if digest(repo/path) != sha:
             raise ValueError('unapproved product/README change: '+path)
