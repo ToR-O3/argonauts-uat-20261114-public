@@ -11,6 +11,7 @@ python -m wordfreq input.txt
 python -m wordfreq input.txt --top 5
 python -m wordfreq input.txt --top 6
 python -m wordfreq input.txt --top 7
+python -m wordfreq input.txt --top 8
 python -m wordfreq input.txt --min-count 3
 python -m wordfreq input.txt --min-count 2 --top 1 --format json
 python -m wordfreq input.txt --top 2 --format json
