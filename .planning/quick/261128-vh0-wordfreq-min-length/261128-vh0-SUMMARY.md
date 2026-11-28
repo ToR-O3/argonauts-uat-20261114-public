@@ -48,6 +48,7 @@ commits: 8
 plan_head_before: 6aae84890f8ddbd17e186b9a4732df6dd92d2976
 plan_head_after: 1d3a99abbb7d3166c168e1acf43db3bf52856459
 completed: 2026-11-28
+duration: 1625s
 started_at: 2026-11-28T13:48:59Z
 execution_finished_at: 2026-11-28T14:16:04Z
 ---
@@ -167,3 +168,21 @@ None in the delivered product. Unfinished items are verification/acceptance gate
 ## Self-Check: PASSED
 
 Code, baseline, evidence, raw index and log paths exist; all seven original commits and the eighth fixture-only commit are reachable from final HEAD. README/non-target snapshot checks and baseline SHA checks pass. Fresh full suite is 1311 passed/exit0. This self-check validates Builder artifacts and measured results, not pending independent acceptance.
+
+## PM承認の担当責任分離再開 — t_8b54614f comment246
+
+上記本文は履歴として保持する。本追記が今回の責任範囲・OpenSpec同期の最新記録であり、過去本文の「tasks同期は親」「Task 3独立条件」等をBuilder完了の前提にしない。BMAD/OpenSpecの製品要求は変更していない。
+
+- 第6must-have、Task 3 action/done、verification、success_criteriaをBuilder担当範囲（対象/全pytest成功、不変baseline/README、CLI原本対応、未完品質条件の引継ぎ）に整合した。品質必須受入はPLANの`quality_acceptance`へ分離しpendingを維持する。
+- 既存GSD 3 taskとOpenSpec instructions applyの3 descriptionsは同順同名のまま。`tasks.md`の1.3をBuilder担当範囲として完了にし、独立品質は非checkbox別区画へ保持した。CLIが返す3/3・`all_done`はBuilderチェック項目の完了だけであり、品質受入やarchive可の判定ではない。
+- 今回対象HEAD：`c7634579f9966f8718c16d9e88ffa5d47a9b7409`。製品/試験/README/pyproject/.githubはworking・stagedとも差分なし。全suite成功時の`1d3a99abbb7d3166c168e1acf43db3bf52856459`から現HEADへの同対象差分もなし。baselineはこの過去HEADには未登録だったためGit上は追加になるが、既存原本のSHA-256はindex `2ec8db3041583a2defb94279315a6dd71876a0ae781c678877d69a6f00fb1de0`、input `36862295d293157114143e3e825e6df8a037fe7ed25c04cd7c39cc84cb78eaa4`で従来記録と一致。再生成していない。
+- fresh対象：`PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_cli.py -k min_length -q -p no:cacheprovider` → **263 passed, 650 deselected in 8.18s、exit0、stderr空**。原本：`.planning/argonauts/r-a7606d74/builder/responsibility-resume/min-length.{stdout,stderr,exit}`。
+- 全pytestは製品/試験不変のため重複実行せず、既存`builder/resume-fixture/all.stdout`・`all.stderr`・`all.exit`をread_fileで確認：**1311 passed in 213.95s、stderr空、exit0**。元のCLI raw/文字索引は`builder/final-cli-index.json`と`builder/EVIDENCE.md`を引き続き参照する。
+- 公式`gsd_run verify plan-structure <既存PLAN>`：valid=true、task_count=3、errors/warnings空。`gsd_run frontmatter validate <既存PLAN> --schema plan`：valid=true。管理下OpenSpec CLIの`instructions apply --change r-a7606d74-light --json`：3項目すべてdone、同順同名。JSON原本は`builder/responsibility-resume/openspec-apply.json`。SUMMARY schema検査で既存の`duration`欠落を検出したため、既記録の開始/終了時刻差をdateで計算した1625sを補記した（今回再開の所要時間ではない）。`git diff --check`成功。
+- 旧`human_needed`のVERIFICATIONは変更せず、`builder/responsibility-resume/261128-vh0-VERIFICATION.before-pm-responsibility-split.md`へ別名保存した。`cmp`一致。今回Builderは検証判定を書いていない。親のfresh verifierが既存VERIFICATIONを更新する。
+
+### 品質必須受入 — pending
+
+独立qualityの最終head/fresh rootでの対象・全pytest、HTMLの1280×900と320×900・DPR1・zoom100%の実閲覧、全画像/必要tileとraw対応、可読性・行/順位・元総数・空状態・見出しの文字記録は未実施。省略/明示1互換、絞込み、全除外を含めて確認する。これらは必須の品質側受入であり免除していない。FR-5/LEN-4/SC-5の最終受入、independent_quality/browser_verification/acceptance_statusはpendingのまま。
+
+今回変更はPLAN/SUMMARY/OpenSpec tasksと責任整合の証拠保存のみ。commit・push・PR・Kanban・STATE/ROADMAP操作、新規Quick/branch/worktree、製品/試験変更は行っていない。

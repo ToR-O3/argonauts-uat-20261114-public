@@ -5,10 +5,10 @@ current_phase: 7
 current_plan: Not started
 status: completed
 stopped_at: Phase 7 complete — all phases complete
-last_updated: "2026-11-28T14:37:08.982Z"
-last_activity: 2026-11-25
+last_updated: "2026-11-28T14:59:16.357Z"
+last_activity: 2026-11-28
 last_activity_desc: Phase 7 complete
-state_head: 1d3a99abbb7d3166c168e1acf43db3bf52856459
+state_head: c7634579f9966f8718c16d9e88ffa5d47a9b7409
 progress:
   total_phases: 5
   completed_phases: 1
@@ -113,6 +113,7 @@ None yet.
 | # | Description | Date | Commit | Status | Directory |
 |---|-------------|------|--------|--------|-----------|
 | 261128-vh0 | wordfreq --min-length N（独立品質・HTML確認待ち） | 2026-11-28 | 1d3a99a | Needs Review | [261128-vh0-wordfreq-min-length](./quick/261128-vh0-wordfreq-min-length/) |
+| 261128-vh0 | wordfreq --min-length N（同Quick責任分離再検証：Builderのみ、品質受入pending。前行は旧判定履歴） | 2026-11-28 | c763457 | Verified | [261128-vh0-wordfreq-min-length](./quick/261128-vh0-wordfreq-min-length/) |
 
 ## Deferred Items
 

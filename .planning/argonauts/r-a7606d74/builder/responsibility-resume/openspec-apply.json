@@ -1,0 +1,55 @@
+{
+  "changeName": "r-a7606d74-light",
+  "changeDir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_ab9d2c45/openspec/changes/r-a7606d74-light",
+  "schemaName": "spec-driven",
+  "contextFiles": {
+    "proposal": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_ab9d2c45/openspec/changes/r-a7606d74-light/proposal.md"
+    ],
+    "specs": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_ab9d2c45/openspec/changes/r-a7606d74-light/specs/wordfreq-cli/spec.md"
+    ],
+    "design": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_ab9d2c45/openspec/changes/r-a7606d74-light/design.md"
+    ],
+    "tasks": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_ab9d2c45/openspec/changes/r-a7606d74-light/tasks.md"
+    ]
+  },
+  "progress": {
+    "total": 3,
+    "complete": 3,
+    "remaining": 0
+  },
+  "tasks": [
+    {
+      "id": "1",
+      "description": "1.1 変更前baselineを固定し最小文字数の実CLI縦sliceを通す",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_ab9d2c45/openspec/changes/r-a7606d74-light/tasks.md",
+      "line": 5
+    },
+    {
+      "id": "2",
+      "description": "1.2 入力前の正整数拒否とhelpを縦sliceごとに追加する",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_ab9d2c45/openspec/changes/r-a7606d74-light/tasks.md",
+      "line": 6
+    },
+    {
+      "id": "3",
+      "description": "1.3 全形式・Unicode・合成・空結果の回帰と独立品質用証拠を完成する",
+      "done": true,
+      "sourcePath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_ab9d2c45/openspec/changes/r-a7606d74-light/tasks.md",
+      "line": 7
+    }
+  ],
+  "taskTrackingConfigured": true,
+  "state": "all_done",
+  "instruction": "All tracked tasks are complete.\nReview or verify the change as appropriate before archiving.",
+  "context": "Language: Japanese\nAll artifacts must be written in Japanese.\nKeep OpenSpec structural headings and SHALL/MUST keywords in English.\n",
+  "root": {
+    "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_ab9d2c45",
+    "source": "nearest"
+  }
+}
