@@ -1,0 +1,146 @@
+[
+  {
+    "name": "exclude-after-top",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_selection_matrix",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_selection_matrix"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-exclude-after-top.txt"
+  },
+  {
+    "name": "lexical-ties",
+    "target": "wordfreq/aggregator.py",
+    "selector": "exclude_selection_ties",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_selection_ties"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-lexical-ties.txt"
+  },
+  {
+    "name": "total-from-candidates",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_empty_results",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_empty_results"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-total-from-candidates.txt"
+  },
+  {
+    "name": "mutate-full-counter",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_selection_preserves",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_selection_preserves"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-mutate-full-counter.txt"
+  },
+  {
+    "name": "copied-pairs",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_selection_preserves",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_selection_preserves"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-copied-pairs.txt"
+  },
+  {
+    "name": "threshold-off-by-one",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_selection_matrix",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_selection_matrix"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-threshold-off-by-one.txt"
+  },
+  {
+    "name": "changed-css",
+    "target": "wordfreq/formatters.py",
+    "selector": "exclude_ui_static",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_ui_static"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-changed-css.txt"
+  },
+  {
+    "name": "leaked-exclusion-metadata",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_ui_static",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_ui_static"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-leaked-exclusion-metadata.txt"
+  }
+]

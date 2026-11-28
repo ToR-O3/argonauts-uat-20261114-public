@@ -1,0 +1,44 @@
+F
+=================================== FAILURES ===================================
+_____________ test_exclude_selection_ties_permutations_seeds[text] _____________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-812/test_exclude_selection_ties_pe0')
+output_format = 'text'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_exclude_selection_ties_permutations_seeds(tmp_path, output_format):
+        body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+        content = b"removed zulu yankee xray alpha zulu yankee xray removed"
+        body.write_bytes(content)
+        outputs = []
+        for rows in [b"removed\nalpha", b"alpha\nremoved", b"removed\nalpha\nremoved"]:
+            excluded.write_bytes(rows)
+            for seed in ["0", "1", "42"]:
+                result = run_cli_bytes(body, "--exclude", excluded, "--min-count", "2", "--top", "2",
+                                       "--format", output_format,
+                                       env=dict(os.environ, PYTHONHASHSEED=seed))
+                assert (result.returncode, result.stderr) == (0, b"")
+>               assert_output_bytes(result.stdout, output_format,
+                                    [("zulu", 2), ("yankee", 2)], body.name, 9)
+
+tests/test_cli.py:976: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'2\txray\n2\tyankee\n', output_format = 'text'
+expected = [('zulu', 2), ('yankee', 2)], basename = 'body.txt', total = 9
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+>           assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+E           AssertionError: assert '2\txray\n2\tyankee\n' == '2\tzulu\n2\tyankee\n'
+E             
+E             - 2	zulu
+E             + 2	xray
+E               2	yankee
+
+tests/test_cli.py:428: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_selection_ties_permutations_seeds[text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 703 deselected in 0.19s

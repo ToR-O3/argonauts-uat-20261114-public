@@ -936,7 +936,10 @@ def test_exclude_precedence_success_order(tmp_path, monkeypatch, capfd,
 @pytest.mark.parametrize("content,rows,minimum,expected,total", [
     ("Zoo apple APPLE zoo banana", "apple", 1, [("zoo", 2), ("banana", 1)], 5),
     ("Zoo apple APPLE zoo banana", "zoo", 2, [("apple", 2)], 5),
-    # N-1/N/N+1 at N=2; reverse lexical order among the two remaining ties.
+    # N-1/N/N+1 at N=2, with counts both below and above the boundary retained in input.
+    ("beta beta beta alpha gamma alpha delta", "delta", 2,
+     [("beta", 3), ("alpha", 2)], 7),
+    # Reverse lexical order among the remaining ties.
     ("zulu zulu zulu yankee yankee xray xray alpha", "zulu", 2,
      [("yankee", 2), ("xray", 2)], 8),
     (LONG_CONTENT, "w" * 256, 1, LONG_PAIRS[1:], 200),

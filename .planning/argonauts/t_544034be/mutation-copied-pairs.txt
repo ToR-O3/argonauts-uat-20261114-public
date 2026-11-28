@@ -1,0 +1,69 @@
+F
+=================================== FAILURES ===================================
+_____ test_exclude_selection_preserves_full_counter_and_shared_pairs[text] _____
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-815/test_exclude_selection_preserv0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x70548f0a8a70>
+capfd = <_pytest.capture.CaptureFixture object at 0x70548f0acf80>
+output_format = 'text'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_exclude_selection_preserves_full_counter_and_shared_pairs(tmp_path, monkeypatch,
+                                                                       capfd, output_format):
+        from collections import Counter
+        import wordfreq.__main__ as cli
+        full = Counter({"zoo": 2, "banana": 1, "apple": 2, "café": 2, "rare": 1})
+        original = list(full.items())
+        original_total = sum(full.values())
+        real_count, real_top = cli.count_words, cli.top_words
+        real_format = getattr(cli, "format_" + output_format)
+        selected, calls = [], []
+    
+        def count_spy(tokens):
+            assert list(real_count(tokens).items()) == original
+            return full
+    
+        def top_spy(candidate, n):
+            assert candidate is not full
+            assert list(full.items()) == original
+            assert list(candidate.items()) == [("apple", 2), ("café", 2)]
+            assert n == 1
+            pairs = real_top(candidate, n)
+            selected.append(pairs)
+            return pairs
+    
+        def formatter_spy(pairs, *metadata):
+            assert pairs is selected[0] and pairs == [("apple", 2)]
+            assert metadata == (("body.txt", original_total) if output_format == "html" else ())
+            calls.append(True)
+            return real_format(pairs, *metadata)
+    
+        monkeypatch.setattr(cli, "count_words", count_spy)
+        monkeypatch.setattr(cli, "top_words", top_spy)
+        monkeypatch.setattr(cli, "format_" + output_format, formatter_spy)
+        body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+        content = "Zoo banana apple APPLE zoo Café CAFÉ rare".encode("utf-8")
+        body.write_bytes(content)
+        excluded.write_bytes(b"zoo\n")
+        with pytest.raises(SystemExit) as caught:
+>           cli.main([str(body), "--exclude", str(excluded), "--min-count", "2", "--top", "1",
+                      "--format", output_format])
+
+tests/test_cli.py:1023: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+wordfreq/__main__.py:62: in main
+    output = format_text(list(pairs))
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+pairs = [('apple', 2)], metadata = ()
+
+    def formatter_spy(pairs, *metadata):
+>       assert pairs is selected[0] and pairs == [("apple", 2)]
+E       AssertionError: assert ([('apple', 2)] is [('apple', 2)])
+
+tests/test_cli.py:1010: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_selection_preserves_full_counter_and_shared_pairs[text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 703 deselected in 0.19s

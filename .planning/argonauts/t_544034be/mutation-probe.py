@@ -22,6 +22,19 @@ mutations = [
     ("lost-cause", "wordfreq/sources.py", source.replace('from error', 'from None'), 'exclude_failures_role_mapping'),
     ("ignore-late-invalid", "wordfreq/__main__.py", cli.replace('            excluded = parse_exclusions(exclusion_text)', '            excluded = parse_exclusions(exclusion_text.split("apple banana")[0])'), 'exclude_precedence_failed_exclusion'),
 ]
+selection_mutations = [
+    ("exclude-after-top", "wordfreq/__main__.py", cli.replace('if word not in excluded and count >= args.min_count', 'if count >= args.min_count').replace('pairs = top_words(selected_counts, args.top)', 'pairs = [(w, c) for w, c in top_words(selected_counts, args.top) if w not in excluded]'), 'exclude_selection_matrix'),
+    ("lexical-ties", "wordfreq/aggregator.py", (ROOT / 'wordfreq/aggregator.py').read_text().replace('key=lambda wc: -wc[1]', 'key=lambda wc: (-wc[1], wc[0])'), 'exclude_selection_ties'),
+    ("total-from-candidates", "wordfreq/__main__.py", cli.replace('    pairs = top_words', '    total = sum(selected_counts.values())\n    pairs = top_words'), 'exclude_empty_results'),
+    ("mutate-full-counter", "wordfreq/__main__.py", cli.replace('    selected_counts = Counter', '    for word in excluded:\n        counts.pop(word, None)\n    selected_counts = Counter'), 'exclude_selection_preserves'),
+    ("copied-pairs", "wordfreq/__main__.py", cli.replace('format_text(pairs)', 'format_text(list(pairs))').replace('format_json(pairs)', 'format_json(list(pairs))').replace('format_html(pairs,', 'format_html(list(pairs),'), 'exclude_selection_preserves'),
+    ("threshold-off-by-one", "wordfreq/__main__.py", cli.replace('count >= args.min_count', 'count > args.min_count'), 'exclude_selection_matrix'),
+    ("changed-css", "wordfreq/formatters.py", (ROOT / 'wordfreq/formatters.py').read_text().replace('font-size: 24px', 'font-size: 20px'), 'exclude_ui_static'),
+    ("leaked-exclusion-metadata", "wordfreq/__main__.py", cli.replace('output = format_html(pairs, basename, total)', 'output = format_html(pairs, args.exclude, total)'), 'exclude_ui_static'),
+]
+group = 'selection' if sys.argv[1:] == ['selection'] else 'failure'
+if group == 'selection':
+    mutations = selection_mutations
 results = []
 for name, target, changed, selector in mutations:
     with tempfile.TemporaryDirectory(prefix="wf-mutation-", dir=os.environ["TMPDIR"]) as directory:
@@ -43,5 +56,5 @@ for name, target, changed, selector in mutations:
                         "exit": completed.returncode, "assertion_rejected": rejected,
                         "report": f"mutation-{name}.txt"})
         print(f"{name}: exit={completed.returncode}, assertion_rejected={rejected}", flush=True)
-(OUT / "failure-mutation-results.json").write_text(json.dumps(results, indent=2) + "\n")
+(OUT / f"{group}-mutation-results.json").write_text(json.dumps(results, indent=2) + "\n")
 assert all(result["assertion_rejected"] for result in results)
