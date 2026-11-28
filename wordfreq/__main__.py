@@ -28,6 +28,8 @@ def main(argv: list[str] | None = None) -> None:
         parser.error("--top must be >= 1")
     if args.min_count < 1:
         parser.error("--min-count must be >= 1")
+    if args.min_length < 1:
+        parser.error("--min-length must be >= 1")
     try:
         text = FileSource(args.filename).read_text()
     except InputError as error:

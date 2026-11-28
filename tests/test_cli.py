@@ -1293,6 +1293,65 @@ def test_min_length_invalid_zero_before_read(tmp_path, monkeypatch, capsys):
     assert output.out == "" and "--min-length" in output.err
 
 
+MIN_LENGTH_INVALID = [("--min-length", "0"), ("--min-length", "-1"),
+                      ("--min-length=-1",), ("--min-length", "abc"),
+                      ("--min-length", "1.5"), ("--min-length",)]
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("options", MIN_LENGTH_INVALID)
+def test_min_length_invalid_before_read(tmp_path, monkeypatch, capsys, output_format, options):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    calls = []
+
+    def spy(source):
+        calls.append(source)
+        raise AssertionError("invalid length must not read input")
+
+    monkeypatch.setattr(FileSource, "read_text", spy)
+    with pytest.raises(SystemExit) as caught:
+        main([str(tmp_path / "missing"), "--format", output_format, *options])
+    assert caught.value.code == 2 and calls == []
+    output = capsys.readouterr()
+    assert output.out == "" and "wordfreq: error:" in output.err
+    result = min_length_cli(tmp_path / "missing", "--format", output_format, *options)
+    assert result.returncode == 2 and result.stdout == b""
+    assert b"wordfreq: error:" in result.stderr and b"--min-length" in result.stderr
+    assert b"Traceback" not in result.stderr
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("options", MIN_LENGTH_INVALID)
+def test_min_length_invalid_open_stdin(output_format, options):
+    argv = [sys.executable, "-m", "wordfreq", "/dev/stdin", "--format", output_format, *options]
+    process = subprocess.Popen(argv, cwd=ROOT, stdin=subprocess.PIPE,
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    try:
+        # Do not send data/EOF: invalid argv must finish without acquiring input.
+        process.wait(timeout=3)
+        assert not process.stdin.closed
+        stdout, stderr = process.stdout.read(), process.stderr.read()
+        assert process.returncode == 2 and stdout == b""
+        assert b"wordfreq: error:" in stderr and b"Traceback" not in stderr
+        print("OPEN_STDIN", json.dumps(dict(argv=argv, exit=process.returncode,
+              stdin_open=True, stdout_hex=stdout.hex(), stderr_hex=stderr.hex())))
+    finally:
+        if process.poll() is None:
+            process.kill()
+        process.wait(timeout=3)
+        process.stdin.close()
+        process.stdout.close()
+        process.stderr.close()
+
+
+@pytest.mark.parametrize("value", ["1", "2", str(10**100), "+2", "02"])
+def test_min_length_parser(value):
+    from wordfreq.__main__ import build_parser
+    assert build_parser().parse_args(["input.txt"]).min_length == 1
+    assert build_parser().parse_args(["input.txt", "--min-length", value]).min_length == int(value)
+
+
 def test_max_count_readme_example(tmp_path):
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     command = "python -m wordfreq input.txt --min-count 2 --max-count 3 --format json"
