@@ -817,6 +817,38 @@ def test_min_count_saved_default_bytes(case_index):
         assert result.stdout == expected
 
 
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("options", [(), ("--min-length", "1")], ids=["omitted", "explicit"])
+def test_min_length_default_fixed(tmp_path, output_format, options):
+    path = tmp_path / "input.txt"
+    path.write_text("a bb ccc bb", encoding="utf-8")
+    expected = {
+        "text": b"2\tbb\n1\ta\n1\tccc\n",
+        "json": b'[{"word": "bb", "count": 2}, {"word": "a", "count": 1}, {"word": "ccc", "count": 1}]\n',
+        "html": (ROOT / "tests/fixtures/min-length-default.html").read_bytes(),
+    }[output_format]
+    result = run_cli_bytes(path, "--format", output_format, *options)
+    assert (result.returncode, result.stdout, result.stderr) == (0, expected, b"")
+
+
+def test_min_length_tracer(tmp_path):
+    path = tmp_path / "input.txt"
+    path.write_text("a bb ccc bb", encoding="utf-8")
+    result = run_cli_bytes(path, "--min-length", "2")
+    print("MIN LENGTH TRACER", repr((result.returncode, result.stdout, result.stderr)))
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert result.stdout == b"2\tbb\n1\tccc\n"
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_length_boundary(tmp_path, output_format):
+    path = tmp_path / "input.txt"
+    path.write_text("a bb ccc bb", encoding="utf-8")
+    result = run_cli_bytes(path, "--min-length", "2", "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [("bb", 2), ("ccc", 1)], path.name, 4)
+
+
 # Phase 7 / OpenSpec 1.1: all groups below are authored and run before product edits.
 MAX_NORMAL = "beta beta beta alpha gamma alpha delta"
 MAX_THREE = "beta beta beta beta zoo zoo zoo apple apple pear pear single"

@@ -16,6 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--top", type=int, default=10)
     parser.add_argument("--min-count", type=int, default=1)
     parser.add_argument("--max-count", type=int, default=None)
+    parser.add_argument("--min-length", type=int, default=1)
     parser.add_argument("--format", choices=["text", "json", "html"], default="text")
     return parser
 
@@ -36,6 +37,7 @@ def main(argv: list[str] | None = None) -> None:
     total = sum(counts.values())
     selected_counts = Counter({word: count for word, count in counts.items()
                                if count >= args.min_count
+                               and len(word) >= args.min_length
                                and (args.max_count is None or count <= args.max_count)})
     pairs = top_words(selected_counts, args.top)
     if args.format == "html":
