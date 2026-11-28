@@ -1168,6 +1168,97 @@ def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated
         assert failures == []
 
 
+MIN_LENGTH_BASELINE = ROOT / ".planning/argonauts/r-a7606d74/baseline"
+MIN_LENGTH_BODY = "a Zoo apple APPLE zoo ß SS 日本語 12 __ b c d e f g h i j k l"
+
+
+def test_min_length_baseline_capture():
+    index_path = MIN_LENGTH_BASELINE / "index.json"
+    if os.environ.get("WORDFREQ_CAPTURE_MIN_LENGTH_BASELINE") == "1":
+        assert not index_path.exists(), "refuse to overwrite the pre-change baseline"
+        product_diff = subprocess.run(
+            ["git", "diff", "HEAD", "--", "wordfreq"], cwd=ROOT,
+            capture_output=True, check=True).stdout
+        assert product_diff == b"", "capture must precede product edits"
+        assert "--min-length" not in (ROOT / "wordfreq/__main__.py").read_text()
+        MIN_LENGTH_BASELINE.mkdir(parents=True, exist_ok=True)
+        path = MIN_LENGTH_BASELINE / "input.txt"
+        path.write_bytes(MIN_LENGTH_BODY.encode("utf-8"))
+        cases = []
+        for output_format in ["text", "json", "html"]:
+            for top in [None, 1, 2, 99]:
+                for frequency in [[], ["--min-count", "2", "--max-count", "2"]]:
+                    options = ["--format", output_format, *frequency]
+                    if top is not None:
+                        options += ["--top", str(top)]
+                    result = run_cli_bytes(path, *options)
+                    assert (result.returncode, result.stderr) == (0, b"")
+                    cases.append(dict(options=options, argv=result.args, cwd=str(ROOT),
+                                      executable=sys.executable, exit=result.returncode,
+                                      stdout_hex=result.stdout.hex(), stderr_hex=result.stderr.hex()))
+        index = dict(body=MIN_LENGTH_BODY, basename=path.name,
+                     input=str(path.relative_to(ROOT)), environment=dict(os.environ),
+                     python=sys.version, executable=sys.executable,
+                     head=subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
+                                         capture_output=True, check=True, text=True).stdout.strip(),
+                     product_diff_hex=product_diff.hex(), cases=cases)
+        with index_path.open("x", encoding="utf-8") as stream:
+            json.dump(index, stream, ensure_ascii=True, indent=2)
+    index = json.loads(index_path.read_text(encoding="utf-8"))
+    assert index["body"] == MIN_LENGTH_BODY
+    assert (ROOT / index["input"]).read_bytes() == MIN_LENGTH_BODY.encode("utf-8")
+    assert index["basename"] == "input.txt"
+    assert index["product_diff_hex"] == "" and len(index["cases"]) == 24
+    for case in index["cases"]:
+        assert case["exit"] == 0 and bytes.fromhex(case["stderr_hex"]) == b""
+        bytes.fromhex(case["stdout_hex"])
+
+
+def min_length_cli(path, *options, expected=None, total=None, env=None):
+    """Optionally retain this feature's real CLI bytes, never synthetic output."""
+    result = run_cli_bytes(path, *options, env=env)
+    destination = os.environ.get("WORDFREQ_MIN_LENGTH_EVIDENCE")
+    if destination:
+        import uuid
+        root = Path(destination)
+        root.mkdir(parents=True, exist_ok=True)
+        case_dir = root / uuid.uuid4().hex
+        case_dir.mkdir()
+        body = path.read_bytes() if path.is_file() else None
+        if body is not None:
+            (case_dir / "input.bin").write_bytes(body)
+        (case_dir / "stdout.bin").write_bytes(result.stdout)
+        (case_dir / "stderr.bin").write_bytes(result.stderr)
+        if "html" in options and result.returncode == 0:
+            (case_dir / "stdout.html").write_bytes(result.stdout)
+        actual_env = os.environ if env is None else env
+        record = dict(test=os.environ.get("PYTEST_CURRENT_TEST"),
+                      input=str(path), basename=path.name,
+                      input_hex=None if body is None else body.hex(),
+                      argv=result.args, cwd=str(ROOT), executable=sys.executable,
+                      python=sys.version, exit=result.returncode,
+                      stdout_hex=result.stdout.hex(), stderr_hex=result.stderr.hex(),
+                      expected_pairs=expected, expected_total=total,
+                      environment={key: actual_env.get(key) for key in
+                                   ("LANG", "LC_ALL", "PYTHONHASHSEED", "PYTHONPATH", "TMPDIR", "HERMES_PROFILE")},
+                      head=subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
+                                          capture_output=True, check=True, text=True).stdout.strip(),
+                      product_diff=subprocess.run(["git", "diff", "HEAD", "--", "wordfreq"],
+                                                  cwd=ROOT, capture_output=True, check=True,
+                                                  text=True).stdout)
+        (case_dir / "cli.json").write_text(json.dumps(record, ensure_ascii=True, indent=2), encoding="utf-8")
+    return result
+
+
+def test_min_length_tracer(tmp_path):
+    path = tmp_path / "input.txt"
+    path.write_text("a bb ccc bb", encoding="utf-8")
+    result = min_length_cli(path, "--min-length", "2", expected=[("bb", 2), ("ccc", 1)], total=4)
+    assert result.returncode == 0, result.stderr
+    assert result.stderr == b""
+    assert result.stdout == b"2\tbb\n1\tccc\n"
+
+
 def test_max_count_readme_example(tmp_path):
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     command = "python -m wordfreq input.txt --min-count 2 --max-count 3 --format json"
