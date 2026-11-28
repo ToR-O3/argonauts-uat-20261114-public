@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: 除外単語ファイルの指定（EX-1）
-システムは（SHALL）任意の `--exclude FILE` を受け取り、1行1語で指定された語の全出現を集計対象から外す。除外はmin-countとtopの適用前に全形式へ共通に反映し、残存語の回数・相対初出順・既存の順位規則を変えない。同一有効除外語の重複で結果を変えない。
+システムは（SHALL）任意の `--exclude FILE` を受け取り、1行1語で指定された語の全出現を集計対象から外す。除外はmin-countとtopの適用前に全形式へ共通に反映し、残存語の回数・相対初出順・既存の順位規則を変えない。同一有効除外語の重複で結果を変えない。複数指定は最後のFILEのみ使い、前のFILEを読まない。
 
 #### Scenario: 指定語の全出現を除く
 - **WHEN** 本文 `Zoo apple APPLE zoo banana` と、除外行 `apple` を指定してtext・json・htmlで実行する
@@ -21,8 +21,12 @@
 - **WHEN** 本文に存在しない有効語だけの除外一覧を指定する
 - **THEN** 未指定時と各形式の語・回数・順位・総数・終了状態が一致する
 
+#### Scenario: 最後のFILEだけ採用する
+- **WHEN** 読める本文に `--exclude missing --exclude valid` を指定し、validだけが読める（逆順と、最後が空FILEの場合も確認する）
+- **THEN** 前者はmissingを読まずvalidだけ適用し成功する。逆順は最後のmissingでexit2。最後が空FILEなら前の除外一覧は適用しない
+
 ### Requirement: 空行とコメント行（EX-2）
-システムは（SHALL）除外FILEの空行と先頭文字が `#` の行を読み飛ばし、有効除外項目として扱わない。前後空白・空白付きコメント・行内コメントと行区切りの詳細はBMAD OQ-2に保留し、確定するまでは追加の期待値を置かない。
+システムは（SHALL）UTF-8の除外FILEの先頭BOMを除去し、行前後の空白を除いた後、空行と先頭文字が `#` の行を読み飛ばす。LF・CRLF・最終改行なしを受け付ける。それ以外は行全体を一語とし、語分割・記号除去・行内コメント解釈をしない。
 
 #### Scenario: 空行とコメントは語にならない
 - **WHEN** 本文 `apple marker banana` と、空行・`#marker`・`apple` の各行を持つ除外FILEを指定する
@@ -32,22 +36,49 @@
 - **WHEN** 空FILE、または空行と先頭 `#` のコメントだけのFILEを指定する
 - **THEN** 各形式の集計結果は未指定時から変わらない
 
+#### Scenario: 前後空白と改行とBOM
+- **WHEN** 本文 `apple marker banana` に、先頭BOM・空白のみの行・`  #marker  `・`  APPLE  ` を持つ除外FILEをLF・CRLF・最終改行なしで指定する
+- **THEN** marker 1、banana 1のみが残る。直接読込試験でも空白行とコメントが有効項目に入らず、APPLEの前後空白と先頭BOMが比較を妨げない
+
+#### Scenario: 行全体をそのまま比較する
+- **WHEN** 本文 `foo bar foo_bar 123 foo-bar apple note` に除外行 `foo bar`・`foo_bar`・`123`・`foo-bar`・`apple#note` を指定する
+- **THEN** foo_barと123だけが除外され、foo 2、bar 2、apple 1、note 1が残る。foo barやfoo-barを分割せず、途中#以降もコメントとして切り捨てない
+
 ### Requirement: 大文字小文字を区別しない除外比較（EX-3）
-システムは（SHALL）除外語を大文字小文字を区別せず比較する。既存本文の単語抽出・casefoldは維持する。新しい除外比較における単純lowerとcasefoldのUnicode差分はBMAD OQ-1として未決であり、本差分はASCIIの大小文字同一視のみ期待値を確定する。
+システムは（SHALL）有効除外行を既存集計と同じcasefoldで比較する。既存本文の単語抽出・casefoldは維持し、単純lowerへ変更しない。
 
 #### Scenario: 混在表記の同一視
 - **WHEN** 本文 `Apple APPLE apple banana` と除外行 `aPpLe` を指定する
 - **THEN** banana 1だけが集計に残り、appleの全表記が集計から外れる
 
-### Requirement: 除外ファイル不存在の通知（EX-4）
-システムは（SHALL）読める本文と存在しない除外FILEを指定された場合、除外ファイルが存在しないことを利用者が理解できる文で知らせ、終了コード2で終了する。文言完全一致は要求しない。その他の読込失敗・診断先・複合エラーの優先順位はBMAD OQ-3・OQ-6の判断待ちとする。
+#### Scenario: Unicode casefoldで一致する
+- **WHEN** 本文 `STRASSE Straße banana` に除外行 `Straße` を指定し、除外行をSTRASSEにした場合も確認する
+- **THEN** どちらもbanana 1だけが残り、strasseの全出現が除外される
+
+### Requirement: 除外ファイル読込失敗の通知と優先順位（EX-4）
+システムは（SHALL）既存引数検証→除外FILE→本文の順に処理する。除外FILEの不存在・権限不足・ディレクトリ指定・文字コード不正等の読込失敗は、対象と原因が分かる文をstderrへ出しexit2、stdoutは空とする。文言完全一致は要求しない。両ファイル失敗でも除外側を優先し、除外成功後の本文失敗は既存exit1を維持する。
 
 #### Scenario: 除外FILEが存在しない
 - **WHEN** 読める本文と不存在の除外パスを `--exclude FILE` で指定する
-- **THEN** 終了コードは2で、除外ファイル不存在が原因と分かる文が表示される
+- **THEN** 終了コードは2で、対象パスと不存在が原因と分かる文をstderrへ出しstdoutは空
+
+#### Scenario: 不存在以外の除外読込失敗
+- **WHEN** 権限不足・ディレクトリ指定・不正UTF-8の除外FILEをそれぞれ読める本文と各形式で指定する
+- **THEN** 各失敗がexit2、対象と原因を示すstderr、stdout空となり、集計結果を出さない
+
+#### Scenario: 複合失敗の順序
+- **WHEN** 不正な既存引数と読めない除外FILE・本文を併用する、両ファイルだけが読めない、または除外FILEだけ正常に読める場合を実行する
+- **THEN** 順に既存引数エラー（ファイルを読まない）、除外FILEのexit2（本文を読まない）、既存本文エラーexit1となり、いずれもstdoutに結果を出さない
+
+### Requirement: 全語除外の空結果（EX-6）
+システムは（SHALL）全語が除外された場合、各出力形式の既存空結果で正常終了exit0とし、除外専用メッセージを追加しない。
+
+#### Scenario: 全語除外の各形式
+- **WHEN** 本文 `Apple apple` に除外行appleを指定しtext・json・htmlで実行する
+- **THEN** textは空、jsonは `[]` と末尾改行、htmlは既存空表・既存空結果案内と総数0を示し、全形式でexit0となる
 
 ### Requirement: 除外指定の説明・試験・未指定互換（EX-5）
-システムは（MUST）`--help` とREADMEの使い方に除外FILEの構文・行規則・大小文字非区別・不存在時exit2を説明し、対応試験を追加する。既存試験を通し、未指定時の本文読込、抽出・正規化、text/json/html、min-count/top、順位とエラー契約を維持する。追加依存・権限変更・外部送信を必要としない。
+システムは（MUST）`--help` とREADMEの使い方に除外FILEの構文・行規則・casefold比較・読込失敗時exit2・最後のFILEのみ採用・空結果を説明し、対応試験を追加する。既存試験を通し、未指定時の本文読込、抽出・正規化、text/json/html、min-count/top、順位とエラー契約を維持する。追加依存・権限変更・外部送信を必要としない。
 
 #### Scenario: 案内を読む
 - **WHEN** `python -m wordfreq --help` とREADMEの使い方を確認する

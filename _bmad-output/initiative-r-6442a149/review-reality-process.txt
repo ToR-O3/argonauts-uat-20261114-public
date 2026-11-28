@@ -1,0 +1,94 @@
+│ work/v112-a/.worktrees/t_c6600988/_bmad-output/initiative-r-6442a149/architecture/reviews/update-independent-reality.md
+│ @@ -0,0 +1,94 @@
+│ +# 独立設計レビュー — update / reality-check
+│ +
+│ +## Verdict
+│ +
+│ +PASS（設計のreality-checkに限る）。AD-1〜AD-4はいずれも既存プロジェクトに実在する処理境界と整合し、採用済み要求を実装できない構造上の矛盾は認めない。casefold比較に必要な情報は現在のtokenizer出力に残っている。新技術・新version・追加依存を導入する決定はない。
+│ +
+│ +これは実装済み・機能試験合格・実装着手承認の判定ではない。既存コードに--excludeはなく、除外読込・フィルタ・専用失敗経路は後続実装である。
+│ +
+│ +## 対象・実施境界
+│ +
+│ +依頼で指定されたconfigured floorのreality-check、すなわち「every committed decision reality-checked against existing project」「named tech fit/version assumptions supported; no new tech/version being introduced」のみを実施した。bmad-architectureのreferences/reviewer-gate.mdを参照し、設計原本の説明をそのまま根拠扱いせず、現行ソースに突き合わせた。全Reviewer Gate、rubric walker、他lens、機械lintの実施を主張しない。
+│ +
+│ +read_fileで以下を全文実読した。相対パスの基点は現在の作業ディレクトリ。
+│ +
+│ +- _bmad-output/initiative-r-6442a149/architecture/architecture.md
+│ +- _bmad-output/initiative-r-6442a149/architecture/.memlog.md
+│ +- _bmad-output/initiative-r-6442a149/decisions-oq1-6.md
+│ +- _bmad-output/initiative-r-6442a149/prd/prd-wordfreq-exclude.md
+│ +- wordfreq/tokenizer.py
+│ +- wordfreq/aggregator.py
+│ +- wordfreq/__main__.py
+│ +- wordfreq/sources.py
+│ +- wordfreq/formatters.py
+│ +- pyproject.toml（既存依存・version宣言の確認）
+│ +
+│ +Git・Kanban操作、機能試験、インラインスクリプト、製品・README・試験・GSD・OpenSpec・設定変更は行っていない。保存対象は本新規レビューのみ。設計原本とmemlogには追記していない。
+│ +
+│ +## Top findings
+│ +
+│ +- Critical / High / Mediumの設計阻害事項なし。既存の単方向CLI、純粋集計、純粋formatterを保ったまま、CLI合成位置に除外処理を挿入できる。
+│ +- casefoldの情報境界は一致する。本文の元表記は失われるが、採用した同一casefoldキー比較には不要。除外行を本文tokenizerへ渡さないというAD-3の区別が必要であり、原本はこれを明示している。
+│ +- 後続実装の注意点：既存FileSourceは本文UTF-8読込を提供するだけで、先頭BOM除去や除外exit2は提供しない。この差はAD-3 / AD-4が明示しており、既存実装の流用だけで対応済みと誤認しないこと。設計修正は不要。
+│ +
+│ +## 各ADの現実照合
+│ +
+│ +### AD-1 — 集計前の共通除外境界：適合
+│ +
+│ +要求根拠：PRD FR-1〜FR-4、RULE-1 / RULE-2（prd-wordfreq-exclude.md:58-72,82-88）、decisions-oq1-6.md:26。設計はarchitecture.md:29-51、決定の履歴はarchitecture/.memlog.md:10,19。
+│ +
+│ +現行根拠：wordfreq/__main__.py:29-48は本文取得、iter_tokens、count_words、総数算出、min-count、top、formatterの順で合成する。aggregator.py:6-17は受領した語列の計数・順位のみを担い、formatters.py:6-14,22-38は受領した結果を整形する。集計・formatterからsourcesへの依存はない。
+│ +
+│ +判定：casefold済みトークン列とcount_wordsの間にフィルタを置けば、形式ごとの除外実装を追加せずに実現できる。総数算出を現在どおりcount_words直後に置けば、除外後・min-count/top前の意味を維持できる。HTML総数はformat_htmlへ引数で渡されるため、formatter側の読込・再計数は不要。新サービス・永続化・通信を要求する要素はない。除外処理自体は現行コードには存在しない。
+│ +
+│ +### AD-2 — 未指定非干渉と残存語の保存：適合
+│ +
+│ +要求根拠：PRD FR-6 / RULE-1（prd-wordfreq-exclude.md:78-86）、decisions-oq1-6.md:21,26。設計はarchitecture.md:53-57、履歴はarchitecture/.memlog.md:11,19。
+│ +
+│ +現行根拠：tokenizer.py:14-18は入力順でcasefoldした語を返す。aggregator.py:6-8はCounterでその列を数え、:11-17は回数だけをキーに安定ソートする。__main__.py:36-38のmin-count処理はcounts.items()の順を維持する構成である。
+│ +
+│ +判定：トークン順を保ち、一致語の全出現だけを除けば、残存語の回数と相対初出順は変わらない。除外側の重複も所属判定の意味を変えない。本文トークン自体を集合化・再ソートする設計にはなっていない。
+│ +
+│ +空結果の根拠：formatters.py:6-8のtextは空の結合、:11-14のJSONは空配列と末尾改行、:28-38,118-124のHTMLは空tbodyと既存案内を返す。総数は__main__.py:35で空の計数から求め、正常経路は:54でexit0となる。原本の空結果記述は現行の静的読解と整合する。動作試験による確認ではない。
+│ +
+│ +### AD-3 — 正規化キーと行解釈の分離：適合
+│ +
+│ +要求根拠：PRD FR-2 / FR-3（prd-wordfreq-exclude.md:62-68）、decisions-oq1-6.md:17-20。設計はarchitecture.md:59-65、履歴はarchitecture/.memlog.md:19。
+│ +
+│ +現行根拠：tokenizer.py:6-11のUnicode \\w+抽出と:18のcasefoldが本文キーを決める。aggregator.py:6-8は受領キーを再正規化せずに数える。除外側に必要なstrip・コメント判定・BOM除去は現行tokenizerの役割には含まれない。
+│ +
+│ +判定：除外行は独立の行解釈を経てcasefoldキーとし、本文側は既存抽出後casefoldキーをそのまま使う設計で整合する。本文tokenizer流用やlowerへの置換は不要であり、原本も禁止している。詳細は次節。
+│ +
+│ +### AD-4 — 最後のFILEと失敗の直列優先順位：適合
+│ +
+│ +要求根拠：PRD FR-1 / FR-4（prd-wordfreq-exclude.md:58-60,70-72）、decisions-oq1-6.md:19-22。設計はarchitecture.md:67-71、履歴はarchitecture/.memlog.md:19。
+│ +
+│ +現行根拠：__main__.py:13-28はargparseと範囲検証を本文取得前に実行する。:29-33は本文InputErrorをstderr / exit1に変換する。sources.py:17-22はUTF-8取得時のOSError / UnicodeDecodeErrorを、対象pathと原因を含むInputErrorへ変換し、終了判断を行わない。出力書込みは__main__.py:49-54まで始まらない。
+│ +
+│ +判定：引数解決・既存検証の後、本文取得の前に最終FILEだけの除外読込を置くことで、指定された直列優先順位を保てる。argparseによるオプション解決とファイル読込は分離でき、前のFILEを読む必要はない。除外の失敗だけをCLI側でexit2にし、本文の既存exit1経路を維持する設計は現行境界に適合する。ただし--exclude定義、最終FILEの採用、除外exit2経路は未実装であり、既存動作として確認したものではない。
+│ +
+│ +## casefoldの情報境界
+│ +
+│ +1. 本文取得：sources.py:19-20はUTF-8を文字列として読む。本文のBOM処理変更は要求されていない。
+│ +2. 本文抽出：tokenizer.py:6-11はUnicodeの連続word文字を抽出する。空白・ハイフン・#などの区切り情報はここで失われる。
+│ +3. 本文正規化：tokenizer.py:18は抽出語をcasefoldする。元の大小文字・表記は失われるが、比較対象はこの正規化済みキーである。
+│ +4. 除外側：AD-3どおり先頭BOM除去→行単位strip→空／先頭#の無視→有効行全体のcasefoldとする。本文抽出を流用しないため、途中記号や空白を別語へ変換しない。
+│ +5. 比較：同じcasefoldキーの所属判定を計数前に行う。STRASSEとStraßeのキーはともにstrasseになり、元表記の復元は不要。これを実行試験の結果とは扱わず、既存casefold呼出しと採用仕様の意味から照合した。
+│ +6. 非一致：foo bar / foo-bar / apple#noteという除外行はそのまま一つのキーであり、本文側のfoo・bar・apple・noteを個別除外しない。foo_barと123は現行\\w+抽出の語になり得るため、同じキーなら一致できる。失われた区切り情報を補完する必要はない。
+│ +7. 集計・表示：aggregatorは同じキーを計数し、formatterは受領した語を表示するだけである。正規化キーから元表記を再生成したり、表示形式ごとに一致条件を変えたりする経路は設計されていない。
+│ … omitted 16 diff line(s) across 1 additional file(s)/section(s)
+verdict: PASS（独立reality-checkのみ。実装・試験合格の判定ではない）
+
+top findings:
+  AD-1〜AD-4は既存コードの処理境界と整合し、設計阻害事項なし。
+  casefold比較に必要な情報は保持され、本文と除外行の情報境界は一致。
+  BOM除去・除外exit2・最後FILEのみ読込は未実装だが、設計では明確に区別されている。
+  新技術・新version・追加依存の導入なし。
+
+指定した新規レビューのみ保存。原本変更・Git/Kanban操作・機能試験なし。
+
+path: /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/_bmad-output/initiative-r-6442a149/architecture/reviews/update-independent-reality.md
+
+session_id: local-1359895eb0bbe9f9a12dbee3b818e46305126ed0eaf67f26b4a027267c78171c

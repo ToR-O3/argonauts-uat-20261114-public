@@ -1,0 +1,104 @@
+{
+  "changeName": "r-6442a149-exclude-file",
+  "schemaName": "spec-driven",
+  "planningHome": {
+    "kind": "repo",
+    "root": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988",
+    "changesDir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/openspec/changes",
+    "defaultSchema": "spec-driven"
+  },
+  "changeRoot": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/openspec/changes/r-6442a149-exclude-file",
+  "artifactPaths": {
+    "proposal": {
+      "outputPath": "proposal.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/openspec/changes/r-6442a149-exclude-file/proposal.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/openspec/changes/r-6442a149-exclude-file/proposal.md"
+      ]
+    },
+    "specs": {
+      "outputPath": "specs/**/*.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/openspec/changes/r-6442a149-exclude-file/specs/**/*.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/openspec/changes/r-6442a149-exclude-file/specs/wordfreq-cli/spec.md"
+      ]
+    },
+    "design": {
+      "outputPath": "design.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/openspec/changes/r-6442a149-exclude-file/design.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/openspec/changes/r-6442a149-exclude-file/design.md"
+      ]
+    },
+    "tasks": {
+      "outputPath": "tasks.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/openspec/changes/r-6442a149-exclude-file/tasks.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988/openspec/changes/r-6442a149-exclude-file/tasks.md"
+      ]
+    }
+  },
+  "isPlanningComplete": true,
+  "isComplete": true,
+  "applyRequires": [
+    "tasks"
+  ],
+  "nextSteps": [
+    "All planning artifacts are complete. Run openspec instructions apply --change \"r-6442a149-exclude-file\" --json to inspect implementation progress."
+  ],
+  "actionContext": {
+    "mode": "repo-local",
+    "sourceOfTruth": "repo",
+    "planningArtifacts": [
+      "proposal",
+      "specs",
+      "design",
+      "tasks"
+    ],
+    "linkedContext": [],
+    "allowedEditRoots": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988"
+    ],
+    "requiresAffectedAreaSelection": false,
+    "constraints": [
+      "Repo-local change artifacts and implementation edits are scoped to this project."
+    ]
+  },
+  "artifacts": [
+    {
+      "id": "proposal",
+      "outputPath": "proposal.md",
+      "status": "done",
+      "requires": []
+    },
+    {
+      "id": "specs",
+      "outputPath": "specs/**/*.md",
+      "status": "done",
+      "requires": [
+        "proposal"
+      ]
+    },
+    {
+      "id": "design",
+      "outputPath": "design.md",
+      "status": "done",
+      "requires": [
+        "proposal"
+      ]
+    },
+    {
+      "id": "tasks",
+      "outputPath": "tasks.md",
+      "status": "done",
+      "requires": [
+        "specs",
+        "design"
+      ]
+    }
+  ],
+  "root": {
+    "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_c6600988",
+    "source": "nearest"
+  }
+}
