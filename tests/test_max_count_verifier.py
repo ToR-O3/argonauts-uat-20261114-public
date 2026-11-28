@@ -233,6 +233,26 @@ def scope_repo(tmp_path):
     return repo, git('rev-parse', 'HEAD')
 
 
+@pytest.mark.parametrize('name', ['wordfreq/__main__.py', 'README.md'])
+def test_scope_fixture_independent_of_current_files(tmp_path, monkeypatch, request, name):
+    # Poison a stand-in current checkout, never the real product or README.
+    source = tmp_path / 'current'
+    d = driver()
+    for path in (*d.PRODUCT, 'README.md', 'tests/test_cli.py', 'pyproject.toml'):
+        target = source / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes((ROOT / path).read_bytes())
+    marker = b'\n# current-checkout contamination\n'
+    with (source / name).open('ab') as stream:
+        stream.write(marker)
+    monkeypatch.setattr(__import__(__name__, fromlist=['ROOT']), 'ROOT', source)
+    repo, base = request.getfixturevalue('scope_repo')
+    assert not (repo / name).read_bytes().endswith(marker), 'scope fixture copied current files'
+    result = d.validate_scope(repo, base)
+    assert result['paths'] == []
+    assert result['approved_product_and_readme']
+
+
 def test_scope_contract_clean_and_append_only(scope_repo):
     d = driver()
     repo, base = scope_repo
