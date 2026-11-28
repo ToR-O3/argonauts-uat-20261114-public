@@ -165,14 +165,14 @@ Plans:
   2. trim/改行/Unicode fullmatch後casefoldと全不正例、全読込み失敗exit2/元行番号/空stdout/本文取得0回、引数検査先行と本文exit1が確認できる。
   3. help/README実行例と79d83ba版との未指定バイト互換、全既存試験、入力不変と範囲外変更なしを確かめられる。
   4. 品質が対象headで独立実行し、VERIFICATION.mdとCLI等の文字原本を添付する。画像確認があれば枚数/内容/結果を文書化し、PMに画像/圧縮ファイル閲覧を求めない。
-**Plans:** 1/3 plans executed
+**Plans:** 2/3 plans executed
 
 Plans:
 **Wave 1**
 - [x] 08-01-PLAN.md — tracer・Unicode行文法、OpenSpec2.1/2.2
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 08-02-PLAN.md — 全失敗/取得優先・全形式選別/空状態、OpenSpec2.1/2.2
+- [x] 08-02-PLAN.md — 全失敗/取得優先・全形式選別/空状態、OpenSpec2.1/2.2
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 08-03-PLAN.md — 固定版互換/説明/実原本・後続品質への引渡し、OpenSpec3.1/3.2前提（独立品質は後続カード）
