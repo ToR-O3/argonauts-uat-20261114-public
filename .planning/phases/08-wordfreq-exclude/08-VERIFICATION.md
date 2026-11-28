@@ -248,5 +248,20 @@ gap はありません。
 
 ---
 
+## 再開の記録: PM判断の反映（品質・2026-11-28T19:02:33Z）
+
+この節は追記です。上の公式の判定（`status: human_needed`、38/44、insufficient_spec 5件、flagged-unverified 2件）は書き換えていません。
+
+- PM判断: t_6e92d0db（元カードのコメント232）。依頼者の最新判断 2026-11-28T14:45:42.849521+00:00「提案のまま進めてください（1〜5 すべて提案どおり）。」に照らして出されたもの。
+- 今回の受入範囲（受付の6受入条件）: **passed**。品質が対象head f3747b7 で独立に実行した結果に基づく。製品ファイルは f3747b7 と今回の報告の起点 b50af63 で同じ（`git diff --name-only f3747b7 b50af63` は `.planning/` の下だけ）。
+- 保持する未保証・未確認の項目:
+  - 並行・中断の backstop 5件（REQ-28/30/31/32/33）: insufficient_spec のまま。新しい保証は追加しない方針をPMが承認した（08-UAT.md 項目1 は pass。保証そのものは未検証）。
+  - P-08-01 / P-08-02: flagged-unverified のまま。PMは禁止事項を免除せず、品質の観測を受入判断の根拠とした。
+  - 日本語 glyph の表示: 未確認のまま（検証ホストに日本語フォントなし）。合格にしない。
+- SC4（配布）: 解決した。品質が文字原本14件を標準添付し（添付ID 270〜283、全件 SHA-256 照合済み）、PMが文字原本を読んで判断した（PM判断の根拠に添付 270/271/272/273/276/278/281 を記載）。
+- 公式の phase 完了: 行っていない。公式 `init.verify-work 8` が `ready_to_transition: false` を返した（理由: VERIFICATION が human_needed、UAT 項目2〜4 が skipped）。公式の決まり（VERIFICATION が passed のときだけ transition）に従い、`phase.complete` を呼ばず、結果を passed に書き換えない。
+
+---
+
 _Verified: 2026-11-28T18:49:53Z_
 _Verifier: Claude (gsd-verifier)_
