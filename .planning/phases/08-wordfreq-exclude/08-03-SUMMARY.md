@@ -154,6 +154,16 @@ All26 edge predicates/14 UI states/2 descriptor-less prohibitions are individual
 
 Both Builder tasks executed their assigned real tests/checks and actual-package discrimination. All required Builder files exist; actual originals and scope manifest are checked. This is Builder PLAN completion only, with independent quality/3.2/PM acceptance pending.
 
+## Same-card quality rework: shallow-checkout CI baseline
+
+The initial1154 local passes did not cover the CI checkout's depth1. GitHub Actions run46173111182 failed with1090 passes/64 setup errors because the fixed Git object was missing. This is corrected in content commit526b89cec8d6b7c440b5716ee6319aec2f68f479 without product, workflow, dependency or network changes. A real depth1 regression was added and observed RED at the same git ls-tree exit128 before the repair.
+
+Nine raw objects exported from Git79d83ba (commit/root tree/package tree/six blobs) are now bundled as JSON/base64 under tests/fixtures. Git hash-object validates every object ID; Git resolves the pinned commit/tree/blob chain in a disposable database. Missing, changed and even changed/rehashed blobs fail closed. No candidate-generated golden or skip. The64 historical raw comparisons are unchanged in scope and still execute.
+
+Fresh results:79 selected baseline/immutability/docs tests pass;457 exclusion-selected pass;19 handoff tests pass. In a real depth1 checkout with fixed commit absent before and after and origin disconnected, the existing CI command `python -m pytest` passes1159 tests in190.74s. Added5 cases (one shallow/all-format regression plus four corruption controls), retained1154. Full command/stdout/stderr/exit and RED originals: `.planning/argonauts/t_354e296c/CI-REPAIR.md` and linked local files. Existing historical captures are preserved and labeled, not presented as new-target reruns. Handoff manifest regenerated against526b89c, with new repair originals and pending quality obligations retained.
+
+The review's nonblocking WR-01/WR-02/IN-01..05 are recorded but not changed in this repair. GSD readback still phase8/plan3/total3/status verifying and verification.status missing. This is same-PLAN rework; no new Quick/PLAN, repeated state advancement, phase.complete, OpenSpec3.2 checkoff, independent acceptance, quality mark, ready switch or merge.
+
 ## Official close-out readback
 
 After the SUMMARY commit a5c6b3d, official `state.advance-plan` returned `advanced:false/reason:last_plan/current_plan:3/total_plans:3/status:ready_for_verification`. Saved STATE frontmatter and `state-snapshot` both read phase8/current plan3/status:verifying; its Current Position status is `Phase complete — ready for verification`. The legacy Phase heading still says EXECUTING; no manual rewrite was used to manufacture a different official outcome. `roadmap.update-plan-progress 8` returned updated:true/plan_count3/summary_count3/status:In Progress/complete:false, and saved ROADMAP has all three PLANs executed. `state.update-progress` explicitly skipped with `phase scope is unscoped, not complete`; prior25% Progress display was left unchanged, not claimed as recomputed. `state.record-metric` recorded08/03/19min and `state.record-session` records this PLAN stopped pending same-card/independent quality. No `phase.complete` was called.

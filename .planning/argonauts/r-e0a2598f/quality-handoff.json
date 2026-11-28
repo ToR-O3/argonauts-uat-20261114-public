@@ -1,7 +1,7 @@
 {
   "request": "r-e0a2598f",
   "branch": "argonauts/r-e0a2598f",
-  "target_head": "d30dd316ae6b73dcf10376ce9bd75cfc134b0c2c",
+  "target_head": "526b89cec8d6b7c440b5716ee6319aec2f68f479",
   "request_start": "79d83ba14dd59d289d2ecd3e33c85e8de437972e",
   "baseline": "79d83ba14dd59d289d2ecd3e33c85e8de437972e",
   "quality_status": "pending",
@@ -16,8 +16,16 @@
       "sha256": "540df8d5bf689fd037f73e336faa5ea05aa809699635472f47dd414dc3afb7e0"
     },
     {
+      "path": "tests/fixtures/README.md",
+      "sha256": "2b6f38dfea4ada6236a8ec828b07335ba79b70f22f69b5c8b4bc3357e3b57332"
+    },
+    {
       "path": "tests/fixtures/encoding_cli_probe.py",
       "sha256": "e1946c5047a39b2f45ecaa6f9dac1e49ae3775d0da103e7a5e988da71c7e3832"
+    },
+    {
+      "path": "tests/fixtures/exclude-baseline-git-objects.json",
+      "sha256": "90b665ea88aec9deef071f104ecd1f64e4f106c6960595215a1576ebfc260155"
     },
     {
       "path": "tests/test_aggregator.py",
@@ -25,7 +33,7 @@
     },
     {
       "path": "tests/test_cli.py",
-      "sha256": "ef066e09f45b529419d6944b0605029d65679d536236240d95b63f47d2ee01df"
+      "sha256": "80f367705ed0639aa587a08ea2d38b2beb3389f599793bec0884b990d993e18e"
     },
     {
       "path": "tests/test_formatters.py",
@@ -129,7 +137,7 @@
   "originals": [
     {
       "path": ".planning/argonauts/r-e0a2598f/builder-evidence.md",
-      "sha256": "9d0c32e10bae0d578908454895f4f3b4827c89f6912a586b5c844593f0ecca6e"
+      "sha256": "492758224c1cb88501c3e373436b2509382d0c9a14e6ae655bdefe3b73e45fe7"
     },
     {
       "path": ".planning/argonauts/r-e0a2598f/baseline-captures.json",
@@ -174,6 +182,46 @@
     {
       "path": ".planning/argonauts/r-e0a2598f/suite-final-stderr.txt",
       "sha256": "2da222706982e0cf58345a76d311e577b29ca05cb0eaa8fa6807445f8c0feb60"
+    },
+    {
+      "path": ".planning/argonauts/t_354e296c/CI-REPAIR.md",
+      "sha256": "74150fa23977a0fbb672110779a627f7adbba5f69f61cb696f9d19bed7d40882"
+    },
+    {
+      "path": ".planning/argonauts/t_354e296c/shallow-red.txt",
+      "sha256": "f4da3e699ed15a0105c6e668da98ea461c46d4afe63a38b705ee0bb3a39ef9f3"
+    },
+    {
+      "path": ".planning/argonauts/t_354e296c/shallow-green-final.txt",
+      "sha256": "8bf11c06f3a455f39e509c40b744c781f6196b5b12c911b750b07a4b425f0bab"
+    },
+    {
+      "path": ".planning/argonauts/t_354e296c/shallow-suite.json",
+      "sha256": "2b6e186dd48a7d25d9ca637ef96314948370d4ce60893a599130065085905436"
+    },
+    {
+      "path": ".planning/argonauts/t_354e296c/shallow-suite-stdout.txt",
+      "sha256": "10af6daccc15c833bbd18dac2bef8f842de354d53747a2bbb06c9d2bfa1fc9d7"
+    },
+    {
+      "path": ".planning/argonauts/t_354e296c/shallow-suite-stderr.txt",
+      "sha256": "1429f52773992e8aaa5645993703a024707382db2c1a276c2debb8e005446a09"
+    },
+    {
+      "path": ".planning/argonauts/t_354e296c/exclude-repair-green.txt",
+      "sha256": "462faccee3766c02ce9e4917d02491af20031b56df09949a6f246b2495ee0907"
+    },
+    {
+      "path": ".planning/argonauts/t_354e296c/handoff-tests-repair.txt",
+      "sha256": "dcd0df7b87be057ea0a9767037dffd6e7c3a3ba2d45ffac3bced281867eb7164"
+    },
+    {
+      "path": ".planning/argonauts/t_354e296c/verification-status-repair.json",
+      "sha256": "1768fe9c86ba3cfcb7a5bf3fcab7ef746630f432285ddc20d0582ee5bd0c4b4a"
+    },
+    {
+      "path": ".planning/argonauts/t_354e296c/state-repair.json",
+      "sha256": "6ddbc3681ebc29bcd5d2a42162fdcbd8b6e238548b3eb262b053e135fdea2dc5"
     }
   ],
   "executions": [
@@ -5438,6 +5486,33 @@
       "originals": [
         ".planning/argonauts/r-e0a2598f/cli-captures.json"
       ]
+    },
+    {
+      "command": "python -m pytest (disconnected depth1 checkout)",
+      "argv": [
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.venv/bin/python3",
+        "-m",
+        "pytest"
+      ],
+      "input": [
+        "committed fixed historical raw Git objects; existing test suite and fixtures"
+      ],
+      "environment": {
+        "python": "3.12.15 (main, Oct  1 2026, 00:00:00) [GCC 14.3.1 20251022 (Red Hat 14.3.1-4)]",
+        "shallow": "true",
+        "origin": "disconnected local path",
+        "PYTHONPATH": "removed"
+      },
+      "stdout": "============================= test session starts ==============================\nplatform linux -- Python 3.12.15, pytest-9.2.0, pluggy-1.7.0\nrootdir: /home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/shallow-ci-gv6sia1s/repo\nconfigfile: pyproject.toml\ncollected 1159 items\n\ntests/test_aggregator.py .....                                           [  0%]\ntests/test_cli.py ...................................................... [  5%]\n........................................................................ [ 11%]\n........................................................................ [ 17%]\n........................................................................ [ 23%]\n........................................................................ [ 29%]\n........................................................................ [ 36%]\n........................................................................ [ 42%]\n........................................................................ [ 48%]\n........................................................................ [ 54%]\n........................................................................ [ 61%]\n........................................................................ [ 67%]\n.........................................                                [ 70%]\ntests/test_formatters.py .........                                       [ 71%]\ntests/test_html_finalization.py .............................            [ 74%]\ntests/test_html_verifier.py ............................................ [ 77%]\n........................................................................ [ 84%]\n........................................................................ [ 90%]\n...............                                                          [ 91%]\ntests/test_min_count_verifier.py ....................................... [ 94%]\n............................................                             [ 98%]\ntests/test_sources.py ......                                             [ 99%]\ntests/test_sources_boundary.py ...                                       [ 99%]\ntests/test_tokenizer.py ......                                           [100%]\n\n======================= 1159 passed in 190.74s (0:03:10) =======================\n",
+      "stderr": "",
+      "exit": 0,
+      "expected_vs_actual": "1159 passed; baseline absent before/after; all original 64 comparisons retained; no skip",
+      "originals": [
+        ".planning/argonauts/t_354e296c/CI-REPAIR.md",
+        ".planning/argonauts/t_354e296c/shallow-suite.json",
+        ".planning/argonauts/t_354e296c/shallow-suite-stdout.txt",
+        ".planning/argonauts/t_354e296c/shallow-suite-stderr.txt"
+      ]
     }
   ],
   "ac_mapping": {
@@ -5472,7 +5547,11 @@
       ".planning/argonauts/r-e0a2598f/suite-final-stdout.txt",
       ".planning/argonauts/r-e0a2598f/cli-captures.json",
       ".planning/argonauts/r-e0a2598f/baseline-captures.json",
-      ".planning/argonauts/r-e0a2598f/baseline-controls.json"
+      ".planning/argonauts/r-e0a2598f/baseline-controls.json",
+      ".planning/argonauts/t_354e296c/CI-REPAIR.md",
+      ".planning/argonauts/t_354e296c/shallow-suite.json",
+      ".planning/argonauts/t_354e296c/shallow-suite-stdout.txt",
+      ".planning/argonauts/t_354e296c/shallow-suite-stderr.txt"
     ]
   },
   "inventories": {
@@ -5959,5 +6038,9 @@
     "LANG": "C.UTF-8",
     "LC_ALL": null,
     "LC_CTYPE": null
+  },
+  "repair_evidence": {
+    "report": ".planning/argonauts/t_354e296c/CI-REPAIR.md",
+    "previous_observations": "Historical originals retained; fresh repaired-target full-suite observation is the final execution record."
   }
 }
