@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wordfreq 除外単語ファイル — Product Brief</title>
+<style>
+:root { color-scheme: light; --paper:#fff; --ink:#1c2321; --muted:#5f6b67; --rule:#d8dfdc; --accent:#2c6e5a; }
+* { box-sizing:border-box; }
+body { margin:0; padding:2rem 1rem; background:#ecefec; color:var(--ink); font:16px/1.7 system-ui,sans-serif; }
+main { max-width:52rem; margin:auto; background:var(--paper); border:1px solid var(--rule); padding:2rem; }
+header { border-bottom:2px solid var(--ink); }
+h1 { font:700 2rem/1.25 Georgia,serif; }
+h2 { font-size:1.1rem; border-bottom:1px solid var(--rule); padding-bottom:.3rem; }
+.kicker { color:var(--accent); font-weight:700; }
+.meta { color:var(--muted); }
+.lead { background:#f3f7f5; border-left:4px solid var(--accent); padding:1rem; margin-top:1rem; }
+.notice { background:#fff6e0; padding:1rem; border:1px solid #d9a521; }
+code { overflow-wrap:anywhere; }
+a { color:var(--accent); }
+section { margin-top:1.5rem; }
+@media(max-width:40rem) { body { padding:.75rem; } main { padding:1rem; } h1 { font-size:1.6rem; } }
+@media print { body { background:none; padding:0; } main { border:0; } }
+</style>
+</head>
+<body><main>
+<header><p class="kicker">Product brief</p><h1>wordfreq 除外単語ファイル</h1><p class="meta">2026-11-28 · draft / partial</p></header>
+<p class="notice">製品判断が未承認のため、実装・受入の承認原本ではありません。正式な文書は <a href="brief-wordfreq-exclude.md">Brief markdown</a>、未決は <a href="../open-questions.md">共通一覧</a> を参照してください。</p>
+<section class="lead"><h2>Executive summary</h2><p>wordfreq に <code>--exclude FILE</code> を追加し、1行1語で指定した語を集計から外せるようにします。空行と <code>#</code> 開始行を読み飛ばし、既存と同じ <code>str.casefold()</code> で大小を同一視します。除外FILE不存在は分かるstderrと終了コード2にします。</p><p>help、READMEの使い方、追加試験を届け、未指定互換・Unicode正規化・既存形式を守ります。利用者像と業務上の時期は未確認で、需要の根拠は今回の依頼に限られます。</p></section>
+<section><h2>Problem</h2><p>現CLIにはtop・min-count・formatがあり、指定語一覧で外す選択肢はありません。頻度閾値だけでは、回数の多い特定語を指名して外せません。現場の時間損失や売上効果は提示されていません。</p></section>
+<section><h2>Solution</h2><p><code>python -m wordfreq input.txt --exclude excluded.txt</code> と指定します。指定語の全出現を外し、残る語は従来の規則で表示します。<code>Straße STRASSE</code> と除外行 <code>STRASSE</code> はcasefoldで同じ語として扱います。不存在は成功した空結果ではなく失敗として通知します。</p></section>
+<section><h2>What makes it different</h2><p>回数によらず語を指名して外せる既存CLI拡張です。外部前処理の利用実態や競合優位は未調査であり、市場や独自性を主張しません。</p></section>
+<section><h2>Who it serves</h2><p>既存CLIで特定語を外したい利用者を対象と推定します。保守・品質担当は試験と未指定互換を根拠に判断します。特定の職種・個人・規模は未確認です。</p></section>
+<section><h2>Success criteria</h2><ul><li>指定語が消え、残存語の回数と同数初出順を保持。</li><li>空行と生の行頭#を無視し、Unicode casefoldで照合。</li><li>除外FILE不存在は説明stderrとexit2。</li><li>help/READMEと追加試験で使い方・互換性を確認。</li><li>対抗指標は既存出力・エラー・依存・CIの意図しない変更がないこと。</li></ul><p>本作業は文書作成であり、機能実装・追加機能試験は未実施です。</p></section>
+<section><h2>Scope</h2><p>任意オプション、語一覧の読込み/照合、説明と試験を含みます。text/json/htmlで共通の結果語を使い、除外語はtop枠を占めません。</p><p>新依存、外部通信、CI変更、正規化/並び変更、自動辞書、永続設定、HTMLデザイン変更は含みません。スポンサー予算要請でないためThe ask、長期計画が依頼されていないためVisionは省略します。</p></section>
+<section><h2>Assumptions</h2><ul><li>一覧を繰り返し指定する価値と既存CLI利用者という対象は未確認の推定です。</li><li>今回の依頼を着手理由とし、業務上の締切・投入時期・担当者名は補いません。</li></ul></section>
+<section><h2>Open questions</h2><p>HTML総数、空白/コメント判定、文字コード/他の読込み失敗、不正行、同時失敗の優先は未承認です。定義・根拠・回答者・必要時点は <a href="../open-questions.md">open-questions.md</a> に集約しています。PRDはこのBriefのdocumentパスを入力として使います。</p></section>
+</main></body>
+</html>
