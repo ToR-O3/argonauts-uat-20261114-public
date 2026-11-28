@@ -1,5 +1,11 @@
 # 入力原本と照合根拠
 
+## 現在の採用決定（Update入力）
+
+以下のCreate時点の照合記録は履歴であり、過去の「未承認」「共通未決」は現在の状態ではない。現在の根拠は [decision-update.md](decision-update.md)、判断日時 `2026-11-28T14:45:42.849521+00:00`、依頼者原文「提案のまま進めてください（1〜5 すべて提案どおり）。」。HTML元総数維持、trim後の空行/#判定とLF/CRLF/最終改行なし、UTF-8と全除外読込み失敗exit2、既存 `\w+` 全体一致と不正行のファイル名/行番号診断、既存引数検査→除外取得/全行検証→本文の順を採用した。除外失敗時は本文未読、集計結果/HTML/Tracebackなし、本文既存exit1維持。未解決製品事項は [open-questions.md](open-questions.md) のとおりなし。
+
+今回は `intent:update headless:true`。既存 `.template.md` と各 `.memlog.md` から再開し、公式memlog追記とcheck_ids/lint_spineを使用した。scripts=staleは継承しsetup/道具更新はしなかった。編集を子へ分担し、親が必須rubric/fresh-reader/reconciliationとarchitecture gateの独立レビューを実行・集約した。子からdraftで受け取った原本はレビュー後finalとなった。今回の証拠は `checks/revision-independent-review.md` と `checks/REVISION-HANDOFF.md`、`review-revision-*`。Create時のreview-*は履歴として残すが今回の証拠としない。後続仕様承認は t_91b92aed、文書finalもその承認とは同義でない。
+
 ## 依頼原文
 
 > wordfreq に --exclude FILE の選択肢を足す。FILE には集計から外す単語を1行に1語で書く（空行と # で始まる行は読み飛ばす）。大文字と小文字は区別しない（今の集計と同じく小文字にそろえて比べる）。FILE が無い時は、分かる文で終了コード 2 にする。--help と README.md の使い方に説明を足し、試験を足す。

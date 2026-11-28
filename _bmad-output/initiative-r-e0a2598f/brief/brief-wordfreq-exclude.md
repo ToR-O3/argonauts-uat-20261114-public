@@ -2,16 +2,17 @@
 title: wordfreq 除外単語ファイル — Product Brief
 template: brief
 version: 1.1.0
-status: draft
+status: final
 created: '2026-11-28'
 updated: '2026-11-28'
 sources:
   - ../initiative-r-e0a2598f.md
   - ../source-context.md
+  - ../decision-update.md
 ---
 # wordfreq 除外単語ファイル
 
-製品判断が未承認のため status は draft、headless 結果は partial。
+5件の製品判断は [採用決定](../decision-update.md) により解消済み。公式レビュー・reconciliationを終えた更新文書である。後続仕様承認は t_91b92aed が担い、本書のfinal状態は実装・受入の承認ではない。
 
 ## Table of Contents
 
@@ -27,9 +28,9 @@ sources:
 
 ## Executive summary
 
-wordfreq に `--exclude FILE` を追加し、1行1語で指定した語を集計対象から外せるようにする。空行と `#` で始まる行は読み飛ばし、大小の違いは既存と同じ `str.casefold()` で同一視する。除外ファイルが存在しない場合は、分かる文をstderrへ出して終了コード2にする。CLI利用者が同じ除外語一覧を指定して実行できる、小さな既存機能拡張である。
+wordfreq に `--exclude FILE` を追加し、UTF-8の1行1語で指定した語をランキングから外せるようにする。各行の前後空白を除いてから空行と `#` 開始行を読み飛ばし、残る行全体が既存の `\w+` に一致する場合だけ受け付ける。大小の違いは既存と同じ `str.casefold()` で同一視し、HTML総数は除外前の元入力全体を維持する。CLI利用者が同じ除外語一覧を指定して実行できる、小さな既存機能拡張である。
 
-実装だけでなく `--help`、READMEの使い方、追加試験を届ける。未指定時の既存動作、Unicode正規化、出力構造を壊さないことが成功の条件。利用者像と導入時期の業務上の理由は未確認であり、需要の証拠は今回の明示依頼に限られる。HTML総数などの未承認判断は共通の未決一覧に残し、下流で黙って確定しない。
+実装だけでなく `--help`、READMEの使い方、追加試験を届ける。未指定時の既存動作、Unicode正規化、出力構造を壊さないことが成功の条件。利用者像と導入時期の業務上の理由は未確認であり、需要の証拠は今回の明示依頼に限られる。製品境界は判断日時 `2026-11-28T14:45:42.849521+00:00` の採用決定を使用し、背景の推定とは分離する。
 
 ## Problem
 
@@ -39,7 +40,7 @@ wordfreq に `--exclude FILE` を追加し、1行1語で指定した語を集計
 
 ## Solution
 
-利用者は除外語FILEを用意し、`python -m wordfreq input.txt --exclude excluded.txt` のように指定する。指定語の全出現が結果から消え、残る語は従来の規則で表示される。FILEがないときは成功した空結果ではなくstderrとexit2で失敗を認識できる。
+利用者は除外語FILEを用意し、`python -m wordfreq input.txt --exclude excluded.txt` のように指定する。指定語の全出現がランキングから消え、残る語は従来の規則で表示されるが、HTML総数からは引かない。既存の引数構文・数値検査後、除外FILEの読込みと全行検証を本文より先に行う。除外の読込み失敗は理由の分かるstderrとexit2、不正行はファイル名・行番号も示してexit2とし、どちらも結果・HTML・Tracebackを出さず本文を読まない。本文側の既存exit1は維持する。
 
 大小同一視はASCIIのlower化ではなく、本文と同じcasefold。例えば本文の `Straße STRASSE` と除外語 `STRASSE` は同じ語として扱う。
 
@@ -53,9 +54,10 @@ wordfreq に `--exclude FILE` を追加し、1行1語で指定した語を集計
 
 ## Success criteria
 
-- 指定語の全出現が消え、未指定語の回数と同数初出順が保たれる。
-- 空行と生の行頭 `#` コメントを無視し、Unicode casefold同値語を除外できる。
-- 除外FILE不存在でstderrが理由を示し、exit2となる。
+- 指定語がランキングから消え、未指定語の回数と同数初出順、元入力のHTML総数が保たれる。
+- 前後空白除去後の空行と `#` コメントを無視し、LF・CRLF・最終改行なしとUnicode casefold同値語を扱える。
+- `\w+` 全体一致で数字とunderscoreを受理する。複数語・句読点・hyphen・単独結合文字・語の後の#注記・先頭BOMはファイル名と行番号を示してexit2。
+- UTF-8で読込み、不在・権限不足・ディレクトリ・不正文字コードなど全読込み失敗は理由stderr/exit2。除外失敗は本文より優先し本文未読、結果stdout空・HTML/Tracebackなし。
 - helpとREADMEで使い方を発見できる。追加試験と既存試験により未指定互換を検証する。
 - 対抗指標は既存出力・既存エラー・依存・CIの意図しない変更がないこと。現時点では機能の実装・試験は行っていない。
 
@@ -72,4 +74,4 @@ wordfreq に `--exclude FILE` を追加し、1行1語で指定した語を集計
 
 ## Open questions
 
-未決の定義・根拠・回答者・必要時点・ブロック範囲は [共通一覧](../open-questions.md) に集約。HTML総数、空白とコメント、文字コードと他の読込み失敗、不正行、同時失敗の優先順位は未承認である。PRDはこの文書のパスを入力として使用し、承認済み範囲と未決を分離する。
+現在の未解決製品事項は [共通一覧](../open-questions.md) のとおりなし。過去の5件は [採用決定](../decision-update.md) で解消済み。残る背景推定はAssumptionsに保持し、後続仕様承認は製品未決と混同しない。PRDは本書と採用決定を入力として使用する。
