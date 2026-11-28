@@ -1272,6 +1272,27 @@ def test_min_length_saved_default_bytes(case_index):
         assert result.stdout == bytes.fromhex(case["stdout_hex"])
 
 
+def test_min_length_invalid_zero_before_read(tmp_path, monkeypatch, capsys):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    path = tmp_path / "missing"
+    result = min_length_cli(path, "--min-length", "0")
+    assert result.returncode == 2
+    assert result.stdout == b"" and b"--min-length" in result.stderr
+    calls = []
+
+    def spy(source):
+        calls.append(source)
+        return "a"
+
+    monkeypatch.setattr(FileSource, "read_text", spy)
+    with pytest.raises(SystemExit) as caught:
+        main([str(path), "--min-length", "0"])
+    assert caught.value.code == 2 and calls == []
+    output = capsys.readouterr()
+    assert output.out == "" and "--min-length" in output.err
+
+
 def test_max_count_readme_example(tmp_path):
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     command = "python -m wordfreq input.txt --min-count 2 --max-count 3 --format json"
