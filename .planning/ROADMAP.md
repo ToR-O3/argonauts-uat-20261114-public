@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 - [x] **Phase 5: README verification A** (completed 2026-11-22)
 - [ ] **Phase 7: Project description UAT**
-- [ ] **Phase 8: wordfreq exclude**
+- [x] **Phase 8: wordfreq exclude** (completed 2026-11-29)
 
 ## Phase Details
 
@@ -165,7 +165,7 @@ Plans:
   2. trim/改行/Unicode fullmatch後casefoldと全不正例、全読込み失敗exit2/元行番号/空stdout/本文取得0回、引数検査先行と本文exit1が確認できる。
   3. help/README実行例と79d83ba版との未指定バイト互換、全既存試験、入力不変と範囲外変更なしを確かめられる。
   4. 品質が対象headで独立実行し、VERIFICATION.mdとCLI等の文字原本を添付する。画像確認があれば枚数/内容/結果を文書化し、PMに画像/圧縮ファイル閲覧を求めない。
-**Plans:** 3/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 **Wave 1**
@@ -176,3 +176,29 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [x] 08-03-PLAN.md — 固定版互換/説明/実原本・後続品質への引渡し、OpenSpec3.1/3.2前提（独立品質は後続カード）
+
+## Backlog
+
+### Phase 999.1: Follow-up — Phase 8 deferred UAT follow-up: Test 2 (BACKLOG)
+
+**Goal:** Resolve the UAT checkpoint deferred during Phase 8 verification
+**Source phase:** 8
+**Deferred at:** 2026-11-29 during /gsd-verify-work 8 session completion
+**Follow-ups:**
+- [ ] Test 2: P-08-01 の追加の人による確認（flagged-unverified を保持。PM判断 t_bdb96733） (deferred 2026-11-29)
+
+### Phase 999.2: Follow-up — Phase 8 deferred UAT follow-up: Test 3 (BACKLOG)
+
+**Goal:** Resolve the UAT checkpoint deferred during Phase 8 verification
+**Source phase:** 8
+**Deferred at:** 2026-11-29 during /gsd-verify-work 8 session completion
+**Follow-ups:**
+- [ ] Test 3: P-08-02 の追加の人による確認（flagged-unverified を保持。PM判断 t_bdb96733） (deferred 2026-11-29)
+
+### Phase 999.3: Follow-up — Phase 8 deferred UAT follow-up: Test 4 (BACKLOG)
+
+**Goal:** Resolve the UAT checkpoint deferred during Phase 8 verification
+**Source phase:** 8
+**Deferred at:** 2026-11-29 during /gsd-verify-work 8 session completion
+**Follow-ups:**
+- [ ] Test 4: 日本語フォントのある環境で --format html の日本語描画を確認（未確認のまま。PM判断 t_bdb96733） (deferred 2026-11-29)

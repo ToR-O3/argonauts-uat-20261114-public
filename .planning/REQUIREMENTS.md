@@ -105,17 +105,17 @@ Finalization t_20f1102b: REQ-25/26 `[x]` track the implemented product condition
 
 ### Approved BMAD references — t_91b92aed / head17648fc; full text stays in original PRD and phase CONTEXT
 
-- [ ] **REQ-28**: FR-1（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
-- [ ] **REQ-28**: FR-5（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
-- [ ] **REQ-29**: FR-2（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
-- [ ] **REQ-29**: FR-3（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
-- [ ] **REQ-30**: FR-4（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
-- [ ] **REQ-31**: FR-6（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
-- [ ] **REQ-32**: FR-7（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
-- [ ] **REQ-33**: RULE-1（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
-- [ ] **REQ-33**: RULE-2（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
-- [ ] **REQ-33**: RULE-3（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
-- [ ] **REQ-33**: RULE-4（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-28**: FR-1（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-28**: FR-5（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-29**: FR-2（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-29**: FR-3（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-30**: FR-4（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-31**: FR-6（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-32**: FR-7（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-33**: RULE-1（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-33**: RULE-2（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-33**: RULE-3（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-33**: RULE-4（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|

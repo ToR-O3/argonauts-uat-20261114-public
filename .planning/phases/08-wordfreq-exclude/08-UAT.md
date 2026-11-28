@@ -1,18 +1,14 @@
 ---
-status: partial
+status: complete
 phase: 08-wordfreq-exclude
 source: [08-VERIFICATION.md]
 started: 2026-11-28T18:55:41Z
-updated: 2026-11-28T19:02:33Z
+updated: 2026-11-28T19:10:02.130Z
 ---
 
 ## Current Test
 
-number: 4
-name: 日本語フォントのある環境で --format html の出力（通常・全件除外）をブラウザで開く
-expected: |
-  見出し・ラベル・caption・列見出し・空文言の日本語が読める。はみ出し・重なりがない
-awaiting: none from this request — PM decision t_6e92d0db (comment 232) keeps this item unverified; not an explicit human-eye acceptance criterion
+[testing complete]
 
 ## Tests
 
@@ -24,17 +20,17 @@ reason: 期待した結果（方針の承認）が得られた。PM判断 t_6e92
 ### 2. P-08-01（自動ストップワード・推定除外の禁止）を人が確認する
 expected: --exclude FILE に書いた語だけが除外され、他の語は暗黙に除外されない
 result: skipped
-reason: 品質の非権威の観測では違反なし。未指定時の出力は固定過去版 79d83ba と3形式でバイト一致、空・コメントのみ・不一致語のFILEは未指定とバイト一致（quality/cli/cli-log.txt の AC6-*、E-*）。descriptor-less の禁止事項のため flagged-unverified を保持する。PM判断 t_6e92d0db（コメント232）は禁止事項を免除せず、この品質の観測を受入判断の根拠とし、flagged-unverified の保持を指示した。
+reason: "Deferred follow-up: PM判断 t_bdb96733（コメント234、2026-11-29 04:07 JST）により、追加の人による確認は今回の工程では後回し。禁止事項の免除や合格認定ではなく、flagged-unverified を保持する。" 元の記録: 品質の非権威の観測では違反なし。未指定時の出力は固定過去版 79d83ba と3形式でバイト一致、空・コメントのみ・不一致語のFILEは未指定とバイト一致（quality/cli/cli-log.txt の AC6-*、E-*）。descriptor-less の禁止事項のため flagged-unverified を保持する。PM判断 t_6e92d0db（コメント232）は禁止事項を免除せず、この品質の観測を受入判断の根拠とし、flagged-unverified の保持を指示した。
 
 ### 3. P-08-02（Builder結果・履歴・未実行probe・未閲覧画像を独立受入として示すことの禁止）を人が確認する
 expected: 受入の根拠が品質の対象head f3747b7 での独立実行原本と本 VERIFICATION.md に限られる
 result: skipped
-reason: 品質の判定は f3747b7 で品質が実行した pytest（457 / 1159 passed）、regression gate、実CLI 237出力と追加観測だけに基づく（.planning/argonauts/r-e0a2598f/quality-evidence.md）。画像は ui-review 委任が閲覧した2枚だけを数え、親は0枚。descriptor-less のため flagged-unverified を保持する。PM判断 t_6e92d0db（コメント232）は品質の独立実行と証拠所有の記録を受入判断の根拠とし、flagged-unverified の保持を指示した。
+reason: "Deferred follow-up: PM判断 t_bdb96733（コメント234、2026-11-29 04:07 JST）により、追加の人による確認は今回の工程では後回し。禁止事項の免除や合格認定ではなく、flagged-unverified を保持する。" 元の記録: 品質の判定は f3747b7 で品質が実行した pytest（457 / 1159 passed）、regression gate、実CLI 237出力と追加観測だけに基づく（.planning/argonauts/r-e0a2598f/quality-evidence.md）。画像は ui-review 委任が閲覧した2枚だけを数え、親は0枚。descriptor-less のため flagged-unverified を保持する。PM判断 t_6e92d0db（コメント232）は品質の独立実行と証拠所有の記録を受入判断の根拠とし、flagged-unverified の保持を指示した。
 
 ### 4. 日本語フォントのある環境で --format html の出力（通常・全件除外）をブラウザで開く
 expected: 見出し・ラベル・caption・列見出し・空文言の日本語が読める。はみ出し・重なりがない
 result: skipped
-reason: この検証ホストには日本語フォントが無く（fc-list :lang=ja → 0）、日本語の描画は確認できない。受入条件に照らすと、HTMLの見た目を変えないこと（formatter 差分なし、未指定時のHTMLが過去版とバイト一致）は確認済みで、日本語の表示は今回の変更の範囲外。依頼者が人の目を明示した項目ではない。PM判断 t_6e92d0db（コメント232）は「未確認の日本語を合格にしない」と指示した。
+reason: "Deferred follow-up: PM判断 t_bdb96733（コメント234、2026-11-29 04:07 JST）により、日本語フォントのある環境での追加の確認は今回の工程では後回し。日本語の描画は未確認のまま（合格にしない）。" 元の記録: この検証ホストには日本語フォントが無く（fc-list :lang=ja → 0）、日本語の描画は確認できない。受入条件に照らすと、HTMLの見た目を変えないこと（formatter 差分なし、未指定時のHTMLが過去版とバイト一致）は確認済みで、日本語の表示は今回の変更の範囲外。依頼者が人の目を明示した項目ではない。PM判断 t_6e92d0db（コメント232）は「未確認の日本語を合格にしない」と指示した。
 
 ### 5. SC4: 親が本 VERIFICATION.md と .planning/argonauts/r-e0a2598f/quality/ のCLI文字原本を、PMが read_file できるパスで標準配布したことを確認する
 expected: PMは画像や圧縮ファイルを開かずに、各条件の文字原本を読める
@@ -49,5 +45,17 @@ issues: 0
 pending: 0
 skipped: 3
 blocked: 0
+
+## Deferred Follow-Ups
+
+- test: 2
+  idea: "P-08-01 の追加の人による確認（flagged-unverified を保持。PM判断 t_bdb96733）"
+  deferred_at: 2026-11-29
+- test: 3
+  idea: "P-08-02 の追加の人による確認（flagged-unverified を保持。PM判断 t_bdb96733）"
+  deferred_at: 2026-11-29
+- test: 4
+  idea: "日本語フォントのある環境で --format html の日本語描画を確認（未確認のまま。PM判断 t_bdb96733）"
+  deferred_at: 2026-11-29
 
 ## Gaps

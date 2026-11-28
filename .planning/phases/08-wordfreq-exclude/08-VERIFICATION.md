@@ -1,7 +1,7 @@
 ---
 phase: 08-wordfreq-exclude
 verified: 2026-11-28T18:49:53Z
-status: human_needed
+status: passed
 score: 38/44 must-haves verified
 covered_files:
   - .planning/phases/08-wordfreq-exclude/08-01-PLAN.md
@@ -259,7 +259,17 @@ gap はありません。
   - P-08-01 / P-08-02: flagged-unverified のまま。PMは禁止事項を免除せず、品質の観測を受入判断の根拠とした。
   - 日本語 glyph の表示: 未確認のまま（検証ホストに日本語フォントなし）。合格にしない。
 - SC4（配布）: 解決した。品質が文字原本14件を標準添付し（添付ID 270〜283、全件 SHA-256 照合済み）、PMが文字原本を読んで判断した（PM判断の根拠に添付 270/271/272/273/276/278/281 を記載）。
-- 公式の phase 完了: 行っていない。公式 `init.verify-work 8` が `ready_to_transition: false` を返した（理由: VERIFICATION が human_needed、UAT 項目2〜4 が skipped）。公式の決まり（VERIFICATION が passed のときだけ transition）に従い、`phase.complete` を呼ばず、結果を passed に書き換えない。
+- 公式の phase 完了: この時点では行っていない。公式 `init.verify-work 8` が `ready_to_transition: false` を返した（理由: VERIFICATION が human_needed、UAT 項目2〜4 が skipped）。公式の決まり（VERIFICATION が passed のときだけ transition）に従い、`phase.complete` を呼ばず、結果を passed に書き換えなかった。
+
+## 再開の記録2: 追加の人の確認の後回し（品質・2026-11-29）
+
+この節も追記です。上の判定の本文（38/44、insufficient_spec 5件、flagged-unverified 2件、日本語 glyph 未確認）は履歴として残し、書き換えていません。
+
+- PM判断: t_bdb96733（元カードのコメント234）。08-UAT.md 項目2〜4 の追加の人による確認を、今回の工程では後回し（deferred）として公式に記録し、ROADMAP の 999.x バックログへの追記を許可した。禁止事項の免除や合格認定ではない。
+- 08-UAT.md: 項目2〜4 は `result: skipped` のまま、公式の書式 `reason: "Deferred follow-up: …"` と `## Deferred Follow-Ups` で記録した。元の理由（P-08-01/02 は flagged-unverified、日本語の描画は未確認）は同じ行に残した。公式 `uat.complete-session` が status を complete にした。
+- ROADMAP: `## Backlog` に Phase 999.1〜999.3 を追記した。今回の next_phase にはせず、実行も予約もしない。
+- 公式の判定（実際の出力）: `phase uat-passed 8 --uat-only` → passed: true（項目2〜4 は deferred: true）。公式 verify-work の canonicalization に従い `frontmatter.set status passed` を実行。`verification.status` → passed、`phase uat-passed 8 --require-verification` → passed: true、blockers なし、stale 判定不明なし。08-SECURITY.md の threats_open は 0、08-VALIDATION.md は nyquist_compliant: true。
+- 品質の判定: 今回の受入範囲（受付の6受入条件）は passed。未保証・未確認の項目は上記のまま。
 
 ---
 
