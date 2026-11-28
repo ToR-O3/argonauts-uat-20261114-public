@@ -1352,6 +1352,16 @@ def test_min_length_parser(value):
     assert build_parser().parse_args(["input.txt", "--min-length", value]).min_length == int(value)
 
 
+def test_min_length_help():
+    result = run_cli_bytes("--help")
+    assert (result.returncode, result.stderr) == (0, b"")
+    help_text = " ".join(result.stdout.decode("utf-8").split())
+    assert "--min-length MIN_LENGTH" in help_text
+    for phrase in ["positive integer", "Unicode code points", "after casefold",
+                   "exclude words shorter than N", "include N or more", "default: 1"]:
+        assert phrase in help_text
+
+
 def test_max_count_readme_example(tmp_path):
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     command = "python -m wordfreq input.txt --min-count 2 --max-count 3 --format json"
