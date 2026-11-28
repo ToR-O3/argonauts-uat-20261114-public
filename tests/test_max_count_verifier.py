@@ -219,10 +219,13 @@ def scope_repo(tmp_path):
     d = driver()
     repo = tmp_path / 'cold'
     repo.mkdir()
+    # Historical scope acceptance must not depend on today's approved features.
+    fixed = Path(__file__).resolve().parent / 'fixtures/max-count-scope'
     for name in (*d.PRODUCT, 'README.md', 'tests/test_cli.py', 'pyproject.toml'):
         path = repo / name
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes((ROOT / name).read_bytes())
+        source = fixed if name in (*d.PRODUCT, 'README.md') else ROOT
+        path.write_bytes((source / name).read_bytes())
     def git(*args):
         return subprocess.run(['git', *args], cwd=repo, capture_output=True, check=True,
                               text=True, timeout=20).stdout.strip()
@@ -263,7 +266,7 @@ def test_scope_contract_clean_and_append_only(scope_repo):
     assert result['existing_tests_preserved']
 
 
-@pytest.mark.parametrize('damage', ['unrelated', 'dependency', 'delete', 'relax', 'formatter', 'readme', 'workflow'])
+@pytest.mark.parametrize('damage', ['unrelated', 'dependency', 'delete', 'relax', 'formatter', 'readme', 'workflow', 'cli'])
 def test_scope_contract_cold_damage_rejected(scope_repo, damage):
     repo, base = scope_repo
     if damage == 'delete':
@@ -274,7 +277,7 @@ def test_scope_contract_cold_damage_rejected(scope_repo, damage):
     else:
         name = {'unrelated': 'unrelated.txt', 'dependency': 'pyproject.toml',
                 'formatter': 'wordfreq/formatters.py', 'readme': 'README.md',
-                'workflow': '.github/workflows/injected.yml'}[damage]
+                'workflow': '.github/workflows/injected.yml', 'cli': 'wordfreq/__main__.py'}[damage]
         p = repo / name
         p.parent.mkdir(parents=True, exist_ok=True)
         with p.open('a') as stream:
