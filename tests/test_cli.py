@@ -661,6 +661,89 @@ def test_exclude_grammar_trim_comments_newlines(tmp_path, output_format, rows):
     assert excluded.read_bytes() == rows
 
 
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("rows", ["", " \t\r\n  \n", "#apple\n  # banana  \n"])
+def test_exclude_grammar_noop(tmp_path, output_format, rows):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    body.write_bytes(b"Zoo apple APPLE zoo banana")
+    excluded.write_bytes(rows.encode("utf-8"))
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format,
+                        [("zoo", 2), ("apple", 2), ("banana", 1)], body.name, 5)
+    assert excluded.read_bytes() == rows.encode("utf-8")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("word", ["123", "_word_", "a_b", "日本語", "Straße", "STRASSE", "Hello", "İ"])
+def test_exclude_grammar_valid_unicode(tmp_path, output_format, word):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    content = "123 _word_ a_b 日本語 Straße STRASSE HELLO hello İ keep"
+    body.write_bytes(content.encode("utf-8"))
+    excluded.write_bytes(word.encode("utf-8"))
+    expected = [("strasse", 2), ("hello", 2), ("123", 1), ("_word_", 1),
+                ("a_b", 1), ("日本語", 1), ("i\u0307", 1), ("keep", 1)]
+    expected = [(w, c) for w, c in expected if w != word.casefold()]
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, expected, body.name, 10)
+    assert body.read_bytes() == content.encode("utf-8")
+    assert excluded.read_bytes() == word.encode("utf-8")
+
+
+def test_exclude_grammar_original_before_casefold(monkeypatch):
+    from wordfreq.exclusions import parse_exclusions
+
+    def no_io(*args, **kwargs):
+        raise AssertionError("pure interpretation must not acquire files")
+
+    monkeypatch.setattr("builtins.open", no_io)
+    assert parse_exclusions("İ\nStraße\nSTRASSE\n123\n_word_\na_b\n日本語") == {
+        "i\u0307", "strasse", "123", "_word_", "a_b", "日本語"}
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("bad,line_number", [("foo bar", 4), ("foo,", 4), ("foo-bar", 4),
+                                               ("\u0301", 4), ("foo # note", 4), ("\ufefffoo", 1)])
+def test_exclude_grammar_invalid_original_row(tmp_path, output_format, bad, line_number):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    body.write_bytes(b"foo keep")
+    rows = ("\n  # ignored\nfoo\n" if line_number == 4 else "") + bad + "\n"
+    excluded.write_bytes(rows.encode("utf-8"))
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert result.returncode == 2
+    assert result.stdout == b""
+    assert str(excluded).encode() in result.stderr
+    assert f"line {line_number}".encode() in result.stderr
+    assert b"word" in result.stderr and b"Traceback" not in result.stderr
+    assert body.read_bytes() == b"foo keep"
+    assert excluded.read_bytes() == rows.encode("utf-8")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_grammar_permutations_and_hashseeds(tmp_path, output_format):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    content = "Zoo apple APPLE zoo banana Café CAFÉ 日本語 Straße STRASSE"
+    body.write_bytes(content.encode("utf-8"))
+    outputs = []
+    for rows in ["STRASSE\nbanana\n", "banana\nSTRASSE\n", "STRASSE\nbanana\nStraße\nbanana\n"]:
+        excluded.write_bytes(rows.encode("utf-8"))
+        for seed in ["0", "1", "42"]:
+            result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format,
+                                   env=dict(os.environ, PYTHONHASHSEED=seed))
+            assert (result.returncode, result.stderr) == (0, b"")
+            assert_output_bytes(result.stdout, output_format,
+                                [("zoo", 2), ("apple", 2), ("café", 2), ("日本語", 1)], body.name, 10)
+            outputs.append(result.stdout)
+        assert excluded.read_bytes() == rows.encode("utf-8")
+    assert all(output == outputs[0] for output in outputs)
+    assert body.read_bytes() == content.encode("utf-8")
+
+
 # 04-02 tracer: argument acceptance and pre-I/O rejection (OpenSpec 1.2).
 @pytest.mark.parametrize("output_format", ["text", "json", "html"])
 def test_min_count_argument_tracer(tmp_path, output_format):

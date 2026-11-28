@@ -1,0 +1,428 @@
+## no-trim: exit 1
+F
+=================================== FAILURES ===================================
+__ test_exclude_grammar_trim_comments_newlines[ \n  #banana\n apple \n-text] ___
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-784/test_exclude_grammar_trim_comm0')
+output_format = 'text', rows = b' \n  #banana\n apple \n'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("rows", [b" \n  #banana\n apple \n", b" \r\n  #banana\r\n apple \r\n",
+                                      b" \r\n  #banana\r\n apple "])
+    def test_exclude_grammar_trim_comments_newlines(tmp_path, output_format, rows):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        body.write_bytes(b"apple banana")
+        excluded.write_bytes(rows)
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+>       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'/home/Y...icode word\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:658: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_trim_comments_newlines[ \n  #banana\n apple \n-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 420 deselected in 0.18s
+
+## no-comments: exit 1
+F
+=================================== FAILURES ===================================
+__ test_exclude_grammar_trim_comments_newlines[ \n  #banana\n apple \n-text] ___
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-785/test_exclude_grammar_trim_comm0')
+output_format = 'text', rows = b' \n  #banana\n apple \n'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("rows", [b" \n  #banana\n apple \n", b" \r\n  #banana\r\n apple \r\n",
+                                      b" \r\n  #banana\r\n apple "])
+    def test_exclude_grammar_trim_comments_newlines(tmp_path, output_format, rows):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        body.write_bytes(b"apple banana")
+        excluded.write_bytes(rows)
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+>       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'/home/Y...icode word\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:658: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_trim_comments_newlines[ \n  #banana\n apple \n-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 420 deselected in 0.17s
+
+## ascii-only: exit 1
+.........F
+=================================== FAILURES ===================================
+_________ test_exclude_grammar_valid_unicode[\u65e5\u672c\u8a9e-text] __________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-786/test_exclude_grammar_valid_uni9')
+output_format = 'text', word = '日本語'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("word", ["123", "_word_", "a_b", "日本語", "Straße", "STRASSE", "Hello", "İ"])
+    def test_exclude_grammar_valid_unicode(tmp_path, output_format, word):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        content = "123 _word_ a_b 日本語 Straße STRASSE HELLO hello İ keep"
+        body.write_bytes(content.encode("utf-8"))
+        excluded.write_bytes(word.encode("utf-8"))
+        expected = [("strasse", 2), ("hello", 2), ("123", 1), ("_word_", 1),
+                    ("a_b", 1), ("日本語", 1), ("i\u0307", 1), ("keep", 1)]
+        expected = [(w, c) for w, c in expected if w != word.casefold()]
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+>       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'/home/Y...icode word\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:690: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_valid_unicode[\u65e5\u672c\u8a9e-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 9 passed, 405 deselected in 0.43s
+
+## digits-invalid: exit 1
+F
+=================================== FAILURES ===================================
+_________________ test_exclude_grammar_valid_unicode[123-text] _________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-787/test_exclude_grammar_valid_uni0')
+output_format = 'text', word = '123'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("word", ["123", "_word_", "a_b", "日本語", "Straße", "STRASSE", "Hello", "İ"])
+    def test_exclude_grammar_valid_unicode(tmp_path, output_format, word):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        content = "123 _word_ a_b 日本語 Straße STRASSE HELLO hello İ keep"
+        body.write_bytes(content.encode("utf-8"))
+        excluded.write_bytes(word.encode("utf-8"))
+        expected = [("strasse", 2), ("hello", 2), ("123", 1), ("_word_", 1),
+                    ("a_b", 1), ("日本語", 1), ("i\u0307", 1), ("keep", 1)]
+        expected = [(w, c) for w, c in expected if w != word.casefold()]
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+>       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'/home/Y...icode word\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:690: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_valid_unicode[123-text] - Asse...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 405 deselected in 0.19s
+
+## underscore-invalid: exit 1
+...F
+=================================== FAILURES ===================================
+_______________ test_exclude_grammar_valid_unicode[_word_-text] ________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-788/test_exclude_grammar_valid_uni3')
+output_format = 'text', word = '_word_'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("word", ["123", "_word_", "a_b", "日本語", "Straße", "STRASSE", "Hello", "İ"])
+    def test_exclude_grammar_valid_unicode(tmp_path, output_format, word):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        content = "123 _word_ a_b 日本語 Straße STRASSE HELLO hello İ keep"
+        body.write_bytes(content.encode("utf-8"))
+        excluded.write_bytes(word.encode("utf-8"))
+        expected = [("strasse", 2), ("hello", 2), ("123", 1), ("_word_", 1),
+                    ("a_b", 1), ("日本語", 1), ("i\u0307", 1), ("keep", 1)]
+        expected = [(w, c) for w, c in expected if w != word.casefold()]
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+>       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'/home/Y...icode word\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:690: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_valid_unicode[_word_-text] - A...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 3 passed, 405 deselected in 0.25s
+
+## lower-not-casefold: exit 1
+............F
+=================================== FAILURES ===================================
+______________ test_exclude_grammar_valid_unicode[Stra\xdfe-text] ______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-789/test_exclude_grammar_valid_uni12')
+output_format = 'text', word = 'Straße'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("word", ["123", "_word_", "a_b", "日本語", "Straße", "STRASSE", "Hello", "İ"])
+    def test_exclude_grammar_valid_unicode(tmp_path, output_format, word):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        content = "123 _word_ a_b 日本語 Straße STRASSE HELLO hello İ keep"
+        body.write_bytes(content.encode("utf-8"))
+        excluded.write_bytes(word.encode("utf-8"))
+        expected = [("strasse", 2), ("hello", 2), ("123", 1), ("_word_", 1),
+                    ("a_b", 1), ("日本語", 1), ("i\u0307", 1), ("keep", 1)]
+        expected = [(w, c) for w, c in expected if w != word.casefold()]
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, expected, body.name, 10)
+
+tests/test_cli.py:691: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'2\tstrasse\n2\thello\n1\t123\n1\t_word_\n1\ta_b\n1\t\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e\n1\ti\xcc\x87\n1\tkeep\n'
+output_format = 'text'
+expected = [('hello', 2), ('123', 1), ('_word_', 1), ('a_b', 1), ('日本語', 1), ('i̇', 1), ...]
+basename = 'input.txt', total = 10
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+>           assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+E           AssertionError: assert '2\tstrasse\n...i̇\n1\tkeep\n' == '2\thello\n1\...i̇\n1\tkeep\n'
+E             
+E             + 2	strasse
+E               2	hello
+E               1	123
+E               1	_word_
+E               1	a_b
+E               1	日本語
+E               1	i̇
+E               1	keep
+
+tests/test_cli.py:428: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_valid_unicode[Stra\xdfe-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 12 passed, 405 deselected in 0.54s
+
+## validate-after-fold: exit 1
+.....................F
+=================================== FAILURES ===================================
+_______________ test_exclude_grammar_valid_unicode[\u0130-text] ________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-790/test_exclude_grammar_valid_uni21')
+output_format = 'text', word = 'İ'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("word", ["123", "_word_", "a_b", "日本語", "Straße", "STRASSE", "Hello", "İ"])
+    def test_exclude_grammar_valid_unicode(tmp_path, output_format, word):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        content = "123 _word_ a_b 日本語 Straße STRASSE HELLO hello İ keep"
+        body.write_bytes(content.encode("utf-8"))
+        excluded.write_bytes(word.encode("utf-8"))
+        expected = [("strasse", 2), ("hello", 2), ("123", 1), ("_word_", 1),
+                    ("a_b", 1), ("日本語", 1), ("i\u0307", 1), ("keep", 1)]
+        expected = [(w, c) for w, c in expected if w != word.casefold()]
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+>       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'/home/Y...icode word\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:690: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_valid_unicode[\u0130-text] - A...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 21 passed, 405 deselected in 0.82s
+
+## partial-not-full: exit 1
+F
+=================================== FAILURES ===================================
+__________ test_exclude_grammar_invalid_original_row[foo bar-4-text] ___________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-791/test_exclude_grammar_invalid_o0')
+output_format = 'text', bad = 'foo bar', line_number = 4
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("bad,line_number", [("foo bar", 4), ("foo,", 4), ("foo-bar", 4),
+                                                   ("\u0301", 4), ("foo # note", 4), ("\ufefffoo", 1)])
+    def test_exclude_grammar_invalid_original_row(tmp_path, output_format, bad, line_number):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        body.write_bytes(b"foo keep")
+        rows = ("\n  # ignored\nfoo\n" if line_number == 4 else "") + bad + "\n"
+        excluded.write_bytes(rows.encode("utf-8"))
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+>       assert result.returncode == 2
+E       AssertionError: assert 0 == 2
+E        +  where 0 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_951ac640/.venv/bin/p...-791/test_exclude_grammar_invalid_o0/excluded.txt', '--format', 'text'], returncode=0, stdout=b'1\tkeep\n', stderr=b'').returncode
+
+tests/test_cli.py:717: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_invalid_original_row[foo bar-4-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 411 deselected in 0.18s
+
+## ignore-invalid: exit 1
+F
+=================================== FAILURES ===================================
+__________ test_exclude_grammar_invalid_original_row[foo bar-4-text] ___________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-792/test_exclude_grammar_invalid_o0')
+output_format = 'text', bad = 'foo bar', line_number = 4
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("bad,line_number", [("foo bar", 4), ("foo,", 4), ("foo-bar", 4),
+                                                   ("\u0301", 4), ("foo # note", 4), ("\ufefffoo", 1)])
+    def test_exclude_grammar_invalid_original_row(tmp_path, output_format, bad, line_number):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        body.write_bytes(b"foo keep")
+        rows = ("\n  # ignored\nfoo\n" if line_number == 4 else "") + bad + "\n"
+        excluded.write_bytes(rows.encode("utf-8"))
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+>       assert result.returncode == 2
+E       AssertionError: assert 0 == 2
+E        +  where 0 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_951ac640/.venv/bin/p...-792/test_exclude_grammar_invalid_o0/excluded.txt', '--format', 'text'], returncode=0, stdout=b'1\tkeep\n', stderr=b'').returncode
+
+tests/test_cli.py:717: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_invalid_original_row[foo bar-4-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 411 deselected in 0.17s
+
+## repair-bom: exit 1
+...............F
+=================================== FAILURES ===================================
+_________ test_exclude_grammar_invalid_original_row[\ufefffoo-1-text] __________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-793/test_exclude_grammar_invalid_o15')
+output_format = 'text', bad = '\ufefffoo', line_number = 1
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("bad,line_number", [("foo bar", 4), ("foo,", 4), ("foo-bar", 4),
+                                                   ("\u0301", 4), ("foo # note", 4), ("\ufefffoo", 1)])
+    def test_exclude_grammar_invalid_original_row(tmp_path, output_format, bad, line_number):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        body.write_bytes(b"foo keep")
+        rows = ("\n  # ignored\nfoo\n" if line_number == 4 else "") + bad + "\n"
+        excluded.write_bytes(rows.encode("utf-8"))
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+>       assert result.returncode == 2
+E       AssertionError: assert 0 == 2
+E        +  where 0 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_951ac640/.venv/bin/p...793/test_exclude_grammar_invalid_o15/excluded.txt', '--format', 'text'], returncode=0, stdout=b'1\tkeep\n', stderr=b'').returncode
+
+tests/test_cli.py:717: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_invalid_original_row[\ufefffoo-1-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 15 passed, 411 deselected in 0.64s
+
+## wrong-original-row: exit 1
+F
+=================================== FAILURES ===================================
+__________ test_exclude_grammar_invalid_original_row[foo bar-4-text] ___________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-794/test_exclude_grammar_invalid_o0')
+output_format = 'text', bad = 'foo bar', line_number = 4
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("bad,line_number", [("foo bar", 4), ("foo,", 4), ("foo-bar", 4),
+                                                   ("\u0301", 4), ("foo # note", 4), ("\ufefffoo", 1)])
+    def test_exclude_grammar_invalid_original_row(tmp_path, output_format, bad, line_number):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        body.write_bytes(b"foo keep")
+        rows = ("\n  # ignored\nfoo\n" if line_number == 4 else "") + bad + "\n"
+        excluded.write_bytes(rows.encode("utf-8"))
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+        assert result.returncode == 2
+        assert result.stdout == b""
+        assert str(excluded).encode() in result.stderr
+>       assert f"line {line_number}".encode() in result.stderr
+E       AssertionError: assert b'line 4' in b'/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-794/test_exclude_grammar_invalid_o0/excluded.txt: line 1: expected one Unicode word\n'
+E        +  where b'line 4' = <built-in method encode of str object at 0x741dd6153d20>()
+E        +    where <built-in method encode of str object at 0x741dd6153d20> = 'line 4'.encode
+E        +  and   b'/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-794/test_exclude_grammar_invalid_o0/excluded.txt: line 1: expected one Unicode word\n' = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_951ac640/.venv/bin/p...e/scratch/pytest-of-Yuki/pytest-794/test_exclude_grammar_invalid_o0/excluded.txt: line 1: expected one Unicode word\n').stderr
+
+tests/test_cli.py:720: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_invalid_original_row[foo bar-4-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 411 deselected in 0.17s
+
+## lexical-order: exit 1
+F
+=================================== FAILURES ===================================
+____________ test_exclude_grammar_permutations_and_hashseeds[text] _____________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-795/test_exclude_grammar_permutati0')
+output_format = 'text'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_exclude_grammar_permutations_and_hashseeds(tmp_path, output_format):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        content = "Zoo apple APPLE zoo banana Café CAFÉ 日本語 Straße STRASSE"
+        body.write_bytes(content.encode("utf-8"))
+        outputs = []
+        for rows in ["STRASSE\nbanana\n", "banana\nSTRASSE\n", "STRASSE\nbanana\nStraße\nbanana\n"]:
+            excluded.write_bytes(rows.encode("utf-8"))
+            for seed in ["0", "1", "42"]:
+                result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format,
+                                       env=dict(os.environ, PYTHONHASHSEED=seed))
+                assert (result.returncode, result.stderr) == (0, b"")
+>               assert_output_bytes(result.stdout, output_format,
+                                    [("zoo", 2), ("apple", 2), ("café", 2), ("日本語", 1)], body.name, 10)
+
+tests/test_cli.py:739: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'2\tapple\n2\tcaf\xc3\xa9\n2\tzoo\n1\t\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e\n'
+output_format = 'text'
+expected = [('zoo', 2), ('apple', 2), ('café', 2), ('日本語', 1)]
+basename = 'input.txt', total = 10
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+>           assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+E           AssertionError: assert '2\tapple\n2\...zoo\n1\t日本語\n' == '2\tzoo\n2\ta...afé\n1\t日本語\n'
+E             
+E             - 2	zoo
+E               2	apple
+E               2	café
+E             + 2	zoo
+E               1	日本語
+
+tests/test_cli.py:428: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_grammar_permutations_and_hashseeds[text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 426 deselected in 0.18s
+
+## wrong-exclusion-exit: exit 1
+F
+=================================== FAILURES ===================================
+____________________ test_exclude_tracer_missing_file[text] ____________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-796/test_exclude_tracer_missing_fi0')
+output_format = 'text'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_exclude_tracer_missing_file(tmp_path, output_format):
+        body = tmp_path / "input.txt"
+        body.write_bytes(b"hello")
+        excluded = tmp_path / "missing.txt"
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+>       assert result.returncode == 2
+E       assert 1 == 2
+E        +  where 1 = CompletedProcess(args=['/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_951ac640/.venv/bin/p...profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-796/test_exclude_tracer_missing_fi0/missing.txt'\n").returncode
+
+tests/test_cli.py:620: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_tracer_missing_file[text] - assert 1 == 2
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 426 deselected in 0.16s

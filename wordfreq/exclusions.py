@@ -13,8 +13,9 @@ class InvalidExclusion(ValueError):
 def parse_exclusions(text: str) -> set[str]:
     """Validate original words before normalizing the complete membership set."""
     words = set()
-    for line_number, word in enumerate(text.split("\n"), 1):
-        if not word:
+    for line_number, line in enumerate(text.split("\n"), 1):
+        word = line.strip()
+        if not word or word.startswith("#"):
             continue
         if re.fullmatch(r"\w+", word) is None:
             raise InvalidExclusion(line_number)
