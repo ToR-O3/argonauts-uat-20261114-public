@@ -1,0 +1,103 @@
+{
+  "changeName": "r-1bae0a69-light",
+  "schemaName": "spec-driven",
+  "planningHome": {
+    "kind": "repo",
+    "root": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1",
+    "changesDir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1/openspec/changes",
+    "defaultSchema": "spec-driven"
+  },
+  "changeRoot": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1/openspec/changes/r-1bae0a69-light",
+  "artifactPaths": {
+    "proposal": {
+      "outputPath": "proposal.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1/openspec/changes/r-1bae0a69-light/proposal.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1/openspec/changes/r-1bae0a69-light/proposal.md"
+      ]
+    },
+    "specs": {
+      "outputPath": "specs/**/*.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1/openspec/changes/r-1bae0a69-light/specs/**/*.md",
+      "existingOutputPaths": [
+        "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1/openspec/changes/r-1bae0a69-light/specs/wordfreq-cli/spec.md"
+      ]
+    },
+    "design": {
+      "outputPath": "design.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1/openspec/changes/r-1bae0a69-light/design.md",
+      "existingOutputPaths": []
+    },
+    "tasks": {
+      "outputPath": "tasks.md",
+      "resolvedOutputPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1/openspec/changes/r-1bae0a69-light/tasks.md",
+      "existingOutputPaths": []
+    }
+  },
+  "isPlanningComplete": false,
+  "isComplete": false,
+  "applyRequires": [
+    "tasks"
+  ],
+  "nextSteps": [
+    "Run openspec instructions design --change \"r-1bae0a69-light\" --json before writing that artifact."
+  ],
+  "actionContext": {
+    "mode": "repo-local",
+    "sourceOfTruth": "repo",
+    "planningArtifacts": [
+      "proposal",
+      "specs",
+      "design",
+      "tasks"
+    ],
+    "linkedContext": [],
+    "allowedEditRoots": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1"
+    ],
+    "requiresAffectedAreaSelection": false,
+    "constraints": [
+      "Repo-local change artifacts and implementation edits are scoped to this project."
+    ]
+  },
+  "artifacts": [
+    {
+      "id": "proposal",
+      "outputPath": "proposal.md",
+      "status": "done",
+      "requires": []
+    },
+    {
+      "id": "specs",
+      "outputPath": "specs/**/*.md",
+      "status": "done",
+      "requires": [
+        "proposal"
+      ]
+    },
+    {
+      "id": "design",
+      "outputPath": "design.md",
+      "status": "ready",
+      "requires": [
+        "proposal"
+      ]
+    },
+    {
+      "id": "tasks",
+      "outputPath": "tasks.md",
+      "status": "blocked",
+      "requires": [
+        "specs",
+        "design"
+      ],
+      "missingDeps": [
+        "design"
+      ]
+    }
+  ],
+  "root": {
+    "path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_0ab55ef1",
+    "source": "nearest"
+  }
+}
