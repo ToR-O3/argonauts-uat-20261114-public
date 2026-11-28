@@ -1,4 +1,5 @@
 """Run the CLI in a real subprocess with separate output streams."""
+import base64
 import json
 from html.parser import HTMLParser
 import os
@@ -1348,22 +1349,93 @@ def test_min_count_saved_default_bytes(case_index):
 EXCLUDE_BASELINE = "79d83ba14dd59d289d2ecd3e33c85e8de437972e"
 
 
+def test_exclude_baseline_available_in_offline_shallow_checkout(tmp_path, monkeypatch):
+    """A depth-one checkout must run the actual historical comparison offline."""
+    source = ROOT
+    shallow = tmp_path / "shallow"
+    subprocess.run(["git", "clone", "--no-local", "--depth", "1", str(source), str(shallow)],
+                   capture_output=True, check=True)
+    assert subprocess.run(["git", "rev-parse", "--is-shallow-repository"],
+                          cwd=shallow, capture_output=True, check=True).stdout == b"true\n"
+    assert subprocess.run(["git", "cat-file", "-e", EXCLUDE_BASELINE],
+                          cwd=shallow, capture_output=True).returncode != 0
+    # Include uncommitted test data during the RED/GREEN development loop.
+    if (source / "tests/fixtures").exists():
+        shutil.copytree(source / "tests/fixtures", shallow / "tests/fixtures", dirs_exist_ok=True)
+    monkeypatch.setitem(globals(), "ROOT", shallow)
+    historical, candidate, env = _exclude_baseline_roots(tmp_path)
+    blob = subprocess.run(["git", "hash-object", "wordfreq/__main__.py"],
+                          cwd=historical, capture_output=True, check=True).stdout
+    assert blob == b"ecfd5418e954303451ba1b0ce099298b0e7c4401\n"
+    body = tmp_path / "body.txt"
+    body.write_text("Zoo apple APPLE zoo Straße STRASSE", encoding="utf-8")
+    for output_format in ("text", "json", "html"):
+        argv = [sys.executable, "-m", "wordfreq", str(body), "--format", output_format]
+        before = subprocess.run(argv, cwd=historical, env=env, capture_output=True, check=True)
+        after = subprocess.run(argv, cwd=candidate, env=env, capture_output=True, check=True)
+        assert (before.stdout, before.stderr) == (after.stdout, after.stderr)
+
+
+@pytest.mark.parametrize("damage", ["missing-file", "missing-blob", "changed-blob", "rehashed-blob"])
+def test_exclude_baseline_corruption_is_not_skipped(tmp_path, monkeypatch, damage):
+    fixture = "tests/fixtures/exclude-baseline-git-objects.json"
+    root = tmp_path / "damaged"
+    target = root / fixture
+    target.parent.mkdir(parents=True)
+    data = json.loads((ROOT / fixture).read_text(encoding="utf-8"))
+    if damage == "missing-blob":
+        data["objects"].pop()
+    elif damage in ("changed-blob", "rehashed-blob"):
+        obj = data["objects"][-1]
+        obj["base64"] = base64.b64encode(b"not historical source\n").decode("ascii")
+        if damage == "rehashed-blob":
+            obj["oid"] = subprocess.run(["git", "hash-object", "--stdin"],
+                                        input=b"not historical source\n", capture_output=True,
+                                        check=True).stdout.decode().strip()
+    if damage != "missing-file":
+        target.write_text(json.dumps(data), encoding="utf-8")
+    monkeypatch.setitem(globals(), "ROOT", root)
+    with pytest.raises((FileNotFoundError, AssertionError, subprocess.CalledProcessError)):
+        _exclude_baseline_roots(tmp_path)
+
+
 @pytest.fixture
 def exclude_baseline_roots(tmp_path):
-    """Only Git object bytes may supply the historical implementation."""
+    return _exclude_baseline_roots(tmp_path)
+
+
+def _exclude_baseline_roots(tmp_path):
+    """Authenticate bundled raw Git objects through the fixed commit, offline.
+
+    The commit authenticates the root tree, which authenticates the wordfreq
+    tree and its blobs. No current source or generated CLI output is a golden.
+    Missing/corrupt objects fail; only the disposable historical root is written.
+    """
     historical, candidate = tmp_path / "historical", tmp_path / "candidate"
     historical.mkdir()
     candidate.mkdir()
+    data = json.loads((ROOT / "tests/fixtures/exclude-baseline-git-objects.json").read_text(encoding="utf-8"))
+    assert data["commit"] == EXCLUDE_BASELINE, "wrong historical commit"
+    subprocess.run(["git", "init", "--quiet", str(historical)], check=True, capture_output=True)
+    for obj in data["objects"]:
+        actual = subprocess.run(
+            ["git", "hash-object", "-w", "-t", obj["type"], "--stdin"],
+            input=base64.b64decode(obj["base64"], validate=True), cwd=historical,
+            capture_output=True, check=True,
+        ).stdout.decode().strip()
+        assert actual == obj["oid"], "corrupt historical Git object"
+    subprocess.run(["git", "cat-file", "-e", EXCLUDE_BASELINE + "^{commit}"],
+                   cwd=historical, capture_output=True, check=True)
     files = subprocess.run(
         ["git", "ls-tree", "-r", "--name-only", EXCLUDE_BASELINE, "--", "wordfreq"],
-        cwd=ROOT, capture_output=True, check=True,
+        cwd=historical, capture_output=True, check=True,
     ).stdout.decode().splitlines()
     assert "wordfreq/__main__.py" in files, "required historical package absent"
     for name in files:
         target = historical / name
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(subprocess.run(
-            ["git", "show", f"{EXCLUDE_BASELINE}:{name}"], cwd=ROOT,
+            ["git", "show", f"{EXCLUDE_BASELINE}:{name}"], cwd=historical,
             capture_output=True, check=True,
         ).stdout)
     shutil.copytree(ROOT / "wordfreq", candidate / "wordfreq",
