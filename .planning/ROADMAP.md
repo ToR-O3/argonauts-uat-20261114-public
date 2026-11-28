@@ -17,6 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 - [x] **Phase 5: README verification A** (completed 2026-11-22)
 - [ ] **Phase 7: Project description UAT**
+- [ ] **Phase 8: wordfreq exclude**
 
 ## Phase Details
 
@@ -151,3 +152,20 @@ Plans:
 
 Plans:
 - [x] 07-01-PLAN.md — Wave 1、2 sequential tasks: 工程検証tracer・判別力GREEN/実製品欠落RED（OpenSpec1.1）→description1行追加・同一検証GREEN・AC別文字証拠/独立品質handoff（OpenSpec1.2）
+
+### Phase 8: wordfreq exclude
+
+**Goal:** 承認済み--exclude FILEを全形式へ追加し、Unicode行検証・除外先行の失敗処理・元HTML総数・未指定互換を試験と独立品質の文字証拠で確かめられる。
+**Requirements**: REQ-28, REQ-29, REQ-30, REQ-31, REQ-32, REQ-33
+**Depends on:** Phase 7
+**UI hint:** yes — 既存HTMLの表示と安全性を維持する。見た目変更は範囲外。
+**Approval:** t_91b92aed approved head17648fc; merge adds REQ-28..33 only. PM t_9da1db1e separates architecture from synthesis but retains direct planner reference. 6-doc resynthesis has 0 blockers/variants. Prior stale verification and Phase7 debt remain historical, not this request's implementation scope.
+**Success Criteria:**
+  1. 全3形式の指定語除外→min-count→安定初出順→topとHTML元総数を直接試験できる。
+  2. trim/改行/Unicode fullmatch後casefoldと全不正例、全読込み失敗exit2/元行番号/空stdout/本文取得0回、引数検査先行と本文exit1が確認できる。
+  3. help/README実行例と79d83ba版との未指定バイト互換、全既存試験、入力不変と範囲外変更なしを確かめられる。
+  4. 品質が対象headで独立実行し、VERIFICATION.mdとCLI等の文字原本を添付する。画像確認があれば枚数/内容/結果を文書化し、PMに画像/圧縮ファイル閲覧を求めない。
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 8 to break down)

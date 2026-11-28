@@ -101,6 +101,26 @@ Source: 仕様承認t_8a187e42、要求・仕様t_62c33f31 run59、OpenSpec `r-c
 
 Finalization t_20f1102b: REQ-25/26 `[x]` track the implemented product conditions only; the Pending table is full-closure status. REQ-27's premature `[x]` is cleared. Quality run65 independently executed at c5d0eb136bf92d6f00c3fc807346e55103917504; PM t_b9c2f01b subsequently read text originals 85–88 and approved AC1–3 (no PM test rerun). Quality human_needed / phase_completed=false remains unchanged. P1/P2 and unclassified probes REQ-25/26/27 remain flagged-unverified, not human-approved or resolved. See `.planning/argonauts/t_20f1102b/finalization.md` for the separate finalization record.
 
+## r-e0a2598f Requirements (Phase 8)
+
+Source: t_91b92aed approved head17648fc; BMAD PRD FR-1..7/architecture AD-1..4 and OpenSpec r-e0a2598f-wordfreq-exclude EX-1..5. Merge adds only these requirements; existing history is unchanged. PM t_9da1db1e excludes architecture only from direct synthesis; planner reads the full original.
+
+- [ ] **REQ-28**: Optional --exclude FILE removes every occurrence of specified normalized words from ranking in text/json/html, preserves remaining counts/first-seen ties, excludes before min-count/ranking/top, and never subtracts from original HTML total (FR-1/5, EX-1/5, AD-2/4).
+- [ ] **REQ-29**: UTF-8 exclusion lines accept LF/CRLF/no final newline; strip whitespace then ignore blank/#-started lines; validate original whole line with Unicode \\w+ before casefold. Digits/underscore/non-ASCII valid words accepted; multiple words/punctuation/hyphen/standalone combining mark/inline #/leading BOM rejected. Exclusion order/duplicates do not affect results (FR-2/3, EX-2/3, AD-2).
+- [ ] **REQ-30**: Missing/unreadable/directory/invalid UTF-8 and all exclusion read failures report FILE and reason on stderr, exit2, empty stdout/no HTML/no Traceback. Invalid lines also report original line number, including invalid-after-valid and skipped lines. Existing syntax/numeric checks precede exclusion acquisition/full validation; only then acquire body. Invalid exclusions cause zero body reads; valid/absent exclusions preserve body exit1 (FR-4, EX-4, AD-3).
+- [ ] **REQ-31**: --help explains --exclude FILE and line format with exit0; README describes UTF-8/trim/comments/newlines/fullmatch/casefold/errors/precedence/original HTML total/unset compatibility and includes an executable example (FR-6).
+- [ ] **REQ-32**: Add pytest coverage of all accepted/rejected line/read/error/order cases, ASCII/Unicode casefold, all three formats, top/min-count/ties, empty body/empty exclusions/comments-only/no-match/all-excluded. Compare unset stdout bytes to 79d83ba14dd59d289d2ecd3e33c85e8de437972e for ties/Unicode/>10 words/empty input, retain all existing tests. Input and exclusion files remain byte-identical. Independent quality records exact head/commands/exits/results and AC mapping in readable VERIFICATION.md/evidence originals; PM need not open images/archives (FR-7).
+- [ ] **REQ-33**: Keep body tokenizer/casefold, acquisition boundary, pure public count_words/top_words/formatters contracts, static HTML appearance/escaping/basename safety. No new dependency/network/input rewrite/CI change/new source/full refactor. Preserve existing options/defaults/errors when --exclude absent (RULE-1..4, AD-1..4).
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-28 | Phase 8 | Pending |
+| REQ-29 | Phase 8 | Pending |
+| REQ-30 | Phase 8 | Pending |
+| REQ-31 | Phase 8 | Pending |
+| REQ-32 | Phase 8 | Pending |
+| REQ-33 | Phase 8 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

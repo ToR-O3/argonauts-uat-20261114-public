@@ -93,6 +93,8 @@ Recent decisions affecting current work:
 
 ### Roadmap Evolution
 
+- Phase 8 added: wordfreq exclude (r-e0a2598f; official phase.add result 8). Approved t_91b92aed head17648fc. Merge only adds REQ-28..33; PM t_9da1db1e separates direct architecture synthesis from planner reading. Six-doc resynthesis blockers=0. Existing requirements and historical verification debt preserved.
+
 - Phase 7 added: Project description UAT (r-cf2eeaab; official phase.add result 7). 承認t_8a187e42、REQ-25..REQ-27追加のみ、衝突0。旧phaseのstaleと残存ディレクトリは再利用せず、今回の範囲へ混ぜない。
 
 - Phase 5 added: README verification A (r-8ac79daf; official phase.add result 5). Approved t_327d2f8f run7. Merge adds REQ-22..REQ-24 only, conflicts 0. Prior phases and product files are unchanged by planning.

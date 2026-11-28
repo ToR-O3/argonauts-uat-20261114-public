@@ -1,0 +1,28 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/_bmad-output/initiative-r-e0a2598f/brief/brief-wordfreq-exclude.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "wordfreq 除外単語ファイル",
+  "summary": "wordfreq に除外単語ファイル指定を追加するための製品要件、受入条件、互換性と変更範囲を定める。",
+  "scope": [
+    "wordfreq",
+    "--exclude FILE",
+    "除外単語ファイル",
+    "ランキング",
+    "Unicode casefold",
+    "HTML総数",
+    "--help",
+    "README",
+    "回帰試験"
+  ],
+  "cross_refs": [
+    "../initiative-r-e0a2598f.md",
+    "../source-context.md",
+    "../decision-update.md",
+    "README",
+    "../open-questions.md"
+  ],
+  "locked": false,
+  "precedence": null
+}

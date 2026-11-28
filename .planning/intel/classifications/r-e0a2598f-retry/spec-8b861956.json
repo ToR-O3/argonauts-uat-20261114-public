@@ -1,0 +1,12 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/openspec/changes/r-e0a2598f-wordfreq-exclude/specs/wordfreq-cli/spec.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Spec Delta",
+  "summary": "wordfreq CLIの除外単語ファイル指定、行検証、大小同一視、エラーと検証順序、既存表示互換、説明と試験の契約。",
+  "scope": ["wordfreq CLI", "--exclude FILE", "UTF-8", "casefold", "stderr", "text/json/html", "min-count", "top", "HTML総単語数", "help", "README", "試験"],
+  "cross_refs": ["README"],
+  "locked": false,
+  "precedence": null
+}
