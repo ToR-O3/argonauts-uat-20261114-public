@@ -1,0 +1,58 @@
+...........F
+=================================== FAILURES ===================================
+_ test_exclude_empty_results[Zoo apple APPLE zoo banana-zoo\napple\nbanana-1-5-html] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-813/test_exclude_empty_results_Zoo2')
+output_format = 'html', content = b'Zoo apple APPLE zoo banana'
+rows = b'zoo\napple\nbanana', minimum = 1, total = 5
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("content,rows,minimum,total", [
+        (b"", b"apple", 1, 0), (b" \t\r\n ", b"apple", 1, 0),
+        (b"!?,.;: --", b"apple", 1, 0),
+        (b"Zoo apple APPLE zoo banana", b"zoo\napple\nbanana", 1, 5),
+        (b"Zoo apple APPLE zoo banana", b"zoo\napple", 2, 5),
+    ])
+    def test_exclude_empty_results(tmp_path, output_format, content, rows, minimum, total):
+        from test_formatters import HTMLDocument, assert_static_document
+        body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+        body.write_bytes(content)
+        excluded.write_bytes(rows)
+        result = run_cli_bytes(body, "--exclude", excluded, "--min-count", minimum,
+                               "--format", output_format)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, [], body.name, total)
+
+tests/test_cli.py:1049: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width...c\xe3\x81\x97\xe3\x81\xa6\xe3\x81\x8f\xe3\x81\xa0\xe3\x81\x95\xe3\x81\x84\xe3\x80\x82</p>\n</main>\n</body>\n</html>\n'
+output_format = 'html', expected = [], basename = 'body.txt', total = 5
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+            assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+        else:
+            parsed = CLIHTML(document)
+            assert document.startswith('<!doctype html>\n')
+            assert '<meta charset="utf-8">' in document
+            assert parsed.headers == ["順位", "単語", "回数"]
+            assert parsed.rows == [[str(i), w, str(c)] for i, (w, c) in enumerate(expected, 1)]
+>           assert parsed.values == {"filename-value": basename, "total-value": str(total)}
+E           AssertionError: assert {'filename-va...l-value': '0'} == {'filename-va...l-value': '5'}
+E             
+E             Omitting 1 identical items, use -vv to show
+E             Differing items:
+E             {'total-value': '0'} != {'total-value': '5'}
+E             Use -v to get more diff
+
+tests/test_cli.py:439: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_empty_results[Zoo apple APPLE zoo banana-zoo\napple\nbanana-1-5-html]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 11 passed, 691 deselected in 0.61s

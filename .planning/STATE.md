@@ -5,16 +5,17 @@ current_phase: 7
 current_phase_name: Project description UAT
 current_plan: 1
 status: verifying
-stopped_at: Completed 07-01-PLAN.md; independent quality pending
-last_updated: "2026-11-28T13:42:34.381Z"
-last_activity: 2026-11-25
-last_activity_desc: Phase 7 execution started
-state_head: ab0be1f9ea9f9fe0b09caa423beaad57daad559e
+stopped_at: Phase 8 complete, ready to verify Phase 7
+last_updated: "2026-11-28T19:11:23.116Z"
+last_activity: 2026-11-29
+last_activity_desc: Phase 8 complete, transitioned to Phase 7
+state_head: a9ce6c8c0b8aaab4f9b80c40950f092111df901b
 progress:
-  total_phases: 5
+  total_phases: 6
   completed_phases: 1
-  total_plans: 17
-  completed_plans: 17
+  total_plans: 20
+  completed_plans: 20
+  percent: 17
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -26,22 +27,22 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-22)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 7 — Project description UAT
+**Current focus:** Phase 8 — wordfreq exclude
 
 ## Current Position
 
-Phase: 7 (Project description UAT) — EXECUTING
+Phase: 7 — Project description UAT
 Current Plan: 1
-Total Plans in Phase: 1
+Total Plans in Phase: 3
 Status: Phase complete — ready for verification
-Last activity: 2026-11-28 - Completed quick task 261128-v63: Add the requested top 5 text command to README only
+Last activity: 2026-11-29 — Phase 8 complete, transitioned to Phase 7
 
-Progress: [███░░░░░░░] 25%
+Progress: [██░░░░░░░░] 17%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 16
+- Total plans completed: 19
 - Average duration: — min
 - Total execution time: 0.0 hours
 
@@ -53,6 +54,7 @@ Progress: [███░░░░░░░] 25%
 | 3 | 6 | - | - |
 | 4 | 4 | - | - |
 | 5 | 1 | - | - |
+| 8 | 3 | - | - |
 
 **Recent Trend:**
 - Last 5 plans: —
@@ -76,6 +78,9 @@ Progress: [███░░░░░░░] 25%
 | Phase 04 P01 | 15min | 2 tasks | 158 files |
 | Phase 04 P02 | 11min | 2 tasks | 5 files |
 | Phase 07 P01 | 6min | 2 tasks | 10 files |
+| Phase 08 P01 | 11min | 2 tasks | 13 files |
+| Phase 08 P02 | 10min | 2 tasks | 31 files |
+| Phase 08 P03 | 19min | 2 tasks | 38 files |
 
 ## Accumulated Context
 
@@ -92,6 +97,8 @@ Recent decisions affecting current work:
 - [r-e476c11d]: Phase 4 UAT (t_419e62f7) — human: REQ-17 needs no guarantee beyond single-shot CLI; quality final-01 accepted as quality acceptance; PM's own original reading and OpenSpec task 2.2 PM part are handled in the [フェーズ判断 4] card
 
 ### Roadmap Evolution
+
+- Phase 8 added: wordfreq exclude (r-e0a2598f; official phase.add result 8). Approved t_91b92aed head17648fc. Merge only adds REQ-28..33; PM t_9da1db1e separates direct architecture synthesis from planner reading. Six-doc resynthesis blockers=0. Existing requirements and historical verification debt preserved.
 
 - Phase 7 added: Project description UAT (r-cf2eeaab; official phase.add result 7). 承認t_8a187e42、REQ-25..REQ-27追加のみ、衝突0。旧phaseのstaleと残存ディレクトリは再利用せず、今回の範囲へ混ぜない。
 
@@ -126,6 +133,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-24T20:24:57.946Z
-Stopped at: Completed 07-01-PLAN.md; independent quality pending
+Last session: 2026-11-28T17:53:51.652Z
+Stopped at: Phase 8 complete, ready to verify Phase 7
 Resume file: None

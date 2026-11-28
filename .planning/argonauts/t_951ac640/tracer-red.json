@@ -1,0 +1,10 @@
+{
+  "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_tracer --junitxml=.planning/argonauts/t_951ac640/tracer-red.xml",
+  "exitCode": 1,
+  "output": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"1\" skipped=\"0\" tests=\"1\" time=\"0.176\" timestamp=\"2026-11-29T01:38:08.436883+09:00\" hostname=\"Ys-Minify\"><testcase classname=\"tests.test_cli\" name=\"test_exclude_tracer[text]\" time=\"0.044\"><failure message=\"AssertionError: assert (2, b'usage: ...cluded.txt\\n') == (0, b'')&#10;  &#10;  At index 0 diff: 2 != 0&#10;  Use -v to get more diff\">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-775/test_exclude_tracer_text_0')\noutput_format = 'text'\n\n    @pytest.mark.parametrize(\"output_format\", [\"text\", \"json\", \"html\"])\n    def test_exclude_tracer(tmp_path, output_format):\n        body = tmp_path / \"input.txt\"\n        excluded = tmp_path / \"excluded.txt\"\n        body_bytes = b\"Zoo apple APPLE zoo banana\"\n        excluded_bytes = b\"apple\\n\"\n        body.write_bytes(body_bytes)\n        excluded.write_bytes(excluded_bytes)\n        result = run_cli_bytes(body, \"--exclude\", excluded, \"--format\", output_format)\n&gt;       assert (result.returncode, result.stderr) == (0, b\"\")\nE       AssertionError: assert (2, b'usage: ...cluded.txt\\n') == (0, b'')\nE         \nE         At index 0 diff: 2 != 0\nE         Use -v to get more diff\n\ntests/test_cli.py:607: AssertionError</failure></testcase></testsuite></testsuites>",
+  "targetTest": "test_exclude_tracer[text]",
+  "targetFile": "tests/test_cli.py",
+  "expected": "exit0 and exact zoo2/banana1 output",
+  "actual": "exit2; --exclude not recognized; target assertion failed",
+  "semanticAssessment": "Target subprocess ran; assertion failed because optional exclusion is not implemented, not environment or collection failure."
+}

@@ -1,0 +1,914 @@
+# real CLI log  head=f3747b7e6235775b3c21fa13201d7921be77306c  baseline=79d83ba14dd59d289d2ecd3e33c85e8de437972e
+interpreter: /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.venv/bin/python (Python 3.12.15); flags -s -E -m wordfreq; env: env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8
+head side cwd: /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in (wordfreq resolved from worktree editable install)
+base side cwd: <tmp>/wfbase (git archive 79d83ba wordfreq; blob hashes verified); inputs passed as absolute paths to /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in
+
+## AC1-zoo-text [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-apple.txt --format text
+stdout: 15 bytes sha256=aaa5f45516f7d3b3200d432750a02e9e080b42bee0902dc6d304d945b03735e0
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   1  \t   b   a   n   a   n   a  \n
+0000017
+--- stderr
+
+## AC1-zoo-json [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-apple.txt --format json
+stdout: 62 bytes sha256=b9d6c2f675c43240124f8f58d9f3161b8becf674cbd532b14c1c4eb18791ef7c
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   z   o   o   "   ,
+0000020       "   c   o   u   n   t   "   :       2   }   ,       {   "
+0000040   w   o   r   d   "   :       "   b   a   n   a   n   a   "   ,
+0000060       "   c   o   u   n   t   "   :       1   }   ]  \n
+0000076
+--- stderr
+
+## AC1-zoo-html [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-apple.txt --format html
+stdout: 2351 bytes sha256=9c4bf173738dbc390eeb93ab26d530742ea71f72e2d793827cb34cf2bb1d598d
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC2-crlf-comment [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-crlf-comment.txt
+stdout: 15 bytes sha256=aaa5f45516f7d3b3200d432750a02e9e080b42bee0902dc6d304d945b03735e0
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   1  \t   b   a   n   a   n   a  \n
+0000017
+--- stderr
+
+## AC3-case [head] exit=0
+argv: wordfreq body-case.txt --exclude ex-case.txt
+stdout: 8 bytes sha256=f1004922eb7d4078eb670a9f8ba4949816a0e7e7db30adf7e0f4f7a96cbb342c
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   1  \t   w   o   r   l   d  \n
+0000010
+--- stderr
+
+## AC3-validmisc [head] exit=0
+argv: wordfreq body-misc.txt --exclude ex-valid-misc.txt
+stdout: 7 bytes sha256=49e3d9a720dd328847bc0405bc66c28fb24dcd2ba8d40de0f703060ab44b9bd8
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   k   e   e   p  \n
+0000007
+--- stderr
+
+## AC4-missing [head] exit=2
+argv: wordfreq body-zoo.txt --exclude no-such-file.txt
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+no-such-file.txt: [Errno 2] No such file or directory: 'no-such-file.txt'
+
+## AC4-dir [head] exit=2
+argv: wordfreq body-zoo.txt --exclude ex-dir
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+ex-dir: [Errno 21] Is a directory: 'ex-dir'
+
+## AC4-badutf8 [head] exit=2
+argv: wordfreq body-zoo.txt --exclude ex-badutf8.txt
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+ex-badutf8.txt: 'utf-8' codec can't decode byte 0xff in position 6: invalid start byte
+
+## AC4-bad-line4 [head] exit=2
+argv: wordfreq body-zoo.txt --exclude ex-bad-line4.txt --format html
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+ex-bad-line4.txt: line 4: expected one Unicode word
+
+## AC4-bom [head] exit=2
+argv: wordfreq body-zoo.txt --exclude ex-bom.txt --format html
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+ex-bom.txt: line 1: expected one Unicode word
+
+## AC4-hyphen [head] exit=2
+argv: wordfreq body-zoo.txt --exclude ex-hyphen.txt --format html
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+ex-hyphen.txt: line 1: expected one Unicode word
+
+## AC4-combining [head] exit=2
+argv: wordfreq body-zoo.txt --exclude ex-combining.txt --format html
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+ex-combining.txt: line 1: expected one Unicode word
+
+## AC4-inline-comment [head] exit=2
+argv: wordfreq body-zoo.txt --exclude ex-inline-comment.txt --format html
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+ex-inline-comment.txt: line 1: expected one Unicode word
+
+## AC4-punct [head] exit=2
+argv: wordfreq body-zoo.txt --exclude ex-punct.txt --format html
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+ex-punct.txt: line 1: expected one Unicode word
+
+## AC4-body-missing-valid-ex [head] exit=1
+argv: wordfreq no-body.txt --exclude ex-apple.txt
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+no-body.txt: [Errno 2] No such file or directory: 'no-body.txt'
+
+## AC4-body-badutf8-valid-ex [head] exit=1
+argv: wordfreq body-badutf8.txt --exclude ex-apple.txt
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+body-badutf8.txt: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+
+## AC4-both-missing [head] exit=2
+argv: wordfreq no-body.txt --exclude no-such-file.txt
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+no-such-file.txt: [Errno 2] No such file or directory: 'no-such-file.txt'
+
+## AC4-badtop-before-ex [head] exit=2
+argv: wordfreq body-zoo.txt --top 0 --exclude no-such-file.txt
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--exclude FILE]
+                [--format {text,json,html}]
+                filename
+wordfreq: error: --top must be >= 1
+
+## AC4-badmin-before-ex [head] exit=2
+argv: wordfreq body-zoo.txt --min-count 0 --exclude ex-bad-line4.txt
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--exclude FILE]
+                [--format {text,json,html}]
+                filename
+wordfreq: error: --min-count must be >= 1
+
+## AC5-help [head] exit=0
+argv: wordfreq --help
+stdout: 383 bytes sha256=c8811429c02ce35dbaa4113853bdd4d8aa163e0a733e15b918cb720947130002
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   u   s   a   g   e   :       w   o   r   d   f   r   e   q    
+0000020   [   -   h   ]       [   -   -   t   o   p       T   O   P   ]
+0000040       [   -   -   m   i   n   -   c   o   u   n   t       M   I
+0000060   N   _   C   O   U   N   T   ]       [   -   -   e   x   c   l
+0000100   u   d   e       F   I   L   E   ]  \n                        
+0000120                                           [   -   -   f   o   r
+0000140   m   a   t       {   t   e   x   t   ,   j   s   o   n   ,   h
+0000160   t   m   l   }   ]  \n                                        
+0000200                           f   i   l   e   n   a   m   e  \n  \n
+0000220   p   o   s   i   t   i   o   n   a   l       a   r   g   u   m
+0000240   e   n   t   s   :  \n           f   i   l   e   n   a   m   e
+0000260  \n  \n   o   p   t   i   o   n   s   :  \n           -   h   ,
+--- stderr
+
+## E-noex-text [head] exit=0
+argv: wordfreq body-zoo.txt --format text
+stdout: 23 bytes sha256=ffa0339346402c33df13f4b68834404a3271c25d608a0f1c9a0c6c3052b4ef1f
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   2  \t   a   p   p   l   e  \n   1  \t
+0000020   b   a   n   a   n   a  \n
+0000027
+--- stderr
+
+## E-empty-text [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-empty.txt --format text
+stdout: 23 bytes sha256=ffa0339346402c33df13f4b68834404a3271c25d608a0f1c9a0c6c3052b4ef1f
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   2  \t   a   p   p   l   e  \n   1  \t
+0000020   b   a   n   a   n   a  \n
+0000027
+--- stderr
+
+## E-commentonly-text [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-comment-only.txt --format text
+stdout: 23 bytes sha256=ffa0339346402c33df13f4b68834404a3271c25d608a0f1c9a0c6c3052b4ef1f
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   2  \t   a   p   p   l   e  \n   1  \t
+0000020   b   a   n   a   n   a  \n
+0000027
+--- stderr
+
+## E-nomatch-text [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-nomatch.txt --format text
+stdout: 23 bytes sha256=ffa0339346402c33df13f4b68834404a3271c25d608a0f1c9a0c6c3052b4ef1f
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   2  \t   a   p   p   l   e  \n   1  \t
+0000020   b   a   n   a   n   a  \n
+0000027
+--- stderr
+
+## E-all-text [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-all.txt --format text
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+
+## E-noex-json [head] exit=0
+argv: wordfreq body-zoo.txt --format json
+stdout: 93 bytes sha256=5e8059b353ff3fa95a95d7ca60ba3f9aee306f56b3bd5363b086b267525e97bc
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   z   o   o   "   ,
+0000020       "   c   o   u   n   t   "   :       2   }   ,       {   "
+0000040   w   o   r   d   "   :       "   a   p   p   l   e   "   ,    
+0000060   "   c   o   u   n   t   "   :       2   }   ,       {   "   w
+0000100   o   r   d   "   :       "   b   a   n   a   n   a   "   ,    
+0000120   "   c   o   u   n   t   "   :       1   }   ]  \n
+0000135
+--- stderr
+
+## E-empty-json [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-empty.txt --format json
+stdout: 93 bytes sha256=5e8059b353ff3fa95a95d7ca60ba3f9aee306f56b3bd5363b086b267525e97bc
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   z   o   o   "   ,
+0000020       "   c   o   u   n   t   "   :       2   }   ,       {   "
+0000040   w   o   r   d   "   :       "   a   p   p   l   e   "   ,    
+0000060   "   c   o   u   n   t   "   :       2   }   ,       {   "   w
+0000100   o   r   d   "   :       "   b   a   n   a   n   a   "   ,    
+0000120   "   c   o   u   n   t   "   :       1   }   ]  \n
+0000135
+--- stderr
+
+## E-commentonly-json [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-comment-only.txt --format json
+stdout: 93 bytes sha256=5e8059b353ff3fa95a95d7ca60ba3f9aee306f56b3bd5363b086b267525e97bc
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   z   o   o   "   ,
+0000020       "   c   o   u   n   t   "   :       2   }   ,       {   "
+0000040   w   o   r   d   "   :       "   a   p   p   l   e   "   ,    
+0000060   "   c   o   u   n   t   "   :       2   }   ,       {   "   w
+0000100   o   r   d   "   :       "   b   a   n   a   n   a   "   ,    
+0000120   "   c   o   u   n   t   "   :       1   }   ]  \n
+0000135
+--- stderr
+
+## E-nomatch-json [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-nomatch.txt --format json
+stdout: 93 bytes sha256=5e8059b353ff3fa95a95d7ca60ba3f9aee306f56b3bd5363b086b267525e97bc
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   z   o   o   "   ,
+0000020       "   c   o   u   n   t   "   :       2   }   ,       {   "
+0000040   w   o   r   d   "   :       "   a   p   p   l   e   "   ,    
+0000060   "   c   o   u   n   t   "   :       2   }   ,       {   "   w
+0000100   o   r   d   "   :       "   b   a   n   a   n   a   "   ,    
+0000120   "   c   o   u   n   t   "   :       1   }   ]  \n
+0000135
+--- stderr
+
+## E-all-json [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-all.txt --format json
+stdout: 3 bytes sha256=37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   ]  \n
+0000003
+--- stderr
+
+## E-noex-html [head] exit=0
+argv: wordfreq body-zoo.txt --format html
+stdout: 2435 bytes sha256=b22abfc58536a747c2e7849b56c671fd1085d4bc9a62723fd2e04976ab045188
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## E-empty-html [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-empty.txt --format html
+stdout: 2435 bytes sha256=b22abfc58536a747c2e7849b56c671fd1085d4bc9a62723fd2e04976ab045188
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## E-commentonly-html [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-comment-only.txt --format html
+stdout: 2435 bytes sha256=b22abfc58536a747c2e7849b56c671fd1085d4bc9a62723fd2e04976ab045188
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## E-nomatch-html [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-nomatch.txt --format html
+stdout: 2435 bytes sha256=b22abfc58536a747c2e7849b56c671fd1085d4bc9a62723fd2e04976ab045188
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## E-all-html [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-all.txt --format html
+stdout: 2323 bytes sha256=7e1c56d8f25a2399bc4d1b1435e88d50c58d912a55ca8d30c0e096aaff134116
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## E-min2-ex [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-apple.txt --min-count 2
+stdout: 6 bytes sha256=26931d149660ed5279abdd0f9bd215d5b631d944f17006508a27b135a238c3c7
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n
+0000006
+--- stderr
+
+## E-top1-ex [head] exit=0
+argv: wordfreq body-zoo.txt --exclude ex-apple.txt --top 1 --format json
+stdout: 30 bytes sha256=35189b223382936e6a6073077f5674f7eadc70cea5230da4158411feb3ad05eb
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   z   o   o   "   ,
+0000020       "   c   o   u   n   t   "   :       2   }   ]  \n
+0000036
+--- stderr
+
+## E-min2-noex [head] exit=0
+argv: wordfreq body-zoo.txt --min-count 2
+stdout: 14 bytes sha256=145ddbd1591fc69538a8f60fcae57808091d99074c8d0fb9f83e7d21830d13f0
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   2  \t   a   p   p   l   e  \n
+0000016
+--- stderr
+
+## E-tie-ex [head] exit=0
+argv: wordfreq body-tie.txt --exclude ex-apple.txt --format json
+stdout: 109 bytes sha256=542cf47c2441ea1d408534e7b45c7a16c3380a095e77959770e9332c5955a716
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   b   "   ,       "
+0000020   c   o   u   n   t   "   :       2   }   ,       {   "   w   o
+0000040   r   d   "   :       "   a   "   ,       "   c   o   u   n   t
+0000060   "   :       2   }   ,       {   "   w   o   r   d   "   :    
+0000100   "   c   "   ,       "   c   o   u   n   t   "   :       1   }
+0000120   ,       {   "   w   o   r   d   "   :       "   d   "   ,    
+0000140   "   c   o   u   n   t   "   :       1   }   ]  \n
+0000155
+--- stderr
+
+## E-emptybody-ex-html [head] exit=0
+argv: wordfreq body-empty.txt --exclude ex-apple.txt --format html
+stdout: 2325 bytes sha256=ad0c54d9991182e374a6129d40a20718d43a93617f3e721a9327354c47a4d202
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## E-punctbody-ex-json [head] exit=0
+argv: wordfreq body-punct.txt --exclude ex-apple.txt --format json
+stdout: 3 bytes sha256=37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   ]  \n
+0000003
+--- stderr
+
+## AC6-zoo-text [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --format text
+stdout: 23 bytes sha256=ffa0339346402c33df13f4b68834404a3271c25d608a0f1c9a0c6c3052b4ef1f
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   2  \t   a   p   p   l   e  \n   1  \t
+0000020   b   a   n   a   n   a  \n
+0000027
+--- stderr
+
+## AC6-tie-top2-text [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-tie.txt --top 2 --format text
+stdout: 8 bytes sha256=ea411ce668b90faaf9e7c20f997c0da43e495f55726331f29dc4f5a877c6cded
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   b  \n   2  \t   a  \n
+0000010
+--- stderr
+
+## AC6-min2-text [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --min-count 2 --format text
+stdout: 14 bytes sha256=145ddbd1591fc69538a8f60fcae57808091d99074c8d0fb9f83e7d21830d13f0
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   2  \t   a   p   p   l   e  \n
+0000016
+--- stderr
+
+## AC6-empty-text [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-empty.txt --format text
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+
+## AC6-case-text [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-case.txt --format text
+stdout: 26 bytes sha256=485adc3d261ba0f7e128f9c2ded7e0307d87343c958df5e219302f3b7b34c191
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   3  \t   h   e   l   l   o  \n   2  \t   s   t   r   a   s   s
+0000020   e  \n   1  \t   w   o   r   l   d  \n
+0000032
+--- stderr
+
+## AC6-zoo-text [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --format text
+stdout: 23 bytes sha256=ffa0339346402c33df13f4b68834404a3271c25d608a0f1c9a0c6c3052b4ef1f
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   2  \t   a   p   p   l   e  \n   1  \t
+0000020   b   a   n   a   n   a  \n
+0000027
+--- stderr
+
+## AC6-tie-top2-text [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-tie.txt --top 2 --format text
+stdout: 8 bytes sha256=ea411ce668b90faaf9e7c20f997c0da43e495f55726331f29dc4f5a877c6cded
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   b  \n   2  \t   a  \n
+0000010
+--- stderr
+
+## AC6-min2-text [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --min-count 2 --format text
+stdout: 14 bytes sha256=145ddbd1591fc69538a8f60fcae57808091d99074c8d0fb9f83e7d21830d13f0
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   2  \t   z   o   o  \n   2  \t   a   p   p   l   e  \n
+0000016
+--- stderr
+
+## AC6-empty-text [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-empty.txt --format text
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+
+## AC6-case-text [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-case.txt --format text
+stdout: 26 bytes sha256=485adc3d261ba0f7e128f9c2ded7e0307d87343c958df5e219302f3b7b34c191
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   3  \t   h   e   l   l   o  \n   2  \t   s   t   r   a   s   s
+0000020   e  \n   1  \t   w   o   r   l   d  \n
+0000032
+--- stderr
+
+## AC6-zoo-json [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --format json
+stdout: 93 bytes sha256=5e8059b353ff3fa95a95d7ca60ba3f9aee306f56b3bd5363b086b267525e97bc
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   z   o   o   "   ,
+0000020       "   c   o   u   n   t   "   :       2   }   ,       {   "
+0000040   w   o   r   d   "   :       "   a   p   p   l   e   "   ,    
+0000060   "   c   o   u   n   t   "   :       2   }   ,       {   "   w
+0000100   o   r   d   "   :       "   b   a   n   a   n   a   "   ,    
+0000120   "   c   o   u   n   t   "   :       1   }   ]  \n
+0000135
+--- stderr
+
+## AC6-tie-top2-json [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-tie.txt --top 2 --format json
+stdout: 55 bytes sha256=194cea0f375925778ac991ea8d9e41a98a241fc9e77a5b0ea8107edade08c8eb
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   b   "   ,       "
+0000020   c   o   u   n   t   "   :       2   }   ,       {   "   w   o
+0000040   r   d   "   :       "   a   "   ,       "   c   o   u   n   t
+0000060   "   :       2   }   ]  \n
+0000067
+--- stderr
+
+## AC6-min2-json [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --min-count 2 --format json
+stdout: 61 bytes sha256=86cff8cefc11f2955d5238a12412ac9c7c37292733ea6595795c78a3884b6b06
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   z   o   o   "   ,
+0000020       "   c   o   u   n   t   "   :       2   }   ,       {   "
+0000040   w   o   r   d   "   :       "   a   p   p   l   e   "   ,    
+0000060   "   c   o   u   n   t   "   :       2   }   ]  \n
+0000075
+--- stderr
+
+## AC6-empty-json [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-empty.txt --format json
+stdout: 3 bytes sha256=37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   ]  \n
+0000003
+--- stderr
+
+## AC6-case-json [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-case.txt --format json
+stdout: 96 bytes sha256=84c5de77642b114eab3c1f8ad98c03d3b81312843c3ed260e3bb66a1d31b68de
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   h   e   l   l   o
+0000020   "   ,       "   c   o   u   n   t   "   :       3   }   ,    
+0000040   {   "   w   o   r   d   "   :       "   s   t   r   a   s   s
+0000060   e   "   ,       "   c   o   u   n   t   "   :       2   }   ,
+0000100       {   "   w   o   r   d   "   :       "   w   o   r   l   d
+0000120   "   ,       "   c   o   u   n   t   "   :       1   }   ]  \n
+0000140
+--- stderr
+
+## AC6-zoo-json [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --format json
+stdout: 93 bytes sha256=5e8059b353ff3fa95a95d7ca60ba3f9aee306f56b3bd5363b086b267525e97bc
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   z   o   o   "   ,
+0000020       "   c   o   u   n   t   "   :       2   }   ,       {   "
+0000040   w   o   r   d   "   :       "   a   p   p   l   e   "   ,    
+0000060   "   c   o   u   n   t   "   :       2   }   ,       {   "   w
+0000100   o   r   d   "   :       "   b   a   n   a   n   a   "   ,    
+0000120   "   c   o   u   n   t   "   :       1   }   ]  \n
+0000135
+--- stderr
+
+## AC6-tie-top2-json [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-tie.txt --top 2 --format json
+stdout: 55 bytes sha256=194cea0f375925778ac991ea8d9e41a98a241fc9e77a5b0ea8107edade08c8eb
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   b   "   ,       "
+0000020   c   o   u   n   t   "   :       2   }   ,       {   "   w   o
+0000040   r   d   "   :       "   a   "   ,       "   c   o   u   n   t
+0000060   "   :       2   }   ]  \n
+0000067
+--- stderr
+
+## AC6-min2-json [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --min-count 2 --format json
+stdout: 61 bytes sha256=86cff8cefc11f2955d5238a12412ac9c7c37292733ea6595795c78a3884b6b06
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   z   o   o   "   ,
+0000020       "   c   o   u   n   t   "   :       2   }   ,       {   "
+0000040   w   o   r   d   "   :       "   a   p   p   l   e   "   ,    
+0000060   "   c   o   u   n   t   "   :       2   }   ]  \n
+0000075
+--- stderr
+
+## AC6-empty-json [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-empty.txt --format json
+stdout: 3 bytes sha256=37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   ]  \n
+0000003
+--- stderr
+
+## AC6-case-json [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-case.txt --format json
+stdout: 96 bytes sha256=84c5de77642b114eab3c1f8ad98c03d3b81312843c3ed260e3bb66a1d31b68de
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   [   {   "   w   o   r   d   "   :       "   h   e   l   l   o
+0000020   "   ,       "   c   o   u   n   t   "   :       3   }   ,    
+0000040   {   "   w   o   r   d   "   :       "   s   t   r   a   s   s
+0000060   e   "   ,       "   c   o   u   n   t   "   :       2   }   ,
+0000100       {   "   w   o   r   d   "   :       "   w   o   r   l   d
+0000120   "   ,       "   c   o   u   n   t   "   :       1   }   ]  \n
+0000140
+--- stderr
+
+## AC6-zoo-html [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --format html
+stdout: 2435 bytes sha256=b22abfc58536a747c2e7849b56c671fd1085d4bc9a62723fd2e04976ab045188
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC6-tie-top2-html [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-tie.txt --top 2 --format html
+stdout: 2344 bytes sha256=b2d7a5220b39c26d34ee4cbfc5cf71e9b430a84e2ce1a9e18da5fc35be8b77b4
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC6-min2-html [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --min-count 2 --format html
+stdout: 2350 bytes sha256=022628580d9a692aa3e4e5f804ee90535994fa5d332a8c5ac09ebffd1e8c2dc1
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC6-empty-html [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-empty.txt --format html
+stdout: 2325 bytes sha256=ad0c54d9991182e374a6129d40a20718d43a93617f3e721a9327354c47a4d202
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC6-case-html [head] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-case.txt --format html
+stdout: 2439 bytes sha256=0136dce929d4c447722a5951ae7654e3818f9fc33975b7d971e227bd39aa0994
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC6-zoo-html [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --format html
+stdout: 2435 bytes sha256=b22abfc58536a747c2e7849b56c671fd1085d4bc9a62723fd2e04976ab045188
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC6-tie-top2-html [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-tie.txt --top 2 --format html
+stdout: 2344 bytes sha256=b2d7a5220b39c26d34ee4cbfc5cf71e9b430a84e2ce1a9e18da5fc35be8b77b4
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC6-min2-html [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --min-count 2 --format html
+stdout: 2350 bytes sha256=022628580d9a692aa3e4e5f804ee90535994fa5d332a8c5ac09ebffd1e8c2dc1
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC6-empty-html [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-empty.txt --format html
+stdout: 2325 bytes sha256=ad0c54d9991182e374a6129d40a20718d43a93617f3e721a9327354c47a4d202
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC6-case-html [base] exit=0
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-case.txt --format html
+stdout: 2439 bytes sha256=0136dce929d4c447722a5951ae7654e3818f9fc33975b7d971e227bd39aa0994
+--- stdout (first 400 bytes, od -c if non-html)
+0000000   <   !   d   o   c   t   y   p   e       h   t   m   l   >  \n
+0000020   <   h   t   m   l       l   a   n   g   =   "   j   a   "   >
+0000040  \n   <   h   e   a   d   >  \n   <   m   e   t   a       c   h
+0000060   a   r   s   e   t   =   "   u   t   f   -   8   "   >  \n   <
+0000100   m   e   t   a       n   a   m   e   =   "   v   i   e   w   p
+0000120   o   r   t   "       c   o   n   t   e   n   t   =   "   w   i
+0000140   d   t   h   =   d   e   v   i   c   e   -   w   i   d   t   h
+0000160   ,       i   n   i   t   i   a   l   -   s   c   a   l   e   =
+0000200   1   "   >  \n   <   t   i   t   l   e   > 345 215 230 350 252
+0000220 236 343 201 256 345 207 272 347 217 276 351 240 273 345 272 246
+0000240   <   /   t   i   t   l   e   >  \n   <   s   t   y   l   e   >
+0000260  \n   :   r   o   o   t       {       c   o   l   o   r   -   s
+--- stderr
+
+## AC6-missing [head] exit=1
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/no-body.txt
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/no-body.txt: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/no-body.txt'
+
+## AC6-badtop [head] exit=2
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --top 0
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--exclude FILE]
+                [--format {text,json,html}]
+                filename
+wordfreq: error: --top must be >= 1
+
+## AC6-badfmt [head] exit=2
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --format xml
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--exclude FILE]
+                [--format {text,json,html}]
+                filename
+wordfreq: error: argument --format: invalid choice: 'xml' (choose from text, json, html)
+
+## AC6-missing [base] exit=1
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/no-body.txt
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/no-body.txt: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/no-body.txt'
+
+## AC6-badtop [base] exit=2
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --top 0
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]
+                [--format {text,json,html}]
+                filename
+wordfreq: error: --top must be >= 1
+
+## AC6-badfmt [base] exit=2
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --format xml
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]
+                [--format {text,json,html}]
+                filename
+wordfreq: error: argument --format: invalid choice: 'xml' (choose from text, json, html)
+
+## BASE-rejects-exclude [base] exit=2
+argv: wordfreq /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/body-zoo.txt --exclude /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/ex-apple.txt
+stdout: 0 bytes sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+--- stdout (first 400 bytes, od -c if non-html)
+0000000
+--- stderr
+usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]
+                [--format {text,json,html}]
+                filename
+wordfreq: error: unrecognized arguments: --exclude /home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_d369e688/.planning/argonauts/r-e0a2598f/quality/cli/in/ex-apple.txt
+
+## FIFO-body-probe exclude=ex-bad-line4.txt exit=2 elapsed= stdout_bytes=0 stderr=.planning/argonauts/r-e0a2598f/quality/cli/in/ex-bad-line4.txt: line 4: expected one Unicode word|
+## FIFO-body-probe exclude=no-such-file.txt exit=2 elapsed= stdout_bytes=0 stderr=.planning/argonauts/r-e0a2598f/quality/cli/in/no-such-file.txt: [Errno 2] No such file or directory: '.planning/argonauts/r-e0a2598f/quality/cli/in/no-such-file
+## FIFO-body-probe exclude=ex-badutf8.txt exit=2 elapsed= stdout_bytes=0 stderr=.planning/argonauts/r-e0a2598f/quality/cli/in/ex-badutf8.txt: 'utf-8' codec can't decode byte 0xff in position 6: invalid start byte|
+## FIFO-body-probe exclude=ex-apple.txt exit=124 elapsed= stdout_bytes=0 stderr=
+(body is an unopened FIFO with no writer: opening it would block until timeout(5s)=124. exit2 promptly => body never opened; ex-apple control => 124 shows body acquisition happens after valid exclusion)
+## AC4-permission-denied-text [head] exit=2 stdout_bytes=0 stderr=<tmp>/ex-noperm.txt: [Errno 13] Permission denied: '<tmp>/ex-noperm.txt'| (FILE chmod 000 in tmp dir, id=1000)
+## AC4-permission-denied-json [head] exit=2 stdout_bytes=0 stderr=<tmp>/ex-noperm.txt: [Errno 13] Permission denied: '<tmp>/ex-noperm.txt'| (FILE chmod 000 in tmp dir, id=1000)
+## AC4-permission-denied-html [head] exit=2 stdout_bytes=0 stderr=<tmp>/ex-noperm.txt: [Errno 13] Permission denied: '<tmp>/ex-noperm.txt'| (FILE chmod 000 in tmp dir, id=1000)
+## AC4-value-missing [head] argv: wordfreq body-zoo.txt --exclude exit=2 stdout_bytes=0 stderr=usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--exclude FILE]|                [--format {text,json,html}]|                filename|wordfreq: error: argument --exclude: expected one argument|

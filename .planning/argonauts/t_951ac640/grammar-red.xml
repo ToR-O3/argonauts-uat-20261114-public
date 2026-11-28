@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.179" timestamp="2026-11-29T01:40:34.169709+09:00" hostname="Ys-Minify"><testcase classname="tests.test_cli" name="test_exclude_grammar_trim_comments_newlines[ \n  #banana\n apple \n-text]" time="0.036"><failure message="AssertionError: assert (2, b'/home/Y...icode word\n') == (0, b'')&#10;  &#10;  At index 0 diff: 2 != 0&#10;  Use -v to get more diff">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-781/test_exclude_grammar_trim_comm0')
+output_format = 'text', rows = b' \n  #banana\n apple \n'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("rows", [b" \n  #banana\n apple \n", b" \r\n  #banana\r\n apple \r\n",
+                                      b" \r\n  #banana\r\n apple "])
+    def test_exclude_grammar_trim_comments_newlines(tmp_path, output_format, rows):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        body.write_bytes(b"apple banana")
+        excluded.write_bytes(rows)
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+&gt;       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'/home/Y...icode word\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:658: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,28 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/_bmad-output/initiative-r-e0a2598f/architecture/architecture.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Architecture Spine — wordfreq-exclude",
+  "summary": "Technical constraints for wordfreq's optional --exclude FILE, covering acquisition boundaries, Unicode matching, validation order, error codes, stable ranking, and original HTML totals.",
+  "scope": [
+    "wordfreq CLI",
+    "--exclude FILE",
+    "input acquisition boundary",
+    "Unicode normalization",
+    "exclude-line validation",
+    "error codes",
+    "stable ranking",
+    "text/json/HTML formatters",
+    "HTML totals"
+  ],
+  "cross_refs": [
+    "../prd/prd-wordfreq-exclude.md",
+    "../source-context.md",
+    "../decision-update.md",
+    "../open-questions.md"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

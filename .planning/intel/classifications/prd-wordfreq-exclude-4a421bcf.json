@@ -1,0 +1,34 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "wordfreq --exclude FILE",
+  "summary": "wordfreqの任意オプション--exclude FILEについて、除外語の解析・照合、失敗時の優先順位、既存互換、説明と試験の要件を定義する。",
+  "scope": [
+    "wordfreq",
+    "--exclude FILE",
+    "UTF-8除外ファイル",
+    "Unicode casefold",
+    "text/json/html出力",
+    "HTML元総数",
+    "CLI終了コード",
+    "README",
+    "pytest",
+    "既存互換"
+  ],
+  "cross_refs": [
+    "../brief/brief-wordfreq-exclude.md",
+    "../initiative-r-e0a2598f.md",
+    "../source-context.md",
+    "../decision-update.md",
+    "_bmad-output/initiative-r-e0a2598f/brief/brief-wordfreq-exclude.md",
+    "openspec/specs/wordfreq-cli/spec.md",
+    "README",
+    "../architecture/architecture.md",
+    "../open-questions.md"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

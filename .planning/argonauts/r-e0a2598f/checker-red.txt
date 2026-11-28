@@ -1,0 +1,555 @@
+test_bad_target_format (test_quality_handoff.HandoffTests.test_bad_target_format) ... FAIL
+test_changed_worktree (test_quality_handoff.HandoffTests.test_changed_worktree) ... FAIL
+test_complete_pending_package_passes (test_quality_handoff.HandoffTests.test_complete_pending_package_passes) ... FAIL
+test_missing_ac_mapping (test_quality_handoff.HandoffTests.test_missing_ac_mapping) ... FAIL
+test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) ... 
+  test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='command') ... FAIL
+  test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='argv') ... FAIL
+  test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='input') ... FAIL
+  test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='environment') ... FAIL
+  test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='stdout') ... FAIL
+  test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='stderr') ... FAIL
+  test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='exit') ... FAIL
+  test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='expected_vs_actual') ... FAIL
+  test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='originals') ... FAIL
+test_missing_procedure (test_quality_handoff.HandoffTests.test_missing_procedure) ... FAIL
+test_missing_quality_obligation (test_quality_handoff.HandoffTests.test_missing_quality_obligation) ... FAIL
+test_nonexistent_target (test_quality_handoff.HandoffTests.test_nonexistent_target) ... FAIL
+test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) ... 
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='edges', mutation='omit') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='edges', mutation='duplicate') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='edges', mutation='predicate') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='edges', mutation='false-green') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='ui', mutation='omit') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='ui', mutation='duplicate') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='ui', mutation='predicate') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='ui', mutation='false-green') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='prohibitions', mutation='omit') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='prohibitions', mutation='duplicate') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='prohibitions', mutation='predicate') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='prohibitions', mutation='false-green') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='trace', mutation='omit') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='trace', mutation='duplicate') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='trace', mutation='predicate') ... FAIL
+  test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='trace', mutation='false-green') ... FAIL
+test_omitted_scoped_path (test_quality_handoff.HandoffTests.test_omitted_scoped_path) ... FAIL
+test_original_empty (test_quality_handoff.HandoffTests.test_original_empty) ... FAIL
+test_original_missing (test_quality_handoff.HandoffTests.test_original_missing) ... FAIL
+test_original_unreadable (test_quality_handoff.HandoffTests.test_original_unreadable) ... FAIL
+test_original_wrong_digest (test_quality_handoff.HandoffTests.test_original_wrong_digest) ... FAIL
+test_premature_quality_pass (test_quality_handoff.HandoffTests.test_premature_quality_pass) ... FAIL
+test_premature_task_checkoff (test_quality_handoff.HandoffTests.test_premature_task_checkoff) ... FAIL
+test_report_only_descendant_is_not_new_product_acceptance (test_quality_handoff.HandoffTests.test_report_only_descendant_is_not_new_product_acceptance) ... FAIL
+test_stale_target (test_quality_handoff.HandoffTests.test_stale_target) ... FAIL
+test_wrong_git_digest (test_quality_handoff.HandoffTests.test_wrong_git_digest) ... FAIL
+
+======================================================================
+FAIL: test_bad_target_format (test_quality_handoff.HandoffTests.test_bad_target_format)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 159, in test_bad_target_format
+    self.check(2, "target_head_format")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'target_head_format' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_changed_worktree (test_quality_handoff.HandoffTests.test_changed_worktree)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 175, in test_changed_worktree
+    self.check(2, "manifest_worktree")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'manifest_worktree' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_complete_pending_package_passes (test_quality_handoff.HandoffTests.test_complete_pending_package_passes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 125, in test_complete_pending_package_passes
+    self.check(0, "HANDOFF_READY_ONLY")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 121, in check
+    self.assertEqual(result.returncode, expected, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : implementation_pending: handoff validation not implemented
+
+
+======================================================================
+FAIL: test_missing_ac_mapping (test_quality_handoff.HandoffTests.test_missing_ac_mapping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 155, in test_missing_ac_mapping
+    self.check(2, "AC_mapping")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'AC_mapping' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='command')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 150, in test_missing_execution_fields
+    self.check(2, "evidence_field:" + key)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'evidence_field:command' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='argv')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 150, in test_missing_execution_fields
+    self.check(2, "evidence_field:" + key)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'evidence_field:argv' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='input')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 150, in test_missing_execution_fields
+    self.check(2, "evidence_field:" + key)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'evidence_field:input' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='environment')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 150, in test_missing_execution_fields
+    self.check(2, "evidence_field:" + key)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'evidence_field:environment' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='stdout')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 150, in test_missing_execution_fields
+    self.check(2, "evidence_field:" + key)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'evidence_field:stdout' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='stderr')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 150, in test_missing_execution_fields
+    self.check(2, "evidence_field:" + key)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'evidence_field:stderr' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='exit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 150, in test_missing_execution_fields
+    self.check(2, "evidence_field:" + key)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'evidence_field:exit' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='expected_vs_actual')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 150, in test_missing_execution_fields
+    self.check(2, "evidence_field:" + key)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'evidence_field:expected_vs_actual' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_execution_fields (test_quality_handoff.HandoffTests.test_missing_execution_fields) (key='originals')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 150, in test_missing_execution_fields
+    self.check(2, "evidence_field:" + key)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'evidence_field:originals' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_procedure (test_quality_handoff.HandoffTests.test_missing_procedure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 203, in test_missing_procedure
+    self.check(2, "procedure:openspec")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'procedure:openspec' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_missing_quality_obligation (test_quality_handoff.HandoffTests.test_missing_quality_obligation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 199, in test_missing_quality_obligation
+    self.check(2, "obligation:Q6")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'obligation:Q6' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_nonexistent_target (test_quality_handoff.HandoffTests.test_nonexistent_target)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 163, in test_nonexistent_target
+    self.check(2, "target_head_missing")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'target_head_missing' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='edges', mutation='omit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:edges' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='edges', mutation='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:edges' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='edges', mutation='predicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:edges' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='edges', mutation='false-green')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:edges' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='ui', mutation='omit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:ui' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='ui', mutation='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:ui' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='ui', mutation='predicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:ui' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='ui', mutation='false-green')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:ui' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='prohibitions', mutation='omit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:prohibitions' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='prohibitions', mutation='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:prohibitions' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='prohibitions', mutation='predicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:prohibitions' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='prohibitions', mutation='false-green')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:prohibitions' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='trace', mutation='omit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:trace' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='trace', mutation='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:trace' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='trace', mutation='predicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:trace' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_or_duplicate_inventory (test_quality_handoff.HandoffTests.test_omitted_or_duplicate_inventory) (kind='trace', mutation='false-green')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 194, in test_omitted_or_duplicate_inventory
+    self.check(2, "inventory:" + kind)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'inventory:trace' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_omitted_scoped_path (test_quality_handoff.HandoffTests.test_omitted_scoped_path)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 171, in test_omitted_scoped_path
+    self.check(2, "manifest_paths")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'manifest_paths' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_original_empty (test_quality_handoff.HandoffTests.test_original_empty)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 134, in test_original_empty
+    self.check(2, "original_empty")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'original_empty' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_original_missing (test_quality_handoff.HandoffTests.test_original_missing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 130, in test_original_missing
+    self.check(2, "original_missing")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'original_missing' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_original_unreadable (test_quality_handoff.HandoffTests.test_original_unreadable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 140, in test_original_unreadable
+    self.check(2, "original_unreadable")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'original_unreadable' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_original_wrong_digest (test_quality_handoff.HandoffTests.test_original_wrong_digest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 144, in test_original_wrong_digest
+    self.check(2, "original_digest")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'original_digest' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_premature_quality_pass (test_quality_handoff.HandoffTests.test_premature_quality_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 207, in test_premature_quality_pass
+    self.check(2, "quality_pending")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'quality_pending' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_premature_task_checkoff (test_quality_handoff.HandoffTests.test_premature_task_checkoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 212, in test_premature_task_checkoff
+    self.check(2, "task_3_2")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'task_3_2' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_report_only_descendant_is_not_new_product_acceptance (test_quality_handoff.HandoffTests.test_report_only_descendant_is_not_new_product_acceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 219, in test_report_only_descendant_is_not_new_product_acceptance
+    self.check(0, "HANDOFF_READY_ONLY")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 121, in check
+    self.assertEqual(result.returncode, expected, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : implementation_pending: handoff validation not implemented
+
+
+======================================================================
+FAIL: test_stale_target (test_quality_handoff.HandoffTests.test_stale_target)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 167, in test_stale_target
+    self.check(2, "target_stale")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'target_stale' not found in 'implementation_pending: handoff validation not implemented\n'
+
+======================================================================
+FAIL: test_wrong_git_digest (test_quality_handoff.HandoffTests.test_wrong_git_digest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 179, in test_wrong_git_digest
+    self.check(2, "manifest_digest")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/test_quality_handoff.py", line 122, in check
+    self.assertIn(diagnostic, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'manifest_digest' not found in 'implementation_pending: handoff validation not implemented\n'
+
+----------------------------------------------------------------------
+Ran 19 tests in 2.414s
+
+FAILED (failures=42)

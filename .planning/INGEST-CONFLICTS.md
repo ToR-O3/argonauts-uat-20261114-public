@@ -1,18 +1,21 @@
 ## Conflict Detection Report
 
-MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。per-doc overrideなし。今回対象は `.planning/intel/classifications/r-cf2eeaab/` の4分類と対応原本のみ（ADR 0 / SPEC 1 / PRD 2 / DOC 1 / UNKNOWN 0）。旧分類を混ぜず、既存intelと本報告を今回のstaging結果で置換する。
+MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。source: .planning/intel/classifications/r-e0a2598f-retry/*.json（6件、PRD 2 / SPEC 1 / DOC 3、locked 0、precedence overrideなし）。PM判断t_9da1db1eによる対象集合で再判定した。旧7件の部分合成結果を成功扱いで流用していない。
 
 ### BLOCKERS (0)
 
-該当なし。locked ADRなし、UNKNOWN/low confidenceなし、対象内参照循環なし。指定された既存文脈に今回の追加と矛盾するlocked決定はない。既存のpyproject.toml危険パス・最小変更方針とも整合する。過去Phase 5のREADME限定は当該依頼の境界であり、今回の承認済みメタデータ追加を禁止する恒久条件ではない。旧要求・決定・過去工程の履歴は変更しない。
-source: .planning/intel/classifications/r-cf2eeaab/ 内の今回4 JSON; .planning/PROJECT.md:56-61; .planning/REQUIREMENTS.md:30,74-80; .planning/ROADMAP.md:122-136; .planning/STATE.md:105-108; openspec/changes/r-cf2eeaab-project-description-uat/proposal.md:9-28
+該当なし。6 source_pathをノードとし、cross_refsを保持したまま対象内edgeを三色DFSで確認した。PRD→Brief、proposal→PRD/Brief、tasks→design、design→PRD。SPEC/Briefから対象内edgeなし。循環なし、最大active stack 4ノード、上限50以内。architectureは対象外参照として残るが再帰取込みしないため、旧7件集合のPRD↔architecture循環は今回の対象内には存在しない。設計の効力や参照を削除したのではなくplanner直接読取りへ分離した。
+source: .planning/intel/classifications/r-e0a2598f-retry/ の6 JSONのsource_path/cross_refs; _bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md:147; openspec/changes/r-e0a2598f-wordfreq-exclude/design.md:3
+
+既存locked決定との矛盾なし。本文失敗exit1を維持し、除外FILE専用exit2を追加する。既存REQ-11の初出順とREQ-18/19のmin-count→並び→top/元総数は除外の前段追加と両立する。旧語昇順は明示置換済み履歴であり再採用しない。別依頼のREADME/TOML限定差分を恒久禁止へ拡張しない。UNKNOWN-lowなし。
+source: .planning/PROJECT.md:62,71-73; .planning/REQUIREMENTS.md:34-41,56-62,74-102; .planning/ROADMAP.md:62-72,95-108; .planning/phases/01-wordfreq-cli/01-CONTEXT.md:19-44; .planning/phases/03-wordfreq-html-output/03-CONTEXT.md:15-26; .planning/phases/04-wordfreq-min-count/04-CONTEXT.md:17-38; .planning/phases/05-readme-verification-a/05-CONTEXT.md:9-24; .planning/phases/07-project-description-uat/07-CONTEXT.md:8-24; openspec/changes/r-e0a2598f-wordfreq-exclude/specs/wordfreq-cli/spec.md:47,87
 
 ### WARNINGS (0)
 
-競合する受入variantなし。PRDとproposalは同一の追加要求と受入条件を定義する。tasksの起点比較・解析データ不変・追加行除外後のバイト一致・品質独立実行は、その検証方式と工程の具体化であり、異なる製品要求や競合する受入条件ではない。工程配下の検証ファイルはPRDで明示的に許され、製品テスト追加禁止とも整合する。Brief内の一般的な次工程案内は製品要求の差ではなく、今回承認済み工程への代替指示として実行しない。
-source: _bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md:59-78,98-118; openspec/changes/r-cf2eeaab-project-description-uat/proposal.md:9-28; openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:3-13; _bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.md:53-65
+該当なし。BriefとPRDの同一scopeの受入条件は同時充足可能。PRDの具体例・基準版・診断順序はBriefの詳細化であり非互換variantではない。双方の要件を別IDで保持し、いずれも捨てない。
+source: _bmad-output/initiative-r-e0a2598f/brief/brief-wordfreq-exclude.md:55-68; _bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md:66-113; .planning/intel/requirements.md
 
 ### INFO (0)
 
-precedenceによる自動解決なし。旧追記指示は、依頼者の明示判断を既に反映した今回4文書の背景記録であり、未解決の別variantやtimestampによる自動解決とは扱わない。metadata-only、skip_specs=true、未決事項なしを維持する。READYはsynthesisからのrouting準備完了だけを示し、宛先mergeの実行・製品実装・検証合格・自動マージの許可ではない。
-source: _bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.md:69-77; _bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md:104-118; openspec/changes/r-cf2eeaab-project-description-uat/proposal.md:5-28; openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:3,13
+precedenceによる自動解決なし。対象外cross_refsの原記録は再分類JSONに全件残し、解決先と対象内/外の区別をSYNTHESIS.mdへ記録した。衝突なしは実装・品質合格やrouting承認を意味しない。取込み先PROJECT/REQUIREMENTS/ROADMAP/STATEは本作業では書かない。
+source: .planning/intel/classifications/r-e0a2598f-retry/*.json; .planning/intel/SYNTHESIS.md; openspec/changes/r-e0a2598f-wordfreq-exclude/tasks.md:3-21

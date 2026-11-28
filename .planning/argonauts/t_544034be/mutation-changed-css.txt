@@ -1,0 +1,99 @@
+F
+=================================== FAILURES ===================================
+_______________ test_exclude_ui_static_presentation[0-basename0] _______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-817/test_exclude_ui_static_present0')
+basename = '集計  nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n続き\t終わり  &<>"\'.txt'
+row_count = 0
+
+    @pytest.mark.parametrize("basename", [
+        '集計  ' + 'n' * 176 + '\n続き\t終わり  &<>"\'.txt',
+        'a\rb\r\nc  \n\t.txt',
+    ])
+    @pytest.mark.parametrize("row_count", [0, 1, 12])
+    def test_exclude_ui_static_presentation(tmp_path, basename, row_count):
+        from html import escape
+        from test_formatters import (HTMLDocument, assert_static_document,
+                                     test_complete_fixed_css_contract_is_static_not_browser_acceptance)
+        parent = tmp_path / "private-parent-sensitive"
+        parent.mkdir()
+        body, excluded = parent / basename, tmp_path / "private-exclusion-marker"
+        content = ("removed " + LONG_CONTENT).encode("utf-8")
+        body.write_bytes(content)
+        rows = "removed\n" + ("\n".join(w for w, _ in LONG_PAIRS) if row_count == 0 else "")
+        excluded.write_bytes(rows.encode("utf-8"))
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", "html",
+                               "--top", row_count or 1, env=dict(os.environ, PYTHONIOENCODING="latin-1"))
+        assert (result.returncode, result.stderr) == (0, b"")
+        expected = LONG_PAIRS[:row_count]
+        assert_output_bytes(result.stdout, "html", expected, basename, 201)
+        raw = result.stdout.decode("utf-8", errors="strict")
+        document = HTMLDocument(raw.replace("\r\n", "\n").replace("\r", "\n"))
+        assert_static_document(document)
+        assert document.classified("filename-value")[0]["text"] == basename
+        assert len(document.classified("empty-message")) == (1 if row_count == 0 else 0)
+        if row_count == 0:
+            assert document.classified("empty-message")[0]["text"] == (
+                "集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。")
+        # Static declarations and semantics only, not a browser geometry claim.
+>       test_complete_fixed_css_contract_is_static_not_browser_acceptance()
+
+tests/test_cli.py:1110: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def test_complete_fixed_css_contract_is_static_not_browser_acceptance():
+        from wordfreq.formatters import format_html
+    
+        document = HTMLDocument(format_html([], "empty.txt", 0))
+        assert_static_document(document)
+        assert [node["text"] for node in document.classified("label")] == ["ファイル名", "総出現回数"]
+        css = document.tagged("style")[0]["text"]
+        # Exact fixed declarations reject additional theme branches, clipping,
+        # scrolling, shrink-to-fit, animation and encoded communication paths.
+        # This checks source declarations only; real geometry/images remain pending.
+        narrow = '@media (max-width: 480px) { main { padding: 16px; } }'
+        assert css.count(narrow) == 1
+        rules = re.findall(r'([^{}]+)\{([^{}]*)\}', css.replace(narrow, ""))
+        parsed = {}
+        for selector, block in rules:
+            selector = selector.strip()
+            assert selector not in parsed
+            parsed[selector] = dict(part.strip().split(":", 1) for part in block.split(";") if part.strip())
+            parsed[selector] = {key.strip(): value.strip() for key, value in parsed[selector].items()}
+>       assert parsed == {
+            ":root": {"color-scheme": "light"},
+            "body": {"margin": "0", "background": "#FFFFFF", "color": "#0F172A",
+                     "font-family": 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+                     "font-size": "16px", "font-weight": "400", "line-height": "1.5"},
+            "main": {"width": "100%", "max-width": "960px", "box-sizing": "border-box",
+                     "margin": "0 auto", "padding": "32px"},
+            "h1": {"margin": "0 0 16px", "color": "#1D4ED8", "font-size": "24px",
+                   "font-weight": "600", "line-height": "1.25", "overflow-wrap": "anywhere"},
+            ".metadata": {"margin": "0 0 24px"},
+            ".metadata-item + .metadata-item": {"margin-top": "8px"},
+            ".label, caption, th": {"font-size": "14px", "font-weight": "600", "line-height": "1.5"},
+            ".label": {"margin-bottom": "4px", "color": "#475569"},
+            ".filename-value, .word": {"white-space": "break-spaces", "overflow-wrap": "anywhere",
+                                        "word-break": "normal", "tab-size": "4"},
+            ".total-value": {"color": "#1D4ED8"},
+            "table": {"width": "100%", "table-layout": "fixed", "border-collapse": "collapse"},
+            "caption": {"text-align": "left", "color": "#475569", "margin-bottom": "8px"},
+            "th, td": {"box-sizing": "border-box", "padding": "8px", "vertical-align": "top",
+                       "text-align": "left", "overflow-wrap": "anywhere", "border-bottom": "1px solid #CBD5E1"},
+            "th": {"background": "#F1F5F9"}, "td": {"background": "#FFFFFF"},
+            ".rank, .count": {"text-align": "right", "font-variant-numeric": "tabular-nums"},
+            ".rank": {"width": "56px"}, ".count": {"width": "64px"},
+            ".empty-message": {"margin": "24px 0 0", "color": "#475569", "overflow-wrap": "anywhere"},
+        }
+E       AssertionError: assert {':root': {'c...0', ...}, ...} == {':root': {'c...0', ...}, ...}
+E         
+E         Omitting 18 identical items, use -vv to show
+E         Differing items:
+E         {'h1': {'margin': '0 0 16px', 'color': '#1D4ED8', 'font-size': '20px', 'font-weight': '600', ...}} != {'h1': {'margin': '0 0 16px', 'color': '#1D4ED8', 'font-size': '24px', 'font-weight': '600', ...}}
+E         Use -v to get more diff
+
+tests/test_formatters.py:237: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_ui_static_presentation[0-basename0] - ...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 700 deselected in 0.24s

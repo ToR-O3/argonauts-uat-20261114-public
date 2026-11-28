@@ -101,6 +101,31 @@ Source: 仕様承認t_8a187e42、要求・仕様t_62c33f31 run59、OpenSpec `r-c
 
 Finalization t_20f1102b: REQ-25/26 `[x]` track the implemented product conditions only; the Pending table is full-closure status. REQ-27's premature `[x]` is cleared. Quality run65 independently executed at c5d0eb136bf92d6f00c3fc807346e55103917504; PM t_b9c2f01b subsequently read text originals 85–88 and approved AC1–3 (no PM test rerun). Quality human_needed / phase_completed=false remains unchanged. P1/P2 and unclassified probes REQ-25/26/27 remain flagged-unverified, not human-approved or resolved. See `.planning/argonauts/t_20f1102b/finalization.md` for the separate finalization record.
 
+## r-e0a2598f Requirements (Phase 8)
+
+### Approved BMAD references — t_91b92aed / head17648fc; full text stays in original PRD and phase CONTEXT
+
+- [x] **REQ-28**: FR-1（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-28**: FR-5（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-29**: FR-2（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-29**: FR-3（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-30**: FR-4（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-31**: FR-6（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-32**: FR-7（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-33**: RULE-1（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-33**: RULE-2（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-33**: RULE-3（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [x] **REQ-33**: RULE-4（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-28 | Phase 8 | Pending |
+| REQ-29 | Phase 8 | Pending |
+| REQ-30 | Phase 8 | Pending |
+| REQ-31 | Phase 8 | Pending |
+| REQ-32 | Phase 8 | Pending |
+| REQ-33 | Phase 8 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

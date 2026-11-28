@@ -1,0 +1,146 @@
+[
+  {
+    "name": "exclusion-exit-one",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_failures_role_mapping",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_failures_role_mapping"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-exclusion-exit-one.txt"
+  },
+  {
+    "name": "body-exit-two",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_failures_role_mapping",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_failures_role_mapping"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-body-exit-two.txt"
+  },
+  {
+    "name": "body-first",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_precedence_failed_exclusion",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_precedence_failed_exclusion"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-body-first.txt"
+  },
+  {
+    "name": "late-validation",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_precedence_failed_exclusion",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_precedence_failed_exclusion"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-late-validation.txt"
+  },
+  {
+    "name": "read-before-numeric",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_precedence_argv",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_precedence_argv"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-read-before-numeric.txt"
+  },
+  {
+    "name": "lost-path-reason",
+    "target": "wordfreq/sources.py",
+    "selector": "exclude_failures_role_mapping",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_failures_role_mapping"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-lost-path-reason.txt"
+  },
+  {
+    "name": "lost-cause",
+    "target": "wordfreq/sources.py",
+    "selector": "exclude_failures_role_mapping",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_failures_role_mapping"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-lost-cause.txt"
+  },
+  {
+    "name": "ignore-late-invalid",
+    "target": "wordfreq/__main__.py",
+    "selector": "exclude_precedence_failed_exclusion",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_544034be/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_precedence_failed_exclusion"
+    ],
+    "exit": 1,
+    "assertion_rejected": true,
+    "report": "mutation-ignore-late-invalid.txt"
+  }
+]

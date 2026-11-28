@@ -1,0 +1,140 @@
+{
+  "items": [
+    {
+      "requirement_id": "E1",
+      "category": "overflow",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E1",
+      "category": "long-text",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "E2",
+      "category": "overflow",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E2",
+      "category": "long-text",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "empty",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What is shown when there is no data — zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "loading",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "error",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "populated",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "partial",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data — some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "overflow",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "zero-one-many",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?"
+    },
+    {
+      "requirement_id": "E3",
+      "category": "long-text",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "E4",
+      "category": "overflow",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "E4",
+      "category": "long-text",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    }
+  ],
+  "coverage": {
+    "applicable": 14,
+    "resolved": 0,
+    "unresolved": 14,
+    "unclassified": 0,
+    "byVerification": {
+      "explicit": 0,
+      "backstop": 0
+    }
+  }
+}

@@ -1,0 +1,13 @@
+usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--exclude FILE]
+                [--format {text,json,html}]
+                filename
+
+positional arguments:
+  filename
+
+options:
+  -h, --help            show this help message and exit
+  --top TOP
+  --min-count MIN_COUNT
+  --exclude FILE        exclude words from a UTF-8 file (one word per line)
+  --format {text,json,html}

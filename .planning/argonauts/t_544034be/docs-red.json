@@ -1,0 +1,10 @@
+{
+  "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_empty_readme_contract --junitxml=.planning/argonauts/t_544034be/docs-red.xml",
+  "exitCode": 1,
+  "output": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"1\" skipped=\"0\" tests=\"1\" time=\"0.192\" timestamp=\"2026-11-29T02:06:58.629536+09:00\" hostname=\"Ys-Minify\"><testcase classname=\"tests.test_cli\" name=\"test_exclude_empty_readme_contract\" time=\"0.001\"><failure message=\"AssertionError: assert '空の除外FILE' in '# argonauts-uat public\\n\\nテキストの単語を数えて、多い順に並べるコマンドです。\\n\\n## wordfreq の実行\\n\\nリポジトリ直下で、UTF-8 の実ファイルを指定します。Python の標準ライブラ...やcapture成功は独立品質・phase受入の完了ではなく、そのgateは実行までpendingです。CSS・幾何・画像の存在だけで可読性や無通信の合格とはしません。\\n検証A: v1.12 の通しの確かめ（2026-11-22）\\n'\">def test_exclude_empty_readme_contract():\n        readme = (ROOT / \"README.md\").read_text(encoding=\"utf-8\")\n        for phrase in (\"空の除外FILE\", \"コメントのみ\", \"不一致\", \"元の正の総数\", \"総数0\"):\n&gt;           assert phrase in readme\nE           AssertionError: assert '空の除外FILE' in '# argonauts-uat public\\n\\nテキストの単語を数えて、多い順に並べるコマンドです。\\n\\n## wordfreq の実行\\n\\nリポジトリ直下で、UTF-8 の実ファイルを指定します。Python の標準ライブラ...やcapture成功は独立品質・phase受入の完了ではなく、そのgateは実行までpendingです。CSS・幾何・画像の存在だけで可読性や無通信の合格とはしません。\\n検証A: v1.12 の通しの確かめ（2026-11-22）\\n'\n\ntests/test_cli.py:1120: AssertionError</failure></testcase></testsuite></testsuites>",
+  "targetTest": "tests.test_cli",
+  "targetFile": "tests/test_cli.py",
+  "expected": "README explicitly distinguishes no-op exclusions and empty versus all-excluded original totals",
+  "actual": "README lacks 空の除外FILE and other explicit distinctions",
+  "semanticAssessment": "Target assertion on missing documentation failed; no setup or collection fault. Product behavior already green, no product code justified by docs RED."
+}

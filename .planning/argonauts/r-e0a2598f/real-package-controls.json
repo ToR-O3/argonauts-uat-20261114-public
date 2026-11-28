@@ -1,0 +1,70 @@
+[
+  {
+    "case": "valid",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/installs/a3f0e19b82632a3b/environments/b5ac3c744d904a05a7c5ed191e26fe1d/venv/bin/python3",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/check_quality_handoff.py",
+      "--repo-root",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/real-handoff-control-fra8rrnl/repo",
+      "--handoff",
+      ".planning/argonauts/r-e0a2598f/quality-handoff.json"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "diagnostic": "HANDOFF_READY_ONLY",
+    "stdout": "{\"edges\": 26, \"openspec_3_2\": \"pending\", \"prohibitions\": 2, \"quality_status\": \"pending\", \"reporting_head\": \"526b89cec8d6b7c440b5716ee6319aec2f68f479\", \"result\": \"HANDOFF_READY_ONLY\", \"scoped_files\": 21, \"target_head\": \"526b89cec8d6b7c440b5716ee6319aec2f68f479\", \"ui\": 14}\n",
+    "stderr": "",
+    "source_handoff_sha256": "43709fe5503fdbc0988982cd2bfcda44f603ca462d32cac35cde2e7232d1937b"
+  },
+  {
+    "case": "missing-original",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/installs/a3f0e19b82632a3b/environments/b5ac3c744d904a05a7c5ed191e26fe1d/venv/bin/python3",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/check_quality_handoff.py",
+      "--repo-root",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/real-handoff-control-21w8ui7b/repo",
+      "--handoff",
+      ".planning/argonauts/r-e0a2598f/quality-handoff.json"
+    ],
+    "exit": 2,
+    "expected_exit": 2,
+    "diagnostic": "original_missing",
+    "stdout": "",
+    "stderr": "HANDOFF_INVALID: original_missing:/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/real-handoff-control-21w8ui7b/repo/.planning/argonauts/r-e0a2598f/cli-captures.json\n",
+    "source_handoff_sha256": "43709fe5503fdbc0988982cd2bfcda44f603ca462d32cac35cde2e7232d1937b"
+  },
+  {
+    "case": "stale-head",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/installs/a3f0e19b82632a3b/environments/b5ac3c744d904a05a7c5ed191e26fe1d/venv/bin/python3",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/check_quality_handoff.py",
+      "--repo-root",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/real-handoff-control-tppnwm4j/repo",
+      "--handoff",
+      ".planning/argonauts/r-e0a2598f/quality-handoff.json"
+    ],
+    "exit": 2,
+    "expected_exit": 2,
+    "diagnostic": "target_stale",
+    "stdout": "",
+    "stderr": "HANDOFF_INVALID: target_stale: latest scoped commit differs\n",
+    "source_handoff_sha256": "43709fe5503fdbc0988982cd2bfcda44f603ca462d32cac35cde2e7232d1937b"
+  },
+  {
+    "case": "missing-obligation",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/installs/a3f0e19b82632a3b/environments/b5ac3c744d904a05a7c5ed191e26fe1d/venv/bin/python3",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.planning/argonauts/r-e0a2598f/check_quality_handoff.py",
+      "--repo-root",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/real-handoff-control-kq_efojm/repo",
+      "--handoff",
+      ".planning/argonauts/r-e0a2598f/quality-handoff.json"
+    ],
+    "exit": 2,
+    "expected_exit": 2,
+    "diagnostic": "obligation:Q6",
+    "stdout": "",
+    "stderr": "HANDOFF_INVALID: obligation:Q6\n",
+    "source_handoff_sha256": "43709fe5503fdbc0988982cd2bfcda44f603ca462d32cac35cde2e7232d1937b"
+  }
+]

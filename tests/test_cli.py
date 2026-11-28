@@ -1,4 +1,5 @@
 """Run the CLI in a real subprocess with separate output streams."""
+import base64
 import json
 from html.parser import HTMLParser
 import os
@@ -595,6 +596,534 @@ def test_real_html_preserves_full_long_and_cr_basename(tmp_path, basename):
     assert path.read_bytes() == LONG_CONTENT.encode("utf-8")
 
 
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_tracer(tmp_path, output_format):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    body_bytes = b"Zoo apple APPLE zoo banana"
+    excluded_bytes = b"apple\n"
+    body.write_bytes(body_bytes)
+    excluded.write_bytes(excluded_bytes)
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format,
+                        [("zoo", 2), ("banana", 1)], body.name, 5)
+    assert body.read_bytes() == body_bytes
+    assert excluded.read_bytes() == excluded_bytes
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_tracer_missing_file(tmp_path, output_format):
+    body = tmp_path / "input.txt"
+    body.write_bytes(b"hello")
+    excluded = tmp_path / "missing.txt"
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert result.returncode == 2
+    assert result.stdout == b""
+    assert str(excluded).encode() in result.stderr
+    assert b"No such file" in result.stderr
+    assert b"Traceback" not in result.stderr
+    assert body.read_bytes() == b"hello"
+    assert not excluded.exists()
+
+
+def test_exclude_help_readme_tracer(tmp_path):
+    import re
+    help_result = run_cli_bytes("--help")
+    assert (help_result.returncode, help_result.stderr) == (0, b"")
+    help_text = " ".join(help_result.stdout.decode().split())
+    assert "--exclude FILE" in help_text
+    assert "exclude words" in help_text and "one word per line" in help_text
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    command = "python -m wordfreq input.txt --exclude excluded.txt"
+    assert command in readme
+    # Execute the actual documented block contents, not duplicate imagined inputs.
+    body_text = re.search(r"### 除外の実行例.*?input.txt`.*?```text\n(.*?)```", readme, re.S)
+    exclusion_text = re.search(r"### 除外の実行例.*?excluded.txt`.*?```text\n(.*?)```", readme, re.S)
+    assert body_text and exclusion_text
+    (tmp_path / "input.txt").write_bytes(body_text[1].encode("utf-8"))
+    (tmp_path / "excluded.txt").write_bytes(exclusion_text[1].encode("utf-8"))
+    result = run_cli_bytes(tmp_path / "input.txt", "--exclude", tmp_path / "excluded.txt")
+    assert (result.returncode, result.stdout, result.stderr) == (0, b"2\tzoo\n1\tbanana\n", b"")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("rows", [b" \n  #banana\n apple \n", b" \r\n  #banana\r\n apple \r\n",
+                                  b" \r\n  #banana\r\n apple "])
+def test_exclude_grammar_trim_comments_newlines(tmp_path, output_format, rows):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    body.write_bytes(b"apple banana")
+    excluded.write_bytes(rows)
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [("banana", 1)], body.name, 2)
+    assert body.read_bytes() == b"apple banana"
+    assert excluded.read_bytes() == rows
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("rows", ["", " \t\r\n  \n", "#apple\n  # banana  \n"])
+def test_exclude_grammar_noop(tmp_path, output_format, rows):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    body.write_bytes(b"Zoo apple APPLE zoo banana")
+    excluded.write_bytes(rows.encode("utf-8"))
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format,
+                        [("zoo", 2), ("apple", 2), ("banana", 1)], body.name, 5)
+    assert excluded.read_bytes() == rows.encode("utf-8")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("word", ["123", "_word_", "a_b", "日本語", "Straße", "STRASSE", "Hello", "İ"])
+def test_exclude_grammar_valid_unicode(tmp_path, output_format, word):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    content = "123 _word_ a_b 日本語 Straße STRASSE HELLO hello İ keep"
+    body.write_bytes(content.encode("utf-8"))
+    excluded.write_bytes(word.encode("utf-8"))
+    expected = [("strasse", 2), ("hello", 2), ("123", 1), ("_word_", 1),
+                ("a_b", 1), ("日本語", 1), ("i\u0307", 1), ("keep", 1)]
+    expected = [(w, c) for w, c in expected if w != word.casefold()]
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, expected, body.name, 10)
+    assert body.read_bytes() == content.encode("utf-8")
+    assert excluded.read_bytes() == word.encode("utf-8")
+
+
+def test_exclude_grammar_original_before_casefold(monkeypatch):
+    from wordfreq.exclusions import parse_exclusions
+
+    def no_io(*args, **kwargs):
+        raise AssertionError("pure interpretation must not acquire files")
+
+    monkeypatch.setattr("builtins.open", no_io)
+    assert parse_exclusions("İ\nStraße\nSTRASSE\n123\n_word_\na_b\n日本語") == {
+        "i\u0307", "strasse", "123", "_word_", "a_b", "日本語"}
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("bad,line_number", [("foo bar", 4), ("foo,", 4), ("foo-bar", 4),
+                                               ("\u0301", 4), ("foo # note", 4), ("\ufefffoo", 1)])
+def test_exclude_grammar_invalid_original_row(tmp_path, output_format, bad, line_number):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    body.write_bytes(b"foo keep")
+    rows = ("\n  # ignored\nfoo\n" if line_number == 4 else "") + bad + "\n"
+    excluded.write_bytes(rows.encode("utf-8"))
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert result.returncode == 2
+    assert result.stdout == b""
+    assert str(excluded).encode() in result.stderr
+    assert f"line {line_number}".encode() in result.stderr
+    assert b"word" in result.stderr and b"Traceback" not in result.stderr
+    assert body.read_bytes() == b"foo keep"
+    assert excluded.read_bytes() == rows.encode("utf-8")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_grammar_permutations_and_hashseeds(tmp_path, output_format):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    content = "Zoo apple APPLE zoo banana Café CAFÉ 日本語 Straße STRASSE"
+    body.write_bytes(content.encode("utf-8"))
+    outputs = []
+    for rows in ["STRASSE\nbanana\n", "banana\nSTRASSE\n", "STRASSE\nbanana\nStraße\nbanana\n"]:
+        excluded.write_bytes(rows.encode("utf-8"))
+        for seed in ["0", "1", "42"]:
+            result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format,
+                                   env=dict(os.environ, PYTHONHASHSEED=seed))
+            assert (result.returncode, result.stderr) == (0, b"")
+            assert_output_bytes(result.stdout, output_format,
+                                [("zoo", 2), ("apple", 2), ("café", 2), ("日本語", 1)], body.name, 10)
+            outputs.append(result.stdout)
+        assert excluded.read_bytes() == rows.encode("utf-8")
+    assert all(output == outputs[0] for output in outputs)
+    assert body.read_bytes() == content.encode("utf-8")
+
+
+# 08-02: exercise real FileSource, including open-boundary failures as root.
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("role", ["exclude", "body-valid-exclude", "body-absent-exclude"])
+@pytest.mark.parametrize("failure,reason,cause_type", [
+    ("missing", "No such file", FileNotFoundError),
+    ("directory", "directory", IsADirectoryError),
+    ("decode", "utf-8", UnicodeDecodeError),
+    ("permission", "Permission denied", PermissionError),
+    ("oserror", "Input/output error", OSError),
+])
+def test_exclude_failures_role_mapping(tmp_path, monkeypatch, capfd, output_format,
+                                       role, failure, reason, cause_type):
+    import builtins
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource, InputError
+
+    body = tmp_path / "body.txt"
+    excluded = tmp_path / "excluded.txt"
+    body.write_bytes(b"apple keep")
+    excluded.write_bytes(b"apple\n")
+    target = excluded if role == "exclude" else body
+    if failure == "missing":
+        target.unlink()
+    elif failure == "directory":
+        target.unlink()
+        target.mkdir()
+    elif failure == "decode":
+        target.write_bytes(b"apple\n\xff")
+    snapshots = {p: p.read_bytes() for p in (body, excluded) if p.is_file()}
+    original_open = builtins.open
+    injected = (PermissionError(13, reason, str(target)) if failure == "permission"
+                else OSError(5, reason, str(target)))
+    opens, reads, wrapped = [], [], []
+
+    def open_spy(path, *args, **kwargs):
+        opens.append((str(path), args, kwargs))
+        if str(path) == str(target) and failure in {"permission", "oserror"}:
+            raise injected
+        return original_open(path, *args, **kwargs)
+
+    real_read = FileSource.read_text
+
+    def read_spy(source):
+        reads.append(source._path)
+        try:
+            return real_read(source)
+        except InputError as error:
+            wrapped.append(error)
+            raise
+
+    monkeypatch.setattr(builtins, "open", open_spy)
+    monkeypatch.setattr(FileSource, "read_text", read_spy)
+    options = [] if role == "body-absent-exclude" else ["--exclude", str(excluded)]
+    with pytest.raises(SystemExit) as caught:
+        main([str(body), "--format", output_format, *options])
+    expected_reads = ([str(excluded)] if role == "exclude" else
+                      [str(body)] if not options else [str(excluded), str(body)])
+    assert reads == expected_reads
+    assert opens == [(p, ("r",), {"encoding": "utf-8"}) for p in expected_reads]
+    assert caught.value.code == (2 if role == "exclude" else 1)
+    output = capfd.readouterr()
+    assert output.out == ""
+    assert str(target) in output.err and reason in output.err
+    assert "Traceback" not in output.err and "<!doctype" not in output.err
+    assert len(wrapped) == 1
+    assert isinstance(wrapped[0].__cause__, cause_type)
+    assert str(target) in str(wrapped[0]) and reason in str(wrapped[0])
+    if failure in {"permission", "oserror"}:
+        assert wrapped[0].__cause__ is injected
+    assert {p: p.read_bytes() for p in snapshots} == snapshots
+    if failure == "missing":
+        assert not target.exists()
+    elif failure == "directory":
+        assert list(target.iterdir()) == []
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("body_failure", ["none", "missing", "decode"])
+@pytest.mark.parametrize("exclusion_failure", ["missing", "late-invalid"])
+def test_exclude_precedence_failed_exclusion_never_reads_body(
+        tmp_path, monkeypatch, capfd, output_format, body_failure, exclusion_failure):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    if body_failure != "missing":
+        body.write_bytes(b"apple keep" if body_failure == "none" else b"apple\xff")
+    if exclusion_failure != "missing":
+        excluded.write_bytes(b"\n  # ignored\napple\napple banana\n")
+    snapshots = {p: p.read_bytes() for p in (body, excluded) if p.exists()}
+    reads = []
+    real_read = FileSource.read_text
+
+    def spy(source):
+        reads.append(source._path)
+        assert source._path == str(excluded), "body read before full exclusion validation"
+        return real_read(source)
+
+    monkeypatch.setattr(FileSource, "read_text", spy)
+    with pytest.raises(SystemExit) as caught:
+        main([str(body), "--exclude", str(excluded), "--format", output_format])
+    assert caught.value.code == 2
+    assert reads == [str(excluded)]
+    output = capfd.readouterr()
+    assert output.out == "" and str(excluded) in output.err
+    assert str(body) not in output.err and "Traceback" not in output.err
+    assert ("line 4" if exclusion_failure == "late-invalid" else "No such file") in output.err
+    assert {p: p.read_bytes() for p in snapshots} == snapshots
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("options,diagnostic", [
+    (["--top", "0"], "--top"), (["--top", "-1"], "--top"),
+    (["--top", "1.5"], "--top"), (["--top", "abc"], "--top"),
+    (["--top"], "--top"),
+    (["--min-count", "0"], "--min-count"),
+    (["--min-count", "-1"], "--min-count"),
+    (["--min-count", "1.5"], "--min-count"),
+    (["--min-count", "abc"], "--min-count"),
+    (["--min-count"], "--min-count"),
+    (["--format", "xml"], "invalid choice"),
+    (["--unknown"], "unrecognized arguments"),
+    (["extra.txt"], "unrecognized arguments"),
+    (["--exclude"], "--exclude"),
+])
+def test_exclude_precedence_argv_before_both_reads(tmp_path, monkeypatch, capfd,
+                                                output_format, options, diagnostic):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    reads = []
+
+    def no_read(source):
+        reads.append(source._path)
+        raise AssertionError("argv failure must not acquire either file")
+
+    monkeypatch.setattr(FileSource, "read_text", no_read)
+    with pytest.raises(SystemExit) as caught:
+        main([str(tmp_path / "missing-body"), "--exclude", str(tmp_path / "missing-exclude"),
+              "--format", output_format, *options])
+    assert caught.value.code == 2 and reads == []
+    output = capfd.readouterr()
+    assert output.out == "" and diagnostic in output.err
+    assert "Traceback" not in output.err and "No such file" not in output.err
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_precedence_missing_filename(monkeypatch, capfd, output_format):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    reads = []
+    monkeypatch.setattr(FileSource, "read_text", lambda source: reads.append(source))
+    with pytest.raises(SystemExit) as caught:
+        main(["--exclude", "missing-exclude", "--format", output_format])
+    assert caught.value.code == 2 and reads == []
+    output = capfd.readouterr()
+    assert output.out == "" and "filename" in output.err and "Traceback" not in output.err
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("rows", [b"apple\n", b"", b"  # ignored\n"])
+def test_exclude_precedence_success_order(tmp_path, monkeypatch, capfd,
+                                         output_format, rows):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    body.write_bytes(b"apple keep")
+    excluded.write_bytes(rows)
+    reads = []
+    real_read = FileSource.read_text
+
+    def spy(source):
+        reads.append(source._path)
+        return real_read(source)
+
+    monkeypatch.setattr(FileSource, "read_text", spy)
+    with pytest.raises(SystemExit) as caught:
+        main([str(body), "--exclude", str(excluded), "--top", "1", "--min-count", "1",
+              "--format", output_format])
+    assert caught.value.code == 0 and reads == [str(excluded), str(body)]
+    output = capfd.readouterr()
+    assert output.err == ""
+    assert_output_bytes(output.out.encode("utf-8"), output_format,
+                        [("keep", 1)] if rows == b"apple\n" else [("apple", 1)], body.name, 2)
+    assert body.read_bytes() == b"apple keep" and excluded.read_bytes() == rows
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("top", [1, 2, None, 10, 99])
+@pytest.mark.parametrize("reverse", [False, True])
+@pytest.mark.parametrize("content,rows,minimum,expected,total", [
+    ("Zoo apple APPLE zoo banana", "apple", 1, [("zoo", 2), ("banana", 1)], 5),
+    ("Zoo apple APPLE zoo banana", "zoo", 2, [("apple", 2)], 5),
+    # N-1/N/N+1 at N=2, with counts both below and above the boundary retained in input.
+    ("beta beta beta alpha gamma alpha delta", "delta", 2,
+     [("beta", 3), ("alpha", 2)], 7),
+    # Reverse lexical order among the remaining ties.
+    ("zulu zulu zulu yankee yankee xray xray alpha", "zulu", 2,
+     [("yankee", 2), ("xray", 2)], 8),
+    (LONG_CONTENT, "w" * 256, 1, LONG_PAIRS[1:], 200),
+])
+def test_exclude_selection_matrix(tmp_path, output_format, top, reverse,
+                                   content, rows, minimum, expected, total):
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    body.write_bytes(content.encode("utf-8"))
+    excluded.write_bytes(rows.encode("utf-8"))
+    groups = [["--exclude", excluded], ["--min-count", minimum]]
+    if top is not None:
+        groups.append(["--top", top])
+    if reverse:
+        groups.reverse()
+    options = [arg for group in groups for arg in group]
+    result = run_cli_bytes(body, "--format", output_format, *options)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, expected[:10 if top is None else top],
+                        body.name, total)
+    assert body.read_bytes() == content.encode("utf-8")
+    assert excluded.read_bytes() == rows.encode("utf-8")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_selection_ties_permutations_seeds(tmp_path, output_format):
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    content = b"removed zulu yankee xray alpha zulu yankee xray removed"
+    body.write_bytes(content)
+    outputs = []
+    for rows in [b"removed\nalpha", b"alpha\nremoved", b"removed\nalpha\nremoved"]:
+        excluded.write_bytes(rows)
+        for seed in ["0", "1", "42"]:
+            result = run_cli_bytes(body, "--exclude", excluded, "--min-count", "2", "--top", "2",
+                                   "--format", output_format,
+                                   env=dict(os.environ, PYTHONHASHSEED=seed))
+            assert (result.returncode, result.stderr) == (0, b"")
+            assert_output_bytes(result.stdout, output_format,
+                                [("zulu", 2), ("yankee", 2)], body.name, 9)
+            outputs.append(result.stdout)
+            assert excluded.read_bytes() == rows
+    assert all(raw == outputs[0] for raw in outputs)
+    assert body.read_bytes() == content
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_selection_preserves_full_counter_and_shared_pairs(tmp_path, monkeypatch,
+                                                                   capfd, output_format):
+    from collections import Counter
+    import wordfreq.__main__ as cli
+    full = Counter({"zoo": 2, "banana": 1, "apple": 2, "café": 2, "rare": 1})
+    original = list(full.items())
+    original_total = sum(full.values())
+    real_count, real_top = cli.count_words, cli.top_words
+    real_format = getattr(cli, "format_" + output_format)
+    selected, calls = [], []
+
+    def count_spy(tokens):
+        assert list(real_count(tokens).items()) == original
+        return full
+
+    def top_spy(candidate, n):
+        assert candidate is not full
+        assert list(full.items()) == original
+        assert list(candidate.items()) == [("apple", 2), ("café", 2)]
+        assert n == 1
+        pairs = real_top(candidate, n)
+        selected.append(pairs)
+        return pairs
+
+    def formatter_spy(pairs, *metadata):
+        assert pairs is selected[0] and pairs == [("apple", 2)]
+        assert metadata == (("body.txt", original_total) if output_format == "html" else ())
+        calls.append(True)
+        return real_format(pairs, *metadata)
+
+    monkeypatch.setattr(cli, "count_words", count_spy)
+    monkeypatch.setattr(cli, "top_words", top_spy)
+    monkeypatch.setattr(cli, "format_" + output_format, formatter_spy)
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    content = "Zoo banana apple APPLE zoo Café CAFÉ rare".encode("utf-8")
+    body.write_bytes(content)
+    excluded.write_bytes(b"zoo\n")
+    with pytest.raises(SystemExit) as caught:
+        cli.main([str(body), "--exclude", str(excluded), "--min-count", "2", "--top", "1",
+                  "--format", output_format])
+    assert caught.value.code == 0 and calls == [True]
+    assert list(full.items()) == original
+    output = capfd.readouterr()
+    assert output.err == ""
+    assert_output_bytes(output.out.encode("utf-8"), output_format, [("apple", 2)],
+                        body.name, original_total)
+    assert body.read_bytes() == content and excluded.read_bytes() == b"zoo\n"
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("content,rows,minimum,total", [
+    (b"", b"apple", 1, 0), (b" \t\r\n ", b"apple", 1, 0),
+    (b"!?,.;: --", b"apple", 1, 0),
+    (b"Zoo apple APPLE zoo banana", b"zoo\napple\nbanana", 1, 5),
+    (b"Zoo apple APPLE zoo banana", b"zoo\napple", 2, 5),
+])
+def test_exclude_empty_results(tmp_path, output_format, content, rows, minimum, total):
+    from test_formatters import HTMLDocument, assert_static_document
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    body.write_bytes(content)
+    excluded.write_bytes(rows)
+    result = run_cli_bytes(body, "--exclude", excluded, "--min-count", minimum,
+                           "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [], body.name, total)
+    if output_format == "text":
+        assert result.stdout == b""
+    elif output_format == "json":
+        assert result.stdout == b"[]\n"
+    else:
+        document = HTMLDocument(result.stdout.decode("utf-8"))
+        assert_static_document(document)
+        assert document.tagged("td") == [] and len(document.tagged("tr")) == 1
+        assert document.classified("empty-message")[0]["text"] == (
+            "集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。")
+    assert body.read_bytes() == content and excluded.read_bytes() == rows
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("rows", [b"", b" \t\r\n", b" #apple\n#zoo", b"unmatched"])
+def test_exclude_empty_noop_exact_bytes(tmp_path, output_format, rows):
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    content = "Zoo apple APPLE zoo banana Café CAFÉ".encode("utf-8")
+    body.write_bytes(content)
+    excluded.write_bytes(rows)
+    options = ["--format", output_format, "--min-count", "2", "--top", "2"]
+    unset = run_cli_bytes(body, *options)
+    result = run_cli_bytes(body, *options, "--exclude", excluded)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert (unset.returncode, unset.stderr) == (0, b"")
+    assert result.stdout == unset.stdout
+    assert_output_bytes(result.stdout, output_format, [("zoo", 2), ("apple", 2)], body.name, 7)
+    assert body.read_bytes() == content and excluded.read_bytes() == rows
+
+
+@pytest.mark.parametrize("basename", [
+    '集計  ' + 'n' * 176 + '\n続き\t終わり  &<>"\'.txt',
+    'a\rb\r\nc  \n\t.txt',
+])
+@pytest.mark.parametrize("row_count", [0, 1, 12])
+def test_exclude_ui_static_presentation(tmp_path, basename, row_count):
+    from html import escape
+    from test_formatters import (HTMLDocument, assert_static_document,
+                                 test_complete_fixed_css_contract_is_static_not_browser_acceptance)
+    parent = tmp_path / "private-parent-sensitive"
+    parent.mkdir()
+    body, excluded = parent / basename, tmp_path / "private-exclusion-marker"
+    content = ("removed " + LONG_CONTENT).encode("utf-8")
+    body.write_bytes(content)
+    rows = "removed\n" + ("\n".join(w for w, _ in LONG_PAIRS) if row_count == 0 else "")
+    excluded.write_bytes(rows.encode("utf-8"))
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", "html",
+                           "--top", row_count or 1, env=dict(os.environ, PYTHONIOENCODING="latin-1"))
+    assert (result.returncode, result.stderr) == (0, b"")
+    expected = LONG_PAIRS[:row_count]
+    assert_output_bytes(result.stdout, "html", expected, basename, 201)
+    raw = result.stdout.decode("utf-8", errors="strict")
+    document = HTMLDocument(raw.replace("\r\n", "\n").replace("\r", "\n"))
+    assert_static_document(document)
+    assert document.classified("filename-value")[0]["text"] == basename
+    assert len(document.classified("empty-message")) == (1 if row_count == 0 else 0)
+    if row_count == 0:
+        assert document.classified("empty-message")[0]["text"] == (
+            "集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。")
+    # Static declarations and semantics only, not a browser geometry claim.
+    test_complete_fixed_css_contract_is_static_not_browser_acceptance()
+    for secret in (str(parent), parent.name, str(excluded), excluded.name, "removed"):
+        assert secret not in raw and escape(secret, quote=True) not in raw
+    assert raw.endswith("</html>\n") and "\r" not in raw
+    assert body.read_bytes() == content and excluded.read_bytes() == rows.encode("utf-8")
+
+
+def test_exclude_empty_readme_contract():
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    for phrase in ("空の除外FILE", "コメントのみ", "不一致", "元の正の総数", "総数0"):
+        assert phrase in readme
+
+
 # 04-02 tracer: argument acceptance and pre-I/O rejection (OpenSpec 1.2).
 @pytest.mark.parametrize("output_format", ["text", "json", "html"])
 def test_min_count_argument_tracer(tmp_path, output_format):
@@ -815,5 +1344,188 @@ def test_min_count_saved_default_bytes(case_index):
         result = run_cli_bytes(path, *options, *minimum, env=env)
         assert (result.returncode, result.stderr) == (0, b"")
         assert result.stdout == expected
+
+
+EXCLUDE_BASELINE = "79d83ba14dd59d289d2ecd3e33c85e8de437972e"
+
+
+def test_exclude_baseline_available_in_offline_shallow_checkout(tmp_path, monkeypatch):
+    """A depth-one checkout must run the actual historical comparison offline."""
+    source = ROOT
+    shallow = tmp_path / "shallow"
+    subprocess.run(["git", "clone", "--no-local", "--depth", "1", str(source), str(shallow)],
+                   capture_output=True, check=True)
+    assert subprocess.run(["git", "rev-parse", "--is-shallow-repository"],
+                          cwd=shallow, capture_output=True, check=True).stdout == b"true\n"
+    assert subprocess.run(["git", "cat-file", "-e", EXCLUDE_BASELINE],
+                          cwd=shallow, capture_output=True).returncode != 0
+    # Include uncommitted test data during the RED/GREEN development loop.
+    if (source / "tests/fixtures").exists():
+        shutil.copytree(source / "tests/fixtures", shallow / "tests/fixtures", dirs_exist_ok=True)
+    monkeypatch.setitem(globals(), "ROOT", shallow)
+    historical, candidate, env = _exclude_baseline_roots(tmp_path)
+    blob = subprocess.run(["git", "hash-object", "wordfreq/__main__.py"],
+                          cwd=historical, capture_output=True, check=True).stdout
+    assert blob == b"ecfd5418e954303451ba1b0ce099298b0e7c4401\n"
+    body = tmp_path / "body.txt"
+    body.write_text("Zoo apple APPLE zoo Straße STRASSE", encoding="utf-8")
+    for output_format in ("text", "json", "html"):
+        argv = [sys.executable, "-m", "wordfreq", str(body), "--format", output_format]
+        before = subprocess.run(argv, cwd=historical, env=env, capture_output=True, check=True)
+        after = subprocess.run(argv, cwd=candidate, env=env, capture_output=True, check=True)
+        assert (before.stdout, before.stderr) == (after.stdout, after.stderr)
+
+
+@pytest.mark.parametrize("damage", ["missing-file", "missing-blob", "changed-blob", "rehashed-blob"])
+def test_exclude_baseline_corruption_is_not_skipped(tmp_path, monkeypatch, damage):
+    fixture = "tests/fixtures/exclude-baseline-git-objects.json"
+    root = tmp_path / "damaged"
+    target = root / fixture
+    target.parent.mkdir(parents=True)
+    data = json.loads((ROOT / fixture).read_text(encoding="utf-8"))
+    if damage == "missing-blob":
+        data["objects"].pop()
+    elif damage in ("changed-blob", "rehashed-blob"):
+        obj = data["objects"][-1]
+        obj["base64"] = base64.b64encode(b"not historical source\n").decode("ascii")
+        if damage == "rehashed-blob":
+            obj["oid"] = subprocess.run(["git", "hash-object", "--stdin"],
+                                        input=b"not historical source\n", capture_output=True,
+                                        check=True).stdout.decode().strip()
+    if damage != "missing-file":
+        target.write_text(json.dumps(data), encoding="utf-8")
+    monkeypatch.setitem(globals(), "ROOT", root)
+    with pytest.raises((FileNotFoundError, AssertionError, subprocess.CalledProcessError)):
+        _exclude_baseline_roots(tmp_path)
+
+
+@pytest.fixture
+def exclude_baseline_roots(tmp_path):
+    return _exclude_baseline_roots(tmp_path)
+
+
+def _exclude_baseline_roots(tmp_path):
+    """Authenticate bundled raw Git objects through the fixed commit, offline.
+
+    The commit authenticates the root tree, which authenticates the wordfreq
+    tree and its blobs. No current source or generated CLI output is a golden.
+    Missing/corrupt objects fail; only the disposable historical root is written.
+    """
+    historical, candidate = tmp_path / "historical", tmp_path / "candidate"
+    historical.mkdir()
+    candidate.mkdir()
+    data = json.loads((ROOT / "tests/fixtures/exclude-baseline-git-objects.json").read_text(encoding="utf-8"))
+    assert data["commit"] == EXCLUDE_BASELINE, "wrong historical commit"
+    subprocess.run(["git", "init", "--quiet", str(historical)], check=True, capture_output=True)
+    for obj in data["objects"]:
+        actual = subprocess.run(
+            ["git", "hash-object", "-w", "-t", obj["type"], "--stdin"],
+            input=base64.b64decode(obj["base64"], validate=True), cwd=historical,
+            capture_output=True, check=True,
+        ).stdout.decode().strip()
+        assert actual == obj["oid"], "corrupt historical Git object"
+    subprocess.run(["git", "cat-file", "-e", EXCLUDE_BASELINE + "^{commit}"],
+                   cwd=historical, capture_output=True, check=True)
+    files = subprocess.run(
+        ["git", "ls-tree", "-r", "--name-only", EXCLUDE_BASELINE, "--", "wordfreq"],
+        cwd=historical, capture_output=True, check=True,
+    ).stdout.decode().splitlines()
+    assert "wordfreq/__main__.py" in files, "required historical package absent"
+    for name in files:
+        target = historical / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(subprocess.run(
+            ["git", "show", f"{EXCLUDE_BASELINE}:{name}"], cwd=historical,
+            capture_output=True, check=True,
+        ).stdout)
+    shutil.copytree(ROOT / "wordfreq", candidate / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    env = os.environ.copy()
+    env.pop("PYTHONPATH", None)
+    env.update(PYTHONDONTWRITEBYTECODE="1", PYTHONHASHSEED="42",
+               PYTHONIOENCODING="utf-8", PYTHONNOUSERSITE="1")
+    return historical, candidate, env
+
+
+@pytest.mark.parametrize("content", [
+    "Zoo apple APPLE zoo Straße STRASSE Café CAFÉ 日本語 日本語 "
+    "zeta yak xray wolf vole urn tiger snake rabbit quail penguin otter",
+    "",
+], ids=["ties-unicode-over-ten", "empty"])
+@pytest.mark.parametrize("output_format", [None, "text", "json", "html"])
+@pytest.mark.parametrize("options", [
+    [], ["--top", "1"], ["--top", "2"], ["--top", "99"],
+    ["--min-count", "1"], ["--min-count", "2"],
+    ["--min-count", "3"], ["--min-count", "2", "--top", "2"],
+])
+def test_exclude_baseline_exact_git_bytes(tmp_path, exclude_baseline_roots,
+                                        content, output_format, options):
+    historical, candidate, env = exclude_baseline_roots
+    path = tmp_path / "同じ入力.txt"
+    original = content.encode("utf-8")
+    path.write_bytes(original)
+    argv = [sys.executable, "-m", "wordfreq", str(path), *options]
+    if output_format is not None:
+        argv += ["--format", output_format]
+    before = subprocess.run(argv, cwd=historical, env=env, capture_output=True, timeout=10)
+    after = subprocess.run(argv, cwd=candidate, env=env, capture_output=True, timeout=10)
+    assert (before.returncode, before.stderr) == (0, b"")
+    assert (after.returncode, after.stderr) == (0, b"")
+    assert after.stdout == before.stdout, "fixed historical stdout bytes differ"
+    assert path.read_bytes() == original
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("excluded_bytes,status", [
+    (b"apple\r\n", 0), (b"\n #comment\napple\nfoo bar", 2), (b"apple\xff", 2),
+], ids=["success", "invalid-line", "invalid-utf8"])
+def test_exclude_immutability_both_inputs(tmp_path, output_format, excluded_bytes, status):
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    body_bytes = "Zoo apple APPLE zoo banana Straße".encode("utf-8")
+    body.write_bytes(body_bytes)
+    excluded.write_bytes(excluded_bytes)
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert result.returncode == status
+    assert body.read_bytes() == body_bytes
+    assert excluded.read_bytes() == excluded_bytes
+    if status:
+        assert result.stdout == b"" and str(excluded).encode() in result.stderr
+        assert b"Traceback" not in result.stderr
+    else:
+        assert result.stderr == b""
+
+
+def test_exclude_docs_complete_contract_and_literal_example(tmp_path):
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    # Check topics in the feature section, not accidental mentions elsewhere.
+    section = readme.split("### 除外の実行例\n", 1)[1].split("## 部品", 1)[0]
+    for topic in ["--exclude FILE", "1行1語", "UTF-8", "LF", "CRLF", "最終改行なし",
+                  "前後空白", "空行", "#", "\\w+", "検証してから casefold", "123",
+                  "_word_", "foo bar", "foo,", "foo-bar", "結合文字", "foo # note",
+                  "BOM", "STRASSE", "Hello", "権限不足", "ディレクトリ", "不正UTF-8",
+                  "行番号", "理由", "stderr", "exit2", "Traceback", "本文を読みません",
+                  "引数構文・数値", "全行検証", "本文失敗", "exit1", "HTML総数", "5",
+                  "未指定", "書き換えません", "min-count", "全語除外"]:
+        assert topic in section, f"README exclusion topic missing: {topic}"
+    assert "自動の除外辞書は使いません" in section
+    assert "中断や並列実行について新しい保証は追加しません" in section
+    body_text = section.split("`input.txt`:\n```text\n", 1)[1].split("```", 1)[0]
+    exclude_text = section.split("`excluded.txt`（UTF-8の1行1語）:\n```text\n", 1)[1].split("```", 1)[0]
+    command = section.split("```sh\n", 1)[1].split("\n```", 1)[0]
+    assert command == "python -m wordfreq input.txt --exclude excluded.txt"
+    shutil.copytree(ROOT / "wordfreq", tmp_path / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    (tmp_path / "input.txt").write_bytes(body_text.encode("utf-8"))
+    (tmp_path / "excluded.txt").write_bytes(exclude_text.encode("utf-8"))
+    env = os.environ.copy()
+    env.pop("PYTHONPATH", None)
+    result = subprocess.run([sys.executable, *command.split()[1:]], cwd=tmp_path,
+                            env=env, capture_output=True, timeout=10)
+    assert (result.returncode, result.stdout, result.stderr) == (0, b"2\tzoo\n1\tbanana\n", b"")
+    assert (tmp_path / "input.txt").read_bytes() == body_text.encode("utf-8")
+    assert (tmp_path / "excluded.txt").read_bytes() == exclude_text.encode("utf-8")
+    help_result = run_cli_bytes("--help")
+    assert (help_result.returncode, help_result.stderr) == (0, b"")
+    assert b"--exclude FILE" in help_result.stdout and b"one word per line" in help_result.stdout
 
 

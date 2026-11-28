@@ -1,52 +1,58 @@
 # Synthesis Summary
 
-MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。対象は `.planning/intel/classifications/r-cf2eeaab/` の今回4分類と対応原本のみ。旧分類は取り込まず、既存intelを今回のmerge用staging結果で置換する。統合先PROJECT/REQUIREMENTS/ROADMAP/STATEは未編集。
-
 STATUS: READY — safe to route
 
-## 入力と確認
+MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。公式gsd-doc-synthesizerとしてPM判断t_9da1db1eの6分類を全件消費し、6原本から全intelと衝突報告を再生成した。旧7件の停止済部分合成は成功結果として流用しない。READYは今回の文書合成ゲートのみを表し、実装・品質合格や取込み先書込み承認ではない。
 
-- Docs synthesized: 4（ADR 0 / SPEC 1 / PRD 2 / DOC 1 / UNKNOWN 0）。全分類・全対応原本をread_fileで全文確認した。
-- jq集計: count 4、unique_sources 4、valid true（全分類high confidence / manifest_override true / locked false / precedence null）、exit 0。precedence overrideなし。
-- SPEC: `openspec/changes/r-cf2eeaab-project-description-uat/tasks.md`。
-- PRD: `openspec/changes/r-cf2eeaab-project-description-uat/proposal.md`、`_bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md`。
-- DOC: `_bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.md`。
-- 公式CLI `node /home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/gsd-core/bin/gsd-tools.cjs init ingest-docs` はexit 0。project_exists/planning_exists true、project_root・intel_dir・conflicts_pathは指定worktreeと一致、agents_installed true。commit_docs trueは今回のcommit禁止を変更しない。
-- 既存文脈は `.planning/PROJECT.md`、`.planning/REQUIREMENTS.md`、`.planning/ROADMAP.md`、`.planning/STATE.md` を全文確認した。既存intelは出力置換前の読取りだけとし、旧依頼の抽出内容を混ぜていない。
+## Input and scope
 
-## cross_refsグラフとcycle_detection
+- CLASSIFICATIONS_DIR: `.planning/intel/classifications/r-e0a2598f-retry/`
+- jqによる分類集計: 6（ADR 0 / PRD 2 / SPEC 1 / DOC 3 / UNKNOWN 0）、locked 0、precedence override 0。
+- PRD: `_bmad-output/initiative-r-e0a2598f/brief/brief-wordfreq-exclude.md`、`_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md`。
+- SPEC: `openspec/changes/r-e0a2598f-wordfreq-exclude/specs/wordfreq-cli/spec.md`。
+- DOC: `openspec/changes/r-e0a2598f-wordfreq-exclude/proposal.md`、`tasks.md`、`design.md`（後2件は同変更ディレクトリ）。
+- `_bmad-output/initiative-r-e0a2598f/architecture/architecture.md` は直接合成対象からのみ除外。設計の仕様・効力は縮小せず、plannerが原本を直接読む。cross_refsは変更せず保持。
+- merge照合は `.planning/PROJECT.md`、`REQUIREMENTS.md`、`ROADMAP.md` およびsearch_filesで列挙した全5 CONTEXT.md（Phase 1/3/4/5/7）を全文読取り。いずれも未変更。
 
-ノードは今回4 source_pathのみ。source親相対参照とrepository-root基準の参照は原本の表記に従って解決する。対象内edgeはtasks → proposal、proposal → Brief、proposal → PRD、PRD → Brief。tasksのproposal.mdは同ディレクトリへ、PRDの../brief/brief-project-description-uat.mdはPRD親相対へ解決する。pyproject.toml、initiative、.openspec.yaml、design.md、VERIFICATION.mdは対象外参照であり、追加の文書として取り込まない。
+## Cross-reference graph and cycle detection
 
-三色DFSを適用: tasks gray → proposal gray → PRD gray → Brief gray → Brief black → PRD black、proposalのBrief参照はblackを確認 → proposal black → tasks black。gray back-edgeなし、循環0件、最大active stackは4文書でdepth上限50以内。全4文書を合成対象とした。
-source: .planning/intel/classifications/r-cf2eeaab/ 内の今回4 JSONのsource_path/cross_refs; openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:3; openspec/changes/r-cf2eeaab-project-description-uat/proposal.md:28; _bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md:33
+ノード集合は今回の6 source_pathのみ。相対参照は原本の親、repository-root形式はworktreeルートを基準に解決。対象外参照は削除・再分類・再帰取込みしない。READMEという原識別子をREADME.mdへ修復していない。
+source: `.planning/intel/classifications/r-e0a2598f-retry/` の全6 JSON。
 
-## 抽出結果
+対象内edge（同じ解決先への重複はグラフ内のみ一本化、JSON原記録は不変）:
+- tasks → design
+- design → PRD
+- PRD → Brief（相対形式とroot形式が同じノードへ解決）
+- proposal → PRD、Brief
+- Brief、OpenSpec SPEC → 対象内なし
 
-- decisions.md: ADR決定0、locked決定0（source paths: 該当なし）。他種別からADR決定を生成しない。
-- requirements.md: 2エントリ、単一の製品要求を出典別に保持。競合variantではない。
-  - REQ-project-description-uat-proposal
-  - REQ-project-description-uat-prd
-- constraints.md: 3制約。nfr 3 / api-contract 0 / schema 0 / protocol 0。変更前後の直接検証と保持、最小製品追加とAC別証拠、独立品質・ゲートと人によるマージ。
-- context.md: 3トピック。Briefの確定値と範囲、受入条件と工程境界、依頼者判断と未決事項。DOCの原文抜粋を出典付きで保持。
+三色DFSの適用: tasks white→gray、design white→gray、PRD white→gray、Brief white→gray→black、PRD→black、design→black、tasks→black。proposal gray→PRD/Brief black確認→black。SPEC gray→black。grayへのback-edgeなし。最大active stack 4、深さ上限50以内。対象内循環0、deferred 0。旧7件集合のarchitecture→PRDは対象外ノード起点なので今回グラフへ導入しない。これは旧循環の否認ではなくPMの明示的対象集合変更による再判定である。
 
-## 承認された追加要求の境界
+対象外参照（原cross_refsは各JSONに完全保存）:
+- Brief: `../initiative-r-e0a2598f.md`、`../source-context.md`、`../decision-update.md`、`README`、`../open-questions.md`。
+- PRD: `../initiative-r-e0a2598f.md`、`../source-context.md`、`../decision-update.md`、`openspec/specs/wordfreq-cli/spec.md`、`README`、`tests/test_cli.py`、`../architecture/architecture.md`、`../open-questions.md`。
+- OpenSpec SPEC: `README`。
+- proposal: `../../../_bmad-output/initiative-r-e0a2598f/architecture/architecture.md`、`../../../_bmad-output/initiative-r-e0a2598f/decision-update.md`。
+- design: `../../../_bmad-output/initiative-r-e0a2598f/architecture/architecture.md`、`../../../_bmad-output/initiative-r-e0a2598f/decision-update.md`、`../../../_bmad-output/initiative-r-e0a2598f/open-questions.md`。
+- tasks: `../../../_bmad-output/initiative-r-e0a2598f/decision-update.md`、`checks/REVISION-HANDOFF.md`。後者は分類原記録のまま保持し、原文の「同initiative」説明を使って黙って書き換えない。
 
-DATA_e141a008_START
+## Extraction
 
-`pyproject.toml` の `[project].description` を新規追加し、解析後の値は厳密に `argonauts-uat public (UAT)` とする。前後の余分な空白や接尾辞の重複を加えない。製品差分は対象項目の1行追加だけで、既存TOML項目・値・既存行と他製品ファイルを保持し、変更後のTOML解析が成功すること。工程文書は許容する。製品テスト・依存・CLI・workflow・名称・バージョン・ビルド設定は変更しない。metadata-onlyで既存能力の要求変更はなく、skip_specs=true。full工程を維持し、architecture変更は不要。危険パスのためsmartでも人がマージする。
+- Docs synthesized: 6（PRD 2 / SPEC 1 / DOC 3）。全件再合成、保留0。
+- Decisions locked: 0。ADRなし、source paths該当なし。採用決定をADRへ再分類しない。
+- Requirements: 13。Brief 6件とPRD FR-1〜7の7件を別IDで保存。同時充足可能な詳細化をvariantにせず、要件を捨てない。
+- IDs: REQ-exclude-brief-ranking、REQ-exclude-brief-lines、REQ-exclude-brief-fullmatch、REQ-exclude-brief-errors、REQ-exclude-brief-discovery-tests、REQ-exclude-brief-change-boundary、REQ-exclude-prd-fr1、REQ-exclude-prd-fr2、REQ-exclude-prd-fr3、REQ-exclude-prd-fr4、REQ-exclude-prd-fr5、REQ-exclude-prd-fr6、REQ-exclude-prd-fr7。
+- Constraints: 5（api-contract 4 / nfr 1 / schema 0 / protocol 0）、SPEC EX-1〜5。
+- Context topics: 3（proposal、tasks、design）、DOC全3原文を全文保持。
+- Conflicts: 0 blockers / 0 competing-variants / 0 auto-resolved。
 
-最新依頼者判断2026-11-24T19:13:42.938043+00:00を反映済みで、新規追加と完成値は確定している。旧追記条件は文書内の背景記録であり、未決事項はない。検証ファイルを工程配下に置くことと製品テストの追加・変更を混同しない。
+除外FILEはUTF-8、trim後空行/#開始行無視、既存w+ fullmatch後casefold。全読込み失敗と不正行はexit2/FILE/理由、不正行は元行番号、空stdout/HTML/Tracebackなし。引数→除外全行→本文、除外失敗時本文取得0回、本文既存exit1維持。除外→min-count→回数降順/同数初出順→top、全形式共通、HTML総数は元全体。全不正例・全読み込み失敗・空結果の区別・基準版79d83ba14dd59d289d2ecd3e33c85e8de437972eとの未指定バイト互換・README例・独立品質・既存全試験・依存/通信/CI/見た目の不変を保持。実装や製品試験は未実施。
+source: 上記PRD/Brief、OpenSpec SPEC、DOC全原本。
 
-DATA_e141a008_END
+## Outputs and gate
 
-source: openspec/changes/r-cf2eeaab-project-description-uat/proposal.md:5-28; openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:3-13; _bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md:49-118; _bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.md:27-77
+- Entry point: `.planning/intel/SYNTHESIS.md`
+- Per-type: `.planning/intel/decisions.md`、`requirements.md`、`constraints.md`、`context.md`
+- Conflict original: `.planning/INGEST-CONFLICTS.md`（公式三bucket形式）
 
-## 衝突・出力・次工程
-
-Conflicts: 0 blockers、0 competing-variants、0 auto-resolved。指定merge文脈のlocked決定との矛盾なし。2つのPRD分類は同一ACの要約・具体化であり、異なる受入variantではない。旧Phase 5のREADME限定を今回依頼の恒久禁止へ拡張せず、過去工程の状態や履歴の相違を今回の実装範囲に取り込まない。下位文書を上位文書で上書きする事例はない。
-
-Report: `/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_00c0a626/.planning/INGEST-CONFLICTS.md`。
-Per-type intel: `/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_00c0a626/.planning/intel/decisions.md`、`requirements.md`、`constraints.md`、`context.md`（後3点も同ディレクトリ）。
-
-書込みは上記4点、本SYNTHESIS.md、INGEST-CONFLICTS.mdのみ。統合先PROJECT/REQUIREMENTS/ROADMAP/STATE、承認済み原本、分類、製品、試験は変更しない。commit・push・Kanban操作なし。未作成の検証コマンドは実行していない。READYは後続routing準備完了を示すだけで、宛先merge承認や製品実装・検証合格・受入を示さない。
+原本・cross_refs・分類・製品・試験は編集しない。PROJECT/REQUIREMENTS/ROADMAP/STATEへ書かず、Kanban/commit/pushなし。追加GSD照会、直接gsd-tools.cjs呼出し、inline実行、未作成検証コマンドの実行なし。後続routingは親担当の承認ゲートで扱う。
