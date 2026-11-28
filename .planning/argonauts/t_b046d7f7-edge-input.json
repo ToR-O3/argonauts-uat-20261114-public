@@ -1,0 +1,26 @@
+[
+  {
+    "id": "REQ-28",
+    "text": "Optional --exclude FILE removes every occurrence of specified normalized words from ranking in text/json/html, preserves remaining counts/first-seen ties, excludes before min-count/ranking/top, and never subtracts from original HTML total (FR-1/5, EX-1/5, AD-2/4)."
+  },
+  {
+    "id": "REQ-29",
+    "text": "UTF-8 exclusion lines accept LF/CRLF/no final newline; strip whitespace then ignore blank/#-started lines; validate original whole line with Unicode \\\\w+ before casefold. Digits/underscore/non-ASCII valid words accepted; multiple words/punctuation/hyphen/standalone combining mark/inline #/leading BOM rejected. Exclusion order/duplicates do not affect results (FR-2/3, EX-2/3, AD-2)."
+  },
+  {
+    "id": "REQ-30",
+    "text": "Missing/unreadable/directory/invalid UTF-8 and all exclusion read failures report FILE and reason on stderr, exit2, empty stdout/no HTML/no Traceback. Invalid lines also report original line number, including invalid-after-valid and skipped lines. Existing syntax/numeric checks precede exclusion acquisition/full validation; only then acquire body. Invalid exclusions cause zero body reads; valid/absent exclusions preserve body exit1 (FR-4, EX-4, AD-3)."
+  },
+  {
+    "id": "REQ-31",
+    "text": "--help explains --exclude FILE and line format with exit0; README describes UTF-8/trim/comments/newlines/fullmatch/casefold/errors/precedence/original HTML total/unset compatibility and includes an executable example (FR-6)."
+  },
+  {
+    "id": "REQ-32",
+    "text": "Add pytest coverage of all accepted/rejected line/read/error/order cases, ASCII/Unicode casefold, all three formats, top/min-count/ties, empty body/empty exclusions/comments-only/no-match/all-excluded. Compare unset stdout bytes to 79d83ba14dd59d289d2ecd3e33c85e8de437972e for ties/Unicode/>10 words/empty input, retain all existing tests. Input and exclusion files remain byte-identical. Independent quality records exact head/commands/exits/results and AC mapping in readable VERIFICATION.md/evidence originals; PM need not open images/archives (FR-7)."
+  },
+  {
+    "id": "REQ-33",
+    "text": "Keep body tokenizer/casefold, acquisition boundary, pure public count_words/top_words/formatters contracts, static HTML appearance/escaping/basename safety. No new dependency/network/input rewrite/CI change/new source/full refactor. Preserve existing options/defaults/errors when --exclude absent (RULE-1..4, AD-1..4)."
+  }
+]

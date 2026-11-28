@@ -16,6 +16,20 @@
 - [ ] 3.1 既存全試験を実行し、未指定時の既存版79d83baとの同一入力・argv比較を記録する。実CLIの入力/argv/stdout/stderr/exit、対象head、help/README例の結果を文字の証拠に残し、CI・依存・見た目の追加変更がないことを差分で確認する。
 - [ ] 3.2 品質担当が対象headで試験と受入を独立に確認し、GSD VERIFICATIONとOpenSpec verifyの結果を文字の原本として保存・添付する。HTML確認の画像枚数・内容・結果も文字へ記載し、PMがread_fileで条件ごとに判断できることを確認する。
 
+## 公式GSD計画との対応（計画t_b046d7f7）
+
+承認t_91b92aed/head17648fcから公式mergeでPhase8を追加。実施計画は `.planning/phases/08-wordfreq-exclude/` の原本。チェックは実施後の担当が更新する。
+
+| OpenSpec task | 公式PLAN / task | 完了の所有者 |
+|---|---|---|
+| 1.1 | 承認前の原本反映済み。PLANで再実施しない | 完了履歴を維持 |
+| 2.1 | 08-01-PLAN.md（08-01-01/02）、08-02-PLAN.md（08-02-01） | Builder実装、品質レビュー |
+| 2.2 | 08-01-PLAN.md（tracer）、08-02-PLAN.md（08-02-02） | Builder実装、品質レビュー |
+| 3.1 | 08-03-PLAN.md（08-03-01） | Builderの固定版互換・統合文字原本 |
+| 3.2 | 08-03-PLAN.md（08-03-02は引渡し準備のみ）、同PLANのMandatory later independent quality節 | 後続の独立品質フェーズ検証カード。Builderは完了にしない |
+
+全PLANは同じ依頼branch上で08-01→08-02→08-03の順。各2task。独立品質は実装PLAN完了後に行い、VERIFICATION/CLI文字原本・標準添付で確認する。計画完成は製品や3.2の合格を意味しない。
+
 ## Workflow follow-up
 
 - PMの受入後、最終化担当が公式OpenSpec archiveとPRの仕上げを行う。これは実装チェックの完了扱いに含めない。

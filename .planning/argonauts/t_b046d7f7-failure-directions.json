@@ -1,0 +1,107 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_tracer",
+      "statement": "Nonzero for ignored/rejected exclusion, missing rows, changed counts, format divergence, wrong HTML total, bad missing-file status or mutated input; pytest exit5/zero selected is failure, not a pass. RED must show a behavior assertion or unknown --exclude.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-01: Real exclusion from argv through acquisition to all three outputs (OpenSpec 2.1/2.2)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_help_readme_tracer",
+      "statement": "Nonzero if help fails/omits purpose or one-word format, README command missing or actual documented inputs do not produce zoo2/banana1; zero selected is failure.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-01: Real exclusion from argv through acquisition to all three outputs (OpenSpec 2.1/2.2)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k 'exclude_grammar or exclude_tracer or exclude_help_readme_tracer'",
+      "statement": "Nonzero for ASCII-only/partial/BOM-repair/lower/post-fold validation, altered comment or final-row handling, wrong row/status, duplicate/set-order leakage, or tracer/docs regression. Exit5/zero cases is failure; not-yet-authored 08-02 cases are not selected.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-02: Complete original-line Unicode interpretation (OpenSpec 2.1)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k 'exclude_failures or exclude_precedence'",
+      "statement": "Nonzero if any exclusion error is swallowed/mapped1, path/reason/row lost, body acquired early, invalid numeric args read either file, or valid/absent exclusion remaps body errors2. Zero selected/exit5 and setup failures do not count as successful verification or intended RED.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-01: Fail closed on every exclusion error before acquiring body (OpenSpec 2.1)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest tests/test_sources.py tests/test_sources_boundary.py -q -x",
+      "statement": "Nonzero if source no longer preserves UTF8 read-only/cause behavior or pure aggregation crosses I/O boundary. Existing green regressions supplement, never replace, new role tests.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-01: Fail closed on every exclusion error before acquiring body (OpenSpec 2.1)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k 'exclude_selection or exclude_empty or exclude_ui'",
+      "statement": "Nonzero for exclude-after-top, threshold off-by-one, lexical/set ties, mutated full Counter, changed shared pairs, wrong empty bytes/total/ranks/metadata, leaked exclusion metadata, unsafe HTML or changed fixed copy. Zero collected cases is failure.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-02: Complete shared selection, empty forms and unchanged static presentation (OpenSpec 2.2)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest tests/test_tokenizer.py tests/test_aggregator.py tests/test_formatters.py -q -x",
+      "statement": "Nonzero for body extraction/casefold changes, lost stable ranking/public API/nonmutation, changed UTF8/escaping/HTML/CSS/static contract; this regression command alone is not feature proof.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-02: Complete shared selection, empty forms and unchanged static presentation (OpenSpec 2.2)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude",
+      "statement": "Nonzero for any accumulated tracer/grammar/failure/selection/UI/docs regression; zero selected or missing prior task tests fails the wave.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-02: Complete shared selection, empty forms and unchanged static presentation (OpenSpec 2.2)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k 'exclude_baseline or exclude_immutability or exclude_docs'",
+      "statement": "Nonzero if baseline absent/wrong, current source used as expected, argv/env/root isolation invalid, any raw stdout/status mismatch, either input changed, docs omit a required contract or actual README example fails. Exit5/zero selected is failure. Isolated mutated default/tie/newline/template must produce assertion failure, not infrastructure error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-03-PLAN.md",
+      "task": "08-03-01: Exact historical-byte compatibility, complete docs and Builder originals (OpenSpec 3.1)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest -q",
+      "statement": "Any failed retained/new test or nonzero status blocks integration; environment failure is reported as blocker, not meaningful RED or accepted quality. No assumed historical pass count.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-03-PLAN.md",
+      "task": "08-03-01: Exact historical-byte compatibility, complete docs and Builder originals (OpenSpec 3.1)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude",
+      "statement": "Nonzero for any exclusion/grammar/failure/order/selection/empty/docs/baseline/immutability regression at quality target head; zero selected/exit5 is failure. Builder's earlier pass is not this run.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-03-PLAN.md",
+      "task": "08-03-02: Independent exact-head quality and readable acceptance evidence (OpenSpec 3.2)"
+    },
+    {
+      "command": "uv run --extra dev python -m pytest -q",
+      "statement": "Nonzero for any retained or new regression; a green run at a different product head or different actor is insufficient evidence for this task. Automation does not by itself establish report truth, independent actor or image viewing.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-03-PLAN.md",
+      "task": "08-03-02: Independent exact-head quality and readable acceptance evidence (OpenSpec 3.2)"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 12
+  },
+  "readError": null
+}

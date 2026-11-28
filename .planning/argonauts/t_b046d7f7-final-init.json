@@ -1,0 +1,77 @@
+{
+  "researcher_model": "anthropic/claude-sonnet-5",
+  "planner_model": "anthropic/claude-opus-4-8",
+  "checker_model": "anthropic/claude-sonnet-5",
+  "tdd_mode": false,
+  "granularity": "standard",
+  "research_enabled": true,
+  "plan_checker_enabled": true,
+  "nyquist_validation_enabled": true,
+  "commit_docs": true,
+  "text_mode": false,
+  "auto_advance": false,
+  "auto_chain_active": false,
+  "mode": "interactive",
+  "phase_found": true,
+  "phase_dir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/.planning/phases/08-wordfreq-exclude",
+  "expected_phase_dir": null,
+  "phase_number": "08",
+  "phase_name": "wordfreq exclude",
+  "phase_slug": "wordfreq-exclude",
+  "padded_phase": "08",
+  "phase_req_ids": "REQ-28, REQ-29, REQ-30, REQ-31, REQ-32, REQ-33",
+  "phase_status": "Planned",
+  "has_research": true,
+  "has_context": true,
+  "context_scope": "complete",
+  "has_reviews": false,
+  "has_plans": true,
+  "plan_count": 3,
+  "threat_id_duplicates": [],
+  "threat_id_duplicate_count": 0,
+  "planning_exists": true,
+  "roadmap_exists": true,
+  "state_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/.planning/STATE.md",
+  "roadmap_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/.planning/ROADMAP.md",
+  "requirements_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/.planning/REQUIREMENTS.md",
+  "has_spec": false,
+  "patterns_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/.planning/phases/08-wordfreq-exclude/08-PATTERNS.md",
+  "context_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/.planning/phases/08-wordfreq-exclude/08-CONTEXT.md",
+  "research_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/.planning/phases/08-wordfreq-exclude/08-RESEARCH.md",
+  "section_manifest": {
+    "workflow": "plan-phase",
+    "included": [
+      "prd-express-gate"
+    ],
+    "excluded": [
+      "reviews-prerequisite",
+      "adr-ingest-express-path",
+      "research-only-modifiers",
+      "research-only-early-exit",
+      "chunked-planning-mode"
+    ],
+    "read": [
+      "gsd-core/workflows/plan-phase/steps/prd-express-gate.md"
+    ]
+  },
+  "prior_verify_commands": [
+    {
+      "phase": "07",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/.planning/phases/07-project-description-uat/07-01-PLAN.md",
+      "task": "07-01-01: 実TOML→固定Git基準→判定→文字原本の検証tracerを作り欠落REDを保存する（OpenSpec 1.1）",
+      "command": "python3 .planning/argonauts/r-cf2eeaab/test_verify_description.py"
+    },
+    {
+      "phase": "07",
+      "plan": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7/.planning/phases/07-project-description-uat/07-01-PLAN.md",
+      "task": "07-01-01: 実TOML→固定Git基準→判定→文字原本の検証tracerを作り欠落REDを保存する（OpenSpec 1.1）",
+      "command": "python3 .planning/argonauts/r-cf2eeaab/verify_description.py"
+    }
+  ],
+  "project_root": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_b046d7f7",
+  "agents_installed": true,
+  "missing_agents": [],
+  "agents_dir": "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/agents",
+  "agent_runtime": "hermes",
+  "project_title": "wordfreq CLI"
+}

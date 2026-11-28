@@ -377,10 +377,12 @@ This is an applicability assessment, not an ASVS certification. Approved safety 
 
 No new product-policy assumption is needed. Helper/module/test organization suggestions are explicitly recommendations within locked discretion. Runtime setup success, pytest version, test duration, baseline output equality and all acceptance results remain unverified, rather than assumed true. The CLI confidence seam's LOW rating is retained instead of upgrading provider trust manually.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Execution environment setup:** current pytest entrypoint cannot import pytest. Builder must provision the already-declared dev extra in an appropriate interpreter, record version and then run real tests. This is an execution prerequisite, not a request to change dependencies/CI or guess support versions.
-2. **No unresolved approved product decision identified:** source requirements and adopted decisions agree on scope. New cases that require product policy, including expanding accepted record separators or multi-file behavior, must go to PM instead of being introduced by test expectations. [VERIFIED: PRD:158-160; architecture:92-97; 08-CONTEXT.md:24]
+Resolution here records settled research disposition and assigned execution responsibility only; it does not establish environment availability, implementation completion or passing tests.
+
+1. **Execution environment setup** — RESOLVED (research disposition): pytest dev-environment provisioning is assigned to Builder as the execution prerequisite in `08-01-PLAN.md:83-87`, before task `08-01-01` and any meaningful RED. Builder must make the already-declared dev extra runnable, record interpreter/pytest versions and only then run authored tests. Setup/network/import failure blocks execution and is not RED; no dependency, pyproject or CI change or generated lockfile commit is authorized. The environment remains unbuilt/unverified and no tests were run in this correction; this resolution closes the question of how planning handles the prerequisite, not the prerequisite itself. [VERIFIED: 08-01-PLAN.md:83-90]
+2. **No unresolved approved product decision identified** — RESOLVED (research disposition): retain the approved scope and locked decisions; there is no outstanding product-policy question for planning. New cases that require product policy, including expanding accepted record separators or multi-file behavior, must go to PM instead of being introduced by test expectations. This records the existing decision boundary, not approval of additional behavior or acceptance results. [VERIFIED: 08-CONTEXT.md:14-27,49-51; 08-01-PLAN.md:85-87]
 
 ## Sources
 
