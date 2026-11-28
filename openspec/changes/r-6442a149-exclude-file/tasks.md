@@ -17,5 +17,5 @@
 
 ## Workflow follow-up
 
-- 仕様承認後にGSD計画を作り、本一覧のIDをPLANに対応させる。現時点ではPLAN番号を創作しない。
+- 公式GSD phase8の検証済み計画は `.planning/phases/08-wordfreq-exclude-file/08-01-PLAN.md`（2.1、task08-01-01〜03）と `08-02-PLAN.md`（2.2=task08-02-01、3.1=task08-02-02）。同じ依頼branchへWave1→2の直列で積み上げる。実装・試験は未実施なので2.1/2.2/3.1のチェックは未完のまま保持する。1.1の文書反映はやり直さない。
 - 実装・独立品質確認とPM受入の後、公式OpenSpec archiveを行う。archiveは上記実装taskのチェック対象に混ぜない。

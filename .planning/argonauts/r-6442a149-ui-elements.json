@@ -1,0 +1,6 @@
+[
+ {"id":"E1","text":"固定h1は現行CSSで自然折返し、省略・切取り・隣接重複をしない","text_en":"Static heading text wraps without truncation or overlap","elements":["static-content"]},
+ {"id":"E2","text":"本文basenameと除外後totalは表より上に保持し、横収まり・非重複・切取りなし","text_en":"Static metadata text displays basename and total above the table without clipping or overlap","elements":["static-content"]},
+ {"id":"E3","text":"除外/min-count/top後のpairsを既存3列と1始まり連番で表示し、選択前totalを維持する","text_en":"Result table list shows filtered word-count rows with ranks and preserves total before selection","elements":["list-collection","static-content"]},
+ {"id":"E4","text":"固定空案内は自然折返し、横収まり・非重複・切取りなし","text_en":"Static empty-result message wraps without clipping or overlap","elements":["static-content"]}
+]

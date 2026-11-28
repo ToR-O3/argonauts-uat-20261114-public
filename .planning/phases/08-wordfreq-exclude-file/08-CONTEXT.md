@@ -12,27 +12,27 @@
 
 <decisions>
 ## Implementation Decisions
-### D-01: 共通除外と最後FILE（REQ-28 / EX-1）
+- **D-01:** 共通除外と最後FILE（REQ-28 / EX-1）
 - 任意の--exclude FILEで一致語の全出現を外す。全形式で共通、重複無影響、最後のFILEだけ読み以前のFILEは読まない。残存語の回数/相対初出順/順位規則を維持する。
 - Zoo apple APPLE zoo bananaからapple除外はzoo2/banana1。zoo除外/top1はapple2。beta apple alphaからapple除外はbeta1/alpha1。該当語なし/空/コメントのみは未指定と同じ。missing→validなら成功、逆順は失敗、最後空FILEなら前の一覧無効。
-### D-02: 行解釈（REQ-29 / EX-2）
+- **D-02:** 行解釈（REQ-29 / EX-2）
 - UTF-8、先頭BOM除去、strip後空行/先頭#行無視。LF/CRLF/最終改行なし。その他は行全体一語、分割/記号除去/途中#コメントなし。直接読込試験で無視項目が集合に入らないことも確認。
 - foo barはfoo/barに無影響。foo_bar/123は一致語だけ。foo-barは本文のfoo/barに無影響、apple#noteもapple/noteに無影響。本文抽出規則を変更しない。
-### D-03: casefold（REQ-30 / EX-3）
+- **D-03:** casefold（REQ-30 / EX-3）
 - 本文既存casefoldを維持し有効除外行もcasefold。lowerへ変更しない。Apple/APPLE/appleとaPpLe一致、実際のStraße/STRASSE一致を試験する。
-### D-04: 読込失敗と順序（REQ-31 / EX-4 / AD-4）
+- **D-04:** 読込失敗と順序（REQ-31 / EX-4 / AD-4）
 - 既存引数検証→採用除外FILE→本文。除外不存在/権限不足/ディレクトリ/不正UTF-8等は対象と原因をstderr、exit2、stdout空。文言完全一致を追加しない。
 - 不正top/min-count/format/値欠落等はファイルを読まず既存エラー。両FILE失敗は除外exit2で本文未読。除外成功後または未指定時の本文のみ失敗は既存exit1。直接試験とCLI双方で順序/優先を確認。
-### D-05: 説明と試験（REQ-32 / EX-5）
+- **D-05:** 説明と試験（REQ-32 / EX-5）
 - help/READMEに構文/一覧形式/行規則/casefold/最後FILEのみ/読込失敗exit2/空結果を記す。README例を実CLIで再現可能にする。
 - OpenSpec tasks1.1は文書反映済みで再実行しない。未完2.1（正常系/説明/試験）2.2（異常/順序/説明/試験）3.1（統合回帰/証拠）をPLANと対応付け、未実装はチェックしない。
-### D-06: 空結果と未指定互換（REQ-33 / EX-6）
+- **D-06:** 空結果と未指定互換（REQ-33 / EX-6）
 - 全語除外はtext空、json []と末尾改行、HTML既存空表と既存空結果案内/総数0、全形式exit0・除外専用案内なし。
 - 未指定の本文読込/抽出/casefold/全形式/同数初出順/min-count/top/空結果/エラー契約を維持し、既存全試験を通す。
-### D-07: 証拠と範囲（REQ-34 / RULE-2）
+- **D-07:** 証拠と範囲（REQ-34 / RULE-2）
 - 追加依存/権限変更/外部送信なし。品質が対象headで独立実行しコマンド/環境/入力/stdout/stderr/exit/条件別結果をVERIFICATION.md等の文字原本へ保存し標準添付する。画像は品質が実閲覧して枚数/内容/結果を文字化、PMに画像/圧縮ファイルを開かせない。
 - OQ7/8は背景不足のみで新条件/停止理由にしない。過去の学びの語昇順例ではなく現行初出順を優先。
-### D-08: 処理順とHTML総数（REQ-35 / RULE-1 / HTML-2）
+- **D-08:** 処理順とHTML総数（REQ-35 / RULE-1 / HTML-2）
 - 全形式で除外→計数→min-count→top→既存formatter。総数は除外後/min-countとtop前の回数和、種類数や表示行の和でない。
 - Zoo apple APPLE zoo banana、除外apple、min-count2/top1はzoo2だけ・HTML総数3（5でも2でもない）。未指定時の従来総数は維持。
 - basename限定/escape/自己完結/外部通信なし/明るい背景/既存レイアウトは継承。再設計しない。

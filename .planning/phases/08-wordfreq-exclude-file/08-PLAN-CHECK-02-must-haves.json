@@ -1,0 +1,38 @@
+{
+  "must_haves": {
+    "truths": [
+      "E11 REQ-31 empty: --exclude値欠落は引数エラーexit2で除外/本文読込0回。正常空一覧は成功してから本文を読む。失敗を空集合成功へ変えない。",
+      "E12 REQ-31 encoding: 除外不正UTF-8は対象とdecode原因をstderr、exit2/stdout空/本文未読。本文だけのdecode失敗は未指定/除外成功後ともexit1。",
+      "E13 REQ-31 concurrency: 単発CLIの引数→最後除外→本文の効果順。既存引数不正では両FILE未読、除外失敗では本文/計数/formatter未実行。並行/割込の新保証なし。",
+      "E20 REQ-34 concurrency: 単発CLIに依存/権限変更/外部送信を追加せず、品質は別主体で対象headと環境を再確認して独立CLIを実行しBuilderの出力を自分の実測と呼ばない。",
+      "Q01: 不存在/権限不足/ディレクトリ/不正UTF-8の各除外失敗を全形式で対象と原因stderr/exit2/stdout空と確認する。",
+      "Q02: 品質が対象headの全件・全scenarioを独立再実行しVERIFICATION.mdとCLI/CI等の文字原本を標準添付、PMがread_fileで判断できる。未実施/欠測/未配送は未検証であり合格ではない。",
+      "U01 E1 overflow: 固定h1は既存CSSで自然折返し、省略/切取り/隣接重複なし。",
+      "U02 E1 long-text: h1全文を既存24px/600で表示、文字縮小なし。",
+      "U03 E2 overflow: 本文basenameと除外後総数は表より上、横収まり/非重複/切取りなし。除外パスはHTMLに載せない。",
+      "U04 E2 long-text: 長basename・連続空白/LF/TAB/CR・総数全文を現行規則で保持する。",
+      "U05 E3 empty: 名前全除外は0データ行/total0/既存案内、min-countだけの0行は除外後totalを保持。",
+      "U06 E3 loading: 完成HTMLのみstdout出力、loading UIなし。",
+      "U07 E3 error: エラーHTMLなし/stdout空、対象原因stderr、除外exit2/本文のみexit1。",
+      "U08 E3 populated: 除外/min-count/top後のpairsを既存順位/単語/回数3列と1始まり連番で表示し選択前total保持。",
+      "U09 E3 partial: min-count/topは完成データ表示制限であり部分取得状態/補足UIを追加しない。",
+      "U10 E3 overflow: 長語/数値は既存固定列/CSSで折返し、横はみ出し/clip/隣接重複なし。",
+      "U11 E3 zero-one-many: 0/1/複数行でもmetadata/caption/thead/列順を維持し表示順位欠番なし。",
+      "U12 E3 long-text: 長語/複数桁数値を既存サイズで全文表示し省略/縮小しない。",
+      "U13 E4 overflow: 固定空案内は自然折返し、横収まり/非重複/切取りなし。",
+      "U14 E4 long-text: 既存空案内全文を省略/置換/縮小せず表示する。"
+    ],
+    "artifacts": [
+      "path: tests/test_sources.py, provides: 除外読込4原因・原因連鎖・strict/read-only新assert",
+      "path: tests/test_cli.py, provides: 二入力順序spy/実CLI全形式失敗・安全性・互換・案内新assert",
+      "path: README.md, provides: 引数/除外/本文の失敗順とexit2/1の区別",
+      "path: .planning/phases/08-wordfreq-exclude-file/08-BUILDER-EVIDENCE.md, provides: Builderの実環境/対象head/RED-GREEN/全件とscenario別の文字原本",
+      "path: .planning/phases/08-wordfreq-exclude-file/08-QUALITY-HANDOFF.md, provides: 別主体の独立再実行と標準添付・PM原本読取り手順、pending状態"
+    ],
+    "key_links": [
+      "from: wordfreq/__main__.py, to: wordfreq/sources.py, via: 既存引数検証→read_excluded_words最後値→FileSource、例外出口を分離",
+      "from: tests/test_cli.py, to: wordfreq/__main__.py, via: CLI import参照spy＋実subprocess両方で優先順位を検査",
+      "from: .planning/phases/08-wordfreq-exclude-file/08-QUALITY-HANDOFF.md, to: .planning/phases/08-wordfreq-exclude-file/08-BUILDER-EVIDENCE.md, via: Builder実測を入力参考にしつつ品質自身の対象head/CLI/full結果を別原本として標準添付"
+    ]
+  }
+}

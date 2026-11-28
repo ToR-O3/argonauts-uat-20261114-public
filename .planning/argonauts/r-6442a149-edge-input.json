@@ -1,0 +1,10 @@
+[
+{"id":"REQ-28","text":"--exclude FILEの一致語を全形式の集計から除き、残存回数・相対初出順を維持する。重複は無影響。複数指定は最後FILEだけを読み、それ以前は読まない。","shapes":["collection","io"]},
+{"id":"REQ-29","text":"UTF-8先頭BOM除去、strip後空行/先頭#無視、LF/CRLF/最終改行なし。行全体一語で分割/記号除去/途中#コメントなし。foo barはfoo/barに無影響、foo_bar/123は一致語のみ、foo-barは本文抽出を変えず比較する。","shapes":["text","collection"]},
+{"id":"REQ-30","text":"除外行は既存本文と同じcasefold。Straße/STRASSE一致、本文の抽出とcasefoldを変更しない。","shapes":["text"]},
+{"id":"REQ-31","text":"既存引数検証→除外FILE→本文。不存在/権限不足/ディレクトリ/不正UTF-8は対象/原因をstderr、exit2、stdout空。両方失敗は除外優先で本文を読まない。除外成功後または未指定時の本文失敗は既存exit1。文言完全一致は不要。","shapes":["io","text"]},
+{"id":"REQ-32","text":"help/READMEに--exclude FILE、行規則/casefold/最後FILE/読込失敗exit2/空結果の説明と再現例を追加し、正常/境界/失敗の対応試験を追加する。","shapes":["text"]},
+{"id":"REQ-33","text":"全語除外はtext空、json []と末尾改行、HTML既存空表/既存案内と総数0、全形式exit0・専用案内なし。未指定の全形式/Unicode/順位/min-count/top/空結果/本文エラーと既存全試験を維持する。","shapes":["collection","text"]},
+{"id":"REQ-34","text":"追加依存・権限変更・外部送信なし。対象head・コマンド/環境/終了結果と条件別根拠を文字の検証原本へ残し、独立品質が再実行して標準添付する。未実施は合格扱いしない。","shapes":["io"]},
+{"id":"REQ-35","text":"全形式で除外→計数→min-count→top。HTML総数は除外後かつmin-count/top前。Zoo apple APPLE zoo bananaからapple除外しmin-count2/top1はzoo2のみ・総数3。未指定時は従来総数を維持。","shapes":["collection","numeric-range"]}
+]

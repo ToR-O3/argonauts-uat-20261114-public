@@ -1,0 +1,27 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_bd362ca7/openspec/changes/r-6442a149-exclude-file/specs/wordfreq-cli/spec.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Spec Delta",
+  "summary": "Specifies wordfreq CLI exclusion-file parsing, casefold matching, filtering order, error handling, empty results, documentation, regression compatibility, and HTML totals after exclusion.",
+  "scope": [
+    "wordfreq CLI",
+    "--exclude FILE",
+    "UTF-8除外ファイル",
+    "casefold比較",
+    "min-count",
+    "top",
+    "text/json/html出力",
+    "読込失敗の終了コードと処理順序",
+    "空結果",
+    "HTML総出現回数",
+    "--help",
+    "README",
+    "回帰試験"
+  ],
+  "cross_refs": ["README"],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

@@ -1,0 +1,143 @@
+{
+  "milestones": [],
+  "phases": [
+    {
+      "number": "1",
+      "name": "wordfreq CLI",
+      "goal": "ユーザーは `python -m wordfreq <file>` で、決定論的な並び順と出力形式、exit code 規約を持つ単語頻度集計を stdlib-only の CLI として実行できる",
+      "mode": null,
+      "depends_on": "Nothing (first phase)",
+      "plan_count": 5,
+      "summary_count": 5,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "3",
+      "name": "wordfreq HTML output",
+      "goal": "承認済み依頼 r-50053edc の自己完結HTMLを安全にstdoutへ出し、全形式の同数順を初出順へ変更し、通常幅/320 CSS pxの独立ブラウザ証拠で受入条件を追跡できる。",
+      "mode": null,
+      "depends_on": "Phase 1",
+      "plan_count": 6,
+      "summary_count": 6,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "4",
+      "name": "wordfreq min-count",
+      "goal": "承認済み依頼r-e476c11dのmin-countを全3形式へ追加し、正規化後の閾値除外→top・元HTML総数・既定互換・見た目/安全性を維持し、独立品質の読める証拠でAC1〜AC7を追跡できる。",
+      "mode": null,
+      "depends_on": "Phase 3",
+      "plan_count": 4,
+      "summary_count": 4,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "5",
+      "name": "README verification A",
+      "goal": "承認済み依頼r-8ac79dafの指定検証A行をREADME末尾に正確に1行追加し、既存内容・改行・コード・試験の不変を既存CLIと品質の読める証拠で確認できる。",
+      "mode": null,
+      "depends_on": "Phase 4",
+      "plan_count": 1,
+      "summary_count": 1,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": true,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "7",
+      "name": "Project description UAT",
+      "goal": "承認済み依頼r-cf2eeaabのdescriptionを完成値厳密一致で新規追加し、他製品・既存TOMLの意味とバイトを保持し、独立品質の文字証拠でACを確認できる。",
+      "mode": null,
+      "depends_on": "Phase 5",
+      "plan_count": 1,
+      "summary_count": 1,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "executed",
+      "roadmap_complete": false,
+      "context_read_error": null,
+      "context_scope": "complete"
+    },
+    {
+      "number": "8",
+      "name": "wordfreq exclude-file",
+      "goal": "承認済みr-6442a149の--exclude FILEを全形式へ追加し、行規則/casefold/処理順/読込失敗/HTML総数と未指定互換を試験・説明・独立品質の文字原本で追跡できる。",
+      "mode": null,
+      "depends_on": "Phase 7",
+      "plan_count": 2,
+      "summary_count": 0,
+      "has_context": true,
+      "has_research": true,
+      "disk_status": "planned",
+      "roadmap_complete": false,
+      "context_read_error": null,
+      "context_scope": "complete"
+    }
+  ],
+  "phase_count": 6,
+  "completed_phases": 0,
+  "total_plans": 19,
+  "total_summaries": 17,
+  "progress_percent": null,
+  "progress_scope": "unscoped",
+  "current_phase": "1",
+  "next_phase": null,
+  "checkbox_conflict": [
+    {
+      "number": "1",
+      "roadmap_complete": true,
+      "disk_status": "executed",
+      "plan_count": 5,
+      "summary_count": 5
+    },
+    {
+      "number": "3",
+      "roadmap_complete": true,
+      "disk_status": "executed",
+      "plan_count": 6,
+      "summary_count": 6
+    },
+    {
+      "number": "4",
+      "roadmap_complete": true,
+      "disk_status": "executed",
+      "plan_count": 4,
+      "summary_count": 4
+    },
+    {
+      "number": "5",
+      "roadmap_complete": true,
+      "disk_status": "executed",
+      "plan_count": 1,
+      "summary_count": 1
+    }
+  ],
+  "roadmap_record": {
+    "1": true,
+    "3": true,
+    "4": true,
+    "5": true,
+    "7": false,
+    "8": false
+  },
+  "missing_phase_details": null,
+  "scope": "unscoped"
+}

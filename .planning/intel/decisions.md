@@ -1,4 +1,4 @@
 # Decisions (intel)
 
-今回の入力は `.planning/intel/classifications/r-cf2eeaab/` の4分類のみ。ADR 0件、ADR由来の決定0件、locked決定0件（source paths: 該当なし）。SPEC/PRD/DOCの承認済み条件をADR決定へ昇格させない。
-source: .planning/intel/classifications/r-cf2eeaab/brief-project-description-uat-2e36618f.json; .planning/intel/classifications/r-cf2eeaab/prd-project-description-uat-4cbc5ec0.json; .planning/intel/classifications/r-cf2eeaab/proposal-9a2da7e8.json; .planning/intel/classifications/r-cf2eeaab/tasks-ef25bec8.json
+ADR 0件、ADR由来決定0件、locked ADR決定0件（source paths: 該当なし）。対象は `.planning/intel/classifications/r-6442a149-canonical/` の正本5分類のみ。承認済みSPECをADRへ昇格させない。全5分類はmanifest_override=true、precedence=null、locked=false。既存CONTEXTのlocked総数との衝突はINGEST-CONFLICTS.mdへ保持する。
+source: .planning/argonauts/r-6442a149-manifest.yaml; .planning/intel/classifications/r-6442a149-canonical/architecture-ce25c02b.json; .planning/intel/classifications/r-6442a149-canonical/spec-01038278.json; .planning/intel/classifications/r-6442a149-canonical/prd-wordfreq-exclude-cc0d2e7b.json; .planning/intel/classifications/r-6442a149-canonical/proposal-e0f5cf66.json; .planning/intel/classifications/r-6442a149-canonical/tasks-13b05c0b.json

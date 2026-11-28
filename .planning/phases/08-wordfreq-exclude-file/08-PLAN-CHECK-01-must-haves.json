@@ -1,0 +1,39 @@
+{
+  "must_haves": {
+    "truths": [
+      "E01 REQ-28 adjacency: apple/APPLE/aPpLeの重複一覧は単一appleと全形式の語・回数・順位・総数が同一。",
+      "E02 REQ-28 empty: 空一覧・コメントのみ・無一致一覧は未指定とstdout/exit/stderrが同じ。最後空FILEは前一覧を無効にする。",
+      "E03 REQ-28 ordering: beta apple alphaからappleを除くとbeta1,alpha1。回数降順・残存語の相対初出順を保つ。",
+      "E04 REQ-28 concurrency: 単発CLIの効果順は引数検証→最後除外FILE→本文。missing→validは前FILE未読で成功。並行/中断の新保証は対象外。",
+      "E05 REQ-29 adjacency: foo bar/foo-bar/apple#noteは行全体のキーで分割しない。本文foo/bar/apple/noteには影響せずfoo_barと123だけ一致除外。",
+      "E06 REQ-29 empty: strip後の空文字と先頭#行は直接読込の集合に含まれず、有効項目なしなら空集合。",
+      "E07 REQ-29 encoding: 厳格UTF-8-sigでファイル先頭BOMのみ除去しLF/CRLF/最終改行なしを受理、strip後の行全体をcasefoldする。",
+      "E08 REQ-29 ordering: 一覧行順/重複は所属判定だけに作用し本文の初出順を並べ替えない。",
+      "E09 REQ-30 empty: 空一覧はcasefold対象項目なしで未指定と同じ。Apple appleの全語除外は全形式exit0。",
+      "E10 REQ-30 encoding: Apple/APPLE/appleとaPpLe、実文字STRASSE/ Straßeと一覧StraßeまたはSTRASSEは同じcasefoldキーで一致しbanana1だけ残る。lowerで代用しない。",
+      "E14 REQ-32 empty: help/READMEは全語除外が既存空結果でexit0、専用HTML案内なしと説明する。",
+      "E15 REQ-32 encoding: help/READMEはUTF-8/先頭BOM/strip/空行/先頭#/行全体/casefoldを説明し、記載本文と一覧の例を実CLIで再現できる。",
+      "E16 REQ-33 adjacency: 閾値ちょうどは残し、閾値未満は落とし、残った全種類がtop以下なら全件。未指定の旧閾値/top規則は不変。",
+      "E17 REQ-33 empty: Apple appleをappleで全除外するとtextは空、jsonは[]とLF、HTMLは既存0行表/既存案内/総数0、全形式exit0。空/空白/句読点本文も総数0。",
+      "E18 REQ-33 encoding: 本文抽出/Unicode casefoldと既存text/json構造・改行、HTML UTF-8/escape/CR保護/basename限定を維持する。",
+      "E19 REQ-33 ordering: 未指定の回数降順/同数初出順→topと指定時の残存順を全形式で維持する。",
+      "E21 REQ-35 boundary: Zoo apple APPLE zoo bananaからapple除外、min2/top1はzoo2・総数3。min1/2/3で表示はzoo2,banana1 / zoo2 / 0行、総数はいずれも3。",
+      "E22 REQ-35 adjacency: 正規化した全出現を計数前に除き、min-countちょうどは保持してからtop。zoo除外/top1はapple2。",
+      "E23 REQ-35 empty: 名前で全語除外なら総数0。表示のみ全除外なら除外後正総数を保持。未指定beta本文/min4は0行でも総数7。",
+      "E24 REQ-35 ordering: count_wordsへ入るトークン自体に除外語なし、その後min-count→安定順位→top→formatter。同一pairsを全形式へ渡す。",
+      "E25 REQ-35 precision: 総数は整数countsの回数和で種類数/表示行和でない。apple除外の3を除外前5/表示和2と取り違えず、未指定の総数6/7を維持。"
+    ],
+    "artifacts": [
+      "path: wordfreq/sources.py, provides: 新read_excluded_words(path: str) -> set[str]、既存InputError原因連鎖",
+      "path: wordfreq/__main__.py, provides: --exclude FILEと最後値保存、取得順、計数前順序保持フィルタ",
+      "path: tests/test_sources.py, provides: 除外行集合の直接固定assert、read-only/codec検査",
+      "path: tests/test_cli.py, provides: EX-1/2/3/6、HTML-2と説明例の全形式新assert",
+      "path: README.md, provides: 構文・一覧形式・再現例・総数・空結果の説明"
+    ],
+    "key_links": [
+      "from: wordfreq/__main__.py, to: wordfreq/sources.py, via: 引数検証後read_excluded_words(args.exclude)、未指定は起動しない",
+      "from: wordfreq/__main__.py, to: wordfreq/aggregator.py, via: iter_tokensの順序保持所属フィルタ→count_words→total→min-count→top_words",
+      "from: wordfreq/__main__.py, to: wordfreq/formatters.py, via: 既存pairs/basename/totalのみ。除外パスを渡さない"
+    ]
+  }
+}

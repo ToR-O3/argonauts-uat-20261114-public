@@ -1,0 +1,41 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "Task rated <reversibility rating=\"one-way\"> has no preceding checkpoint:decision — a one-way door must be confirmed before the agent walks through it (unless the decision is already settled in CONTEXT.md, an ingested ADR, or an answered checkpoint)"
+  ],
+  "task_count": 2,
+  "tasks": [
+    {
+      "name": "08-02-01: 実除外FILE失敗→stderr/exit2と本文未読のtracerから全失敗順序へ拡張（OpenSpec2.2）",
+      "type": "tracer",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "08-02-02: 未指定互換/指定時安全性の統合と独立品質の文字原本handoff（OpenSpec3.1）",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}

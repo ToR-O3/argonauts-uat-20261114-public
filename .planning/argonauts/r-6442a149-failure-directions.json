@@ -1,0 +1,67 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_sources.py tests/test_cli.py -q -x",
+      "statement": "新loader欠落/flag未受理、appleが残る、zoo2/banana1以外、総数が3以外、README例が再現不能、読込が入力bytesを書換えると新assertが失敗する。REDはそれらの新assert起因であることを記録し、収集エラーだけを機能REDにしない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-01: 実FILE→除外取得→共通計数→全形式とREADME例のtracer（OpenSpec2.1）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_sources.py tests/test_cli.py -q -x",
+      "statement": "コメント/空文字の集合残留、strip/BOM/改行誤解釈、行分割/途中#除去、lower化、前FILE読込、重複で結果差、残存初出順のソート変更は対応する直接/CLI新assertで失敗する。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-02: 行文法・Unicode・重複・最後FILEを直接集合と全形式で固定（OpenSpec2.1）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_sources.py tests/test_cli.py -q -x",
+      "statement": "count_wordsへ除外語が入る、topを先に適用、閾値ちょうどを落とす、totalを除外前/選択後/種類数から計算する、全語除外json末尾LF欠落、HTML空案内変更・余計な行/metadataがあれば新assertで失敗する。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": "08-01-03: 空結果・閾値/top・HTML総数と計数前配線を完成（OpenSpec2.1）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest -q",
+      "statement": "先行正常/境界新assertまたは既存回帰に一件でも失敗/収集不能があればPLANの実装完了としない。未実施・skipによる重要条件欠測をGREENと呼ばない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-01-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_sources.py tests/test_cli.py -q -x",
+      "statement": "不存在/権限/ディレクトリ/decodeを成功扱い、原因連鎖欠落、対象原因のない診断、stdout漏れ、除外失敗exit1化、本文失敗exit2化、引数不正時I/O、除外失敗後本文/計数/formatter呼出し、前FILE読込のいずれも新assertで失敗する。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-01: 実除外FILE失敗→stderr/exit2と本文未読のtracerから全失敗順序へ拡張（OpenSpec2.2）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest tests/test_sources.py tests/test_cli.py -q -x",
+      "statement": "入力bytes変更、未指定/無効一覧の出力差、seedによる順序変動、除外パス/親dir露出、escape/CR/静的HTMLの変更、既存空案内の置換なら新assertで失敗する。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-02: 未指定互換/指定時安全性の統合と独立品質の文字原本handoff（OpenSpec3.1）"
+    },
+    {
+      "command": "env PYTHONPATH=/home/Yuki/.local/lib/python3.12/site-packages /usr/bin/python3 -m pytest -q",
+      "statement": "既存全件と新assertのどれかが失敗/収集不能なら統合完了にしない。実行0件や重要条件skip、品質未実施を全件合格と呼ばない。",
+      "status": "ok",
+      "severity": "none",
+      "plan": "08-02-PLAN.md",
+      "task": "08-02-02: 未指定互換/指定時安全性の統合と独立品質の文字原本handoff（OpenSpec3.1）"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 7
+  },
+  "readError": null
+}

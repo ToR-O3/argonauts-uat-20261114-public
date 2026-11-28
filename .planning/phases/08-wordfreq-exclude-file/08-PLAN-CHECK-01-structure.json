@@ -1,0 +1,50 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "Task rated <reversibility rating=\"one-way\"> has no preceding checkpoint:decision — a one-way door must be confirmed before the agent walks through it (unless the decision is already settled in CONTEXT.md, an ingested ADR, or an answered checkpoint)",
+    "Task rated <reversibility rating=\"one-way\"> has no preceding checkpoint:decision — a one-way door must be confirmed before the agent walks through it (unless the decision is already settled in CONTEXT.md, an ingested ADR, or an answered checkpoint)"
+  ],
+  "task_count": 3,
+  "tasks": [
+    {
+      "name": "08-01-01: 実FILE→除外取得→共通計数→全形式とREADME例のtracer（OpenSpec2.1）",
+      "type": "tracer",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "08-01-02: 行文法・Unicode・重複・最後FILEを直接集合と全形式で固定（OpenSpec2.1）",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    },
+    {
+      "name": "08-01-03: 空結果・閾値/top・HTML総数と計数前配線を完成（OpenSpec2.1）",
+      "type": "auto",
+      "hasFiles": true,
+      "hasAction": true,
+      "hasVerify": true,
+      "hasDone": true
+    }
+  ],
+  "frontmatter_fields": [
+    "phase",
+    "plan",
+    "type",
+    "wave",
+    "depends_on",
+    "files_modified",
+    "autonomous",
+    "requirements",
+    "estimate",
+    "must_haves"
+  ],
+  "baseline_notation_count": 0,
+  "baseline_findings": [],
+  "baseline_statuses": []
+}

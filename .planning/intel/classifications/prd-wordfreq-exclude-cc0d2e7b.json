@@ -1,0 +1,28 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_bd362ca7/_bmad-output/initiative-r-6442a149/prd/prd-wordfreq-exclude.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "wordfreq 除外ファイル PRD",
+  "summary": "wordfreqの除外ファイル指定、行解釈、casefold比較、読込失敗、出力互換性、説明と試験の要件を定める。",
+  "scope": [
+    "wordfreq",
+    "--exclude FILE",
+    "UTF-8除外ファイル",
+    "casefold比較",
+    "読込失敗",
+    "text/json/html出力",
+    "min-count/top",
+    "help",
+    "README",
+    "互換性試験"
+  ],
+  "cross_refs": [
+    "../decisions-oq1-6.md",
+    "../brief/brief-wordfreq-exclude.md",
+    "README"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

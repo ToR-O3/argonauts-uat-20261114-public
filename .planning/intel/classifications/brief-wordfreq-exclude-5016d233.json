@@ -1,0 +1,26 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_bd362ca7/_bmad-output/initiative-r-6442a149/brief/brief-wordfreq-exclude.md",
+  "type": "DOC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "wordfreq 除外ファイル機能 Brief",
+  "summary": "wordfreqの除外ファイル機能について、採用仕様、成功条件、対象範囲、背景の仮定と未解決事項を整理したBrief。",
+  "scope": [
+    "wordfreq",
+    "--exclude FILE",
+    "除外ファイル",
+    "UTF-8/BOM",
+    "casefold",
+    "CLI",
+    "HTML総数",
+    "未指定互換性"
+  ],
+  "cross_refs": [
+    "../prd/prd-wordfreq-exclude.md",
+    "../decisions-oq1-6.md",
+    "../open-questions.md"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

@@ -165,7 +165,11 @@ Plans:
   2. 既存引数→除外→本文、除外失敗exit2/stdout空/対象と原因stderr、本文のみ失敗exit1を直接試験と実CLIで確認できる。
   3. 除外→計数→min-count→top、残存回数/相対初出順とHTML除外後総数を維持し、help/READMEの例を再現できる。
   4. 既存全試験と未指定互換を独立品質が確認し、対象head/コマンド/結果をVERIFICATION.md等の文字原本へ保存・添付する。画像があれば品質が閲覧枚数/内容/結果を文字へ残し、PMへ画像/圧縮ファイルの閲覧を求めない。
-**Plans:** 0 plans
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 8 to break down)
+**Wave 1**
+- [ ] 08-01-PLAN.md — 正常系tracer/行文法/Unicode/空結果/総数、3 tasks、OpenSpec2.1
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 08-02-PLAN.md — 失敗/順序と統合/独立品質文字証拠、2 tasks、OpenSpec2.2/3.1

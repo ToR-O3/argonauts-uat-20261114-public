@@ -1,18 +1,23 @@
 ## Conflict Detection Report
 
-MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。per-doc overrideなし。今回対象は `.planning/intel/classifications/r-cf2eeaab/` の4分類と対応原本のみ（ADR 0 / SPEC 1 / PRD 2 / DOC 1 / UNKNOWN 0）。旧分類を混ぜず、既存intelと本報告を今回のstaging結果で置換する。
+MODE: merge。PRECEDENCE: ADR > SPEC > PRD > DOC。対象は `.planning/argonauts/r-6442a149-manifest.yaml` と一致する `.planning/intel/classifications/r-6442a149-canonical/` の正本5分類のみ。全件manifest_override=true、precedence=null。今回の承認済み製品判断を取り消さず、公式gateの衝突を親へ返す。宛先PROJECT/REQUIREMENTS/ROADMAP/STATEは未変更。
 
-### BLOCKERS (0)
+### BLOCKERS (1)
 
-該当なし。locked ADRなし、UNKNOWN/low confidenceなし、対象内参照循環なし。指定された既存文脈に今回の追加と矛盾するlocked決定はない。既存のpyproject.toml危険パス・最小変更方針とも整合する。過去Phase 5のREADME限定は当該依頼の境界であり、今回の承認済みメタデータ追加を禁止する恒久条件ではない。旧要求・決定・過去工程の履歴は変更しない。
-source: .planning/intel/classifications/r-cf2eeaab/ 内の今回4 JSON; .planning/PROJECT.md:56-61; .planning/REQUIREMENTS.md:30,74-80; .planning/ROADMAP.md:122-136; .planning/STATE.md:105-108; openspec/changes/r-cf2eeaab-project-description-uat/proposal.md:9-28
+[BLOCKER] Incoming HTML total decision contradicts existing locked CONTEXT
+  Found: 除外指定時のHTML総数は除外後・min-count/top前。Zoo apple APPLE zoo bananaからapple除外で総数3、全語除外では0。これは今回承認済み変更であり、casefold維持・提案1〜6採用を再審査しない。
+  Expected: Phase 4 locked D-05は元countsを破壊せず、min-count/top前の元回数和を保持し、語あり全除外でも元正数を保持する。今回の名前指定除外は既存の元総数契約を指定時だけ変更する。incoming locked ADRは0だが、merge pass 2の既存locked CONTEXTとの矛盾として自動上書きしない。
+  source: openspec/changes/r-6442a149-exclude-file/specs/wordfreq-cli/spec.md:73-78,93-114; _bmad-output/initiative-r-6442a149/architecture/architecture.md:29-33,53-57; _bmad-output/initiative-r-6442a149/prd/prd-wordfreq-exclude.md:60,80,84-86; .planning/phases/04-wordfreq-min-count/04-CONTEXT.md:13-25; .planning/REQUIREMENTS.md:60; .planning/ROADMAP.md:104; user task（PM approved head=8a2c69b8332e9704377fe680af51767c74e4ab56）。
+  → 親のE.7承認済み変更用の追加phase分岐へ渡す。旧locked履歴を消さず標準mergeでは宛先を書かない。製品判断の再質問やOQ-7/8の追加条件化は不要。本担当はphaseを追加しない。
 
 ### WARNINGS (0)
 
-競合する受入variantなし。PRDとproposalは同一の追加要求と受入条件を定義する。tasksの起点比較・解析データ不変・追加行除外後のバイト一致・品質独立実行は、その検証方式と工程の具体化であり、異なる製品要求や競合する受入条件ではない。工程配下の検証ファイルはPRDで明示的に許され、製品テスト追加禁止とも整合する。Brief内の一般的な次工程案内は製品要求の差ではなく、今回承認済み工程への代替指示として実行しない。
-source: _bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md:59-78,98-118; openspec/changes/r-cf2eeaab-project-description-uat/proposal.md:9-28; openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:3-13; _bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.md:53-65
+競合PRD acceptance variantなし。PRDは1件であり、SPEC/PRD/DOCのcasefold・行全体比較・最後FILE・読込順・失敗コード・空結果・除外後総数は一致する。OQ-7/8は背景不足のみ。旧依頼固有のREADME最終行・description値・固定起点・変更範囲を今回の追加受入条件にしない。
+source: 正本5分類と対応原本; _bmad-output/initiative-r-6442a149/prd/prd-wordfreq-exclude.md:58-88,144-151; .planning/phases/05-readme-verification-a/05-CONTEXT.md:8-24; .planning/phases/07-project-description-uat/07-CONTEXT.md:8-24。
 
 ### INFO (0)
 
-precedenceによる自動解決なし。旧追記指示は、依頼者の明示判断を既に反映した今回4文書の背景記録であり、未解決の別variantやtimestampによる自動解決とは扱わない。metadata-only、skip_specs=true、未決事項なしを維持する。READYはsynthesisからのrouting準備完了だけを示し、宛先mergeの実行・製品実装・検証合格・自動マージの許可ではない。
-source: _bmad-output/initiative-r-cf2eeaab/brief/brief-project-description-uat.md:69-77; _bmad-output/initiative-r-cf2eeaab/prd/prd-project-description-uat.md:104-118; openspec/changes/r-cf2eeaab-project-description-uat/proposal.md:5-28; openspec/changes/r-cf2eeaab-project-description-uat/tasks.md:3,13
+precedenceによる自動解決なし。ADR 0、locked ADR 0、UNKNOWN 0。今回5ノードのcross_refsに循環なし。前回6件で検出したBrief↔PRD循環は、親がmanifestを正本5件へ縮小しBriefを背景参照に限定したことで今回の取込集合外となった。原本の相互参照は変更しておらず、外部Briefを再帰取込しない。詳細はintel/SYNTHESIS.md。初出順はPhase 3で旧語昇順を置換済みであり、incomingはその現行契約を維持する。承認日時やファイル順を自動勝者選択に使わない。
+source: .planning/argonauts/r-6442a149-manifest.yaml; .planning/intel/classifications/r-6442a149-canonical/*.json; 旧 .planning/intel/classifications/r-6442a149/brief-wordfreq-exclude-5016d233.json:18-22; _bmad-output/initiative-r-6442a149/prd/prd-wordfreq-exclude.md:36; .planning/phases/03-wordfreq-html-output/03-CONTEXT.md:17-18; user task。
+
+GSD > BLOCKED: 1 blockers must be resolved before ingest can proceed.

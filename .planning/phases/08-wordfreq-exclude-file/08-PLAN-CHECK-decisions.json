@@ -1,0 +1,9 @@
+{
+  "passed": false,
+  "skipped": false,
+  "reason": "could-not-parse",
+  "total": null,
+  "covered": null,
+  "unreadable": [],
+  "message": "Decision coverage gate: could not parse decisions — possible format mismatch. The CONTEXT.md appears to be decision-shaped (has a <decisions> block, a decisions heading, or D- tokens) but no decision bullets could be extracted. Check the formatting of the decisions block and ensure bullets follow the `- **D-NN:** text`, `- **D4-NN:** text` (phase-prefixed), or `- **D-NN — title** body` form. An ID grammar the parser does not support (e.g. `DEC-01`) also lands here."
+}

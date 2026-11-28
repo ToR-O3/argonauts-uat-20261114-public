@@ -1,0 +1,34 @@
+{
+  "source_path": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_bd362ca7/_bmad-output/initiative-r-6442a149/architecture/architecture.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Architecture Spine — wordfreq 除外指定",
+  "summary": "wordfreq --exclude FILEの集計前除外境界、casefold比較、行解釈、既存挙動維持、読込と失敗の優先順位を定義する技術仕様。",
+  "scope": [
+    "wordfreq --exclude FILE",
+    "CLI合成境界",
+    "除外FILE",
+    "casefold比較キー",
+    "tokenizer",
+    "aggregator",
+    "formatter",
+    "入力検証",
+    "終了コード"
+  ],
+  "cross_refs": [
+    "../prd/prd-wordfreq-exclude.md",
+    "../initiative-r-6442a149.md",
+    "../decisions-oq1-6.md",
+    "../../../wordfreq/",
+    "tokenizer.py",
+    "aggregator.py",
+    "wordfreq/__main__.py",
+    "sources.py",
+    "formatters.py",
+    "README"
+  ],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}
