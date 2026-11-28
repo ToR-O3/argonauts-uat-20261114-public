@@ -1,0 +1,440 @@
+[
+  {
+    "case": "default",
+    "input": "a bb ccc bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/default/input.txt",
+      "--format",
+      "text"
+    ],
+    "exit": 0,
+    "stdout": "2\tbb\n1\ta\n1\tccc\n",
+    "stderr": ""
+  },
+  {
+    "case": "default",
+    "input": "a bb ccc bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/default/input.txt",
+      "--format",
+      "json"
+    ],
+    "exit": 0,
+    "stdout": "[{\"word\": \"bb\", \"count\": 2}, {\"word\": \"a\", \"count\": 1}, {\"word\": \"ccc\", \"count\": 1}]\n",
+    "stderr": ""
+  },
+  {
+    "case": "default",
+    "input": "a bb ccc bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/default/input.txt",
+      "--format",
+      "html"
+    ],
+    "exit": 0,
+    "stdout": "<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>単語の出現頻度</title>\n<style>\n:root { color-scheme: light; }\nbody {\n  margin: 0;\n  background: #FFFFFF;\n  color: #0F172A;\n  font-family: system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.5;\n}\nmain {\n  width: 100%;\n  max-width: 960px;\n  box-sizing: border-box;\n  margin: 0 auto;\n  padding: 32px;\n}\nh1 {\n  margin: 0 0 16px;\n  color: #1D4ED8;\n  font-size: 24px;\n  font-weight: 600;\n  line-height: 1.25;\n  overflow-wrap: anywhere;\n}\n.metadata { margin: 0 0 24px; }\n.metadata-item + .metadata-item { margin-top: 8px; }\n.label, caption, th {\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 1.5;\n}\n.label { margin-bottom: 4px; color: #475569; }\n.filename-value, .word {\n  white-space: break-spaces;\n  overflow-wrap: anywhere;\n  word-break: normal;\n  tab-size: 4;\n}\n.total-value { color: #1D4ED8; }\ntable { width: 100%; table-layout: fixed; border-collapse: collapse; }\ncaption { text-align: left; color: #475569; margin-bottom: 8px; }\nth, td {\n  box-sizing: border-box;\n  padding: 8px;\n  vertical-align: top;\n  text-align: left;\n  overflow-wrap: anywhere;\n  border-bottom: 1px solid #CBD5E1;\n}\nth { background: #F1F5F9; }\ntd { background: #FFFFFF; }\n.rank, .count { text-align: right; font-variant-numeric: tabular-nums; }\n.rank { width: 56px; }\n.count { width: 64px; }\n.empty-message { margin: 24px 0 0; color: #475569; overflow-wrap: anywhere; }\n@media (max-width: 480px) { main { padding: 16px; } }\n</style>\n</head>\n<body>\n<main>\n<h1>単語の出現頻度</h1>\n<div class=\"metadata\">\n<div class=\"metadata-item\">\n<div class=\"label\">ファイル名</div>\n<div class=\"filename-value\">input.txt</div>\n</div>\n<div class=\"metadata-item\">\n<div class=\"label\">総出現回数</div>\n<div class=\"total-value\">4</div>\n</div>\n</div>\n<table>\n<caption>集計結果</caption>\n<thead><tr><th class=\"rank\" scope=\"col\">順位</th><th class=\"word\" scope=\"col\">単語</th><th class=\"count\" scope=\"col\">回数</th></tr></thead>\n<tbody>\n<tr><td class=\"rank\">1</td><td class=\"word\">bb</td><td class=\"count\">2</td></tr>\n<tr><td class=\"rank\">2</td><td class=\"word\">a</td><td class=\"count\">1</td></tr>\n<tr><td class=\"rank\">3</td><td class=\"word\">ccc</td><td class=\"count\">1</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n",
+    "stderr": ""
+  },
+  {
+    "case": "explicit-one",
+    "input": "a bb ccc bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/explicit-one/input.txt",
+      "--min-length",
+      "1",
+      "--format",
+      "text"
+    ],
+    "exit": 0,
+    "stdout": "2\tbb\n1\ta\n1\tccc\n",
+    "stderr": ""
+  },
+  {
+    "case": "explicit-one",
+    "input": "a bb ccc bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/explicit-one/input.txt",
+      "--min-length",
+      "1",
+      "--format",
+      "json"
+    ],
+    "exit": 0,
+    "stdout": "[{\"word\": \"bb\", \"count\": 2}, {\"word\": \"a\", \"count\": 1}, {\"word\": \"ccc\", \"count\": 1}]\n",
+    "stderr": ""
+  },
+  {
+    "case": "explicit-one",
+    "input": "a bb ccc bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/explicit-one/input.txt",
+      "--min-length",
+      "1",
+      "--format",
+      "html"
+    ],
+    "exit": 0,
+    "stdout": "<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>単語の出現頻度</title>\n<style>\n:root { color-scheme: light; }\nbody {\n  margin: 0;\n  background: #FFFFFF;\n  color: #0F172A;\n  font-family: system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.5;\n}\nmain {\n  width: 100%;\n  max-width: 960px;\n  box-sizing: border-box;\n  margin: 0 auto;\n  padding: 32px;\n}\nh1 {\n  margin: 0 0 16px;\n  color: #1D4ED8;\n  font-size: 24px;\n  font-weight: 600;\n  line-height: 1.25;\n  overflow-wrap: anywhere;\n}\n.metadata { margin: 0 0 24px; }\n.metadata-item + .metadata-item { margin-top: 8px; }\n.label, caption, th {\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 1.5;\n}\n.label { margin-bottom: 4px; color: #475569; }\n.filename-value, .word {\n  white-space: break-spaces;\n  overflow-wrap: anywhere;\n  word-break: normal;\n  tab-size: 4;\n}\n.total-value { color: #1D4ED8; }\ntable { width: 100%; table-layout: fixed; border-collapse: collapse; }\ncaption { text-align: left; color: #475569; margin-bottom: 8px; }\nth, td {\n  box-sizing: border-box;\n  padding: 8px;\n  vertical-align: top;\n  text-align: left;\n  overflow-wrap: anywhere;\n  border-bottom: 1px solid #CBD5E1;\n}\nth { background: #F1F5F9; }\ntd { background: #FFFFFF; }\n.rank, .count { text-align: right; font-variant-numeric: tabular-nums; }\n.rank { width: 56px; }\n.count { width: 64px; }\n.empty-message { margin: 24px 0 0; color: #475569; overflow-wrap: anywhere; }\n@media (max-width: 480px) { main { padding: 16px; } }\n</style>\n</head>\n<body>\n<main>\n<h1>単語の出現頻度</h1>\n<div class=\"metadata\">\n<div class=\"metadata-item\">\n<div class=\"label\">ファイル名</div>\n<div class=\"filename-value\">input.txt</div>\n</div>\n<div class=\"metadata-item\">\n<div class=\"label\">総出現回数</div>\n<div class=\"total-value\">4</div>\n</div>\n</div>\n<table>\n<caption>集計結果</caption>\n<thead><tr><th class=\"rank\" scope=\"col\">順位</th><th class=\"word\" scope=\"col\">単語</th><th class=\"count\" scope=\"col\">回数</th></tr></thead>\n<tbody>\n<tr><td class=\"rank\">1</td><td class=\"word\">bb</td><td class=\"count\">2</td></tr>\n<tr><td class=\"rank\">2</td><td class=\"word\">a</td><td class=\"count\">1</td></tr>\n<tr><td class=\"rank\">3</td><td class=\"word\">ccc</td><td class=\"count\">1</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n",
+    "stderr": ""
+  },
+  {
+    "case": "boundary",
+    "input": "a bb ccc bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/boundary/input.txt",
+      "--min-length",
+      "2",
+      "--format",
+      "text"
+    ],
+    "exit": 0,
+    "stdout": "2\tbb\n1\tccc\n",
+    "stderr": ""
+  },
+  {
+    "case": "boundary",
+    "input": "a bb ccc bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/boundary/input.txt",
+      "--min-length",
+      "2",
+      "--format",
+      "json"
+    ],
+    "exit": 0,
+    "stdout": "[{\"word\": \"bb\", \"count\": 2}, {\"word\": \"ccc\", \"count\": 1}]\n",
+    "stderr": ""
+  },
+  {
+    "case": "boundary",
+    "input": "a bb ccc bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/boundary/input.txt",
+      "--min-length",
+      "2",
+      "--format",
+      "html"
+    ],
+    "exit": 0,
+    "stdout": "<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>単語の出現頻度</title>\n<style>\n:root { color-scheme: light; }\nbody {\n  margin: 0;\n  background: #FFFFFF;\n  color: #0F172A;\n  font-family: system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.5;\n}\nmain {\n  width: 100%;\n  max-width: 960px;\n  box-sizing: border-box;\n  margin: 0 auto;\n  padding: 32px;\n}\nh1 {\n  margin: 0 0 16px;\n  color: #1D4ED8;\n  font-size: 24px;\n  font-weight: 600;\n  line-height: 1.25;\n  overflow-wrap: anywhere;\n}\n.metadata { margin: 0 0 24px; }\n.metadata-item + .metadata-item { margin-top: 8px; }\n.label, caption, th {\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 1.5;\n}\n.label { margin-bottom: 4px; color: #475569; }\n.filename-value, .word {\n  white-space: break-spaces;\n  overflow-wrap: anywhere;\n  word-break: normal;\n  tab-size: 4;\n}\n.total-value { color: #1D4ED8; }\ntable { width: 100%; table-layout: fixed; border-collapse: collapse; }\ncaption { text-align: left; color: #475569; margin-bottom: 8px; }\nth, td {\n  box-sizing: border-box;\n  padding: 8px;\n  vertical-align: top;\n  text-align: left;\n  overflow-wrap: anywhere;\n  border-bottom: 1px solid #CBD5E1;\n}\nth { background: #F1F5F9; }\ntd { background: #FFFFFF; }\n.rank, .count { text-align: right; font-variant-numeric: tabular-nums; }\n.rank { width: 56px; }\n.count { width: 64px; }\n.empty-message { margin: 24px 0 0; color: #475569; overflow-wrap: anywhere; }\n@media (max-width: 480px) { main { padding: 16px; } }\n</style>\n</head>\n<body>\n<main>\n<h1>単語の出現頻度</h1>\n<div class=\"metadata\">\n<div class=\"metadata-item\">\n<div class=\"label\">ファイル名</div>\n<div class=\"filename-value\">input.txt</div>\n</div>\n<div class=\"metadata-item\">\n<div class=\"label\">総出現回数</div>\n<div class=\"total-value\">4</div>\n</div>\n</div>\n<table>\n<caption>集計結果</caption>\n<thead><tr><th class=\"rank\" scope=\"col\">順位</th><th class=\"word\" scope=\"col\">単語</th><th class=\"count\" scope=\"col\">回数</th></tr></thead>\n<tbody>\n<tr><td class=\"rank\">1</td><td class=\"word\">bb</td><td class=\"count\">2</td></tr>\n<tr><td class=\"rank\">2</td><td class=\"word\">ccc</td><td class=\"count\">1</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n",
+    "stderr": ""
+  },
+  {
+    "case": "casefold",
+    "input": "ß ss a",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/casefold/input.txt",
+      "--min-length",
+      "2",
+      "--format",
+      "text"
+    ],
+    "exit": 0,
+    "stdout": "2\tss\n",
+    "stderr": ""
+  },
+  {
+    "case": "casefold",
+    "input": "ß ss a",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/casefold/input.txt",
+      "--min-length",
+      "2",
+      "--format",
+      "json"
+    ],
+    "exit": 0,
+    "stdout": "[{\"word\": \"ss\", \"count\": 2}]\n",
+    "stderr": ""
+  },
+  {
+    "case": "casefold",
+    "input": "ß ss a",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/casefold/input.txt",
+      "--min-length",
+      "2",
+      "--format",
+      "html"
+    ],
+    "exit": 0,
+    "stdout": "<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>単語の出現頻度</title>\n<style>\n:root { color-scheme: light; }\nbody {\n  margin: 0;\n  background: #FFFFFF;\n  color: #0F172A;\n  font-family: system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.5;\n}\nmain {\n  width: 100%;\n  max-width: 960px;\n  box-sizing: border-box;\n  margin: 0 auto;\n  padding: 32px;\n}\nh1 {\n  margin: 0 0 16px;\n  color: #1D4ED8;\n  font-size: 24px;\n  font-weight: 600;\n  line-height: 1.25;\n  overflow-wrap: anywhere;\n}\n.metadata { margin: 0 0 24px; }\n.metadata-item + .metadata-item { margin-top: 8px; }\n.label, caption, th {\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 1.5;\n}\n.label { margin-bottom: 4px; color: #475569; }\n.filename-value, .word {\n  white-space: break-spaces;\n  overflow-wrap: anywhere;\n  word-break: normal;\n  tab-size: 4;\n}\n.total-value { color: #1D4ED8; }\ntable { width: 100%; table-layout: fixed; border-collapse: collapse; }\ncaption { text-align: left; color: #475569; margin-bottom: 8px; }\nth, td {\n  box-sizing: border-box;\n  padding: 8px;\n  vertical-align: top;\n  text-align: left;\n  overflow-wrap: anywhere;\n  border-bottom: 1px solid #CBD5E1;\n}\nth { background: #F1F5F9; }\ntd { background: #FFFFFF; }\n.rank, .count { text-align: right; font-variant-numeric: tabular-nums; }\n.rank { width: 56px; }\n.count { width: 64px; }\n.empty-message { margin: 24px 0 0; color: #475569; overflow-wrap: anywhere; }\n@media (max-width: 480px) { main { padding: 16px; } }\n</style>\n</head>\n<body>\n<main>\n<h1>単語の出現頻度</h1>\n<div class=\"metadata\">\n<div class=\"metadata-item\">\n<div class=\"label\">ファイル名</div>\n<div class=\"filename-value\">input.txt</div>\n</div>\n<div class=\"metadata-item\">\n<div class=\"label\">総出現回数</div>\n<div class=\"total-value\">3</div>\n</div>\n</div>\n<table>\n<caption>集計結果</caption>\n<thead><tr><th class=\"rank\" scope=\"col\">順位</th><th class=\"word\" scope=\"col\">単語</th><th class=\"count\" scope=\"col\">回数</th></tr></thead>\n<tbody>\n<tr><td class=\"rank\">1</td><td class=\"word\">ss</td><td class=\"count\">2</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n",
+    "stderr": ""
+  },
+  {
+    "case": "unicode",
+    "input": "日 日本 日本語 _ 12",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/unicode/input.txt",
+      "--min-length",
+      "2",
+      "--format",
+      "text"
+    ],
+    "exit": 0,
+    "stdout": "1\t日本\n1\t日本語\n1\t12\n",
+    "stderr": ""
+  },
+  {
+    "case": "unicode",
+    "input": "日 日本 日本語 _ 12",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/unicode/input.txt",
+      "--min-length",
+      "2",
+      "--format",
+      "json"
+    ],
+    "exit": 0,
+    "stdout": "[{\"word\": \"\\u65e5\\u672c\", \"count\": 1}, {\"word\": \"\\u65e5\\u672c\\u8a9e\", \"count\": 1}, {\"word\": \"12\", \"count\": 1}]\n",
+    "stderr": ""
+  },
+  {
+    "case": "unicode",
+    "input": "日 日本 日本語 _ 12",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/unicode/input.txt",
+      "--min-length",
+      "2",
+      "--format",
+      "html"
+    ],
+    "exit": 0,
+    "stdout": "<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>単語の出現頻度</title>\n<style>\n:root { color-scheme: light; }\nbody {\n  margin: 0;\n  background: #FFFFFF;\n  color: #0F172A;\n  font-family: system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.5;\n}\nmain {\n  width: 100%;\n  max-width: 960px;\n  box-sizing: border-box;\n  margin: 0 auto;\n  padding: 32px;\n}\nh1 {\n  margin: 0 0 16px;\n  color: #1D4ED8;\n  font-size: 24px;\n  font-weight: 600;\n  line-height: 1.25;\n  overflow-wrap: anywhere;\n}\n.metadata { margin: 0 0 24px; }\n.metadata-item + .metadata-item { margin-top: 8px; }\n.label, caption, th {\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 1.5;\n}\n.label { margin-bottom: 4px; color: #475569; }\n.filename-value, .word {\n  white-space: break-spaces;\n  overflow-wrap: anywhere;\n  word-break: normal;\n  tab-size: 4;\n}\n.total-value { color: #1D4ED8; }\ntable { width: 100%; table-layout: fixed; border-collapse: collapse; }\ncaption { text-align: left; color: #475569; margin-bottom: 8px; }\nth, td {\n  box-sizing: border-box;\n  padding: 8px;\n  vertical-align: top;\n  text-align: left;\n  overflow-wrap: anywhere;\n  border-bottom: 1px solid #CBD5E1;\n}\nth { background: #F1F5F9; }\ntd { background: #FFFFFF; }\n.rank, .count { text-align: right; font-variant-numeric: tabular-nums; }\n.rank { width: 56px; }\n.count { width: 64px; }\n.empty-message { margin: 24px 0 0; color: #475569; overflow-wrap: anywhere; }\n@media (max-width: 480px) { main { padding: 16px; } }\n</style>\n</head>\n<body>\n<main>\n<h1>単語の出現頻度</h1>\n<div class=\"metadata\">\n<div class=\"metadata-item\">\n<div class=\"label\">ファイル名</div>\n<div class=\"filename-value\">input.txt</div>\n</div>\n<div class=\"metadata-item\">\n<div class=\"label\">総出現回数</div>\n<div class=\"total-value\">5</div>\n</div>\n</div>\n<table>\n<caption>集計結果</caption>\n<thead><tr><th class=\"rank\" scope=\"col\">順位</th><th class=\"word\" scope=\"col\">単語</th><th class=\"count\" scope=\"col\">回数</th></tr></thead>\n<tbody>\n<tr><td class=\"rank\">1</td><td class=\"word\">日本</td><td class=\"count\">1</td></tr>\n<tr><td class=\"rank\">2</td><td class=\"word\">日本語</td><td class=\"count\">1</td></tr>\n<tr><td class=\"rank\">3</td><td class=\"word\">12</td><td class=\"count\">1</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n",
+    "stderr": ""
+  },
+  {
+    "case": "composition",
+    "input": "a a a bb cc bb cc dddd",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/composition/input.txt",
+      "--min-length",
+      "2",
+      "--min-count",
+      "2",
+      "--max-count",
+      "2",
+      "--top",
+      "1",
+      "--format",
+      "text"
+    ],
+    "exit": 0,
+    "stdout": "2\tbb\n",
+    "stderr": ""
+  },
+  {
+    "case": "composition",
+    "input": "a a a bb cc bb cc dddd",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/composition/input.txt",
+      "--min-length",
+      "2",
+      "--min-count",
+      "2",
+      "--max-count",
+      "2",
+      "--top",
+      "1",
+      "--format",
+      "json"
+    ],
+    "exit": 0,
+    "stdout": "[{\"word\": \"bb\", \"count\": 2}]\n",
+    "stderr": ""
+  },
+  {
+    "case": "composition",
+    "input": "a a a bb cc bb cc dddd",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/composition/input.txt",
+      "--min-length",
+      "2",
+      "--min-count",
+      "2",
+      "--max-count",
+      "2",
+      "--top",
+      "1",
+      "--format",
+      "html"
+    ],
+    "exit": 0,
+    "stdout": "<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>単語の出現頻度</title>\n<style>\n:root { color-scheme: light; }\nbody {\n  margin: 0;\n  background: #FFFFFF;\n  color: #0F172A;\n  font-family: system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.5;\n}\nmain {\n  width: 100%;\n  max-width: 960px;\n  box-sizing: border-box;\n  margin: 0 auto;\n  padding: 32px;\n}\nh1 {\n  margin: 0 0 16px;\n  color: #1D4ED8;\n  font-size: 24px;\n  font-weight: 600;\n  line-height: 1.25;\n  overflow-wrap: anywhere;\n}\n.metadata { margin: 0 0 24px; }\n.metadata-item + .metadata-item { margin-top: 8px; }\n.label, caption, th {\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 1.5;\n}\n.label { margin-bottom: 4px; color: #475569; }\n.filename-value, .word {\n  white-space: break-spaces;\n  overflow-wrap: anywhere;\n  word-break: normal;\n  tab-size: 4;\n}\n.total-value { color: #1D4ED8; }\ntable { width: 100%; table-layout: fixed; border-collapse: collapse; }\ncaption { text-align: left; color: #475569; margin-bottom: 8px; }\nth, td {\n  box-sizing: border-box;\n  padding: 8px;\n  vertical-align: top;\n  text-align: left;\n  overflow-wrap: anywhere;\n  border-bottom: 1px solid #CBD5E1;\n}\nth { background: #F1F5F9; }\ntd { background: #FFFFFF; }\n.rank, .count { text-align: right; font-variant-numeric: tabular-nums; }\n.rank { width: 56px; }\n.count { width: 64px; }\n.empty-message { margin: 24px 0 0; color: #475569; overflow-wrap: anywhere; }\n@media (max-width: 480px) { main { padding: 16px; } }\n</style>\n</head>\n<body>\n<main>\n<h1>単語の出現頻度</h1>\n<div class=\"metadata\">\n<div class=\"metadata-item\">\n<div class=\"label\">ファイル名</div>\n<div class=\"filename-value\">input.txt</div>\n</div>\n<div class=\"metadata-item\">\n<div class=\"label\">総出現回数</div>\n<div class=\"total-value\">8</div>\n</div>\n</div>\n<table>\n<caption>集計結果</caption>\n<thead><tr><th class=\"rank\" scope=\"col\">順位</th><th class=\"word\" scope=\"col\">単語</th><th class=\"count\" scope=\"col\">回数</th></tr></thead>\n<tbody>\n<tr><td class=\"rank\">1</td><td class=\"word\">bb</td><td class=\"count\">2</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n",
+    "stderr": ""
+  },
+  {
+    "case": "tie",
+    "input": "a zz aa zz aa",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/tie/input.txt",
+      "--min-length",
+      "2",
+      "--top",
+      "1",
+      "--format",
+      "text"
+    ],
+    "exit": 0,
+    "stdout": "2\tzz\n",
+    "stderr": ""
+  },
+  {
+    "case": "tie",
+    "input": "a zz aa zz aa",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/tie/input.txt",
+      "--min-length",
+      "2",
+      "--top",
+      "1",
+      "--format",
+      "json"
+    ],
+    "exit": 0,
+    "stdout": "[{\"word\": \"zz\", \"count\": 2}]\n",
+    "stderr": ""
+  },
+  {
+    "case": "tie",
+    "input": "a zz aa zz aa",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/tie/input.txt",
+      "--min-length",
+      "2",
+      "--top",
+      "1",
+      "--format",
+      "html"
+    ],
+    "exit": 0,
+    "stdout": "<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>単語の出現頻度</title>\n<style>\n:root { color-scheme: light; }\nbody {\n  margin: 0;\n  background: #FFFFFF;\n  color: #0F172A;\n  font-family: system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.5;\n}\nmain {\n  width: 100%;\n  max-width: 960px;\n  box-sizing: border-box;\n  margin: 0 auto;\n  padding: 32px;\n}\nh1 {\n  margin: 0 0 16px;\n  color: #1D4ED8;\n  font-size: 24px;\n  font-weight: 600;\n  line-height: 1.25;\n  overflow-wrap: anywhere;\n}\n.metadata { margin: 0 0 24px; }\n.metadata-item + .metadata-item { margin-top: 8px; }\n.label, caption, th {\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 1.5;\n}\n.label { margin-bottom: 4px; color: #475569; }\n.filename-value, .word {\n  white-space: break-spaces;\n  overflow-wrap: anywhere;\n  word-break: normal;\n  tab-size: 4;\n}\n.total-value { color: #1D4ED8; }\ntable { width: 100%; table-layout: fixed; border-collapse: collapse; }\ncaption { text-align: left; color: #475569; margin-bottom: 8px; }\nth, td {\n  box-sizing: border-box;\n  padding: 8px;\n  vertical-align: top;\n  text-align: left;\n  overflow-wrap: anywhere;\n  border-bottom: 1px solid #CBD5E1;\n}\nth { background: #F1F5F9; }\ntd { background: #FFFFFF; }\n.rank, .count { text-align: right; font-variant-numeric: tabular-nums; }\n.rank { width: 56px; }\n.count { width: 64px; }\n.empty-message { margin: 24px 0 0; color: #475569; overflow-wrap: anywhere; }\n@media (max-width: 480px) { main { padding: 16px; } }\n</style>\n</head>\n<body>\n<main>\n<h1>単語の出現頻度</h1>\n<div class=\"metadata\">\n<div class=\"metadata-item\">\n<div class=\"label\">ファイル名</div>\n<div class=\"filename-value\">input.txt</div>\n</div>\n<div class=\"metadata-item\">\n<div class=\"label\">総出現回数</div>\n<div class=\"total-value\">5</div>\n</div>\n</div>\n<table>\n<caption>集計結果</caption>\n<thead><tr><th class=\"rank\" scope=\"col\">順位</th><th class=\"word\" scope=\"col\">単語</th><th class=\"count\" scope=\"col\">回数</th></tr></thead>\n<tbody>\n<tr><td class=\"rank\">1</td><td class=\"word\">zz</td><td class=\"count\">2</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n",
+    "stderr": ""
+  },
+  {
+    "case": "empty",
+    "input": "a bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/empty/input.txt",
+      "--min-length",
+      "3",
+      "--format",
+      "text"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "case": "empty",
+    "input": "a bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/empty/input.txt",
+      "--min-length",
+      "3",
+      "--format",
+      "json"
+    ],
+    "exit": 0,
+    "stdout": "[]\n",
+    "stderr": ""
+  },
+  {
+    "case": "empty",
+    "input": "a bb",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/outputs/empty/input.txt",
+      "--min-length",
+      "3",
+      "--format",
+      "html"
+    ],
+    "exit": 0,
+    "stdout": "<!doctype html>\n<html lang=\"ja\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>単語の出現頻度</title>\n<style>\n:root { color-scheme: light; }\nbody {\n  margin: 0;\n  background: #FFFFFF;\n  color: #0F172A;\n  font-family: system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.5;\n}\nmain {\n  width: 100%;\n  max-width: 960px;\n  box-sizing: border-box;\n  margin: 0 auto;\n  padding: 32px;\n}\nh1 {\n  margin: 0 0 16px;\n  color: #1D4ED8;\n  font-size: 24px;\n  font-weight: 600;\n  line-height: 1.25;\n  overflow-wrap: anywhere;\n}\n.metadata { margin: 0 0 24px; }\n.metadata-item + .metadata-item { margin-top: 8px; }\n.label, caption, th {\n  font-size: 14px;\n  font-weight: 600;\n  line-height: 1.5;\n}\n.label { margin-bottom: 4px; color: #475569; }\n.filename-value, .word {\n  white-space: break-spaces;\n  overflow-wrap: anywhere;\n  word-break: normal;\n  tab-size: 4;\n}\n.total-value { color: #1D4ED8; }\ntable { width: 100%; table-layout: fixed; border-collapse: collapse; }\ncaption { text-align: left; color: #475569; margin-bottom: 8px; }\nth, td {\n  box-sizing: border-box;\n  padding: 8px;\n  vertical-align: top;\n  text-align: left;\n  overflow-wrap: anywhere;\n  border-bottom: 1px solid #CBD5E1;\n}\nth { background: #F1F5F9; }\ntd { background: #FFFFFF; }\n.rank, .count { text-align: right; font-variant-numeric: tabular-nums; }\n.rank { width: 56px; }\n.count { width: 64px; }\n.empty-message { margin: 24px 0 0; color: #475569; overflow-wrap: anywhere; }\n@media (max-width: 480px) { main { padding: 16px; } }\n</style>\n</head>\n<body>\n<main>\n<h1>単語の出現頻度</h1>\n<div class=\"metadata\">\n<div class=\"metadata-item\">\n<div class=\"label\">ファイル名</div>\n<div class=\"filename-value\">input.txt</div>\n</div>\n<div class=\"metadata-item\">\n<div class=\"label\">総出現回数</div>\n<div class=\"total-value\">2</div>\n</div>\n</div>\n<table>\n<caption>集計結果</caption>\n<thead><tr><th class=\"rank\" scope=\"col\">順位</th><th class=\"word\" scope=\"col\">単語</th><th class=\"count\" scope=\"col\">回数</th></tr></thead>\n<tbody>\n</tbody>\n</table>\n<p class=\"empty-message\">集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。</p>\n</main>\n</body>\n</html>\n",
+    "stderr": ""
+  },
+  {
+    "case": "help",
+    "argv": [
+      "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python",
+      "-m",
+      "wordfreq",
+      "--help"
+    ],
+    "exit": 0,
+    "stdout": "usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT]\n                [--max-count MAX_COUNT] [--min-length N]\n                [--format {text,json,html}]\n                filename\n\npositional arguments:\n  filename\n\noptions:\n  -h, --help            show this help message and exit\n  --top TOP\n  --min-count MIN_COUNT\n  --max-count MAX_COUNT\n  --min-length N        Exclude words shorter than N characters after casefold\n                        (default: 1)\n  --format {text,json,html}\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "command": "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python -m pytest tests/test_cli.py -k min_length_help -q --junitxml=.planning/quick/261128-jaf-wordfreq-min-length-option/help-red.xml",
+  "exitCode": 1,
+  "output": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"1\" skipped=\"0\" tests=\"1\" time=\"0.219\" timestamp=\"2026-11-28T14:11:40.283111+09:00\" hostname=\"Ys-Minify\"><testcase classname=\"tests.test_cli\" name=\"test_min_length_help\" time=\"0.036\"><failure message=\"AssertionError: assert '--min-length N' in 'usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--max-count MAX_COUNT] [--min-length MIN_LENGTH] [--format ...ssage and exit --top TOP --min-count MIN_COUNT --max-count MAX_COUNT --min-length MIN_LENGTH --format {text,json,html}'\">def test_min_length_help():\n        result = run_cli_bytes(\"--help\")\n        assert (result.returncode, result.stderr) == (0, b\"\")\n        help_text = \" \".join(result.stdout.decode(\"utf-8\").split())\n&gt;       assert \"--min-length N\" in help_text\nE       AssertionError: assert '--min-length N' in 'usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--max-count MAX_COUNT] [--min-length MIN_LENGTH] [--format ...ssage and exit --top TOP --min-count MIN_COUNT --max-count MAX_COUNT --min-length MIN_LENGTH --format {text,json,html}'\n\ntests/test_cli.py:916: AssertionError</failure></testcase></testsuite></testsuites>",
+  "targetTest": "test_min_length_help",
+  "targetFile": "tests/test_cli.py",
+  "expected": "help includes --min-length N and explanation/default",
+  "actual": "help uses MIN_LENGTH and has no explanation",
+  "reportPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/help-red.xml",
+  "reportModifiedAt": 1795842700.5018563,
+  "semanticAssessment": "Named test executed and failed on the planned missing behavior; no collection, import or setup failure. See unchanged XML and console log."
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.219" timestamp="2026-11-28T14:11:40.283111+09:00" hostname="Ys-Minify"><testcase classname="tests.test_cli" name="test_min_length_help" time="0.036"><failure message="AssertionError: assert '--min-length N' in 'usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--max-count MAX_COUNT] [--min-length MIN_LENGTH] [--format ...ssage and exit --top TOP --min-count MIN_COUNT --max-count MAX_COUNT --min-length MIN_LENGTH --format {text,json,html}'">def test_min_length_help():
+        result = run_cli_bytes("--help")
+        assert (result.returncode, result.stderr) == (0, b"")
+        help_text = " ".join(result.stdout.decode("utf-8").split())
+&gt;       assert "--min-length N" in help_text
+E       AssertionError: assert '--min-length N' in 'usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--max-count MAX_COUNT] [--min-length MIN_LENGTH] [--format ...ssage and exit --top TOP --min-count MIN_COUNT --max-count MAX_COUNT --min-length MIN_LENGTH --format {text,json,html}'
+
+tests/test_cli.py:916: AssertionError</failure></testcase></testsuite></testsuites>

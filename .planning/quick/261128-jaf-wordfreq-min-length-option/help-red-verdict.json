@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "block": false,
+  "verdict": "RED_EVIDENCE_OK",
+  "reason": "target_test_failed",
+  "evidence": {
+    "command": "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python -m pytest tests/test_cli.py -k min_length_help -q --junitxml=.planning/quick/261128-jaf-wordfreq-min-length-option/help-red.xml",
+    "exit_code": 1,
+    "target_test": "test_min_length_help",
+    "tests": 1,
+    "pass": 0,
+    "fail": 1,
+    "failing_tests": [
+      "tests.test_cli#test_min_length_help"
+    ],
+    "matched_test": "tests.test_cli#test_min_length_help",
+    "format": "junit",
+    "report_errors": []
+  },
+  "record": {
+    "command": "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python -m pytest tests/test_cli.py -k min_length_help -q --junitxml=.planning/quick/261128-jaf-wordfreq-min-length-option/help-red.xml",
+    "exit_code": 1,
+    "failing_test": "tests.test_cli#test_min_length_help",
+    "target_test": "test_min_length_help",
+    "expected": "help includes --min-length N and explanation/default",
+    "actual": "help uses MIN_LENGTH and has no explanation",
+    "verdict": "RED_EVIDENCE_OK",
+    "reason": "target_test_failed"
+  },
+  "message": "RED evidence verified: target test \"test_min_length_help\" failed as expected (exit 1). GREEN authorized."
+}

@@ -1,0 +1,23 @@
+MIN LENGTH TRACER (0, b'2\tbb\n1\ta\n1\tccc\n', b'')
+F
+=================================== FAILURES ===================================
+____________________________ test_min_length_tracer ____________________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-522/test_min_length_tracer0')
+
+    def test_min_length_tracer(tmp_path):
+        path = tmp_path / "input.txt"
+        path.write_text("a bb ccc bb", encoding="utf-8")
+        result = run_cli_bytes(path, "--min-length", "2")
+        print("MIN LENGTH TRACER", repr((result.returncode, result.stdout, result.stderr)))
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert result.stdout == b"2\tbb\n1\tccc\n"
+E       AssertionError: assert b'2\tbb\n1\ta\n1\tccc\n' == b'2\tbb\n1\tccc\n'
+E         
+E         At index 7 diff: b'a' != b'c'
+E         Use -v to get more diff
+
+tests/test_cli.py:840: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_min_length_tracer - AssertionError: assert b'2...
+1 failed, 656 deselected in 0.11s

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.111" timestamp="2026-11-28T14:09:40.805114+09:00" hostname="Ys-Minify"><testcase classname="tests.test_cli" name="test_min_length_tracer" time="0.043"><failure message="AssertionError: assert b'2\tbb\n1\ta\n1\tccc\n' == b'2\tbb\n1\tccc\n'&#10;  &#10;  At index 7 diff: b'a' != b'c'&#10;  Use -v to get more diff">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-522/test_min_length_tracer0')
+
+    def test_min_length_tracer(tmp_path):
+        path = tmp_path / "input.txt"
+        path.write_text("a bb ccc bb", encoding="utf-8")
+        result = run_cli_bytes(path, "--min-length", "2")
+        print("MIN LENGTH TRACER", repr((result.returncode, result.stdout, result.stderr)))
+        assert (result.returncode, result.stderr) == (0, b"")
+&gt;       assert result.stdout == b"2\tbb\n1\tccc\n"
+E       AssertionError: assert b'2\tbb\n1\ta\n1\tccc\n' == b'2\tbb\n1\tccc\n'
+E         
+E         At index 7 diff: b'a' != b'c'
+E         Use -v to get more diff
+
+tests/test_cli.py:840: AssertionError</failure></testcase></testsuite></testsuites>

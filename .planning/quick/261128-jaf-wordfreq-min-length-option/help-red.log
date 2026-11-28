@@ -1,0 +1,15 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____________________________ test_min_length_help _____________________________
+
+    def test_min_length_help():
+        result = run_cli_bytes("--help")
+        assert (result.returncode, result.stderr) == (0, b"")
+        help_text = " ".join(result.stdout.decode("utf-8").split())
+>       assert "--min-length N" in help_text
+E       AssertionError: assert '--min-length N' in 'usage: wordfreq [-h] [--top TOP] [--min-count MIN_COUNT] [--max-count MAX_COUNT] [--min-length MIN_LENGTH] [--format ...ssage and exit --top TOP --min-count MIN_COUNT --max-count MAX_COUNT --min-length MIN_LENGTH --format {text,json,html}'
+
+tests/test_cli.py:916: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_min_length_help - AssertionError: assert '--mi...
+1 failed, 675 deselected in 0.22s

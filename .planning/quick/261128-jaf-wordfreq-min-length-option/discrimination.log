@@ -1,0 +1,237 @@
+MIN LENGTH DISCRIMINATION control exit 0
+...                                                                      [100%]
+3 passed, 676 deselected in 0.34s
+
+
+.MIN LENGTH DISCRIMINATION ignore-length exit 1
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+________________________ test_min_length_boundary[text] ________________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-discrimination/test_min_length_discrimination1/child-temp/test_min_length_boundary_text_0')
+output_format = 'text'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_min_length_boundary(tmp_path, output_format):
+        path = tmp_path / "input.txt"
+        path.write_text("a bb ccc bb", encoding="utf-8")
+        result = run_cli_bytes(path, "--min-length", "2", "--format", output_format)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, [("bb", 2), ("ccc", 1)], path.name, 4)
+
+tests/test_cli.py:849: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'2\tbb\n1\ta\n1\tccc\n', output_format = 'text'
+expected = [('bb', 2), ('ccc', 1)], basename = 'input.txt', total = 4
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+>           assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+E           AssertionError: assert '2\tbb\n1\ta\n1\tccc\n' == '2\tbb\n1\tccc\n'
+E             
+E               2	bb
+E             + 1	a
+E               1	ccc
+
+tests/test_cli.py:428: AssertionError
+________________________ test_min_length_boundary[json] ________________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-discrimination/test_min_length_discrimination1/child-temp/test_min_length_boundary_json_0')
+output_format = 'json'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_min_length_boundary(tmp_path, output_format):
+        path = tmp_path / "input.txt"
+        path.write_text("a bb ccc bb", encoding="utf-8")
+        result = run_cli_bytes(path, "--min-length", "2", "--format", output_format)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, [("bb", 2), ("ccc", 1)], path.name, 4)
+
+tests/test_cli.py:849: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'[{"word": "bb", "count": 2}, {"word": "a", "count": 1}, {"word": "ccc", "count": 1}]\n'
+output_format = 'json', expected = [('bb', 2), ('ccc', 1)]
+basename = 'input.txt', total = 4
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+>           assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+E           AssertionError: assert [{'word': 'bb..., 'count': 1}] == [{'word': 'bb..., 'count': 1}]
+E             
+E             At index 1 diff: {'word': 'a', 'count': 1} != {'word': 'ccc', 'count': 1}
+E             Left contains one more item: {'word': 'ccc', 'count': 1}
+E             Use -v to get more diff
+
+tests/test_cli.py:432: AssertionError
+________________________ test_min_length_boundary[html] ________________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-discrimination/test_min_length_discrimination1/child-temp/test_min_length_boundary_html_0')
+output_format = 'html'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_min_length_boundary(tmp_path, output_format):
+        path = tmp_path / "input.txt"
+        path.write_text("a bb ccc bb", encoding="utf-8")
+        result = run_cli_bytes(path, "--min-length", "2", "--format", output_format)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, [("bb", 2), ("ccc", 1)], path.name, 4)
+
+tests/test_cli.py:849: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width...s="rank">3</td><td class="word">ccc</td><td class="count">1</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n'
+output_format = 'html', expected = [('bb', 2), ('ccc', 1)]
+basename = 'input.txt', total = 4
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+            assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+        else:
+            parsed = CLIHTML(document)
+            assert document.startswith('<!doctype html>\n')
+            assert '<meta charset="utf-8">' in document
+            assert parsed.headers == ["順位", "単語", "回数"]
+>           assert parsed.rows == [[str(i), w, str(c)] for i, (w, c) in enumerate(expected, 1)]
+E           AssertionError: assert [['1', 'bb', ..., 'ccc', '1']] == [['1', 'bb', ..., 'ccc', '1']]
+E             
+E             At index 1 diff: ['2', 'a', '1'] != ['2', 'ccc', '1']
+E             Left contains one more item: ['3', 'ccc', '1']
+E             Use -v to get more diff
+
+tests/test_cli.py:438: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_min_length_boundary[text] - AssertionError: as...
+FAILED tests/test_cli.py::test_min_length_boundary[json] - AssertionError: as...
+FAILED tests/test_cli.py::test_min_length_boundary[html] - AssertionError: as...
+3 failed, 676 deselected in 0.37s
+
+
+.MIN LENGTH DISCRIMINATION exclusive exit 1
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+________________________ test_min_length_boundary[text] ________________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-discrimination/test_min_length_discrimination2/child-temp/test_min_length_boundary_text_0')
+output_format = 'text'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_min_length_boundary(tmp_path, output_format):
+        path = tmp_path / "input.txt"
+        path.write_text("a bb ccc bb", encoding="utf-8")
+        result = run_cli_bytes(path, "--min-length", "2", "--format", output_format)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, [("bb", 2), ("ccc", 1)], path.name, 4)
+
+tests/test_cli.py:849: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'1\tccc\n', output_format = 'text', expected = [('bb', 2), ('ccc', 1)]
+basename = 'input.txt', total = 4
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+>           assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+E           AssertionError: assert '1\tccc\n' == '2\tbb\n1\tccc\n'
+E             
+E             - 2	bb
+E               1	ccc
+
+tests/test_cli.py:428: AssertionError
+________________________ test_min_length_boundary[json] ________________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-discrimination/test_min_length_discrimination2/child-temp/test_min_length_boundary_json_0')
+output_format = 'json'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_min_length_boundary(tmp_path, output_format):
+        path = tmp_path / "input.txt"
+        path.write_text("a bb ccc bb", encoding="utf-8")
+        result = run_cli_bytes(path, "--min-length", "2", "--format", output_format)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, [("bb", 2), ("ccc", 1)], path.name, 4)
+
+tests/test_cli.py:849: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'[{"word": "ccc", "count": 1}]\n', output_format = 'json'
+expected = [('bb', 2), ('ccc', 1)], basename = 'input.txt', total = 4
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+>           assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+E           AssertionError: assert [{'word': 'ccc', 'count': 1}] == [{'word': 'bb..., 'count': 1}]
+E             
+E             At index 0 diff: {'word': 'ccc', 'count': 1} != {'word': 'bb', 'count': 2}
+E             Right contains one more item: {'word': 'ccc', 'count': 1}
+E             Use -v to get more diff
+
+tests/test_cli.py:432: AssertionError
+________________________ test_min_length_boundary[html] ________________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-discrimination/test_min_length_discrimination2/child-temp/test_min_length_boundary_html_0')
+output_format = 'html'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_min_length_boundary(tmp_path, output_format):
+        path = tmp_path / "input.txt"
+        path.write_text("a bb ccc bb", encoding="utf-8")
+        result = run_cli_bytes(path, "--min-length", "2", "--format", output_format)
+        assert (result.returncode, result.stderr) == (0, b"")
+>       assert_output_bytes(result.stdout, output_format, [("bb", 2), ("ccc", 1)], path.name, 4)
+
+tests/test_cli.py:849: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+raw = b'<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width...s="rank">1</td><td class="word">ccc</td><td class="count">1</td></tr>\n</tbody>\n</table>\n</main>\n</body>\n</html>\n'
+output_format = 'html', expected = [('bb', 2), ('ccc', 1)]
+basename = 'input.txt', total = 4
+
+    def assert_output_bytes(raw, output_format, expected, basename, total):
+        document = raw.decode("utf-8", errors="strict")
+        if output_format == "text":
+            assert document == "".join(f"{c}\t{w}\n" for w, c in expected)
+        elif output_format == "json":
+            assert raw.isascii()
+            assert document.count("\n") == 1 and document.endswith("\n")
+            assert json.loads(document) == [{"word": w, "count": c} for w, c in expected]
+        else:
+            parsed = CLIHTML(document)
+            assert document.startswith('<!doctype html>\n')
+            assert '<meta charset="utf-8">' in document
+            assert parsed.headers == ["順位", "単語", "回数"]
+>           assert parsed.rows == [[str(i), w, str(c)] for i, (w, c) in enumerate(expected, 1)]
+E           AssertionError: assert [['1', 'ccc', '1']] == [['1', 'bb', ..., 'ccc', '1']]
+E             
+E             At index 0 diff: ['1', 'ccc', '1'] != ['1', 'bb', '2']
+E             Right contains one more item: ['2', 'ccc', '1']
+E             Use -v to get more diff
+
+tests/test_cli.py:438: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_min_length_boundary[text] - AssertionError: as...
+FAILED tests/test_cli.py::test_min_length_boundary[json] - AssertionError: as...
+FAILED tests/test_cli.py::test_min_length_boundary[html] - AssertionError: as...
+3 failed, 676 deselected in 0.42s
+
+
+.
+3 passed, 676 deselected in 2.08s

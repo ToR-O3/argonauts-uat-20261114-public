@@ -1,0 +1,1247 @@
+........................................................................ [  6%]
+........................................................................ [ 13%]
+........................................................................ [ 20%]
+........................................................................ [ 27%]
+........................................................................ [ 34%]
+........................................................................ [ 41%]
+........................................................................ [ 48%]
+........................................................................ [ 54%]
+...............................................................FFFFFFFFF [ 61%]
+FFFFFF.................................................................. [ 68%]
+........................................................................ [ 75%]
+.............................FF......................................... [ 82%]
+........................................................................ [ 89%]
+........................................................................ [ 96%]
+........................................                                 [100%]
+=================================== FAILURES ===================================
+_________________ test_max_count_discrimination[ignore-upper] __________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_discrimination_0')
+mutation = 'ignore-upper'
+
+    @pytest.mark.parametrize("mutation", ["ignore-upper", "exclusive", "or", "top-first",
+                                         "destroy-counter", "recalculate-total", "lexical-ties"])
+    def test_max_count_discrimination(tmp_path, mutation):
+        # Each single mutation runs only in a cold package copy under managed pytest scratch.
+        repo = tmp_path / "mutant"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        shutil.copy2(ROOT / "tests/test_cli.py", repo / "tests/test_cli.py")
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        upper = "and (args.max_count is None or count <= args.max_count)"
+        if mutation == "ignore-upper":
+            changed = original.replace(upper, "")
+        elif mutation == "exclusive":
+            changed = original.replace("count <= args.max_count", "count < args.max_count")
+        elif mutation == "or":
+            changed = original.replace(upper, upper.replace("and", "or", 1))
+        elif mutation == "top-first":
+            start = original.index("    selected_counts = Counter(")
+            end = original.index('    if args.format == "html":', start)
+            changed = original[:start] + (
+                "    pairs = [(word, count) for word, count in top_words(counts, args.top)\n"
+                "             if count >= args.min_count and (args.max_count is None or count <= args.max_count)]\n"
+            ) + original[end:]
+        elif mutation == "destroy-counter":
+            changed = original.replace("    pairs = top_words", "    counts.clear()\n    pairs = top_words")
+        elif mutation == "recalculate-total":
+            changed = original.replace("    pairs = top_words", "    total = sum(selected_counts.values())\n    pairs = top_words")
+        else:
+            source = repo / "wordfreq/aggregator.py"
+            original = source.read_text(encoding="utf-8")
+            changed = original.replace("key=lambda wc: -wc[1]", "key=lambda wc: (-wc[1], wc[0])")
+        assert changed != original, "mutation must hit exactly the current implementation seam"
+        source.write_text(changed, encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k",
+             "max_count_tracer or max_count_selection or max_count_internal_order", "-q"],
+            cwd=repo, env=dict(os.environ, PYTHONPATH=os.environ.get("PYTHONPATH", "")),
+            capture_output=True, timeout=90,
+        )
+        print("MUTATION", mutation, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       assert result.returncode == 1
+E       AssertionError: assert 4 == 1
+E        +  where 4 = CompletedProcess(args=['/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python', '-m', 'pytest', 'tests/test_cli....st not be empty, the current working directory or any parent directory of it\n  config source: via PYTEST_ADDOPTS\n\n').returncode
+
+tests/test_cli.py:1104: AssertionError
+----------------------------- Captured stdout call -----------------------------
+MUTATION ignore-upper exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+___________________ test_max_count_discrimination[exclusive] ___________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_discrimination_1')
+mutation = 'exclusive'
+
+    @pytest.mark.parametrize("mutation", ["ignore-upper", "exclusive", "or", "top-first",
+                                         "destroy-counter", "recalculate-total", "lexical-ties"])
+    def test_max_count_discrimination(tmp_path, mutation):
+        # Each single mutation runs only in a cold package copy under managed pytest scratch.
+        repo = tmp_path / "mutant"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        shutil.copy2(ROOT / "tests/test_cli.py", repo / "tests/test_cli.py")
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        upper = "and (args.max_count is None or count <= args.max_count)"
+        if mutation == "ignore-upper":
+            changed = original.replace(upper, "")
+        elif mutation == "exclusive":
+            changed = original.replace("count <= args.max_count", "count < args.max_count")
+        elif mutation == "or":
+            changed = original.replace(upper, upper.replace("and", "or", 1))
+        elif mutation == "top-first":
+            start = original.index("    selected_counts = Counter(")
+            end = original.index('    if args.format == "html":', start)
+            changed = original[:start] + (
+                "    pairs = [(word, count) for word, count in top_words(counts, args.top)\n"
+                "             if count >= args.min_count and (args.max_count is None or count <= args.max_count)]\n"
+            ) + original[end:]
+        elif mutation == "destroy-counter":
+            changed = original.replace("    pairs = top_words", "    counts.clear()\n    pairs = top_words")
+        elif mutation == "recalculate-total":
+            changed = original.replace("    pairs = top_words", "    total = sum(selected_counts.values())\n    pairs = top_words")
+        else:
+            source = repo / "wordfreq/aggregator.py"
+            original = source.read_text(encoding="utf-8")
+            changed = original.replace("key=lambda wc: -wc[1]", "key=lambda wc: (-wc[1], wc[0])")
+        assert changed != original, "mutation must hit exactly the current implementation seam"
+        source.write_text(changed, encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k",
+             "max_count_tracer or max_count_selection or max_count_internal_order", "-q"],
+            cwd=repo, env=dict(os.environ, PYTHONPATH=os.environ.get("PYTHONPATH", "")),
+            capture_output=True, timeout=90,
+        )
+        print("MUTATION", mutation, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       assert result.returncode == 1
+E       AssertionError: assert 4 == 1
+E        +  where 4 = CompletedProcess(args=['/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python', '-m', 'pytest', 'tests/test_cli....st not be empty, the current working directory or any parent directory of it\n  config source: via PYTEST_ADDOPTS\n\n').returncode
+
+tests/test_cli.py:1104: AssertionError
+----------------------------- Captured stdout call -----------------------------
+MUTATION exclusive exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+______________________ test_max_count_discrimination[or] _______________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_discrimination_2')
+mutation = 'or'
+
+    @pytest.mark.parametrize("mutation", ["ignore-upper", "exclusive", "or", "top-first",
+                                         "destroy-counter", "recalculate-total", "lexical-ties"])
+    def test_max_count_discrimination(tmp_path, mutation):
+        # Each single mutation runs only in a cold package copy under managed pytest scratch.
+        repo = tmp_path / "mutant"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        shutil.copy2(ROOT / "tests/test_cli.py", repo / "tests/test_cli.py")
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        upper = "and (args.max_count is None or count <= args.max_count)"
+        if mutation == "ignore-upper":
+            changed = original.replace(upper, "")
+        elif mutation == "exclusive":
+            changed = original.replace("count <= args.max_count", "count < args.max_count")
+        elif mutation == "or":
+            changed = original.replace(upper, upper.replace("and", "or", 1))
+        elif mutation == "top-first":
+            start = original.index("    selected_counts = Counter(")
+            end = original.index('    if args.format == "html":', start)
+            changed = original[:start] + (
+                "    pairs = [(word, count) for word, count in top_words(counts, args.top)\n"
+                "             if count >= args.min_count and (args.max_count is None or count <= args.max_count)]\n"
+            ) + original[end:]
+        elif mutation == "destroy-counter":
+            changed = original.replace("    pairs = top_words", "    counts.clear()\n    pairs = top_words")
+        elif mutation == "recalculate-total":
+            changed = original.replace("    pairs = top_words", "    total = sum(selected_counts.values())\n    pairs = top_words")
+        else:
+            source = repo / "wordfreq/aggregator.py"
+            original = source.read_text(encoding="utf-8")
+            changed = original.replace("key=lambda wc: -wc[1]", "key=lambda wc: (-wc[1], wc[0])")
+        assert changed != original, "mutation must hit exactly the current implementation seam"
+        source.write_text(changed, encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k",
+             "max_count_tracer or max_count_selection or max_count_internal_order", "-q"],
+            cwd=repo, env=dict(os.environ, PYTHONPATH=os.environ.get("PYTHONPATH", "")),
+            capture_output=True, timeout=90,
+        )
+        print("MUTATION", mutation, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       assert result.returncode == 1
+E       AssertionError: assert 4 == 1
+E        +  where 4 = CompletedProcess(args=['/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python', '-m', 'pytest', 'tests/test_cli....st not be empty, the current working directory or any parent directory of it\n  config source: via PYTEST_ADDOPTS\n\n').returncode
+
+tests/test_cli.py:1104: AssertionError
+----------------------------- Captured stdout call -----------------------------
+MUTATION or exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+___________________ test_max_count_discrimination[top-first] ___________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_discrimination_3')
+mutation = 'top-first'
+
+    @pytest.mark.parametrize("mutation", ["ignore-upper", "exclusive", "or", "top-first",
+                                         "destroy-counter", "recalculate-total", "lexical-ties"])
+    def test_max_count_discrimination(tmp_path, mutation):
+        # Each single mutation runs only in a cold package copy under managed pytest scratch.
+        repo = tmp_path / "mutant"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        shutil.copy2(ROOT / "tests/test_cli.py", repo / "tests/test_cli.py")
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        upper = "and (args.max_count is None or count <= args.max_count)"
+        if mutation == "ignore-upper":
+            changed = original.replace(upper, "")
+        elif mutation == "exclusive":
+            changed = original.replace("count <= args.max_count", "count < args.max_count")
+        elif mutation == "or":
+            changed = original.replace(upper, upper.replace("and", "or", 1))
+        elif mutation == "top-first":
+            start = original.index("    selected_counts = Counter(")
+            end = original.index('    if args.format == "html":', start)
+            changed = original[:start] + (
+                "    pairs = [(word, count) for word, count in top_words(counts, args.top)\n"
+                "             if count >= args.min_count and (args.max_count is None or count <= args.max_count)]\n"
+            ) + original[end:]
+        elif mutation == "destroy-counter":
+            changed = original.replace("    pairs = top_words", "    counts.clear()\n    pairs = top_words")
+        elif mutation == "recalculate-total":
+            changed = original.replace("    pairs = top_words", "    total = sum(selected_counts.values())\n    pairs = top_words")
+        else:
+            source = repo / "wordfreq/aggregator.py"
+            original = source.read_text(encoding="utf-8")
+            changed = original.replace("key=lambda wc: -wc[1]", "key=lambda wc: (-wc[1], wc[0])")
+        assert changed != original, "mutation must hit exactly the current implementation seam"
+        source.write_text(changed, encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k",
+             "max_count_tracer or max_count_selection or max_count_internal_order", "-q"],
+            cwd=repo, env=dict(os.environ, PYTHONPATH=os.environ.get("PYTHONPATH", "")),
+            capture_output=True, timeout=90,
+        )
+        print("MUTATION", mutation, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       assert result.returncode == 1
+E       AssertionError: assert 4 == 1
+E        +  where 4 = CompletedProcess(args=['/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python', '-m', 'pytest', 'tests/test_cli....st not be empty, the current working directory or any parent directory of it\n  config source: via PYTEST_ADDOPTS\n\n').returncode
+
+tests/test_cli.py:1104: AssertionError
+----------------------------- Captured stdout call -----------------------------
+MUTATION top-first exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+________________ test_max_count_discrimination[destroy-counter] ________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_discrimination_4')
+mutation = 'destroy-counter'
+
+    @pytest.mark.parametrize("mutation", ["ignore-upper", "exclusive", "or", "top-first",
+                                         "destroy-counter", "recalculate-total", "lexical-ties"])
+    def test_max_count_discrimination(tmp_path, mutation):
+        # Each single mutation runs only in a cold package copy under managed pytest scratch.
+        repo = tmp_path / "mutant"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        shutil.copy2(ROOT / "tests/test_cli.py", repo / "tests/test_cli.py")
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        upper = "and (args.max_count is None or count <= args.max_count)"
+        if mutation == "ignore-upper":
+            changed = original.replace(upper, "")
+        elif mutation == "exclusive":
+            changed = original.replace("count <= args.max_count", "count < args.max_count")
+        elif mutation == "or":
+            changed = original.replace(upper, upper.replace("and", "or", 1))
+        elif mutation == "top-first":
+            start = original.index("    selected_counts = Counter(")
+            end = original.index('    if args.format == "html":', start)
+            changed = original[:start] + (
+                "    pairs = [(word, count) for word, count in top_words(counts, args.top)\n"
+                "             if count >= args.min_count and (args.max_count is None or count <= args.max_count)]\n"
+            ) + original[end:]
+        elif mutation == "destroy-counter":
+            changed = original.replace("    pairs = top_words", "    counts.clear()\n    pairs = top_words")
+        elif mutation == "recalculate-total":
+            changed = original.replace("    pairs = top_words", "    total = sum(selected_counts.values())\n    pairs = top_words")
+        else:
+            source = repo / "wordfreq/aggregator.py"
+            original = source.read_text(encoding="utf-8")
+            changed = original.replace("key=lambda wc: -wc[1]", "key=lambda wc: (-wc[1], wc[0])")
+        assert changed != original, "mutation must hit exactly the current implementation seam"
+        source.write_text(changed, encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k",
+             "max_count_tracer or max_count_selection or max_count_internal_order", "-q"],
+            cwd=repo, env=dict(os.environ, PYTHONPATH=os.environ.get("PYTHONPATH", "")),
+            capture_output=True, timeout=90,
+        )
+        print("MUTATION", mutation, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       assert result.returncode == 1
+E       AssertionError: assert 4 == 1
+E        +  where 4 = CompletedProcess(args=['/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python', '-m', 'pytest', 'tests/test_cli....st not be empty, the current working directory or any parent directory of it\n  config source: via PYTEST_ADDOPTS\n\n').returncode
+
+tests/test_cli.py:1104: AssertionError
+----------------------------- Captured stdout call -----------------------------
+MUTATION destroy-counter exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_______________ test_max_count_discrimination[recalculate-total] _______________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_discrimination_5')
+mutation = 'recalculate-total'
+
+    @pytest.mark.parametrize("mutation", ["ignore-upper", "exclusive", "or", "top-first",
+                                         "destroy-counter", "recalculate-total", "lexical-ties"])
+    def test_max_count_discrimination(tmp_path, mutation):
+        # Each single mutation runs only in a cold package copy under managed pytest scratch.
+        repo = tmp_path / "mutant"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        shutil.copy2(ROOT / "tests/test_cli.py", repo / "tests/test_cli.py")
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        upper = "and (args.max_count is None or count <= args.max_count)"
+        if mutation == "ignore-upper":
+            changed = original.replace(upper, "")
+        elif mutation == "exclusive":
+            changed = original.replace("count <= args.max_count", "count < args.max_count")
+        elif mutation == "or":
+            changed = original.replace(upper, upper.replace("and", "or", 1))
+        elif mutation == "top-first":
+            start = original.index("    selected_counts = Counter(")
+            end = original.index('    if args.format == "html":', start)
+            changed = original[:start] + (
+                "    pairs = [(word, count) for word, count in top_words(counts, args.top)\n"
+                "             if count >= args.min_count and (args.max_count is None or count <= args.max_count)]\n"
+            ) + original[end:]
+        elif mutation == "destroy-counter":
+            changed = original.replace("    pairs = top_words", "    counts.clear()\n    pairs = top_words")
+        elif mutation == "recalculate-total":
+            changed = original.replace("    pairs = top_words", "    total = sum(selected_counts.values())\n    pairs = top_words")
+        else:
+            source = repo / "wordfreq/aggregator.py"
+            original = source.read_text(encoding="utf-8")
+            changed = original.replace("key=lambda wc: -wc[1]", "key=lambda wc: (-wc[1], wc[0])")
+        assert changed != original, "mutation must hit exactly the current implementation seam"
+        source.write_text(changed, encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k",
+             "max_count_tracer or max_count_selection or max_count_internal_order", "-q"],
+            cwd=repo, env=dict(os.environ, PYTHONPATH=os.environ.get("PYTHONPATH", "")),
+            capture_output=True, timeout=90,
+        )
+        print("MUTATION", mutation, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       assert result.returncode == 1
+E       AssertionError: assert 4 == 1
+E        +  where 4 = CompletedProcess(args=['/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python', '-m', 'pytest', 'tests/test_cli....st not be empty, the current working directory or any parent directory of it\n  config source: via PYTEST_ADDOPTS\n\n').returncode
+
+tests/test_cli.py:1104: AssertionError
+----------------------------- Captured stdout call -----------------------------
+MUTATION recalculate-total exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_________________ test_max_count_discrimination[lexical-ties] __________________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_discrimination_6')
+mutation = 'lexical-ties'
+
+    @pytest.mark.parametrize("mutation", ["ignore-upper", "exclusive", "or", "top-first",
+                                         "destroy-counter", "recalculate-total", "lexical-ties"])
+    def test_max_count_discrimination(tmp_path, mutation):
+        # Each single mutation runs only in a cold package copy under managed pytest scratch.
+        repo = tmp_path / "mutant"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        shutil.copy2(ROOT / "tests/test_cli.py", repo / "tests/test_cli.py")
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        upper = "and (args.max_count is None or count <= args.max_count)"
+        if mutation == "ignore-upper":
+            changed = original.replace(upper, "")
+        elif mutation == "exclusive":
+            changed = original.replace("count <= args.max_count", "count < args.max_count")
+        elif mutation == "or":
+            changed = original.replace(upper, upper.replace("and", "or", 1))
+        elif mutation == "top-first":
+            start = original.index("    selected_counts = Counter(")
+            end = original.index('    if args.format == "html":', start)
+            changed = original[:start] + (
+                "    pairs = [(word, count) for word, count in top_words(counts, args.top)\n"
+                "             if count >= args.min_count and (args.max_count is None or count <= args.max_count)]\n"
+            ) + original[end:]
+        elif mutation == "destroy-counter":
+            changed = original.replace("    pairs = top_words", "    counts.clear()\n    pairs = top_words")
+        elif mutation == "recalculate-total":
+            changed = original.replace("    pairs = top_words", "    total = sum(selected_counts.values())\n    pairs = top_words")
+        else:
+            source = repo / "wordfreq/aggregator.py"
+            original = source.read_text(encoding="utf-8")
+            changed = original.replace("key=lambda wc: -wc[1]", "key=lambda wc: (-wc[1], wc[0])")
+        assert changed != original, "mutation must hit exactly the current implementation seam"
+        source.write_text(changed, encoding="utf-8")
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k",
+             "max_count_tracer or max_count_selection or max_count_internal_order", "-q"],
+            cwd=repo, env=dict(os.environ, PYTHONPATH=os.environ.get("PYTHONPATH", "")),
+            capture_output=True, timeout=90,
+        )
+        print("MUTATION", mutation, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       assert result.returncode == 1
+E       AssertionError: assert 4 == 1
+E        +  where 4 = CompletedProcess(args=['/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python', '-m', 'pytest', 'tests/test_cli....st not be empty, the current working directory or any parent directory of it\n  config source: via PYTEST_ADDOPTS\n\n').returncode
+
+tests/test_cli.py:1104: AssertionError
+----------------------------- Captured stdout call -----------------------------
+MUTATION lexical-ties exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_ test_max_count_empty_exit_discrimination[mutant-positive-max-max_count_empty] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc0')
+mutation = 'positive-max', target = 'max_count_empty', mutated = True
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       suite = ET.parse(report).getroot().find("testsuite")
+                ^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:1154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:1227: in parse
+    tree.parse(source, parser)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xml.etree.ElementTree.ElementTree object at 0x738e16972270>
+source = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc0/cold/junit.xml')
+parser = None
+
+    def parse(self, source, parser=None):
+        """Load external XML document into element tree.
+    
+        *source* is a file name or file object, *parser* is an optional
+        parser instance that defaults to XMLParser.
+    
+        ParseError is raised if the parser fails to parse the document.
+    
+        Returns the root element of the given source document.
+    
+        """
+        close_source = False
+        if not hasattr(source, "read"):
+>           source = open(source, "rb")
+                     ^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc0/cold/junit.xml'
+
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:570: FileNotFoundError
+----------------------------- Captured stdout call -----------------------------
+EXIT DISCRIMINATION positive-max mutated True exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_ test_max_count_empty_exit_discrimination[mutant-inverted-range-max_count_empty] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc1')
+mutation = 'inverted-range', target = 'max_count_empty', mutated = True
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       suite = ET.parse(report).getroot().find("testsuite")
+                ^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:1154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:1227: in parse
+    tree.parse(source, parser)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xml.etree.ElementTree.ElementTree object at 0x738e1663d310>
+source = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc1/cold/junit.xml')
+parser = None
+
+    def parse(self, source, parser=None):
+        """Load external XML document into element tree.
+    
+        *source* is a file name or file object, *parser* is an optional
+        parser instance that defaults to XMLParser.
+    
+        ParseError is raised if the parser fails to parse the document.
+    
+        Returns the root element of the given source document.
+    
+        """
+        close_source = False
+        if not hasattr(source, "read"):
+>           source = open(source, "rb")
+                     ^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc1/cold/junit.xml'
+
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:570: FileNotFoundError
+----------------------------- Captured stdout call -----------------------------
+EXIT DISCRIMINATION inverted-range mutated True exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_ test_max_count_empty_exit_discrimination[mutant-skip-empty-read-max_count_input_failure] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc2')
+mutation = 'skip-empty-read', target = 'max_count_input_failure', mutated = True
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       suite = ET.parse(report).getroot().find("testsuite")
+                ^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:1154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:1227: in parse
+    tree.parse(source, parser)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xml.etree.ElementTree.ElementTree object at 0x738e1699f4d0>
+source = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc2/cold/junit.xml')
+parser = None
+
+    def parse(self, source, parser=None):
+        """Load external XML document into element tree.
+    
+        *source* is a file name or file object, *parser* is an optional
+        parser instance that defaults to XMLParser.
+    
+        ParseError is raised if the parser fails to parse the document.
+    
+        Returns the root element of the given source document.
+    
+        """
+        close_source = False
+        if not hasattr(source, "read"):
+>           source = open(source, "rb")
+                     ^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc2/cold/junit.xml'
+
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:570: FileNotFoundError
+----------------------------- Captured stdout call -----------------------------
+EXIT DISCRIMINATION skip-empty-read mutated True exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_ test_max_count_empty_exit_discrimination[mutant-late-usage-max_count_invalid_before_read] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc3')
+mutation = 'late-usage', target = 'max_count_invalid_before_read'
+mutated = True
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       suite = ET.parse(report).getroot().find("testsuite")
+                ^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:1154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:1227: in parse
+    tree.parse(source, parser)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xml.etree.ElementTree.ElementTree object at 0x738e16013bb0>
+source = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc3/cold/junit.xml')
+parser = None
+
+    def parse(self, source, parser=None):
+        """Load external XML document into element tree.
+    
+        *source* is a file name or file object, *parser* is an optional
+        parser instance that defaults to XMLParser.
+    
+        ParseError is raised if the parser fails to parse the document.
+    
+        Returns the root element of the given source document.
+    
+        """
+        close_source = False
+        if not hasattr(source, "read"):
+>           source = open(source, "rb")
+                     ^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc3/cold/junit.xml'
+
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:570: FileNotFoundError
+----------------------------- Captured stdout call -----------------------------
+EXIT DISCRIMINATION late-usage mutated True exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_ test_max_count_empty_exit_discrimination[control-positive-max-max_count_empty] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc4')
+mutation = 'positive-max', target = 'max_count_empty', mutated = False
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       suite = ET.parse(report).getroot().find("testsuite")
+                ^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:1154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:1227: in parse
+    tree.parse(source, parser)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xml.etree.ElementTree.ElementTree object at 0x738e16013ce0>
+source = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc4/cold/junit.xml')
+parser = None
+
+    def parse(self, source, parser=None):
+        """Load external XML document into element tree.
+    
+        *source* is a file name or file object, *parser* is an optional
+        parser instance that defaults to XMLParser.
+    
+        ParseError is raised if the parser fails to parse the document.
+    
+        Returns the root element of the given source document.
+    
+        """
+        close_source = False
+        if not hasattr(source, "read"):
+>           source = open(source, "rb")
+                     ^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc4/cold/junit.xml'
+
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:570: FileNotFoundError
+----------------------------- Captured stdout call -----------------------------
+EXIT DISCRIMINATION positive-max mutated False exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_ test_max_count_empty_exit_discrimination[control-inverted-range-max_count_empty] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc5')
+mutation = 'inverted-range', target = 'max_count_empty', mutated = False
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       suite = ET.parse(report).getroot().find("testsuite")
+                ^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:1154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:1227: in parse
+    tree.parse(source, parser)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xml.etree.ElementTree.ElementTree object at 0x738e16274170>
+source = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc5/cold/junit.xml')
+parser = None
+
+    def parse(self, source, parser=None):
+        """Load external XML document into element tree.
+    
+        *source* is a file name or file object, *parser* is an optional
+        parser instance that defaults to XMLParser.
+    
+        ParseError is raised if the parser fails to parse the document.
+    
+        Returns the root element of the given source document.
+    
+        """
+        close_source = False
+        if not hasattr(source, "read"):
+>           source = open(source, "rb")
+                     ^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc5/cold/junit.xml'
+
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:570: FileNotFoundError
+----------------------------- Captured stdout call -----------------------------
+EXIT DISCRIMINATION inverted-range mutated False exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_ test_max_count_empty_exit_discrimination[control-skip-empty-read-max_count_input_failure] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc6')
+mutation = 'skip-empty-read', target = 'max_count_input_failure'
+mutated = False
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       suite = ET.parse(report).getroot().find("testsuite")
+                ^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:1154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:1227: in parse
+    tree.parse(source, parser)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xml.etree.ElementTree.ElementTree object at 0x738e16029bf0>
+source = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc6/cold/junit.xml')
+parser = None
+
+    def parse(self, source, parser=None):
+        """Load external XML document into element tree.
+    
+        *source* is a file name or file object, *parser* is an optional
+        parser instance that defaults to XMLParser.
+    
+        ParseError is raised if the parser fails to parse the document.
+    
+        Returns the root element of the given source document.
+    
+        """
+        close_source = False
+        if not hasattr(source, "read"):
+>           source = open(source, "rb")
+                     ^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc6/cold/junit.xml'
+
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:570: FileNotFoundError
+----------------------------- Captured stdout call -----------------------------
+EXIT DISCRIMINATION skip-empty-read mutated False exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_ test_max_count_empty_exit_discrimination[control-late-usage-max_count_invalid_before_read] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc7')
+mutation = 'late-usage', target = 'max_count_invalid_before_read'
+mutated = False
+
+    @pytest.mark.parametrize("mutation,target", [
+        ("positive-max", "max_count_empty"),
+        ("inverted-range", "max_count_empty"),
+        ("skip-empty-read", "max_count_input_failure"),
+        ("late-usage", "max_count_invalid_before_read"),
+    ])
+    @pytest.mark.parametrize("mutated", [True, False], ids=["mutant", "control"])
+    def test_max_count_empty_exit_discrimination(tmp_path, mutation, target, mutated):
+        # Additional regression discrimination, NOT the pre-feature OpenSpec1.1 RED.
+        import xml.etree.ElementTree as ET
+        repo = tmp_path / "cold"
+        repo.mkdir()
+        shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                        ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        (repo / "tests").mkdir()
+        for name in ("test_cli.py", "test_formatters.py"):
+            shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+        source = repo / "wordfreq/__main__.py"
+        original = source.read_text(encoding="utf-8")
+        if mutation == "positive-max":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.max_count < 1:\n"
+                                       "        parser.error('--max-count must be positive')\n    try:\n", 1)
+        elif mutation == "inverted-range":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        parser.error('inverted range')\n    try:\n", 1)
+        elif mutation == "skip-empty-read":
+            changed = original.replace("    try:\n", "    if args.max_count is not None and args.min_count > args.max_count:\n"
+                                       "        sys.exit(0)\n    try:\n", 1)
+        else:
+            validation = ('    if args.top < 1:\n        parser.error("--top must be >= 1")\n'
+                          '    if args.min_count < 1:\n        parser.error("--min-count must be >= 1")\n')
+            assert original.count(validation) == 1
+            changed = original.replace(validation, "").replace("    counts = count_words", validation + "    counts = count_words", 1)
+        assert changed != original
+        if mutated:
+            source.write_text(changed, encoding="utf-8")
+        report = repo / "junit.xml"
+        result = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", target + " and not discrimination",
+             "-q", "-x", "--junitxml=" + str(report)],
+            cwd=repo, env=os.environ.copy(), capture_output=True, timeout=90,
+        )
+        print("EXIT DISCRIMINATION", mutation, "mutated", mutated, "exit", result.returncode)
+        print(result.stdout.decode("utf-8"))
+        print(result.stderr.decode("utf-8"))
+>       suite = ET.parse(report).getroot().find("testsuite")
+                ^^^^^^^^^^^^^^^^
+
+tests/test_cli.py:1154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:1227: in parse
+    tree.parse(source, parser)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <xml.etree.ElementTree.ElementTree object at 0x738e16028160>
+source = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc7/cold/junit.xml')
+parser = None
+
+    def parse(self, source, parser=None):
+        """Load external XML document into element tree.
+    
+        *source* is a file name or file object, *parser* is an optional
+        parser instance that defaults to XMLParser.
+    
+        ParseError is raised if the parser fails to parse the document.
+    
+        Returns the root element of the given source document.
+    
+        """
+        close_source = False
+        if not hasattr(source, "read"):
+>           source = open(source, "rb")
+                     ^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-261128-jaf-pytest/test_max_count_empty_exit_disc7/cold/junit.xml'
+
+/home/Yuki/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/xml/etree/ElementTree.py:570: FileNotFoundError
+----------------------------- Captured stdout call -----------------------------
+EXIT DISCRIMINATION late-usage mutated False exit 4
+
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: argument --basetemp: basetemp must not be empty, the current working directory or any parent directory of it
+  config source: via PYTEST_ADDOPTS
+
+
+_ test_isolated_collection_and_module_shadow_are_execution_influence[test_external.py] _
+
+scope_repo = <module 'html_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/tools/verify_wordfreq_html.py'>
+name = 'test_external.py'
+
+    @pytest.mark.parametrize("name", ["test_external.py", "nested/external_test.py", "pytest.py"])
+    def test_isolated_collection_and_module_shadow_are_execution_influence(scope_repo, name):
+        v = scope_repo
+        path = v.ROOT / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if name == "pytest.py":
+            content = "print('isolated-root-shadow-control')\nraise SystemExit(23)\n"
+            argv = [sys.executable, "-m", "pytest", "--version"]
+        else:
+            content = "def test_isolated_collection_control():\n    pass\n"
+            argv = [sys.executable, "-m", "pytest", "--collect-only", "-q"]
+        path.write_text(content)
+        result = subprocess.run(argv, cwd=v.ROOT, capture_output=True, timeout=20)
+>       assert result.returncode == (23 if name == "pytest.py" else 0), result.stderr + result.stdout
+E       AssertionError: b'ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+E         python -m pytest: error: argument --base...ust not be empty, the current working directory or any parent directory of it
+E           config source: via PYTEST_ADDOPTS
+E         
+E         '
+E       assert 4 == 0
+E        +  where 4 = CompletedProcess(args=['/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python', '-m', 'pytest', '--collect-only'...st not be empty, the current working directory or any parent directory of it\n  config source: via PYTEST_ADDOPTS\n\n').returncode
+
+tests/test_html_verifier.py:543: AssertionError
+_ test_isolated_collection_and_module_shadow_are_execution_influence[nested/external_test.py] _
+
+scope_repo = <module 'html_verifier' from '/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/tools/verify_wordfreq_html.py'>
+name = 'nested/external_test.py'
+
+    @pytest.mark.parametrize("name", ["test_external.py", "nested/external_test.py", "pytest.py"])
+    def test_isolated_collection_and_module_shadow_are_execution_influence(scope_repo, name):
+        v = scope_repo
+        path = v.ROOT / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if name == "pytest.py":
+            content = "print('isolated-root-shadow-control')\nraise SystemExit(23)\n"
+            argv = [sys.executable, "-m", "pytest", "--version"]
+        else:
+            content = "def test_isolated_collection_control():\n    pass\n"
+            argv = [sys.executable, "-m", "pytest", "--collect-only", "-q"]
+        path.write_text(content)
+        result = subprocess.run(argv, cwd=v.ROOT, capture_output=True, timeout=20)
+>       assert result.returncode == (23 if name == "pytest.py" else 0), result.stderr + result.stdout
+E       AssertionError: b'ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+E         python -m pytest: error: argument --base...ust not be empty, the current working directory or any parent directory of it
+E           config source: via PYTEST_ADDOPTS
+E         
+E         '
+E       assert 4 == 0
+E        +  where 4 = CompletedProcess(args=['/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python', '-m', 'pytest', '--collect-only'...st not be empty, the current working directory or any parent directory of it\n  config source: via PYTEST_ADDOPTS\n\n').returncode
+
+tests/test_html_verifier.py:543: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_max_count_discrimination[ignore-upper] - Asser...
+FAILED tests/test_cli.py::test_max_count_discrimination[exclusive] - Assertio...
+FAILED tests/test_cli.py::test_max_count_discrimination[or] - AssertionError:...
+FAILED tests/test_cli.py::test_max_count_discrimination[top-first] - Assertio...
+FAILED tests/test_cli.py::test_max_count_discrimination[destroy-counter] - As...
+FAILED tests/test_cli.py::test_max_count_discrimination[recalculate-total] - ...
+FAILED tests/test_cli.py::test_max_count_discrimination[lexical-ties] - Asser...
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[mutant-positive-max-max_count_empty]
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[mutant-inverted-range-max_count_empty]
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[mutant-skip-empty-read-max_count_input_failure]
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[mutant-late-usage-max_count_invalid_before_read]
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[control-positive-max-max_count_empty]
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[control-inverted-range-max_count_empty]
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[control-skip-empty-read-max_count_input_failure]
+FAILED tests/test_cli.py::test_max_count_empty_exit_discrimination[control-late-usage-max_count_invalid_before_read]
+FAILED tests/test_html_verifier.py::test_isolated_collection_and_module_shadow_are_execution_influence[test_external.py]
+FAILED tests/test_html_verifier.py::test_isolated_collection_and_module_shadow_are_execution_influence[nested/external_test.py]
+17 failed, 1031 passed in 206.77s (0:03:26)

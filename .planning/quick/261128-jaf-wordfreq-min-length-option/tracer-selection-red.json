@@ -1,0 +1,12 @@
+{
+  "command": "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python -m pytest tests/test_cli.py -k min_length_tracer -q -s --junitxml=.planning/quick/261128-jaf-wordfreq-min-length-option/tracer-selection-red.xml",
+  "exitCode": 1,
+  "output": "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites name=\"pytest tests\"><testsuite name=\"pytest\" errors=\"0\" failures=\"1\" skipped=\"0\" tests=\"1\" time=\"0.111\" timestamp=\"2026-11-28T14:09:40.805114+09:00\" hostname=\"Ys-Minify\"><testcase classname=\"tests.test_cli\" name=\"test_min_length_tracer\" time=\"0.043\"><failure message=\"AssertionError: assert b'2\\tbb\\n1\\ta\\n1\\tccc\\n' == b'2\\tbb\\n1\\tccc\\n'&#10;  &#10;  At index 7 diff: b'a' != b'c'&#10;  Use -v to get more diff\">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-522/test_min_length_tracer0')\n\n    def test_min_length_tracer(tmp_path):\n        path = tmp_path / \"input.txt\"\n        path.write_text(\"a bb ccc bb\", encoding=\"utf-8\")\n        result = run_cli_bytes(path, \"--min-length\", \"2\")\n        print(\"MIN LENGTH TRACER\", repr((result.returncode, result.stdout, result.stderr)))\n        assert (result.returncode, result.stderr) == (0, b\"\")\n&gt;       assert result.stdout == b\"2\\tbb\\n1\\tccc\\n\"\nE       AssertionError: assert b'2\\tbb\\n1\\ta\\n1\\tccc\\n' == b'2\\tbb\\n1\\tccc\\n'\nE         \nE         At index 7 diff: b'a' != b'c'\nE         Use -v to get more diff\n\ntests/test_cli.py:840: AssertionError</failure></testcase></testsuite></testsuites>",
+  "targetTest": "test_min_length_tracer",
+  "targetFile": "tests/test_cli.py",
+  "expected": "2\\tbb\\n1\\tccc\\n",
+  "actual": "2\\tbb\\n1\\ta\\n1\\tccc\\n",
+  "reportPath": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e/.planning/quick/261128-jaf-wordfreq-min-length-option/tracer-selection-red.xml",
+  "reportModifiedAt": 1795842580.916338,
+  "semanticAssessment": "Named test executed and failed on the planned missing behavior; no collection, import or setup failure. See unchanged XML and console log."
+}
