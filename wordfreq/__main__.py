@@ -5,6 +5,7 @@ import os
 import sys
 
 from .aggregator import count_words, top_words
+from .exclusions import InvalidExclusion, parse_exclusions
 from .formatters import format_html, format_json, format_text
 from .sources import FileSource, InputError
 from .tokenizer import iter_tokens
@@ -15,6 +16,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("filename")
     parser.add_argument("--top", type=int, default=10)
     parser.add_argument("--min-count", type=int, default=1)
+    parser.add_argument("--exclude", metavar="FILE",
+                        help="exclude words from a UTF-8 file (one word per line)")
     parser.add_argument("--format", choices=["text", "json", "html"], default="text")
     return parser
 
@@ -26,6 +29,17 @@ def main(argv: list[str] | None = None) -> None:
         parser.error("--top must be >= 1")
     if args.min_count < 1:
         parser.error("--min-count must be >= 1")
+    excluded = set()
+    if args.exclude is not None:
+        try:
+            exclusion_text = FileSource(args.exclude).read_text()
+            excluded = parse_exclusions(exclusion_text)
+        except InputError as error:
+            print(error, file=sys.stderr)
+            sys.exit(2)
+        except InvalidExclusion as error:
+            print(f"{args.exclude}: {error}", file=sys.stderr)
+            sys.exit(2)
     try:
         text = FileSource(args.filename).read_text()
     except InputError as error:
@@ -34,7 +48,7 @@ def main(argv: list[str] | None = None) -> None:
     counts = count_words(iter_tokens(text))
     total = sum(counts.values())
     selected_counts = Counter({word: count for word, count in counts.items()
-                               if count >= args.min_count})
+                               if word not in excluded and count >= args.min_count})
     pairs = top_words(selected_counts, args.top)
     if args.format == "html":
         # argv uses filesystem surrogateescape; HTML needs displayable Unicode.

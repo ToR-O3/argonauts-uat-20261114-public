@@ -28,6 +28,8 @@
 | 3.1 | 08-03-PLAN.md（08-03-01） | Builderの固定版互換・統合文字原本 |
 | 3.2 | 08-03-PLAN.md（08-03-02は引渡し準備のみ）、同PLANのMandatory later independent quality節 | 後続の独立品質フェーズ検証カード。Builderは完了にしない |
 
+08-01-01実測: 全3形式の実CLI除外・元HTML総数5・入力バイト不変、除外不存在exit2、helpとREADME原本例の実行を確認。2.1/2.2は後続の全取得失敗・優先順位・選別行列の検証まで未完を保持する。
+
 全PLANは同じ依頼branch上で08-01→08-02→08-03の順。各2task。独立品質は実装PLAN完了後に行い、VERIFICATION/CLI文字原本・標準添付で確認する。計画完成は製品や3.2の合格を意味しない。
 
 ## Workflow follow-up

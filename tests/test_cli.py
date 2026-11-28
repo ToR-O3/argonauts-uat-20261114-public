@@ -611,6 +611,41 @@ def test_exclude_tracer(tmp_path, output_format):
     assert excluded.read_bytes() == excluded_bytes
 
 
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_tracer_missing_file(tmp_path, output_format):
+    body = tmp_path / "input.txt"
+    body.write_bytes(b"hello")
+    excluded = tmp_path / "missing.txt"
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert result.returncode == 2
+    assert result.stdout == b""
+    assert str(excluded).encode() in result.stderr
+    assert b"No such file" in result.stderr
+    assert b"Traceback" not in result.stderr
+    assert body.read_bytes() == b"hello"
+    assert not excluded.exists()
+
+
+def test_exclude_help_readme_tracer(tmp_path):
+    import re
+    help_result = run_cli_bytes("--help")
+    assert (help_result.returncode, help_result.stderr) == (0, b"")
+    help_text = " ".join(help_result.stdout.decode().split())
+    assert "--exclude FILE" in help_text
+    assert "exclude words" in help_text and "one word per line" in help_text
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    command = "python -m wordfreq input.txt --exclude excluded.txt"
+    assert command in readme
+    # Execute the actual documented block contents, not duplicate imagined inputs.
+    body_text = re.search(r"### 除外の実行例.*?input.txt`.*?```text\n(.*?)```", readme, re.S)
+    exclusion_text = re.search(r"### 除外の実行例.*?excluded.txt`.*?```text\n(.*?)```", readme, re.S)
+    assert body_text and exclusion_text
+    (tmp_path / "input.txt").write_bytes(body_text[1].encode("utf-8"))
+    (tmp_path / "excluded.txt").write_bytes(exclusion_text[1].encode("utf-8"))
+    result = run_cli_bytes(tmp_path / "input.txt", "--exclude", tmp_path / "excluded.txt")
+    assert (result.returncode, result.stdout, result.stderr) == (0, b"2\tzoo\n1\tbanana\n", b"")
+
+
 # 04-02 tracer: argument acceptance and pre-I/O rejection (OpenSpec 1.2).
 @pytest.mark.parametrize("output_format", ["text", "json", "html"])
 def test_min_count_argument_tracer(tmp_path, output_format):
