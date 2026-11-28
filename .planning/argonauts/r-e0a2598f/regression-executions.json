@@ -1,0 +1,60 @@
+[
+  {
+    "command": "uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude",
+    "argv": [
+      "uv",
+      "run",
+      "--extra",
+      "dev",
+      "python",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude"
+    ],
+    "input": [
+      "repository tests and tmp_path fixtures"
+    ],
+    "environment": {
+      "runner": "existing uv dev extra; see captures for actual CLI environment"
+    },
+    "stdout": "........................................................................ [ 15%]\n........................................................................ [ 31%]\n........................................................................ [ 47%]\n........................................................................ [ 63%]\n........................................................................ [ 79%]\n........................................................................ [ 95%]\n....................                                                     [100%]\n452 passed, 358 deselected in 18.58s\n",
+    "stderr": "warning: No `requires-python` value found in the workspace. Defaulting to `>=3.12`.\n",
+    "exit": 0,
+    "expected_vs_actual": "expected exit0 with nonzero collected cases; actual output captured verbatim",
+    "originals": [
+      ".planning/argonauts/r-e0a2598f/exclude-final-stdout.txt",
+      ".planning/argonauts/r-e0a2598f/exclude-final-stderr.txt"
+    ]
+  },
+  {
+    "command": "uv run --extra dev python -m pytest -q",
+    "argv": [
+      "uv",
+      "run",
+      "--extra",
+      "dev",
+      "python",
+      "-m",
+      "pytest",
+      "-q"
+    ],
+    "input": [
+      "repository tests and tmp_path fixtures"
+    ],
+    "environment": {
+      "runner": "existing uv dev extra; see captures for actual CLI environment"
+    },
+    "stdout": "........................................................................ [  6%]\n........................................................................ [ 12%]\n........................................................................ [ 18%]\n........................................................................ [ 24%]\n........................................................................ [ 31%]\n........................................................................ [ 37%]\n........................................................................ [ 43%]\n........................................................................ [ 49%]\n........................................................................ [ 56%]\n........................................................................ [ 62%]\n........................................................................ [ 68%]\n........................................................................ [ 74%]\n........................................................................ [ 81%]\n........................................................................ [ 87%]\n........................................................................ [ 93%]\n........................................................................ [ 99%]\n..                                                                       [100%]\n1154 passed in 188.74s (0:03:08)\n",
+    "stderr": "warning: No `requires-python` value found in the workspace. Defaulting to `>=3.12`.\n",
+    "exit": 0,
+    "expected_vs_actual": "expected exit0 with nonzero collected cases; actual output captured verbatim",
+    "originals": [
+      ".planning/argonauts/r-e0a2598f/suite-final-stdout.txt",
+      ".planning/argonauts/r-e0a2598f/suite-final-stderr.txt"
+    ]
+  }
+]
