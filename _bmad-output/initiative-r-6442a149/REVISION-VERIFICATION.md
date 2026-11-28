@@ -33,6 +33,8 @@ BMAD公式updateのレビューは `reviews/update-independent-review.md`、設�
 - 同CLI `validate r-6442a149-exclude-file --strict --json`: exit0、valid=true、issues=[]。原出力 `reviews/revised-openspec-validate.json`。
 - 公式 `lint_spine.py --workspace _bmad-output/initiative-r-6442a149/architecture`: exit0、ok=true、total_findings=0。最初の位置引数指定はCLI usageで失敗し、公式--workspace指定で再実行して確認。
 - `git diff --check`: exit0。
+- 完了時のID検査で、文書単体では解決済みOQの定義不足と、設計の追跡表を要求定義と誤読する表記が見つかった。Brief/PRDに解決済みID索引を追記し、設計表を「PRD参照」と明示して、内容を変えず参照を修正した。
+- 公式 `check_ids.py` をBrief・PRD・設計それぞれ単体へ再実行。各原出力のundefined/duplicate/withdrawnは{}、toc missing/staleは{}、out_of_orderは[]で、jqの全条件照合は各文書true。`brief/update-check-ids.json`、`prd/update-check-ids.json`、`architecture/reviews/update-check-ids.json`を保存。unknown_prefixは外部参照や技術名として残るが、未定義・重複・取り下げ・目次の指摘はない。修正後の設計lintもok=true・指摘0。
 
 BMAD headlessは背景不足OQ-7/8のためpartial/draftを保持するが、今回の機能仕様未決を示すものではない。
 

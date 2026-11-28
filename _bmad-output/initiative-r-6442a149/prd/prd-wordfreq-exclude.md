@@ -120,6 +120,18 @@ RULE-2を適用し、後続実装で依存宣言・変更範囲・通信不要�
 ## Decisions
 
 - 旧OQ-1〜OQ-6は明示回答の1〜6を採用し解決。以前の留保との違いは情報更新であり権威の競合ではない。根拠・日時・対応要求は決定記録へ保存する。
+
+解決済みIDの索引（未決一覧ではない。採用値・期待値は対応FR、回答日時はDocument purpose）：
+
+| ID | 解決した内容・要求 |
+| --- | --- |
+| OQ-1 | casefold比較。FR-3 |
+| OQ-2 | 空白・コメント・改行。FR-2 |
+| OQ-3 | UTF-8/BOM・読込失敗。FR-2/FR-4 |
+| OQ-4 | 行全体一語・最後FILE。FR-1/FR-2 |
+| OQ-5 | 全語除外の既存空結果。FR-6 |
+| OQ-6 | 引数→除外→本文の順序。FR-4 |
+
 - Rules／Quality／Change boundaryは横断制約と既存変更、API contract／Developer experienceはCLI公開面と案内のため採用。
 - AI／Experience and platform／Integrations／Data and compliance／SLOs／Migration／Hardwareは対象根拠なし。組織・日程未提供のため架空の承認者やganttを作らず、Storiesと具体実装計画も本工程外。従前の節採否を維持する。
 

@@ -80,12 +80,12 @@ flowchart LR
 
 | PRD | 接続点 | 拘束 |
 | --- | --- | --- |
-| FR-1、RULE-1 | CLI→集計前フィルタ→既存集計・全formatter | AD-1・AD-2・AD-4 |
-| FR-2、FR-3 | 除外読込とcasefold比較境界 | AD-3。PRDの文字列別期待値を後続試験へ |
-| FR-4 | 引数検証・除外取得・本文取得・診断終了 | AD-4。対象／原因、stderr／stdout、exitと順序 |
-| FR-5 | help、README、対応試験 | 採用仕様の説明と試験は後続実装。本工程は文書のみ |
-| FR-6 | 未指定と全語除外 | AD-2・AD-4。既存試験・新機能試験の合格は未主張 |
-| RULE-2 | ローカル実行 | AD-1、既存運用維持 |
+| PRD参照 FR-1、RULE-1 | CLI→集計前フィルタ→既存集計・全formatter | AD-1・AD-2・AD-4 |
+| PRD参照 FR-2、FR-3 | 除外読込とcasefold比較境界 | AD-3。PRDの文字列別期待値を後続試験へ |
+| PRD参照 FR-4 | 引数検証・除外取得・本文取得・診断終了 | AD-4。対象／原因、stderr／stdout、exitと順序 |
+| PRD参照 FR-5 | help、README、対応試験 | 採用仕様の説明と試験は後続実装。本工程は文書のみ |
+| PRD参照 FR-6 | 未指定と全語除外 | AD-2・AD-4。既存試験・新機能試験の合格は未主張 |
+| PRD参照 RULE-2 | ローカル実行 | AD-1、既存運用維持 |
 
 ## Deferred
 
