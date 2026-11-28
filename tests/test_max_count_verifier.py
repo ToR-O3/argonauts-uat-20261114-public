@@ -222,7 +222,12 @@ def scope_repo(tmp_path):
     for name in (*d.PRODUCT, 'README.md', 'tests/test_cli.py', 'pyproject.toml'):
         path = repo / name
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes((ROOT / name).read_bytes())
+        # Historical max-count scope, not the current product (which may evolve).
+        # Snapshot: 31953e1c3f1bd0b5da09484f079f0027976ec737:wordfreq/__main__.py
+        # SHA-256: 9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba
+        source = (ROOT / 'tests/fixtures/max_count_scope/__main__.py'
+                  if name == 'wordfreq/__main__.py' else ROOT / name)
+        path.write_bytes(source.read_bytes())
     def git(*args):
         return subprocess.run(['git', *args], cwd=repo, capture_output=True, check=True,
                               text=True, timeout=20).stdout.strip()
