@@ -15,7 +15,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("filename")
     parser.add_argument("--top", type=int, default=10)
     parser.add_argument("--min-count", type=int, default=1)
-    parser.add_argument("--min-length", type=int, default=1)
+    parser.add_argument(
+        "--min-length", type=int, default=1,
+        help="minimum length N (positive integer): Unicode code points after casefold; "
+             "exclude words shorter than N; include N or more (default: 1)",
+    )
     parser.add_argument("--max-count", type=int, default=None)
     parser.add_argument("--format", choices=["text", "json", "html"], default="text")
     return parser
