@@ -153,3 +153,10 @@ All26 edge predicates/14 UI states/2 descriptor-less prohibitions are individual
 ## Self-Check: PASSED
 
 Both Builder tasks executed their assigned real tests/checks and actual-package discrimination. All required Builder files exist; actual originals and scope manifest are checked. This is Builder PLAN completion only, with independent quality/3.2/PM acceptance pending.
+
+## Official close-out readback
+
+After the SUMMARY commit a5c6b3d, official `state.advance-plan` returned `advanced:false/reason:last_plan/current_plan:3/total_plans:3/status:ready_for_verification`. Saved STATE frontmatter and `state-snapshot` both read phase8/current plan3/status:verifying; its Current Position status is `Phase complete — ready for verification`. The legacy Phase heading still says EXECUTING; no manual rewrite was used to manufacture a different official outcome. `roadmap.update-plan-progress 8` returned updated:true/plan_count3/summary_count3/status:In Progress/complete:false, and saved ROADMAP has all three PLANs executed. `state.update-progress` explicitly skipped with `phase scope is unscoped, not complete`; prior25% Progress display was left unchanged, not claimed as recomputed. `state.record-metric` recorded08/03/19min and `state.record-session` records this PLAN stopped pending same-card/independent quality. No `phase.complete` was called.
+
+`requirements.ready-ids` returns all6 IDs ready because every PLAN has a SUMMARY; this is a plan-dependency result, not independent fulfillment. No `requirements.mark-complete` is applied yet because REQ-32 explicitly still requires later quality originals, and source requirement identities/digests stay pinned for handoff. Official SUMMARY frontmatter validation is valid/missing[]/invalidValue[]. `verification.status` is genuinely missing with route execute-phase; the later quality card owns that route. No fake report/fingerprint/pass was supplied.
+
