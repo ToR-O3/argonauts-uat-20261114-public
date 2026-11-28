@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.176" timestamp="2026-11-29T01:38:08.436883+09:00" hostname="Ys-Minify"><testcase classname="tests.test_cli" name="test_exclude_tracer[text]" time="0.044"><failure message="AssertionError: assert (2, b'usage: ...cluded.txt\n') == (0, b'')&#10;  &#10;  At index 0 diff: 2 != 0&#10;  Use -v to get more diff">tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-775/test_exclude_tracer_text_0')
+output_format = 'text'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    def test_exclude_tracer(tmp_path, output_format):
+        body = tmp_path / "input.txt"
+        excluded = tmp_path / "excluded.txt"
+        body_bytes = b"Zoo apple APPLE zoo banana"
+        excluded_bytes = b"apple\n"
+        body.write_bytes(body_bytes)
+        excluded.write_bytes(excluded_bytes)
+        result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+&gt;       assert (result.returncode, result.stderr) == (0, b"")
+E       AssertionError: assert (2, b'usage: ...cluded.txt\n') == (0, b'')
+E         
+E         At index 0 diff: 2 != 0
+E         Use -v to get more diff
+
+tests/test_cli.py:607: AssertionError</failure></testcase></testsuite></testsuites>

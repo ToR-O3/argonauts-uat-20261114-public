@@ -595,6 +595,22 @@ def test_real_html_preserves_full_long_and_cr_basename(tmp_path, basename):
     assert path.read_bytes() == LONG_CONTENT.encode("utf-8")
 
 
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_tracer(tmp_path, output_format):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    body_bytes = b"Zoo apple APPLE zoo banana"
+    excluded_bytes = b"apple\n"
+    body.write_bytes(body_bytes)
+    excluded.write_bytes(excluded_bytes)
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format,
+                        [("zoo", 2), ("banana", 1)], body.name, 5)
+    assert body.read_bytes() == body_bytes
+    assert excluded.read_bytes() == excluded_bytes
+
+
 # 04-02 tracer: argument acceptance and pre-I/O rejection (OpenSpec 1.2).
 @pytest.mark.parametrize("output_format", ["text", "json", "html"])
 def test_min_count_argument_tracer(tmp_path, output_format):
