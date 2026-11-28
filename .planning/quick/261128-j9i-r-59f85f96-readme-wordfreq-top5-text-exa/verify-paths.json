@@ -1,0 +1,56 @@
+{
+  "status": "not_applicable",
+  "commands": [
+    {
+      "command": "rg -F -x -- 'python -m wordfreq input.txt --top 5 --format text' README.md",
+      "status": "not_applicable",
+      "severity": "none",
+      "reason": null,
+      "form": null,
+      "rawTarget": null,
+      "target": null,
+      "manifest": null,
+      "script": null,
+      "sentinel": false,
+      "base": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_98acf45a",
+      "plan": "261128-j9i-PLAN.md",
+      "task": "Task 1: REDからREADMEへ1行追加し、実行例と既存保持を通しで検証する"
+    },
+    {
+      "command": "git diff --check",
+      "status": "not_applicable",
+      "severity": "none",
+      "reason": null,
+      "form": null,
+      "rawTarget": null,
+      "target": null,
+      "manifest": null,
+      "script": null,
+      "sentinel": false,
+      "base": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_98acf45a",
+      "plan": "261128-j9i-PLAN.md",
+      "task": "Task 1: REDからREADMEへ1行追加し、実行例と既存保持を通しで検証する"
+    },
+    {
+      "command": "python -m pytest",
+      "status": "not_applicable",
+      "severity": "none",
+      "reason": null,
+      "form": null,
+      "rawTarget": null,
+      "target": null,
+      "manifest": null,
+      "script": null,
+      "sentinel": false,
+      "base": "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_98acf45a",
+      "plan": "261128-j9i-PLAN.md",
+      "task": "Task 1: REDからREADMEへ1行追加し、実行例と既存保持を通しで検証する"
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 3
+  },
+  "readError": null
+}
