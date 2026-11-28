@@ -1,0 +1,70 @@
+[
+  {
+    "mutation": "default",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_baseline"
+    ],
+    "cwd": "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/exclude08-tygk_lat/default",
+    "exit": 1,
+    "diagnostic": "fixed historical stdout bytes differ",
+    "console": "baseline-mutant-default.txt"
+  },
+  {
+    "mutation": "lexical-ties",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_baseline"
+    ],
+    "cwd": "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/exclude08-tygk_lat/lexical-ties",
+    "exit": 1,
+    "diagnostic": "fixed historical stdout bytes differ",
+    "console": "baseline-mutant-lexical-ties.txt"
+  },
+  {
+    "mutation": "json-newline",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_baseline"
+    ],
+    "cwd": "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/exclude08-tygk_lat/json-newline",
+    "exit": 1,
+    "diagnostic": "fixed historical stdout bytes differ",
+    "console": "baseline-mutant-json-newline.txt"
+  },
+  {
+    "mutation": "html-template",
+    "argv": [
+      "/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-a/.worktrees/t_354e296c/.venv/bin/python3",
+      "-m",
+      "pytest",
+      "tests/test_cli.py",
+      "-q",
+      "-x",
+      "-k",
+      "exclude_baseline"
+    ],
+    "cwd": "/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/exclude08-tygk_lat/html-template",
+    "exit": 1,
+    "diagnostic": "fixed historical stdout bytes differ",
+    "console": "baseline-mutant-html-template.txt"
+  }
+]

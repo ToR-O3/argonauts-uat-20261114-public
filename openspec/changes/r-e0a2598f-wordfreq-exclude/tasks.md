@@ -13,7 +13,7 @@
 
 ## 3. 統合と独立確認
 
-- [ ] 3.1 既存全試験を実行し、未指定時の既存版79d83baとの同一入力・argv比較を記録する。実CLIの入力/argv/stdout/stderr/exit、対象head、help/README例の結果を文字の証拠に残し、CI・依存・見た目の追加変更がないことを差分で確認する。
+- [x] 3.1 既存全試験を実行し、未指定時の既存版79d83baとの同一入力・argv比較を記録する。実CLIの入力/argv/stdout/stderr/exit、対象head、help/README例の結果を文字の証拠に残し、CI・依存・見た目の追加変更がないことを差分で確認する。
 - [ ] 3.2 品質担当が対象headで試験と受入を独立に確認し、GSD VERIFICATIONとOpenSpec verifyの結果を文字の原本として保存・添付する。HTML確認の画像枚数・内容・結果も文字へ記載し、PMがread_fileで条件ごとに判断できることを確認する。
 
 ## 公式GSD計画との対応（計画t_b046d7f7）

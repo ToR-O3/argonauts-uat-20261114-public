@@ -1,0 +1,45 @@
+F
+=================================== FAILURES ===================================
+__ test_exclude_baseline_exact_git_bytes[options0-None-ties-unicode-over-ten] __
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-827/test_exclude_baseline_exact_gi0')
+exclude_baseline_roots = (PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch...e/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/gh', 'GIT_PAGER': 'cat', ...})
+content = 'Zoo apple APPLE zoo Straße STRASSE Café CAFÉ 日本語 日本語 zeta yak xray wolf vole urn tiger snake rabbit quail penguin otter'
+output_format = None, options = []
+
+    @pytest.mark.parametrize("content", [
+        "Zoo apple APPLE zoo Straße STRASSE Café CAFÉ 日本語 日本語 "
+        "zeta yak xray wolf vole urn tiger snake rabbit quail penguin otter",
+        "",
+    ], ids=["ties-unicode-over-ten", "empty"])
+    @pytest.mark.parametrize("output_format", [None, "text", "json", "html"])
+    @pytest.mark.parametrize("options", [
+        [], ["--top", "1"], ["--top", "2"], ["--top", "99"],
+        ["--min-count", "1"], ["--min-count", "2"],
+        ["--min-count", "3"], ["--min-count", "2", "--top", "2"],
+    ])
+    def test_exclude_baseline_exact_git_bytes(tmp_path, exclude_baseline_roots,
+                                            content, output_format, options):
+        historical, candidate, env = exclude_baseline_roots
+        path = tmp_path / "同じ入力.txt"
+        original = content.encode("utf-8")
+        path.write_bytes(original)
+        argv = [sys.executable, "-m", "wordfreq", str(path), *options]
+        if output_format is not None:
+            argv += ["--format", output_format]
+        before = subprocess.run(argv, cwd=historical, env=env, capture_output=True, timeout=10)
+        after = subprocess.run(argv, cwd=candidate, env=env, capture_output=True, timeout=10)
+        assert (before.returncode, before.stderr) == (0, b"")
+        assert (after.returncode, after.stderr) == (0, b"")
+>       assert after.stdout == before.stdout, "fixed historical stdout bytes differ"
+E       AssertionError: fixed historical stdout bytes differ
+E       assert b'2\tapple\n2...t\n1\tsnake\n' == b'2\tzoo\n2\t...lf\n1\tvole\n'
+E         
+E         At index 2 diff: b'a' != b'z'
+E         Use -v to get more diff
+
+tests/test_cli.py:1402: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_baseline_exact_git_bytes[options0-None-ties-unicode-over-ten]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 746 deselected in 0.34s
