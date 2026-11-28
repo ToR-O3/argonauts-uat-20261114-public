@@ -75,29 +75,36 @@ status: complete
 - Tests verify bytes of both inputs; LF, CRLF and no-final-LF, empty/whitespace/comment files, digits/underscore/non-ASCII, Straße/STRASSE, Hello and original U+0130, six invalid classes and original line4. Duplicate/permuted rows preserve reverse-lexical remaining ties across seeds 0/1/42.
 - README explains all approved grammar/error/order semantics and executes its actual input/exclusion code-block contents; original final verification line retained.
 
+## Files Created/Modified
+
+- Created: `wordfreq/exclusions.py` — pure original-row interpreter.
+- Modified: `wordfreq/__main__.py` — role-aware acquisition and candidate selection.
+- Modified: `tests/test_cli.py` — tracer, executable example and grammar cases.
+- Modified: `README.md` — option, grammar and error documentation.
+
 ## Task Commits
 
 1. 08-01-01: `bcfa72c` RED; `415b1bc` GREEN real tracer, missing file and executable help/README.
 2. 08-01-02: `743a263` RED; `9498e0c` GREEN trim/comments and full grammar/isolated discrimination evidence.
 
-## Verification and TDD
+## Executed Test Evidence and TDD
 
 Evidence directory: `.planning/argonauts/t_951ac640/`.
 
 | Command | Actual result | Meaning |
 |---|---|---|
-| `uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_tracer --junitxml=.planning/argonauts/t_951ac640/tracer-red.xml` | exit1, 1 failed/358 deselected | Target test_exclude_tracer[text] actually ran, asserted expected exit0, observed unknown --exclude/exit2. No environment/collection fault. |
+| uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_tracer --junitxml=.planning/argonauts/t_951ac640/tracer-red.xml | exit1, 1 failed/358 deselected | Target test_exclude_tracer[text] actually ran, asserted expected exit0, observed unknown --exclude/exit2. No environment/collection fault. |
 | `gsd_run check tdd-red-evidence .planning/argonauts/t_951ac640/tracer-red.json --raw` | exit0, RED_EVIDENCE_OK | Official classifier accepted unchanged JUnit report; semantic assessment is recorded in JSON. |
 | `uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_tracer` | exit0, first 3 passed; then 6 passed/359 deselected after missing-file cases | Every output has zoo2/banana1, original HTML total5; missing exclusion has FILE/reason, exit2, empty stdout/no Traceback. |
 | `uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_help_readme_tracer` | RED exit1 at absent README command; GREEN exit0, 1 passed/364 deselected | Actual documented example and help executed; no product change was justified by this docs failure. |
 | `uv run --extra dev python -m pytest tests/test_cli.py -q -x -k 'normalized_tie_top or min_count_invalid_before_read or min_count_selection_preserves_counter'` | exit0, 27 passed/338 deselected | Existing relevant regressions. |
-| `uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_grammar_trim_comments_newlines --junitxml=.planning/argonauts/t_951ac640/grammar-red.xml` | exit1, 1 failed/365 deselected | Target subprocess rejected whitespace row1 with exit2 instead of banana1/exit0. Missing trim/comments, not environment fault. |
+| uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_grammar_trim_comments_newlines --junitxml=.planning/argonauts/t_951ac640/grammar-red.xml | exit1, 1 failed/365 deselected | Target subprocess rejected whitespace row1 with exit2 instead of banana1/exit0. Missing trim/comments, not environment fault. |
 | `gsd_run check tdd-red-evidence .planning/argonauts/t_951ac640/grammar-red.json --raw` | exit0, RED_EVIDENCE_OK | Official classifier accepted target assertion; semantic assessment retained. |
 | `uv run --extra dev python -m pytest tests/test_cli.py -q -x -k exclude_grammar_trim_comments_newlines` | exit0, 9 passed/365 deselected | Trim/comment expansion GREEN. |
-| `uv run --extra dev python -m pytest tests/test_cli.py -q -x -k 'exclude_grammar or exclude_tracer or exclude_help_readme_tracer' --junitxml=.planning/argonauts/t_951ac640/feature-green.xml` | exit0, 71 passed/358 deselected, 2.88s | Final assigned task commands collect every authored group; no zero-case pass. |
-| `uv run --extra dev python .planning/argonauts/t_951ac640/grammar-mutation-probe.py` | exit0, 13 isolated mutants rejected | Each actual pytest run exits1 on behavior AssertionError; full unchanged console reports saved in mutation-results.txt. Product files never mutated. |
+| uv run --extra dev python -m pytest tests/test_cli.py -q -x -k 'exclude_grammar or exclude_tracer or exclude_help_readme_tracer' --junitxml=.planning/argonauts/t_951ac640/feature-green.xml | exit0, 71 passed/358 deselected, 2.88s | Final assigned task commands collect every authored group; no zero-case pass. |
+| uv run --extra dev python .planning/argonauts/t_951ac640/grammar-mutation-probe.py | exit0, 13 isolated mutants rejected | Each actual pytest run exits1 on behavior AssertionError; full unchanged console reports saved in mutation-results.txt. Product files never mutated. |
 | `uv run --extra dev python -m pytest tests/test_sources.py tests/test_sources_boundary.py tests/test_tokenizer.py tests/test_aggregator.py tests/test_formatters.py -q -x` | exit0, 29 passed, 0.07s | Existing pure boundaries and safety contracts retained. |
-| `uv run --extra dev python -m pytest -q --junitxml=.planning/argonauts/t_951ac640/suite-green.xml` | exit0, 773 passed in 158.72s | Full current suite, not independent quality evidence or Phase8 baseline proof. |
+| uv run --extra dev python -m pytest -q --junitxml=.planning/argonauts/t_951ac640/suite-green.xml | exit0, 773 passed in 158.72s | Full current suite, not independent quality evidence or Phase8 baseline proof. |
 | `git diff --check` | exit0 | No whitespace errors. |
 | `git diff --name-only 2f6fa7d..HEAD -- pyproject.toml .github wordfreq/formatters.py wordfreq/tokenizer.py wordfreq/aggregator.py wordfreq/sources.py` | exit0, no paths | No dependency/CI/HTML appearance/pure-public-contract source changes. |
 

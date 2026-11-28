@@ -3,18 +3,18 @@ gsd_state_version: "1.0"
 milestone: v1.12
 current_phase: 8
 current_phase_name: wordfreq exclude
-current_plan: 1
+current_plan: 2
 status: executing
-stopped_at: Phase 8 UI-SPEC approved
-last_updated: "2026-11-28T16:18:11.485Z"
-last_activity: 2026-11-28
-last_activity_desc: Phase 7 execution started
-state_head: 0a9ab037b5ca5f200206d585af9d82d3893ed0c8
+stopped_at: Completed 08-01-PLAN.md; same-card quality review pending
+last_updated: "2026-11-28T16:48:53.618Z"
+last_activity: 2026-11-29
+last_activity_desc: Phase 8 execution started
+state_head: f5f0b4f0b9488c45c03aef5dc018388401bb2b0d
 progress:
   total_phases: 6
   completed_phases: 1
   total_plans: 20
-  completed_plans: 17
+  completed_plans: 18
 ---
 
 <!-- STATE-MD-SCHEMA:END:frontmatter -->
@@ -26,15 +26,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-11-22)
 
 **Core value:** 正規化・並び順・出力形式・エラー出口の決定論と、入力元を後から追加できる構成の明確さ。価値は性能ではない。
-**Current focus:** Phase 7 — Project description UAT
+**Current focus:** Phase 8 — wordfreq exclude
 
 ## Current Position
 
-Phase: 8 (wordfreq exclude) — READY TO EXECUTE
-Current Plan: 1
+Phase: 8 (wordfreq exclude) — EXECUTING
+Current Plan: 2
 Total Plans in Phase: 3
 Status: Ready to execute
-Last activity: 2026-11-28 - Completed quick task 261128-v63: Add the requested top 5 text command to README only
+Last activity: 2026-11-29 — Phase 8 execution started
 
 Progress: [███░░░░░░░] 25%
 
@@ -76,6 +76,7 @@ Progress: [███░░░░░░░] 25%
 | Phase 04 P01 | 15min | 2 tasks | 158 files |
 | Phase 04 P02 | 11min | 2 tasks | 5 files |
 | Phase 07 P01 | 6min | 2 tasks | 10 files |
+| Phase 08 P01 | 11min | 2 tasks | 13 files |
 
 ## Accumulated Context
 
@@ -128,6 +129,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-11-28T15:55:30.157Z
-Stopped at: Phase 8 UI-SPEC approved
-Resume file: .planning/phases/08-wordfreq-exclude/08-UI-SPEC.md
+Last session: 2026-11-28T16:48:53.476Z
+Stopped at: Completed 08-01-PLAN.md; same-card quality review pending
+Resume file: None
