@@ -1259,6 +1259,19 @@ def test_min_length_tracer(tmp_path):
     assert result.stdout == b"2\tbb\n1\tccc\n"
 
 
+@pytest.mark.parametrize("case_index", range(24))
+def test_min_length_saved_default_bytes(case_index):
+    index = json.loads((MIN_LENGTH_BASELINE / "index.json").read_text(encoding="utf-8"))
+    case = index["cases"][case_index]
+    path = ROOT / index["input"]
+    assert path.read_bytes() == index["body"].encode("utf-8")
+    for extra in [[], ["--min-length", "1"]]:
+        result = min_length_cli(path, *case["options"], *extra, env=index["environment"])
+        assert result.returncode == case["exit"]
+        assert result.stderr == bytes.fromhex(case["stderr_hex"])
+        assert result.stdout == bytes.fromhex(case["stdout_hex"])
+
+
 def test_max_count_readme_example(tmp_path):
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     command = "python -m wordfreq input.txt --min-count 2 --max-count 3 --format json"
