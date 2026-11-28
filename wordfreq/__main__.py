@@ -16,7 +16,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--top", type=int, default=10)
     parser.add_argument("--min-count", type=int, default=1)
     parser.add_argument("--max-count", type=int, default=None)
-    parser.add_argument("--min-length", type=int, default=1)
+    parser.add_argument("--min-length", type=int, default=1, metavar="N",
+                        help="Exclude words shorter than N characters after casefold (default: 1)")
     parser.add_argument("--format", choices=["text", "json", "html"], default="text")
     return parser
 

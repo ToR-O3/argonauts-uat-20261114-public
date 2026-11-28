@@ -849,6 +849,117 @@ def test_min_length_boundary(tmp_path, output_format):
     assert_output_bytes(result.stdout, output_format, [("bb", 2), ("ccc", 1)], path.name, 4)
 
 
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_length_casefold(tmp_path, output_format):
+    path = tmp_path / "input.txt"
+    path.write_text("ß ss a", encoding="utf-8")
+    result = run_cli_bytes(path, "--min-length", "2", "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [("ss", 2)], path.name, 3)
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_length_unicode(tmp_path, output_format):
+    path = tmp_path / "input.txt"
+    path.write_text("日 日本 日本語 _ 12", encoding="utf-8")
+    result = run_cli_bytes(path, "--min-length", "2", "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format,
+                        [("日本", 1), ("日本語", 1), ("12", 1)], path.name, 5)
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_length_composition(tmp_path, output_format):
+    path = tmp_path / "input.txt"
+    path.write_text("a a a bb cc bb cc dddd", encoding="utf-8")
+    result = run_cli_bytes(path, "--min-length", "2", "--min-count", "2",
+                           "--max-count", "2", "--top", "1", "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [("bb", 2)], path.name, 8)
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_length_tie_order(tmp_path, output_format):
+    path = tmp_path / "input.txt"
+    path.write_text("a zz aa zz aa", encoding="utf-8")
+    result = run_cli_bytes(path, "--min-length", "2", "--top", "1", "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [("zz", 2)], path.name, 5)
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_length_empty(tmp_path, output_format):
+    from test_formatters import HTMLDocument, assert_static_document
+
+    path = tmp_path / "input.txt"
+    path.write_text("a bb", encoding="utf-8")
+    result = run_cli_bytes(path, "--min-length", "3", "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [], path.name, 2)
+    if output_format == "text":
+        assert result.stdout == b""
+    elif output_format == "json":
+        assert result.stdout == b"[]\n"
+    else:
+        document = HTMLDocument(result.stdout.decode("utf-8"))
+        assert_static_document(document)
+        assert document.tagged("td") == []
+        assert len(document.tagged("tr")) == 1
+        assert document.classified("empty-message")[0]["text"] == (
+            "集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。")
+
+
+def test_min_length_help():
+    result = run_cli_bytes("--help")
+    assert (result.returncode, result.stderr) == (0, b"")
+    help_text = " ".join(result.stdout.decode("utf-8").split())
+    assert "--min-length N" in help_text
+    assert "Exclude words shorter than N characters" in help_text
+    assert "default: 1" in help_text
+
+
+@pytest.mark.parametrize("mutation", ["control", "ignore-length", "exclusive"])
+def test_min_length_discrimination(tmp_path, mutation):
+    import xml.etree.ElementTree as ET
+
+    repo = tmp_path / "cold"
+    repo.mkdir()
+    shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    (repo / "tests").mkdir()
+    for name in ("test_cli.py", "test_formatters.py"):
+        shutil.copy2(ROOT / "tests" / name, repo / "tests" / name)
+    source = repo / "wordfreq/__main__.py"
+    original = source.read_text(encoding="utf-8")
+    seam = "and len(word) >= args.min_length"
+    assert original.count(seam) == 1
+    replacement = {"control": seam, "ignore-length": "and True",
+                   "exclusive": "and len(word) > args.min_length"}[mutation]
+    source.write_text(original.replace(seam, replacement), encoding="utf-8")
+    report = repo / "junit.xml"
+    env = os.environ.copy()
+    env.pop("PYTEST_ADDOPTS", None)
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "tests/test_cli.py", "-k", "min_length_boundary",
+         "-q", "--basetemp=" + str(tmp_path / "child-temp"), "--junitxml=" + str(report)],
+        cwd=repo, env=env, capture_output=True, timeout=90,
+    )
+    print("MIN LENGTH DISCRIMINATION", mutation, "exit", result.returncode)
+    print(result.stdout.decode("utf-8"))
+    print(result.stderr.decode("utf-8"))
+    suite = ET.parse(report).getroot().find("testsuite")
+    assert suite is not None and int(suite.attrib["tests"]) == 3
+    assert int(suite.attrib["errors"]) == int(suite.attrib["skipped"]) == 0
+    assert result.returncode == (0 if mutation == "control" else 1)
+    failures = suite.findall("testcase/failure")
+    assert len(failures) == (0 if mutation == "control" else 3)
+    for failure in failures:
+        text = failure.text or ""
+        assert "AssertionError" in text
+        assert "assert_output_bytes" in text
+        assert "SyntaxError" not in text and "ImportError" not in text
+
+
 # Phase 7 / OpenSpec 1.1: all groups below are authored and run before product edits.
 MAX_NORMAL = "beta beta beta alpha gamma alpha delta"
 MAX_THREE = "beta beta beta beta zoo zoo zoo apple apple pear pear single"
