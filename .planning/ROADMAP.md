@@ -17,6 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: wordfreq min-count** (completed 2026-11-18)
 - [x] **Phase 5: README verification A** (completed 2026-11-22)
 - [ ] **Phase 7: Project description UAT**
+- [ ] **Phase 8: wordfreq exclude-file**
 
 ## Phase Details
 
@@ -151,3 +152,20 @@ Plans:
 
 Plans:
 - [x] 07-01-PLAN.md — Wave 1、2 sequential tasks: 工程検証tracer・判別力GREEN/実製品欠落RED（OpenSpec1.1）→description1行追加・同一検証GREEN・AC別文字証拠/独立品質handoff（OpenSpec1.2）
+
+### Phase 8: wordfreq exclude-file
+
+**Goal:** 承認済みr-6442a149の--exclude FILEを全形式へ追加し、行規則/casefold/処理順/読込失敗/HTML総数と未指定互換を試験・説明・独立品質の文字原本で追跡できる。
+**Requirements**: REQ-28, REQ-29, REQ-30, REQ-31, REQ-32, REQ-33, REQ-34, REQ-35
+**Depends on:** Phase 7
+**Approval:** t_0d1aa16a approved、8a2c69b。E.7の承認済み変更分岐で公式phase.addが返した8を採用。旧HTML総数との衝突は指定時だけの承認済み拡張として08-CONTEXTへ記録。既存phaseのstale検証や未達は今回へ混ぜない。
+**UI hint:** yes — HTML総数と空結果を既存画面設計のまま検証する。見た目の再設計はしない。
+**Success Criteria:**
+  1. 正常系/空白/コメント/BOM/改行/Unicode/最後FILE/重複/全語除外をtext/json/htmlで確認できる。
+  2. 既存引数→除外→本文、除外失敗exit2/stdout空/対象と原因stderr、本文のみ失敗exit1を直接試験と実CLIで確認できる。
+  3. 除外→計数→min-count→top、残存回数/相対初出順とHTML除外後総数を維持し、help/READMEの例を再現できる。
+  4. 既存全試験と未指定互換を独立品質が確認し、対象head/コマンド/結果をVERIFICATION.md等の文字原本へ保存・添付する。画像があれば品質が閲覧枚数/内容/結果を文字へ残し、PMへ画像/圧縮ファイルの閲覧を求めない。
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 8 to break down)

@@ -101,6 +101,30 @@ Source: 仕様承認t_8a187e42、要求・仕様t_62c33f31 run59、OpenSpec `r-c
 
 Finalization t_20f1102b: REQ-25/26 `[x]` track the implemented product conditions only; the Pending table is full-closure status. REQ-27's premature `[x]` is cleared. Quality run65 independently executed at c5d0eb136bf92d6f00c3fc807346e55103917504; PM t_b9c2f01b subsequently read text originals 85–88 and approved AC1–3 (no PM test rerun). Quality human_needed / phase_completed=false remains unchanged. P1/P2 and unclassified probes REQ-25/26/27 remain flagged-unverified, not human-approved or resolved. See `.planning/argonauts/t_20f1102b/finalization.md` for the separate finalization record.
 
+## r-6442a149 Requirements (Phase 8)
+
+Source: 仕様承認t_0d1aa16a、原本head 8a2c69b8332e9704377fe680af51767c74e4ab56、BMAD PRD/ArchitectureとOpenSpec r-6442a149-exclude-file。公式ingestは旧locked HTML総数との衝突を検出したため、E.7承認済み変更の追加phase分岐を採用。旧履歴を消さず、除外指定時だけREQ-35がREQ-10/REQ-19の総数の意味を拡張する。未指定時とmin-countのみの既存契約は維持する。
+
+- [ ] **REQ-28**: FR-1/EX-1。--exclude FILEの一致語を全形式の集計から除き、残存回数・相対初出順を維持する。重複は無影響。複数指定は最後FILEだけを読み、それ以前は読まない。
+- [ ] **REQ-29**: FR-2/EX-2。UTF-8先頭BOM除去、strip後空行/先頭#無視、LF/CRLF/最終改行なし。行全体一語で分割/記号除去/途中#コメントなし。foo barはfoo/barに無影響、foo_bar/123は一致語のみ、foo-barは本文抽出を変えず比較する。
+- [ ] **REQ-30**: FR-3/EX-3。除外行は既存本文と同じcasefold。Straße/STRASSE一致、本文の抽出とcasefoldを変更しない。
+- [ ] **REQ-31**: FR-4/EX-4。既存引数検証→除外FILE→本文。不存在/権限不足/ディレクトリ/不正UTF-8は対象/原因をstderr、exit2、stdout空。両方失敗は除外優先で本文を読まない。除外成功後または未指定時の本文失敗は既存exit1。文言完全一致は不要。
+- [ ] **REQ-32**: FR-5/EX-5。help/READMEに--exclude FILE、行規則/casefold/最後FILE/読込失敗exit2/空結果の説明と再現例を追加し、正常/境界/失敗の対応試験を追加する。
+- [ ] **REQ-33**: FR-6/EX-5/EX-6。全語除外はtext空、json []と末尾改行、HTML既存空表/既存案内と総数0、全形式exit0・専用案内なし。未指定の全形式/Unicode/順位/min-count/top/空結果/本文エラーと既存全試験を維持する。
+- [ ] **REQ-34**: RULE-2。追加依存・権限変更・外部送信なし。対象head・コマンド/環境/終了結果と条件別根拠を文字の検証原本へ残し、独立品質が再実行して標準添付する。未実施は合格扱いしない。
+- [ ] **REQ-35**: RULE-1/HTML-2。全形式で除外→計数→min-count→top。HTML総数は除外後かつmin-count/top前。Zoo apple APPLE zoo bananaからapple除外しmin-count2/top1はzoo2のみ・総数3。未指定時は従来総数を維持。
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| REQ-28 | Phase 8 | Pending |
+| REQ-29 | Phase 8 | Pending |
+| REQ-30 | Phase 8 | Pending |
+| REQ-31 | Phase 8 | Pending |
+| REQ-32 | Phase 8 | Pending |
+| REQ-33 | Phase 8 | Pending |
+| REQ-34 | Phase 8 | Pending |
+| REQ-35 | Phase 8 | Pending |
+
 ## v2 Requirements
 
 Deferred to future release. Tracked but not in current roadmap.

@@ -93,6 +93,8 @@ Recent decisions affecting current work:
 
 ### Roadmap Evolution
 
+- Phase 8 added: wordfreq exclude-file (r-6442a149; official phase.add result 8). Approved t_0d1aa16a head8a2c69b。REQ-28..REQ-35追加、E.7承認済みHTML総数変更を新CONTEXTで扱う。旧phaseの検証状態は変更しない。
+
 - Phase 7 added: Project description UAT (r-cf2eeaab; official phase.add result 7). 承認t_8a187e42、REQ-25..REQ-27追加のみ、衝突0。旧phaseのstaleと残存ディレクトリは再利用せず、今回の範囲へ混ぜない。
 
 - Phase 5 added: README verification A (r-8ac79daf; official phase.add result 5). Approved t_327d2f8f run7. Merge adds REQ-22..REQ-24 only, conflicts 0. Prior phases and product files are unchanged by planning.
