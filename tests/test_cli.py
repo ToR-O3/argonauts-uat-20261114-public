@@ -1345,3 +1345,115 @@ def test_min_count_saved_default_bytes(case_index):
         assert result.stdout == expected
 
 
+EXCLUDE_BASELINE = "79d83ba14dd59d289d2ecd3e33c85e8de437972e"
+
+
+@pytest.fixture
+def exclude_baseline_roots(tmp_path):
+    """Only Git object bytes may supply the historical implementation."""
+    historical, candidate = tmp_path / "historical", tmp_path / "candidate"
+    historical.mkdir()
+    candidate.mkdir()
+    files = subprocess.run(
+        ["git", "ls-tree", "-r", "--name-only", EXCLUDE_BASELINE, "--", "wordfreq"],
+        cwd=ROOT, capture_output=True, check=True,
+    ).stdout.decode().splitlines()
+    assert "wordfreq/__main__.py" in files, "required historical package absent"
+    for name in files:
+        target = historical / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(subprocess.run(
+            ["git", "show", f"{EXCLUDE_BASELINE}:{name}"], cwd=ROOT,
+            capture_output=True, check=True,
+        ).stdout)
+    shutil.copytree(ROOT / "wordfreq", candidate / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    env = os.environ.copy()
+    env.pop("PYTHONPATH", None)
+    env.update(PYTHONDONTWRITEBYTECODE="1", PYTHONHASHSEED="42",
+               PYTHONIOENCODING="utf-8", PYTHONNOUSERSITE="1")
+    return historical, candidate, env
+
+
+@pytest.mark.parametrize("content", [
+    "Zoo apple APPLE zoo Straße STRASSE Café CAFÉ 日本語 日本語 "
+    "zeta yak xray wolf vole urn tiger snake rabbit quail penguin otter",
+    "",
+], ids=["ties-unicode-over-ten", "empty"])
+@pytest.mark.parametrize("output_format", [None, "text", "json", "html"])
+@pytest.mark.parametrize("options", [
+    [], ["--top", "1"], ["--top", "2"], ["--top", "99"],
+    ["--min-count", "1"], ["--min-count", "2"],
+    ["--min-count", "3"], ["--min-count", "2", "--top", "2"],
+])
+def test_exclude_baseline_exact_git_bytes(tmp_path, exclude_baseline_roots,
+                                        content, output_format, options):
+    historical, candidate, env = exclude_baseline_roots
+    path = tmp_path / "同じ入力.txt"
+    original = content.encode("utf-8")
+    path.write_bytes(original)
+    argv = [sys.executable, "-m", "wordfreq", str(path), *options]
+    if output_format is not None:
+        argv += ["--format", output_format]
+    before = subprocess.run(argv, cwd=historical, env=env, capture_output=True, timeout=10)
+    after = subprocess.run(argv, cwd=candidate, env=env, capture_output=True, timeout=10)
+    assert (before.returncode, before.stderr) == (0, b"")
+    assert (after.returncode, after.stderr) == (0, b"")
+    assert after.stdout == before.stdout, "fixed historical stdout bytes differ"
+    assert path.read_bytes() == original
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("excluded_bytes,status", [
+    (b"apple\r\n", 0), (b"\n #comment\napple\nfoo bar", 2), (b"apple\xff", 2),
+], ids=["success", "invalid-line", "invalid-utf8"])
+def test_exclude_immutability_both_inputs(tmp_path, output_format, excluded_bytes, status):
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    body_bytes = "Zoo apple APPLE zoo banana Straße".encode("utf-8")
+    body.write_bytes(body_bytes)
+    excluded.write_bytes(excluded_bytes)
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert result.returncode == status
+    assert body.read_bytes() == body_bytes
+    assert excluded.read_bytes() == excluded_bytes
+    if status:
+        assert result.stdout == b"" and str(excluded).encode() in result.stderr
+        assert b"Traceback" not in result.stderr
+    else:
+        assert result.stderr == b""
+
+
+def test_exclude_docs_complete_contract_and_literal_example(tmp_path):
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    # Check topics in the feature section, not accidental mentions elsewhere.
+    section = readme.split("### 除外の実行例\n", 1)[1].split("## 部品", 1)[0]
+    for topic in ["--exclude FILE", "1行1語", "UTF-8", "LF", "CRLF", "最終改行なし",
+                  "前後空白", "空行", "#", "\\w+", "検証してから casefold", "123",
+                  "_word_", "foo bar", "foo,", "foo-bar", "結合文字", "foo # note",
+                  "BOM", "STRASSE", "Hello", "権限不足", "ディレクトリ", "不正UTF-8",
+                  "行番号", "理由", "stderr", "exit2", "Traceback", "本文を読みません",
+                  "引数構文・数値", "全行検証", "本文失敗", "exit1", "HTML総数", "5",
+                  "未指定", "書き換えません", "min-count", "全語除外"]:
+        assert topic in section, f"README exclusion topic missing: {topic}"
+    assert "自動の除外辞書は使いません" in section
+    assert "中断や並列実行について新しい保証は追加しません" in section
+    body_text = section.split("`input.txt`:\n```text\n", 1)[1].split("```", 1)[0]
+    exclude_text = section.split("`excluded.txt`（UTF-8の1行1語）:\n```text\n", 1)[1].split("```", 1)[0]
+    command = section.split("```sh\n", 1)[1].split("\n```", 1)[0]
+    assert command == "python -m wordfreq input.txt --exclude excluded.txt"
+    shutil.copytree(ROOT / "wordfreq", tmp_path / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    (tmp_path / "input.txt").write_bytes(body_text.encode("utf-8"))
+    (tmp_path / "excluded.txt").write_bytes(exclude_text.encode("utf-8"))
+    env = os.environ.copy()
+    env.pop("PYTHONPATH", None)
+    result = subprocess.run([sys.executable, *command.split()[1:]], cwd=tmp_path,
+                            env=env, capture_output=True, timeout=10)
+    assert (result.returncode, result.stdout, result.stderr) == (0, b"2\tzoo\n1\tbanana\n", b"")
+    assert (tmp_path / "input.txt").read_bytes() == body_text.encode("utf-8")
+    assert (tmp_path / "excluded.txt").read_bytes() == exclude_text.encode("utf-8")
+    help_result = run_cli_bytes("--help")
+    assert (help_result.returncode, help_result.stderr) == (0, b"")
+    assert b"--exclude FILE" in help_result.stdout and b"one word per line" in help_result.stdout
+
+
