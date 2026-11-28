@@ -646,6 +646,21 @@ def test_exclude_help_readme_tracer(tmp_path):
     assert (result.returncode, result.stdout, result.stderr) == (0, b"2\tzoo\n1\tbanana\n", b"")
 
 
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("rows", [b" \n  #banana\n apple \n", b" \r\n  #banana\r\n apple \r\n",
+                                  b" \r\n  #banana\r\n apple "])
+def test_exclude_grammar_trim_comments_newlines(tmp_path, output_format, rows):
+    body = tmp_path / "input.txt"
+    excluded = tmp_path / "excluded.txt"
+    body.write_bytes(b"apple banana")
+    excluded.write_bytes(rows)
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [("banana", 1)], body.name, 2)
+    assert body.read_bytes() == b"apple banana"
+    assert excluded.read_bytes() == rows
+
+
 # 04-02 tracer: argument acceptance and pre-I/O rejection (OpenSpec 1.2).
 @pytest.mark.parametrize("output_format", ["text", "json", "html"])
 def test_min_count_argument_tracer(tmp_path, output_format):
