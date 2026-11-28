@@ -1224,7 +1224,10 @@ def min_length_cli(path, *options, expected=None, total=None, env=None):
         root.mkdir(parents=True, exist_ok=True)
         case_dir = root / uuid.uuid4().hex
         case_dir.mkdir()
-        body = path.read_bytes() if path.is_file() else None
+        try:
+            body = path.read_bytes() if path.is_file() else None
+        except PermissionError:
+            body = None  # Deliberately unreadable input; the test proves EACCES.
         if body is not None:
             (case_dir / "input.bin").write_bytes(body)
         (case_dir / "stdout.bin").write_bytes(result.stdout)
@@ -1327,6 +1330,7 @@ def test_min_length_invalid_open_stdin(output_format, options):
     argv = [sys.executable, "-m", "wordfreq", "/dev/stdin", "--format", output_format, *options]
     process = subprocess.Popen(argv, cwd=ROOT, stdin=subprocess.PIPE,
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    assert process.stdin is not None and process.stdout is not None and process.stderr is not None
     try:
         # Do not send data/EOF: invalid argv must finish without acquiring input.
         process.wait(timeout=3)
@@ -1360,6 +1364,200 @@ def test_min_length_help():
     for phrase in ["positive integer", "Unicode code points", "after casefold",
                    "exclude words shorter than N", "include N or more", "default: 1"]:
         assert phrase in help_text
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("body,minimum,expected,total", [
+    ("a bb ccc bb", 2, [("bb", 2), ("ccc", 1)], 4),
+    ("ß SS a 日本語 12 __", 1, [("ss", 2), ("a", 1), ("日本語", 1), ("12", 1), ("__", 1)], 6),
+    ("ß SS a 日本語 12 __", 2, [("ss", 2), ("日本語", 1), ("12", 1), ("__", 1)], 6),
+    ("ß SS a 日本語 12 __", 3, [("日本語", 1)], 6),
+    ("ß SS a 日本語 12 __", 10**100, [], 6),
+])
+def test_min_length_unicode(tmp_path, output_format, body, minimum, expected, total):
+    path = tmp_path / "unicode.txt"
+    path.write_bytes(body.encode("utf-8"))
+    result = min_length_cli(path, "--min-length", minimum, "--format", output_format,
+                            expected=expected, total=total)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, expected, path.name, total)
+    assert path.read_bytes() == body.encode("utf-8")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("top", [None, 1, 2, 99])
+@pytest.mark.parametrize("reverse", [False, True])
+@pytest.mark.parametrize("body,minimum,low,high,expected,total", [
+    ("a a a Zoo apple APPLE zoo banana", 3, 2, 2, [("zoo", 2), ("apple", 2)], 8),
+    ("a a a Zoo apple APPLE zoo banana", 3, 1, None,
+     [("zoo", 2), ("apple", 2), ("banana", 1)], 8),
+    ("a a a bb bb zoo zoo apple apple single over over over over", 3, 2, 2,
+     [("zoo", 2), ("apple", 2)], 14),
+    ("a Zoo apple APPLE zoo banana", 3, 3, 2, [], 6),
+    ("a Zoo apple APPLE zoo banana", 3, 1, 0, [], 6),
+    ("a Zoo apple APPLE zoo banana", 3, 1, -1, [], 6),
+])
+def test_min_length_composition(tmp_path, output_format, top, reverse, body, minimum, low, high, expected, total):
+    path = tmp_path / "selection.txt"
+    path.write_text(body, encoding="utf-8")
+    groups = [["--min-length", str(minimum)], ["--min-count", str(low)]]
+    if high is not None:
+        groups.append(["--max-count", str(high)])
+    if top is not None:
+        groups.append(["--top", str(top)])
+    if reverse:
+        groups.reverse()
+    options = [item for group in groups for item in group]
+    selected = expected[:10 if top is None else top]
+    result = min_length_cli(path, "--format", output_format, *options,
+                            expected=selected, total=total)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, selected, path.name, total)
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("body,total", [("a bb", 2), ("", 0), (" \t\r\n", 0), ("!?,.;: --", 0)])
+def test_min_length_empty(tmp_path, output_format, body, total):
+    from test_formatters import HTMLDocument, assert_static_document
+    path = tmp_path / "empty.txt"
+    path.write_bytes(body.encode("utf-8"))
+    result = min_length_cli(path, "--min-length", "3", "--format", output_format,
+                            expected=[], total=total)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [], path.name, total)
+    if output_format == "text":
+        assert result.stdout == b""
+    elif output_format == "json":
+        assert result.stdout == b"[]\n"
+    else:
+        document = HTMLDocument(result.stdout.decode("utf-8"))
+        assert_static_document(document)
+        assert document.tagged("td") == [] and len(document.tagged("tr")) == 1
+        assert document.classified("empty-message")[0]["text"] == (
+            "集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("failure", ["missing", "directory", "decode", "permission"])
+def test_min_length_valid_input_failure(tmp_path, output_format, failure):
+    path = tmp_path / "input.txt"
+    if failure == "directory":
+        path.mkdir()
+    elif failure == "decode":
+        path.write_bytes(b"hello\xff")
+    elif failure == "permission":
+        path.write_bytes(b"hello")
+        path.chmod(0)
+    try:
+        if failure == "permission":
+            with pytest.raises(PermissionError, match="Permission denied"):
+                path.read_bytes()
+        result = min_length_cli(path, "--min-length", 10**100, "--format", output_format)
+        assert result.returncode == 1 and result.stdout == b""
+        assert result.stderr and b"Traceback" not in result.stderr
+        if failure == "permission":
+            assert b"Permission denied" in result.stderr
+    finally:
+        if failure == "permission":
+            path.chmod(0o600)
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_length_hashseed(tmp_path, output_format):
+    path = tmp_path / "seed.txt"
+    path.write_text("a a a Zoo apple APPLE zoo banana ß SS 日本語", encoding="utf-8")
+    expected = [("zoo", 2), ("apple", 2), ("ss", 2), ("banana", 1), ("日本語", 1)]
+    outputs = []
+    for seed in ["0", "1", "42"]:
+        result = min_length_cli(path, "--min-length", "2", "--format", output_format,
+                                expected=expected, total=11,
+                                env=dict(os.environ, PYTHONHASHSEED=seed))
+        assert (result.returncode, result.stderr) == (0, b"")
+        assert_output_bytes(result.stdout, output_format, expected, path.name, 11)
+        outputs.append(result.stdout)
+    assert outputs[0] == outputs[1] == outputs[2]
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_length_internal_order(tmp_path, monkeypatch, output_format):
+    from collections import Counter
+    import wordfreq.__main__ as cli
+    original = Counter({"a": 3, "zoo": 2, "single": 1, "apple": 2, "over": 4})
+    before = list(original.items())
+    monkeypatch.setattr(cli, "count_words", lambda tokens: original)
+    real_top = cli.top_words
+    real_formatter = getattr(cli, "format_" + output_format)
+    selected, formatted = [], []
+
+    def top_spy(counts, n):
+        assert counts is not original
+        assert list(counts.items()) == [("zoo", 2), ("apple", 2)]
+        pairs = real_top(counts, n)
+        selected.append(pairs)
+        return pairs
+
+    def formatter_spy(pairs, *metadata):
+        assert pairs is selected[0] and pairs == [("zoo", 2)]
+        assert metadata == (("input.txt", 12) if output_format == "html" else ())
+        formatted.append(True)
+        return real_formatter(pairs, *metadata)
+
+    monkeypatch.setattr(cli, "top_words", top_spy)
+    monkeypatch.setattr(cli, "format_" + output_format, formatter_spy)
+    path = tmp_path / "input.txt"
+    path.write_text("a a a zoo zoo single apple apple over over over over", encoding="utf-8")
+    with pytest.raises(SystemExit) as caught:
+        cli.main([str(path), "--min-length", "3", "--min-count", "2", "--max-count", "2",
+                  "--top", "1", "--format", output_format])
+    assert caught.value.code == 0 and formatted == [True]
+    assert list(original.items()) == before
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_min_length_read_only(tmp_path, output_format):
+    repo = tmp_path / "cold"
+    repo.mkdir()
+    shutil.copytree(ROOT / "wordfreq", repo / "wordfreq",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    if (ROOT / ".gitignore").exists():
+        shutil.copy2(ROOT / ".gitignore", repo / ".gitignore")
+    subprocess.run(["git", "init", "--quiet", str(repo)], check=True)
+    subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
+    path = tmp_path / "input.txt"
+    body = "a bb ß SS 日本語".encode("utf-8")
+    path.write_bytes(body)
+    env = os.environ.copy()
+    env.pop("PYTHONDONTWRITEBYTECODE", None)
+    before = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"],
+                            cwd=repo, capture_output=True, check=True).stdout
+    result = subprocess.run([sys.executable, "-m", "wordfreq", str(path), "--min-length", "2",
+                             "--format", output_format], cwd=repo, env=env, capture_output=True, timeout=10)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [("ss", 2), ("bb", 1), ("日本語", 1)], path.name, 5)
+    assert path.read_bytes() == body
+    after = subprocess.run(["git", "status", "--porcelain", "--untracked-files=all"],
+                           cwd=repo, capture_output=True, check=True).stdout
+    assert before == after
+
+
+@pytest.mark.parametrize("minimum,expected", [(2, [("café", 2), ("ss", 2), ("日本語", 1)]), (99, [])])
+def test_min_length_html_safety(tmp_path, minimum, expected):
+    from html import escape
+    from test_formatters import HTMLDocument, assert_static_document
+    parent = tmp_path / "private-parent-&-marker"
+    parent.mkdir()
+    path = parent / '検査  &<>"\'\n次\t終.txt'
+    body = "a Café CAFÉ ß SS 日本語".encode("utf-8")
+    path.write_bytes(body)
+    result = min_length_cli(path, "--min-length", minimum, "--format", "html",
+                            expected=expected, total=6)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, "html", expected, path.name, 6)
+    document = result.stdout.decode("utf-8", errors="strict")
+    assert_static_document(HTMLDocument(document))
+    for secret in [str(parent), str(path), parent.name]:
+        assert secret not in document and escape(secret, quote=True) not in document
+    assert path.read_bytes() == body
 
 
 def test_max_count_readme_example(tmp_path):
