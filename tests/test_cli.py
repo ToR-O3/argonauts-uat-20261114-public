@@ -930,6 +930,196 @@ def test_exclude_precedence_success_order(tmp_path, monkeypatch, capfd,
     assert body.read_bytes() == b"apple keep" and excluded.read_bytes() == rows
 
 
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("top", [1, 2, None, 10, 99])
+@pytest.mark.parametrize("reverse", [False, True])
+@pytest.mark.parametrize("content,rows,minimum,expected,total", [
+    ("Zoo apple APPLE zoo banana", "apple", 1, [("zoo", 2), ("banana", 1)], 5),
+    ("Zoo apple APPLE zoo banana", "zoo", 2, [("apple", 2)], 5),
+    # N-1/N/N+1 at N=2; reverse lexical order among the two remaining ties.
+    ("zulu zulu zulu yankee yankee xray xray alpha", "zulu", 2,
+     [("yankee", 2), ("xray", 2)], 8),
+    (LONG_CONTENT, "w" * 256, 1, LONG_PAIRS[1:], 200),
+])
+def test_exclude_selection_matrix(tmp_path, output_format, top, reverse,
+                                   content, rows, minimum, expected, total):
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    body.write_bytes(content.encode("utf-8"))
+    excluded.write_bytes(rows.encode("utf-8"))
+    groups = [["--exclude", excluded], ["--min-count", minimum]]
+    if top is not None:
+        groups.append(["--top", top])
+    if reverse:
+        groups.reverse()
+    options = [arg for group in groups for arg in group]
+    result = run_cli_bytes(body, "--format", output_format, *options)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, expected[:10 if top is None else top],
+                        body.name, total)
+    assert body.read_bytes() == content.encode("utf-8")
+    assert excluded.read_bytes() == rows.encode("utf-8")
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_selection_ties_permutations_seeds(tmp_path, output_format):
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    content = b"removed zulu yankee xray alpha zulu yankee xray removed"
+    body.write_bytes(content)
+    outputs = []
+    for rows in [b"removed\nalpha", b"alpha\nremoved", b"removed\nalpha\nremoved"]:
+        excluded.write_bytes(rows)
+        for seed in ["0", "1", "42"]:
+            result = run_cli_bytes(body, "--exclude", excluded, "--min-count", "2", "--top", "2",
+                                   "--format", output_format,
+                                   env=dict(os.environ, PYTHONHASHSEED=seed))
+            assert (result.returncode, result.stderr) == (0, b"")
+            assert_output_bytes(result.stdout, output_format,
+                                [("zulu", 2), ("yankee", 2)], body.name, 9)
+            outputs.append(result.stdout)
+            assert excluded.read_bytes() == rows
+    assert all(raw == outputs[0] for raw in outputs)
+    assert body.read_bytes() == content
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_selection_preserves_full_counter_and_shared_pairs(tmp_path, monkeypatch,
+                                                                   capfd, output_format):
+    from collections import Counter
+    import wordfreq.__main__ as cli
+    full = Counter({"zoo": 2, "banana": 1, "apple": 2, "café": 2, "rare": 1})
+    original = list(full.items())
+    original_total = sum(full.values())
+    real_count, real_top = cli.count_words, cli.top_words
+    real_format = getattr(cli, "format_" + output_format)
+    selected, calls = [], []
+
+    def count_spy(tokens):
+        assert list(real_count(tokens).items()) == original
+        return full
+
+    def top_spy(candidate, n):
+        assert candidate is not full
+        assert list(full.items()) == original
+        assert list(candidate.items()) == [("apple", 2), ("café", 2)]
+        assert n == 1
+        pairs = real_top(candidate, n)
+        selected.append(pairs)
+        return pairs
+
+    def formatter_spy(pairs, *metadata):
+        assert pairs is selected[0] and pairs == [("apple", 2)]
+        assert metadata == (("body.txt", original_total) if output_format == "html" else ())
+        calls.append(True)
+        return real_format(pairs, *metadata)
+
+    monkeypatch.setattr(cli, "count_words", count_spy)
+    monkeypatch.setattr(cli, "top_words", top_spy)
+    monkeypatch.setattr(cli, "format_" + output_format, formatter_spy)
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    content = "Zoo banana apple APPLE zoo Café CAFÉ rare".encode("utf-8")
+    body.write_bytes(content)
+    excluded.write_bytes(b"zoo\n")
+    with pytest.raises(SystemExit) as caught:
+        cli.main([str(body), "--exclude", str(excluded), "--min-count", "2", "--top", "1",
+                  "--format", output_format])
+    assert caught.value.code == 0 and calls == [True]
+    assert list(full.items()) == original
+    output = capfd.readouterr()
+    assert output.err == ""
+    assert_output_bytes(output.out.encode("utf-8"), output_format, [("apple", 2)],
+                        body.name, original_total)
+    assert body.read_bytes() == content and excluded.read_bytes() == b"zoo\n"
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("content,rows,minimum,total", [
+    (b"", b"apple", 1, 0), (b" \t\r\n ", b"apple", 1, 0),
+    (b"!?,.;: --", b"apple", 1, 0),
+    (b"Zoo apple APPLE zoo banana", b"zoo\napple\nbanana", 1, 5),
+    (b"Zoo apple APPLE zoo banana", b"zoo\napple", 2, 5),
+])
+def test_exclude_empty_results(tmp_path, output_format, content, rows, minimum, total):
+    from test_formatters import HTMLDocument, assert_static_document
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    body.write_bytes(content)
+    excluded.write_bytes(rows)
+    result = run_cli_bytes(body, "--exclude", excluded, "--min-count", minimum,
+                           "--format", output_format)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert_output_bytes(result.stdout, output_format, [], body.name, total)
+    if output_format == "text":
+        assert result.stdout == b""
+    elif output_format == "json":
+        assert result.stdout == b"[]\n"
+    else:
+        document = HTMLDocument(result.stdout.decode("utf-8"))
+        assert_static_document(document)
+        assert document.tagged("td") == [] and len(document.tagged("tr")) == 1
+        assert document.classified("empty-message")[0]["text"] == (
+            "集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。")
+    assert body.read_bytes() == content and excluded.read_bytes() == rows
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("rows", [b"", b" \t\r\n", b" #apple\n#zoo", b"unmatched"])
+def test_exclude_empty_noop_exact_bytes(tmp_path, output_format, rows):
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    content = "Zoo apple APPLE zoo banana Café CAFÉ".encode("utf-8")
+    body.write_bytes(content)
+    excluded.write_bytes(rows)
+    options = ["--format", output_format, "--min-count", "2", "--top", "2"]
+    unset = run_cli_bytes(body, *options)
+    result = run_cli_bytes(body, *options, "--exclude", excluded)
+    assert (result.returncode, result.stderr) == (0, b"")
+    assert (unset.returncode, unset.stderr) == (0, b"")
+    assert result.stdout == unset.stdout
+    assert_output_bytes(result.stdout, output_format, [("zoo", 2), ("apple", 2)], body.name, 7)
+    assert body.read_bytes() == content and excluded.read_bytes() == rows
+
+
+@pytest.mark.parametrize("basename", [
+    '集計  ' + 'n' * 176 + '\n続き\t終わり  &<>"\'.txt',
+    'a\rb\r\nc  \n\t.txt',
+])
+@pytest.mark.parametrize("row_count", [0, 1, 12])
+def test_exclude_ui_static_presentation(tmp_path, basename, row_count):
+    from html import escape
+    from test_formatters import (HTMLDocument, assert_static_document,
+                                 test_complete_fixed_css_contract_is_static_not_browser_acceptance)
+    parent = tmp_path / "private-parent-sensitive"
+    parent.mkdir()
+    body, excluded = parent / basename, tmp_path / "private-exclusion-marker"
+    content = ("removed " + LONG_CONTENT).encode("utf-8")
+    body.write_bytes(content)
+    rows = "removed\n" + ("\n".join(w for w, _ in LONG_PAIRS) if row_count == 0 else "")
+    excluded.write_bytes(rows.encode("utf-8"))
+    result = run_cli_bytes(body, "--exclude", excluded, "--format", "html",
+                           "--top", row_count or 1, env=dict(os.environ, PYTHONIOENCODING="latin-1"))
+    assert (result.returncode, result.stderr) == (0, b"")
+    expected = LONG_PAIRS[:row_count]
+    assert_output_bytes(result.stdout, "html", expected, basename, 201)
+    raw = result.stdout.decode("utf-8", errors="strict")
+    document = HTMLDocument(raw.replace("\r\n", "\n").replace("\r", "\n"))
+    assert_static_document(document)
+    assert document.classified("filename-value")[0]["text"] == basename
+    assert len(document.classified("empty-message")) == (1 if row_count == 0 else 0)
+    if row_count == 0:
+        assert document.classified("empty-message")[0]["text"] == (
+            "集計対象の単語はありません。単語を含む UTF-8 ファイルで再実行してください。")
+    # Static declarations and semantics only, not a browser geometry claim.
+    test_complete_fixed_css_contract_is_static_not_browser_acceptance()
+    for secret in (str(parent), parent.name, str(excluded), excluded.name, "removed"):
+        assert secret not in raw and escape(secret, quote=True) not in raw
+    assert raw.endswith("</html>\n") and "\r" not in raw
+    assert body.read_bytes() == content and excluded.read_bytes() == rows.encode("utf-8")
+
+
+def test_exclude_empty_readme_contract():
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    for phrase in ("空の除外FILE", "コメントのみ", "不一致", "元の正の総数", "総数0"):
+        assert phrase in readme
+
+
 # 04-02 tracer: argument acceptance and pre-I/O rejection (OpenSpec 1.2).
 @pytest.mark.parametrize("output_format", ["text", "json", "html"])
 def test_min_count_argument_tracer(tmp_path, output_format):

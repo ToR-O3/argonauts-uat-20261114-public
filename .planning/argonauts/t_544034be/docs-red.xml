@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.192" timestamp="2026-11-29T02:06:58.629536+09:00" hostname="Ys-Minify"><testcase classname="tests.test_cli" name="test_exclude_empty_readme_contract" time="0.001"><failure message="AssertionError: assert '空の除外FILE' in '# argonauts-uat public\n\nテキストの単語を数えて、多い順に並べるコマンドです。\n\n## wordfreq の実行\n\nリポジトリ直下で、UTF-8 の実ファイルを指定します。Python の標準ライブラ...やcapture成功は独立品質・phase受入の完了ではなく、そのgateは実行までpendingです。CSS・幾何・画像の存在だけで可読性や無通信の合格とはしません。\n検証A: v1.12 の通しの確かめ（2026-11-22）\n'">def test_exclude_empty_readme_contract():
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for phrase in ("空の除外FILE", "コメントのみ", "不一致", "元の正の総数", "総数0"):
+&gt;           assert phrase in readme
+E           AssertionError: assert '空の除外FILE' in '# argonauts-uat public\n\nテキストの単語を数えて、多い順に並べるコマンドです。\n\n## wordfreq の実行\n\nリポジトリ直下で、UTF-8 の実ファイルを指定します。Python の標準ライブラ...やcapture成功は独立品質・phase受入の完了ではなく、そのgateは実行までpendingです。CSS・幾何・画像の存在だけで可読性や無通信の合格とはしません。\n検証A: v1.12 の通しの確かめ（2026-11-22）\n'
+
+tests/test_cli.py:1120: AssertionError</failure></testcase></testsuite></testsuites>
