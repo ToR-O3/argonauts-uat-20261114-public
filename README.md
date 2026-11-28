@@ -18,6 +18,7 @@ python -m wordfreq input.txt --top 2 --format json
 python -m wordfreq input.txt --top 3 --format json
 python -m wordfreq input.txt --top 4 --format json
 python -m wordfreq input.txt --top 3 --format text
+python -m wordfreq input.txt --top 5 --format text
 python -m wordfreq input.txt --format html
 python -m wordfreq input.txt --format html > result.html
 ```
