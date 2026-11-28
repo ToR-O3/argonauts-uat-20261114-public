@@ -3,6 +3,8 @@
 ## 判定と対象
 公式独立gsd-plan-checker第2回: **VERIFICATION PASSED**、BLOCKER0/WARNING0/INFO0。委任deleg_0c6850da、通常completed、truncated=false。これは計画の判定であり製品合格ではない。製品/pytest/ブラウザは未実施。
 
+完了ガードがGSD REQUIREMENTSにBMAD要求の再記述ではなくID/path参照を要求したため、REQ-28〜33を同じ承認PRDのFR-1〜7/RULE-1〜4への直接参照に修正した。対応が複数のGSD IDは複数行でBMAD原本へ対応付け、CONTEXT/PLAN/承認原本の全文契約は変えていない。修正後の独立公式checker deleg_1605c371は通常completed/truncated=false、VERIFICATION PASSED、BLOCKER0/WARNING0/INFO0。3PLANのSHAは不変であり、親の2probeを同じSHAに対して再利用した。checkerは参照先実在・全範囲維持・全観点を再確認した。
+
 受付判断: 2026-11-28T14:45:42.849521+00:00、原文「提案のまま進めてください（1〜5 すべて提案どおり）。」承認原本head17648fc、固定OpenSpec r-e0a2598f-wordfreq-exclude。PM t_9da1db1eの再開判断は設計の直接合成だけを外しplanner直接読取りへ移すこと。製品範囲/受入条件は縮小していない。
 
 ## 原本と最終SHA256
@@ -26,7 +28,7 @@
 - plan:pre: security/nyquist/plan_check/pattern_mapper開始trueを維持。公式研究/パターン調査を実施、AI/外部API/ORMは実scopeにない。drift照会はno-upstream-artifacts/no-structure-mdでadvisory skip、UI gate hasUiSpec=true/block=false。
 - 公式decision coverage: passed=true、11/11、uncovered=[]。最初のCONTEXT bullet形式はcould-not-parseであったため `- **D-NN:**` へ書式だけ直した。内容/PLAN変更なし。再照会合格。初回の進捗更新をcoverage失敗と同じ呼出しで進めた手順順序の注意は保持し、再照会後に進捗を再確認した。
 - plan:postの唯一のactive gate gap-analysis.plan-post: exit0、passed=true/block=false、6REQ＋11D=17/17 covered。
-- state.planned-phaseの初回は更新phase8/plans3。再実行は既に同じ位置のためno-op warning。公式state-snapshotでcurrent_phase8/current_plan1/total_plans_in_phase3を読み戻し、STATE本文Phase8 READY TO EXECUTE/Current Plan1/Total Plans3を確認。frontmatter status=executingは導入版の正規化結果、製品実行開始を主張しない。
+- state.planned-phaseの初回は更新phase8/plans3。再実行はupdated=[]で「Current Position has no recognized labels — transition was a no-op」のwarning。この応答だけを更新成功と扱わず、公式state-snapshotでcurrent_phase8/current_plan1/total_plans_in_phase3を読み戻し、STATE本文Phase8 READY TO EXECUTE/Current Plan1/Total Plans3を確認した。frontmatter status=executing・過去Phase7 activityは残存表示であり、製品実行開始や今回完了を示す証拠にはしない。
 
 ## 独立checker全観点と差戻し
 第1回deleg_efac2620は2BLOCKER: Builder計画内の後続品質実行taskが循環、研究Open QuestionsのRESOLVED記録不足。plannerとresearcherへ各所有原本を戻して修正。第2回は全観点合格:

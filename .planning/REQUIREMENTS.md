@@ -103,14 +103,19 @@ Finalization t_20f1102b: REQ-25/26 `[x]` track the implemented product condition
 
 ## r-e0a2598f Requirements (Phase 8)
 
-Source: t_91b92aed approved head17648fc; BMAD PRD FR-1..7/architecture AD-1..4 and OpenSpec r-e0a2598f-wordfreq-exclude EX-1..5. Merge adds only these requirements; existing history is unchanged. PM t_9da1db1e excludes architecture only from direct synthesis; planner reads the full original.
+### Approved BMAD references — t_91b92aed / head17648fc; full text stays in original PRD and phase CONTEXT
 
-- [ ] **REQ-28**: Optional --exclude FILE removes every occurrence of specified normalized words from ranking in text/json/html, preserves remaining counts/first-seen ties, excludes before min-count/ranking/top, and never subtracts from original HTML total (FR-1/5, EX-1/5, AD-2/4).
-- [ ] **REQ-29**: UTF-8 exclusion lines accept LF/CRLF/no final newline; strip whitespace then ignore blank/#-started lines; validate original whole line with Unicode \\w+ before casefold. Digits/underscore/non-ASCII valid words accepted; multiple words/punctuation/hyphen/standalone combining mark/inline #/leading BOM rejected. Exclusion order/duplicates do not affect results (FR-2/3, EX-2/3, AD-2).
-- [ ] **REQ-30**: Missing/unreadable/directory/invalid UTF-8 and all exclusion read failures report FILE and reason on stderr, exit2, empty stdout/no HTML/no Traceback. Invalid lines also report original line number, including invalid-after-valid and skipped lines. Existing syntax/numeric checks precede exclusion acquisition/full validation; only then acquire body. Invalid exclusions cause zero body reads; valid/absent exclusions preserve body exit1 (FR-4, EX-4, AD-3).
-- [ ] **REQ-31**: --help explains --exclude FILE and line format with exit0; README describes UTF-8/trim/comments/newlines/fullmatch/casefold/errors/precedence/original HTML total/unset compatibility and includes an executable example (FR-6).
-- [ ] **REQ-32**: Add pytest coverage of all accepted/rejected line/read/error/order cases, ASCII/Unicode casefold, all three formats, top/min-count/ties, empty body/empty exclusions/comments-only/no-match/all-excluded. Compare unset stdout bytes to 79d83ba14dd59d289d2ecd3e33c85e8de437972e for ties/Unicode/>10 words/empty input, retain all existing tests. Input and exclusion files remain byte-identical. Independent quality records exact head/commands/exits/results and AC mapping in readable VERIFICATION.md/evidence originals; PM need not open images/archives (FR-7).
-- [ ] **REQ-33**: Keep body tokenizer/casefold, acquisition boundary, pure public count_words/top_words/formatters contracts, static HTML appearance/escaping/basename safety. No new dependency/network/input rewrite/CI change/new source/full refactor. Preserve existing options/defaults/errors when --exclude absent (RULE-1..4, AD-1..4).
+- [ ] **REQ-28**: FR-1（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [ ] **REQ-28**: FR-5（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [ ] **REQ-29**: FR-2（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [ ] **REQ-29**: FR-3（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [ ] **REQ-30**: FR-4（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [ ] **REQ-31**: FR-6（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [ ] **REQ-32**: FR-7（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [ ] **REQ-33**: RULE-1（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [ ] **REQ-33**: RULE-2（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [ ] **REQ-33**: RULE-3（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
+- [ ] **REQ-33**: RULE-4（_bmad-output/initiative-r-e0a2598f/prd/prd-wordfreq-exclude.md）
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
