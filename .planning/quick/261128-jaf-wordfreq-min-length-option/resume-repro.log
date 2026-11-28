@@ -1,0 +1,56 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________________ test_scope_contract_clean_and_append_only ___________________
+
+scope_repo = (PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-jaf-resume-repro/test_scope_contract_clean_and_0/cold'), '6067d920c84f5c4ad2efea27a56c79dbc8c9b24a')
+
+    def test_scope_contract_clean_and_append_only(scope_repo):
+        d = driver()
+        repo, base = scope_repo
+        with (repo / 'tests/test_cli.py').open('a') as stream:
+            stream.write('\ndef test_addition():\n    assert True\n')
+>       result = d.validate_scope(repo, base)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_max_count_verifier.py:241: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+repo = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-jaf-resume-repro/test_scope_contract_clean_and_0/cold')
+base = '6067d920c84f5c4ad2efea27a56c79dbc8c9b24a'
+
+    def validate_scope(repo=ROOT, base=START):
+        repo = Path(repo)
+    
+        def run(*args):
+            return subprocess.run(['git', *args], cwd=repo, capture_output=True,
+                                  check=True, timeout=20).stdout
+    
+        changed = run('diff', '--name-only', '-z', '--no-renames', base).decode().split('\0')
+        changed += run('ls-files', '--others', '--exclude-standard', '-z').decode().split('\0')
+        changed = sorted(set(p for p in changed if p))
+        exact = {'wordfreq/__main__.py', 'tests/test_cli.py', 'README.md',
+                 'tools/verify_wordfreq_max_count.py', 'tests/test_max_count_verifier.py',
+                 'docs/wordfreq-max-count-verification.md', '.planning/STATE.md',
+                 '.planning/ROADMAP.md', '.planning/REQUIREMENTS.md', '.planning/state.json'}
+        prefixes = ('.planning/argonauts/r-d4bcda40', '.planning/phases/07-wordfreq-max-count/',
+                    'openspec/changes/r-d4bcda40-max-count/')
+        for path in changed:
+            if path not in exact and not path.startswith(prefixes):
+                raise ValueError('out-of-scope path: '+path)
+            if not (repo/path).is_file() or (repo/path).is_symlink():
+                raise ValueError('deleted/symlink path: '+path)
+        # Entire inherited tests/helpers remain byte-for-byte; append-only additions.
+        original = run('show', base+':tests/test_cli.py')
+        if not (repo/'tests/test_cli.py').read_bytes().startswith(original):
+            raise ValueError('existing tests changed/deleted/relaxed')
+        approved = {'wordfreq/__main__.py': '9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba',
+                    'README.md': '5a0ca56634033c569765f1c3002962b15357b45821cbfd1245b86862a54aeb3a'}
+        for path, sha in approved.items():
+            if digest(repo/path) != sha:
+>               raise ValueError('unapproved product/README change: '+path)
+E               ValueError: unapproved product/README change: wordfreq/__main__.py
+
+tools/verify_wordfreq_max_count.py:492: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_max_count_verifier.py::test_scope_contract_clean_and_append_only
+1 failed in 0.11s

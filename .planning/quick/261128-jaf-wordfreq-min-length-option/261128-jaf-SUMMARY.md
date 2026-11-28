@@ -1,7 +1,7 @@
 ---
 phase: quick-261128-jaf-wordfreq-min-length-option
 plan: "01"
-status: incomplete
+status: complete
 subsystem: cli
 tags: [wordfreq, min-length, pytest, tdd]
 requires: []
@@ -23,17 +23,33 @@ key-decisions:
   - Preserve full-input HTML total and existing filter/mutation seams
   - Keep historical max-count verification originals unchanged; escalate frozen-hash regression
 started: "2026-11-28T04:59:28Z"
-completed: null
-commits: 2
+completed: "2026-11-28T05:40:29Z"
+commits: 6
 plan_head_before: 7ba06e8e757fb86f93ca6a63b13bdc8110df2777
-plan_head_after: 075ac7f06869b1dd400c2f365e29aac5b6936df8
+plan_head_after: d8ed666d7bc73e60c52f29c4c7fde3a22b7838d5
 actuals:
-  tokens: 2906
-  tasks: 2
-  commits: 2
+  tokens: 7346
+  tasks: 3
+  commits: 6
 ---
 
-# Quick 261128-jaf: Minimum-length selection — partial execution summary
+# Quick 261128-jaf: Minimum-length selection — execution summary
+
+## 再開結果（最新）
+
+Task 3のPM承認済み限定修正を完了。歴史的scope fixtureを当時の製品・READMEへ固定し、現行CLIから分離した。**全tests 1080 passed / exit0 / 291.70s、skipなし**。OpenSpec 1.3は全回帰成功後に完了。Builder実装工程の完了であり、独立品質・verifier再判定・PM受入・CI成功は未確認。
+
+- RED: `c51d7fa` — 現行CLI/README汚染を検出する独立性2件が意図したassertionで失敗。公式分類RED_EVIDENCE_OKをGREEN編集前に確認してRED-only commit。
+- GREEN/Task 3: `d8ed666d7bc73e60c52f29c4c7fde3a22b7838d5` — `scope_repo`と固定fixtureを分離。追加CLI改変拒否を含む対象57 passed / exit0、min_length追加29 passed / exit0。既存clean/append許容、製品/README拒否、固定hashを維持。
+- 出典: `27d359409c585cbb923b42aef3298cf6dfc28094` のPRODUCT全6ファイルとREADMEをgit showのバイト列から取得。全7ファイルは出典とcmp一致。CLI SHA-256 `9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba`、README SHA-256 `5a0ca56634033c569765f1c3002962b15357b45821cbfd1245b86862a54aeb3a` は検証器の既存承認値と完全一致。
+- 今回変更: `tests/test_max_count_verifier.py`、`tests/fixtures/max-count-scope/`（歴史的7ファイル＋PROVENANCE）、`openspec/changes/r-1bae0a69-light/tasks.md`。製品・README・検証器・過去原本・固定hashは無変更。skip/xfail・assert削除・hash緩和なし。
+- `git diff --check` exit0、READMEのHEAD/worktree・index差分0 bytes。再開開始HEADからの製品・検証器・過去原本・STATE・ROADMAP・VERIFICATION差分0 bytes。
+- 最新詳細はEVIDENCE「Task 3再開」および`resume-*.log/.exit`。過去ログを上書きしていない。
+- docs commit・STATE完了一覧・verifierは親担当。SUMMARY/EVIDENCEとresume-*証拠は未commitで引継ぐ。VERIFICATIONの旧gaps_foundはそのまま保持。
+- commit数6は初回base `7ba06e8e757fb86f93ca6a63b13bdc8110df2777..d8ed666` の全commit実測（コード4＋既存docs2）。actuals.tokens=7346は同rangeのwordfreq/tests/今回OpenSpec差分29384文字/4のfloor、実行消費ではない。
+- Self-check: Task 1/2、今回RED/GREENが全てHEAD ancestor。固定fixture・SUMMARY/EVIDENCE・実ログが存在。今回コードはcommit済み。追加refactorなし。
+
+## 初回実行時の履歴（以下は再開前の未完了状態を保持）
 
 正規化後の語に `--min-length N` を適用する機能とhelpを実装し、追加29試験は成功。全回帰に過去の固定承認ハッシュとの衝突が1件あり、計画全体は未完了。
 

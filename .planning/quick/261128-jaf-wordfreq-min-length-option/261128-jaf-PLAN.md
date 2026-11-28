@@ -123,8 +123,10 @@ Task 1に続いて上記各試験を一挙動ずつ先に追加・実行する�
 
 <task type="auto">
   <name>Task 3: 全回帰と変更範囲を確認し、品質へ可読証拠を渡す</name>
-  <files>.planning/quick/261128-jaf-wordfreq-min-length-option/261128-jaf-EVIDENCE.md</files>
+  <files>tests/test_max_count_verifier.py, tests/fixtures/max-count-scope/, .planning/quick/261128-jaf-wordfreq-min-length-option/261128-jaf-EVIDENCE.md</files>
   <action>
+再開時の限定修正（PM判断 t_481cc860、元カードコメント208）: 過去max-countの固定承認hashに対して現行CLIコピーを使うscope_repoが今回の正当な変更を拒否したため、scope_repoと必要最小限の固定データ・判別試験のみを歴史的承認製品へ分離する。既存履歴または原本の出典commit/pathを特定し、固定承認hashとの一致を実測・記録する。先に失敗を再現し、fixture独立性の試験をREDで確認してから修正する。現行出力から期待値を生成しない。tools/verify_wordfreq_max_count.py、過去固定hash・検証原本、README.md、承認済み製品動作は変更しない。既存の追記許容・製品/README無許可変更拒否を保持し、skip/xfail、assert削除、hash照合緩和は禁止。対象・追加・全回帰を再実行し、全回帰成功後だけTask3/OpenSpec1.3を完了にする。同じQuickを再利用し、新規Quickは作らない。
+
 既存の環境でpython3 --versionとpython3 -m pytest --versionを記録し、追加依存のinstallはしない。pytestが利用不可なら既存のプロジェクト用環境を調べて利用し、環境と正確な実行コマンドを記録する。利用可能な環境がなければ未実施のblockerとして親へ返し、合格としない。公式GSD判定にはランチャーを使う。
 
 追加試験を実行後、python3 -m pytest tests -qで全既存試験を含めて実行する。開始時の既存失敗を除去したことにせず、実際の失敗・skip・件数・exitを明記する。git diff --check、git diff HEAD -- README.md、git diff --cached -- README.md、git status --shortで変更範囲を確認する。README差分があれば完了としない。他者変更を勝手に戻さず親へ報告する。

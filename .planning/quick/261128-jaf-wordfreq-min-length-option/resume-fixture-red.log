@@ -1,0 +1,66 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+____ test_scope_fixture_independent_of_current_files[wordfreq/__main__.py] _____
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-jaf-resume-red/test_scope_fixture_independent0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x79d5a695f490>
+request = <FixtureRequest for <Function test_scope_fixture_independent_of_current_files[wordfreq/__main__.py]>>
+name = 'wordfreq/__main__.py'
+
+    @pytest.mark.parametrize('name', ['wordfreq/__main__.py', 'README.md'])
+    def test_scope_fixture_independent_of_current_files(tmp_path, monkeypatch, request, name):
+        # Poison a stand-in current checkout, never the real product or README.
+        source = tmp_path / 'current'
+        d = driver()
+        for path in (*d.PRODUCT, 'README.md', 'tests/test_cli.py', 'pyproject.toml'):
+            target = source / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes((ROOT / path).read_bytes())
+        marker = b'\n# current-checkout contamination\n'
+        with (source / name).open('ab') as stream:
+            stream.write(marker)
+        monkeypatch.setattr(__import__(__name__, fromlist=['ROOT']), 'ROOT', source)
+        repo, base = request.getfixturevalue('scope_repo')
+>       assert not (repo / name).read_bytes().endswith(marker), 'scope fixture copied current files'
+E       AssertionError: scope fixture copied current files
+E       assert not True
+E        +  where True = <built-in method endswith of bytes object at 0x3c972be0>(b'\n# current-checkout contamination\n')
+E        +    where <built-in method endswith of bytes object at 0x3c972be0> = b'"""Command-line argument parsing and component composition."""\nimport argparse\nfrom collections import Counter\nim...tdout.write(output)\n    sys.exit(0)\n\n\nif __name__ == "__main__":\n    main()\n\n# current-checkout contamination\n'.endswith
+E        +      where b'"""Command-line argument parsing and component composition."""\nimport argparse\nfrom collections import Counter\nim...tdout.write(output)\n    sys.exit(0)\n\n\nif __name__ == "__main__":\n    main()\n\n# current-checkout contamination\n' = read_bytes()
+E        +        where read_bytes = (PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-jaf-resume-red/test_scope_fixture_independent0/cold') / 'wordfreq/__main__.py').read_bytes
+
+tests/test_max_count_verifier.py:250: AssertionError
+__________ test_scope_fixture_independent_of_current_files[README.md] __________
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-jaf-resume-red/test_scope_fixture_independent1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x79d5a695fe10>
+request = <FixtureRequest for <Function test_scope_fixture_independent_of_current_files[README.md]>>
+name = 'README.md'
+
+    @pytest.mark.parametrize('name', ['wordfreq/__main__.py', 'README.md'])
+    def test_scope_fixture_independent_of_current_files(tmp_path, monkeypatch, request, name):
+        # Poison a stand-in current checkout, never the real product or README.
+        source = tmp_path / 'current'
+        d = driver()
+        for path in (*d.PRODUCT, 'README.md', 'tests/test_cli.py', 'pyproject.toml'):
+            target = source / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes((ROOT / path).read_bytes())
+        marker = b'\n# current-checkout contamination\n'
+        with (source / name).open('ab') as stream:
+            stream.write(marker)
+        monkeypatch.setattr(__import__(__name__, fromlist=['ROOT']), 'ROOT', source)
+        repo, base = request.getfixturevalue('scope_repo')
+>       assert not (repo / name).read_bytes().endswith(marker), 'scope fixture copied current files'
+E       AssertionError: scope fixture copied current files
+E       assert not True
+E        +  where True = <built-in method endswith of bytes object at 0x3c98c980>(b'\n# current-checkout contamination\n')
+E        +    where <built-in method endswith of bytes object at 0x3c98c980> = b'# argonauts-uat public\n\nwordfreq \xe3\x81\xaf\xe3\x80\x81\xe3\x83\x86\xe3\x82\xad\xe3\x82\xb9\xe3\x83\x88\xe3\x81\...e3\x81\xae\xe7\xa2\xba\xe3\x81\x8b\xe3\x82\x81\xef\xbc\x882026-11-22\xef\xbc\x89\n\n# current-checkout contamination\n'.endswith
+E        +      where b'# argonauts-uat public\n\nwordfreq \xe3\x81\xaf\xe3\x80\x81\xe3\x83\x86\xe3\x82\xad\xe3\x82\xb9\xe3\x83\x88\xe3\x81\...e3\x81\xae\xe7\xa2\xba\xe3\x81\x8b\xe3\x82\x81\xef\xbc\x882026-11-22\xef\xbc\x89\n\n# current-checkout contamination\n' = read_bytes()
+E        +        where read_bytes = (PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-jaf-resume-red/test_scope_fixture_independent1/cold') / 'README.md').read_bytes
+
+tests/test_max_count_verifier.py:250: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_max_count_verifier.py::test_scope_fixture_independent_of_current_files[wordfreq/__main__.py]
+FAILED tests/test_max_count_verifier.py::test_scope_fixture_independent_of_current_files[README.md]
+2 failed, 54 deselected in 0.15s

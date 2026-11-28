@@ -2,7 +2,9 @@
 
 ## 結論と対象状態
 
-**Task 1/2完了、Task 3未完了。全回帰を合格とは報告しない。**
+**再開後: Task 1/2/3完了。全回帰1080 passed / exit0。独立品質・PM受入・CIは未確認。**
+
+以下の初回記録は失敗履歴として保持する。最新状態・出典・再実行結果は末尾「Task 3再開」を正本とする。VERIFICATION.mdは過去のgaps_foundのまま変更せず、親の再判定対象。
 
 - workspace: `/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e`
 - 開始HEAD: `7ba06e8e757fb86f93ca6a63b13bdc8110df2777`
@@ -135,3 +137,59 @@ Task 1の機械分類はGREEN後に実施しており、事前認可としては
 - 独立品質の再実行・受入、PMの原本読取り、CI結果は未実施。
 - STATE更新、通常phase advance/complete、push/PR/merge/kanban操作はユーザー指定により未実施。
 - README/既存原本/依存変更なし。SUMMARY/EVIDENCE/ログ/補助スクリプトはcommitしていない。
+
+## Task 3再開 — PM承認済みfixture分離と全回帰
+
+### 対象と修正範囲
+
+- 再開開始HEAD: `e0681a88729290f8cdc24ee1596781bd0330f91f`、branch `wt/t_23cd547e`、SEQUENTIAL=true。同じworkspaceのみ。開始dirtyは親が変更したPLANのみ。
+- PM承認 `t_481cc860` / 元カードコメント208をPLAN Task 3から読取り。追加Quickなし。
+- RED commit: `c51d7fa`。GREEN/Task 3 commit: `d8ed666d7bc73e60c52f29c4c7fde3a22b7838d5`。
+- 全回帰実行時HEADはRED commitで、fixture修正・固定データ・CLI拒否paramは未commit。全回帰成功後にOpenSpec 1.3をチェックし、同じ検証済みコードをGREEN commitへ保存。製品は再開開始から無変更。
+- 修正: `scope_repo`のPRODUCT全6ファイルとREADMEのみを固定歴史fixtureからコピー。test_cli.pyとpyproject.tomlは従来どおり現在の入力。固定fixture rootは`__file__`由来で現行ROOTに依存しない。
+- 新規試験2件は一時的な偽current checkoutのCLI/READMEへmarkerを追記し、fixtureが取り込まないこととclean scope成功を検査する。実製品・READMEは編集しない。
+- 既存append-only成功、7種damage拒否を保持。追加CLI改変拒否1件も成功。skip/xfail・assert削除・hash緩和なし。検証器・過去原本・固定hashは無変更。
+
+### 出典の実測
+
+出典commit: `27d359409c585cbb923b42aef3298cf6dfc28094`。
+`git show <commit>:<path>` のstdoutバイト列を `tests/fixtures/max-count-scope/<path>` に保存。現行出力から期待値を生成していない。
+全7ファイルのsourceバイト列とfixtureを再度 `git show ... | cmp - ...` で比較し全一致 (`resume-source-match.log`)。各SHA-256は `resume-source-hashes.txt` およびfixtureの`PROVENANCE.md`に記載。
+
+- 出典path `wordfreq/__main__.py`: `9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba`。
+- 出典path `README.md`: `5a0ca56634033c569765f1c3002962b15357b45821cbfd1245b86862a54aeb3a`。
+- 上記は変更していない `validate_scope` の固定承認hashと完全一致。新規fixtureは過去証拠原本の置換ではなく、historical scope unit testだけの入力。
+
+### 実コマンドと順序
+
+共通環境（各pytestへ個別のbasetemp引数、exportによる子pytest衝突なし）:
+
+```sh
+export SEQUENTIAL=true PYTHONDONTWRITEBYTECODE=1
+unset PYTEST_ADDOPTS
+export PY=/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python
+export Q=.planning/quick/261128-jaf-wordfreq-min-length-option
+```
+
+Python 3.14.7 / pytest 9.2.0を再確認。installなし。下表の各コマンドは `"$PY" -m pytest` に続く引数であり、consoleは同名.logへstdout/stderr両方を保存、実exitは同名.exitへ保存した。
+
+|順序|引数|実測|ログstem|
+|---|---|---|---|
+|1 既存失敗再現|`tests/test_max_count_verifier.py::test_scope_contract_clean_and_append_only -q --basetemp="$TMPDIR/quick-jaf-resume-repro"`|1 failed / exit1 / 0.11s、固定hash不一致のValueError|resume-repro|
+|2 新規独立性RED、修正前|`tests/test_max_count_verifier.py -k scope_fixture_independent -q --basetemp="$TMPDIR/quick-jaf-resume-red" --junitxml="$Q/resume-fixture-red.xml"`|2 failed, 54 deselected / exit1 / 0.15s。両方ともmarkerを取り込む意図したassertion失敗|resume-fixture-red|
+|3 fixture修正後|`tests/test_max_count_verifier.py -q --basetemp="$TMPDIR/quick-jaf-resume-scope"`|56 passed / exit0 / 10.38s|resume-scope-green|
+|4 min_length追加試験|`tests/test_cli.py -k min_length -q --basetemp="$TMPDIR/quick-jaf-resume-min-length"`|29 passed, 650 deselected / exit0 / 3.17s|resume-min-length|
+|5 CLI拒否param追加後|`tests/test_max_count_verifier.py -q --basetemp="$TMPDIR/quick-jaf-resume-scope-final"`|57 passed / exit0 / 10.33s|resume-scope-final|
+|6 全tests|`tests -q --basetemp="$TMPDIR/quick-jaf-resume-full"`|1080 passed / exit0 / 291.70s、fail/error/skipなし|resume-regression|
+
+RED XMLをjqの`--rawfile`で無改変のままrecord JSONへ格納した。公式launcherを各GSDコマンドでsourceし、`gsd_run check tdd-red-evidence "$Q/resume-fixture-red.json" --raw` を**GREEN編集前**に実行。`resume-fixture-red-verdict.json` は **RED_EVIDENCE_OK / tests2, fail2, report_errors=[]**。logを読取り、対象assertionが動作しfixture/load/syntax失敗でないことを確認後RED-only commit、その後fixture修正。CLI拒否paramは既存拒否挙動のcoverage GREENであり新たなREDとは呼ばない。refactorなし。初回Task 1分類がGREEN後だった事実は上記履歴を保持し、今回の事前分類で遡って適合したとは主張しない。
+
+### 最終範囲確認と引継ぎ
+
+- GREEN後HEADは `resume-final-head.txt`。コードcommit前後とも`git diff --check` exit0 (`resume-diff-check.log/.exit`)。
+- READMEのHEAD/worktreeとindex比較は0 bytes (`resume-readme-head.diff`, `resume-readme-index.diff`)。
+- 再開開始→最終HEADの製品、README、検証器、過去原本、STATE、ROADMAP、VERIFICATION差分も0 bytes (`resume-protected.diff`)。
+- 追加は独立性2件＋CLI拒否1件で、元1077件から全1080件へ。以前の1076pass/1failは削除・上書きせず保存。
+- OpenSpec 1.3は全回帰exit0を読取り確認した後のみ完了。Task名・順序変更なし。
+- コード・fixture・OpenSpecはcommit済み。親のPLAN、今回SUMMARY/EVIDENCE、resume-*ログはdocs担当の親へ未commitで引継ぐ。STATE完了一覧・ROADMAP・VERIFICATIONは編集していない。
+- ML-FR-4 / ML-3のBuilder全回帰条件を今回満たした。独立品質の再実行、verifier再判定、PM受入、CIは未確認であり別工程。旧VERIFICATIONのgaps_foundを本Builderが書き換えていない。

@@ -1,20 +1,44 @@
 ---
 phase: quick-261128-jaf-wordfreq-min-length-option
-verified: 2026-11-28T05:23:32Z
-status: gaps_found
-score: 5/6 must-haves verified
+verified: 2026-11-28T05:45:44Z
+status: passed
+score: 6/6 must-haves verified
 behavior_unverified: 0
 overrides_applied: 0
+re_verification:
+  previous_status: gaps_found
+  previous_score: 5/6
+  gaps_closed:
+    - "歴史的max-count scope fixtureと現行CLIの固定hash衝突を、承認済み過去製品へのfixture分離で解消。"
+    - "修正後の全回帰1080 passed / exit0の保存済み実測とTask 3・OpenSpec 1.3完了を確認。"
+  gaps_remaining: []
+  regressions: []
+gaps: []
+human_verification: []
 covered_files:
   - .planning/quick/261128-jaf-wordfreq-min-length-option/261128-jaf-EVIDENCE.md
   - .planning/quick/261128-jaf-wordfreq-min-length-option/261128-jaf-PLAN.md
   - .planning/quick/261128-jaf-wordfreq-min-length-option/261128-jaf-SUMMARY.md
-  - .planning/quick/261128-jaf-wordfreq-min-length-option/baseline-corrected.log
-  - .planning/quick/261128-jaf-wordfreq-min-length-option/blocker-reproduction.log
-  - .planning/quick/261128-jaf-wordfreq-min-length-option/regression.log
+  - .planning/quick/261128-jaf-wordfreq-min-length-option/resume-min-length.exit
+  - .planning/quick/261128-jaf-wordfreq-min-length-option/resume-min-length.log
+  - .planning/quick/261128-jaf-wordfreq-min-length-option/resume-regression.exit
+  - .planning/quick/261128-jaf-wordfreq-min-length-option/resume-regression.log
+  - .planning/quick/261128-jaf-wordfreq-min-length-option/resume-scope-final.exit
+  - .planning/quick/261128-jaf-wordfreq-min-length-option/resume-scope-final.log
+  - .planning/quick/261128-jaf-wordfreq-min-length-option/verifier-resume-min-length.log
+  - .planning/quick/261128-jaf-wordfreq-min-length-option/verifier-resume-provenance.log
+  - .planning/quick/261128-jaf-wordfreq-min-length-option/verifier-resume-scope.log
   - README.md
   - openspec/changes/r-1bae0a69-light/specs/wordfreq-cli/spec.md
   - openspec/changes/r-1bae0a69-light/tasks.md
+  - tests/fixtures/max-count-scope/PROVENANCE.md
+  - tests/fixtures/max-count-scope/README.md
+  - tests/fixtures/max-count-scope/wordfreq/__init__.py
+  - tests/fixtures/max-count-scope/wordfreq/__main__.py
+  - tests/fixtures/max-count-scope/wordfreq/aggregator.py
+  - tests/fixtures/max-count-scope/wordfreq/formatters.py
+  - tests/fixtures/max-count-scope/wordfreq/sources.py
+  - tests/fixtures/max-count-scope/wordfreq/tokenizer.py
   - tests/fixtures/min-length-default.html
   - tests/test_cli.py
   - tests/test_max_count_verifier.py
@@ -23,128 +47,141 @@ covered_files:
   - wordfreq/aggregator.py
   - wordfreq/formatters.py
   - wordfreq/tokenizer.py
-covered_digest: "v4:sha256:d2af157f0d5390de8e61467fab7738d3131ec72c64d54f06125606ec9cd3f161"
-gaps:
-  - truth: "追加試験と既存全pytestの実測証拠があり、未知引数REDと比較境界の検出証拠を区別できる。加えてML-FR-4・ML-3・Task 3が要求する全回帰失敗なしを満たす。"
-    status: partial
-    reason: "実測証拠とREDの区別は存在するが、全回帰は1076 passed / 1 failed / exit1。修正済み開始baselineは1048 passed / exit0であり、新たな失敗を既存失敗として除外できない。Task 3とOpenSpec 1.3は未完了。"
-    artifacts:
-      - path: tests/test_max_count_verifier.py
-        issue: "scope_repoが現在の製品をコピーし、test_scope_contract_clean_and_append_onlyが歴史的固定hashを持つ検証器で拒否される。"
-      - path: tools/verify_wordfreq_max_count.py
-        issue: "488–492行の過去max-count承認hashと現在のwordfreq/__main__.pyが不一致。既存原本は変更していない。"
-      - path: openspec/changes/r-1bae0a69-light/tasks.md
-        issue: "1.3は未チェックのまま。"
-    missing:
-      - "過去の承認証拠を改竄・弱体化しない方法で、歴史的scope fixtureと現在製品の衝突を解消する範囲判断と修正。"
-      - "修正後の既存全回帰失敗なしの実測証拠、およびそれに基づくTask 3・OpenSpec 1.3の完了判断。"
+covered_digest: "v4:sha256:538ac77a477cc570ac0b83387f4f8f53bfddead4ef2f8a1e5850e7945e06bdf1"
 ---
 
-# Quick 261128-jaf — Verification
+# Quick 261128-jaf — 再検証
 
-## 判定
+## 判定・対象
 
-**gaps_found — 機能の追加は確認したが、Quick全体は未達。** 初回検証。通常ROADMAP phaseの完了判定、seal、advance、受入承認は行っていない。
+**passed — 6/6 must-haves verified。前回の全回帰BLOCKERは解消。**
 
-目標: `--min-length N` を追加し、既定1、casefold後の長さによる全形式共通選択、既定互換、help、README無変更、全回帰成功を満たす。
+公式Quick --validate Step 6.5の再検証。旧gaps_found原本は `e0681a8:.planning/quick/261128-jaf-wordfreq-min-length-option/261128-jaf-VERIFICATION.md` で確認した（5/6）。PM判断 `t_481cc860` に基づく更新済みPLAN Task 3を適用し、元の全回帰成功条件を免除していない。overrideなし。
 
-対象workspace: `/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e`。
-独立確認時HEAD: `075ac7f06869b1dd400c2f365e29aac5b6936df8`。開始HEAD: `7ba06e8e757fb86f93ca6a63b13bdc8110df2777`。
-確認開始時の `git status --short` は `?? .planning/quick/` のみ。製品・試験に未commit差分なし。
+- 目標: `--min-length N`による正規化後の語長選択を既定互換・全形式共通で提供し、help、README不変、追加・既存全試験成功の証拠を揃える。
+- workspace: `/home/Yuki/workspace/argonauts-uat-v111-20261122/work/v112-b/.worktrees/t_23cd547e`
+- HEAD: `d8ed666d7bc73e60c52f29c4c7fde3a22b7838d5`
+- 開始dirty: 親のPLAN/SUMMARY/EVIDENCE更新とresume-*証拠のみ。製品・試験の未commit差分なし。本verifierはVERIFICATIONと自身のログ3本のみ変更した。
+- 本判定は製品・試験成果の検証。完全なTDD工程準拠、PM受入、CI成功、通常phase完了・seal・advanceは認定しない。
 
 ## Observable Truths
 
-| # | PLANのtruth / 必須完了条件 | 判定 | 根拠 |
+| # | PLAN must-have | 判定 | 実コード・実証拠 |
 |---|---|---|---|
-| 1 | N未満のみ除外、Nちょうど・超過を全形式で保持、抽出・casefold後の長さ | VERIFIED | `__main__.py:37–42`、`tokenizer.py:18`。boundary/casefold/unicodeの実CLI試験が独立再実行で成功。 |
-| 2 | 長さ・頻度上下限をtop前に選択、同頻度の正規化後初出順 | VERIFIED | `__main__.py:39–43`、`aggregator.py:17`の安定ソート。composition/tie_orderが全形式で成功。 |
-| 3 | HTML元総数は全入力の総出現数で、選択・top・全除外で減らない | VERIFIED | `__main__.py:38,49`、`formatters.py:115`。compositionのtotal8、emptyのtotal2を実CLI試験で確認。 |
-| 4 | 省略と明示1が全形式で変更前固定stdout/stderr/exitに一致 | VERIFIED | `test_cli.py:820–831`。固定text/json literalと完全HTML fixtureへの個別比較6例が成功。Builderの製品編集前確認は `default-before.log` / EVIDENCE:55,71参照。現在の2出力同士だけを比較する試験ではない。 |
-| 5 | helpが選択肢・N文字未満除外・既定1を説明しREADME不変 | VERIFIED | `__main__.py:19–20`、help試験成功。HEAD/worktree、index、開始HEAD→現在HEADのREADME差分は全て空。 |
-| 6 | 追加・既存全pytestの証拠とRED区別、かつ全回帰失敗なし | FAILED — BLOCKER | 証拠とRED区別は成立。ただしPLAN Task 3 done・success criteria、PRD ML-FR-4、OpenSpec ML-3が要求する全回帰成功は不成立。`regression.log:69–70`は1 failed, 1076 passed。 |
+| 1 | N未満だけ除外、Nちょうどと超過を全形式で残す。抽出・casefold後の長さ | VERIFIED | `wordfreq/tokenizer.py:18`でcasefoldし、`__main__.py:37–42`で集計キーへ`len(word) >= args.min_length`。boundary/casefold/unicodeの独立実CLI試験成功。 |
+| 2 | 長さ・頻度上下限をtop前に適用し、同頻度の正規化後初出順を維持 | VERIFIED | main:39–43でCounterの挿入順を保持した非破壊選択後にtop。`aggregator.py:17`は安定ソート。composition/tie_order成功。 |
+| 3 | HTML元総数は全入力の総出現数で、選択・top・全除外によって減らない | VERIFIED | main:38で選択前totalを保存、49でHTMLへ渡す。`formatters.py:115`で表示。compositionのtotal8、emptyのtotal2を試験。 |
+| 4 | 省略と明示1が変更前固定stdout/stderr/exitと全形式で一致 | VERIFIED | `tests/test_cli.py:820–831`の別パラメータ6例が固定text/json literalと完全HTMLへ比較し成功。既定値はmain:19。既定2出力同士の比較ではない。製品編集前の固定確認履歴はEVIDENCE:55–76。 |
+| 5 | helpに値指定・N文字未満除外・既定1がありREADME不変 | VERIFIED | main:19–20、test_cli:912–918。独立help試験成功。READMEの開始HEAD→HEAD、HEAD/worktree、index比較はいずれも差分なし。 |
+| 6 | 追加・全pytest実測があり、未知引数REDと境界検出を区別。全回帰失敗なし | VERIFIED | 最新保存ログは追加29、対象57、全1080 passed、各.exit=0。独立再実行は追加29とscope12成功。未知引数、選択欠落、比較変異を区別（下記）。Task 3/OpenSpec 1.3完了を確認。 |
 
-**Score: 5/6。** 第6truthの字義上の「証拠がある」は満たすが、PLAN全体の全回帰成功条件を弱めないよう同じ行へ統合した。証拠不足や未実施ではなく、実行済みの失敗である。behavior-unverified項目、受諾済みoverride、後続phaseへの明示的deferはない。
+**Score: 6/6。behavior_unverified=0。** 前回同様、第6truthにはPLAN Task 3 done・success criteriaおよびML-FR-4/ML-3の「全回帰失敗なし」を含めた。prohibitions/backstop/human-checkの追加宣言、後続phaseへのdeferはない。
 
-## Required Artifacts / Key Links / Data Flow
+## Required Artifacts
 
-公式 `gsd_run query verify.artifacts <PLAN>` は **all_passed=true, 4/4**。`wordfreq/__main__.py`、`tests/test_cli.py`、固定HTML fixture、EVIDENCEを実際に読んで内容を確認した。fixtureはtotal4とbb/a/cccの完全文書で、実行時に製品から期待値を生成していない。
+公式 `gsd_run query verify.artifacts <PLAN>`: **all_passed=true / 4/4**。全て読取り済みで存在だけの判定ではない。
 
-公式 `gsd_run query verify.key-links <PLAN>` は **all_verified=false, 1/4**（fixture参照のみ検出）。他の3件は `Target not referenced in source`。これを成功へ読み替えず、以下のPython相対import・実呼出しを手動追跡し、実CLI試験で配線を確認した。tokenizerがmainを参照する必要はなく、mainがtokenizerを呼ぶ。
-
-| PLAN key link | 実配線・データ源 | 判定 |
+| Artifact | 実体・接続 | 判定 |
 |---|---|---|
-| tokenizer → main | main:10のimport、main:33の実ファイル読取り → main:37の `count_words(iter_tokens(text))`。tokenizer:18でcasefold済み語を生成。 | WIRED / FLOWING |
-| main → aggregator | main:7、37–43。全countsからtotal保存、挿入順を保つ新Counterで選択し `top_words` へ渡す。 | WIRED / FLOWING |
-| main → formatters | main:8、43–58。同じpairsを全形式へ渡し、HTMLは選択前totalを使用、stdoutへ書込み。 | WIRED / FLOWING |
-| CLI試験 → 固定fixture | test_cli:828–831でfixtureをread_bytesし、省略・明示1のstdoutと個別比較。 | WIRED |
+| `wordfreq/__main__.py` | type=int/default1の引数、語長条件、helpを共通実行経路で使用 | VERIFIED |
+| `tests/test_cli.py` | 固定互換・境界・casefold・Unicode・合成・順序・空・help・変異試験 | VERIFIED |
+| `tests/fixtures/min-length-default.html` | total4、bb/a/cccの完全HTML固定原本。試験のread_bytesから比較へ接続 | VERIFIED |
+| `261128-jaf-EVIDENCE.md` | 初回失敗履歴とTask 3再開の対象状態・出典・環境・コマンド・結果・要求対応を分離 | VERIFIED |
 
-## 独立実行と保存済み実ログ
+## Key Links / Data-Flow Trace
 
-### このverifierによる追加試験の独立再実行
+公式 `gsd_run query verify.key-links <PLAN>` は **all_verified=false / 1/4、exit1**。fixture参照のみ機械検出、他3件は `Target not referenced in source`。この機械結果を改変・成功扱いしていない。Python相対importと呼出しを手動で追跡し、独立実CLI試験で次の実接続を検証した。
 
-repo rootで実行（追加installなし、既存cache環境を使用）:
+| PLAN link | 実配線・データ源 | 判定 |
+|---|---|---|
+| tokenizer → main | main:10のimport、33のFileSource実ファイル読取り→37の`count_words(iter_tokens(text))`。tokenizer:18のcasefold結果をキーにする。tokenizer側がmainをimportする設計ではない。 | WIRED / FLOWING |
+| main → aggregator | main:7,37–43。全countsからtotal保存、元countsを変更しないCounter選択、top_words呼出し。 | WIRED / FLOWING |
+| main → formatters | main:8,43–58。同じpairsをtext/json/htmlへ渡し、HTMLには元totalを渡してstdoutへ出力。静的fallbackなし。 | WIRED / FLOWING |
+| CLI試験 → 固定HTML | test_cli:828–831のread_bytesとstdout完全比較。省略・明示1はそれぞれ固定原本へ比較。 | WIRED |
+
+## 前回gapの閉鎖 — 歴史的scope fixture
+
+元の失敗は現行製品コピーと過去固定承認hashの混在だった。`tests/test_max_count_verifier.py:216–236`はPRODUCT全6ファイルとREADMEのみを `tests/fixtures/max-count-scope/` から読み、test_cli.pyとpyproject.tomlは従来どおり現在のROOTから読む。固定rootは`__file__`由来で、可変ROOTへ依存しない。
+
+- PROVENANCEの出典commit `27d359409c585cbb923b42aef3298cf6dfc28094` に対し、全7ファイルを独立に `git show <commit>:<path> | cmp - tests/fixtures/max-count-scope/<path>` で照合し全一致。`verifier-resume-provenance.log`にMATCHとSHA-256を保存。
+- 固定CLI SHA-256: `9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba`。
+- 固定README SHA-256: `5a0ca56634033c569765f1c3002962b15357b45821cbfd1245b86862a54aeb3a`。
+- `tools/verify_wordfreq_max_count.py:488–492`の承認値と一致。現行CLIは`76d94464a947552d8036d1848440acca1c6975424c966bf37a8d5ed702cba246`のままであり、現行hashを承認値へ追加していない。
+- 独立性2件は偽current checkoutへCLI/README markerを追加し、scope_repoが取り込まないこととclean検証成功をassertする（239–256）。既存append-only成功（259–266）、既存7種＋追加CLI改変の拒否（269–286）を独立再実行して成功。
+- `git diff e0681a8 HEAD -- tests/test_max_count_verifier.py`で既存assert削除・skip・xfail・hash緩和なしを確認。再開開始→HEADの製品・README・tools・過去runbook差分なし。前回の失敗を無関係な既存失敗と再分類したのではなく、fixture修正で解消した。
+
+## Behavioral Spot-Checks / 保存済み全回帰証拠
+
+### 本verifierによる独立実行
+
+repo root、既設cache Pythonを使用。installなし。`unset PYTEST_ADDOPTS`、`export PYTHONDONTWRITEBYTECODE=1`、`set -o pipefail`を設定し、各stdout/stderrをteeで自身のログへ保存。basetempは個別の引数のみ。
 
 ```sh
-unset PYTEST_ADDOPTS
-PYTHONDONTWRITEBYTECODE=1 /home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python -m pytest tests/test_cli.py -k min_length -q -p no:cacheprovider --basetemp="$TMPDIR/quick-261128-jaf-verifier-targeted"
+/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python -m pytest tests/test_cli.py -k min_length -q -p no:cacheprovider --basetemp="$TMPDIR/quick-261128-jaf-verifier-resume-min"
+/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python -m pytest tests/test_max_count_verifier.py -k 'scope_fixture_independent or scope_contract' -q -p no:cacheprovider --basetemp="$TMPDIR/quick-261128-jaf-verifier-resume-scope"
 ```
 
-実出力: **`29 passed, 650 deselected in 2.74s`、exit0**。boundary/casefold/unicode/composition/tie_order/empty/default_fixed/tracer/helpと3種のcold-copy判別試験を含む。管理scratch以外の製品コピーを編集していない。
+| 対象 | 実測 | 自身のログ |
+|---|---|---|
+| min_length全追加挙動・変異判別 | **29 passed, 650 deselected in 3.60s / exit0** | `verifier-resume-min-length.log` |
+| scope独立性・clean/append許容・改変拒否 | **12 passed, 45 deselected in 0.88s / exit0** | `verifier-resume-scope.log` |
 
-### 全回帰と単独失敗の証拠（Builderの保存済み実ログを読取り）
+### Builderの保存済み実ログを読取り照合（独立全回帰ではない）
 
-| 証拠 | 実行 | 実測 | 判定 |
-|---|---|---|---|
-| `baseline-corrected.log` / `.exit` | cache Python `-m pytest tests -q --basetemp="$TMPDIR/quick-261128-jaf-baseline"` | 1048 passed in 246.37s / exit0 | 製品変更前の修正済みbaseline |
-| `final-targeted.log`（EVIDENCE対応表） | cache Python `-m pytest tests/test_cli.py -k min_length -q`、管理basetemp指定 | 29 passed, 650 deselected / exit0 | Builder追加試験。上記独立実行と区別 |
-| `regression.log` / `.exit` | cache Python `-m pytest tests -q --basetemp="$TMPDIR/quick-261128-jaf-regression"` | 1 failed, 1076 passed in 248.70s / exit1 | **全回帰未達** |
-| `blocker-reproduction.log` | cache Python `-m pytest tests/test_max_count_verifier.py::test_scope_contract_clean_and_append_only -q --basetemp="$TMPDIR/quick-261128-jaf-blocker"` | 1 failed in 0.09s、ValueError | 同じ衝突を単独再現した保存済み証拠 |
+| 実在ログ / exit原本 | コマンド対象とbasetemp（cache Python -m pytest） | 実測 |
+|---|---|---|
+| `resume-min-length.log/.exit` | `tests/test_cli.py -k min_length -q --basetemp="$TMPDIR/quick-jaf-resume-min-length"` | **29 passed, 650 deselected in 3.17s / exit0** |
+| `resume-scope-final.log/.exit` | `tests/test_max_count_verifier.py -q --basetemp="$TMPDIR/quick-jaf-resume-scope-final"` | **57 passed in 10.33s / exit0** |
+| `resume-regression.log/.exit` | `tests -q --basetemp="$TMPDIR/quick-jaf-resume-full"` | **1080 passed in 291.70s / exit0、fail/error/skip=0** |
 
-全件再実行は依頼に従い行っていない。baselineの最初の環境設定失敗17件を合格扱いせず、PYTEST_ADDOPTS継承を解消した **1048 passed** のbaselineを比較対象とした。現在の1件はそのbaselineには存在しない新たな回帰であり、「既存の無関係な失敗」として免責しない。
+全回帰は依頼どおり重複実行しない。EVIDENCE:148,174–194によれば全回帰時はRED commit上にGREEN変更が未commit、成功後に同じコードをd8ed666へ保存しOpenSpec 1.3をチェック。現在の製品・試験はcommit済みで、当該コードを独立対象実行した。旧 `regression.log` の1076pass/1failと旧gaps_found原本は歴史として保持し、最新成功と混同しない。
 
-### 根本原因
+## Test Quality Audit / TDD差異
 
-`tests/test_max_count_verifier.py:216–233`のscope_repoは現在製品をcold copyして一時repoを作成する。`test_scope_contract_clean_and_append_only:236–243`はtest追加だけを許容することを検査するが、`tools/verify_wordfreq_max_count.py:488–492`は過去max-count受入時のCLI SHA-256を固定している。
+| 試験 | 要求 | 無効化・循環 | assertion強度 | 判定 |
+|---|---|---|---|---|
+| min_length追加29例 | ML-FR-1..4 / ML-1..3 | 追加区間にskip/xfailなし。期待pairs/text/jsonは固定、HTMLは変更前固定原本 | 値、順序、stdout/stderr/exit、total、空HTML、変異検出 | VERIFIED |
+| scope独立性・許容・拒否12例 | 修正後Task 3 | skip/xfailなし。fixtureはgit履歴バイト列から固定し現行出力から再生成しない | 偽current汚染排除、承認結果、改変時ValueError | VERIFIED |
 
-- 旧承認SHA-256: `9a5e38d9162d98cd45d5e72a719bc258cd8877a02121d48964b2e9aa9f5e9eba`
-- 現在CLIの独立 `sha256sum`: `76d94464a947552d8036d1848440acca1c6975424c966bf37a8d5ed702cba246`
-- 実例外: `ValueError: unapproved product/README change: wordfreq/__main__.py`
-
-min-length機能の値計算に誤りがあるという結果ではなく、歴史的承認契約と可変の現在製品を組み合わせたscope試験の衝突である。それでも「既存全試験成功」の必須条件は失敗している。原本hash更新・試験skip・期待値緩和で隠してはならない。過去製品へのfixture隔離などは次の修正範囲判断が必要で、本検証では実施しない。
-
-## Test Quality / REDの区別
-
-- 追加区間 `tests/test_cli.py:820–960`にskip/xfailなし。既存POSIX限定試験のskipifを追加試験の無効化と誤認しない。
-- expected pairsと既定text/jsonは固定値。完全HTMLは固定fixture。出力captureスクリプトの生成物を期待値へ逆流させる試験ではない。値・終了コード・stderr・順序・total・空状態を検査する。
-- 未配線REDは `tracer-unwired.log:1` のCLI exit2 / unknown argument。**境界比較誤りの検出証拠ではない。**
-- 配線後・長さ条件追加前のREDは保存済み `tracer-selection-red-verdict.json` のexit1、tests1/fail1、actualにaが残る意味的失敗。helpも `help-red-verdict.json` でtests1/fail1。両公式分類はRED_EVIDENCE_OK。
-- 独立再実行したdiscrimination試験はcontrolの子3件成功、ignore-lengthとexclusiveの子各3件の期待値AssertionErrorを要求する。errors/skipped=0、対象件数3、exit0/1と失敗箇所も検査し、未知引数・collection/import/syntax失敗を境界検出と混同しない。
-- SUMMARY/EVIDENCEが申告する手順差異（Task 1の公式RED分類がGREEN後、独立RED-only commitなし）は残る。保存済みREDを事前機械認可の証拠へ読み替えず、完全なTDD手順準拠とは認定しない。
-- PLANにshell probeの明示なし。probe成功や過去のmax-count sealは今回の合格根拠として使用していない。
+- 未配線tracerのCLI exit2（unknown argument）は配線欠如のREDであり、境界比較の検出証拠ではない。
+- 選択欠落の意味的REDはCLI exit0だがaが残る。保存済み公式 `tracer-selection-red-verdict.json` はRED_EVIDENCE_OK、tests1/fail1/report_errors=[]。helpの公式保存判定も同分類、tests1/fail1。
+- 独立再実行したdiscriminationはcold copyのみを変更し、controlの子3件成功、ignore-length/exclusiveの子各3件が期待値AssertionErrorで失敗することを要求。exit0/1、tests3、errors/skipped0、失敗箇所を検査し、未知引数・collection/import/syntax失敗で代替しない。
+- 再開fixtureの公式保存判定 `resume-fixture-red-verdict.json` はRED_EVIDENCE_OK、tests2/fail2/report_errors=[]。EVIDENCEはGREEN前分類・RED-only commitを記録。
+- **Task 1の公式RED分類がGREEN後だった差異、および初回Task 1/2に独立RED-only commitがない差異は残る。** 今回の再開工程で過去へ遡って手順準拠としない。製品must_haves合格と完全TDD準拠を明確に区別する。
 
 ## Requirements / Task Coverage
 
 | 要求・工程 | 判定 | 根拠 |
 |---|---|---|
-| ML-FR-1 / ML-1 | SATISFIED | 全形式境界、casefold、Unicode、併用・順序の独立試験成功 |
-| ML-FR-2 / ML-2 | SATISFIED（今回の固定ケースとコード経路） | 既定1、省略/明示1の固定比較、元総数・空状態成功。全回帰保証とは区別 |
-| ML-FR-3 / ML-3のhelp・README部分 | SATISFIED | help試験、README差分なし |
-| ML-FR-4 / ML-3の全試験成功部分 | BLOCKED | 1 failed / 1076 passed / exit1 |
-| PLAN Task 1/2、OpenSpec 1.1/1.2 | 機能・試験成果を確認 | 実装と独立29件成功。手順差異は上記のとおり |
-| PLAN Task 3、OpenSpec 1.3 | **未完了** | 全回帰成功条件未達。tasks.md:7の未チェックとSUMMARYのincompleteが実測と整合 |
+| ML-FR-1 / ML-1 | SATISFIED | 全形式境界・casefold・Unicode、頻度/top・順序の独立成功と実装追跡 |
+| ML-FR-2 / ML-2 | SATISFIED | 既定1、固定出力比較、元total維持・全除外成功、formatter等無変更 |
+| ML-FR-3 / ML-3説明 | SATISFIED | help試験成功、README差分なし |
+| ML-FR-4 / ML-3試験 | SATISFIED | 追加29・対象57・全1080の保存済み実測exit0と独立追加/scope実行 |
+| Task 1/2、OpenSpec 1.1/1.2 | 成果を検証 | 手順差異は上記に留保 |
+| 修正後Task 3、OpenSpec 1.3 | 成果を検証 | fixture分離・固定hash保護、全回帰成功、tasks.md:7チェック済み |
 
-## 範囲・Anti-Patterns
+Quickに通常ROADMAP phaseや新しいREQ番号を捏造しない。要求原本はPRDとOpenSpec deltaを読取り確認した。
 
-独立 `git diff <開始HEAD>..HEAD --stat` はCLI3行追加、CLI試験143行追加、固定HTML91行、OpenSpec tasks7行の4ファイル。製品・試験・PLANを本検証では編集していない。READMEの3比較は差分なし、`git diff --check`は出力なし（コマンド群はexit0）。依存・tokenizer・aggregator・formattersの製品変更はない。読取りした追加区間に未実装stubや未参照TBD/FIXME/XXXは認めない。BLOCKERは上記の具体的な全回帰失敗1件。
+## Anti-Patterns / Decision Coverage / Advisory
+
+`git diff --check`成功。製品・README・依存等の範囲確認と変更されたscope試験差分を読取り、追加部分に未実装stub・未参照TBD/FIXME/XXX・試験無効化・assert削除・固定hash緩和は認めない。保存済み1080件成功を、全環境・CIの成功へ一般化しない。
 
 ### Decision Coverage
 
-公式 `gsd_run query check.decision-coverage-verify` の結果: **No CONTEXT.md - nothing to check.** `skipped=true`, `reason=CONTEXT.md missing`。Quickに架空のCONTEXT決定数やROADMAP phaseを割り当てない。公式agent-skillsのgsd-verifier設定は空、repo内HERMES.mdとプロジェクトSKILL.mdは検索結果なし。
+公式 `gsd_run query check.decision-coverage-verify <quickDir> ""` の応答: **No CONTEXT.md - nothing to check.** `skipped=true / reason=CONTEXT.md missing`。公式agent-skillsのgsd-verifier設定は空、repo内HERMES.md検索結果なし。
 
-## Human Verification / Gaps Summary
+### Advisory (New Scope, Unevidenced)
 
-人手でないと確認できない新規項目は追加しない。既知の失敗は不確実なUX判断ではなく再現済みBLOCKERであり、human_neededへ格下げしない。PM受入・CI・Quick完了は未認定。
+なし。前回gap以外の新規・証拠なしBLOCKERを追加していない。
 
-**未達は全回帰成功の1 concern。** 既存原本と試験を保護したまま修正方針を決め、修正後の全回帰を実測するまでTask 3とOpenSpec 1.3を完了にしない。SUMMARY/EVIDENCE/PLAN/製品/試験は変更せず、このVERIFICATIONだけを作成した。commit/push/branch/kanban操作、通常phaseの完了やsealの発行は行っていない。
+### Probe Execution
 
-fingerprintのcovered_files/covered_digestは公式 `gsd_run query verification.fingerprint` の出力をそのまま転記した。
+PLANにshell probeの宣言なし。今回の根拠は実在pytestと公式読取りCLI。過去max-countのsealや大型検証器の全実行を今回へ持ち込んでいない。
+
+## Human Verification / 最終範囲
+
+人手でないと確認できない新規must-haveなし。CLIの値・順序・エラー出力・helpは実行可能試験で確認。human_verificationは空で、製品検証の未達はない。PM受入とCI結果は本検証範囲外・未確認。
+
+本verifierの更新はこのVERIFICATIONと `verifier-resume-min-length.log`、`verifier-resume-scope.log`、`verifier-resume-provenance.log` のみ。製品・試験・PLAN・SUMMARY/EVIDENCE・STATE・OpenSpecは変更していない。commit/push/branch/PR/kanban操作なし。
+
+fingerprintは公式 `gsd_run query verification.fingerprint` のcovered_files/covered_digestをそのまま転記。新fixture全7ファイル・PROVENANCE、新scope試験、最新保存ログと自身のログを対象に含めた。

@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "block": false,
+  "verdict": "RED_EVIDENCE_OK",
+  "reason": "target_test_failed",
+  "evidence": {
+    "command": "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python -m pytest tests/test_max_count_verifier.py -k scope_fixture_independent -q --basetemp=/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-jaf-resume-red --junitxml=.planning/quick/261128-jaf-wordfreq-min-length-option/resume-fixture-red.xml",
+    "exit_code": 1,
+    "target_test": "test_scope_fixture_independent_of_current_files[wordfreq/__main__.py]",
+    "tests": 2,
+    "pass": 0,
+    "fail": 2,
+    "failing_tests": [
+      "tests.test_max_count_verifier#test_scope_fixture_independent_of_current_files[wordfreq/__main__.py]",
+      "tests.test_max_count_verifier#test_scope_fixture_independent_of_current_files[README.md]"
+    ],
+    "matched_test": "tests.test_max_count_verifier#test_scope_fixture_independent_of_current_files[wordfreq/__main__.py]",
+    "format": "junit",
+    "report_errors": []
+  },
+  "record": {
+    "command": "/home/Yuki/.cache/uv/archive-v0/93Y_xVGwEKUhHy-t/bin/python -m pytest tests/test_max_count_verifier.py -k scope_fixture_independent -q --basetemp=/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/quick-jaf-resume-red --junitxml=.planning/quick/261128-jaf-wordfreq-min-length-option/resume-fixture-red.xml",
+    "exit_code": 1,
+    "failing_test": "tests.test_max_count_verifier#test_scope_fixture_independent_of_current_files[wordfreq/__main__.py]",
+    "target_test": "test_scope_fixture_independent_of_current_files[wordfreq/__main__.py]",
+    "expected": "Historical fixture excludes poisoned current-checkout bytes and validates clean scope",
+    "actual": "Named assertion detects current-checkout contamination",
+    "verdict": "RED_EVIDENCE_OK",
+    "reason": "target_test_failed"
+  },
+  "message": "RED evidence verified: target test \"test_scope_fixture_independent_of_current_files[wordfreq/__main__.py]\" failed as expected (exit 1). GREEN authorized."
+}
