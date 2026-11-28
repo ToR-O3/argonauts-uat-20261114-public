@@ -2,7 +2,7 @@
 phase: 08-wordfreq-exclude
 plan: "02"
 subsystem: testing
- tags: []
+tags: [pytest, cli, regression, unicode, static-html]
 requires:
   - phase: 08-01
     provides: Working exclusion CLI and original-row Unicode interpretation
