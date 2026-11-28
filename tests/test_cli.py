@@ -744,6 +744,192 @@ def test_exclude_grammar_permutations_and_hashseeds(tmp_path, output_format):
     assert body.read_bytes() == content.encode("utf-8")
 
 
+# 08-02: exercise real FileSource, including open-boundary failures as root.
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("role", ["exclude", "body-valid-exclude", "body-absent-exclude"])
+@pytest.mark.parametrize("failure,reason,cause_type", [
+    ("missing", "No such file", FileNotFoundError),
+    ("directory", "directory", IsADirectoryError),
+    ("decode", "utf-8", UnicodeDecodeError),
+    ("permission", "Permission denied", PermissionError),
+    ("oserror", "Input/output error", OSError),
+])
+def test_exclude_failures_role_mapping(tmp_path, monkeypatch, capfd, output_format,
+                                       role, failure, reason, cause_type):
+    import builtins
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource, InputError
+
+    body = tmp_path / "body.txt"
+    excluded = tmp_path / "excluded.txt"
+    body.write_bytes(b"apple keep")
+    excluded.write_bytes(b"apple\n")
+    target = excluded if role == "exclude" else body
+    if failure == "missing":
+        target.unlink()
+    elif failure == "directory":
+        target.unlink()
+        target.mkdir()
+    elif failure == "decode":
+        target.write_bytes(b"apple\n\xff")
+    snapshots = {p: p.read_bytes() for p in (body, excluded) if p.is_file()}
+    original_open = builtins.open
+    injected = (PermissionError(13, reason, str(target)) if failure == "permission"
+                else OSError(5, reason, str(target)))
+    opens, reads, wrapped = [], [], []
+
+    def open_spy(path, *args, **kwargs):
+        opens.append((str(path), args, kwargs))
+        if str(path) == str(target) and failure in {"permission", "oserror"}:
+            raise injected
+        return original_open(path, *args, **kwargs)
+
+    real_read = FileSource.read_text
+
+    def read_spy(source):
+        reads.append(source._path)
+        try:
+            return real_read(source)
+        except InputError as error:
+            wrapped.append(error)
+            raise
+
+    monkeypatch.setattr(builtins, "open", open_spy)
+    monkeypatch.setattr(FileSource, "read_text", read_spy)
+    options = [] if role == "body-absent-exclude" else ["--exclude", str(excluded)]
+    with pytest.raises(SystemExit) as caught:
+        main([str(body), "--format", output_format, *options])
+    expected_reads = ([str(excluded)] if role == "exclude" else
+                      [str(body)] if not options else [str(excluded), str(body)])
+    assert reads == expected_reads
+    assert opens == [(p, ("r",), {"encoding": "utf-8"}) for p in expected_reads]
+    assert caught.value.code == (2 if role == "exclude" else 1)
+    output = capfd.readouterr()
+    assert output.out == ""
+    assert str(target) in output.err and reason in output.err
+    assert "Traceback" not in output.err and "<!doctype" not in output.err
+    assert len(wrapped) == 1
+    assert isinstance(wrapped[0].__cause__, cause_type)
+    assert str(target) in str(wrapped[0]) and reason in str(wrapped[0])
+    if failure in {"permission", "oserror"}:
+        assert wrapped[0].__cause__ is injected
+    assert {p: p.read_bytes() for p in snapshots} == snapshots
+    if failure == "missing":
+        assert not target.exists()
+    elif failure == "directory":
+        assert list(target.iterdir()) == []
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("body_failure", ["none", "missing", "decode"])
+@pytest.mark.parametrize("exclusion_failure", ["missing", "late-invalid"])
+def test_exclude_precedence_failed_exclusion_never_reads_body(
+        tmp_path, monkeypatch, capfd, output_format, body_failure, exclusion_failure):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    if body_failure != "missing":
+        body.write_bytes(b"apple keep" if body_failure == "none" else b"apple\xff")
+    if exclusion_failure != "missing":
+        excluded.write_bytes(b"\n  # ignored\napple\napple banana\n")
+    snapshots = {p: p.read_bytes() for p in (body, excluded) if p.exists()}
+    reads = []
+    real_read = FileSource.read_text
+
+    def spy(source):
+        reads.append(source._path)
+        assert source._path == str(excluded), "body read before full exclusion validation"
+        return real_read(source)
+
+    monkeypatch.setattr(FileSource, "read_text", spy)
+    with pytest.raises(SystemExit) as caught:
+        main([str(body), "--exclude", str(excluded), "--format", output_format])
+    assert caught.value.code == 2
+    assert reads == [str(excluded)]
+    output = capfd.readouterr()
+    assert output.out == "" and str(excluded) in output.err
+    assert str(body) not in output.err and "Traceback" not in output.err
+    assert ("line 4" if exclusion_failure == "late-invalid" else "No such file") in output.err
+    assert {p: p.read_bytes() for p in snapshots} == snapshots
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("options,diagnostic", [
+    (["--top", "0"], "--top"), (["--top", "-1"], "--top"),
+    (["--top", "1.5"], "--top"), (["--top", "abc"], "--top"),
+    (["--top"], "--top"),
+    (["--min-count", "0"], "--min-count"),
+    (["--min-count", "-1"], "--min-count"),
+    (["--min-count", "1.5"], "--min-count"),
+    (["--min-count", "abc"], "--min-count"),
+    (["--min-count"], "--min-count"),
+    (["--format", "xml"], "invalid choice"),
+    (["--unknown"], "unrecognized arguments"),
+    (["extra.txt"], "unrecognized arguments"),
+    (["--exclude"], "--exclude"),
+])
+def test_exclude_precedence_argv_before_both_reads(tmp_path, monkeypatch, capfd,
+                                                output_format, options, diagnostic):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    reads = []
+
+    def no_read(source):
+        reads.append(source._path)
+        raise AssertionError("argv failure must not acquire either file")
+
+    monkeypatch.setattr(FileSource, "read_text", no_read)
+    with pytest.raises(SystemExit) as caught:
+        main([str(tmp_path / "missing-body"), "--exclude", str(tmp_path / "missing-exclude"),
+              "--format", output_format, *options])
+    assert caught.value.code == 2 and reads == []
+    output = capfd.readouterr()
+    assert output.out == "" and diagnostic in output.err
+    assert "Traceback" not in output.err and "No such file" not in output.err
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+def test_exclude_precedence_missing_filename(monkeypatch, capfd, output_format):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    reads = []
+    monkeypatch.setattr(FileSource, "read_text", lambda source: reads.append(source))
+    with pytest.raises(SystemExit) as caught:
+        main(["--exclude", "missing-exclude", "--format", output_format])
+    assert caught.value.code == 2 and reads == []
+    output = capfd.readouterr()
+    assert output.out == "" and "filename" in output.err and "Traceback" not in output.err
+
+
+@pytest.mark.parametrize("output_format", ["text", "json", "html"])
+@pytest.mark.parametrize("rows", [b"apple\n", b"", b"  # ignored\n"])
+def test_exclude_precedence_success_order(tmp_path, monkeypatch, capfd,
+                                         output_format, rows):
+    from wordfreq.__main__ import main
+    from wordfreq.sources import FileSource
+    body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+    body.write_bytes(b"apple keep")
+    excluded.write_bytes(rows)
+    reads = []
+    real_read = FileSource.read_text
+
+    def spy(source):
+        reads.append(source._path)
+        return real_read(source)
+
+    monkeypatch.setattr(FileSource, "read_text", spy)
+    with pytest.raises(SystemExit) as caught:
+        main([str(body), "--exclude", str(excluded), "--top", "1", "--min-count", "1",
+              "--format", output_format])
+    assert caught.value.code == 0 and reads == [str(excluded), str(body)]
+    output = capfd.readouterr()
+    assert output.err == ""
+    assert_output_bytes(output.out.encode("utf-8"), output_format,
+                        [("keep", 1)] if rows == b"apple\n" else [("apple", 1)], body.name, 2)
+    assert body.read_bytes() == b"apple keep" and excluded.read_bytes() == rows
+
+
 # 04-02 tracer: argument acceptance and pre-I/O rejection (OpenSpec 1.2).
 @pytest.mark.parametrize("output_format", ["text", "json", "html"])
 def test_min_count_argument_tracer(tmp_path, output_format):

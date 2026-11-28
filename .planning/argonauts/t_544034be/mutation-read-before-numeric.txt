@@ -1,0 +1,57 @@
+F
+=================================== FAILURES ===================================
+_____ test_exclude_precedence_argv_before_both_reads[options0---top-text] ______
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-805/test_exclude_precedence_argv_b0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7b458bcbad80>
+capfd = <_pytest.capture.CaptureFixture object at 0x7b458bd3cf80>
+output_format = 'text', options = ['--top', '0'], diagnostic = '--top'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("options,diagnostic", [
+        (["--top", "0"], "--top"), (["--top", "-1"], "--top"),
+        (["--top", "1.5"], "--top"), (["--top", "abc"], "--top"),
+        (["--top"], "--top"),
+        (["--min-count", "0"], "--min-count"),
+        (["--min-count", "-1"], "--min-count"),
+        (["--min-count", "1.5"], "--min-count"),
+        (["--min-count", "abc"], "--min-count"),
+        (["--min-count"], "--min-count"),
+        (["--format", "xml"], "invalid choice"),
+        (["--unknown"], "unrecognized arguments"),
+        (["extra.txt"], "unrecognized arguments"),
+        (["--exclude"], "--exclude"),
+    ])
+    def test_exclude_precedence_argv_before_both_reads(tmp_path, monkeypatch, capfd,
+                                                    output_format, options, diagnostic):
+        from wordfreq.__main__ import main
+        from wordfreq.sources import FileSource
+        reads = []
+    
+        def no_read(source):
+            reads.append(source._path)
+            raise AssertionError("argv failure must not acquire either file")
+    
+        monkeypatch.setattr(FileSource, "read_text", no_read)
+        with pytest.raises(SystemExit) as caught:
+>           main([str(tmp_path / "missing-body"), "--exclude", str(tmp_path / "missing-exclude"),
+                  "--format", output_format, *options])
+
+tests/test_cli.py:884: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+wordfreq/__main__.py:28: in main
+    FileSource(args.filename).read_text()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+source = <wordfreq.sources.FileSource object at 0x7b458bd3df40>
+
+    def no_read(source):
+        reads.append(source._path)
+>       raise AssertionError("argv failure must not acquire either file")
+E       AssertionError: argv failure must not acquire either file
+
+tests/test_cli.py:880: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_precedence_argv_before_both_reads[options0---top-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 504 deselected in 0.16s

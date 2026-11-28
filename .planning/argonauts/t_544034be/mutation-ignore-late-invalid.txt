@@ -1,0 +1,62 @@
+.........F
+=================================== FAILURES ===================================
+_ test_exclude_precedence_failed_exclusion_never_reads_body[late-invalid-none-text] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-808/test_exclude_precedence_failed9')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7b86dbbbaab0>
+capfd = <_pytest.capture.CaptureFixture object at 0x7b86dbbc1100>
+output_format = 'text', body_failure = 'none'
+exclusion_failure = 'late-invalid'
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("body_failure", ["none", "missing", "decode"])
+    @pytest.mark.parametrize("exclusion_failure", ["missing", "late-invalid"])
+    def test_exclude_precedence_failed_exclusion_never_reads_body(
+            tmp_path, monkeypatch, capfd, output_format, body_failure, exclusion_failure):
+        from wordfreq.__main__ import main
+        from wordfreq.sources import FileSource
+    
+        body, excluded = tmp_path / "body.txt", tmp_path / "excluded.txt"
+        if body_failure != "missing":
+            body.write_bytes(b"apple keep" if body_failure == "none" else b"apple\xff")
+        if exclusion_failure != "missing":
+            excluded.write_bytes(b"\n  # ignored\napple\napple banana\n")
+        snapshots = {p: p.read_bytes() for p in (body, excluded) if p.exists()}
+        reads = []
+        real_read = FileSource.read_text
+    
+        def spy(source):
+            reads.append(source._path)
+            assert source._path == str(excluded), "body read before full exclusion validation"
+            return real_read(source)
+    
+        monkeypatch.setattr(FileSource, "read_text", spy)
+        with pytest.raises(SystemExit) as caught:
+>           main([str(body), "--exclude", str(excluded), "--format", output_format])
+
+tests/test_cli.py:847: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+wordfreq/__main__.py:44: in main
+    text = FileSource(args.filename).read_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+source = <wordfreq.sources.FileSource object at 0x7b86dc7f5910>
+
+    def spy(source):
+        reads.append(source._path)
+>       assert source._path == str(excluded), "body read before full exclusion validation"
+E       AssertionError: body read before full exclusion validation
+E       assert '/home/Yuki/w...led9/body.txt' == '/home/Yuki/w.../excluded.txt'
+E         
+E         Skipping 155 identical leading characters in diff, use -v to show
+E         - e_failed9/excluded.txt
+E         ?           ^^^^^ ^^
+E         + e_failed9/body.txt
+E         ?           ^^ ^
+
+tests/test_cli.py:842: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_precedence_failed_exclusion_never_reads_body[late-invalid-none-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 9 passed, 528 deselected in 0.19s

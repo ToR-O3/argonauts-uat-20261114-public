@@ -1,0 +1,80 @@
+F
+=================================== FAILURES ===================================
+_ test_exclude_failures_role_mapping[missing-No such file-FileNotFoundError-exclude-text] _
+
+tmp_path = PosixPath('/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-801/test_exclude_failures_role_map0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f19f12e3350>
+capfd = <_pytest.capture.CaptureFixture object at 0x7f19f1365370>
+output_format = 'text', role = 'exclude', failure = 'missing'
+reason = 'No such file', cause_type = <class 'FileNotFoundError'>
+
+    @pytest.mark.parametrize("output_format", ["text", "json", "html"])
+    @pytest.mark.parametrize("role", ["exclude", "body-valid-exclude", "body-absent-exclude"])
+    @pytest.mark.parametrize("failure,reason,cause_type", [
+        ("missing", "No such file", FileNotFoundError),
+        ("directory", "directory", IsADirectoryError),
+        ("decode", "utf-8", UnicodeDecodeError),
+        ("permission", "Permission denied", PermissionError),
+        ("oserror", "Input/output error", OSError),
+    ])
+    def test_exclude_failures_role_mapping(tmp_path, monkeypatch, capfd, output_format,
+                                           role, failure, reason, cause_type):
+        import builtins
+        from wordfreq.__main__ import main
+        from wordfreq.sources import FileSource, InputError
+    
+        body = tmp_path / "body.txt"
+        excluded = tmp_path / "excluded.txt"
+        body.write_bytes(b"apple keep")
+        excluded.write_bytes(b"apple\n")
+        target = excluded if role == "exclude" else body
+        if failure == "missing":
+            target.unlink()
+        elif failure == "directory":
+            target.unlink()
+            target.mkdir()
+        elif failure == "decode":
+            target.write_bytes(b"apple\n\xff")
+        snapshots = {p: p.read_bytes() for p in (body, excluded) if p.is_file()}
+        original_open = builtins.open
+        injected = (PermissionError(13, reason, str(target)) if failure == "permission"
+                    else OSError(5, reason, str(target)))
+        opens, reads, wrapped = [], [], []
+    
+        def open_spy(path, *args, **kwargs):
+            opens.append((str(path), args, kwargs))
+            if str(path) == str(target) and failure in {"permission", "oserror"}:
+                raise injected
+            return original_open(path, *args, **kwargs)
+    
+        real_read = FileSource.read_text
+    
+        def read_spy(source):
+            reads.append(source._path)
+            try:
+                return real_read(source)
+            except InputError as error:
+                wrapped.append(error)
+                raise
+    
+        monkeypatch.setattr(builtins, "open", open_spy)
+        monkeypatch.setattr(FileSource, "read_text", read_spy)
+        options = [] if role == "body-absent-exclude" else ["--exclude", str(excluded)]
+        with pytest.raises(SystemExit) as caught:
+            main([str(body), "--format", output_format, *options])
+        expected_reads = ([str(excluded)] if role == "exclude" else
+                          [str(body)] if not options else [str(excluded), str(body)])
+        assert reads == expected_reads
+        assert opens == [(p, ("r",), {"encoding": "utf-8"}) for p in expected_reads]
+>       assert caught.value.code == (2 if role == "exclude" else 1)
+E       assert 1 == 2
+E        +  where 1 = SystemExit(1).code
+E        +    where SystemExit(1) = <ExceptionInfo SystemExit(1) tblen=2>.value
+
+tests/test_cli.py:806: AssertionError
+----------------------------- Captured stderr call -----------------------------
+/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-801/test_exclude_failures_role_map0/excluded.txt: [Errno 2] No such file or directory: '/home/Yuki/workspace/argonauts-uat-v111-20261122/home/.hermes/profiles/argonauts-uat-builder/cache/scratch/pytest-of-Yuki/pytest-801/test_exclude_failures_role_map0/excluded.txt'
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_exclude_failures_role_mapping[missing-No such file-FileNotFoundError-exclude-text]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 501 deselected in 0.20s
